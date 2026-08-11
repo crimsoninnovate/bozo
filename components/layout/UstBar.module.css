@@ -3,6 +3,7 @@
  * linear-gradient(to bottom,rgba(10,8,7,.9),rgba(10,8,7,0)), transition:background .3s ease-out.
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
+ * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
  * 780px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
  */
 .bar {
@@ -81,11 +82,6 @@
 
 .icVaryant .navLinks {
   gap: 28px;
-}
-
-/* Wrapper geçirimsiz kalır: "Gece" bağlantısı varsa aynı flex satırında yan yana durur. */
-.navOgesi {
-  display: contents;
 }
 
 /* min-height:44px + flex ortalama: metin satır içi konumunu değiştirmeden dokunma

@@ -1,8 +1,26 @@
-/* Ana Sayfa Alternatif.dc.html, data-screen-label="Footer": dört kolon + telif şeridi. */
-.altbilgi {
-  padding: 64px var(--sayfa-yatay) 32px;
+/*
+ * Üç footer varyantının ortak dosyası.
+ *
+ * - `.tam`     Ana Sayfa Alternatif.dc.html:351-386 (ana sayfa, gizlilik)
+ * - `.sayfalar` Hikaye Sayfasi.dc.html:134-163, Konum Sayfasi.dc.html:166-194
+ * - `.serit`    Menu Sayfasi.dc.html:283-292
+ *
+ * Hangi rotanın hangisini aldığı lib/kabuk.ts > altBilgiVaryanti içinde.
+ */
+
+/* Zemin ve üst çizgi dört tasarım dosyasında da aynı. */
+.zemin {
   background: var(--panel-koyu);
   border-top: 1px solid var(--cizgi-soluk);
+}
+
+.tam {
+  padding: 64px var(--sayfa-yatay) 32px;
+}
+
+/* Hikaye/Konum footer'ı ana sayfanınkinden bir tık daha alçak. */
+.sayfalar {
+  padding: 56px var(--sayfa-yatay) 30px;
 }
 
 .kolonlar {
@@ -10,6 +28,12 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 38px 56px;
+}
+
+/* Hikaye:135, Konum:167: satır boşluğu 30px ve kolonlar üstten hizalı. */
+.kolonlarSik {
+  align-items: flex-start;
+  gap: 30px 56px;
 }
 
 .kolon {
@@ -21,6 +45,15 @@
 .kolon:first-child {
   gap: 14px;
   max-width: 280px;
+}
+
+/* Hikaye/Konum'da dört kolonun dördü de 12px, marka kolonu dahil. */
+.kolonSik {
+  gap: 12px;
+}
+
+.kolonSik:first-child {
+  gap: 12px;
 }
 
 .markaUst {
@@ -81,6 +114,74 @@
   font-weight: 400;
   font-size: 14.5px;
   line-height: 1.7;
+}
+
+/*
+ * Hikaye:138, Konum:170: aynı üç satırlık adres, ama ikonsuz ve kendi rengiyle
+ * (.66). Ana sayfada renk .adresSatiri'nden miras alınır (.7), burada kolonun
+ * kendi değeri var.
+ */
+.adresBloku {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--krem-66);
+}
+
+/*
+ * "Sayfalar" kolonunun bağlantıları (Hikaye:142-144, Konum:174-175).
+ * Dokunma alanı: bu kolonun satır adımı 12px gap + 14.5px satır = 26.5px;
+ * 44px'lik görünmez bir ::before komşu satırın alanına taşar ve yanlış hedefe
+ * dokunma riski üretir. .iletisimSatiri'ndeki (fix round 3) aynı gerekçe
+ * geçerli: üst üste binmeyen en büyük yükseklik adımın kendisidir.
+ */
+.sayfaLinki {
+  position: relative;
+  width: fit-content;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--krem-70);
+  text-decoration: none;
+  transition: color var(--gecis-hizli);
+}
+
+.sayfaLinki:hover {
+  color: var(--tangerine);
+}
+
+.sayfaLinki::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 26px;
+  transform: translateY(-50%);
+}
+
+/* Satır metnini bağlantıya çeviren ince katman: renk .satirTabular'dan gelir. */
+.metinLinki {
+  position: relative;
+  width: fit-content;
+  text-decoration: none;
+  transition: color var(--gecis-hizli);
+}
+
+.metinLinki:hover {
+  color: var(--tangerine);
+}
+
+.metinLinki::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 26px;
+  transform: translateY(-50%);
 }
 
 /*
@@ -196,6 +297,8 @@ a.iletisimSatiri:hover {
   pointer-events: none;
 }
 
+/* rgba(242,233,220,.09): üç dosyada da bu tek yerde geçer, --cizgi* ailesinde
+   karşılığı yok. Token eklenmedi (tokens.css bu turda dokunulmaz), raporlandı. */
 .telifSeridi {
   margin-top: 46px;
   padding-top: 20px;
@@ -205,6 +308,12 @@ a.iletisimSatiri:hover {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+}
+
+/* Hikaye:157, Konum:188: aynı şerit, bir tık daha sıkı bağlanmış. */
+.telifSeridiSik {
+  margin-top: 40px;
+  padding-top: 18px;
 }
 
 .telifMetin {
@@ -245,4 +354,64 @@ a.iletisimSatiri:hover {
 .telifRayi {
   display: inline-flex;
   opacity: 0.45;
+}
+
+/* --- Menü şeridi (Menu Sayfasi.dc.html:283-292) --- */
+
+.serit {
+  padding: 60px var(--sayfa-yatay);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+.seritSol {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/*
+ * Menu:285 marka kelimesi -.04em; iki footer varyantının wordmark'ı (Ana:357,
+ * Hikaye:137, Konum:169) -.03em. Aynı 800 20px kelime, iki farklı iz; tasarımın
+ * kendi tutarsızlığı, ikisi de birebir uygulandı ve raporlandı.
+ */
+.seritMarka {
+  font-family: var(--font-baslik);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: var(--iz-sayfa-baslik);
+  color: var(--krem);
+}
+
+.seritSatir {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-68);
+}
+
+.seritButonlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/*
+ * Sabit MobilAksiyonBari (77px, aynı 780px eşiği) footer'ın dibini örtüyor:
+ * 390x844'te ölçüldü, telif şeridi 778-812 aralığında ve bar 767'den başlıyor,
+ * yani şerit tümüyle barın altında kalıyor (Gizlilik bağlantısı dahil). Üç
+ * varyantın üçü de aynı payı ister. Değer tasarımın kendi mobil footer'ından:
+ * Mobil Prototip.dc.html:181 ve 371 `padding:30px 20px 116px`.
+ * .zemin bu üç varyant sınıfından SONRA tanımlı olmalı, özgüllükleri eşit.
+ */
+@media (max-width: 780px) {
+  .zemin {
+    padding-bottom: 116px;
+  }
 }

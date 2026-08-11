@@ -1,0 +1,27 @@
+/*
+ * Sayfa içi çapa payı.
+ *
+ * Tasarımın kendi kaydırma yardımcısı iki farklı pay kullanıyor:
+ * `Ana Sayfa Alternatif.dc.html:554` 70px, `Menu Sayfasi.dc.html:347` ve
+ * `Konum Sayfasi.dc.html:252` 96px.
+ *
+ * Ölçüldü, sebep barın yüksekliği DEĞİL. Ana sayfa barı 82px (2px ilerleme
+ * rayı + 80px satır), iç sayfa barı 78px; yani daha yüksek bar daha küçük payı
+ * alıyor, fark ters yönde. Sebep çapanın indiği yerin kendisi:
+ *
+ * - Ana sayfada her çapa hedefi `min-height:100vh` + `padding:120px` + dikey
+ *   ortalanmış bir bölüm (Ana:86,128,169,219,244,269,296). Kutunun tepesinde
+ *   görünür hiçbir şey yok, 70px barın 12px altına düşse de kimse görmez.
+ * - Menü ve Konum'da hedefler düz akış bölümleri ve içerik kutunun tepesinde
+ *   başlıyor: `#ocaktan` padding-top 0 (Menu:85), `#harita` 10px (Konum:88).
+ *   70px pay orada "Ocaktan" başlığını 78px'lik barın 8px altına sokardı.
+ *   96px, en dar durumda 18px'lik görünür bir nefes payı bırakır.
+ *
+ * Yani çeşitlilik açıklanabilir, normalize edilmez. İki payı da koruyoruz:
+ * 70px `Bolum.module.css`'te bölümün kendisinde (yalnız ana sayfa `Bolum`
+ * kullanır), 96px burada iç sayfaların `<main>` kapsamında. Sayfa görevlerinin
+ * bölüm başına tekrar etmesi gerekmez, id koymaları yeter.
+ */
+.icSayfa [id] {
+  scroll-margin-top: 96px;
+}
