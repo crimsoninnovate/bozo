@@ -96,6 +96,57 @@ Task 14 ölçtü: statik export `out/404.html` yanında `out/_not-found/index.ht
 çıktısı. `node_modules/next/dist/docs/` altında bunun beklenen davranış olup olmadığına
 bakın; beklenense dokümante edin, değilse çözün. Sitemap'e sızmadığını doğrulayın.
 
+## 8. Kor sahnesinin mobil ölçüsü yok, ve bu bir AA hatasına yol açıyor
+
+Task 11 ölçtü: menü sayfasında 390px'te `--krem-58` metin **3.80:1** ile AA'yı
+geçmiyor ("liste tamamlanacak"), QR notu 4.51 ve içecek notu 4.55 ile sınırda.
+Sebep metin değil: çekirdek mobilde kolonun tamamını kaplıyor.
+
+Tasarımın mobil prototipinde sahnenin **kendi ölçüleri** var
+(`Mobil Prototip.dc.html:30-35`), ve masaüstünden farklılar:
+
+| Katman | Masaüstü (ana) | Mobil prototip |
+|---|---|---|
+| kap | `height:100vh` | `height:844px` |
+| kor | bottom -14%, height 96%, `72% 96%` | bottom **-12%**, height **92%**, **`78% 92%`** |
+| çekirdek | `min(780px,110%)` x **520px** | **`420px` x `340px`**, `margin-left:-210px` |
+| çekirdek alfa | `.42` | `.4` |
+| duman | 3 puf (260/220/200) | **2 puf (170/150)**, 20s ve 26s |
+| vinyet | inset **260px** | inset **170px** |
+
+Belirleyici olan çekirdeğin **yüksekliği**: 520px yerine 340px. 844px'lik bir
+ekranda 520px'lik bir çekirdek gövde metninin okunduğu bandı kaplıyor.
+
+**Uygulayın**, ama sınırını bilerek: mobil prototip **ana sayfanın** mobil hali. İç
+sayfaların mobil sahnesi için tasarımda karşılık **yok**. İki varyanta da mobil adım
+eklemek gerekiyorsa iç sayfanınki çıkarım olur; çıkarımı `IYILESTIRMELER.md`'ye
+gerekçesiyle yazın ve ölçün. Ölçüt: 390px'te üç metnin de AA'yı geçmesi, **metnin
+opaklığını yükseltmeden**.
+
+Kırılma noktasını uydurmayın; prototipin genişliğinden (390px) ve sayfaların
+`flex-wrap` eşiklerinden türetin, gerekçesini yazın.
+
+## 9. Gece şeridi açıkken çapa payı yetmiyor
+
+Task 11 ölçtü: `GeceSeridi` görünürken üst bar 107px oluyor ve 96px'lik çapa payı
+`#ocaktan` başlığının üst **11px**'ini örtüyor. Tasarımda da aynı: kendi script'i de
+sabit 96 kullanıyor, yani şeridi hesaba katmıyor. Bu bir tasarım gözden kaçması.
+
+Pay barın gerçek yüksekliğinden türetilmeli. `GeceSeridi` yalnız 01:00-05:00 arası
+basılıyor, yani sorun günün beş saatinde var ve gündüz yapılan hiçbir incelemede
+görünmüyor. Çözüm `lib/kabuk.ts` / `Kabuk.module.css` katmanında; sayfalara
+dokunmadan çözün.
+
+## 10. `KISITLAR.md`'nin 16px kuralı iki metni kapsamıyor
+
+Task 11: gece menüsü gövdesi ve yapay zeka görsel notu `13px/1.6`, gerçek paragraf.
+2. katmanın "arayüz mikro metni" tanımına girmiyor, 3. katmanın 14.5-15.5px bandının
+da altında. Kuralı yazan ön geçiş bu iki metni görmemişti.
+
+Kuralı tamamlayın: ya üçüncü katmanın bandı genişler ve bu iki metin adıyla anılır,
+ya da dördüncü bir durum tanımlanır. **Metinleri büyütmeyin**; kural eksik, tasarım
+değil. Yeni hâli hangi metni hangi katmana koyduğunu tek tek saysın.
+
 ## Kısıtlar
 
 - **Asla `git add -A`.**
