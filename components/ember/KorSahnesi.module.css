@@ -33,6 +33,7 @@
   transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.42), transparent 72%);
   animation: emberSoft 11s ease-in-out infinite;
+  transition: opacity 0.9s ease-out;
   will-change: opacity;
 }
 
