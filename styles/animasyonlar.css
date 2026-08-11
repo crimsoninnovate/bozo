@@ -1,0 +1,30 @@
+@keyframes emberBreath {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes emberSoft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.82; }
+}
+@keyframes smokeDrift {
+  0% { opacity: 0; transform: translate3d(0, 36px, 0) scale(1); }
+  30% { opacity: 0.14; }
+  100% { opacity: 0; transform: translate3d(30px, -170px, 0) scale(1.6); }
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@keyframes colonBlink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0.25; }
+  100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

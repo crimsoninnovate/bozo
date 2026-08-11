@@ -1,0 +1,67 @@
+:root {
+  /* zemin */
+  --zemin: #0A0807;
+  --komur: #1A1614;
+  --panel-koyu: rgba(10, 8, 7, 0.9);
+  --panel-orta: rgba(10, 8, 7, 0.74);
+  --panel-acik: rgba(10, 8, 7, 0.72);
+
+  /* metin: krem #F2E9DC, kömür üstünde 14.94:1 */
+  --krem: #F2E9DC;
+  --krem-86: rgba(242, 233, 220, 0.86);
+  --krem-78: rgba(242, 233, 220, 0.78);
+  --krem-74: rgba(242, 233, 220, 0.74);
+  --krem-70: rgba(242, 233, 220, 0.7);
+  --krem-66: rgba(242, 233, 220, 0.66);
+  --krem-62: rgba(242, 233, 220, 0.62);
+  --krem-58: rgba(242, 233, 220, 0.58);
+  --krem-50: rgba(242, 233, 220, 0.5);
+
+  /* çizgi ve kenarlık */
+  --cizgi-guclu: rgba(242, 233, 220, 0.22);
+  --cizgi: rgba(242, 233, 220, 0.14);
+  --cizgi-soluk: rgba(242, 233, 220, 0.1);
+  --cizgi-hayalet: rgba(242, 233, 220, 0.08);
+
+  /* eylem: kor kömür üstünde 3.03:1, gövde metni olarak KULLANILMAZ */
+  --kor: #B7351C;
+  --kor-hover: #C93E22;
+  --kor-golge: 0 12px 34px rgba(183, 53, 28, 0.4);
+  --kor-golge-hover: 0 14px 38px rgba(183, 53, 28, 0.55);
+
+  /* vurgu: tangerine kömür üstünde 9.27:1 */
+  --tangerine: #FAAA1F;
+  --tangerine-85: rgba(250, 170, 31, 0.85);
+  --tangerine-30: rgba(250, 170, 31, 0.3);
+  --tangerine-12: rgba(250, 170, 31, 0.12);
+  --tangerine-08: rgba(250, 170, 31, 0.08);
+
+  /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
+  --pumpkin: #E96112;
+  --mese: #6B4A2F;
+
+  /* tipografi */
+  --font-baslik: var(--font-bricolage), system-ui, sans-serif;
+  --font-govde: var(--font-inter), system-ui, sans-serif;
+
+  --ol-hero: clamp(60px, 10.4vw, 168px);
+  --ol-hero-alt: clamp(34px, 4.6vw, 76px);
+  --ol-bolum-baslik: clamp(32px, 4vw, 54px);
+  --ol-duygusal: clamp(44px, 7vw, 112px);
+  --ol-menu-kalem: clamp(22px, 2.2vw, 30px);
+  --ol-govde: clamp(16px, 1.35vw, 19px);
+
+  --iz-hero: -0.018em;
+  --iz-bolum: -0.02em;
+  --iz-duygusal: -0.03em;
+
+  /* aralık */
+  --sayfa-yatay: clamp(24px, 5vw, 64px);
+  --bolum-dikey: 120px;
+  --kart-ic: clamp(28px, 3vw, 48px);
+
+  /* hareket */
+  --gecis-hizli: 0.15s ease-out;
+  --gecis-orta: 0.3s ease-out;
+  --gecis-erit: 0.5s ease-out;
+}
