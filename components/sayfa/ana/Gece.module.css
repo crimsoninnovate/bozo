@@ -57,3 +57,12 @@
   color: var(--krem-80);
   max-width: 640px;
 }
+
+/* Mobil başlık ölçüsü: Mobil Prototip.dc.html:157. -.045em token'lı merdivende yok. */
+@media (max-width: 780px) {
+  .baslik {
+    font-size: 40px;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+}

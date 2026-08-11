@@ -141,4 +141,21 @@
   .ipucu {
     display: none;
   }
+
+  /* Mobil hero ölçüleri: Mobil Prototip.dc.html:77-79 */
+  .baslik {
+    font-size: 52px;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    text-shadow: 0 8px 40px rgba(10, 8, 7, 0.7);
+  }
+
+  .altSatir {
+    gap: 14px;
+  }
+
+  .altBaslik {
+    font-size: 26px;
+    letter-spacing: var(--iz-sayfa-baslik);
+  }
 }

@@ -26,7 +26,10 @@ export function MenuSatiri({ sira, ad, aciklama, fiyat }: Props) {
       <span className={stil.sira}>{String(sira).padStart(2, '0')}</span>
       <span className={stil.ad}>{ad}</span>
       <span className={stil.aciklama}>{aciklama}</span>
-      <TaneDizilimi adet={3} buyuk={9} kucuk={5} bosluk={4} ton="krem50" />
+      {/* Mobil satırda üçlü ray yok (Mobil:113-116), o yüzden kendi kabında. */}
+      <span className={stil.ray}>
+        <TaneDizilimi adet={3} buyuk={9} kucuk={5} bosluk={4} ton="krem50" />
+      </span>
       <span className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
     </li>
   )

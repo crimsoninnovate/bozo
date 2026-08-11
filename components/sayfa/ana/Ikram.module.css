@@ -49,3 +49,12 @@
   display: flex;
   justify-content: center;
 }
+
+/* Mobil başlık ölçüsü: Mobil Prototip.dc.html:148 */
+@media (max-width: 780px) {
+  .baslik {
+    font-size: 34px;
+    line-height: 1.06;
+    letter-spacing: var(--iz-sayfa-baslik);
+  }
+}

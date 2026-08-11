@@ -7,6 +7,8 @@
      15 kullanım, yalnız o sayfada) doğrulandı. */
   --plaka-zemin: #0C0A09;
   --panel-koyu: rgba(10, 8, 7, 0.9);
+  /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
+  --panel-86: rgba(10, 8, 7, 0.86);
   --panel-orta: rgba(10, 8, 7, 0.74);
   --panel-acik: rgba(10, 8, 7, 0.72);
   /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */

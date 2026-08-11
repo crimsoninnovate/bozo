@@ -108,3 +108,40 @@
   font: 500 12.5px/1.5 var(--font-govde);
   color: var(--krem-68);
 }
+
+/*
+ * Mobil levha: Mobil Prototip.dc.html:169-174. 180px'lik levhada tasarım dört
+ * katman çiziyor: ızgara, yatay yol, halka, nabız. Dikey yol ve üç etiket
+ * mobilde yok; etiketlerin taşıdığı bilgi bölüm başlığında ve alt bilgide zaten var.
+ */
+@media (max-width: 780px) {
+  .izgara {
+    background-image:
+      repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 40px),
+      repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 40px);
+  }
+
+  .yatayYol {
+    height: 11px;
+  }
+
+  .halka {
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+  }
+
+  .nabiz {
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    box-shadow: 0 0 0 5px var(--kor-pin-halka), 0 0 24px var(--kor-pin-parilti);
+  }
+
+  .dikeyYol,
+  .isletmeAdi,
+  .sokak,
+  .altNot {
+    display: none;
+  }
+}

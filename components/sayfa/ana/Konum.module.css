@@ -71,3 +71,15 @@
   max-width: 560px;
   min-height: 420px;
 }
+
+/* Mobil ölçüler: başlık Mobil:168, levha yüksekliği Mobil:169. */
+@media (max-width: 780px) {
+  .baslik {
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+
+  .harita {
+    min-height: 180px;
+  }
+}

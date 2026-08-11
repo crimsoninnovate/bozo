@@ -1,12 +1,3 @@
-.kap {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 100vh;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
 .isik {
   position: absolute;
   left: 50%;
@@ -18,4 +9,11 @@
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.16), transparent 74%);
   transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: transform;
+}
+
+/* Mobil prototipin sahnesinde bu katman yok (Mobil:31-37); dokunmada imleç de yok. */
+@media (max-width: 780px) {
+  .isik {
+    display: none;
+  }
 }

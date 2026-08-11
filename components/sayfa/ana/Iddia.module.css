@@ -70,6 +70,29 @@
   color: var(--krem-74);
 }
 
+/* Mobil sayaç şeridi: Mobil Prototip.dc.html:100-103. Üç hücre mobilde de tek
+   satırda kalır, o yüzden flex tabanı 150px'ten 0'a iner. */
+@media (max-width: 780px) {
+  .hucre {
+    flex-basis: 0;
+    min-width: 0;
+    padding: 16px 14px;
+    gap: 6px;
+    background: var(--panel-86);
+  }
+
+  .sayi {
+    font-size: 30px;
+    letter-spacing: var(--iz-sayfa-baslik);
+  }
+
+  .etiket {
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: var(--krem-72);
+  }
+}
+
 /* Plakanın ortasındaki içi boş ray; konumu çağıran verir (Ana:149). */
 .ortaRay {
   position: absolute;

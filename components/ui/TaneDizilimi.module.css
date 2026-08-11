@@ -1,5 +1,8 @@
-.kap { display: inline-flex; align-items: center; }
+/* Ölçüler çağırandan CSS değişkeni olarak gelir (TaneDizilimi.tsx). */
+.kap { display: inline-flex; align-items: center; gap: var(--tane-bosluk); }
 .tane { display: block; flex: none; }
+.buyukTane { width: var(--tane-buyuk); height: var(--tane-buyuk); border-radius: var(--tane-buyuk-r); }
+.kucukTane { width: var(--tane-kucuk); height: var(--tane-kucuk); border-radius: var(--tane-kucuk-r); }
 
 /* Hero rayı: 3px'lik sönen çizgi karelerin ARKASINDAN geçer, yanlarından değil.
    Ana Sayfa Alternatif.dc.html:101-103 */
@@ -37,3 +40,25 @@
 /* İddia plakasının ortasındaki içi boş ray. Ana:149-156 */
 .anahat .buyukTane { border: 1px solid var(--krem-50); }
 .anahat .kucukTane { border: 1px solid var(--tangerine-60); }
+
+/* Mobil ölçüler yalnız `mobil` verilen raylarda devreye girer; verilmeyende
+   yedek değer masaüstününkidir. Hero rayının çizgisi: Mobil Prototip.dc.html:80-81. */
+@media (max-width: 780px) {
+  .kap { gap: var(--tane-bosluk-m, var(--tane-bosluk)); }
+  .buyukTane {
+    width: var(--tane-buyuk-m, var(--tane-buyuk));
+    height: var(--tane-buyuk-m, var(--tane-buyuk));
+    border-radius: var(--tane-buyuk-r-m, var(--tane-buyuk-r));
+  }
+  .kucukTane {
+    width: var(--tane-kucuk-m, var(--tane-kucuk));
+    height: var(--tane-kucuk-m, var(--tane-kucuk));
+    border-radius: var(--tane-kucuk-r-m, var(--tane-kucuk-r));
+  }
+  .cizgiliKap { min-width: 0; padding: 10px 0; }
+  .cizgi {
+    height: 2px;
+    margin-top: -1px;
+    background: linear-gradient(to right, var(--krem) 50%, var(--cizgi-soluk));
+  }
+}

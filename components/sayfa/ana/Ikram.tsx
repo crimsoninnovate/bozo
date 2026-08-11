@@ -13,7 +13,7 @@ export function Ikram({ dil }: Props) {
 
   return (
     <Bolum id="ikram" yogunluk={0.7} className={stil.bolum} eritClassName={stil.erit}>
-      <TaneDizilimi adet={6} buyuk={16} kucuk={10} bosluk={10} />
+      <TaneDizilimi adet={6} buyuk={16} kucuk={10} bosluk={10} mobil={{ buyuk: 13, kucuk: 8, bosluk: 8 }} />
       <h2 className={stil.baslik}>{s.ana.ikram.baslik}</h2>
       <p className={stil.metin}>{s.ana.ikram.metin}</p>
       <div className={stil.cipler}>

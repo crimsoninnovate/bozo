@@ -5,10 +5,8 @@ import { hareketAzaltilmisMi } from '@/lib/hareket'
 import stil from './ImlecKoru.module.css'
 
 /**
- * İmleci izleyen soluk bir turuncu ışık. Yalnız ana sayfada kullanılır.
- * Katsayı ve düşey merkez (%62) `Ana Sayfa Alternatif.dc.html`in
- * `data-imlec` davranışından birebir alınmıştır; ışığın kendisi de
- * dinlenme halinde aynı noktada durur (bkz. ImlecKoru.module.css `.isik`).
+ * İmleci izleyen soluk turuncu ışık, kor sahnesinin bir katmanı (Ana:31).
+ * Sahne kabının içinde basılır; kendi kabı yoktur.
  */
 export function ImlecKoru() {
   const isikRef = useRef<HTMLSpanElement>(null)
@@ -31,9 +29,5 @@ export function ImlecKoru() {
     return () => window.removeEventListener('mousemove', takipEt)
   }, [])
 
-  return (
-    <div className={stil.kap} aria-hidden="true">
-      <span ref={isikRef} className={stil.isik} />
-    </div>
-  )
+  return <span ref={isikRef} className={stil.isik} aria-hidden="true" />
 }

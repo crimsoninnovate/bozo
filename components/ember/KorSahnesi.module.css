@@ -146,3 +146,63 @@
     repeating-linear-gradient(0deg, rgba(242, 233, 220, 0.014) 0 1px, transparent 1px 3px),
     repeating-linear-gradient(90deg, rgba(242, 233, 220, 0.014) 0 1px, transparent 1px 3px);
 }
+
+/*
+ * Mobil sahne: Mobil Prototip.dc.html:31-37. Eşik 780px, kabuk bileşenlerinin
+ * zaten kullandığı tek kırılma noktası (UstBar.module.css:149).
+ * Prototip yalnız ana sayfayı çiziyor; `.ic` varyantının mobil karşılığı yok.
+ */
+@media (max-width: 780px) {
+  .ana .kor {
+    bottom: -12%;
+    height: 92%;
+    background: radial-gradient(
+      78% 92% at 50% 100%,
+      rgba(183, 53, 28, 0.78),
+      rgba(183, 53, 28, 0.2) 44%,
+      transparent 70%
+    );
+  }
+
+  .ana .cekirdek {
+    bottom: -8%;
+    width: 420px;
+    height: 340px;
+    background: radial-gradient(closest-side, rgba(250, 170, 31, 0.4), transparent 72%);
+  }
+
+  /* Mobil duman (Mobil:34-35) masaüstünün smokeDriftAna'sından daha kısa yol
+     alıyor; iç sayfa keyframe'i ona masaüstününkinden yakın (24px/-140 : 30px/-170). */
+  .ana .duman {
+    animation-name: smokeDrift;
+  }
+
+  .ana .duman1 {
+    left: 18%;
+    bottom: 2%;
+    width: 170px;
+    height: 170px;
+    background: radial-gradient(closest-side, rgba(242, 233, 220, 0.36), transparent);
+    filter: blur(26px);
+    animation-duration: 20s;
+  }
+
+  .ana .duman2 {
+    left: 54%;
+    bottom: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(closest-side, rgba(250, 170, 31, 0.42), transparent);
+    filter: blur(24px);
+    animation-duration: 26s;
+  }
+
+  /* Mobilde iki puf var, üç değil. */
+  .ana .duman3 {
+    display: none;
+  }
+
+  .ana .vinyet {
+    box-shadow: inset 0 0 170px rgba(0, 0, 0, 0.86);
+  }
+}
