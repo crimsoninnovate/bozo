@@ -1187,7 +1187,9 @@ export function FotoYuvasi({
 
   // Köşe sınıfları açık dizi olarak tutulur; şablon dizgisiyle indekslemek
   // noUncheckedIndexedAccess altında string | undefined döndürür ve derlemez.
-  const koseSiniflari = [stil.solUst, stil.sagUst, stil.solAlt, stil.sagAlt]
+  // Sıra kritik: 2 köşeli varyant tasarımda sol-üst ve sağ-alt işaretlerini
+  // kullanır, bitişik ikisini değil. Bu yüzden çapraz çift başta gelir.
+  const koseSiniflari = [stil.solUst, stil.sagAlt, stil.sagUst, stil.solAlt]
 
   return (
     <div className={`${stil.kap} ${stil[bicim]} ${stil.bos}`} role="img" aria-label={etiket}>
@@ -1204,7 +1206,64 @@ export function FotoYuvasi({
 }
 ```
 
-CSS için kesin değerler: kenarlık `1px solid rgba(242,233,220,.22)`, iç gölge `inset 0 0 90px rgba(0,0,0,.5)` (portre) / `inset 0 0 130px rgba(0,0,0,.72)` (geniş), köşe L işaretleri 24px uzunluk 18px içerlek `1px solid rgba(250,170,31,.6)`, etiket kutusu `padding:6px 12px; background:#0A0807; font-size:12.5px`, portre yükseklik `clamp(360px,54vh,560px)`, karo yükseklik `110px`.
+CSS kesin değerleri (`docs/tasarim/ana-sayfa.json`, `FotoPlakasi` bileşeni). Etiket zemini düz `#0A0807`'dir ve çerçeveyi keser, saydam değildir:
+
+```css
+/* components/ui/FotoYuvasi.module.css */
+.kap { position: relative; }
+.bos { background: rgba(10, 8, 7, 0.55); }
+
+/* portre: iddia ve bozo bölümleri, 4 köşe */
+.portre {
+  flex: 1 1 360px;
+  min-width: 280px;
+  max-width: 520px;
+  height: clamp(360px, 54vh, 560px);
+  border: 1px solid rgba(242, 233, 220, 0.22);
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.5);
+}
+/* geniş: ikram bölümü, yalnız çapraz iki köşe, ortalanmış etiket */
+.genis {
+  width: min(760px, 100%);
+  height: clamp(120px, 20vh, 200px);
+  border: 1px solid rgba(242, 233, 220, 0.2);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
+}
+/* karo: menü sayfasındaki çekim listesi ızgarası */
+.karo {
+  height: 110px;
+  border: 1px solid rgba(242, 233, 220, 0.18);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+.kose { position: absolute; width: 24px; height: 24px; border: 0 solid rgba(250, 170, 31, 0.6); }
+.solUst { top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px; }
+.sagAlt { bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px; }
+.sagUst { top: 18px; right: 18px; border-top-width: 1px; border-right-width: 1px; }
+.solAlt { bottom: 18px; left: 18px; border-bottom-width: 1px; border-left-width: 1px; }
+
+.genis .kose { width: 20px; height: 20px; border-color: rgba(250, 170, 31, 0.55); }
+.genis .solUst, .genis .sagUst { top: 16px; }
+.genis .sagAlt, .genis .solAlt { bottom: 16px; }
+.genis .solUst, .genis .solAlt { left: 16px; }
+.genis .sagUst, .genis .sagAlt { right: 16px; }
+
+.etiket {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0A0807;
+  font: 500 12.5px/1.4 var(--font-govde);
+  color: rgba(242, 233, 220, 0.72);
+}
+.sol { left: 24px; bottom: -14px; padding: 6px 12px; }
+.orta { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
+.etiketCizgi { width: 18px; height: 1px; background: var(--tangerine); }
+.orta .etiketCizgi { display: none; }
+```
+
+Biçim ve etiket yeri tasarımda eşleşiktir: `portre` sol etiket ve 4 köşe, `genis` ortalanmış çizgisiz etiket ve çapraz 2 köşe. `bicim="genis"` kullanıldığında `etiketYeri="orta"` ve `koseIsaretleri={2}` verilir.
 
 - [ ] **Step 4: Cip, CamPanel, BolumBasligi ve Ikonlar bileşenlerini yaz**
 
@@ -2080,7 +2139,43 @@ git commit -m "feat: build the story page"
 
 - [ ] **Step 2: HaritaBolumu ve HaritaPlakasi bileşenlerini yaz**
 
-Levha CSS ile çizilir: ızgara, yol şeridi, halka + nabızlı nokta + isim etiketi, komşu POI çipleri. Üstünde açık bir not: gerçek harita entegrasyonla gelecek. `aria-label` ile adres okunur.
+Levha CSS ile çizilir, dosya kullanmaz. Kesin değerler (`docs/tasarim/ana-sayfa.json`, `HaritaPlakasi`):
+
+```css
+.levha {
+  flex: 1 1 380px;
+  min-width: 280px;
+  max-width: 560px;
+  min-height: 420px;
+  border: 1px solid rgba(242, 233, 220, 0.16);
+  background: rgba(10, 8, 7, 0.55);
+  position: relative;
+  overflow: hidden;
+}
+.izgara {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(242, 233, 220, 0.05) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(90deg, rgba(242, 233, 220, 0.05) 0 1px, transparent 1px 50px);
+}
+.yolYatay { position: absolute; left: 0; right: 0; top: 56%; height: 14px; background: rgba(242, 233, 220, 0.08); }
+.yolDikey { position: absolute; top: 0; bottom: 0; left: 44%; width: 9px; background: rgba(242, 233, 220, 0.06); }
+.halka {
+  position: absolute; left: 46%; top: 53%;
+  width: 80px; height: 80px; margin: -40px 0 0 -40px;
+  border: 1px solid rgba(183, 53, 28, 0.5); border-radius: 50%;
+}
+.pin {
+  position: absolute; left: 46%; top: 53%;
+  width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  background: var(--kor); border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(183, 53, 28, 0.22), 0 0 30px rgba(183, 53, 28, 0.85);
+  animation: dotPulse 2.6s ease-in-out infinite;
+}
+```
+
+Üstünde açık bir not: gerçek harita entegrasyonla gelecek. Levha `role="img"` ve adresi okuyan bir `aria-label` taşır; içindeki ızgara, yol ve halka katmanları `aria-hidden`.
 
 `HaritaPlakasi` tek dosyadadır; Google Maps veya Mapbox gömülüsü geldiğinde yalnız burası değişir.
 
