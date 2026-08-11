@@ -30,3 +30,6 @@ yarn-error.log*
 # tip kontrolü
 *.tsbuildinfo
 next-env.d.ts
+
+# tarayici dogrulama artiklari
+.playwright-mcp/
