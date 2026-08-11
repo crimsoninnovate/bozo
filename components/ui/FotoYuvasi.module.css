@@ -1,74 +1,176 @@
 .kap { position: relative; }
+.gorsel { object-fit: cover; }
 
-/* portre ve geniş zemin taşımaz: plaka, arkasındaki kor sahnesine açılan bir
-   pencere. Kenarlık ve iç gölge çerçeveyi karartır, ortası sahneden gelen
-   parıltıyla dolar. Yalnız karo kendi zeminini taşır (aşağıda). */
+/* ---- pencere ailesi ------------------------------------------------------
+   Zemin taşımaz: plaka, arkasındaki kor sahnesine açılan bir pencere.
+   Kenarlık ve iç gölge çerçeveyi karartır, ortası sahneden gelen parıltıyla
+   dolar. Etiket plakanın ALT KENARINDAN taşar ve kendi zeminini taşır. */
 
-/* portre: iddia ve bozo bölümleri, 4 köşe */
+/* iddia ve bozo bölümleri, 4 köşe. Ana Sayfa Alternatif.dc.html:148, 283 */
 .portre {
   flex: 1 1 360px;
   min-width: 280px;
   max-width: 520px;
   height: clamp(360px, 54vh, 560px);
-  border: 1px solid rgba(242, 233, 220, 0.22);
+  border: 1px solid var(--cizgi-guclu);
   box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.5);
 }
-/* geniş: ikram bölümü, yalnız çapraz iki köşe, ortalanmış etiket */
+/* Hikaye portresi: yanındaki cam kart daha uzunsa onunla birlikte uzasın diye
+   height değil min-height. Bölüm align-items:stretch. Hikaye Sayfasi.dc.html:73 */
+.portreUzun {
+  flex: 1 1 380px;
+  min-width: 280px;
+  max-width: 560px;
+  min-height: clamp(380px, 52vh, 560px);
+  border: 1px solid var(--cizgi-guclu);
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.5);
+}
+/* ikram bölümü, çapraz iki köşe, ortalanmış etiket. Ana:236 */
 .genis {
   width: min(760px, 100%);
   height: clamp(120px, 20vh, 200px);
-  border: 1px solid rgba(242, 233, 220, 0.2);
+  border: 1px solid var(--cizgi-plaka);
   box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
 }
-/* karo: menü sayfasındaki çekim listesi ızgarası. Kenarlık, iç gölge ve köşe
-   işareti yok; düz --plaka-zemin ve sol-alttan taşan kor lekesi var. */
+
+/* ---- ocak ailesi ---------------------------------------------------------
+   Kendi zemini var, kor lekesi alttan taşar, vinyet kenarları karartır,
+   etiket plakanın İÇİNDE oturur. */
+
+.spread,
+.kart,
+.ikram,
+.icecek,
 .karo {
-  height: 110px;
   background: var(--plaka-zemin);
   overflow: hidden;
 }
-.karo .kor {
-  position: absolute;
-  left: -20%;
-  bottom: -40%;
-  width: 140%;
-  height: 100%;
-  background: radial-gradient(closest-side, rgba(183, 53, 28, 0.3), transparent);
-}
 
-.kose { position: absolute; width: 24px; height: 24px; border: 0 solid rgba(250, 170, 31, 0.6); }
+/* menü açılışının büyük yayılımı. Menu Sayfasi.dc.html:94 */
+.spread {
+  flex: 1 1 520px;
+  min-width: 300px;
+  min-height: clamp(340px, 46vh, 480px);
+  transition: box-shadow var(--gecis-orta);
+}
+.spread:hover { box-shadow: inset 0 0 120px var(--kor-leke-hover); }
+/* ürün kartının üst plakası. Menu:126 */
+.kart { height: clamp(240px, 30vh, 300px); }
+/* ikram kartının sol plakası. Menu:207 */
+.ikram { flex: 1 1 180px; min-width: 160px; min-height: 200px; }
+/* içecek bölümünün plakası. Menu:239 */
+.icecek { flex: 1 1 340px; min-width: 280px; min-height: 260px; }
+/* çekim listesi ızgarasının karosu. Menu:271 */
+.karo { height: 110px; }
+
+.kor { position: absolute; left: -16%; bottom: -30%; width: 132%; height: 92%; }
+.spread .kor,
+.icecek .kor { left: -14%; width: 128%; }
+.karo .kor { left: -20%; bottom: -40%; width: 140%; height: 100%; }
+
+.spread .kor {
+  background: radial-gradient(closest-side, var(--kor-leke-guclu), transparent);
+  animation: emberSoft 9s ease-in-out infinite;
+}
+.kart .kor {
+  background: radial-gradient(closest-side, var(--kor-leke), transparent);
+  animation: emberSoft 10s ease-in-out infinite 0.6s;
+}
+/* İkram yuvasının koru vişne tonunda, kırmızıdan ayrı. Menu:208, 220 */
+.ikram .kor {
+  background: radial-gradient(closest-side, var(--kor-visne), transparent);
+  animation: emberSoft 11s ease-in-out infinite;
+}
+.icecek .kor {
+  background: radial-gradient(closest-side, var(--kor-leke-solgun), transparent);
+  animation: emberSoft 13s ease-in-out infinite;
+}
+/* karo tek nefes almaz, ızgarada yedi tanesi birden yanıp sönerdi */
+.karo .kor { background: radial-gradient(closest-side, var(--kor-leke-karo), transparent); }
+
+.vinyet { position: absolute; inset: 0; }
+.spread .vinyet { box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7); }
+.kart .vinyet { box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.72); }
+.ikram .vinyet { box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7); }
+.icecek .vinyet { box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.7); }
+.karo .vinyet { display: none; }
+
+/* ---- köşe işaretleri ----------------------------------------------------- */
+
+.kose { position: absolute; width: 24px; height: 24px; border: 0 solid var(--tangerine-60); }
 .solUst { top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px; }
 .sagAlt { bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px; }
 .sagUst { top: 18px; right: 18px; border-top-width: 1px; border-right-width: 1px; }
 .solAlt { bottom: 18px; left: 18px; border-bottom-width: 1px; border-left-width: 1px; }
 
-.genis .kose { width: 20px; height: 20px; border-color: rgba(250, 170, 31, 0.55); }
+.genis .kose { width: 20px; height: 20px; border-color: var(--tangerine-55); }
 .genis .solUst, .genis .sagUst { top: 16px; }
 .genis .sagAlt, .genis .solAlt { bottom: 16px; }
 .genis .solUst, .genis .solAlt { left: 16px; }
 .genis .sagUst, .genis .sagAlt { right: 16px; }
 
+.spread .kose { width: 26px; height: 26px; border-color: var(--tangerine-55); }
+.spread .solUst, .spread .sagUst { top: 20px; }
+.spread .sagAlt, .spread .solAlt { bottom: 20px; }
+.spread .solUst, .spread .solAlt { left: 20px; }
+.spread .sagUst, .spread .sagAlt { right: 20px; }
+
+.kart .kose { width: 20px; height: 20px; border-color: var(--tangerine-50); }
+.kart .solUst { top: 16px; left: 16px; }
+
+/* ---- kadraj etiketi ------------------------------------------------------ */
+
 .etiket {
   position: absolute;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  left: 24px;
+  bottom: -14px;
+  padding: 6px 12px;
   background: var(--zemin);
   font: 500 12.5px/1.4 var(--font-govde);
-  color: rgba(242, 233, 220, 0.72);
+  color: var(--krem-72);
 }
-.sol { left: 24px; bottom: -14px; padding: 6px 12px; }
-.orta { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
-.etiketCizgi { width: 18px; height: 1px; background: var(--tangerine); }
-.orta .etiketCizgi { display: none; }
+.etiketCizgi { width: 18px; height: 1px; flex: none; background: var(--tangerine); }
 
-/* karo etiketi taşmaz, karonun içinde oturur; kutu ve çizgi yok. */
+/* geniş plakanın etiketi ortalanır ve çizgisiz basılır. Ana:238 */
+.genis .etiket { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
+.genis .etiketCizgi { display: none; }
+
+/* ocak ailesinde etiket plakanın içinde oturur, kendi zeminini taşımaz. */
+.spread .etiket,
+.kart .etiket,
+.ikram .etiket,
+.icecek .etiket,
+.karo .etiket { padding: 0; background: transparent; }
+
+.spread .etiket { left: 24px; bottom: 22px; }
+.spread .etiketCizgi { width: 20px; }
+
+.kart .etiket,
+.icecek .etiket {
+  left: 18px;
+  bottom: 16px;
+  gap: 9px;
+  font: 500 12px/1.4 var(--font-govde);
+  color: var(--krem-70);
+}
+.ikram .etiket {
+  left: 16px;
+  bottom: 14px;
+  gap: 9px;
+  font: 500 12px/1.4 var(--font-govde);
+  color: var(--krem-70);
+}
+.kart .etiketCizgi,
+.icecek .etiketCizgi,
+.ikram .etiketCizgi { width: 16px; }
+
 .karo .etiket {
   left: 12px;
   bottom: 11px;
-  padding: 0;
-  background: transparent;
   font: 500 11.5px/1.3 var(--font-govde);
-  color: rgba(242, 233, 220, 0.68);
+  color: var(--krem-68);
 }
 .karo .etiketCizgi { display: none; }

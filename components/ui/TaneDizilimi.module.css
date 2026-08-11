@@ -1,13 +1,39 @@
 .kap { display: inline-flex; align-items: center; }
-.tane { display: block; flex: none; border-radius: 1px; }
-.dolu { background: var(--krem); }
-.dolu.kucuk { background: var(--tangerine); }
-.anahat { border: 1px solid rgba(242, 233, 220, 0.5); }
-.anahat.kucuk { border-color: rgba(250, 170, 31, 0.6); }
+.tane { display: block; flex: none; }
+
+/* Hero rayı: 3px'lik sönen çizgi karelerin ARKASINDAN geçer, yanlarından değil.
+   Ana Sayfa Alternatif.dc.html:101-103 */
+.cizgiliKap { position: relative; flex: 1; min-width: 260px; padding: 16px 0; }
 .cizgi {
-  flex: 1;
-  min-width: 60px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
   height: 3px;
-  margin-left: 12px;
-  background: linear-gradient(to right, var(--krem) 54%, rgba(242, 233, 220, 0.1));
+  margin-top: -1.5px;
+  background: linear-gradient(to right, var(--krem) 54%, var(--cizgi-soluk));
 }
+.cizgiliKap .tane { position: relative; }
+
+/* Krem ailesi: büyük tane kremin bir alfası, küçük tane tangerine.
+   krem   Ana:104 (hero), Ana:222 (ikram), Hikaye:123 (sofra), alt bilgi telif rayı
+   krem80 Menu:89 ve Hikaye:95 (bölüm başlığı rayı)
+   krem75 Ana:355 (alt bilgi marka kilidi)
+   krem50 Ana:180 ve Menu:137 (menü satırı üçlüsü) */
+.krem .buyukTane { background: var(--krem); }
+.krem80 .buyukTane { background: var(--krem-80); }
+.krem75 .buyukTane { background: var(--krem-75); }
+.krem50 .buyukTane { background: var(--krem-50); }
+.krem .kucukTane,
+.krem80 .kucukTane,
+.krem75 .kucukTane { background: var(--tangerine); }
+.krem50 .kucukTane { background: var(--tangerine-80); }
+
+/* Pumpkin paket şeridi üstünde: kömür dolu, küçük tane yarı saydam kömür.
+   Ana:339, Konum:155 */
+.koyu .buyukTane { background: var(--komur); }
+.koyu .kucukTane { background: var(--komur-55); }
+
+/* İddia plakasının ortasındaki içi boş ray. Ana:149-156 */
+.anahat .buyukTane { border: 1px solid var(--krem-50); }
+.anahat .kucukTane { border: 1px solid var(--tangerine-60); }

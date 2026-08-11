@@ -4,15 +4,33 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--cizgi);
 }
+
+.genis,
+.orta { padding-bottom: 22px; border-bottom: 1px solid var(--cizgi); }
+.sayfa { padding-bottom: 20px; border-bottom: 1px solid var(--cizgi-bolum); }
+.vurgu { border-bottom-color: var(--tangerine-30); }
 
 .baslik {
   margin: 0;
-  font: 700 var(--ol-bolum-baslik) / 1.12 var(--font-baslik);
-  letter-spacing: var(--iz-bolum);
+  font-family: var(--font-baslik);
+  font-weight: 700;
   color: var(--krem);
+}
+.genis .baslik {
+  font-size: var(--ol-bolum-baslik);
+  line-height: 1.12;
+  letter-spacing: var(--iz-bolum);
+}
+.orta .baslik {
+  font-size: var(--ol-bolum-baslik-orta);
+  line-height: 1.12;
+  letter-spacing: var(--iz-bolum);
+}
+.sayfa .baslik {
+  font-size: var(--ol-bolum-baslik-orta);
+  line-height: 1.06;
+  letter-spacing: var(--iz-sayfa-baslik);
 }
 
 .not {

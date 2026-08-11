@@ -1,0 +1,20 @@
+.cip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 13px 18px;
+  border: 1px solid var(--tangerine-32);
+  background: var(--panel-yari);
+  border-radius: 0;
+}
+
+.ad {
+  font: 700 17px/1.25 var(--font-baslik);
+  letter-spacing: -0.01em;
+  color: var(--krem);
+}
+
+.detay {
+  font: 400 13px/1.4 var(--font-govde);
+  color: var(--krem-66);
+}

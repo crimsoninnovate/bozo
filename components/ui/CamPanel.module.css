@@ -1,5 +1,16 @@
 .panel {
   border: 1px solid var(--cizgi-soluk);
   backdrop-filter: blur(3px);
-  padding: var(--kart-ic);
 }
+
+/* Tasarımda zemin ile dolgu birlikte hareket ediyor (.72 ile 48px, .74 ile 44px)
+   ama bağlanmış değil: Konum sayfası .74 zemini 40px dolguyla kullanıyor.
+   Bu yüzden ikisi ayrı prop. */
+.acik { background: var(--panel-acik); }
+.orta { background: var(--panel-orta); }
+
+.dolguGenis { padding: var(--kart-ic); }
+.dolguOrta { padding: var(--kart-ic-orta); }
+.dolguDar { padding: var(--kart-ic-dar); }
+
+.sayfaEni { width: 100%; max-width: var(--panel-en); }

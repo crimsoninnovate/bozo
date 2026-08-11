@@ -4,26 +4,62 @@
   border-radius: 0;
 }
 
-/* kategori rozeti, ör. "imza ürün". Menu Sayfasi.dc.html satır 107 */
+/* kategori rozeti, ör. "imza ürün". Menu Sayfasi.dc.html:107 */
 .outline {
   padding: 5px 10px;
-  border: 1px solid rgba(250, 170, 31, 0.45);
+  border: 1px solid var(--tangerine-45);
   font: 600 11.5px/1 var(--font-govde);
   color: var(--tangerine);
   background: transparent;
 }
 
-/* ölçü bilgisi: 8 şiş, 4 ciğer 2 kuyruk yağı, 3 dakika. Menu Sayfasi.dc.html satır 112-114 */
+/* ürün spec'i: 8 şiş, 4 ciğer 2 kuyruk yağı, 3 dakika. Menu Sayfasi.dc.html:112-114 */
 .dolu {
   padding: 7px 12px;
-  background: rgba(242, 233, 220, 0.06);
+  background: var(--krem-dolgu);
   font: 500 12.5px/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
   color: var(--krem-74);
 }
 
-/* fiyat yerine geçen ikram etiketi: düz metin, kutu yok. Menu Sayfasi.dc.html satır 215, 227 */
+/* Hikaye Usül'ün ölçü çipi: aynı dolgu, bir adım iri. Hikaye Sayfasi.dc.html:107-109 */
+.olcu {
+  padding: 10px 14px;
+  background: var(--krem-dolgu);
+  font: 500 14px/1 var(--font-govde);
+  color: var(--krem-78);
+}
+
+/* fiyat yerine geçen ikram etiketi: düz metin, kutu yok. Menu Sayfasi.dc.html:215, 227 */
 .ikram {
   font: 600 15px/1 var(--font-govde);
   color: var(--tangerine);
 }
+
+/* komşuluk çipi: "Soli Bet Casino, yanımızda". Ana Sayfa Alternatif.dc.html:312-315 */
+.komsuluk {
+  padding: 9px 14px;
+  border: 1px solid var(--cizgi);
+  font: 500 13px/1 var(--font-govde);
+  color: var(--krem-70);
+}
+
+/* harita levhasının POI çipi; konumlandırmayı levha yapar. Konum Sayfasi.dc.html:98-100 */
+.poi {
+  padding: 7px 11px;
+  background: var(--panel-poi);
+  border: 1px solid var(--cizgi-bolum);
+  font: 500 11.5px/1 var(--font-govde);
+  color: var(--krem-66);
+  white-space: nowrap;
+}
+
+/* Kısıtlar: rakam nerede render edilirse edilsin tabular-nums taşır. Çiplerin
+   yarısı sayı içeriyor (ölçü, komşuluk mesafesi, POI mesafesi), ayrı bir prop
+   yerine ailenin tamamına verilir. Varyantların `font` kısayolu bu özelliği
+   sıfırladığı için kural onlardan SONRA gelmek zorunda. */
+.outline,
+.dolu,
+.olcu,
+.ikram,
+.komsuluk,
+.poi { font-variant-numeric: tabular-nums; }

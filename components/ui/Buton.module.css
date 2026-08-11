@@ -2,20 +2,34 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  /* ikonlu butonların ikon ile metin arası, tasarımdan (Ana:346, Konum:81) */
+  gap: 9px;
   min-height: 44px;
   border-radius: 2px;
   font-family: var(--font-govde);
   font-weight: 600;
   letter-spacing: -0.005em;
+  font-variant-numeric: tabular-nums;
   transition: background var(--gecis-hizli), border-color var(--gecis-hizli),
     transform var(--gecis-hizli), box-shadow var(--gecis-hizli);
 }
-.sm { padding: 12px 20px; font-size: 14.5px; }
-.md { padding: 16px 28px; font-size: 15.5px; }
-.lg { padding: 20px 34px; font-size: 16.5px; }
+
+/* Dört ölçü, dolu türlerin dolgusu. sm 44px'e yetişmiyor (13+13+14.5 = 40.5),
+   min-height dokunma hedefi kuralı gereği onu 44px'e taşır. */
+.sm { padding: 13px 24px; font-size: 14.5px; }
+.md { padding: 17px 28px; font-size: 15.5px; }
+.lg { padding: 18px 30px; font-size: 16px; }
+.xl { padding: 20px 34px; font-size: 16.5px; }
+
+/* Kenarlıklı türler her iki eksende 1px içeri alınır ki dış kutu dolu türle
+   aynı kalsın. Tasarım da bunu yapıyor: 20/34 dolu, 19/33 kenarlıklı. */
+.cerceveli.sm { padding: 12px 23px; }
+.cerceveli.md { padding: 16px 27px; }
+.cerceveli.lg { padding: 17px 29px; }
+.cerceveli.xl { padding: 19px 33px; }
 
 .birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
+.birincil.sm { box-shadow: var(--kor-golge-kucuk); }
 .birincil:hover {
   background: var(--kor-hover);
   color: var(--krem);
@@ -23,10 +37,10 @@
   box-shadow: var(--kor-golge-hover);
 }
 
-.ikincil { border: 1px solid var(--cizgi-guclu); color: var(--krem-86); }
+.ikincil { border: 1px solid var(--cizgi-buton); background: var(--panel-buton); color: var(--krem); }
 .ikincil:hover {
   border-color: var(--tangerine-85);
-  background: var(--tangerine-08);
+  background: var(--tangerine-10);
   color: var(--krem);
 }
 
@@ -36,9 +50,9 @@
 .koyu:hover {
   color: var(--krem);
   transform: translateY(-2px);
-  box-shadow: 0 14px 34px rgba(26, 22, 20, 0.4);
+  box-shadow: var(--komur-golge);
 }
-.koyuOutline { border: 1px solid rgba(26, 22, 20, 0.5); color: var(--komur); }
-.koyuOutline:hover { background: rgba(26, 22, 20, 0.1); color: var(--komur); }
+.koyuOutline { border: 1px solid var(--komur-55); color: var(--komur); }
+.koyuOutline:hover { background: var(--komur-10); color: var(--komur); }
 
 .pasif { opacity: 0.55; cursor: default; pointer-events: none; }

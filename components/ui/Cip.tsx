@@ -1,7 +1,13 @@
 import stil from './Cip.module.css'
 
+/**
+ * Tasarımın tek içerikli çip aileleri. İki satırlı ikram kartı bu ailede
+ * değil, ayrı bir bileşendir: `IkramCipi`.
+ */
+export type CipTuru = 'outline' | 'dolu' | 'olcu' | 'ikram' | 'komsuluk' | 'poi'
+
 type Props = {
-  tur: 'outline' | 'dolu' | 'ikram'
+  tur: CipTuru
   children: React.ReactNode
 }
 

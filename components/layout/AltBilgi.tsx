@@ -23,7 +23,7 @@ export function AltBilgi({ dil }: Props) {
       <div className={stil.kolonlar}>
         <div className={stil.kolon}>
           <div className={stil.markaUst}>
-            <TaneDizilimi boy={9} bosluk={6} />
+            <TaneDizilimi buyuk={9} kucuk={5} bosluk={6} ton="krem75" />
             <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
           </div>
           <p className={stil.tanim}>{s.ortak.footer.tanim}</p>
@@ -100,7 +100,7 @@ export function AltBilgi({ dil }: Props) {
           {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke}
         </div>
         <span className={stil.telifRayi} aria-hidden="true">
-          <TaneDizilimi boy={7} bosluk={4} />
+          <TaneDizilimi buyuk={7} kucuk={4} bosluk={4} />
         </span>
       </div>
     </footer>

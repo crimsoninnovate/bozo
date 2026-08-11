@@ -9,6 +9,12 @@
   --panel-koyu: rgba(10, 8, 7, 0.9);
   --panel-orta: rgba(10, 8, 7, 0.74);
   --panel-acik: rgba(10, 8, 7, 0.72);
+  /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */
+  --panel-yari: rgba(10, 8, 7, 0.55);
+  /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
+  --panel-poi: rgba(10, 8, 7, 0.85);
+  /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
+  --panel-buton: rgba(10, 8, 7, 0.4);
 
   /* metin: krem #F2E9DC, kömür üstünde 14.94:1 */
   --krem: #F2E9DC;
@@ -34,28 +40,54 @@
   --krem-60: rgba(242, 233, 220, 0.6);
   --krem-55: rgba(242, 233, 220, 0.55);
 
-  /* çizgi ve kenarlık */
+  /* çizgi ve kenarlık: .5 altı yapısal krem alfaları bu ailede toplanır */
+  --cizgi-buton: rgba(242, 233, 220, 0.36);
   --cizgi-guclu: rgba(242, 233, 220, 0.22);
+  --cizgi-plaka: rgba(242, 233, 220, 0.2);
+  --cizgi-bolum: rgba(242, 233, 220, 0.16);
   --cizgi: rgba(242, 233, 220, 0.14);
   --cizgi-soluk: rgba(242, 233, 220, 0.1);
   --cizgi-hayalet: rgba(242, 233, 220, 0.08);
+  /* çip dolgusu: ölçü ve spec çipleri (Menu:112-114, Hikaye:107-109) */
+  --krem-dolgu: rgba(242, 233, 220, 0.06);
 
   /* eylem: kor kömür üstünde 3.03:1, gövde metni olarak KULLANILMAZ */
   --kor: #B7351C;
   --kor-hover: #C93E22;
   --kor-golge: 0 12px 34px rgba(183, 53, 28, 0.4);
-  --kor-golge-hover: 0 14px 38px rgba(183, 53, 28, 0.55);
+  --kor-golge-kucuk: 0 8px 26px rgba(183, 53, 28, 0.34);
+  --kor-golge-hover: 0 16px 46px rgba(183, 53, 28, 0.6), 0 0 0 1px rgba(250, 170, 31, 0.6);
+
+  /* plaka kor lekeleri: menü sayfasının yuvalarında kadraj arkasındaki parıltı */
+  --kor-leke-guclu: rgba(183, 53, 28, 0.5);
+  --kor-leke: rgba(183, 53, 28, 0.36);
+  --kor-leke-solgun: rgba(183, 53, 28, 0.34);
+  --kor-leke-karo: rgba(183, 53, 28, 0.3);
+  --kor-leke-hover: rgba(183, 53, 28, 0.4);
+  /* İkram yuvalarının vişne koru. Marka kitabının renk listesinde YOK; tasarımdan
+     (Menu Sayfasi.dc.html:208, 220) doğrulandı, iki kullanım. Raporlandı. */
+  --kor-visne: rgba(122, 31, 43, 0.5);
 
   /* vurgu: tangerine kömür üstünde 9.27:1 */
   --tangerine: #FAAA1F;
   --tangerine-85: rgba(250, 170, 31, 0.85);
+  --tangerine-80: rgba(250, 170, 31, 0.8);
+  --tangerine-60: rgba(250, 170, 31, 0.6);
+  --tangerine-55: rgba(250, 170, 31, 0.55);
+  --tangerine-50: rgba(250, 170, 31, 0.5);
+  --tangerine-45: rgba(250, 170, 31, 0.45);
+  --tangerine-32: rgba(250, 170, 31, 0.32);
   --tangerine-30: rgba(250, 170, 31, 0.3);
   --tangerine-12: rgba(250, 170, 31, 0.12);
+  --tangerine-10: rgba(250, 170, 31, 0.1);
   --tangerine-08: rgba(250, 170, 31, 0.08);
 
   /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
   --pumpkin: #E96112;
   --mese: #6B4A2F;
+  --komur-55: rgba(26, 22, 20, 0.55);
+  --komur-10: rgba(26, 22, 20, 0.1);
+  --komur-golge: 0 14px 34px rgba(26, 22, 20, 0.4);
 
   /* tipografi */
   --font-baslik: var(--font-bricolage), system-ui, sans-serif;
@@ -64,18 +96,24 @@
   --ol-hero: clamp(60px, 10.4vw, 168px);
   --ol-hero-alt: clamp(34px, 4.6vw, 76px);
   --ol-bolum-baslik: clamp(32px, 4vw, 54px);
+  --ol-bolum-baslik-orta: clamp(30px, 3.6vw, 48px);
   --ol-duygusal: clamp(44px, 7vw, 112px);
   --ol-menu-kalem: clamp(22px, 2.2vw, 30px);
   --ol-govde: clamp(16px, 1.35vw, 19px);
 
   --iz-hero: -0.018em;
   --iz-bolum: -0.02em;
+  --iz-sayfa-baslik: -0.04em;
   --iz-duygusal: -0.03em;
 
   /* aralık */
   --sayfa-yatay: clamp(24px, 5vw, 64px);
   --bolum-dikey: 120px;
+  /* cam panel dolgusunun üç adımı, tasarımdan birebir */
   --kart-ic: clamp(28px, 3vw, 48px);
+  --kart-ic-orta: clamp(28px, 3vw, 44px);
+  --kart-ic-dar: clamp(26px, 2.8vw, 40px);
+  --panel-en: 1180px;
 
   /* hareket */
   --gecis-hizli: 0.15s ease-out;

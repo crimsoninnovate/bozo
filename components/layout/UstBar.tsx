@@ -42,7 +42,7 @@ export function UstBar({ dil, aktif, ilerleme = false }: Props) {
         <GeceSeridi dil={dil} />
         <div className={stil.satir}>
           <Link href={yol('ana', dil)} className={stil.marka}>
-            <TaneDizilimi boy={8} bosluk={4} />
+            <TaneDizilimi buyuk={8} kucuk={5} bosluk={4} />
             <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
           </Link>
 
