@@ -5,12 +5,5 @@
 .erit {
   position: relative;
   z-index: 1;
-  opacity: 0.86;
-  transform: translateY(14px);
   transition: opacity var(--gecis-erit), transform var(--gecis-erit);
-}
-
-.erit.acik {
-  opacity: 1;
-  transform: translateY(0);
 }
