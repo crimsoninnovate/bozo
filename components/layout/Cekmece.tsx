@@ -87,7 +87,7 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
         type="button"
         className={stil.kapat}
         onClick={kapat}
-        aria-label={dil === 'tr' ? 'Menüyü kapat' : 'Close menu'}
+        aria-label={s.ortak.erisim.menuyuKapat}
       >
         <span aria-hidden="true" />
         <span aria-hidden="true" />

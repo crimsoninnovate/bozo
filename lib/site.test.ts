@@ -53,6 +53,10 @@ test('yolTarifiUrl_koordinatBilinmiyorken_adresAramasiUretir', () => {
   const sorgu = decodeURIComponent(url.split('query=')[1] ?? '')
   assert.match(sorgu, /Ciğerci Bozo/)
   assert.match(sorgu, /Naci Talat Caddesi/)
+  // binaNo dahil edilmesi lib/site.ts'in kendi iyileştirmesiydi (brief'in örneği
+  // dışarıda bırakıyordu); bir gerileme tüm diğer testleri kırmadan sessizce
+  // düşebilirdi, bu satır onu tek başına korur (fix round 1, Minor 2).
+  assert.match(sorgu, /Şht\. Özdemir Apt No:4/)
   assert.match(sorgu, /Girne/)
   assert.match(sorgu, /KKTC/)
 })

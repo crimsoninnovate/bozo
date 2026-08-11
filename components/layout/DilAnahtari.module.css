@@ -18,7 +18,12 @@
   color: var(--krem);
 }
 
+/* min-height:44px + flex ortalama: dokunma alanı, görünen metin konumu değişmez
+   (fix round 1, Finding 3). .aktif tıklanabilir değil, aynı işlem gerekmiyor. */
 .pasif {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--krem-58);
   text-decoration: none;
   transition: color var(--gecis-hizli);

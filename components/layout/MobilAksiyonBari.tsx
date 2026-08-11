@@ -11,9 +11,9 @@ type Props = { dil: Dil }
  * bilinmiyorsa (null) placeholder basılır, href üretilmez. 780px üstünde
  * gizlenir (bkz. MobilAksiyonBari.module.css).
  *
- * "Yol tarifi al" metni kullanılır: tasarımın bu bardaki metni kısaltılmış
- * "Yol tarifi", ama içerik sözlüğünde bu kısa varyant yok ve content/ bu
- * görevde düzenlenemez. Sözlükteki tek hazır metin kullanıldı, bkz. task-6-report.md.
+ * `cta.yolTarifiKisa` kullanılır: tasarımın bu bardaki metni kısaltılmış
+ * "Yol tarifi" (üst bar ve bölüm butonlarındaki uzun `yolTarifiAl`'dan
+ * farklı), içerik sahibi bu anahtarı sonradan ekledi (fix round 1).
  */
 export function MobilAksiyonBari({ dil }: Props) {
   const s = sozluk(dil)
@@ -23,7 +23,7 @@ export function MobilAksiyonBari({ dil }: Props) {
   return (
     <div className={stil.bar}>
       <a href={yolTarifiUrl()} className={`${stil.hedef} ${stil.birincil}`} rel="noopener">
-        {s.ortak.cta.yolTarifiAl}
+        {s.ortak.cta.yolTarifiKisa}
       </a>
 
       {telefon ? (

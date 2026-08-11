@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
@@ -34,6 +34,11 @@ export function UstBar({ dil, aktif, ilerleme = false }: Props) {
   const [cekmeceAcik, setCekmeceAcik] = useState(false)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const s = sozluk(dil)
+  // Cekmece'nin efekti buna bağımlı; her render'da taze bir closure geçmek
+  // (setCekmeceAcik'in kendisi kararlı olsa da) efekti gereksiz yere söküp
+  // yeniden kurar. Gerçek sayfalarda dil/aktif değiştiğinde UstBar yeniden
+  // render olacağı için bu artık teorik değil (fix round 1).
+  const kapat = useCallback(() => setCekmeceAcik(false), [])
 
   return (
     <>
@@ -81,7 +86,7 @@ export function UstBar({ dil, aktif, ilerleme = false }: Props) {
               ref={hamburgerRef}
               className={stil.hamburger}
               onClick={() => setCekmeceAcik(true)}
-              aria-label={dil === 'tr' ? 'Menüyü aç' : 'Open menu'}
+              aria-label={s.ortak.erisim.menuyuAc}
               aria-haspopup="dialog"
               aria-expanded={cekmeceAcik}
             >
@@ -92,13 +97,7 @@ export function UstBar({ dil, aktif, ilerleme = false }: Props) {
         </div>
       </header>
 
-      <Cekmece
-        dil={dil}
-        aktif={aktif}
-        acik={cekmeceAcik}
-        kapat={() => setCekmeceAcik(false)}
-        tetikleyiciRef={hamburgerRef}
-      />
+      <Cekmece dil={dil} aktif={aktif} acik={cekmeceAcik} kapat={kapat} tetikleyiciRef={hamburgerRef} />
     </>
   )
 }

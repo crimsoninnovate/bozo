@@ -88,7 +88,12 @@
   display: contents;
 }
 
+/* min-height:44px + flex ortalama: metin satır içi konumunu değiştirmeden dokunma
+   alanını büyütür (fix round 1, Finding 3). */
 .link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--font-govde);
   font-weight: 500;
   font-size: 15px;
@@ -103,6 +108,7 @@
 }
 
 .aktifLink {
+  position: relative;
   font-family: var(--font-govde);
   font-weight: 600;
   font-size: 15px;
@@ -110,6 +116,22 @@
   color: var(--tangerine);
   padding-bottom: 2px;
   border-bottom: 2px solid var(--tangerine);
+}
+
+/*
+ * .link'in min-height+flex tekniği burada uygun değil: aktif çizgi metne bitişik
+ * durur, kutu 44px'e büyürse çizgi metinden görünür biçimde uzaklaşırdı. Bunun
+ * yerine görünmez bir ::before katmanı dokunma alanını büyütür, görünen kutu
+ * (ve alt çizgisi) hiç değişmez (fix round 1, Finding 3).
+ */
+.aktifLink::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .ctaSarici {

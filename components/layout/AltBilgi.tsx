@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
-import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
+import { telefonUrl, whatsappUrl, yol, yolTarifiUrl } from '@/lib/site'
 import stil from './AltBilgi.module.css'
 
 type Props = { dil: Dil }
@@ -97,7 +98,16 @@ export function AltBilgi({ dil }: Props) {
 
       <div className={stil.telifSeridi}>
         <div className={stil.telifMetin}>
-          {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke}
+          {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke} ·{' '}
+          {/*
+           * Tasarımın hiçbir sayfasında Gizlilik'e bağlantı yok, kopyalanacak bir
+           * yerleşim yok; telif şeridine modest bir metin bağlantısı eklendi.
+           * `footer.sayfalarBaslik` bilerek kullanılmadı: ayrı bir "Sayfalar" kolonu
+           * açmak, tek bir yetim anahtara sayfa uydurmak olurdu (fix round 1).
+           */}
+          <Link href={yol('gizlilik', dil)} className={stil.gizlilikLink}>
+            {s.ortak.nav.gizlilik}
+          </Link>
         </div>
         <span className={stil.telifRayi} aria-hidden="true">
           <TaneDizilimi buyuk={7} kucuk={4} bosluk={4} />
