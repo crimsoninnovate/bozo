@@ -35,7 +35,16 @@ etiket satırı (`Hikaye:64-66`: küçük tangerine kare + metin), ana sayfanın
 bölümünün kicker satırıyla (`Ana:272-275`: 11x11 tangerine kare, `gap:12px`, metin
 `500 14.5px/1` `--krem-72`) **aynı kalıp**.
 
-Task 10 o kickerı şu anda yazıyor. Sizin işiniz:
+**Zamanlama uyarısı:** Task 10 o kickerı şu anda yazıyor olabilir. İşe başlarken
+`git log --oneline -5` ile bakın:
+- Task 10 commit'lediyse ve `components/sayfa/ana/Bozo.tsx` çalışma ağacında
+  değişmemişse: ortaklaştırmayı yapın, çağrı yerini taşıyın.
+- Task 10 hâlâ çalışıyorsa (ağaçta `components/sayfa/ana/` altında commit'lenmemiş
+  değişiklik varsa): **o dosyalara dokunmayın.** Kendi yerel sürümünüzü yazın,
+  ölçümü yapın ve raporda "ortaklaştırılmalı / ortaklaştırılmamalı" kararını
+  gerekçesiyle verin. Birleştirmeyi ben yaparım.
+
+Sizin işiniz:
 - İki kullanımın değerlerini tasarımdan yan yana koyup **ölçün**
 - Birebir aynıysa: paylaşılan `components/ui/EtiketSatiri.tsx` yazın ve Task 10'un
   çağrı yerini **siz taşıyın** (paylaşılan bir API'yi değiştiren çağrı yerlerini de
