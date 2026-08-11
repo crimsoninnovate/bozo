@@ -48,6 +48,12 @@ test('durum_0030_geceDegildir_ciftGeceEsigi', () => {
   assert.equal(d.gece, false)
 })
 
+test('durum_0100_geceBaslar', () => {
+  // Gece eşiğinin tam geçiş noktası. Bu olmadan GECE_BASLANGICI'ndaki
+  // bir off-by-one hatası hiçbir testi kırmadan yayına çıkar.
+  assert.equal(durumHesapla(girne('2026-08-12T01:00:00+03:00')).gece, true)
+})
+
 test('gosterimGunu_gececeyariSonrasi_oncekiGunuGosterir', () => {
   // 12 Ağustos 2026 Çarşamba, saat 02:00. Vardiya Salı gecesine ait.
   const gun = gosterimGunIndeksi(girne('2026-08-12T02:00:00+03:00'))
