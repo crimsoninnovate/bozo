@@ -133,6 +133,11 @@ doldurulacak biçimde duruyor. Uydurulmuş bir değer yayına çıkmaz.
 
 ## Sahibinin verdiği kararlar
 
+- Commit'lerde asistan imzası yok (12 Ağustos 2026). **Geçmişteki 54 imzalı commit
+  olduğu gibi kalır**, geçmiş yeniden yazılmaz: repoyu sahipten başkası görmüyor.
+  Kural yalnız bundan sonrası için geçerli.
+- Repo: `github.com/crimsoninnovate/bozo`
+
 - Alan adı `cigercibozo.com` varsayılır (`lib/site.ts`, `SITE_URL`)
 - Yapısal veride `addressCountry` = `CY`, görünen adres metni `KKTC` kalır
 - `Usül` yazımı `Usul` olarak düzeltildi
