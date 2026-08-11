@@ -106,9 +106,9 @@ Aşağıdakiler her görevin gereksinimidir, her görevde tekrar edilmez.
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx serve out",
+    "preview": "npx serve out",
     "typecheck": "tsc --noEmit",
-    "test": "node --test lib/*.test.ts content/*.test.ts"
+    "test": "node --test"
   },
   "dependencies": {
     "next": "16.3.0",
@@ -123,6 +123,8 @@ Aşağıdakiler her görevin gereksinimidir, her görevde tekrar edilmez.
   }
 }
 ```
+
+`test` betiği bilinçli olarak çıplak `node --test` kullanır: Node test dosyalarını kendisi keşfeder ve `node_modules` dizinini atlar. Kabuk globu (`content/*.test.ts`) kullanılamaz, çünkü `content/` Task 3'e kadar yoktur ve zsh eşleşme bulamadığında hata verir.
 
 - [ ] **Step 2: Bağımlılıkları kur**
 
