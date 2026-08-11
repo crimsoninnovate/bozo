@@ -1,0 +1,86 @@
+/**
+ * Sayfalar arasında paylaşılan metinler. Değerler design_handoff_bozo_website
+ * altındaki .dc.html dosyalarından ve docs/tasarim/metin-envanteri.json içindeki
+ * hazır bloklardan birebir alınır. Yeni pazarlama metni yazılmaz.
+ */
+export const ortak = {
+  marka: { ad: 'Ciğerci Bozo', kisa: 'Bozo' },
+  nav: {
+    anaSayfa: 'Ana sayfa',
+    menu: 'Menü',
+    gece: 'Gece',
+    hikaye: 'Hikaye',
+    konum: 'Konum',
+    ocaktan: 'Ocaktan',
+    ikramlar: 'İkramlar',
+    icecekler: 'İçecekler',
+  },
+  dil: { tr: 'TR', en: 'EN', ayirici: '/' },
+  cta: {
+    yolTarifiAl: 'Yol tarifi al',
+    menuyuGor: 'Menüyü gör',
+    whatsapptanYaz: "WhatsApp'tan yaz",
+    ara: 'Ara',
+    whatsapp: 'WhatsApp',
+    telefon: 'Telefon',
+    instagram: 'Instagram',
+    paketSiparis: 'Paket sipariş',
+  },
+  durum: {
+    acik: 'Şu an açığız',
+    kapali: "Şu an kapalıyız, 10:00'da açılıyoruz",
+    acikAlt: "Ocak 05:00'e kadar yanıyor",
+    kapaliAlt: 'Kapalı aralık: 05:00 - 10:00',
+    geceSerit: 'Gece açığız, ocak yanıyor',
+  },
+  satirlar: {
+    adresKisa: 'Girne, Naci Talat Caddesi',
+    adresCadde: 'Naci Talat Caddesi',
+    adresBina: 'Şht. Özdemir Apt No:4',
+    adresSehirUlke: 'Girne / KKTC',
+    adresTamSatir: 'Naci Talat Caddesi, Şht. Özdemir Apt No:4',
+    adresVeSaat: 'Girne, Naci Talat Caddesi · Her gün 10:00 - 05:00',
+    saatlerGunluk: 'Her gün 10:00 - 05:00',
+    saatlerUzun: "Her gün 10:00'dan ertesi sabah 05:00'e kadar",
+    saatAraligi: '10:00 - 05:00',
+    haftaAraligi: 'Pazartesi ile pazar',
+    kapaliAralik: 'Tek kapalı aralık 05:00 - 10:00',
+  },
+  /** Sıra lib/saat.ts içindeki gunIndeksi ile aynıdır: 0 = Pazar. */
+  gunler: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+  bugun: 'Bugün',
+  alkolsuz: 'Mekanımız alkolsüzdür. Sofra ve ocak bizden, yine bekleriz.',
+  alkolsuzKisa: 'Mekanımız alkolsüzdür',
+  porsiyon: 'porsiyon',
+  ikramRozeti: 'ikram',
+  telif: '© 2026 Ciğerci Bozo',
+  paket: {
+    baslik: 'Ocaktan çıkan',
+    metin:
+      'Paket kutuda gelir, sıcaklığını yolda korur. Ciğer soğumadan yenir; ' +
+      'kutu ilk açıldığında hala kor sıcaklığındadır.',
+  },
+  footer: {
+    tanim: 'Urfa usulü ciğer, meşe korunda.',
+    isimNotu: 'Bozo bir marka ismi değil, bir insandır.',
+    adresBaslik: 'Adres',
+    sayfalarBaslik: 'Sayfalar',
+    saatlerBaslik: 'Saatler',
+    iletisimBaslik: 'İletişim',
+    sosyal: 'WhatsApp · Instagram',
+  },
+  /** Rota başına sayfa başlığı ve açıklaması. Anahtarlar RotaAnahtari ile birebir eşleşir. */
+  sayfaMeta: {
+    ana: {
+      baslik: 'Ciğerci Bozo',
+      aciklama: 'Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00 - 05:00.',
+    },
+    menu: { baslik: 'Menü · Ciğerci Bozo', aciklama: 'Ocaktan beş ürün, iki ikram ve içecekler.' },
+    hikaye: { baslik: 'Hikaye · Ciğerci Bozo', aciklama: "Urfa'da ustayı tanesinden anlarsınız." },
+    konum: {
+      baslik: 'Konum · Ciğerci Bozo',
+      aciklama: "Naci Talat Caddesi, Girne. Her gün 10:00'dan ertesi sabah 05:00'e kadar.",
+    },
+    gizlilik: { baslik: 'Gizlilik · Ciğerci Bozo', aciklama: 'Bu sitenin veri yaklaşımı.' },
+  },
+}
