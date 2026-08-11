@@ -19,6 +19,7 @@ teyit edildi; uyuşmayan bir değer bulunmadı.
 | Tarayıcı | kendi sunucum (port 4611) + **kendi izole tarayıcı bağlamım** |
 | 1440px ölçüm | `/menu/` ve `/en/menu/` |
 | 390px ölçüm | yatay taşma 0 |
+| Kontrast (WCAG AA) | 1440px'te hepsi geçti; **390px'te bir metin geçmiyor**, aşağıda |
 | Parite | `01-menu.jpg`, `02-menu.jpg`, `03-menu.jpg` (dördüncü kare yok, kurulmadı) |
 
 Build rota tablosu, `gecici-` ile başlayan rota yok:
@@ -170,6 +171,74 @@ tetikleyicisi de gerçek hedefe bağlı: `#ocaktan`, `#ikramlar`, `#icecekler`.
 `prefers-reduced-motion: reduce` bağlamında ölçüldü: `main` içinde animasyonlu öge
 **0**, geçişli öge **0**, `scroll-behavior: auto`. Plaka kor nefesleri duruyor, kart ve
 spread hover geçişleri anında, çapa zıplayarak iniyor.
+
+### Kontrast, yeni iç sayfa kor sahnesine karşı
+
+`4f8b085` iç sayfalara kendi sönük sahnesini verdi (kor `.55`, çekirdek `.26`, iki puf,
+takipsiz). Bütün kontrast ölçümleri **o sahneye karşı**, sahne yerine geçtikten sonra
+yeniden yapıldı. Hiçbir opaklık yükseltilmedi; tablodaki her renk tasarımın kendi
+değeri.
+
+Yöntem: metin `visibility:hidden` yapılıp altındaki gerçek pikseller okundu; ölçüm
+kutusu elemanın dolgulu kutusu değil, `Range.getBoundingClientRect()` ile alınan
+**glif kutusu**. Her metin, kor parıltısının en güçlü olduğu yere denk gelsin diye
+birkaç kaydırma konumunda süpürüldü ve **en parlak piksel** alındı, yani en kötü
+durum. Metnin kendi alfası o zeminle bileştirildi.
+
+1440x900, en kötü durum:
+
+| Metin | Renk | Punto | En parlak zemin | Oran | Eşik | |
+| --- | --- | --- | --- | --- | --- | --- |
+| Açılış spotu | `--krem-78` | 19 | `rgb(14,12,11)` | **9.98** | 4.5 | geçti |
+| Ocaktan H2 | krem | 48 | `rgb(14,12,11)` | **16.23** | 3 | geçti |
+| İkramlar H2 | krem | 48 | `rgb(22,15,12)` | **15.77** | 3 | geçti |
+| İkramlar başlık notu | `--krem-72` | 15 | `rgb(27,16,13)` | **8.37** | 4.5 | geçti |
+| İçecekler H2 | krem | 48 | `rgb(23,15,12)` | **15.73** | 3 | geçti |
+| İçecekler başlık notu | `--krem-64` | 15 | `rgb(25,15,12)` | **6.85** | 4.5 | geçti |
+| Alkolsüz satırı | `--krem-74` | 15 | `rgb(20,14,12)` | **8.94** | 4.5 | geçti |
+| QR notu | `--krem-62` | 13.5 | `rgb(26,15,13)` | **6.49** | 4.5 | geçti |
+| Yer tutucu | `--krem-58` | 14 | `rgb(73,44,17)` | **4.65** | 4.5 | geçti, en dar pay |
+| Gece not gövdesi | `--krem-68` | 13 | `rgb(11,10,8)` | **7.79** | 4.5 | geçti |
+| İmza açıklaması | `--krem-76` | 17 | `rgb(25,16,9)` | **9.26** | 4.5 | geçti |
+| Kart açıklaması | `--krem-70` | 14.5 | `rgb(15,10,9)` | **8.19** | 4.5 | geçti |
+| İkram açıklaması | `--krem-70` | 14 | `rgb(28,22,18)` | **7.78** | 4.5 | geçti |
+| Çekim AI notu | `--krem-60` | 13 | `rgb(28,22,18)` | **6.03** | 4.5 | geçti |
+| Karo etiketi | `--krem-68` | 11.5 | `rgb(9,7,6)` | **7.83** | 4.5 | geçti |
+| İmza fiyatı | tangerine | 26 | `rgb(10,8,6)` | **10.32** | 3 | geçti |
+| Kart fiyatı | tangerine | 18 | `rgb(10,8,7)` | **10.31** | 4.5 | geçti |
+
+**390x844, en kötü durum** (kor çekirdeği `min(760px,110%)` genişliğinde, yani mobilde
+kolonun tamamını kaplıyor ve metnin altındaki zemin belirgin biçimde parlıyor):
+
+| Metin | Renk | Punto | En parlak zemin | Oran | Eşik | |
+| --- | --- | --- | --- | --- | --- | --- |
+| Yer tutucu ("liste tamamlanacak") | `--krem-58` | 14 | `rgb(90,66,41)` | **3.80** | 4.5 | **GEÇMİYOR** |
+| QR notu | `--krem-62` | 13.5 | `rgb(80,58,35)` | **4.51** | 4.5 | geçti, 0.01 payla |
+| İçecekler başlık notu | `--krem-64` | 15 | `rgb(82,61,37)` | **4.55** | 4.5 | geçti, 0.05 payla |
+| Alkolsüz satırı | `--krem-74` | 15 | `rgb(79,58,34)` | **5.71** | 4.5 | geçti |
+| Açılış spotu | `--krem-78` | 16 | `rgb(13,11,10)` | **10.02** | 4.5 | geçti |
+| Kart açıklaması | `--krem-70` | 14.5 | `rgb(31,24,16)` | **7.67** | 4.5 | geçti |
+
+**Geçmeyen tek metin: içecek listesinin kesik çerçeveli yer tutucusu** (`Menu:248`,
+`rgba(242,233,220,.58)`, 14px), 390px'te 3.80:1. Talimat gereği opaklık
+**yükseltilmedi**, tasarımın değeri duruyor.
+
+Sebep yapısal: bu üç metin (yer tutucu, QR notu, içecek başlığı notu) sayfanın kendi
+zeminine sahip **olmayan** tek düşük alfalı metinleri. Diğer bütün düşük alfalı
+metinler bir panelin (`.7` - `.78`) veya opak plakanın (`#0C0A09`) üstünde duruyor ve
+sahne onlara ulaşmıyor. Yer tutucunun kutusu tasarımda kasten zeminsiz (yalnız kesik
+kenarlık), yani kor doğrudan altından geçiyor; masaüstünde parıltı dar kaldığı için
+4.65 ile geçiyor, mobilde çekirdek bütün kolonu kapladığı için 3.80'e düşüyor.
+
+Bu üçü, aynı sahne düzeltmesinin (`4f8b085`) mobilde de gerekli olduğuna işaret ediyor:
+`Menu Sayfasi.dc.html:30` çekirdeği `min(760px,110%)` genişliğinde tanımlıyor ve
+`110%` mobilde viewport'un tamamından geniş demek. `Mobil Prototip.dc.html:33` ise
+çekirdeği daha dar tutuyor. Kararı sahibine bırakıyorum, seçenekler:
+
+1. Mobilde çekirdeğin genişliğini/opaklığını `Mobil Prototip`'in değerine indirmek
+   (sahne düzeltmesinin devamı, `KorSahnesi`'nde, benim dosyalarımda değil).
+2. Yer tutucuya panel zemini vermek (tasarım kasten zeminsiz bırakmış).
+3. `--krem-58`'i yükseltmek (**önerilmiyor**, tasarımın değeri ve talimat bunu yasaklıyor).
 
 ### 390px
 
@@ -433,3 +502,7 @@ Ham yazılan renk **yok**. Aranan bütün değerlerin token'ı vardı: `--panel-
    "Ocaktan" başlığının tepesi 11px örtülüyor (tasarımda da öyle). Pay şerit
    yüksekliğine göre dinamik olsun mu?
 5. **Menü açılışında CTA yokluğu** bilinçli mi?
+6. **Mobilde kor çekirdeği ve zeminsiz yer tutucu.** 390px'te "liste tamamlanacak"
+   3.80:1 ile AA'yı geçmiyor (`--krem-58`, tasarımın değeri, yükseltilmedi). Çekirdek
+   mobilde daraltılsın mı, yer tutucuya zemin mi verilsin? Yukarıdaki kontrast
+   bölümünde üç seçenek duruyor.
