@@ -1,0 +1,27 @@
+/* Hikaye Sayfasi.dc.html:64-66 (sayfa), Ana Sayfa Alternatif.dc.html:272-274 (kart) */
+.satir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-govde);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.sayfa {
+  font-size: 15px;
+  color: var(--krem-74);
+}
+.kart {
+  font-size: 14.5px;
+  color: var(--krem-72);
+}
+
+.kare {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  border-radius: 1px;
+  background: var(--tangerine);
+}

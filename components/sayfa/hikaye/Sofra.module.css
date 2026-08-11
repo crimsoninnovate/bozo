@@ -1,0 +1,44 @@
+/* Hikaye Sayfasi.dc.html:120-131 */
+.bolum {
+  position: relative;
+  padding: 20px var(--sayfa-yatay) 80px;
+  text-align: center;
+}
+
+.kolon {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.baslik {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 700;
+  font-size: var(--ol-sofra-baslik);
+  line-height: 1.1;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.metin {
+  margin: 0;
+  max-width: 600px;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-sofra-govde);
+  line-height: 1.65;
+  color: var(--krem-78);
+}
+
+.butonlar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+}

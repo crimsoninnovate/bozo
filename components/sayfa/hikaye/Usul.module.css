@@ -1,0 +1,73 @@
+/* Hikaye Sayfasi.dc.html:90-118 */
+.bolum {
+  position: relative;
+  padding: 10px var(--sayfa-yatay) 70px;
+}
+
+.liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Satırlar yalnız gövdenin min-width:240px eşiğiyle sarar; @media yok. */
+.satir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px 26px;
+  padding: 26px 12px;
+  border-bottom: 1px solid var(--cizgi-soluk);
+}
+/* Üçüncü satırın alt çizgisi yok. Hikaye:112 (ilk ikisi :98, :103 taşıyor) */
+.satir:last-child {
+  border-bottom: none;
+}
+
+.numara {
+  width: 26px;
+  flex: none;
+  padding-top: 6px;
+  font: 600 13px/1 var(--font-govde);
+  color: var(--krem-62);
+  /* `font` kısayolu bu özelliği sıfırladığı için ondan SONRA gelmek zorunda. */
+  font-variant-numeric: tabular-nums;
+}
+
+.etiket {
+  width: clamp(150px, 18vw, 240px);
+  flex: none;
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 700;
+  font-size: var(--ol-menu-kalem);
+  line-height: 1.14;
+  /* Aynı iz `MenuSatiri.module.css`'te de ham yazılı; ikisi birlikte
+     token'laştırılmalı, ön geçiş bunu kapsam dışı bıraktı. */
+  letter-spacing: -0.015em;
+  color: var(--krem);
+}
+
+.govde {
+  flex: 1;
+  min-width: 240px;
+  margin: 0;
+  font: 400 15.5px/1.65 var(--font-govde);
+  color: var(--krem-74);
+}
+/* 03 Saat gövdesi 10:00 ve 05:00 için tabular taşır, 01 Tane taşımaz.
+   Hikaye:115 vs :101. Kural `.govde`nin `font` kısayolundan SONRA gelmeli. */
+.saatGovdesi {
+  font-variant-numeric: tabular-nums;
+}
+
+.olculer {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

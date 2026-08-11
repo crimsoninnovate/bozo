@@ -1,0 +1,36 @@
+/*
+ * Hikaye Sayfasi.dc.html:63-69
+ *
+ * Üst dolgu 176px: sayfanın sabit üst barı (78px) altında kalmasını sağlayan
+ * tek mekanizma. Sayfa `Bolum` kullanmadığı için bu pay bölümün kendisinde.
+ */
+.bolum {
+  position: relative;
+  padding: 176px var(--sayfa-yatay) 64px;
+}
+
+.ustyazi {
+  margin-bottom: 26px;
+}
+
+.baslik {
+  margin: 0;
+  max-width: 1100px;
+  font-family: var(--font-baslik);
+  font-weight: 800;
+  font-size: var(--ol-hero-hikaye);
+  line-height: 1.06;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.giris {
+  margin: 26px 0 0;
+  max-width: 680px;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde-buyuk);
+  line-height: 1.65;
+  color: var(--krem-80);
+}

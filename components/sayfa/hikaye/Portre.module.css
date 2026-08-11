@@ -1,0 +1,44 @@
+/*
+ * Hikaye Sayfasi.dc.html:72-87
+ *
+ * İki kolon yalnız `flex-wrap` ile alt alta geçer; sayfada hiç `@media` yok.
+ * Kırılma noktasını plakanın 380px ve kartın 460px flex tabanı belirliyor.
+ */
+.bolum {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: clamp(28px, 3vw, 56px);
+  padding: 0 var(--sayfa-yatay) 70px;
+}
+
+/* Zemin, kenarlık, bulanıklık ve dolgu CamPanel'in; buradakiler ızgaradaki yeri. */
+.kart {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+}
+
+.baslik {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 700;
+  font-size: var(--ol-portre-baslik);
+  line-height: 1.12;
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+.metin {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde);
+  line-height: 1.7;
+  color: var(--krem-78);
+}

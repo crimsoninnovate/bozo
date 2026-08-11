@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Bolum } from '@/components/ui/Bolum'
 import { CamPanel } from '@/components/ui/CamPanel'
+import { EtiketSatiri } from '@/components/ui/EtiketSatiri'
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { sozluk, type Dil } from '@/content'
 import { yol } from '@/lib/site'
@@ -15,10 +16,7 @@ export function Bozo({ dil }: Props) {
   return (
     <Bolum id="bozo" yogunluk={0.45} className={stil.bolum} eritClassName={stil.erit}>
       <CamPanel opaklik={0.72} dolgu="genis" className={stil.panel}>
-        <div className={stil.kicker}>
-          <span aria-hidden="true" className={stil.kare} />
-          <span className={stil.kickerMetin}>{s.ana.bozo.kicker}</span>
-        </div>
+        <EtiketSatiri olcek="kart">{s.ana.bozo.kicker}</EtiketSatiri>
 
         {/* Sözlükteki başlık tasarımın kestiği hali: sonda "dır" yok, ve
             envanterin hazır bloğundaki üçüncü cümle ana sayfada geçmiyor. */}

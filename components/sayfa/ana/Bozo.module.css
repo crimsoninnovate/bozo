@@ -24,25 +24,6 @@
   gap: 24px;
 }
 
-.kicker {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.kare {
-  width: 11px;
-  height: 11px;
-  flex: none;
-  border-radius: 1px;
-  background: var(--tangerine);
-}
-
-.kickerMetin {
-  font: 500 14.5px/1 var(--font-govde);
-  color: var(--krem-72);
-}
-
 .baslik {
   margin: 0;
   font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
