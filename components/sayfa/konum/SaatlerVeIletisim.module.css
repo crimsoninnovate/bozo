@@ -1,0 +1,34 @@
+/* Saatler ve İletişim kartları. Konum Sayfasi.dc.html:105-150 */
+.bolum {
+  position: relative;
+  padding: 20px var(--sayfa-yatay) 70px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 3vw, 44px);
+}
+
+/* Konum:106, 124. Dar ekranda kartların alt alta sarması bu flex-wrap +
+   min-width kuralından gelir (02-konum.jpg); ayrı bir medya sorgusu yok.
+   Zemin, kenarlık ve dolgu CamPanel'in (opaklik .74, dolgu "dar"). */
+.kart {
+  flex: 1 1 440px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Konum:107, 125. Alt çizgi yok, o yüzden BolumBasligi değil düz h2. */
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-kart-baslik)/1.14 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+/* Konum:126 */
+.satirlar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

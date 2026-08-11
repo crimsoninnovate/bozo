@@ -13,25 +13,19 @@ type Props = {
    * kenarlığını ve çizim katmanlarını sahiplenir (bkz. `CamPanel` ile aynı ayrım).
    */
   className?: string
-  /**
-   * Levhaya eklenen ek katmanlar. Konum sayfasının pin etiketi ve üç POI çipi
-   * (Konum:97-100) buradan geçer; konumlandırmayı çağıran verir. Ana sayfada
-   * POI çipi YOKTUR, bu yüzden bileşen kendi başına hiç çip basmaz.
-   */
-  children?: React.ReactNode
 }
 
 /**
  * CSS ile çizilen koyu tema harita levhası: gerçek bir karo yüklenmez, tek
  * işaret nabız atar. Kaynak: `Ana Sayfa Alternatif.dc.html:323-331`.
  *
- * Konum sayfasında da bir levha var (`Konum Sayfasi.dc.html:89-101`) ama
- * geometrisi baştan sona ayrı; ölçüm `docs/surec/rapor/on-gecis-report.md` §3'te.
- * Metinler ve ek katmanlar prop olduğu için Task 13 ikinci bir kopya yazmak
- * zorunda değil; farklı olan yalnız geometri ve o da katman katman ayrı
- * sınıflarda duruyor (bkz. `.module.css` dosya başı).
+ * Konum sayfasında da bir levha var (`Konum Sayfasi.dc.html:89-101`) ama on iki
+ * değerin onunda ayrışıyor ve işaret etiketi orada kutulu, iki ağırlıklı bir
+ * öğe. Ölçüm `docs/surec/rapor/task-13-report.md`'de; sonuç: o sayfa kendi
+ * levhasını yazdı (`components/sayfa/konum/Harita.*`). Bu bileşen ana sayfaya
+ * özel kaldı, ortaklaştırma denemesi kapandı.
  */
-export function HaritaPlakasi({ isletmeAdi, sokak, altNot, className, children }: Props) {
+export function HaritaPlakasi({ isletmeAdi, sokak, altNot, className }: Props) {
   return (
     <div className={className ? `${stil.levha} ${className}` : stil.levha}>
       <span aria-hidden="true" className={stil.izgara} />
@@ -42,7 +36,6 @@ export function HaritaPlakasi({ isletmeAdi, sokak, altNot, className, children }
       <span className={stil.isletmeAdi}>{isletmeAdi}</span>
       <span className={stil.sokak}>{sokak}</span>
       <span className={stil.altNot}>{altNot}</span>
-      {children}
     </div>
   )
 }

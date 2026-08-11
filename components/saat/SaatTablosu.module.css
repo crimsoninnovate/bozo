@@ -2,12 +2,22 @@
  * Saat tablosu: "Bugün" satırı (JS gün adını yazar), haftalık özet ve alt
  * çizgisiz bir not satırı. Saatler her gün aynı olduğundan yedi ayrı satır yok.
  *
- * Değerler ANA SAYFA'nın tablosundan alındı (Ana Sayfa Alternatif.dc.html:
- * 301-311), çünkü bugünkü tek çağrı yeri o. Konum sayfasının Saatler kartında
- * (Konum:108-118) aynı üç satır bir tık gevşek duruyor: satır dolgusu 16px 14px
- * (burada 15px 12px), not satırı 14.5px/1.65 ve --krem-68 (burada 1.6 ve
- * --krem-66), ve not metni de farklı. Task 13 bu tabloyu kullanacaksa bir
- * varyant sınıfı ekler; bkz. docs/surec/rapor/task-10-report.md.
+ * Taban değerler ANA SAYFA'nın tablosundan (Ana Sayfa Alternatif.dc.html:
+ * 301-311). Konum sayfasının Saatler kartı (Konum:108-118) aynı üç satırı bir
+ * tık gevşek çiziyor ve ayrışan DÖRT değeri `.konum` varyantı taşıyor:
+ *
+ *   değer            Ana (Ana:301-311)     Konum (Konum:108-117)
+ *   satır dolgusu    15px 12px             16px 14px
+ *   not dolgusu      15px 12px             16px 14px
+ *   not satır ölçüsü 14.5px/1.6            14.5px/1.65
+ *   not rengi        --krem-66             --krem-68
+ *   not tabular      yok (Ana:311)         var (Konum:117)
+ *
+ * Ortak kalan her şey: üç satırlık yapı, "Bugün" satırının --cizgi-kart alt
+ * çizgisi ve --tangerine-07 zemini, haftalık satırın --cizgi-soluk çizgisi ve
+ * --krem-76 rengi, iki satırın 600/400 ağırlıkları ve 16px ölçüsü, notun alt
+ * çizgisiz oluşu, gün adının canlı hesabı. Ayrışan dördü ortak olanın yanında
+ * azınlıkta kaldığı için tablo ikiye bölünmedi (bkz. task-13-report.md).
  */
 .tablo {
   display: flex;
@@ -52,4 +62,18 @@
   padding: 15px 12px;
   font: 400 14.5px/1.6 var(--font-govde);
   color: var(--krem-66);
+}
+
+/* Konum varyantı: Konum Sayfasi.dc.html:109-117 */
+.konum .satir {
+  padding: 16px 14px;
+}
+
+.konum .not {
+  padding: 16px 14px;
+  line-height: 1.65;
+  color: var(--krem-68);
+  /* Not "05:00 - 10:00" taşıyor; `font` kısayolu tabular'ı sıfırladığı için
+     kural burada tekrar yazılır (Konum:117). */
+  font-variant-numeric: tabular-nums;
 }

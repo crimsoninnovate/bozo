@@ -1,0 +1,54 @@
+/* İletişim kartının satırı. Konum Sayfasi.dc.html:127-147 */
+.satir {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--cizgi);
+  color: var(--krem);
+}
+
+.satir svg {
+  flex: none;
+  color: var(--tangerine);
+}
+
+/* Hover yalnız gerçek bağlantıda: hedefi olmayan satır tıklanabilir görünmez. */
+.baglanti {
+  cursor: pointer;
+  transition: border-color var(--gecis-hizli), background var(--gecis-hizli);
+}
+
+.baglanti:hover {
+  border-color: var(--tangerine-70);
+  background: var(--tangerine-07);
+  color: var(--krem);
+}
+
+/* Konum:129 */
+.yigin {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Konum:130. KISITLAR 2. katman: satır etiketi. */
+.etiket {
+  font: 600 14.5px/1 var(--font-govde);
+  color: var(--krem);
+}
+
+/* Konum:131. `font` kısayolu font-variant-numeric'i sıfırlar, tabular kural
+   ondan sonra gelmek zorunda. */
+.deger {
+  font: 400 14px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-68);
+}
+
+/* Konum:138, 145. KISITLAR 3. katman: 14px/1.4 sabit ikincil okuma kopyası,
+   yuvarlanmaz (sayfa başına bir kez kaydedilir, bkz. task-13-report.md). */
+.aciklama {
+  font: 400 14px/1.4 var(--font-govde);
+  color: var(--krem-68);
+}

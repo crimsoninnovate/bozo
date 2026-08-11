@@ -1,0 +1,64 @@
+/*
+ * Konum sayfasının açılışı. Konum Sayfasi.dc.html:63-86
+ *
+ * Düz blok akışı, `Bolum` değil: `data-erit` ve `data-yogunluk` bu dosyada sıfır
+ * kez geçiyor, yani kaydırmaya bağlı erime ana sayfaya ait bir davranış.
+ */
+.bolum {
+  position: relative;
+  /* Üst dolgu 172px, sabit iç sayfa barının (78px) altındaki tek nefes payı;
+     ana sayfanın --bolum-dikey'i (120px) burada geçerli değil. Konum:63 */
+  padding: 172px var(--sayfa-yatay) 54px;
+}
+
+/* Konum:64 */
+.durumSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-bottom: 22px;
+}
+
+/* Konum:72. KISITLAR 2. katman: durum satırının meta etiketi, 13.5px. */
+.saatEtiketi {
+  font: 400 13.5px/1 var(--font-govde);
+  color: var(--krem-62);
+}
+
+/* Konum:74. İki satır, arada <br>. */
+.baslik {
+  margin: 0;
+  font: 800 var(--ol-hero-konum)/1.02 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+/* Konum:75-77 */
+.adres {
+  margin: 22px 0 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--krem-78);
+}
+
+/* Pin tangerine, metin krem: renk kapsayıcıdan değil ikondan geliyor (Konum:76). */
+.adres svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--tangerine);
+}
+
+.adresMetin {
+  font: 400 var(--ol-spot)/1.6 var(--font-govde);
+}
+
+/* Konum:79 */
+.butonlar {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

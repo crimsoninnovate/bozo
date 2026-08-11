@@ -13,9 +13,11 @@
  *   cadde        left:8%/top:59%, 11.5px/.62 -> left:10%/top:57.5%, 12px/.55
  *   ek katman    yok                     -> pin etiketi + üç POI çipi
  *
- * Yani Task 13 ya buraya bir `varyant` sınıfı ekler ya da kendi levhasını yazar;
- * her katman kendi sınıfında durduğu için ikisi de ucuz. POI çipleri bileşenin
- * `children`'ı olarak geçer, yeni bir prop gerekmez.
+ * Task 13 ölçtü: on iki karşılaştırılabilir değerin yalnız ikisi (kenarlık ve
+ * alt notun tipografisi) ortak. Buraya bir `varyant` sınıfı eklemek dosyanın
+ * tamamını yeniden yazmak olurdu, üstelik oradaki işaret etiketi kutulu ve iki
+ * ağırlıklı, buradaki `isletmeAdi: string` düz bir span. Konum kendi levhasını
+ * yazdı (`components/sayfa/konum/Harita.*`); bu dosya ana sayfaya özel.
  */
 .levha {
   position: relative;

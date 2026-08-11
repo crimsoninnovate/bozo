@@ -1,0 +1,162 @@
+/*
+ * Konum sayfasının harita levhası. Konum Sayfasi.dc.html:88-103
+ *
+ * Neden `components/sayfa/HaritaPlakasi` (Ana Sayfa'nın levhası) kullanılmadı:
+ * iki levhanın karşılaştırılabilir on iki değerinden ONU ayrışıyor.
+ *
+ *   değer            Ana (Ana:323-331)        Konum (Konum:89-101)
+ *   zemin            .55 (--panel-yari)       .6 (--panel-60)
+ *   kenarlık         1px .16                  1px .16              <- aynı
+ *   yükseklik        min-height:420px         clamp(420px,58vh,600px), overflow:hidden
+ *   ızgara adımı     50px                     52px
+ *   yatay yol        top:56%, 16px yok/14px   top:54%, 16px
+ *   dikey yol        tek: 44%, 9px, .06       iki: 20%/9px/.05 + 64%/7px/.045
+ *   halka            80px @46/53, .5          110px @42/47, .45
+ *   pin              16px, 0 0 0 6px + 32px   18px, 0 0 0 7px + 32px
+ *   işaret etiketi   çerçevesiz düz metin     kenarlıklı kutu, iki ağırlıklı metin
+ *   cadde            8%/59%, 11.5px, .62      10%/57.5%, 12px, .55
+ *   alt not          24/22, 500 12.5/1.5, .68 aynı                 <- aynı
+ *   POI çipi         yok                      üç çip
+ *
+ * Paylaşılan bileşene bir `varyant` sınıfı eklemek, o sınıfın dosyanın tamamını
+ * yeniden yazması demekti; üstelik pin etiketi orada `isletmeAdi: string` prop'u
+ * olarak düz bir span basıyor, buradaki ise iki ayrı ağırlık ve renk taşıyan
+ * kutulu bir etiket. "Aynı fikir" ortaklaştırma gerekçesi değil, değerlerin
+ * çoğunun aynı olması gerekçedir; burada tersi çıktı.
+ */
+.bolum {
+  position: relative;
+  padding: 10px var(--sayfa-yatay) 60px;
+}
+
+/* Konum:89. Levha tam genişlik: flex tabanı, min-width ve max-width YOK. */
+.levha {
+  position: relative;
+  min-height: clamp(420px, 58vh, 600px);
+  border: 1px solid var(--cizgi-bolum);
+  background: var(--panel-60);
+  overflow: hidden;
+}
+
+/* Konum:90. 52px adımlı iki eksenli ızgara. */
+.izgara {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 52px),
+    repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 52px);
+}
+
+/* Konum:91 */
+.yatayYol {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 16px;
+  background: var(--cizgi-hayalet);
+}
+
+/* Konum:92 */
+.dikeyYolGenis {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  bottom: 0;
+  width: 9px;
+  background: var(--cizgi-harita);
+}
+
+/* Konum:93. İkinci yol hem daha dar hem daha sönük. */
+.dikeyYolDar {
+  position: absolute;
+  left: 64%;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  background: var(--cizgi-harita-ince);
+}
+
+/* Konum:94. KISITLAR 2. katman: levha etiketi, 12px. */
+.sokak {
+  position: absolute;
+  left: 10%;
+  top: 57.5%;
+  font: 400 12px/1 var(--font-govde);
+  color: var(--krem-55);
+}
+
+/* Konum:95 */
+.halka {
+  position: absolute;
+  left: 42%;
+  top: 47%;
+  width: 110px;
+  height: 110px;
+  margin: -55px 0 0 -55px;
+  border-radius: 50%;
+  border: 1px solid var(--kor-halka-konum);
+}
+
+/* Konum:96. Nabız yalnız opaklık değiştirir (dotPulse); hareket azaltılmışsa
+   animasyonlar.css'in `animation: none !important` kuralı onu tümüyle durdurur. */
+.pin {
+  position: absolute;
+  left: 42%;
+  top: 47%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: var(--kor);
+  box-shadow: 0 0 0 7px var(--kor-pin-halka), 0 0 32px var(--kor-pin-parilti);
+  animation: dotPulse 2.6s ease-in-out infinite;
+}
+
+/* Konum:97. Pinle aynı koordinat, oradan yukarı sağa kayar. */
+.pinEtiketi {
+  position: absolute;
+  left: 42%;
+  top: 47%;
+  margin: -46px 0 0 18px;
+  padding: 8px 13px;
+  background: var(--zemin);
+  border: 1px solid var(--tangerine-40);
+  font: 600 13px/1 var(--font-govde);
+  color: var(--krem);
+  white-space: nowrap;
+}
+
+.kapiNo {
+  font-weight: 400;
+  color: var(--krem-55);
+}
+
+/* Konum:98-100. Çipin kendi ölçüsü `Cip tur="poi"` içinde; levhanın işi yalnız
+   üçünü doğru koordinata koymak. */
+.poiSoliBet {
+  position: absolute;
+  left: 30%;
+  top: 60%;
+}
+
+.poiHititBet {
+  position: absolute;
+  left: 61%;
+  top: 26%;
+}
+
+.poiMacroMarket {
+  position: absolute;
+  left: 66%;
+  top: 62%;
+}
+
+/* Konum:101. Not levhanın üstünde değil, içinde sol altta. */
+.altNot {
+  position: absolute;
+  left: 24px;
+  bottom: 22px;
+  font: 500 12.5px/1.5 var(--font-govde);
+  color: var(--krem-68);
+}
