@@ -7,10 +7,23 @@
   pointer-events: none;
 }
 
+/* Tasarımda iki sahne var, biri ötekinin kopyası değil. Ana sayfanınki
+   (Ana Sayfa Alternatif.dc.html:28-35) parlak, kaydırmayı izler, üç duman pufu ve
+   imleç koru taşır. İç sayfalarınki (Menu/Hikaye/Konum Sayfasi.dc.html:27-33,
+   üçünde birebir aynı) sönük, sabit, iki puflu ve imleçsizdir.
+
+   Fark kozmetik değil: iç sayfalarda gövde metni sahnenin üstünde okunuyor.
+   Ana sayfanın sahnesi oraya basıldığında krem .78 metin kontrastı 4.34:1'e
+   düşüyor ve AA'yı geçmiyor (ölçüm: task-14-report.md). Tasarımın kendi çözümü
+   metni açmak değil, sahneyi kısmak. */
+
 .kor {
   position: absolute;
   left: 0;
   right: 0;
+}
+
+.ana .kor {
   bottom: -14%;
   height: 96%;
   background: radial-gradient(
@@ -20,21 +33,44 @@
     transparent 70%
   );
   animation: emberBreath 8s ease-in-out infinite;
+  /* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
   transition: opacity 0.9s ease-out, transform 0.9s ease-out;
   will-change: opacity, transform;
+}
+
+.ic .kor {
+  bottom: -16%;
+  height: 92%;
+  background: radial-gradient(
+    76% 90% at 50% 100%,
+    rgba(183, 53, 28, 0.55),
+    rgba(183, 53, 28, 0.14) 44%,
+    transparent 70%
+  );
+  animation: emberBreath 9s ease-in-out infinite;
 }
 
 .cekirdek {
   position: absolute;
   left: 50%;
   bottom: -10%;
+  transform: translateX(-50%);
+}
+
+.ana .cekirdek {
   width: min(780px, 110%);
   height: 520px;
-  transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.42), transparent 72%);
   animation: emberSoft 11s ease-in-out infinite;
   transition: opacity 0.9s ease-out;
   will-change: opacity;
+}
+
+.ic .cekirdek {
+  width: min(760px, 110%);
+  height: 460px;
+  background: radial-gradient(closest-side, rgba(250, 170, 31, 0.26), transparent 72%);
+  animation: emberSoft 12s ease-in-out infinite;
 }
 
 .duman {
@@ -77,11 +113,36 @@
   animation-delay: 16s;
 }
 
+/* İç sayfaların iki pufu ana sayfanın ilk ikisinin küçültülmüşü değil: konum,
+   ölçü, süre ve gecikmenin hepsi ayrı. Menu/Hikaye/Konum Sayfasi.dc.html:30-31 */
+.icDuman1 {
+  left: 26%;
+  bottom: 2%;
+  width: 230px;
+  height: 230px;
+  background: radial-gradient(closest-side, rgba(242, 233, 220, 0.3), transparent);
+  filter: blur(32px);
+  animation-duration: 24s;
+}
+
+.icDuman2 {
+  left: 60%;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(closest-side, rgba(250, 170, 31, 0.32), transparent);
+  filter: blur(28px);
+  animation-duration: 30s;
+  animation-delay: 10s;
+}
+
 .vinyet {
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 260px rgba(0, 0, 0, 0.86);
 }
+
+.ana .vinyet { box-shadow: inset 0 0 260px rgba(0, 0, 0, 0.86); }
+.ic .vinyet { box-shadow: inset 0 0 240px rgba(0, 0, 0, 0.86); }
 
 .izgara {
   position: absolute;

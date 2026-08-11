@@ -5,17 +5,34 @@ import { hareketAzaltilmisMi } from '@/lib/hareket'
 import { cerceveyeAboneOl } from '@/lib/cerceve'
 import stil from './KorSahnesi.module.css'
 
+/**
+ * Tasarımda iki sahne var, biri ötekinin ayarlanmış hali değil.
+ *
+ * `ana`: Ana Sayfa Alternatif.dc.html:28-35. Parlak (kor .78, çekirdek .42),
+ *   üç duman pufu, kaydırmaya bağlı yoğunluk takibi.
+ * `ic`:  Menu / Hikaye / Konum Sayfasi.dc.html:27-33, üçünde birebir aynı.
+ *   Sönük (kor .55, çekirdek .26), iki puf, sabit; takip yok.
+ *
+ * Ayrım okunurluk için gerekli, kozmetik değil: iç sayfalarda gövde metni
+ * sahnenin üstünde okunuyor ve ana sayfanın sahnesi oraya basıldığında krem .78
+ * metnin kontrastı 4.34:1'e düşüp AA'yı geçmiyor (ölçüm: task-14-report.md).
+ * Tasarımın kendi çözümü metni açmak değil, sahneyi kısmak.
+ */
+export type SahneVaryanti = 'ana' | 'ic'
+
 type Props = {
-  /** Bölümlerin `data-yogunluk` değerini okuyup kor katmanını buna göre soluklaştırır. Yalnız ana sayfada. */
-  yogunlukTakip?: boolean
+  varyant: SahneVaryanti
 }
 
-export function KorSahnesi({ yogunlukTakip = false }: Props) {
+export function KorSahnesi({ varyant }: Props) {
   const korRef = useRef<HTMLSpanElement>(null)
   const cekirdekRef = useRef<HTMLSpanElement>(null)
+  const anaMi = varyant === 'ana'
 
   useEffect(() => {
-    if (!yogunlukTakip) return
+    // Yoğunluk takibi bölümlerin `data-yogunluk` değerini okur; o değeri yalnız
+    // ana sayfa taşır (diğer üç tasarım dosyasında `data-yogunluk` hiç geçmiyor).
+    if (!anaMi) return
     const kor = korRef.current
     const cekirdek = cekirdekRef.current
     if (!kor || !cekirdek) return
@@ -33,15 +50,24 @@ export function KorSahnesi({ yogunlukTakip = false }: Props) {
       const olcekYogunlugu = hareketAzaltilmisMi() ? 1 : yogunluk
       kor.style.transform = `scale(${0.9 + olcekYogunlugu * 0.16})`
     })
-  }, [yogunlukTakip])
+  }, [anaMi])
 
   return (
-    <div className={stil.kap} aria-hidden="true">
+    <div className={`${stil.kap} ${anaMi ? stil.ana : stil.ic}`} aria-hidden="true">
       <span ref={korRef} className={stil.kor} />
       <span ref={cekirdekRef} className={stil.cekirdek} />
-      <span className={`${stil.duman} ${stil.duman1}`} />
-      <span className={`${stil.duman} ${stil.duman2}`} />
-      <span className={`${stil.duman} ${stil.duman3}`} />
+      {anaMi ? (
+        <>
+          <span className={`${stil.duman} ${stil.duman1}`} />
+          <span className={`${stil.duman} ${stil.duman2}`} />
+          <span className={`${stil.duman} ${stil.duman3}`} />
+        </>
+      ) : (
+        <>
+          <span className={`${stil.duman} ${stil.icDuman1}`} />
+          <span className={`${stil.duman} ${stil.icDuman2}`} />
+        </>
+      )}
       <span className={stil.vinyet} />
       <span className={stil.izgara} />
     </div>

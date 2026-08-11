@@ -31,7 +31,7 @@ export function Kabuk({ dil, aktif, children }: Props) {
 
   return (
     <>
-      <KorSahnesi yogunlukTakip={anaSayfaMi} />
+      <KorSahnesi varyant={anaSayfaMi ? 'ana' : 'ic'} />
       <UstBar dil={dil} aktif={aktif} />
       <main className={anaSayfaMi ? undefined : stil.icSayfa}>{children}</main>
       <AltBilgi dil={dil} aktif={aktif} />

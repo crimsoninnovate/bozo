@@ -21,7 +21,7 @@ export function HataSayfasi({ dil }: Props) {
 
   return (
     <>
-      <KorSahnesi yogunlukTakip={false} />
+      <KorSahnesi varyant="ic" />
       <main className={stil.bolum}>
         <div className={stil.blok}>
           <p className={stil.kicker}>
