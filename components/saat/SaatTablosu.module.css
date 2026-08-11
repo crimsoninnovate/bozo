@@ -29,8 +29,7 @@
 .haftalik {
   border-bottom: 1px solid var(--cizgi-soluk);
   font-weight: 400;
-  /* tasarımda rgba(242,233,220,.76); skalada yok, en yakın .74'e yuvarlandı */
-  color: var(--krem-74);
+  color: var(--krem-76);
 }
 
 .gunAdi {

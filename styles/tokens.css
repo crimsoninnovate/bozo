@@ -20,6 +20,19 @@
   --krem-62: rgba(242, 233, 220, 0.62);
   --krem-58: rgba(242, 233, 220, 0.58);
   --krem-50: rgba(242, 233, 220, 0.5);
+  /* Beş tasarım dosyasının tam taraması 40 farklı krem alfa değeri buldu, sekiz değil;
+     üstteki sekizli README özetiydi. Buradakiler o taramada görülüp henüz token'ı
+     olmayan, .5 üstü metin değerleri. .5 altı yapısal (grid/hairline/border) olanlar
+     bu merdivene değil --cizgi* ailesine ait. */
+  --krem-82: rgba(242, 233, 220, 0.82);
+  --krem-80: rgba(242, 233, 220, 0.8);
+  --krem-76: rgba(242, 233, 220, 0.76);
+  --krem-75: rgba(242, 233, 220, 0.75);
+  --krem-72: rgba(242, 233, 220, 0.72);
+  --krem-68: rgba(242, 233, 220, 0.68);
+  --krem-64: rgba(242, 233, 220, 0.64);
+  --krem-60: rgba(242, 233, 220, 0.6);
+  --krem-55: rgba(242, 233, 220, 0.55);
 
   /* çizgi ve kenarlık */
   --cizgi-guclu: rgba(242, 233, 220, 0.22);

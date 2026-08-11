@@ -20,6 +20,21 @@
   animation: colonBlink 2s step-end infinite;
 }
 
+/*
+ * Konum ve Menü hero'sundaki küçük ayrık saat. Aynı yapı, ana sayfanın "dev"inden daha
+ * küçük ölçü. "Konum Sayfasi.dc.html" letter-spacing -.02em, "Menu Sayfasi.dc.html"
+ * -.03em yazıyor; iki sayfada aksi hiçbir değer farklı değil (padding, arkaplan, nokta,
+ * font-size clamp'i, gap birebir aynı), 0.01em fark muhtemelen tek dosyalık bir yazım
+ * kayması, bu yüzden -.02em'de birleştirildi (bkz. iyilestirmeler.md).
+ */
+.kucuk {
+  gap: 2px;
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--krem);
+}
+
 /* gece bölümündeki düz saat: tek renk tangerine, nokta sabit (tasarımda ayrı span yok) */
 .orta {
   font-size: clamp(28px, 3.4vw, 44px);

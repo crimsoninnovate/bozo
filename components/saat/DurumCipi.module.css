@@ -1,29 +1,54 @@
 /*
- * Ölçüler "Ana Sayfa Alternatif.dc.html" hero durum çipinden (satır ~89-91):
- * padding:10px 16px;gap:11px;background:rgba(10,8,7,.6);border:1px solid rgba(250,170,31,.3);
- * nokta 9x9. "Konum Sayfasi.dc.html" hero'sunda bundan biraz küçük tek kullanımlık bir
- * varyant var (9px 15px, 8x8 nokta, 13.5px metin); arayüzde boy prop'u olmadığından
- * o varyant burada yok, bkz. iyilestirmeler.md.
+ * İki gerçek boy: "dev" (yalnız ana sayfa hero'su, "Ana Sayfa Alternatif.dc.html" satır
+ * ~89-91: padding:10px 16px;gap:11px;background:rgba(10,8,7,.6);nokta 9x9;box-shadow
+ * 0 0 14px;metin 14.5px) ve "kucuk" (Konum VE Menü hero'ları, iki sayfada birebir aynı:
+ * padding:9px 15px;gap:10px;background:rgba(10,8,7,.62);nokta 8x8;box-shadow 0 0 12px;
+ * metin 13.5px). "kucuk" "hero-tek-kullanim" değil, iki sayfada tekrarlanan gerçek bir
+ * ortak boy (bkz. iyilestirmeler.md, Fix round 1).
  */
 .kap {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 10px 16px;
-  background: rgba(10, 8, 7, 0.6);
   border: 1px solid var(--tangerine-30);
 }
 
+.dev {
+  gap: 11px;
+  padding: 10px 16px;
+  background: rgba(10, 8, 7, 0.6);
+}
+
+.kucuk {
+  gap: 10px;
+  padding: 9px 15px;
+  background: rgba(10, 8, 7, 0.62);
+}
+
 .nokta {
+  border-radius: 50%;
+}
+
+.dev .nokta {
   width: 9px;
   height: 9px;
-  border-radius: 50%;
+}
+
+.kucuk .nokta {
+  width: 8px;
+  height: 8px;
 }
 
 .acikNokta {
   background: var(--tangerine);
-  box-shadow: 0 0 14px rgba(250, 170, 31, 0.9);
   animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+.dev .acikNokta {
+  box-shadow: 0 0 14px rgba(250, 170, 31, 0.9);
+}
+
+.kucuk .acikNokta {
+  box-shadow: 0 0 12px rgba(250, 170, 31, 0.9);
 }
 
 .kapaliNokta {
@@ -33,16 +58,24 @@
 .acikMetin,
 .kapaliMetin {
   font-family: var(--font-govde);
-  font-size: 14.5px;
   font-weight: 600;
   line-height: 1;
+}
+
+.dev .acikMetin,
+.dev .kapaliMetin {
+  font-size: 14.5px;
+}
+
+.kucuk .acikMetin,
+.kucuk .kapaliMetin {
+  font-size: 13.5px;
 }
 
 .acikMetin {
   color: var(--tangerine);
 }
 
-/* tasarımda rgba(242,233,220,.8); skala .5 .58 .62 .66 .7 .74 .78 .86'da yok, en yakın .78'e yuvarlandı */
 .kapaliMetin {
-  color: var(--krem-78);
+  color: var(--krem-80);
 }
