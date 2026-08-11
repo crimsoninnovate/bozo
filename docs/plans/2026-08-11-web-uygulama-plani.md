@@ -399,7 +399,7 @@ git commit -m "feat: scaffold the Next.js project with the design tokens"
 - Consumes: yok
 - Produces:
   - `export const ZAMAN_DILIMI = 'Europe/Nicosia'`
-  - `export const ACILIS_SAATI = 10`, `export const KAPANIS_SAATI = 5`
+  - `export const ACILIS_SAATI = 10`, `export const KAPANIS_SAATI = 5`, `export const GECE_BASLANGICI = 1`
   - `export type Durum = { acik: boolean; gece: boolean; saat: number; dakika: number; gunIndeksi: number }`
   - `export function girneParcalari(simdi: Date): { saat: number; dakika: number; gunIndeksi: number }`
   - `export function durumHesapla(simdi: Date): Durum`
@@ -458,6 +458,12 @@ test('durum_0030_geceDegildir_ciftGeceEsigi', () => {
   const d = durumHesapla(girne('2026-08-12T00:30:00+03:00'))
   assert.equal(d.acik, true)
   assert.equal(d.gece, false)
+})
+
+test('durum_0100_geceBaslar', () => {
+  // Gece eşiğinin tam geçiş noktası. Bu olmadan GECE_BASLANGICI'ndaki
+  // bir off-by-one hatası hiçbir testi kırmadan yayına çıkar.
+  assert.equal(durumHesapla(girne('2026-08-12T01:00:00+03:00')).gece, true)
 })
 
 test('gosterimGunu_gececeyariSonrasi_oncekiGunuGosterir', () => {
