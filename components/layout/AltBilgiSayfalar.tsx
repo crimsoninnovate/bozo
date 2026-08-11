@@ -29,9 +29,10 @@ export function AltBilgiSayfalar({ dil, aktif }: Props) {
       <div className={`${stil.kolonlar} ${stil.kolonlarSik}`}>
         <div className={`${stil.kolon} ${stil.kolonSik}`}>
           <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
+          {/* Görünen adres sözlükten; isletme.cadde dil-nötr yapısal veridir (bkz. AltBilgiTam). */}
           <div className={stil.adresBloku}>
-            <div>{isletme.cadde}</div>
-            {isletme.binaNo && <div>{isletme.binaNo}</div>}
+            <div>{s.ortak.satirlar.adresCadde}</div>
+            {isletme.binaNo && <div>{s.ortak.satirlar.adresBina}</div>}
             <div>{s.ortak.satirlar.adresSehirUlke}</div>
           </div>
         </div>

@@ -1,12 +1,7 @@
 /*
- * Bu sayfanın tasarımı yok. Hiçbir ölçü uydurulmadı; her değer sitenin zaten
- * kullandığı bir kalıptan alındı ve kaynağı satırında yazıyor.
- *
- * OKUMA ÖLÇÜSÜ (KISITLAR.md, "The 16px floor, and what it binds"): bu sayfanın
- * metni okunan metindir, yani 1. katman ve 16px tabanı BAĞLAYICI. Spot
- * --ol-spot (clamp(16px,1.4vw,19px)), bölüm paragrafları --ol-govde
- * (clamp(16px,1.35vw,19px)); ikisinin de alt ucu 16px. Bu sayfada 2. veya
- * 3. katmandan tek bir ölçü kullanılmıyor, yani kaydedilecek sapma yok.
+ * Bu sayfanın tasarımı yok; her değer sitenin zaten kullandığı bir kalıptan
+ * alındı ve kaynağı satırında yazıyor. Metnin tamamı KISITLAR.md'nin 1. katmanı
+ * (okunan metin), yani 16px tabanı bağlayıcı ve kaydedilecek sapma yok.
  */
 
 /* 172px üst pay: iç sayfa açılışlarının payı (Konum:63, Menu:65; Hikaye 176px).
@@ -48,14 +43,11 @@
   text-shadow: var(--golge-baslik);
 }
 
-/*
- * Menu:77 ve Konum:77 ile aynı: --ol-spot / 1.6. Renk tasarımın krem .78'i
- * DEĞİL .86: gerekçe ölçüldü, bkz. aşağıdaki kontrast notu.
- */
+/* Menu:77 ve Konum:77 ile aynı: --ol-spot / 1.6, krem .78. */
 .spot {
   margin: 0;
   font: 400 var(--ol-spot)/1.6 var(--font-govde);
-  color: var(--krem-86);
+  color: var(--krem-78);
 }
 
 /* Panel, Konum'un bilgi kartıdır: zemin .74, dolgu clamp(26px,2.8vw,40px),
@@ -96,25 +88,10 @@
   color: var(--krem);
 }
 
-/*
- * KONTRAST SAPMASI, ölçüldü. Tasarımın gövde proze rengi krem .78 (Menu:77,
- * Konum:77) veya .80 (Hikaye:69, Ana:225). Burada .86 kullanılıyor.
- *
- * Sebep: `KorSahnesi` sabit bir katman ve iç sayfalarda yoğunluk takibi kapalı
- * (Kabuk.tsx:34), yani kor tam şiddette yanıyor; parlak bant her zaman ekranın
- * dibinde durur ve sayfa kaydıkça panelin altından geçer. 1440x900'de panelin
- * içi ölçüldü (satır medyanı, sRGB bağıl parlaklık): en kötü zemin (112,74,50),
- * krem .78 ile 4.64:1, korun tepesine denk gelen ham zeminde 4.06:1. WCAG AA
- * gövde metni için 4.5:1 ister, yani .78 bu sayfada tabanın altına düşüyor.
- * Aynı zeminde .86 sırasıyla 5.26:1 ve 4.55:1 veriyor.
- *
- * Bu sayfanın metni okunan metin olduğu için erişilebilirlik tabanı sert kısıt,
- * renk ise varsayılan kısıt; sert olan kazanır. Kalıcı çözüm renkte değil:
- * `CamPanel` yalnız .72/.74 zemin sunuyor ve iç sayfalarda kor kısılmıyor.
- * İkisi de bu görevin dosyaları değil, rapora bulgu olarak yazıldı.
- */
+/* Menu:77 / Konum:77 gövde rengi, krem .78. Ölçüldü: sönük iç sahne üstünde en
+   parlak bantta 6.97:1 (390px) ve 8.51:1 (1440px), yani AA tabanı rahat geçiliyor. */
 .bolumMetin {
   margin: 0;
   font: 400 var(--ol-govde)/1.6 var(--font-govde);
-  color: var(--krem-86);
+  color: var(--krem-78);
 }

@@ -1,5 +1,6 @@
 import { KorSahnesi } from '@/components/ember/KorSahnesi'
 import { Buton } from '@/components/ui/Buton'
+import { EtiketSatiri } from '@/components/ui/EtiketSatiri'
 import { sozluk, type Dil } from '@/content'
 import { yol } from '@/lib/site'
 import stil from './HataSayfasi.module.css'
@@ -24,10 +25,7 @@ export function HataSayfasi({ dil }: Props) {
       <KorSahnesi varyant="ic" />
       <main className={stil.bolum}>
         <div className={stil.blok}>
-          <p className={stil.kicker}>
-            <span className={stil.kickerKare} aria-hidden="true" />
-            {s.hata.kicker}
-          </p>
+          <EtiketSatiri className={stil.kicker}>{s.hata.kicker}</EtiketSatiri>
           <h1 className={stil.baslik}>{s.hata.baslik}</h1>
           <p className={stil.metin}>{s.hata.metin}</p>
           <div className={stil.butonlar}>

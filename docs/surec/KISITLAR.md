@@ -104,13 +104,27 @@ rows, table notes, section-heading notes, nav and footer links, button labels.
 Rounding these up to 16px would break the design's rhythm and its information
 hierarchy, which is a larger fidelity loss than the size itself.
 
-**3. Secondary reading copy at a fixed 14.5px to 15.5px: the design's size wins,
-and each page records it once.** Menu product-card descriptions at 14.5px/1.55, the
-usul rows on Hikaye at 15.5px/1.65, the Hikaye note block at 14.5px/1.65, the Konum
-contact sub-lines at 14px/1.4. This is real prose below the floor, so it is a
+**3. Secondary reading copy at a fixed 13px to 15.5px: the design's size wins, and
+each page records it once.** This is real prose below the floor, so it is a
 deviation, not an exemption: state it once per page and do not round it up. Do not
-re-litigate it. `--ol-govde-kucuk` (`clamp(15px, 1.3vw, 17px)`) is the same case in
-clamp form and needs no separate record.
+re-litigate it. The full membership, counted once against the design so nobody has
+to guess whether a given text qualifies:
+
+| Text | Size | Design source |
+|---|---|---|
+| Menu product-card descriptions | 14.5px/1.55 | `Menu:135, 153, 171, 189` |
+| Menu night-menu note body | 13px/1.6 | `Menu:81` |
+| Menu photo-list "no AI imagery" note | 13px/1.6 | `Menu:279` |
+| Hikaye usul row bodies | 15.5px/1.65 | `Hikaye:101, 115` |
+| Hikaye note block | 14.5px/1.65 | `Hikaye:86` |
+| Konum contact sub-lines | 14px/1.4 | `Konum:138, 145` |
+
+The two 13px entries were added on 12 August 2026: the earlier "14.5px to 15.5px"
+band named neither, and it did not even cover the 14px Konum sub-lines it listed.
+The rule was incomplete, not the design. `--ol-govde-kucuk`
+(`clamp(15px, 1.3vw, 17px)`) is the same case in clamp form and needs no separate
+record. Everything else below 16px is tier 2: it is a label, chip, meta row, nav or
+button, not prose.
 
 Accessibility for tiers 2 and 3 is carried by contrast (WCAG AA) and by the 44px
 touch target, not by the type size.

@@ -25,3 +25,13 @@
 .icSayfa [id] {
   scroll-margin-top: 96px;
 }
+
+/*
+ * Gece şeridi 01:00-05:00 arası basılır ve iç sayfa barını 78px'ten 107px'e
+ * çıkarır; 96px'lik pay o beş saat boyunca başlığın üstünü 11px kesiyordu
+ * (ölçüldü, task-11-report.md). Şerit 29px, pay aynı 18px'lik nefesi korur.
+ * Tasarımın kendi kaydırma betiği de sabit 96 kullanıyor, yani şeridi atlamış.
+ */
+body:has([data-gece-serit]) .icSayfa [id] {
+  scroll-margin-top: 125px;
+}

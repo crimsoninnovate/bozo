@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 11 Ağustos 2026, 23:42
+Son güncelleme: 12 Ağustos 2026, 02:30
 
 ## Proje bir cümlede
 
@@ -17,9 +17,11 @@ Claude Design çalışmasının Next.js 16'ya statik export olarak taşınması.
 3 içerik katmanı (+4 ek tur), 4 temel UI bileşenleri, 5 kor sahnesi ve hareket,
 7 rotalar ve yapısal veri, 8 canlı saat bileşenleri.
 
-Ayrıca **6** kabuk bileşenleri ve **17** paylaşılan primitiflerin sağlamlaştırılması.
+Ayrıca **6** kabuk bileşenleri, **17** paylaşılan primitiflerin sağlamlaştırılması ve
+**toparlama turu** (biriken ölçümlerin paylaşılan katmana uygulanması, 12 Ağustos;
+raporu `docs/surec/rapor/toparlama-turu-report.md`).
 
-Açık düzeltme turu yok. Ağaç temiz derleniyor, 51 test geçiyor, çalışma ağacında
+Açık düzeltme turu yok. Ağaç temiz derleniyor, 60 test geçiyor, çalışma ağacında
 yarım iş yok.
 
 **Bekleyen:** 9 ve 10 ana sayfa, 11 menü, 12 hikaye, 13 konum, 14 404 ve gizlilik,
@@ -72,11 +74,19 @@ denetim bulgularına göre yeniden şekillendirildi; her yazılı özet bayat ol
 
 ## Sahibinin bakması gereken açık maddeler
 
-**Footer dokunma hedefi.** Footer'daki iletişim satırlarında dokunma hedefi şu an
-28px, çakışmıyor, hiçbir dokunuş yanlış satıra gitmiyor. 44px'e ulaşmak `.kolon`'un
-`gap` değerini 13px'ten yaklaşık 29px'e çıkarmayı gerektiriyor, bu da görünür bir
-footer yeniden düzeni. Tek başına yapılmadı. 44px mi footer ritmi mi öncelikli,
-Task 16'da veya yayın öncesi karara bağlanacak.
+**Footer dokunma hedefi.** Üç hedef, üçü de 44px'in altında, hiçbiri çakışmıyor ve
+hiçbir dokunuş yanlış satıra gitmiyor:
+
+| Hedef | Yükseklik | Nerede |
+|---|---|---|
+| `tam` footer iletişim satırı | 28px | `AltBilgi.module.css:278` |
+| `sayfalar` footer sayfa bağlantısı | 26px | `AltBilgi.module.css:161` |
+| `sayfalar` footer telefon bağlantısı | 26px | `AltBilgi.module.css:183` |
+
+28px'i 44px'e çıkarmak `.kolon`'un `gap` değerini 13px'ten yaklaşık 29px'e taşımayı
+gerektiriyor, bu da görünür bir footer yeniden düzeni; 26px'lik ikisi için gerekçe
+`kabuk-turu-report.md:343-349`'da kayıtlı. Tek başına yapılmadı. 44px mi footer ritmi
+mi öncelikli, Task 16'da veya yayın öncesi karara bağlanacak.
 
 **Kor sahnesi okunmuyor.** Sahibi 12 Ağustos 2026'da bildirdi: kor şu an "pek
 anlaşılmıyor", daha anlaşılır olabilir mi. Sayfaların tamamı kurulduktan sonra,
@@ -111,12 +121,14 @@ ve ölçülebilir bir sonucu vardı: iç sayfalarda krem `.78` gövde metni 4.34
 geçmiyordu. Yani "kor fazla" okumasının bir kısmı gerçek bir hataymış. **Ana sayfanın
 sahnesi değişmedi**, sahibinin gözlemi oraya bakıyorsa hâlâ açık.
 
-İki bağlı iş kaldı:
+Bağlı bir iş kaldı:
 - `components/ember/ImlecKoru.tsx` Task 5'te yazıldı ama **hiçbir yere bağlanmadı**.
   Tasarımda o katman sahnenin içinde ve yalnız ana sayfada (`Ana:31`, `data-imlec`).
-  Bağlanması hareket turunun işi; z-index ve sahne kabına göre konumu ölçülmeli.
-- `GizlilikSayfasi` gövde metnini parlak sahne yüzünden krem `.86`'ya çıkarmıştı
-  (tasarım `.78`). Sahne söndüğüne göre yeniden ölçülüp `.78`'e dönmesi gerekebilir.
+  Bağlanması mobil turunun işi; z-index ve sahne kabına göre konumu ölçülmeli.
+
+`GizlilikSayfasi`'nın krem `.86` sapması **12 Ağustos'ta kapandı**: sönük sahneye karşı
+yeniden ölçüldü, tasarımın `.78`'i en kötü durumda 6.97:1 (390px) ve 8.51:1 (1440px)
+veriyor, sayfa tasarımın değerine döndü.
 
 Bugünkü zemin, karar verirken ölçülecek yerler: `components/ember/KorSahnesi.tsx`
 (yoğunluk takibi `lib/cerceve.ts`'ten geliyor), bölüm başına `data-yogunluk`
@@ -130,6 +142,24 @@ Fiyatlar, telefon, WhatsApp, Instagram, e-posta, harita koordinatı, dalak ve y�
 porsiyon detayları, gece menüsü kalemleri, içecek listesinin tamamı, fotoğraflar
 (16 kare), onaylı logo, alan adı. Hepsi `content/` altında `null` ve tek noktadan
 doldurulacak biçimde duruyor. Uydurulmuş bir değer yayına çıkmaz.
+
+**Site ikonu (favicon).** Her sayfada konsola bir favicon 404'ü düşüyor; `app/` altında
+ikon dosyası yok. Marka paketinde de yok: `design_handoff_bozo_website/marka/` yalnız
+iki markdown taşıyor ve logo kararı işareti sözle tarif ediyor ("şiş kilidi": uçlu ve
+halka saplı bir çubuk üzerinde 4 ciğer ve 2 kuyruk yağı tanesi), çizilmiş bir dosya
+vermiyor. Geçici emoji veya jenerik ikon konmadı. Onaylı işaret geldiğinde
+`app/icon.svg` + `app/apple-icon.png` eklenir; Next bunları kendisi bağlar.
+
+## Bilinen ve kabul edilen çıktı davranışları
+
+**`/_not-found/` ve `/404/` de 200 dönüyor.** Statik export `out/404.html` yanında
+`out/404/index.html` (bunu `trailingSlash: true` üretiyor) ve `out/_not-found/index.html`
+(bunu Next'in kendi iç rotası üretiyor, derleme rota tablosunda `/_not-found` satırı
+olarak görünür) yazıyor. Üçü bayt bayt aynı, üçü de `<meta name="robots" content="noindex">`
+taşıyor ve `sitemap.xml`'de hiçbiri geçmiyor, yani indeksleme sızıntısı yok. Next'in
+statik export rehberi yalnız `404.html`'i sayıyor ama fazladan kopyaları da yasaklamıyor;
+derleme sonrası dosya silen bir adım eklemek `noindex` zaten varken bedelsiz kazanç
+sağlamıyor. Kayıtlı, düzeltilmedi.
 
 ## Sahibinin verdiği kararlar
 
@@ -148,5 +178,5 @@ doldurulacak biçimde duruyor. Uydurulmuş bir değer yayına çıkmaz.
 ## Doğrulama komutları
 
     npm run typecheck
-    npm test              # şu an 51 test
+    npm test              # şu an 60 test
     npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı

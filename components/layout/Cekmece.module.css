@@ -60,7 +60,7 @@
   color: var(--krem);
   text-decoration: none;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(242, 233, 220, 0.12);
+  border-bottom: 1px solid var(--cizgi-kart);
 }
 
 .link:last-child {

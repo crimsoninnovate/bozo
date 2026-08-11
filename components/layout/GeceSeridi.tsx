@@ -16,7 +16,8 @@ export function GeceSeridi({ dil }: Props) {
 
   const s = sozluk(dil)
   return (
-    <div className={stil.serit}>
+    // data-gece-serit: çapa payı şerit görünürken büyür (Kabuk.module.css).
+    <div className={stil.serit} data-gece-serit>
       <span className={stil.nokta} aria-hidden="true" />
       <span className={stil.metin}>{s.ortak.durum.geceSerit}</span>
     </div>

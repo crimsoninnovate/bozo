@@ -30,7 +30,7 @@
 .baglayici {
   width: 2px;
   height: 20px;
-  background: rgba(242, 233, 220, 0.16);
+  background: var(--cizgi-bolum);
 }
 
 .bead {

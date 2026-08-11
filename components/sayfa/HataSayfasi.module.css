@@ -28,28 +28,10 @@
   gap: 28px;
 }
 
-/*
- * Kicker, Hikaye açılışının küçük kare + etiket kalıbı (Hikaye:64-66):
- * 11x11 tangerine kare, 1px köşe, 12px boşluk, Inter 500 15px/1, krem .74.
- * Tasarımda sola yaslı; burada blok ortalandığı için satır da ortalanır.
- * tabular-nums, "404" bir sayı olduğu için (KISITLAR.md, tipografi).
- */
+/* Kicker EtiketSatiri'nin `sayfa` ölçeğidir (Hikaye:64-66); buraya yalnız
+   tabular-nums kalır, "404" bir sayı olduğu için (KISITLAR.md, tipografi). */
 .kicker {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font: 500 15px/1 var(--font-govde);
   font-variant-numeric: tabular-nums;
-  color: var(--krem-74);
-}
-
-.kickerKare {
-  width: 11px;
-  height: 11px;
-  flex: none;
-  border-radius: 1px;
-  background: var(--tangerine);
 }
 
 /*

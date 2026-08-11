@@ -15,7 +15,7 @@
 .dev {
   gap: 11px;
   padding: 10px 16px;
-  background: rgba(10, 8, 7, 0.6);
+  background: var(--panel-60);
 }
 
 .kucuk {

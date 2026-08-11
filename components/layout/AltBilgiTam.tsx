@@ -37,9 +37,12 @@ export function AltBilgiTam({ dil, aktif }: Props) {
           <div className={stil.baslik}>{s.ortak.footer.adresBaslik}</div>
           <div className={stil.adresSatiri}>
             <PinIkon boy={15} />
+            {/* Görünen adres sözlükten gelir (EN: "Naci Talat Street"); isletme.cadde
+                dil-nötr yapısal veridir ve yalnız harita/JSON-LD bağlantılarında kullanılır.
+                binaNo koşulu duruyor: bilinmeyen bina numarası satır basmaz. */}
             <div className={stil.adresMetin}>
-              <div>{isletme.cadde}</div>
-              {isletme.binaNo && <div>{isletme.binaNo}</div>}
+              <div>{s.ortak.satirlar.adresCadde}</div>
+              {isletme.binaNo && <div>{s.ortak.satirlar.adresBina}</div>}
               <div>{s.ortak.satirlar.adresSehirUlke}</div>
             </div>
           </div>

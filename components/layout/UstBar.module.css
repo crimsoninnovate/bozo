@@ -17,12 +17,13 @@
 }
 
 .anaVaryant {
-  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.9), rgba(10, 8, 7, 0));
+  background: linear-gradient(to bottom, var(--panel-koyu), rgba(10, 8, 7, 0));
   transition: background 0.3s ease-out;
 }
 
+/* .94 ucunun token'ı yok (--panel-* ailesinde .94 adımı yok). */
 .icVaryant {
-  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), rgba(10, 8, 7, 0.55));
+  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-yari));
 }
 
 .satir {
@@ -149,14 +150,17 @@
 @media (max-width: 780px) {
   .anaVaryant,
   .icVaryant {
-    background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), rgba(10, 8, 7, 0.6));
+    background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));
     backdrop-filter: blur(10px);
   }
 
+  /* Mobil:55 barın altına saç çizgisi veriyor. Aynı .09 üç footer'ın telif
+     şeridinde de ham duruyor; token'ı yok (tokens.css paralel turun elinde). */
   .anaVaryant .satir,
   .icVaryant .satir {
     height: 58px;
     padding: 0 18px;
+    border-bottom: 1px solid rgba(242, 233, 220, 0.09);
   }
 
   .markaAd {

@@ -5,43 +5,37 @@
   /* ikonlu butonların ikon ile metin arası, tasarımdan (Ana:346, Konum:81) */
   gap: 9px;
   min-height: 44px;
-  border-radius: 2px;
+  padding: var(--buton-dikey) calc(var(--buton-yatay) - var(--buton-ikon-payi, 0px));
   font-family: var(--font-govde);
   font-weight: 600;
-  letter-spacing: -0.005em;
   font-variant-numeric: tabular-nums;
   transition: background var(--gecis-hizli), border-color var(--gecis-hizli),
     transform var(--gecis-hizli), box-shadow var(--gecis-hizli);
 }
 
+/* İkonlu buton yatay dolgudan 3px verir, dikeyi korur: Ana:347 ikonsuz 17/29,
+   yanındaki Ana:346 ikonlu 17/26. Beş dosyadaki 20 butonun ikisi ikonlu, istisna yok. */
+.taban:has(svg) {
+  --buton-ikon-payi: 3px;
+}
+
 /* Dört ölçü, dolu türlerin dolgusu. sm 44px'e yetişmiyor (13+13+14.5 = 40.5),
    min-height dokunma hedefi kuralı gereği onu 44px'e taşır. */
-.sm { padding: 13px 24px; font-size: 14.5px; }
-.md { padding: 17px 28px; font-size: 15.5px; }
-.lg { padding: 18px 30px; font-size: 16px; }
-.xl { padding: 20px 34px; font-size: 16.5px; }
+.sm { --buton-dikey: 13px; --buton-yatay: 24px; font-size: 14.5px; }
+.md { --buton-dikey: 17px; --buton-yatay: 28px; font-size: 15.5px; }
+.lg { --buton-dikey: 18px; --buton-yatay: 30px; font-size: 16px; }
+.xl { --buton-dikey: 20px; --buton-yatay: 34px; font-size: 16.5px; }
 
 /* Kenarlıklı türler her iki eksende 1px içeri alınır ki dış kutu dolu türle
    aynı kalsın. Tasarım da bunu yapıyor: 20/34 dolu, 19/33 kenarlıklı. */
-.cerceveli.sm { padding: 12px 23px; }
-.cerceveli.md { padding: 16px 27px; }
-.cerceveli.lg { padding: 17px 29px; }
-.cerceveli.xl { padding: 19px 33px; }
+.cerceveli.sm { --buton-dikey: 12px; --buton-yatay: 23px; }
+.cerceveli.md { --buton-dikey: 16px; --buton-yatay: 27px; }
+.cerceveli.lg { --buton-dikey: 17px; --buton-yatay: 29px; }
+.cerceveli.xl { --buton-dikey: 19px; --buton-yatay: 33px; }
 
-/* Kenarlık ve gölge boya BAĞLANMADI. Beş tasarım dosyasındaki on birincil ve
-   altı ikincil butonun tamamı ölçüldü; boy adımı başına birden çok değer çıktı:
-     boy        birincil gölge                   ikincil kenarlık / hover zemini
-     sm 13/24   0 8px 26px .34 x3, .36 x1        (masaüstünde ikincil sm yok)
-     md 17/28   gölge YOK x1 (Menu:289)          .36 x1 (Menu:290), hover zemini yok
-     lg 18/30   0 12px 34px .4 x2, 0 10px 30px .34 x1   .38 x2, .36 x2
-     xl 20/34   0 12px 34px .4 x1                .4 x1, hover zemini .12
-   lg adımı hem gölgede hem kenarlıkta kendi içinde çelişiyor: Ana:318-320 ile
-   Hikaye:128-129 aynı dolguyu ve punto ölçüsünü paylaşır, farklı değer taşır.
-   Boya bağlanabilir bir merdiven türetilemediği için değerler çoğunluğa
-   normalize edildi (kenarlık .36, hover zemini .10, gölge sm ayrı / diğerleri
-   --kor-golge). Kalan sapmalar: Hikaye:129 ve Konum:81 kenarlığı .38 (0.02),
-   Ana:113 kenarlığı .4 ve hover zemini .12 (0.04 / 0.02), Ana:318 gölgesi
-   0 10px 30px .34, Menu:289 gölgesiz. Kaynak: on-gecis-report.md. */
+/* Kenarlık ve gölge boyu boy adımına BAĞLANMADI: tasarım aynı boyda çelişiyor
+   (ör. lg gölgesi hem 0 12px 34px .4 hem 0 10px 30px .34). Değerler çoğunluğa
+   normalize edildi; ölçüm ve kalan sapmalar on-gecis-report.md bölüm 6'da. */
 .birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
 .birincil.sm { box-shadow: var(--kor-golge-kucuk); }
 .birincil:hover {
