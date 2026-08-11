@@ -992,11 +992,11 @@ git commit -m "feat: add the typed bilingual content layer"
 - Produces:
   - `<Buton tur="birincil" | "ikincil" | "koyu" | "koyuOutline" boy="sm" | "md" | "lg" href={string | null} disabled?={boolean} hariciMi?={boolean}>`
   - `<Cip tur="outline" | "dolu" | "ikram">`
-  - `<TaneDizilimi boy={number} bosluk={number} anahat?={boolean} cizgi?={boolean} />` — 6 tane, büyük-küçük-büyük-büyük-küçük-büyük ritmi
+  - `<TaneDizilimi boy={number} bosluk={number} anahat?={boolean} cizgi?={boolean} />`: 6 tane, büyük-küçük-büyük-büyük-küçük-büyük ritmi
   - `<FotoYuvasi id={FotoId} dil={Dil} bicim="portre" | "genis" | "karo" etiketYeri?="sol" | "orta" koseIsaretleri?={2 | 4} />`
   - `<CamPanel opaklik={0.72 | 0.74 | 0.9}>`
   - `<BolumBasligi baslik={string} not?={string} sag?={ReactNode} />`
-  - `Ikonlar`: `<PinIkon />`, `<TelefonIkon />`, `<WhatsAppIkon />`, `<InstagramIkon />` — hepsi `viewBox="0 0 24 24"`, `fill="currentColor"`, 15-17px
+  - `Ikonlar` dosyası `<PinIkon />`, `<TelefonIkon />`, `<WhatsAppIkon />`, `<InstagramIkon />` verir; hepsi `viewBox="0 0 24 24"`, `fill="currentColor"`, 15-17px
 
 - [ ] **Step 1: Buton bileşenini yaz**
 
@@ -1237,8 +1237,8 @@ git commit -m "feat: add the base UI components from the design tokens"
 **Interfaces:**
 - Consumes: yok
 - Produces:
-  - `<KorSahnesi yogunlukTakip?={boolean} />` — `'use client'`
-  - `<ImlecKoru />` — `'use client'`, yalnız ana sayfada
+  - `<KorSahnesi yogunlukTakip?={boolean} />`: `'use client'`
+  - `<ImlecKoru />`: `'use client'`, yalnız ana sayfada
   - `export function hareketAzaltilmisMi(): boolean`
   - `export function rafKisitla(fn: () => void): () => void`
   - Bölümler `data-yogunluk="0.55"` özniteliği taşır; KorSahnesi bunları okur
@@ -1388,7 +1388,7 @@ git commit -m "feat: add the ember scene and motion system"
   - `export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[]`
   - `export function telefonUrl(numara: string | null): string | null`
   - `export const SITE_URL = 'https://cigercibozo.com'` (alan adı henüz alınmadı, tek yerde)
-  - `export function yolTarifiUrl(): string` — koordinat `null` iken adres metniyle Google Maps araması üretir
+  - `export function yolTarifiUrl(): string`: koordinat `null` iken adres metniyle Google Maps araması üretir
   - `export function whatsappUrl(numara: string | null): string | null`
   - `<UstBar dil={Dil} aktif={RotaAnahtari} ilerleme?={boolean} />`
   - `<AltBilgi dil={Dil} />`
@@ -1751,11 +1751,11 @@ git commit -m "feat: add the bilingual route tree with metadata and sitemap"
 **Interfaces:**
 - Consumes: `lib/saat.ts` (Task 2), `content/` (Task 3)
 - Produces:
-  - `export function useGirneSaati(): Durum | null` — mount öncesi `null`
+  - `export function useGirneSaati(): Durum | null`: mount öncesi `null`
   - `<CanliSaat boy="dev" | "orta" | "hayalet" />`
   - `<DurumCipi dil={Dil} />`
-  - `<SaatTablosu dil={Dil} />` — "Bugün" satırı `gosterimGunIndeksi` ile işaretlenir
-  - `<VardiyaSeridi dil={Dil} />` — aktif saate en yakın vardiya çipi tangerine olur
+  - `<SaatTablosu dil={Dil} />`: "Bugün" satırı `gosterimGunIndeksi` ile işaretlenir
+  - `<VardiyaSeridi dil={Dil} />`: aktif saate en yakın vardiya çipi tangerine olur
 
 - [ ] **Step 1: useGirneSaati hook'unu yaz**
 
@@ -1831,7 +1831,7 @@ git commit -m "feat: add the live Girne clock components"
 - Consumes: Task 4, 5, 6, 8 çıktıları
 - Produces:
   - `<AnimasyonluSayac hedef={number} sure?={number} />` (varsayılan süre 900ms)
-  - `<MenuSatiri sira={number} ad={string} aciklama={string} fiyat={number | null} />` — sözlüğe bağlanmaz, çağıran taraf ad ve açıklamayı sözlükten geçirir; böylece aynı satır menü sayfasında da kullanılır
+  - `<MenuSatiri sira={number} ad={string} aciklama={string} fiyat={number | null} />`: sözlüğe bağlanmaz, çağıran taraf ad ve açıklamayı sözlükten geçirir; böylece aynı satır menü sayfasında da kullanılır
 
 **Kaynak:** `docs/tasarim/ana-sayfa.json` bölümleri `acilis` (yoğunluk 1), `iddia` (0.55), `ocaktan` (0.4), `ikram` (0.7). Kesin ölçüler oradadır; belirsiz kalan her nokta için `Ana Sayfa Alternatif.dc.html` açılır.
 
@@ -1923,7 +1923,7 @@ git commit -m "feat: build the home page hero through the treats section"
 
 **Interfaces:**
 - Consumes: Task 8 (`CanliSaat`, `VardiyaSeridi`, `SaatTablosu`), Task 9
-- Produces: `<OkluBaglanti href={string}>` — metin + kısa çizgi, hover'da `gap` açılır
+- Produces: `<OkluBaglanti href={string}>`: metin + kısa çizgi, hover'da `gap` açılır
 
 **Kaynak:** `docs/tasarim/ana-sayfa.json` bölümleri `gece` (yoğunluk 1.25), `bozo` (0.45), `konum` (0.3), `paket`, `footer`.
 
@@ -2206,7 +2206,7 @@ Expected: Üçü de hatasız. Build çıktısında 10 sayfa rotası (5 TR + 5 EN
 - [ ] **Step 2: Yasak kalıp taraması**
 
 ```bash
-grep -rn '—' content/ components/ && echo "HATA: em dash bulundu" || echo "temiz: em dash yok"
+grep -rn ':' content/ components/ && echo "HATA: em dash bulundu" || echo "temiz: em dash yok"
 grep -rniE 'eşsiz lezzet|efsane|leziz|7/24|non-stop|şef önerisi|dünyaca ünlü' content/ && echo "HATA: yasaklı ifade" || echo "temiz: yasaklı ifade yok"
 grep -rn 'müşteri\|mangal\|ızgara\|bedava\|ücretsiz' content/ && echo "UYARI: terminoloji kilidi ihlali olabilir" || echo "temiz: terminoloji"
 ```
@@ -2231,7 +2231,7 @@ Karşılaştırma: `npm run dev`, tarayıcıyı 1440px ve 390px genişliğe ayar
 - 390px genişlikte her dokunma hedefini ölç: en az 44px
 - `prefers-reduced-motion` açıkken sayfayı gez: hiçbir animasyon çalışmaz, sayaçlar doğrudan hedef değeri gösterir
 - Ekran okuyucuda kor sahnesi, duman ve tane dizilimleri okunmaz (`aria-hidden`)
-- Renk kontrastı: krem üstü kömür 14.94:1, tangerine üstü kömür 9.27:1, pumpkin üstü kömür 5.29:1 — hepsi AA üstü
+- Renk kontrastı: krem üstü kömür 14.94:1, tangerine üstü kömür 9.27:1, pumpkin üstü kömür 5.29:1: hepsi AA üstü
 
 - [ ] **Step 6: Statik sunum provası**
 
