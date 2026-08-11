@@ -1,0 +1,46 @@
+/*
+ * Ana Sayfa Alternatif.dc.html data-gece-serit: padding:8px clamp(24px,5vw,64px);
+ * background:rgba(183,53,28,.2); gap:10px; nokta 7px, metin 12.5px.
+ * 780px altı ölçüler Mobil Prototip.dc.html data-gece-serit'ten: padding:7px 18px,
+ * gap:8px, nokta 6px, metin 11.5px (bkz. task-6-report.md, kabuk genişliği kararı).
+ */
+.serit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px var(--sayfa-yatay);
+  background: rgba(183, 53, 28, 0.2);
+}
+
+.nokta {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tangerine);
+  box-shadow: 0 0 10px rgba(250, 170, 31, 0.9);
+  animation: dotPulse 2.4s ease-in-out infinite;
+  flex: none;
+}
+
+.metin {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1;
+  color: var(--tangerine);
+}
+
+@media (max-width: 780px) {
+  .serit {
+    padding: 7px 18px;
+    gap: 8px;
+  }
+  .nokta {
+    width: 6px;
+    height: 6px;
+    box-shadow: 0 0 9px rgba(250, 170, 31, 0.9);
+  }
+  .metin {
+    font-size: 11.5px;
+  }
+}

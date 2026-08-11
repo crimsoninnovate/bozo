@@ -1,0 +1,59 @@
+/* Mobil Prototip.dc.html [alt-eylem-bari]: 780px üstünde görünmez, yalnız mobilde kullanılır. */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  padding: 10px 12px 16px;
+  background: linear-gradient(to top, rgba(10, 8, 7, 0.98), rgba(10, 8, 7, 0.86));
+  border-top: 1px solid rgba(242, 233, 220, 0.14);
+  display: none;
+  gap: 8px;
+}
+
+.hedef {
+  flex: 1;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--krem);
+}
+
+.birincil {
+  background: var(--kor);
+  box-shadow: 0 8px 22px rgba(183, 53, 28, 0.4);
+  transition: background var(--gecis-hizli);
+}
+
+.birincil:hover {
+  background: var(--kor-hover);
+}
+
+.ikincil {
+  border: 1px solid rgba(242, 233, 220, 0.32);
+  transition: border-color var(--gecis-hizli);
+}
+
+.ikincil:hover {
+  border-color: var(--tangerine-85);
+}
+
+.pasif {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (max-width: 780px) {
+  .bar {
+    display: flex;
+  }
+}

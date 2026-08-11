@@ -1,0 +1,61 @@
+/*
+ * Ana Sayfa Alternatif.dc.html "bead-rail": buyuk 14px radius 2px, kucuk 9px radius 1px,
+ * baglayici 2x20px rgba(242,233,220,.16), uc/alt gradyan 2x24px. Aktif renk/glow
+ * task-6-brief.md ile çelişiyordu (12px vs 16px box-shadow); tasarımın kendi
+ * cerceve() fonksiyonundan doğrulandı (16px), bkz. task-6-report.md.
+ */
+.ray {
+  position: fixed;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ustCizgi {
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(to bottom, transparent, rgba(242, 233, 220, 0.28));
+}
+
+.altCizgi {
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(to top, transparent, rgba(242, 233, 220, 0.28));
+}
+
+.baglayici {
+  width: 2px;
+  height: 20px;
+  background: rgba(242, 233, 220, 0.16);
+}
+
+.bead {
+  flex: none;
+  padding: 0;
+  border: none;
+  background: rgba(242, 233, 220, 0.26);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.buyuk {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.kucuk {
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+}
+
+.aktif {
+  background: var(--kor);
+  transform: scale(1.5);
+  box-shadow: 0 0 16px rgba(183, 53, 28, 0.9);
+}

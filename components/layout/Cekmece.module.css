@@ -1,0 +1,122 @@
+/*
+ * Mobil Prototip.dc.html [data-cekmece]. Zemin rgba(8,6,5,.96) tasarımda 8 haneli
+ * palette dışı (yalnızca #0A0807 zemin onaylı); yakın-yanlış olarak değerlendirildi,
+ * --zemin'in rgb'si aynı alfayla kullanıldı, bkz. task-6-report.md.
+ * Durum noktası tasarımda hep yanık kalıyordu (data-nokta yok); tasarımın kendi
+ * notu bunu tutarsızlık işaretliyor, kapalıyken söner (DurumCipi ile aynı davranış).
+ */
+.kap {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(10, 8, 7, 0.96);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  padding: 70px 24px 24px;
+}
+
+.kapat {
+  position: absolute;
+  right: 22px;
+  top: 26px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.kapat span {
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background: var(--krem);
+}
+
+.kapat span:first-child {
+  transform: rotate(45deg);
+}
+
+.kapat span:last-child {
+  transform: rotate(-45deg);
+}
+
+.linkler {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.link {
+  font-family: var(--font-baslik);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  color: var(--krem);
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(242, 233, 220, 0.12);
+}
+
+.link:last-child {
+  border-bottom: none;
+}
+
+.durumBlogu {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.durumSatiri {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.nokta {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.acikNokta {
+  background: var(--tangerine);
+  box-shadow: 0 0 12px rgba(250, 170, 31, 0.9);
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+.kapaliNokta {
+  background: rgba(242, 233, 220, 0.35);
+}
+
+.acikMetin,
+.kapaliMetin {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.acikMetin {
+  color: var(--tangerine);
+}
+
+.kapaliMetin {
+  color: var(--krem-78);
+}
+
+.notMetin {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-62);
+}

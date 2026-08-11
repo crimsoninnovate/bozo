@@ -1,0 +1,169 @@
+/*
+ * Ana Sayfa Alternatif.dc.html: yükseklik 80px, gap:30px, zemin
+ * linear-gradient(to bottom,rgba(10,8,7,.9),rgba(10,8,7,0)), transition:background .3s ease-out.
+ * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
+ * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
+ * 780px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
+ */
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+}
+
+.anaVaryant {
+  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.9), rgba(10, 8, 7, 0));
+  transition: background 0.3s ease-out;
+}
+
+.icVaryant {
+  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), rgba(10, 8, 7, 0.55));
+}
+
+.satir {
+  padding: 0 var(--sayfa-yatay);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.anaVaryant .satir {
+  height: 80px;
+}
+
+.icVaryant .satir {
+  height: 78px;
+}
+
+.marka {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-decoration: none;
+  color: var(--krem);
+}
+
+.markaAd {
+  font-family: var(--font-baslik);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--krem);
+}
+
+.sagGrup {
+  display: flex;
+  align-items: center;
+}
+
+.anaVaryant .sagGrup {
+  gap: 30px;
+}
+
+.icVaryant .sagGrup {
+  gap: 28px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+}
+
+.anaVaryant .navLinks {
+  gap: 30px;
+}
+
+.icVaryant .navLinks {
+  gap: 28px;
+}
+
+/* Wrapper geçirimsiz kalır: "Gece" bağlantısı varsa aynı flex satırında yan yana durur. */
+.navOgesi {
+  display: contents;
+}
+
+.link {
+  font-family: var(--font-govde);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--krem-86);
+  text-decoration: none;
+  transition: color var(--gecis-hizli);
+}
+
+.link:hover {
+  color: var(--tangerine);
+}
+
+.aktifLink {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--tangerine);
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--tangerine);
+}
+
+.ctaSarici {
+  display: inline-flex;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 20px;
+  height: 2px;
+  background: var(--krem);
+}
+
+@media (max-width: 780px) {
+  .anaVaryant,
+  .icVaryant {
+    background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), rgba(10, 8, 7, 0.6));
+    backdrop-filter: blur(10px);
+  }
+
+  .anaVaryant .satir,
+  .icVaryant .satir {
+    height: 58px;
+    padding: 0 18px;
+  }
+
+  .markaAd {
+    font-size: 17px;
+    letter-spacing: -0.04em;
+  }
+
+  .navLinks,
+  .ctaSarici {
+    display: none;
+  }
+
+  .sagGrup {
+    gap: 14px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}

@@ -28,6 +28,11 @@ export function Bolum({ id, yogunluk, className, children }: Props) {
     if (!eleman) return
 
     if (hareketAzaltilmisMi()) {
+      // Erit; salt bir kararma değil, kaydırmaya bağlı bir kayma (translateY)
+      // taşıyor, tam da prefers-reduced-motion'ın hedeflediği tür hareket.
+      // KorSahnesi'nin aksine burada opaklık ile dönüşüm ayrılmaz, ikisi de
+      // tek bir "içeri süzülme" hareketinin parçası: hareket azaltılmışsa
+      // hesap hiç kurulmaz, blok doğrudan son haliyle görünür.
       eleman.style.opacity = '1'
       eleman.style.transform = 'none'
       return

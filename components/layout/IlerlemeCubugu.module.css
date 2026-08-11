@@ -1,0 +1,12 @@
+/* Ana Sayfa Alternatif.dc.html, data-ust-bar satır 1: ray 2px, dolum linear-gradient kor->tangerine */
+.ray {
+  height: 2px;
+  background: var(--cizgi-hayalet);
+}
+
+.dolum {
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, var(--kor), var(--tangerine));
+  transition: width 0.12s linear;
+}

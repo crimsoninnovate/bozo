@@ -14,6 +14,9 @@ export function ImlecKoru() {
   const isikRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
+    // İmleç paralaksı ekranda uçuşan, imlecin her kıpırdayışında konum
+    // değiştiren tam bir hareket örneği: prefers-reduced-motion'ın hedeflediği
+    // budur. Hareket azaltılmışsa dinleyici hiç bağlanmaz, ışık sabit kalır.
     if (hareketAzaltilmisMi()) return
     const isik = isikRef.current
     if (!isik) return

@@ -1,0 +1,180 @@
+/* Ana Sayfa Alternatif.dc.html, data-screen-label="Footer": dört kolon + telif şeridi. */
+.altbilgi {
+  padding: 64px var(--sayfa-yatay) 32px;
+  background: var(--panel-koyu);
+  border-top: 1px solid var(--cizgi-soluk);
+}
+
+.kolonlar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 38px 56px;
+}
+
+.kolon {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.kolon:first-child {
+  gap: 14px;
+  max-width: 280px;
+}
+
+.markaUst {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.markaAd {
+  font-family: var(--font-baslik);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--krem);
+}
+
+.tanim {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--krem-66);
+}
+
+/* Tasarımda karşılığı yok, marka gereği: bkz. AltBilgi.tsx yorumu. */
+.isimNotu {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--krem-58);
+}
+
+.baslik {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--krem);
+}
+
+.adresSatiri {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--krem-70);
+}
+
+.adresSatiri svg {
+  flex: none;
+  margin-top: 3px;
+}
+
+.adresMetin {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.yolTarifi {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  text-decoration: none;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--tangerine);
+  transition: gap 0.18s ease-out;
+}
+
+.yolTarifi:hover {
+  gap: 16px;
+}
+
+.yolTarifiCizgi {
+  width: 22px;
+  height: 1px;
+  background: var(--tangerine);
+}
+
+.satirTabular {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-70);
+}
+
+.satir {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--krem-70);
+}
+
+.iletisimSatiri {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--krem-70);
+  transition: color var(--gecis-hizli);
+}
+
+.iletisimSatiri svg {
+  flex: none;
+}
+
+a.iletisimSatiri:hover {
+  color: var(--tangerine);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.pasif {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
+.telifSeridi {
+  margin-top: 46px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(242, 233, 220, 0.09);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.telifMetin {
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1;
+  color: var(--krem-50);
+}
+
+.telifRayi {
+  display: inline-flex;
+  opacity: 0.45;
+}
