@@ -20,12 +20,20 @@ import { rafKisitla } from './hareket'
  *   ve `resize` dinleyicileri sökülür; bir sonraki ilk abonede yeniden
  *   kurulur. Abone sayısından bağımsız olarak uygulama genelinde her an
  *   en fazla bir `scroll` ve bir `resize` dinleyicisi vardır.
- * - Bu döngü `prefers-reduced-motion` durumunda da çalışmaya devam eder:
- *   tasarımın kendi `cerceve()` gövdesinde `azalt` bayrağı yalnız erime
- *   (`data-erit`) hesabını sarar, yoğunluk ve boncuk hesabı bunun
- *   dışındadır ("Bead aktifligi ... azalt durumunda da calisir"). Kararma
- *   zaten global `prefers-reduced-motion` kuralıyla geçişsiz uygulanır;
- *   erime hesabına özgü atlama aboneleri (ör. `Bolum`) kendi içinde yapar.
+ * - Bu döngü `prefers-reduced-motion` durumunda da çalışmaya devam eder ve
+ *   HİÇBİR yerde kendi başına `hareketAzaltilmisMi()` kontrolü yapmaz.
+ *   Tasarımın kendi `cerceve()` gövdesinde `azalt` bayrağı yalnız erime
+ *   (`data-erit`) hesabını sarar; yoğunluk ve boncuk hesabı bunun dışındadır
+ *   ("Bead aktifligi ... azalt durumunda da calisir"). Ama tasarımı olduğu
+ *   gibi kopyalamayın: prefers-reduced-motion "hiç görsel değişiklik olmasın"
+ *   demek değildir, kaydırmaya bağlı kayma/ölçek/paralaks gibi baş dönmesi
+ *   yapabilecek hareketleri hedefler; bir kararma (opacity) bunun dışındadır.
+ *   Global geçişler zaten kapalı olduğundan, izlemeye devam eden bir `scale`
+ *   yazımı her karede ANİDEN zıplar; bu, hiç izlememekten daha kötüdür. Bu
+ *   yüzden her abone, kendi yazdığı değerlerden hangisinin "kararma" hangisinin
+ *   "hareket" olduğuna kendi karar verir ve yalnız hareket olanı bastırır
+ *   (bkz. `KorSahnesi`: opaklık izler, `scale` hareket azaltılmışsa nötr
+ *   yoğunlukta sabitlenir; `Bolum`: kayma içerdiğinden hesap tamamen kapanır).
  *
  * Kullanım:
  * ```ts
