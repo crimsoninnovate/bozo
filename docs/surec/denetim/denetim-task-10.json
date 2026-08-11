@@ -1,0 +1,170 @@
+{
+  "gorev": "Task 10: Ana sayfa ikinci yarı (gece, bozo, konum, paket şeridi, footer + OkluBaglanti, BeadRay bağlantısı) brief'inin tasarım kaynağına karşı denetimi",
+  "sapmalar": [
+    {
+      "nerede": "Step 3, Konum bölümü buton şeridi",
+      "briefDiyorKi": "`Buton` çifti (yol tarifi birincil, telefon ikincil)",
+      "tasarimDiyorKi": "Üç buton var: birincil 'Yol tarifi al' (background:#B7351C; padding:18px 30px; box-shadow:0 10px 30px rgba(183,53,28,.34)), outline '000 000 00 00' (border:1px solid rgba(242,233,220,.36); padding:17px 29px; tabular-nums) ve outline 'WhatsApp' (aynı stil, padding:17px 29px). Şerit `display:flex;flex-wrap:wrap;gap:12px;margin-top:auto`.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 317-320",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, HaritaPlakasi içeriği",
+      "briefDiyorKi": "CSS ile çizilmiş koyu tema levha + nabızlı pin + POI çipleri",
+      "tasarimDiyorKi": "POI çipi YOK. Katmanlar: 50px ızgara (repeating-linear-gradient 0deg/90deg, rgba(242,233,220,.05) 0 1px), yatay yol (top:56%;height:14px;rgba(242,233,220,.08)), dikey yol (left:44%;width:9px;rgba(242,233,220,.06)), 80px halka (border:1px solid rgba(183,53,28,.5)), 16px nabızlı nokta (#B7351C; box-shadow:0 0 0 6px rgba(183,53,28,.22),0 0 30px rgba(183,53,28,.85); dotPulse 2.6s) ve üç düz konumlu metin: 'Ciğerci Bozo' (500 12.5px rgba(242,233,220,.82), left:46%;top:53%;margin:26px 0 0 14px), 'Naci Talat Caddesi' (400 11.5px rgba(242,233,220,.62), left:8%;top:59%), 'harita · koyu tema, tek işaret' (500 12.5px/1.5 rgba(242,233,220,.68), left:24px;bottom:22px). Hiçbirinde kutu/kenarlık yok.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 323-331",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 4, Paket şeridi buton şeridi",
+      "briefDiyorKi": "`Buton tur=\"koyu\"` ve `Buton tur=\"koyuOutline\"`",
+      "tasarimDiyorKi": "Üç buton var: koyu dolu 'Paket sipariş' (background:#1A1614; padding:18px 30px), koyu outline WhatsApp (15x15 SVG + metin, gap:9px, padding:17px 26px) ve koyu outline '000 000 00 00' (padding:17px 29px, tabular-nums). Yani iki ayrı koyuOutline örneği, biri ikonlu ve farklı padding'li.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 344-347; ayrıca screenshots/05-ana-sayfa.jpg",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 4, PaketSeridi tane dizilimi",
+      "briefDiyorKi": "`TaneDizilimi boy={12} bosluk={7}`",
+      "tasarimDiyorKi": "Büyük kare 12px, küçük kare 7px, aradaki boşluk `gap:8px`. `bosluk` prop'u boşluk demek (TaneDizilimi.tsx: `style={{ gap: `${bosluk}px` }}`), 7 değeri küçük karenin kenarı; doğru değer `bosluk={8}`.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 338-339; components/ui/TaneDizilimi.tsx satır 15",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 4, PaketSeridi tane dizilimi (koyu varyant)",
+      "briefDiyorKi": "`TaneDizilimi boy={12} bosluk={7}` koyu varyant",
+      "tasarimDiyorKi": "Mevcut TaneDizilimi'nde ton prop'u yok; renkler CSS'te sabit (`.dolu{background:var(--krem)}`, `.dolu.kucuk{background:var(--tangerine)}`). Tasarım paket bandında #1A1614 + rgba(26,22,20,.55) istiyor. Ayrıca bileşen küçük kareyi `Math.round(boy*0.625)` ile üretiyor: boy=12 → 8px, tasarımdaki 7px çıkmıyor. Brief bir arayüz değişikliği tanımlamadan 'koyu varyant' diyor.",
+      "kaynak": "components/ui/TaneDizilimi.module.css; components/ui/TaneDizilimi.tsx satır 3,19; Ana Sayfa Alternatif.dc.html satır 339",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 4, PaketSeridi metin rengi",
+      "briefDiyorKi": "metin `var(--komur)`",
+      "tasarimDiyorKi": "Başlık color:#1A1614 (=komur), paragraf color:rgba(26,22,20,.9); butonlarda ise dolu butonun metni #F2E9DC, outline butonların metni #1A1614.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 341-347",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 5 / Step 1, OkluBaglanti arayüzü",
+      "briefDiyorKi": "Produces: `<OkluBaglanti href={string}>`: metin + kısa çizgi, hover'da `gap` açılır",
+      "tasarimDiyorKi": "Üç ayrı kullanım var ve hepsi href almıyor. (a) bozo: `<a href=\"Hikaye Sayfasi\">` gap:10px → hover 18px, metin 600 15px #FAAA1F, çizgi 24x1px #FAAA1F. (b) footer 'Yol tarifi al': href YOK, `data-git=\"konum\"` ile bölüme kaydıran tetikleyici; gap:9px → hover 16px, metin 600 14px, çizgi 22x1px. (c) hero kaydırma ipucu: 15x15 kare + 52x1px çizgi, gap:12px → 22px. Zorunlu `href: string` prop'u (b) ve (c)'yi ifade edemez; ölçüler de değişken.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 278-281 ve 363-366; docs/tasarim/ana-sayfa.json paylasilanBilesenler > OkluMetinBaglantisi",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, Konum sol paneli",
+      "briefDiyorKi": "`CamPanel opaklik={0.74}`",
+      "tasarimDiyorKi": "Zemin doğru (rgba(10,8,7,.74)) ama panel iç boşluğu `clamp(28px,3vw,44px)`. Mevcut CamPanel her zaman `--kart-ic` = clamp(28px,3vw,48px) kullanıyor; 44px değeri bileşenle ifade edilemiyor ve brief bundan söz etmiyor.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 298; styles/tokens.css satır 78; components/ui/CamPanel.module.css",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 2, Bozo metin bloğu",
+      "briefDiyorKi": "başlık, hazır metin bloğu",
+      "tasarimDiyorKi": "Tasarım hazır metni ikiye bölüp son cümleyi atıyor: H2 'Bozo bir marka ismi değil, bir insan' (sonunda 'dır' yok), paragraf 'Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Bu mekana kendi lakabından başka isim düşünmedi; çünkü ocağın başında da, kapıda da, sofranızın yanında da o var.' Envanterdeki hazır blokta bulunan 'Bozo'yu sorarsanız gösterecekleri kişi bellidir.' cümlesi ana sayfada YOK. Hazır blok olduğu gibi basılırsa başlık tekrar eder ve fazladan cümle gelir.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 276-277; docs/tasarim/metin-envanteri.json hazirMetinler ('Bozo kimdir bloğu')",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 1, Gece bölümü 'ocak 05:00'te söner' satırı",
+      "briefDiyorKi": "`VardiyaSeridi`, ve \"ocak 05:00'te söner\" satırı (ayrı bir satır olarak)",
+      "tasarimDiyorKi": "Bu ifade ayrı satır değil, vardiya çiplerinin bulunduğu aynı `flex-wrap;gap:10px` şeridinin yedinci öğesi: `padding-left:6px` + 26x1px rgba(242,233,220,.3) çizgi + metin 400 13px/1 rgba(242,233,220,.62). Çiplerle birlikte sarar.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 254, 261-264",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 1, Gece başlığı",
+      "briefDiyorKi": "duygusal başlık (\"Girne uyurken ocak yanıyor.\")",
+      "tasarimDiyorKi": "Metin nokta olmadan: 'Girne uyurken ocak yanıyor'",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 252",
+      "onem": "kucuk"
+    },
+    {
+      "nerede": "Step 1, hayalet saat",
+      "briefDiyorKi": "`CanliSaat boy=\"hayalet\"` (`opacity:.055`)",
+      "tasarimDiyorKi": "Şeffaflık opacity ile değil renk alfası ile veriliyor: `color:rgba(242,233,220,.055)`; eleman tam opak.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 246",
+      "onem": "kucuk"
+    }
+  ],
+  "eksikler": [
+    {
+      "ne": "Footer bölümü brief'te hiç geçmiyor. Görev kapsamı ve 'Kaynak' satırı footer'ı içeriyor ama Files listesinde footer dosyası yok, adımlarda footer yok ve Step 5'te AnaSayfa'ya `AltBilgi` bağlanmıyor. AltBilgi Task 6'da üretiliyor fakat plandaki hiçbir görev onu bir sayfaya monte etmiyor; Task 10 ana sayfanın son görevi olduğu için footer hiç render edilmemiş kalıyor.",
+      "nerede": "Brief geneli / Step 5",
+      "kaynak": "task-10-brief.md satır 3-12, 30-32; task-6-brief.md satır 8, 25, 138; grep: plan içinde AltBilgi'yi mount eden başka görev yok",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Gece bölümündeki ön plandaki saat satırı tamamen atlanmış: `data-saat-tam` (700 clamp(28px,3.4vw,44px)/1 Bricolage, tabular-nums, letter-spacing:-.02em, color:#FAAA1F) + width:clamp(30px,5vw,70px) 1px rgba(242,233,220,.34) çizgi + 'Ocak hala yanıyor' (400 16.5px/1 Inter, rgba(242,233,220,.76)). Brief yalnız arka plandaki hayalet saati anıyor.",
+      "nerede": "Step 1, Gece",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 247-251",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Gece paragrafı atlanmış: 'Vardiyadan çıkana da, geç kalana da aynı tane.' — 400 clamp(17px,1.5vw,21px)/1.6 Inter, rgba(242,233,220,.8), max-width:640px. Başlık ile vardiya şeridi arasında durur.",
+      "nerede": "Step 1, Gece",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 253",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Gece bölümünün ölçüleri verilmemiş: sarmalayıcı `max-width:1100px` (diğer bölümlerin 1180'inden farklı), `flex-direction:column;gap:30px`; hayalet saat `position:absolute;z-index:-1;right:-2%;top:-16%; font:800 clamp(120px,22vw,320px)/1; letter-spacing:-.04em; pointer-events:none;user-select:none`; bölüm `min-height:100vh; padding:120px clamp(24px,5vw,64px)`.",
+      "nerede": "Step 1, Gece",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 244-246",
+      "onem": "deger"
+    },
+    {
+      "ne": "Konum bölümünün H2 başlığı brief'te yok: 'Naci Talat Caddesi, Girne' — 700 clamp(30px,3.6vw,48px)/1.14 Bricolage, letter-spacing:-.02em, color:#F2E9DC. Panelin ilk öğesi; pin ikonlu adres onun altında `margin-top:-12px` ile durur.",
+      "nerede": "Step 3, Konum",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 299-300",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Saat tablosunun üçüncü satırı (not metni) brief'te yok: 'Her gün 10:00'dan ertesi sabah 05:00'e kadar. Mekanımız alkolsüzdür.' — padding:15px 12px; 400 14.5px/1.6 Inter; rgba(242,233,220,.66). Ayrıca 'Bugün' satırının zemini rgba(250,170,31,.07), alt çizgisi rgba(242,233,220,.12); ikinci satırın alt çizgisi rgba(242,233,220,.1). Task 8'de yazılmış SaatTablosu yalnız iki satır basıyor, not satırı yok.",
+      "nerede": "Step 3, Konum > SaatTablosu",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 301-311; components/saat/SaatTablosu.tsx satır 19-30",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "'Komşuluk çipleri' için değer ve varyant verilmemiş, mevcut `Cip` bileşeninde karşılığı da yok. Tasarım: padding:9px 14px; border:1px solid rgba(242,233,220,.14); font:500 13px/1 Inter; color:rgba(242,233,220,.7); üçüncü çipte tabular-nums. Metinler 'Soli Bet Casino, yanımızda', 'Hitit Bet, yanımızda', 'Girne Macro Market, 80 m'. Cip.module.css'teki outline (5px 10px, 11.5px, tangerine kenarlık) ve dolu varyantları bu değerleri karşılamıyor.",
+      "nerede": "Step 3, Konum",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 312-315; components/ui/Cip.module.css",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Konum bölümünün kolon düzeni verilmemiş: sarmalayıcı `flex-wrap; gap:clamp(28px,3vw,56px); align-items:stretch` (stretch, harita levhasının panel boyuna uzamasını sağlar), sol panel `flex:1 1 460px; min-width:0; flex-direction:column; gap:26px`, buton şeridi `margin-top:auto`, harita `flex:1 1 380px; min-width:280px; max-width:560px; min-height:420px; border:1px solid rgba(242,233,220,.16); background:rgba(10,8,7,.55)`.",
+      "nerede": "Step 3, Konum",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 297-298, 317, 323",
+      "onem": "deger"
+    },
+    {
+      "ne": "Bozo bölümünün düzen ve ölçüleri verilmemiş: sarmalayıcı `flex-wrap; gap:clamp(28px,3vw,56px); align-items:center`, sol panel `flex:1 1 460px; min-width:0; flex-direction:column; gap:24px`, kicker karesi 11x11px `border-radius:1px` `background:#FAAA1F` ve satır `gap:12px` (metin 500 14.5px/1 rgba(242,233,220,.72)), paragraf `400 clamp(16px,1.35vw,19px)/1.7; max-width:560px`.",
+      "nerede": "Step 2, Bozo",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 270-277",
+      "onem": "deger"
+    },
+    {
+      "ne": "Paket şeridi ve footer'ın `<section>` olmadığı söylenmiyor: ikisi de id'siz, `data-yogunluk`suz, `data-erit`siz düz `<div>`; erime/yükselme animasyonuna ve bead rayına girmezler. Mevcut `Bolum` sarmalayıcısı her zaman `<section>` + erit katmanı ürettiği için PaketSeridi'nde kullanılmamalı. Brief ayrıca PaketSeridi'nin AnaSayfa içindeki yerini (konum bölümünden sonra, footer'dan önce) hiç söylemiyor.",
+      "nerede": "Step 4 ve Step 5",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 336 ve 351; components/ui/Bolum.tsx satır 48-54",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Paket şeridinin paragrafı ve kap ölçüleri yok: metin 'Paket kutuda gelir, sıcaklığını yolda korur. Ciğer soğumadan yenir; kutu ilk açıldığında hala kor sıcaklığındadır.' (400 clamp(15px,1.3vw,17px)/1.6); kap `padding:clamp(40px,6vh,64px) clamp(24px,5vw,64px); justify-content:space-between; gap:24px 40px`; sol kolon `flex-direction:column; gap:12px; max-width:620px`; başlık 700 clamp(28px,3vw,40px)/1.16, letter-spacing:-.02em.",
+      "nerede": "Step 4, PaketSeridi",
+      "kaynak": "Ana Sayfa Alternatif.dc.html satır 336-342",
+      "onem": "deger"
+    },
+    {
+      "ne": "Step 3 ayrı bir `HaritaPlakasi` bileşeni istiyor ama bu dosya Files listesinde yok ve Step 7'deki `git add components/sayfa/ana/ components/ui/OkluBaglanti.tsx` komutu onu kapsamıyor; components/ui altına konursa commit dışında kalır.",
+      "nerede": "Files listesi / Step 7",
+      "kaynak": "task-10-brief.md satır 3-6, 42",
+      "onem": "kucuk"
+    },
+    {
+      "ne": "Brief'teki `<FotoYuvasi id=\"ustanin-eli\" bicim=\"portre\" koseIsaretleri={4}>` çağrısı zorunlu `dil` prop'unu taşımıyor; mevcut bileşen imzası `{ id, dil, bicim, etiketYeri?, koseIsaretleri? }` ve etiket dile göre seçiliyor. Ayrıca `koseIsaretleri={4}` portre biçiminde zaten varsayılan.",
+      "nerede": "Step 2, Bozo",
+      "kaynak": "components/ui/FotoYuvasi.tsx satır 6-21",
+      "onem": "kucuk"
+    }
+  ],
+  "ozet": "Brief'e güvenilmez: konum ve paket bölümlerinde buton sayısı yanlış (ikişer yerine üçer), haritaya tasarımda olmayan 'POI çipleri' uyduruluyor, gece bölümünün saat satırı ile paragrafı hiç yok ve görev kapsamındaki footer baştan sona atlanmış; en büyük risk, planda footer'ı (AltBilgi) sayfaya bağlayan hiçbir adımın bulunmaması."
+}

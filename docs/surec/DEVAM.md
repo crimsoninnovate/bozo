@@ -1,0 +1,97 @@
+# Devam noktası
+
+Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
+noktasıdır. Önce bunu oku, sonra buradan dallan.
+
+Son güncelleme: 11 Ağustos 2026, 23:37
+
+## Proje bir cümlede
+
+Girne'de (KKTC) açılacak Urfa usulü ciğerci Ciğerci Bozo'nun web sitesi. Bitmiş bir
+Claude Design çalışmasının Next.js 16'ya statik export olarak taşınması. Repo:
+`~/Desktop/Bozo/Web`, branch `feat/site-kurulumu`, kendi git reposu.
+
+## Nerede duruyoruz
+
+**Kapanan (inceleme temiz):** 1 iskele ve tokenlar, 2 gün aşan saat çekirdeği,
+3 içerik katmanı (+4 ek tur), 4 temel UI bileşenleri, 5 kor sahnesi ve hareket,
+7 rotalar ve yapısal veri, 8 canlı saat bileşenleri.
+
+**Açık, düzeltme turunda:**
+- **Task 6** kabuk bileşenleri, düzeltme turu 3. Açık madde: footer'daki dokunma
+  hedefi katmanları 16px çakışıyor (satır ~15px + gap 13px = 28px adım, iki 44px
+  katman 28px arayla). Katmanlar 28px'e kısılacak, kalan 44px açığı sahibe
+  bildirilecek.
+- **Task 17** paylaşılan primitifler, düzeltme turu 3. Açık madde: `FotoYuvasi`
+  `bicim` başına tek kor animasyon zamanlaması yazıyor, tasarım altı plakayı tek tek
+  kaydırıyor (kart: 10s/.6s, 11s/1.2s, 9.5s/1.8s, 12s/2.4s; ikram: 11s, 12s/1.5s).
+
+**Bekleyen:** 9 ve 10 ana sayfa, 11 menü, 12 hikaye, 13 konum, 14 404 ve gizlilik,
+15 parite ve yayın doğrulaması, 16 tasarım ve hareket denetimi.
+
+Sayfa görevleri (9-13) **teker teker** çalışır, paralel değil: hepsi tarayıcı ölçümü
+gerektiriyor ve paylaşılan sekme çekişmesi ölçümleri kaydırıyor.
+
+## Okuma sırası
+
+1. `docs/specs/2026-08-11-web-mimarisi.md`: onaylı mimari kararlar ve gerekçeleri
+2. `docs/surec/KISITLAR.md`: bağlayıcı kısıtlar, iki katmanlı (sert / varsayılan)
+3. `docs/surec/SAYFA-GOREVI-CERCEVESI.md`: sayfa görevlerinin ortak zemini
+4. `docs/surec/IYILESTIRMELER.md`: tasarımdan her sapma, gerekçesiyle
+5. `docs/surec/denetim/denetim-task-N.json`: her sayfa görevinin brief'inin nerede
+   yanlış olduğu, kaynak göstererek
+6. `docs/plans/2026-08-11-web-uygulama-plani.md`: uygulama planı. **Dikkat:** bu
+   planın sayfa bölümleri güvenilmez, aşağıya bak
+7. `.superpowers/sdd/2026-08-11-web-uygulama-plani/progress.md`: ayrıntılı ledger,
+   her görevin commit aralığı, her karar ve gerekçesi. Gitignore'lu, yalnız diskte
+
+## En önemli iki kural
+
+**1. Plan dosyasının sayfa bölümleri spec değildir.** Beş sayfa görevinin brief'i
+gönderim öncesi tasarıma karşı denetlendi ve 138 hata çıktı, 64'ü yapısal. Sayfaların
+spec'i `design_handoff_bozo_website/*.dc.html` dosyası artı `docs/surec/denetim/`
+altındaki denetim bulgularıdır. Plan yazarının paraphrase'i negatif değer üretti.
+
+**2. Bileşen imzalarını diskten oku.** Hiçbir belgeden değil. Paylaşılan primitifler
+denetim bulgularına göre yeniden şekillendirildi; her yazılı özet bayat olabilir.
+
+## Yaptığımız hatalardan çıkan kurallar
+
+- Paylaşılan ağaçta **asla `git add -A`**. Bir kez ihlal edildi, iki görevin yarım
+  işi alakasız bir commit'e karıştı (`615383b`, adı docs ama içinde 1382 satır kod).
+- Paylaşılan bir API'yi değiştiren, **çağrı yerlerini de taşır.** Tüketicileri bozuk
+  bırakmak yarım iştir.
+- Tasarımda açıklanamayan çeşitlilik varsa **çoğunluğa normalize et**; çeşitlilik
+  kasıtlı bir adım olabilirse **ikisini de koru ve adlandır**. Test: farkın gerekçesini
+  söyleyebiliyor musun? Asimetrik maliyet: iki varyantı sonra birleştirmek ucuz,
+  silineni geri getirmek değil.
+- **Çakışan dokunma hedefi, kısa olandan kötüdür.** Kısa hedef görünür biçimde
+  başarısız olur; yanlış hedef başarılı olur ama yanlış şeyi yapar.
+- **Bir özelliği JS ile yazmaya başlamak, o özelliğin CSS'ini geriye dönük olarak yük
+  taşıyan hale getirir.**
+- **Kanıtın kendisi de denetlenmeli.** Kullanım matrisi `bicim` başına örnekliyordu,
+  örnek başına değil; bu yüzden örnek başına sadakati kanıtlayamıyordu.
+- Kısıt listesi tasarımla çeliştiğinde **liste eksiktir**, tasarım yanlış değil. İki
+  kez oldu: `#0C0A09` plaka zemini ve `#7A1F2B` Nar aksanı.
+
+## İşletmeden bekleyen veriler
+
+Fiyatlar, telefon, WhatsApp, Instagram, e-posta, harita koordinatı, dalak ve yürek
+porsiyon detayları, gece menüsü kalemleri, içecek listesinin tamamı, fotoğraflar
+(16 kare), onaylı logo, alan adı. Hepsi `content/` altında `null` ve tek noktadan
+doldurulacak biçimde duruyor. Uydurulmuş bir değer yayına çıkmaz.
+
+## Sahibinin verdiği kararlar
+
+- Alan adı `cigercibozo.com` varsayılır (`lib/site.ts`, `SITE_URL`)
+- Yapısal veride `addressCountry` = `CY`, görünen adres metni `KKTC` kalır
+- `Usül` yazımı `Usul` olarak düzeltildi
+- `Girne Macro Market, 80 m` mesafe iddiası kaldırıldı, ad kaldı
+- Handoff bir taslak; iyileştirme yapılabilir ama kayıtlı olmak zorunda
+- Tasarım ve hareket denetimi (Task 16) tüm yapı kurulduktan **sonra** çalışır
+
+## Doğrulama komutları
+
+    npm run typecheck
+    npm test              # şu an 51 test
+    npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı

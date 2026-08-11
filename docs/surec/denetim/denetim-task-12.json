@@ -1,0 +1,195 @@
+{
+  "gorev": "Task 12: Hikaye sayfasi brief denetimi (hikaye-acilis, portre, usul, sofra + NotBlogu, EtiketSatiri)",
+  "sapmalar": [
+    {
+      "nerede": "Sofra, ikincil CTA",
+      "briefDiyorKi": "`Buton` çifti (menüyü gör birincil, yol tarifi ikincil)",
+      "tasarimDiyorKi": "İkincil buton `Konum ve saatler` (data-en=\"Location and hours\"), href=Konum Sayfasi. \"Yol tarifi al\" bu sayfada yalnızca üst bar CTA'sıdır (satır 56). content/tr/hikaye.ts zaten `ctaKonum: 'Konum ve saatler'` tutuyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:129 (ve :56); /Users/mk/Desktop/Bozo/Web/content/tr/hikaye.ts sofra.ctaKonum",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Usul, TaneDizilimi konumu",
+      "briefDiyorKi": "Yanında `TaneDizilimi` orta boy.",
+      "tasarimDiyorKi": "Bead rail kartın YANINDA değil, cam kartın İÇİNDE, başlık satırının sağ ucunda: `display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(242,233,220,.14)` satırında \"Usül Urfa'dan\" başlığının karşısında.",
+      "kaynak": "Hikaye Sayfasi.dc.html:92-96; screenshots/02-hikaye.jpg",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Portre, cam kart içeriği",
+      "briefDiyorKi": "`CamPanel opaklik={0.72}` içinde Bozo metni + `NotBlogu` (iki öge)",
+      "tasarimDiyorKi": "Kart üç öge taşır: (1) başlık \"İsim\" `font:700 clamp(28px,3.2vw,44px)/1.12 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC`, (2) gövde, (3) NotBlogu. Brief başlığı hiç saymıyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:83-87 (başlık :84)",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Hikaye Açılış, bölüm içeriği",
+      "briefDiyorKi": "Açılış: `EtiketSatiri` + duygusal başlık (iki öge)",
+      "tasarimDiyorKi": "Üç öge: EtiketSatiri, H1, ve giriş paragrafı `margin-top:26px;font:400 clamp(17px,1.5vw,21px)/1.65 Inter;color:rgba(242,233,220,.8);max-width:680px`. Paragraf brief'te yok ama content/tr/hikaye.ts `acilis.giris` olarak mevcut.",
+      "kaynak": "Hikaye Sayfasi.dc.html:64-69 (paragraf :69)",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Hikaye Açılış ve Sofra başlıkları, tipografi",
+      "briefDiyorKi": "\"duygusal başlık\" (Step 1 ve Step 3) — projede bu ad `--ol-duygusal: clamp(44px, 7vw, 112px)` + `--iz-duygusal: -0.03em` token'ına karşılık geliyor",
+      "tasarimDiyorKi": "Açılış H1: `font:800 clamp(44px,6.6vw,104px)/1.06;letter-spacing:-.025em`. Sofra başlığı: `font:700 clamp(34px,4.6vw,64px)/1.1;letter-spacing:-.025em`. Hiçbiri --ol-duygusal değil; clamp(44px,7vw,112px) yalnızca Ana Sayfa Alternatif.dc.html'de geçiyor, Hikaye'de 0 kez.",
+      "kaynak": "Hikaye Sayfasi.dc.html:68 ve :125; /Users/mk/Desktop/Bozo/Web/styles/tokens.css:67,73",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Hikaye Açılış, metin kaynağı",
+      "briefDiyorKi": "Metin, `metin-envanteri.json` içindeki \"Bozo kimdir\" bloğundan alınır. İki sürüm var (brief ve bilgi dosyası); brief sürümü kullanılır.",
+      "tasarimDiyorKi": "Tasarım o bloğu birebir kullanmıyor. H1 \"Bozo bir marka ismi değil, bir insan\" (envanterdeki \"...bir insandır.\" değil) ve giriş paragrafı bloğun son cümlesini (\"Bozo'yu sorarsanız gösterecekleri kişi bellidir.\") TAŞIMIYOR. Onaylı içerik katmanı zaten tasarım sürümünü tutuyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:68-69; docs/tasarim/metin-envanteri.json hazirMetinler \"Bozo kimdir bloğu\"; content/tr/hikaye.ts acilis",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Usul, metin kaynağı",
+      "briefDiyorKi": "Urfa'dan Girne'ye hikaye metni işletmeden gelmedi; mevcut hazır bloklar (\"Manifesto\", \"Orta versiyon\") kullanılır.",
+      "tasarimDiyorKi": "Usul bölümünün üç satırının tamamı tasarımda yazılı ve content/tr/hikaye.ts'de onaylı. \"Urfa'dan Girne'ye\" cümlesi Usul'de değil, Portre'nin NotBlogu'nda ve zaten bilinçli bir yer tutucu: \"Urfa'dan Girne'ye uzanan hikayenin tamamı, burada kendi ağzından anlatılacak.\" Ne \"Manifesto\" ne \"Orta versiyon\" metni tasarımda ya da içerik katmanında geçiyor; eklenmesi onaylı metni bozar.",
+      "kaynak": "Hikaye Sayfasi.dc.html:86 (not) ve :98-116 (usul satırları); content/tr/hikaye.ts usul",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Portre, FotoYuvasi çağrısı",
+      "briefDiyorKi": "`FotoYuvasi id=\"bozo-portre\"`",
+      "tasarimDiyorKi": "Bileşenin imzası `dil` ve `bicim`'i zorunlu tutuyor; brief'teki çağrı derlenmez. Ayrıca `bicim=\"portre\"` Ana Sayfa ölçülerini veriyor (`flex:1 1 360px;max-width:520px;height:clamp(360px,54vh,560px)`), Hikaye plakası ise `flex:1 1 380px;min-width:280px;max-width:560px;min-height:clamp(380px,52vh,560px)`. `height` yerine `min-height` kritik: bölüm `align-items:stretch` olduğu için plaka yanındaki cam kart daha uzunsa onunla birlikte uzamalı.",
+      "kaynak": "Hikaye Sayfasi.dc.html:72-73; components/ui/FotoYuvasi.tsx:6-12; components/ui/FotoYuvasi.module.css .portre",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Usul, Cip bileşeni",
+      "briefDiyorKi": "Bazı satırlar metin, bazıları `Cip` taşır (mevcut Cip'in kullanılabileceği varsayılıyor)",
+      "tasarimDiyorKi": "Hikaye çipleri: `padding:10px 14px;background:rgba(242,233,220,.06);font:500 14px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.78)`. Mevcut `Cip` üç türünün hiçbiri bunu ifade edemiyor; en yakını `dolu`: `padding:7px 12px;font:500 12.5px/1;color:var(--krem-74)`. Yeni varyant gerekiyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:107-109; components/ui/Cip.module.css .dolu",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Usul, CamPanel iç boşluğu",
+      "briefDiyorKi": "`CamPanel opaklik={0.74}`",
+      "tasarimDiyorKi": "Usul kartı `padding:clamp(28px,3vw,44px);max-width:1180px`. CamPanel `padding: var(--kart-ic)` sabitliyor ve `--kart-ic: clamp(28px, 3vw, 48px)` (Portre kartının değeri). 44px vs 48px farkı ve max-width bileşenle ifade edilemiyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:91; components/ui/CamPanel.module.css; styles/tokens.css:78",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Portre, CamPanel yerleşimi",
+      "briefDiyorKi": "`CamPanel opaklik={0.72}` içinde ... (yerleşim özelliğinden söz edilmiyor)",
+      "tasarimDiyorKi": "Kart ayrıca `display:flex;flex-direction:column;justify-content:center;gap:22px;flex:1 1 460px;min-width:0` taşıyor. CamPanel yalnızca `opaklik` + `children` alıyor; className/style prop'u yok, bu değerler bileşene geçirilemiyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:83; components/ui/CamPanel.tsx:3-6",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Usul ve Sofra, TaneDizilimi değerleri",
+      "briefDiyorKi": "\"TaneDizilimi orta boy\" / \"TaneDizilimi büyük boy\" (sayı verilmiyor; bileşen `boy` ve `bosluk` sayısı istiyor)",
+      "tasarimDiyorKi": "md (Usul): `gap:10px`, büyük `13x13px;border-radius:2px;background:rgba(242,233,220,.8)`, küçük `8x8px;background:#FAAA1F` (radius yok). lg (Sofra): `gap:10px`, büyük `14x14px;border-radius:2px;background:#F2E9DC`, küçük `9x9px;border-radius:1px;background:#FAAA1F`. Mevcut bileşen tüm taneleri `border-radius:1px` ve büyükleri tam opak `var(--krem)` yapıyor; md'nin .8 alfası ve 2px yarıçap ifade edilemiyor.",
+      "kaynak": "Hikaye Sayfasi.dc.html:95 ve :123; components/ui/TaneDizilimi.module.css",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Files bölümü ve Step 5",
+      "briefDiyorKi": "Modify: `components/sayfa/HikayeSayfasi.tsx`; commit'te `git add components/sayfa/hikaye/ components/ui/NotBlogu.tsx components/ui/EtiketSatiri.tsx`",
+      "tasarimDiyorKi": "`components/sayfa/` dizini repoda yok, dolayısıyla HikayeSayfasi.tsx \"modify\" değil \"create\". Ayrıca git add listesi bu dosyayı ve `.module.css`lerin bulunduğu yolu kapsamıyor, değişiklik commit dışında kalır.",
+      "kaynak": "repo: /Users/mk/Desktop/Bozo/Web/components/ (ember, layout, saat, ui)",
+      "onem": "kucuk"
+    }
+  ],
+  "eksikler": [
+    {
+      "ne": "Usul cam kartının başlık satırı tamamen atlanmış: \"Usül Urfa'dan\" `font:700 clamp(30px,3.6vw,48px)/1.12 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC` + satır kabı `align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(242,233,220,.14)`. Brief kartın içinde yalnızca üç UsulSatiri olduğunu söylüyor.",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:92-93",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Portre bölümünün iki kolonlu yerleşimi hiç tarif edilmemiş: `display:flex;flex-wrap:wrap;gap:clamp(28px,3vw,56px);align-items:stretch;padding:0 clamp(24px,5vw,64px) 70px`. Mobilde alt alta geçiş yalnızca flex-wrap ile oluyor (sayfada @media kuralı yok).",
+      "nerede": "Portre",
+      "kaynak": "Hikaye Sayfasi.dc.html:72",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Sofra'nın merkezli kolon yapısı yok: bölüm `text-align:center`, iç kap `max-width:860px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:24px`; gövde `max-width:600px`; CTA satırı `display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px`.",
+      "nerede": "Sofra",
+      "kaynak": "Hikaye Sayfasi.dc.html:120-127",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Bölüm padding'leri verilmemiş: Açılış `176px clamp(24px,5vw,64px) 64px` (176px üst boşluk sabit üst barın 78px'ini karşılayan tek mekanizma), Portre `0 ... 70px`, Usul `10px ... 70px`, Sofra `20px ... 80px`.",
+      "nerede": "Dört bölüm",
+      "kaynak": "Hikaye Sayfasi.dc.html:63,72,90,120",
+      "onem": "deger"
+    },
+    {
+      "ne": "UsulSatiri ızgarasının kesin değerleri yok: satır `gap:18px 26px;padding:26px 12px`; numara `width:26px;flex:none;padding-top:6px;font:600 13px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.62)`; etiket `width:clamp(150px,18vw,240px);flex:none;font:700 clamp(22px,2.2vw,30px)/1.14;letter-spacing:-.015em`; gövde `flex:1;min-width:240px;font:400 15.5px/1.65;color:rgba(242,233,220,.74)`.",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:98-101",
+      "onem": "deger"
+    },
+    {
+      "ne": "Üçüncü satırın (03 Saat) alt çizgisi YOK; ilk iki satır `border-bottom:1px solid rgba(242,233,220,.1)` taşıyor. Brief üç satırı ayrımsız anlatıyor.",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:98,103,112",
+      "onem": "deger"
+    },
+    {
+      "ne": "03 Saat satırının gövdesi ek olarak `font-variant-numeric:tabular-nums` taşıyor (10:00 ve 05:00 için); 01 Tane gövdesi taşımıyor.",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:115",
+      "onem": "deger"
+    },
+    {
+      "ne": "01/02/03 numaraları statik rakam, `data-en` taşımıyor, çevrilmiyor; sözlüğe girmemeli.",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:99,104,113",
+      "onem": "kucuk"
+    },
+    {
+      "ne": "NotBlogu'nun kesin değerleri verilmemiş: `font:400 14.5px/1.65 Inter;color:rgba(242,233,220,.58);border-left:2px solid rgba(250,170,31,.5);padding-left:16px`. Çizgi tam #FAAA1F değil .5 alfalı; styles/tokens.css'de bu değere token yok (kısıtlar \"token yoksa ekle, yuvarlama\" diyor). Ayrıca brief bunu \"alıntı bloğu\" diye adlandırıyor; tasarımdaki metin bir alıntı değil, ileride yazılacak hikayeyi haber veren bir nottur (semantik `<blockquote>` yanlış olur).",
+      "nerede": "NotBlogu / Portre",
+      "kaynak": "Hikaye Sayfasi.dc.html:86; styles/tokens.css:50-54",
+      "onem": "deger"
+    },
+    {
+      "ne": "EtiketSatiri'nin kesin değerleri verilmemiş: `display:flex;align-items:center;gap:12px;margin-bottom:26px`; kare `11x11px;border-radius:1px;background:#FAAA1F`; metin `font:500 15px/1 Inter;color:rgba(242,233,220,.74)`.",
+      "nerede": "EtiketSatiri / Hikaye Açılış",
+      "kaynak": "Hikaye Sayfasi.dc.html:64-66",
+      "onem": "deger"
+    },
+    {
+      "ne": "Foto plakasının 4 köşe işareti ve taşan etiket sekmesi brief'te hiç anılmıyor: köşeler `24x24px;1px solid rgba(250,170,31,.6);inset 18px`; sekme `left:24px;bottom:-14px;padding:6px 12px;background:#0A0807;gap:10px` + `18x1px #FAAA1F` çizgi + `font:500 12.5px/1.4;color:rgba(242,233,220,.72)`; etiket metni \"portre, ocak başında\" / EN \"portrait, at the fire\". Bu yüzden `koseIsaretleri={4}` ve `etiketYeri=\"sol\"` gerekli.",
+      "nerede": "Portre",
+      "kaynak": "Hikaye Sayfasi.dc.html:74-81; content/fotograflar.ts 'bozo-portre'",
+      "onem": "deger"
+    },
+    {
+      "ne": "Sofra butonlarının boyu belirtilmemiş: her ikisi de lg. Birincil `padding:18px 30px;font:600 16px/1;box-shadow:0 12px 34px rgba(183,53,28,.4)`; ikincil `border:1px solid rgba(242,233,220,.38);padding:17px 29px;background:rgba(10,8,7,.4)` (1px çerçeve farkını dengeleyen 17/29).",
+      "nerede": "Sofra",
+      "kaynak": "Hikaye Sayfasi.dc.html:128-129",
+      "onem": "deger"
+    },
+    {
+      "ne": "Sayfada hiç `@media` kuralı yok; tüm responsive davranış flex-wrap + clamp ile geliyor (Portre 380/460 flex-basis ile, Usul satırları gövdenin `min-width:240px` eşiğiyle sarıyor). Brief hiçbir responsive kural vermiyor, bu da ad hoc breakpoint uydurulmasına açık kapı bırakıyor.",
+      "nerede": "Portre, Usul, Sofra",
+      "kaynak": "Hikaye Sayfasi.dc.html:13-24 (head'de yalnız prefers-reduced-motion media query'si var)",
+      "onem": "deger"
+    },
+    {
+      "ne": "Tasarımın gövde punto değerleri (Usul gövdesi 15.5px, NotBlogu 14.5px, çipler 14px, plaka etiketi 12.5px, satır numarası 13px) kısıtlardaki \"gövde metni 16px'in altına inmez\" kuralıyla çelişiyor. Brief bu çatışmayı hiç anmıyor; kısıtlara göre sessizce kopyalanmamalı da sessizce düzeltilmemeli de, raporlanmalı.",
+      "nerede": "Usul, Portre",
+      "kaynak": "Hikaye Sayfasi.dc.html:86,101,107-109,115; kisitlar.md \"Body text never below 16px\"",
+      "onem": "deger"
+    },
+    {
+      "ne": "Tasarımda başlık \"Usül Urfa'dan\" (ü ile), onaylı içerik katmanında ise \"Usul Urfa'dan\" (işletme sahibinin yazım hatası onayıyla). Brief bu bilinçli sapmayı anmıyor; uygulayan kişi tasarıma bakıp geri \"düzeltebilir\".",
+      "nerede": "Usul",
+      "kaynak": "Hikaye Sayfasi.dc.html:93; content/tr/hikaye.ts usul.baslik yorumu",
+      "onem": "kucuk"
+    },
+    {
+      "ne": "Parite adımı yalnız `01-hikaye.jpg` ve `03-hikaye.jpg` diyor; `02-hikaye.jpg` (Portre notu + Usul kartının başlık satırı ve ilk iki satırı) referans alınmıyor, oysa Usul'ün doğrulanabildiği tek ekran görüntüsü o.",
+      "nerede": "Step 4 parite",
+      "kaynak": "design_handoff_bozo_website/screenshots/02-hikaye.jpg",
+      "onem": "kucuk"
+    }
+  ],
+  "ozet": "Bu brief'e güvenilmez: dört bölümün üçünde bileşen kompozisyonu eksik (Açılış paragrafı, Portre \\\"İsim\\\" başlığı, Usul kart başlığı + bead rail'in yeri), Sofra'nın ikincil CTA etiketi yanlış (\\\"yol tarifi\\\" değil \\\"Konum ve saatler\\\"), ve en büyük risk Step 2'nin onaylı Usul metnini \\\"Manifesto/Orta versiyon\\\" hazır bloklarıyla değiştirmeyi emretmesi; ayrıca mevcut Cip, CamPanel, FotoYuvasi ve TaneDizilimi bileşenleri bu sayfanın değerlerini olduğu gibi ifade edemiyor."
+}

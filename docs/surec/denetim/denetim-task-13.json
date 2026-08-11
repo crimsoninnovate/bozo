@@ -1,0 +1,203 @@
+{
+  "gorev": "Task 13: Konum sayfasi (KonumAcilis, HaritaBolumu, SaatlerVeIletisim + HaritaPlakasi, IletisimSatiri)",
+  "sapmalar": [
+    {
+      "nerede": "Step 2, HaritaPlakasi kaynak referansi",
+      "briefDiyorKi": "Kesin degerler (`docs/tasarim/ana-sayfa.json`, `HaritaPlakasi`)",
+      "tasarimDiyorKi": "Konum sayfasinin harita levhasi ayri bir bilesendir ve Ana Sayfa levhasindan sistematik olarak farklidir. Konum envanterinde adi `HaritaLevhasi` + `HaritaPini` + `HaritaPOICipi`; kesin degerler `Konum Sayfasi.dc.html:89-101`. Ana Sayfa levhasinda POI cipi yok (cipler levhanin disinda, panelde: `Ana Sayfa Alternatif.dc.html:313-315`), pin etiketi cercevesiz duz metin (a.g.e.:329) ve alt yazi 'harita · koyu tema, tek isaret' (entegrasyon cumlesi yok, a.g.e.:331).",
+      "kaynak": "task-13-brief.md:21 / Konum Sayfasi.dc.html:89-101 / ana-sayfa.json paylasilanBilesenler[HaritaPlakasi]",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "HaritaPlakasi `.levha` olculeri",
+      "briefDiyorKi": "flex: 1 1 380px; min-width: 280px; max-width: 560px; min-height: 420px;",
+      "tasarimDiyorKi": "Levha tek basina, section genisliginin tamamini kaplar; flex/min-width/max-width yoktur. Yalniz `min-height:clamp(420px,58vh,600px)`.",
+      "kaynak": "Konum Sayfasi.dc.html:89",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "HaritaPlakasi `.levha` zemini",
+      "briefDiyorKi": "background: rgba(10, 8, 7, 0.55)",
+      "tasarimDiyorKi": "background:rgba(10,8,7,.6)",
+      "kaynak": "Konum Sayfasi.dc.html:89",
+      "onem": "deger"
+    },
+    {
+      "nerede": "HaritaPlakasi `.izgara` adimi",
+      "briefDiyorKi": "repeating-linear-gradient(... transparent 1px 50px) (0deg ve 90deg)",
+      "tasarimDiyorKi": "transparent 1px 52px (her iki eksende)",
+      "kaynak": "Konum Sayfasi.dc.html:90",
+      "onem": "deger"
+    },
+    {
+      "nerede": "HaritaPlakasi `.yolYatay`",
+      "briefDiyorKi": "top: 56%; height: 14px;",
+      "tasarimDiyorKi": "top:54%; height:16px; (renk rgba(242,233,220,.08) dogru)",
+      "kaynak": "Konum Sayfasi.dc.html:91",
+      "onem": "deger"
+    },
+    {
+      "nerede": "HaritaPlakasi dikey yollar",
+      "briefDiyorKi": "Tek dikey yol: `.yolDikey { left: 44%; width: 9px; background: rgba(242,233,220,0.06) }`",
+      "tasarimDiyorKi": "Iki dikey yol var: left:20%;width:9px;background:rgba(242,233,220,.05) ve left:64%;width:7px;background:rgba(242,233,220,.045)",
+      "kaynak": "Konum Sayfasi.dc.html:92-93",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "HaritaPlakasi `.halka`",
+      "briefDiyorKi": "left:46%; top:53%; width:80px; height:80px; margin:-40px 0 0 -40px; border:1px solid rgba(183,53,28,0.5)",
+      "tasarimDiyorKi": "left:42%; top:47%; width:110px; height:110px; margin:-55px 0 0 -55px; border:1px solid rgba(183,53,28,.45)",
+      "kaynak": "Konum Sayfasi.dc.html:95",
+      "onem": "deger"
+    },
+    {
+      "nerede": "HaritaPlakasi `.pin`",
+      "briefDiyorKi": "left:46%; top:53%; width:16px; height:16px; margin:-8px 0 0 -8px; box-shadow:0 0 0 6px rgba(183,53,28,0.22), 0 0 30px rgba(183,53,28,0.85)",
+      "tasarimDiyorKi": "left:42%; top:47%; width:18px; height:18px; margin:-9px 0 0 -9px; box-shadow:0 0 0 7px rgba(183,53,28,.22), 0 0 32px rgba(183,53,28,.85) (animasyon dotPulse 2.6s dogru)",
+      "kaynak": "Konum Sayfasi.dc.html:96",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Harita alt notunun yeri",
+      "briefDiyorKi": "Ustunde acik bir not: gercek harita entegrasyonla gelecek.",
+      "tasarimDiyorKi": "Not levhanin USTUNDE degil, levhanin ICINDE sol alt kosededir: position:absolute;left:24px;bottom:22px;font:500 12.5px/1.5 Inter;color:rgba(242,233,220,.68); metin 'harita · koyu tema, tek isaret; canli harita entegrasyonla gelir'",
+      "kaynak": "Konum Sayfasi.dc.html:101 / content/tr/konum.ts harita.altYazi",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "HaritaPlakasi erisilebilirlik modeli",
+      "briefDiyorKi": "Levha `role=\"img\"` ve adresi okuyan bir `aria-label` tasir; icindeki izgara, yol ve halka katmanlari `aria-hidden`.",
+      "tasarimDiyorKi": "Levhanin icinde dekoratif olmayan, okunmasi gereken dort metin var: cadde etiketi 'Naci Talat Caddesi', pin etiketi 'Cigerci Bozo · No:4', uc POI cipi ve alt yazi. Tum levhayi role=\"img\" yapmak bu metinleri erisilebilirlik agacindan siler; aria-hidden yalniz izgara/yol/halka/pin noktasi katmanlarina uygulanabilir.",
+      "kaynak": "Konum Sayfasi.dc.html:94, 97-101",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, Iletisim karti satirlari",
+      "briefDiyorKi": "Sag: `IletisimSatiri` ile telefon, WhatsApp, Instagram, e-posta.",
+      "tasarimDiyorKi": "Kartta UC satir var: Telefon, WhatsApp, Instagram. E-posta satiri yoktur; icerik katmaninda da yalniz whatsappAlt ve instagramAlt anahtarlari var.",
+      "kaynak": "Konum Sayfasi.dc.html:127-147 / content/tr/konum.ts iletisim",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, iletisim satirlarinin icerigi",
+      "briefDiyorKi": "Hepsi `null` oldugu icin hepsi yer tutucu metinle ve baglantisiz basilir.",
+      "tasarimDiyorKi": "Yalniz Telefon satirinin alt satiri yer tutucu deger ('000 000 00 00'). WhatsApp alt satiri 'Paket siparis de buradan alinir', Instagram alt satiri 'Ocak, tane ve saatler' sabit aciklama metnidir, isletme verisi degildir ve numara/hesap bilinmese de aynen basilir.",
+      "kaynak": "Konum Sayfasi.dc.html:131, 138, 145 / content/tr/konum.ts iletisim.whatsappAlt, instagramAlt",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "IletisimSatiri prop tipi",
+      "briefDiyorKi": "`<IletisimSatiri ikon={ReactNode} etiket={string} deger={string} href={string | null} />`",
+      "tasarimDiyorKi": "Alt satirin tipografisi varyanta gore degisir: telefon `font:400 14px/1` + `font-variant-numeric:tabular-nums`; WhatsApp ve Instagram `font:400 14px/1.4`, tabular-nums yok. Tek `deger: string` prop'u bu farki ifade edemez; bir varyant/tur prop'u gerekir.",
+      "kaynak": "Konum Sayfasi.dc.html:131 vs 138 ve 145 / konum.json IletisimSatiri.varyantlar",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, kart kabugu bilesen adi",
+      "briefDiyorKi": "Iki `PanelKart`.",
+      "tasarimDiyorKi": "Projede `PanelKart` diye bir bilesen yok; Task 4 `components/ui/CamPanel.tsx` uretti ve `<CamPanel opaklik={0.72 | 0.74 | 0.9}>` imzasini tasiyor. Tasarimdaki kart zemini rgba(10,8,7,.74), yani opaklik={0.74}.",
+      "kaynak": "task-13-brief.md:63 / task-4-brief.md:19 / components/ui/CamPanel.tsx / Konum Sayfasi.dc.html:106",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 4, parite ekran goruntuleri",
+      "briefDiyorKi": "Expected: `screenshots/01-konum.jpg` ile `03-konum.jpg` karsilastirmasi.",
+      "tasarimDiyorKi": "03-konum.jpg Paket seridi + Footer'i gosterir; bu ikisi Task 13 kapsaminda degil. Kapsamdaki Saatler ve Iletisim kartlari 02-konum.jpg'dedir (kartlarin dar ekranda alt alta sardigi hali dahil). Brief tam da kapsamli kareyi atliyor.",
+      "kaynak": "design_handoff_bozo_website/screenshots/02-konum.jpg, 03-konum.jpg",
+      "onem": "deger"
+    }
+  ],
+  "eksikler": [
+    {
+      "ne": "Hero adres satiri tumuyle atlanmis: `display:flex;gap:10px;align-items:flex-start;margin-top:22px;color:rgba(242,233,220,.78)` icinde 16x16 pin SVG (fill=currentColor, color:#FAAA1F, flex:none, margin-top:4px) + iki satirli adres `font:400 clamp(16px,1.4vw,19px)/1.6`, 'Naci Talat Caddesi, Sht. Ozdemir Apt No:4' <br> 'Girne / KKTC'.",
+      "nerede": "KonumAcilis",
+      "kaynak": "Konum Sayfasi.dc.html:75-78",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Durum satirindaki ucuncu oge yok: canli saatin yanindaki alt not 'Girne saati, canli', `font:400 13.5px/1 Inter;color:rgba(242,233,220,.62)`. Satirin kendisi `display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-bottom:22px`.",
+      "nerede": "KonumAcilis",
+      "kaynak": "Konum Sayfasi.dc.html:64, 72 / content/tr/konum.ts hero.saatEtiketi",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "H1 tanimi yok: iki satir <br> ile 'Naci Talat' / 'Caddesi, Girne'; `font:800 clamp(48px,7.4vw,116px)/1.02 'Bricolage Grotesque';letter-spacing:-.03em;color:#F2E9DC;text-shadow:0 8px 50px rgba(10,8,7,.7)`.",
+      "nerede": "KonumAcilis",
+      "kaynak": "Konum Sayfasi.dc.html:74",
+      "onem": "deger"
+    },
+    {
+      "ne": "Hero section dolgusu verilmemis: `padding:172px clamp(24px,5vw,64px) 54px`; CTA satiri `display:flex;flex-wrap:wrap;gap:12px;margin-top:32px`; hayalet butonun icinde 15x15 telefon SVG (`gap:9px`, `border:1px solid rgba(242,233,220,.38)`, `padding:18px 28px`, `background:rgba(10,8,7,.4)`, tabular-nums).",
+      "nerede": "KonumAcilis",
+      "kaynak": "Konum Sayfasi.dc.html:63, 79-84",
+      "onem": "deger"
+    },
+    {
+      "ne": "Birincil butonun davranisi hic anilmamis: hem ust serit CTA'si hem hero butonu `data-git=\"harita\"` tasir ve `#harita` section'ina yumusak kaydirir; `window.scrollTo({top: Math.max(0, hedef.getBoundingClientRect().top + window.pageYOffset - 96), behavior: azalt ? 'auto' : 'smooth'})`. Yani 'yol tarifi' butonu disariya link degil, sayfa ici kaydirma hedefidir.",
+      "nerede": "KonumAcilis / HaritaBolumu",
+      "kaynak": "Konum Sayfasi.dc.html:80 ve script satir 248-254",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Harita bolumunun kabugu tanimlanmamis: `<section id=\"harita\">` (id kaydirma hedefi oldugu icin zorunlu), `position:relative;padding:10px clamp(24px,5vw,64px) 60px`.",
+      "nerede": "HaritaBolumu",
+      "kaynak": "Konum Sayfasi.dc.html:88",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Levha icindeki cadde etiketi yok: 'Naci Talat Caddesi', `position:absolute;left:10%;top:57.5%;font:400 12px/1 Inter;color:rgba(242,233,220,.55)`.",
+      "nerede": "HaritaPlakasi",
+      "kaynak": "Konum Sayfasi.dc.html:94 / content/tr/konum.ts harita.caddeEtiketi",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Pin etiketi kutusu yok: pinle ayni koordinatta `margin:-46px 0 0 18px;padding:8px 13px;background:#0A0807;border:1px solid rgba(250,170,31,.4);font:600 13px/1;color:#F2E9DC;white-space:nowrap`; metin 'Cigerci Bozo' + ikinci parca `<span style=\"color:rgba(242,233,220,.55);font-weight:400\">· No:4</span>`.",
+      "nerede": "HaritaPlakasi",
+      "kaynak": "Konum Sayfasi.dc.html:97 / content/tr/konum.ts harita.pinKapiNo",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Uc POI cipinin hicbir degeri verilmemis (brief yalniz 'POI cipleri' diye geciyor): ortak stil `position:absolute;padding:7px 11px;background:rgba(10,8,7,.85);border:1px solid rgba(242,233,220,.16);font:500 11.5px/1 Inter;color:rgba(242,233,220,.66);white-space:nowrap`; konumlar 'Soli Bet Casino' left:30%;top:60%, 'Hitit Bet' left:61%;top:26%, 'Girne Macro Market' left:66%;top:62% (+ font-variant-numeric:tabular-nums). Not: tasarimdaki '· 80 m' mesafesi icerik katmaninda bilerek kaldirilmis, `content/tr/konum.ts` esas alinmali.",
+      "nerede": "HaritaPlakasi",
+      "kaynak": "Konum Sayfasi.dc.html:98-100 / content/tr/konum.ts harita.poi*",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Saatler kartindaki ucuncu satir, not paragrafi, briefte yok: `padding:16px 14px;font:400 14.5px/1.65 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.68)`, metin 'Kapanis gece yarisini asar, ertesi sabaha sarkar. Tek kapali aralik 05:00 - 10:00.' Task 8 raporu bu paragrafin `SaatTablosu` icinde OLMADIGINI, sayfanin ayrica basmasi gerektigini kayit altina almis.",
+      "nerede": "SaatlerVeIletisim",
+      "kaynak": "Konum Sayfasi.dc.html:117 / task-8-report.md:308-311 / content/tr/konum.ts saatler.not",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "`AlkolsuzRozeti` hicbir gorevde uretilmiyor ve bu brief de Files listesinde olusturmuyor; kesin degerleri de verilmemis: `display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid rgba(242,233,220,.14)`, 7x7 `border-radius:50%;background:#FAAA1F` nokta ANIMASYONSUZ, metin `font:500 14px/1;color:rgba(242,233,220,.74)`, 'Mekanimiz alkolsuzdur'.",
+      "nerede": "SaatlerVeIletisim",
+      "kaynak": "Konum Sayfasi.dc.html:119-122 / konum.json AlkolsuzRozeti / content/tr/ortak.ts alkolsuzKisa",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Bolum ve kart kabugu olculeri yok: section `padding:20px clamp(24px,5vw,64px) 70px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px)`; her kart `flex:1 1 440px;min-width:300px;padding:clamp(26px,2.8vw,40px);background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.1);display:flex;flex-direction:column;gap:22px`. Dar ekranda kartlarin alt alta sarmasi bu flex-wrap + min-width kuralindan gelir (02-konum.jpg); brief hicbir responsive kural anmiyor.",
+      "nerede": "SaatlerVeIletisim",
+      "kaynak": "Konum Sayfasi.dc.html:105-106, 124 / screenshots/02-konum.jpg",
+      "onem": "deger"
+    },
+    {
+      "ne": "Kart basliklari ('Saatler', 'Iletisim') briefte hic gecmiyor: `font:700 clamp(26px,2.8vw,38px)/1.14 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC`.",
+      "nerede": "SaatlerVeIletisim",
+      "kaynak": "Konum Sayfasi.dc.html:107, 125",
+      "onem": "deger"
+    },
+    {
+      "ne": "IletisimSatiri'nin kesin degerleri ve hover durumu verilmemis: kap `display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(242,233,220,.14);cursor:pointer;transition:border-color .15s ease-out,background .15s ease-out`; hover `border-color:rgba(250,170,31,.7);background:rgba(250,170,31,.07)`; satir listesi `display:flex;flex-direction:column;gap:12px`; ikon 17x17 `color:#FAAA1F;flex:none`; metin yigini `gap:5px`, etiket `font:600 14.5px/1;color:#F2E9DC`, alt satir `color:rgba(242,233,220,.68)`.",
+      "nerede": "IletisimSatiri",
+      "kaynak": "Konum Sayfasi.dc.html:126-147",
+      "onem": "deger"
+    },
+    {
+      "ne": "WhatsApp ve Instagram ikonlarinin nereden gelecegi belirtilmemis; Instagram ikonu digerlerinden farkli olarak stroke tabanlidir: `fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\"`, rect x=3.2 y=3.2 w=17.6 h=17.6 rx=5 + circle r=4.1 + circle cx=17.1 cy=6.9 r=1.15 (fill=currentColor stroke=none).",
+      "nerede": "IletisimSatiri / Ikonlar",
+      "kaynak": "Konum Sayfasi.dc.html:142",
+      "onem": "deger"
+    }
+  ],
+  "ozet": "Brief'e guvenilmez: Step 2'deki tum harita levhasi CSS'i yanlis sayfadan (ana-sayfa.json) kopyalanmis, dolayisiyla levhanin olcusu, izgara adimi, yol sayisi ve pin koordinatlari dahil dokuz degerin hepsi hatali; ustune Konum levhasinin cadde etiketi, pin etiketi ve uc POI cipi ile hero'nun adres satiri hic anilmamis ve iletisim kartina tasarimda olmayan bir e-posta satiri eklenmis."
+}

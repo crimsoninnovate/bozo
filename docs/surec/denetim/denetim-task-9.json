@@ -1,0 +1,184 @@
+{
+  "gorev": "Task 9: Ana sayfa birinci yari (acilis, iddia, ocaktan, ikram + AnimasyonluSayac, MenuSatiri) brief denetimi",
+  "sapmalar": [
+    {
+      "nerede": "Ikram bolumu, duygusal baslik (Step 5)",
+      "briefDiyorKi": "font: 800 var(--ol-duygusal)/1.08, letter-spacing: var(--iz-duygusal). tokens.css:67 --ol-duygusal = clamp(44px, 7vw, 112px); tokens.css:73 --iz-duygusal = -0.03em",
+      "tasarimDiyorKi": "font:700 clamp(38px,5.4vw,78px)/1.1 'Bricolage Grotesque',sans-serif; letter-spacing:-.025em. Yani agirlik 700 (800 degil), olcek clamp(38px,5.4vw,78px), satir yuksekligi 1.1, iz -.025em. Brief'in kullandigi --ol-duygusal/--iz-duygusal ikilisi GECE bolumunun H2'sinin degeri (dc.html:246-250 civari, 800 clamp(44px,7vw,112px)/1.08, -.03em); ikram basligina uymaz. -.025em icin tokens.css'te karsilik da yok.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:224; Web/styles/tokens.css:67,73",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Ikram bolumu, iki ikram cipi (Step 5)",
+      "briefDiyorKi": "iki `Cip tur=\"ikram\"` (lebeni, bostana)",
+      "tasarimDiyorKi": "Tasarimdaki ikram cipi kutulu: padding:13px 18px; border:1px solid rgba(250,170,31,.32); background:rgba(10,8,7,.55); display:flex; align-items:baseline; gap:10px; icinde ad 700 17px/1.25 Bricolage letter-spacing:-.01em #F2E9DC + detay 400 13px/1.4 rgba(242,233,220,.66). Oysa mevcut Cip bileseninin `ikram` varyanti (components/ui/Cip.module.css) 'fiyat yerine gecen ikram etiketi: duz metin, kutu yok' yani font:600 15px/1 Inter; color:var(--tangerine); kenarlik/dolgu yok. O varyant Menu Sayfasi.dc.html:215'teki tek kelimelik 'ikram' etiketidir. Cip'in outline (5px 10px, 11.5px) ve dolu (7px 12px) varyantlari da bu cipi karsilamaz; yeni varyant veya yerel CSS gerekir.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:227-234; Web/components/ui/Cip.module.css (.ikram); Menu Sayfasi.dc.html:215",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri hover (Step 4)",
+      "briefDiyorKi": "Hover: `transform: translateX(24px)`",
+      "tasarimDiyorKi": "style-hover=\"background:rgba(250,170,31,.07);padding-left:24px\" — satir yerinde durur, yalniz ic dolgu buyur. translateX satirin kendisini (hover zeminini ve alt cizgisini) sagà kaydirir, solda bosluk birakip sagdan tasar.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:176 (ayni deger 184,192,200,208)",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri hover zemini (Step 4)",
+      "briefDiyorKi": "zemin `var(--tangerine-08)` (tokens.css:54 = rgba(250,170,31,0.08))",
+      "tasarimDiyorKi": "background:rgba(250,170,31,.07)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:176; Web/styles/tokens.css:54",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri gecisi (Step 4)",
+      "briefDiyorKi": "gecis `var(--gecis-hizli)` (tokens.css:81 = 0.15s ease-out)",
+      "tasarimDiyorKi": "transition:background .2s ease-out,padding-left .2s ease-out. 0.2s icin token yok (--gecis-hizli 0.15s, --gecis-orta 0.3s).",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:176; Web/styles/tokens.css:81-82",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri mini tane rayi (Step 4)",
+      "briefDiyorKi": "`TaneDizilimi boy={9} bosluk={5}` mini",
+      "tasarimDiyorKi": "Satirdaki ray 3 karedir (9px / 5px / 9px). TaneDizilimi bileseni RITIM = [1,0.625,1,1,0.625,1] ile her zaman 6 kare basar ve adet prop'u yoktur; brief'in cagrisi 6 kare uretir.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:180; Web/components/ui/TaneDizilimi.tsx:3",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri mini tane rayi bosluk degeri (Step 4)",
+      "briefDiyorKi": "bosluk={5}",
+      "tasarimDiyorKi": "gap:4px. TaneDizilimi'nde `bosluk` dogrudan gap'e yazilir (style={{gap:`${bosluk}px`}}); 5px kucuk karenin kenar olcusudur, bosluk degil. (Karsilastirma: hero gap:12px, iddia gap:11px, ikram gap:10px — brief bu ucunde dogru.)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:180; Web/components/ui/TaneDizilimi.tsx:16",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Ocaktan, MenuSatiri mini tane rayi rengi ve yaricapi (Step 4)",
+      "briefDiyorKi": "Sadece `TaneDizilimi boy={9} bosluk={5}` mini; ton belirtilmiyor",
+      "tasarimDiyorKi": "9px kareler rgba(242,233,220,.5) ve border-radius:1px; 5px kare rgba(250,170,31,.8) ve border-radius YOK. TaneDizilimi `.dolu` var(--krem) / var(--tangerine) yani tam opak basar ve tum karelere border-radius:1px verir; anahat/solgun ton icin prop yok.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:180; Web/components/ui/TaneDizilimi.module.css",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Tum TaneDizilimi cagrilari (Step 2, 3, 4)",
+      "briefDiyorKi": "boy={20} (hero), boy={22} (iddia plakasi), boy={9} (menu satiri)",
+      "tasarimDiyorKi": "Kucuk kare TaneDizilimi'nde Math.round(boy*0.625) ile turetilir: boy 20 -> 13px (tasarim 12px, dc.html:104), boy 22 -> 14px (tasarim 13px, dc.html:151), boy 9 -> 6px (tasarim 5px, dc.html:180). Yalniz ikram'in boy={16} -> 10px degeri tutuyor (dc.html:222). Brief bu sapmayi hic anmiyor; bilesenin tek `boy` prop'u tasarimin kucuk kare olculerini ifade edemiyor.",
+      "kaynak": "Web/components/ui/TaneDizilimi.tsx:3,25; Ana Sayfa Alternatif.dc.html:104,151,180,222",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Iddia, foto plakasinin ortasindaki anahat tane rayi (Step 3)",
+      "briefDiyorKi": "`FotoYuvasi id=\"tane-yakin-cekim\" bicim=\"portre\" koseIsaretleri={4}`, ortasinda `TaneDizilimi boy={22} bosluk={11} anahat` `opacity:.5`",
+      "tasarimDiyorKi": "Ray plakanin ICINDE, position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.5 ile duruyor. Ancak FotoYuvasi bileseni children KABUL ETMIYOR (Props: id, dil, bicim, etiketYeri, koseIsaretleri); brief'in yazdigi ic ice kullanim derlenmez.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:149-156; Web/components/ui/FotoYuvasi.tsx (Props)",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Iddia ve Ikram, FotoYuvasi cagrilari (Step 3, 5)",
+      "briefDiyorKi": "`FotoYuvasi id=\"tane-yakin-cekim\" bicim=\"portre\" koseIsaretleri={4}` ve `FotoYuvasi id=\"kurulu-sofra\" bicim=\"genis\" koseIsaretleri={2} etiketYeri=\"orta\"`",
+      "tasarimDiyorKi": "Bilesenin `dil: Dil` prop'u zorunlu (etiket TR/EN secimi ondan gelir); brief iki cagrida da atlamis. Ayrica `width: min(760px,100%)` brief'te elle veriliyor, bileseninin `.genis` sinifi zaten yaziyor.",
+      "kaynak": "Web/components/ui/FotoYuvasi.tsx (Props), FotoYuvasi.module.css (.genis)",
+      "onem": "kucuk"
+    },
+    {
+      "nerede": "MenuSatiri arayuz sozu (Interfaces)",
+      "briefDiyorKi": "\"sozluge baglanmaz, cagiran taraf ad ve aciklamayi sozlukten gecirir; boylece ayni satir menu sayfasinda da kullanilir\"",
+      "tasarimDiyorKi": "Menu sayfasinda boyle bir satir yok: urunler tam genislikte plakalar (numara + 'imza urun' cipi + 700 clamp(34px,4vw,54px) baslik + olcu cipleri + karo foto), icecekler ise ad+fiyat kutulari. Task 11 brief'i de bu is icin ayri bir `UrunKarti` bileseni yaratiyor, MenuSatiri'ni hic anmiyor.",
+      "kaynak": "Menu Sayfasi.dc.html:105-118, 245-247; task-11-brief.md:4",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "AnimasyonluSayac ilk render degeri (Step 1)",
+      "briefDiyorKi": "const [deger, setDeger] = useState(0) ... return <span ref={ref}>{deger}</span>",
+      "tasarimDiyorKi": "Tasarimda hedef deger DOGRUDAN isaretlemede duruyor (<div data-sayac=\"8\">8</div>, <div data-sayac=\"3\">3</div>) ve JS yalniz gorunur olunca ustune yaziyor; hedef yoksa veya prefers-reduced-motion aktifse metin HTML'deki degerinde KALIYOR. Brief'in kodu statik export ciktisina '0' basar; JS calismadan, hydration oncesi veya kullanici o bolume hic inmezse rakam 0 gorunur.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:135,143; docs/tasarim/ana-sayfa.json > davranislar > 'Sayac animasyonu (IntersectionObserver)'",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Ocaktan cam paneli (Step 4)",
+      "briefDiyorKi": "`CamPanel opaklik={0.74}`",
+      "tasarimDiyorKi": "Ocaktan panelinin dolgusu padding:clamp(28px,3vw,44px); CamPanel ise sabit var(--kart-ic) = clamp(28px,3vw,48px) basiyor (iddia/bozo olcusu). Panel ayrica width:100%;max-width:1180px tasiyor, CamPanel bunu vermiyor ve brief de anmiyor.",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:170; Web/components/ui/CamPanel.module.css; Web/styles/tokens.css:78",
+      "onem": "deger"
+    }
+  ],
+  "eksikler": [
+    {
+      "ne": "Ikram bolumunun paragrafi tumuyle atlanmis. Tasarimda baslik ile cipler arasinda: 'Lebeni ve bostana ikramimizdir. Sofra kurulu gelir, istemenize gerek yok.' font:400 clamp(17px,1.5vw,21px)/1.6 Inter; color:rgba(242,233,220,.8) (--krem-80); max-width:620px. Metin sozlukte hazir: ana.ikram.metin. Brief Step 5 blok sirasini acikca sayiyor (tane rayi, baslik, iki cip, foto) ve paragrafi listelemiyor.",
+      "nerede": "Ikram bolumu (Step 5)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:225; content/tr/ana.ts (ikram.metin)",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Bolum sarmalayicisi, bolum id'leri ve erit katmani hic anilmiyor. Brief ham bir <section> tarif ediyor ve data-yogunluk'u yalniz hero icin yaziyor. Oysa lib/cerceve.ts:59 aktif bolumu `[data-yogunluk]` ile seciyor ve `id`sini okuyor; kor yogunlugu ve bead rayi buna bagli. Dort bolum de components/ui/Bolum ile kurulmali: id=\"acilis|iddia|ocaktan|ikram\", yogunluk 1 / 0.55 / 0.4 / 0.7 ve data-erit sarmalayicisi (opacity .86 -> 1, translate3d(0,14px,0) -> 0, transition var(--gecis-erit)). Ayrica iddia/ocaktan/ikram icin bolum kabugu olculeri hic verilmemis: min-height:100vh; display:flex; align-items:center; padding:120px clamp(24px,5vw,64px) (ikram'da ek olarak justify-content:center; text-align:center).",
+      "nerede": "Dort bolumun kabugu (Step 2-5)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:86,128,169,219; Web/lib/cerceve.ts:43-71; Web/components/ui/Bolum.tsx",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Sayfa ici kaydirma hedefleri yok. Hero'nun ikinci CTA'si 'Menuyu gor' data-git=\"ocaktan\" (menu SAYFASINA degil, #ocaktan bolumune kaydirir) ve kaydirma ipucu data-git=\"iddia\"dir; kaydirma 70px sabit ust bar ofsetiyle ve prefers-reduced-motion'da behavior:'auto' ile yapilir. Brief yalniz 'CTA cifti' ve 'kaydirma ipucu' diyor; lib/ altinda bu davranisi karsilayan bir yardimci da yok (grep: scrollTo yok) ve Buton bileseni yalniz href aliyor.",
+      "nerede": "Acilis CTA satiri ve kaydirma ipucu (Step 2)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:113,120; docs/tasarim/ana-sayfa.json > davranislar > 'data-git yumusak kaydirma'; Web/components/ui/Buton.tsx",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Durum alt metninin duruma bagli oldugu soylenmemis. Tasarimda [data-durum-alt] saate gore degisiyor: acik \"Ocak 05:00'e kadar yaniyor\", kapali 'Kapali aralik: 05:00 - 10:00' (sozlukte ortak.durum.acikAlt / kapaliAlt). Stil: font:400 14.5px/1 Inter; color:rgba(242,233,220,.7). Bugune kadar hicbir bilesen bu metni basmiyor (grep: acikAlt/kapaliAlt kullanimi yok), yani Acilis ya istemci bileseni olmali ya da ayri bir istemci bileseni gerekli; kisitlar.md hydration uyusmazligini yasakliyor. Brief sadece 'durum alt metni' diyor.",
+      "nerede": "Acilis durum satiri (Step 2)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:96; docs/tasarim/ana-sayfa.json > davranislar > saatiYaz; content/tr/ortak.ts (durum.acikAlt/kapaliAlt)",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Hero alt baslik satirinin olculeri ve tane rayinin cizgi katmani eksik. Tasarimda: satir flex-wrap; align-items:center; gap:24px 34px; margin-top:28px. 'mese korunda' font:800 clamp(34px,4.6vw,76px)/1 Bricolage; letter-spacing:-.025em (tokens.css'te bu iz degeri YOK); color:rgba(242,233,220,.72) (--krem-72). Ray sarmalayicisi position:relative;flex:1;min-width:260px;padding:16px 0 ve 3px'lik gradyan cizgi MUTLAK konumlu: left:0;right:0;top:50%;margin-top:-1.5px — yani karelerin ARKASINDAN gecer. TaneDizilimi'nin `cizgi` parcasi ise karelerden SONRA gelen bir flex ogesi (margin-left:12px;min-width:60px), cizgi karelerin arkasindan gecmez.",
+      "nerede": "Acilis alt baslik + tane rayi (Step 2)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:99-109; Web/components/ui/TaneDizilimi.module.css (.cizgi); Web/styles/tokens.css:65,71-73",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Hero meta satiri hic olculendirilmemis ve ayiricinin rengi envanterde de yok: satir flex-wrap; align-items:center; gap:12px 22px; padding-left:10px; font:500 14.5px/1.6 Inter; font-variant-numeric:tabular-nums; color:rgba(242,233,220,.74) (--krem-74); ayirici 1px x 14px background:rgba(242,233,220,.24) — bu alfa icin token yok (--cizgi-guclu .22, --cizgi .14). kisitlar.md kurali: eksik degere token eklenir, en yakinina yuvarlanmaz.",
+      "nerede": "Acilis meta satiri (Step 2)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:114-117; Web/styles/tokens.css:38-41",
+      "onem": "deger"
+    },
+    {
+      "ne": "Bu dort bolumde token'i olmayan degerler brief'te ham yaziliyor veya hic anilmiyor; kisitlar.md her biri icin token eklenmesini sart kosuyor: rgba(242,233,220,.24) (hero meta ayiricisi), rgba(242,233,220,.12) (iddia sayac izgarasinin hairline zemini, brief ham literal olarak yaziyor), rgba(250,170,31,.07) (ocaktan satir hover zemini), rgba(250,170,31,.8) (menu satiri mini tanesi), rgba(250,170,31,.32) ve rgba(10,8,7,.55) (ikram cipi kenarlik ve zemini), rgba(242,233,220,.3) (kaydirma ipucu cizgisi).",
+      "nerede": "Dort bolum genelinde renk token'lari",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:116,122,133,176,180,227; Web/styles/tokens.css; kisitlar.md 'krem opaklik kurali'",
+      "onem": "deger"
+    },
+    {
+      "ne": "Ikram merkez kolonunun ve foto plakasinin yerlesim degerleri yok: erit sarmalayici max-width:900px; display:flex; flex-direction:column; align-items:center; gap:28px. Baslikta text-shadow:0 8px 50px rgba(10,8,7,.7) var (brief yalniz hero'nun golgesini yaziyor). Genis foto plakasi ayrica margin-top:14px tasiyor (kolonun 28px gap'ine ek).",
+      "nerede": "Ikram bolumu (Step 5)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:220,224,236",
+      "onem": "deger"
+    },
+    {
+      "ne": "Hero ve Ocaktan'in genislik siniri anilmiyor: hero erit sarmalayicisi max-width:1180px; ocaktan paneli width:100%;max-width:1180px. Bolum bileseninin .erit sinifinda genislik siniri yok, yani bolum bilesenlerinde elle verilmesi gerekiyor.",
+      "nerede": "Acilis ve Ocaktan sarmalayicilari (Step 2, 4)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:87,170; Web/components/ui/Bolum.module.css",
+      "onem": "deger"
+    },
+    {
+      "ne": "Dort bolum bileseninin de `dil: Dil` prop'u alacagi soylenmiyor. Interfaces bolumu yalniz AnimasyonluSayac ve MenuSatiri imzalarini veriyor; Acilis/Iddia/Ocaktan/Ikram icin imza yok. Oysa metinler sozlukten geliyor ve ayni bilesenler /en agacinda da render ediliyor; FotoYuvasi ve DurumCipi zaten `dil` zorunlu tutuyor.",
+      "nerede": "Acilis, Iddia, Ocaktan, Ikram bilesen imzalari",
+      "kaynak": "Web/components/ui/FotoYuvasi.tsx, components/saat/DurumCipi.tsx; kisitlar.md 'Route names are Turkish in both languages'",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Sira numarasinin iki haneli basildigi soylenmiyor: tasarimda '01'..'05'. Brief imzasi `sira={number}`, yani cagrilan tarafta padStart(2,'0') gerekiyor.",
+      "nerede": "MenuSatiri (Interfaces, Step 4)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:177,185,193,201,209",
+      "onem": "kucuk"
+    },
+    {
+      "ne": "Bes menu satirinin hepsinde, sonuncusu dahil, border-bottom:1px solid rgba(242,233,220,.1) var; tasarim son satirin cizgisini kaldirmiyor. Brief cizgiden hic soz etmiyor, envanter de :last-child istisnasi olmadigini yazmiyor; uygulayanin refleksle son cizgiyi kaldirmasi olasi.",
+      "nerede": "Ocaktan menu listesi (Step 4)",
+      "kaynak": "Ana Sayfa Alternatif.dc.html:208",
+      "onem": "kucuk"
+    },
+    {
+      "ne": "Parite adiminin ekran goruntusu listesi eksik: ikram bolumunun alt yarisi (paragraf, iki cip, 'kurulu sofra, ustten' genis plakasi) 01-03 karelerinin hicbirinde yok; 03 kare 'Sofra kurulu gelir' basliginda bitiyor, 04 kare Bozo/Konum ile basliyor. Brief 'foto plakasi kose isaretleri ve etiket kutusu birebir olmali' dogrulamasini bu uc kareye baglıyor.",
+      "nerede": "Step 6 parite dogrulamasi",
+      "kaynak": "design_handoff_bozo_website/screenshots/03-ana-sayfa.jpg, 04-ana-sayfa.jpg",
+      "onem": "kucuk"
+    }
+  ],
+  "ozet": "Brief'e guvenilmez: ikram bolumu ucuncu kez ust uste yanlis (baslik gece bolumunun tipografisiyle yazilmis, cip icin duz metin varyanti secilmis, paragraf tumuyle dusmus) ve en buyuk risk yapisal olan: bolumler Bolum/data-yogunluk/id ile baglanmadigi icin kor yogunlugu, erit ve bead navigasyonu sessizce olu kalir; ayrica menu satiri hover'i tasarimin padding-left'i yerine translateX ile tarif edilmis ve TaneDizilimi cagrilari kare sayisi, bosluk ve kucuk kare olcusunde tasarimi tutmuyor."
+}

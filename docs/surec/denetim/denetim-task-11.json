@@ -1,0 +1,181 @@
+{
+  "gorev": "Task 11: Menu sayfasi brief denetimi (menu-acilis, ocaktan, ikramlar, icecekler, cekim-listesi, alt-bilgi)",
+  "sapmalar": [
+    {
+      "nerede": "Step 3, UrunKarti govdesi",
+      "briefDiyorKi": "\"gövdede indeks rozeti, ad, açıklama, alt satırda TaneDizilimi mini ve fiyat\"",
+      "tasarimDiyorKi": "Indeks rozeti govdede degil, foto yuvasinin ICINDE mutlak konumlu: `position:absolute;right:16px;top:14px;font:600 12px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.55)`. Govde (satir 133-140) yalnizca ad, aciklama ve alt satir tasir.",
+      "kaynak": "design_handoff_bozo_website/Menu Sayfasi.dc.html:131 (ayni yapi 149, 167, 185)",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 2 ve Step 3 ve Step 4, FotoYuvasi kullanimi",
+      "briefDiyorKi": "Step 2: `FotoYuvasi id=\"tane-yakin-cekim\"` \"yatay biçim\"; Step 3: `FotoYuvasi bicim=\"karo\"` (`height: clamp(240px,30vh,300px)`); Step 4: `FotoYuvasi id=\"ayran\"`",
+      "tasarimDiyorKi": "Mevcut bilesenin prop'u `bicim: 'portre' | 'genis' | 'karo'` (components/ui/FotoYuvasi.tsx:10). 'yatay' diye bir deger yok ve uc degerin hicbiri menu sayfasinin dort ic-plaka varyantini karsilamiyor. Tasarim: SPREAD `flex:1 1 520px;min-width:300px;min-height:clamp(340px,46vh,480px);background:#0C0A09` (satir 94); KART-USTU `height:clamp(240px,30vh,300px)` + vinyet `inset 0 0 90px rgba(0,0,0,.72)` + kor `rgba(183,53,28,.36)` (satir 126-128); IKRAM `flex:1 1 180px;min-width:160px;min-height:200px`, kor `rgba(122,31,43,.5)` (satir 207-208); ICECEK `flex:1 1 340px;min-width:280px;min-height:260px`, kor `rgba(183,53,28,.34)`, emberSoft 13s (satir 239-240). Bilesenin `.karo` sinifi ise sabit `height:110px`, kenarlik/vinyet/kor animasyonu/kose isareti/etiket cizgisi TASIMAZ ve dosyada acikca \"menu sayfasindaki cekim listesi izgarasi\" olarak belgelenmis (FotoYuvasi.module.css:23-37, 65-74). `bicim=\"karo\"` ile basilan urun karti plakasi 300px degil 110px olur.",
+      "kaynak": "Menu Sayfasi.dc.html:94,126-128,207-208,239-240 + components/ui/FotoYuvasi.tsx:10 + FotoYuvasi.module.css:23-74",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, urun karti plakasinin kose isareti",
+      "briefDiyorKi": "Kose isareti konusunda sessiz; `bicim=\"karo\"` varsayilani 0 kose uretir.",
+      "tasarimDiyorKi": "Urun karti plakasinda TEK kose isareti var: `left:16px;top:16px;width:20px;height:20px;border-left:1px solid rgba(250,170,31,.5);border-top:1px solid rgba(250,170,31,.5)`. Mevcut prop `koseIsaretleri?: 0 | 2 | 4` bu degeri ifade EDEMEZ.",
+      "kaynak": "Menu Sayfasi.dc.html:129 + components/ui/FotoYuvasi.tsx:14",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, kart alt satiri",
+      "briefDiyorKi": "\"alt satırda `TaneDizilimi` mini ve fiyat\"",
+      "tasarimDiyorKi": "Alt satirda UC tane var: `9x9px border-radius:1px background:rgba(242,233,220,.5)` + `5x5px background:rgba(250,170,31,.8)` + `9x9px`, kapsayici `gap:4px`. Mevcut TaneDizilimi sabit alti taneli `RITIM = [1,.625,1,1,.625,1]` basar, uc taneli varyanti yok; renkleri de `var(--krem)` / `var(--tangerine)` (tam opaklik), tasarimin .5 ve .8 alfalarini ifade edemez. Ayrica `boy:9` verilirse kucuk tane `round(9*0.625)=6px` olur, tasarim 5px.",
+      "kaynak": "Menu Sayfasi.dc.html:137 + components/ui/TaneDizilimi.tsx:3,13-30 + TaneDizilimi.module.css:3-5",
+      "onem": "yapisal"
+    },
+    {
+      "nerede": "Step 3, kuzu sis aciklamasi",
+      "briefDiyorKi": "\"Dalak, yürek ve kuzu şiş porsiyon detayları işletmeden gelmedi; açıklama satırı sözlükte kısa yer tutucu taşır.\"",
+      "tasarimDiyorKi": "Kuzu sis'in aciklamasi yer tutucu degil, kesin metin: \"Sakatat yemeyen misafir için ana alternatif.\" (EN: \"The main alternative for guests who skip offal.\"). Yalnizca dalak ve yurek \"Urfa sakatat hattının klasiği. Porsiyon detayı işletmeden bekleniyor.\" tasir.",
+      "kaynak": "Menu Sayfasi.dc.html:171 (dalak 135, yurek 153)",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 1, gece menusu not karti",
+      "briefDiyorKi": "\"Not kartı içeriği işletmeden gelmedi; sözlükte açık bir yer tutucu cümle taşır.\"",
+      "tasarimDiyorKi": "Not kartinin metni tasarimda tam olarak yazili ve sozlukte hazir: baslik \"Gece menüsü\", govde \"01:00 sonrası sadeleşen adlandırılmış katman. Hangi ürünlerin ocakta kalacağı henüz belli değil.\" (EN data-en mevcut). Yazilacak yeni bir yer tutucu cumle yok; kisitlar.md \"No new marketing copy is invented\" kurali geregi uydurulmamali.",
+      "kaynak": "Menu Sayfasi.dc.html:80-81 + content/tr/menu.ts geceMenusu",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 4, alkolsuz satiri",
+      "briefDiyorKi": "\"alkolsüz bilgisi tek sakin satır (`s.ortak.alkolsuz`)\"",
+      "tasarimDiyorKi": "Tasarimdaki menu sayfasi satiri tek cumle: \"Mekanımız alkolsüzdür.\" (EN \"Our place is alcohol-free.\"). Ancak `content/tr/ortak.ts:52` `alkolsuz = 'Mekanımız alkolsüzdür. Sofra ve ocak bizden, yine bekleriz.'`, yani brief'in isaret ettigi anahtar menude olmayan ikinci bir cumle basar. Menuye uyan deger `ortak.ts:53` `alkolsuzKisa` (o da sonundaki noktasiz).",
+      "kaynak": "Menu Sayfasi.dc.html:252 + content/tr/ortak.ts:52-53",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 4, icecek yer tutucusu",
+      "briefDiyorKi": "\"`ICECEK_YER_TUTUCU_ADEDI` kadar kesik çerçeveli boş slot\"",
+      "tasarimDiyorKi": "Kesik cerceveli satir BOS degil: ortalanmis metin tasir. `padding:16px 20px;border:1px dashed rgba(242,233,220,.22);display:flex;align-items:center;justify-content:center` icinde `font:400 14px/1 Inter;color:rgba(242,233,220,.58)` ile \"liste tamamlanacak\" (EN \"More to be added\"). Sayi 1 dogru, ama \"bos slot\" tarifi yanlis.",
+      "kaynak": "Menu Sayfasi.dc.html:248 + content/tr/menu.ts icecekler.listeTamamlanacak",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 2, spread foto yuvasi etiketi",
+      "briefDiyorKi": "`FotoYuvasi id=\"tane-yakin-cekim\"` ile basilacak",
+      "tasarimDiyorKi": "Spread plakasinin etiketi \"tane yakın çekimi · yatay\" (orta nokta ayracli). `fotograflar['tane-yakin-cekim'].etiket` ise sadece 'tane yakın çekimi'. Ayni id cekim listesi 1. karosunda da kullaniliyor ve orada \"tane yakın çekimi\" DOGRU. Yani tek manifest anahtari iki farkli etiketi karsilayamiyor; spread'de \"· yatay\" kaybolur.",
+      "kaynak": "Menu Sayfasi.dc.html:101 (karsilastir 271) + content/fotograflar.ts:9",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 5, cekim karosu etiketleri",
+      "briefDiyorKi": "\"kurulu sofra\" ... \"`fotograflar` manifestinden okur\"",
+      "tasarimDiyorKi": "Tasarim karonun etiketini \"kurulu sofra\" basiyor; manifest `'kurulu-sofra': { etiket: 'kurulu sofra, üstten' }`. Manifestten okununca ekranda tasarimda olmayan \", üstten\" gorunur.",
+      "kaynak": "Menu Sayfasi.dc.html:274 + content/fotograflar.ts:12",
+      "onem": "deger"
+    },
+    {
+      "nerede": "Step 6, parite dogrulamasi",
+      "briefDiyorKi": "\"`screenshots/01-menu.jpg` ile `04-menu.jpg` arası karşılaştır\"",
+      "tasarimDiyorKi": "Handoff'ta yalnizca `01-menu.jpg`, `02-menu.jpg`, `03-menu.jpg` var. `04-menu.jpg` diye bir dosya yok (04 ve 05 yalniz ana-sayfa icin mevcut).",
+      "kaynak": "design_handoff_bozo_website/screenshots/ dizin listesi",
+      "onem": "kucuk"
+    }
+  ],
+  "eksikler": [
+    {
+      "ne": "Bolum basliklari (BolumBasligi) hicbir adimda gecmiyor. Uc bolumun de basligi ve sag ogesi var: Ocaktan (satir 87) + sagda 6 taneli bead rail (satir 89: buyuk `13x13px;border-radius:2px;background:rgba(242,233,220,.8)`, kucuk `8x8px;#FAAA1F`, `gap:10px`), `border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:34px`; Ikramlar (202) + sagda \"Sofra kurulu gelir, istemenize gerek yok\", `border-bottom:1px solid rgba(250,170,31,.3);margin-bottom:30px`; Icecekler (235) + \"Liste işletmeden gelince kesinleşir\", `border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:26px`. Ortak kalip `padding-bottom:20px`, baslik `font:700 clamp(30px,3.6vw,48px)/1.06;letter-spacing:-.04em`. Mevcut BolumBasligi bileseni `padding-bottom:22px`, `line-height 1.12`, not rengi `--krem-66` kullaniyor ve turuncu (`rgba(250,170,31,.3)`) alt cizgi varyanti yok; ikramlar basligi bu haliyle basilamaz.",
+      "nerede": "ocaktan, ikramlar, icecekler",
+      "kaynak": "Menu Sayfasi.dc.html:86-91, 201-204, 234-237 + components/ui/BolumBasligi.module.css:1-19",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Menu acilisinin ana ogeleri: H1 \"Menü\" `font:800 clamp(56px,9vw,140px)/.9 Bricolage;letter-spacing:-.055em;text-shadow:0 8px 50px rgba(10,8,7,.7)` ve spot metin \"Hepsi ocaktan çıkar. Beş ürün, iki ikram. Fiyatlar açılışta kesinleşir.\" `font:400 clamp(16px,1.4vw,19px)/1.6;color:rgba(242,233,220,.78);max-width:540px`. Brief yalnizca DurumCipi + CanliSaat + not kartini sayiyor. Bolum geometrisi de yok: `padding:172px clamp(24px,5vw,64px) 46px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px`, sol kolon `gap:20px`, cip+saat satiri `gap:14px 20px`. Not karti degerleri: `max-width:300px;padding:20px 22px;background:rgba(10,8,7,.7);border:1px solid rgba(242,233,220,.14);gap:9px`, baslik `font:700 16px/1.2;letter-spacing:-.02em`, govde `font:400 13px/1.6;tabular-nums;color:rgba(242,233,220,.68)`.",
+      "nerede": "menu-acilis",
+      "kaynak": "Menu Sayfasi.dc.html:65-82",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Bolum id'leri ve capa kaydirma payi. Ust bardaki uc tetikleyici `data-git=\"ocaktan|ikramlar|icecekler\"` bu sayfadaki `<section id=\"ocaktan\">`, `id=\"ikramlar\"`, `id=\"icecekler\"` hedeflerine 96px offset ile kayiyor. Brief ne id'lerden ne de `scroll-margin-top:96px` gereginden bahsediyor; id'ler konmazsa ust bar navigasyonu bu sayfada calismaz.",
+      "nerede": "ocaktan, ikramlar, icecekler",
+      "kaynak": "Menu Sayfasi.dc.html:85, 200, 233 + script satir 343-349",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Cekim listesi bolumu panel olarak tarif edilmemis. Yedi karonun disinda: bolum `padding:0 clamp(24px,5vw,64px) 80px`; panel `padding:26px clamp(20px,2.4vw,32px);background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.12)`; panel basligi (alt cizgisiz) solda \"Çekim listesi\" `font:700 22px/1.15;letter-spacing:-.03em`, sagda \"Menünün beklediği yedi kare\" `font:400 13.5px/1.5;color:rgba(242,233,220,.64)`, `margin-bottom:20px`; izgara `repeat(auto-fit,minmax(150px,1fr));gap:12px` (brief `minmax(...)` bosluklu birakmis); grid altinda AI notu \"Yapay zeka ile üretilmiş yemek görseli kullanılmıyor. Yuvalar çekim gelene kadar karanlık kalır.\" `margin-top:18px;font:400 13px/1.6;color:rgba(242,233,220,.6)`.",
+      "nerede": "cekim-listesi",
+      "kaynak": "Menu Sayfasi.dc.html:264-280",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "UrunKarti kabugunun ve hover'inin degerleri: `background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.12);transition:transform .22s cubic-bezier(.2,.7,.2,1),border-color .22s ease-out,box-shadow .22s ease-out`, hover `transform:translateY(-6px);border-color:rgba(183,53,28,.65);box-shadow:0 26px 60px rgba(0,0,0,.5)`. Govde `padding:22px 24px 24px;gap:10px;flex:1`; ad `font:700 clamp(24px,2.2vw,30px)/1.1;letter-spacing:-.03em`; aciklama `font:400 14.5px/1.55;color:rgba(242,233,220,.7)`; alt satir `margin-top:auto;padding-top:14px;border-top:1px solid rgba(242,233,220,.12)`; fiyat `font:600 18px/1;tabular-nums;color:#FAAA1F`. Brief hicbirini vermiyor, hover'dan hic soz etmiyor.",
+      "nerede": "ocaktan / UrunKarti",
+      "kaynak": "Menu Sayfasi.dc.html:125, 133-139",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Imza urun panelindeki \"01\" indeksi. Outline cipten once, ayni satirda: `font:600 13px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.5)`, satir `gap:12px`. Brief panel icerigini \"Cip + ad + aciklama + spec + fiyat\" olarak sayiyor, indeksi atliyor. Panelin kendi degerleri de yok: `flex:1 1 380px;min-width:280px;padding:clamp(24px,2.6vw,38px);background:rgba(10,8,7,.78);border:1px solid rgba(183,53,28,.4);gap:16px;justify-content:center`; ad `font:700 clamp(34px,4vw,54px)/1.02;letter-spacing:-.04em`; aciklama `font:400 clamp(15px,1.3vw,17px)/1.6;color:rgba(242,233,220,.76)`; fiyat satiri `padding-top:16px;border-top:1px solid rgba(242,233,220,.14)`, \"porsiyon\" `font:400 14px/1;color:rgba(242,233,220,.6)`, fiyat `font:600 clamp(20px,2vw,26px)/1;#FAAA1F`.",
+      "nerede": "ocaktan / ImzaUrunPaneli",
+      "kaynak": "Menu Sayfasi.dc.html:104-119",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "Spread foto yuvasinin hover'i: `transition:box-shadow .3s ease-out` -> `box-shadow:inset 0 0 120px rgba(183,53,28,.4)`. Ayrica capraz iki kose isareti `26x26px;1px solid rgba(250,170,31,.55)` (sol-ust `left:20px;top:20px`, sag-alt `right:20px;bottom:20px`) ve plaka ici etiket `left:24px;bottom:22px;gap:10px` + `20x1px #FAAA1F` cizgi + `font:500 12.5px/1.4;color:rgba(242,233,220,.72)`. Brief yalnizca \"yatay biçim (min-height: clamp(...))\" diyor, clamp degerini bile bos birakmis (gercek deger `clamp(340px,46vh,480px)`).",
+      "nerede": "ocaktan / spread",
+      "kaynak": "Menu Sayfasi.dc.html:94-102",
+      "onem": "deger"
+    },
+    {
+      "ne": "Spread satirinin ve urun izgarasinin olculeri: spread satiri `display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px);align-items:stretch;margin-bottom:clamp(24px,3vw,44px)`; izgara `display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,2.4vw,34px)`. Brief \"dört kartlık ızgara\" diyor, hicbir deger vermiyor.",
+      "nerede": "ocaktan",
+      "kaynak": "Menu Sayfasi.dc.html:93, 123",
+      "onem": "deger"
+    },
+    {
+      "ne": "Plaka kor animasyonlarinin karta gore degisen sureleri: spread `emberSoft 9s`; kart plakalari sirasiyla `10s .6s`, `11s 1.2s`, `9.5s 1.8s`, `12s 2.4s`; ikram plakalari `11s` ve `12s 1.5s`; icecek plakasi `13s`; cekim karolarinda animasyon YOK. Brief bunlara hic girmiyor ve onerdigi `<UrunKarti ... indeks={number} />` imzasi gecikmeyi (indeks*0.6s) turetebilse de duzensiz sureleri (10/11/9.5/12s) ifade edemez.",
+      "nerede": "ocaktan, ikramlar, icecekler, cekim-listesi",
+      "kaynak": "Menu Sayfasi.dc.html:95, 127, 145, 163, 181, 208, 220, 240, 271-277",
+      "onem": "deger"
+    },
+    {
+      "ne": "Ikram kartlarinin adlari ve degerleri: kart 1 \"Lebeni çorbası\" / \"Nohut, yoğurt ve kekik. Ocaktan önce gelir.\", kart 2 \"Bostana\" / \"İnce doğranmış, sulu. Vişne suyu ve nar ekşisiyle.\". Kart `flex:1 1 400px;min-width:290px;flex-wrap:wrap;background:rgba(10,8,7,.74);border:1px solid rgba(250,170,31,.28)`; govde `flex:1 1 200px;padding:24px;gap:9px;justify-content:center`; ad `font:700 clamp(22px,2vw,27px)/1.1;letter-spacing:-.03em`; aciklama `font:400 14px/1.55`; \"ikram\" ibaresi `margin-top:4px`. Plakalarda kose isareti ve indeks yok, kor rengi `rgba(122,31,43,.5)`. Bu renk kisitlar.md'deki renk tablosunda YOK; kisitlar.md'nin kendi kurali geregi raporlanmasi gerekiyor.",
+      "nerede": "ikramlar",
+      "kaynak": "Menu Sayfasi.dc.html:206-229 + kisitlar.md renk tablosu",
+      "onem": "deger"
+    },
+    {
+      "ne": "Icecek listesinin icerigi: uc adli satir \"Ayran\", \"Şalgam\", \"Çay\", her biri \"000 TL\". Satir `display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:18px 20px;background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.12)`; ad `font:600 17px/1;#F2E9DC`; fiyat `font:600 15px/1;tabular-nums;#FAAA1F`; kolon `flex:1 1 420px;min-width:300px;gap:12px`. Brief sadece \"fiyat satırları\" diyor, sayiyi ve adlari vermiyor.",
+      "nerede": "icecekler",
+      "kaynak": "Menu Sayfasi.dc.html:244-247",
+      "onem": "deger"
+    },
+    {
+      "ne": "QR glifinin yanindaki aciklama metni: \"Masadaki QR menü aynı listeyi gösterir\" (EN \"The same list runs behind the table QR\") `font:400 13.5px/1.5;color:rgba(242,233,220,.62);max-width:260px`. Dipnot satiri geometrisi `margin-top:28px;padding-top:22px;border-top:1px solid rgba(242,233,220,.12);justify-content:space-between;gap:18px`, sag grup `gap:12px`. QR glifi `34x34px;border:1px solid rgba(242,233,220,.25);3x3 grid;gap:2px;padding:5px`, dort kose `rgba(242,233,220,.7)`, merkez `rgba(250,170,31,.85)`. Brief \"ve QR glifi\" diyip aciklamayi ve olculeri atliyor.",
+      "nerede": "icecekler",
+      "kaynak": "Menu Sayfasi.dc.html:251-260",
+      "onem": "deger"
+    },
+    {
+      "ne": "Bolum ic bosluklari hicbir adimda verilmemis: ocaktan `padding:0 clamp(24px,5vw,64px) 40px` (ust bosluk SIFIR, acilistan hemen sonra gelir), ikramlar `padding:70px clamp(24px,5vw,64px) 40px`, icecekler `padding:60px clamp(24px,5vw,64px) 70px`, cekim listesi `padding:0 clamp(24px,5vw,64px) 80px`.",
+      "nerede": "ocaktan, ikramlar, icecekler, cekim-listesi",
+      "kaynak": "Menu Sayfasi.dc.html:85, 200, 233, 264",
+      "onem": "deger"
+    },
+    {
+      "ne": "alt-bilgi bolumu Kaynak satirinda kapsama dahil edilmis ama hicbir adim onu kurmuyor ve MenuSayfasi'na UstBar/AltBilgi/KorSahnesi'nin nasil gecirilecegi soylenmiyor. Menu sayfasinin footer'inda dikkat gerektiren fark: birincil \"Yol tarifi al\" butonu burada `box-shadow` TASIMAZ (`padding:17px 28px;font:600 15.5px/1`), ust bardaki ayni buton `box-shadow:0 8px 26px rgba(183,53,28,.34)` tasir. Outline telefon butonu `border:1px solid rgba(242,233,220,.36);padding:16px 27px;tabular-nums`, hover `border-color:rgba(250,170,31,.85)`. Meta satiri \"Girne, Naci Talat Caddesi · Her gün 10:00 - 05:00\" ve `data-en` tasimadigi icin EN'de de aynen kalir.",
+      "nerede": "alt-bilgi",
+      "kaynak": "Menu Sayfasi.dc.html:283-292 (karsilastir 58)",
+      "onem": "yapisal"
+    },
+    {
+      "ne": "EN katmaninin kapsami tanimlanmamis. Tasarimda `data-en` TASIMAYAN ve dolayisiyla EN'de aynen kalan metinler: urun adlari (Ciğer, Dalak, Yürek, Kuzu şiş, Terbiyesiz tavuk şiş), ikram adlari (Lebeni çorbası, Bostana), icecek adlari (Ayran, Şalgam, Çay), spec cipleri (8 şiş / 4 ciğer, 2 kuyruk yağı / 3 dakika), tum yuva etiketleri, \"000 TL\", marka adi ve adres satiri. Brief Step 6'da bunun tersini bekliyor (\"EN sayfada ürün adları ... açıklanmış olmalı, `Urfa liver kebab (ciğer)`\"). Bu beklenti kisitlar.md'deki sert kuraldan geliyor, yani bilincli bir sapma; ama brief bunu sapma olarak isaretlemiyor, bu yuzden ekran karsilastirmasinda hata gibi gorunecek. Ayni sekilde `fotograflar` manifesti `etiketEn` tasiyor ve FotoYuvasi dile gore ceviriyor, tasarim ise yuva etiketlerini cevirmiyor.",
+      "nerede": "ocaktan, ikramlar, icecekler, cekim-listesi (EN katmani)",
+      "kaynak": "Menu Sayfasi.dc.html:109,112-114,134,170,188,213,225,245-247,101,130 + menu.json davranislar[\"TR/EN dil degistirme\"] + kisitlar.md Copy rules",
+      "onem": "deger"
+    },
+    {
+      "ne": "Menu sayfasinda erime/fade davranisi yok: hicbir bolum `data-yogunluk` tasimiyor ve sayfa scriptinde bolum opaklik hesabi bulunmuyor (menu.json'da tum bolumlerin `dataYogunluk` alani bos). Brief hangi sarmalayicinin kullanilacagini soylemiyor; mevcut `components/ui/Bolum.tsx` her bolume scroll'a bagli opacity/translate erimesi ekler, bu menu tasariminda olmayan bir hareket olur.",
+      "nerede": "tum bolumler",
+      "kaynak": "docs/tasarim/menu.json bolumler[*].dataYogunluk + components/ui/Bolum.tsx:29-45",
+      "onem": "kucuk"
+    }
+  ],
+  "ozet": "Brief'e guvenilmez: en buyuk risk, Step 2-4'un mevcut FotoYuvasi/TaneDizilimi API'lerini menu sayfasinin karsilamadigi varyantlar icin cagirmasi (`bicim=\\\"karo\\\"` 110px sabit, `koseIsaretleri` tek kose ifade edemiyor, TaneDizilimi 3 tane basamiyor) ve indeks rozetini yanlis yere, govdeye koymasi; ayrica uc bolum basligi, menu acilisinin H1'i, cekim listesi paneli, bolum id'leri ve alt bilgi adimi tumuyle eksik."
+}
