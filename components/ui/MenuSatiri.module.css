@@ -1,0 +1,54 @@
+/*
+ * Ana Sayfa Alternatif.dc.html:176-214, beş satırın hepsi birebir aynı.
+ * Hover satırı yerinden oynatmaz (translateX değil), yalnız iç dolguyu büyütür:
+ * satırın zemini ve alt çizgisi yerinde kalır. Son satırın alt çizgisi kalkmaz,
+ * tasarımda beşinin de border-bottom'ı var, :last-child istisnası yok.
+ */
+.satir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 26px;
+  padding: 22px 12px;
+  border-bottom: 1px solid var(--cizgi-soluk);
+  transition: background var(--gecis-yerlesim), padding-left var(--gecis-yerlesim);
+}
+
+.satir:hover {
+  background: var(--tangerine-07);
+  padding-left: 24px;
+}
+
+.sira {
+  font: 600 13px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-62);
+  width: 26px;
+  flex: none;
+}
+
+.ad {
+  font: 700 var(--ol-menu-kalem)/1.14 var(--font-baslik);
+  /* Ana:178. Aynı iz Ana:93 saatinde de var, orada da ham yazılı
+     (CanliSaat.module.css:14); token'a çıkarılması ayrı bir tur. */
+  letter-spacing: -0.015em;
+  color: var(--krem);
+  width: clamp(160px, 20vw, 260px);
+  flex: none;
+}
+
+.aciklama {
+  flex: 1;
+  min-width: 200px;
+  font: 400 15px/1.5 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.fiyat {
+  font: 600 17px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+  width: 96px;
+  text-align: right;
+  flex: none;
+}

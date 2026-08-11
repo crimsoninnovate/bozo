@@ -1,0 +1,51 @@
+/* Ana Sayfa Alternatif.dc.html:219-242 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+  text-align: center;
+}
+
+.erit {
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/*
+ * --ol-duygusal / --iz-duygusal DEĞİL: o ikili gece bölümünün H2'sidir
+ * (800, clamp(44px,7vw,112px)/1.08, -.03em). Buradaki ağırlık 700 ve ölçek
+ * tasarımda tek kullanımlık (Ana:224).
+ */
+.baslik {
+  margin: 0;
+  font: 700 clamp(38px, 5.4vw, 78px)/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.metin {
+  margin: 0;
+  font: 400 var(--ol-govde-buyuk)/1.6 var(--font-govde);
+  color: var(--krem-80);
+  max-width: 620px;
+}
+
+.cipler {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.plakaKabi {
+  margin-top: 14px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

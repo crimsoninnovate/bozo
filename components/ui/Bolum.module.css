@@ -1,5 +1,15 @@
+/*
+ * scroll-margin-top: sayfa içi çapalar (hero'nun "Menüyü gör" butonu #ocaktan'a,
+ * kaydırma ipucu #iddia'ya gider) sabit üst barın altına gitmesin diye. Tasarım
+ * aynı işi JS ile ve aynı 70px sabitiyle yapıyor (BeadRay.tsx:35 de o sabiti
+ * kullanır). Burada JS yardımcısı yok: reset.css'in `scroll-behavior: smooth`
+ * kuralı ile birlikte tarayıcının kendi mekanizması aynı davranışı verir ve
+ * animasyonlar.css hareket azaltılmışta `scroll-behavior: auto !important` ile
+ * yumuşak kaydırmayı zaten kapatır.
+ */
 .bolum {
   position: relative;
+  scroll-margin-top: 70px;
 }
 
 .erit {

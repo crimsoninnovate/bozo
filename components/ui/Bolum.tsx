@@ -10,6 +10,12 @@ type Props = {
   /** KorSahnesi'nin ana sayfada okuduğu yoğunluk katsayısı. Diğer sayfalarda atlanır. */
   yogunluk?: number
   className?: string
+  /**
+   * İç `data-erit` katmanının yerleşimi. Tasarımda bu katman her bölümde kendi
+   * `max-width`, `display` ve `gap` değerlerini taşıyor (Ana:87, 129, 170, 220);
+   * dıştaki `section` ile aynı sınıfı paylaşamaz.
+   */
+  eritClassName?: string
   children: React.ReactNode
 }
 
@@ -20,7 +26,7 @@ type Props = {
  * bir açılış değildir. Hareket azaltılmışsa içerik anında son haliyle görünür,
  * hesap hiç kurulmaz.
  */
-export function Bolum({ id, yogunluk, className, children }: Props) {
+export function Bolum({ id, yogunluk, className, eritClassName, children }: Props) {
   const eritRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -54,7 +60,7 @@ export function Bolum({ id, yogunluk, className, children }: Props) {
 
   return (
     <section id={id} data-yogunluk={yogunluk} className={className ? `${stil.bolum} ${className}` : stil.bolum}>
-      <div ref={eritRef} className={stil.erit}>
+      <div ref={eritRef} className={eritClassName ? `${stil.erit} ${eritClassName}` : stil.erit}>
         {children}
       </div>
     </section>

@@ -1,0 +1,23 @@
+/* Ana Sayfa Alternatif.dc.html:169-217 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+}
+
+/*
+ * Tasarımda erit katmanı ile cam panel aynı div (Ana:170). Bolum kendi erit
+ * katmanını basmak zorunda olduğu için panel onun içine giriyor; genişliği
+ * (width:100%, max-width:1180px) CamPanel'in `genislik="sayfa"` varyantı taşır,
+ * erit katmanı yalnız o genişliği geçirir.
+ */
+.erit {
+  width: 100%;
+}
+
+.liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

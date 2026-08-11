@@ -1,0 +1,80 @@
+/* Ana Sayfa Alternatif.dc.html:128-167 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+}
+
+.erit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(32px, 4vw, 72px);
+  width: 100%;
+}
+
+/* Panelin zemini, kenarlığı, bulanıklığı ve dolgusu CamPanel'in kendisinde;
+   burada yalnız ızgaradaki yeri var (Ana:130). */
+.panel {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+/*
+ * BolumBasligi kullanılmaz: onun `genis` varyantı padding-bottom:22px ve
+ * border-bottom taşır, o Ocaktan başlık satırının chrome'udur. Burada çizgi yok.
+ */
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+.metin {
+  margin: 22px 0 0;
+  font: 400 var(--ol-govde)/1.65 var(--font-govde);
+  color: var(--krem-78);
+  max-width: 560px;
+}
+
+/* 1px gap + zemin: hücreler arasındaki hairline ızgara (Ana:133) */
+.sayaclar {
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--cizgi-kart);
+}
+
+.hucre {
+  flex: 1 1 150px;
+  background: var(--panel-koyu);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.sayi {
+  /* Ana:135, 139, 143: üç hücrenin tek ölçüsü, tasarımda başka yerde yok */
+  font: 700 clamp(44px, 4.6vw, 64px)/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--iz-bolum);
+  color: var(--tangerine);
+}
+
+.etiket {
+  font: 400 14px/1.45 var(--font-govde);
+  color: var(--krem-74);
+}
+
+/* Plakanın ortasındaki içi boş ray; konumu çağıran verir (Ana:149). */
+.ortaRay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}

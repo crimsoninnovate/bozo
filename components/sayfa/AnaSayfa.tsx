@@ -1,9 +1,22 @@
-import { sozluk, type Dil } from '@/content'
+import type { Dil } from '@/content'
+import { Acilis } from './ana/Acilis'
+import { Iddia } from './ana/Iddia'
+import { Ikram } from './ana/Ikram'
+import { Ocaktan } from './ana/Ocaktan'
 
 type Props = { dil: Dil }
 
-/** Yer tutucu gövde. Görev 9 ve 10 bunu ana sayfanın gerçek bölümleriyle doldurur. */
+/**
+ * Ana sayfanın gövdesi. Görev 10 kalan dört bölümü (gece, bozo, konum, paket) ve
+ * bölüm navigasyonunu (BeadRay) ekler.
+ */
 export function AnaSayfa({ dil }: Props) {
-  const s = sozluk(dil)
-  return <h1>{s.ortak.nav.anaSayfa}</h1>
+  return (
+    <>
+      <Acilis dil={dil} />
+      <Iddia dil={dil} />
+      <Ocaktan dil={dil} />
+      <Ikram dil={dil} />
+    </>
+  )
 }

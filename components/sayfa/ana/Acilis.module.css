@@ -1,0 +1,144 @@
+/* Ana Sayfa Alternatif.dc.html:86-126 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* alt dolgu 0: hero bir sonraki bölüme yaslanır (Ana:86) */
+  padding: var(--bolum-dikey) var(--sayfa-yatay) 0;
+}
+
+.erit {
+  max-width: var(--panel-en);
+}
+
+.durumSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+  margin-bottom: 38px;
+}
+
+.baslik {
+  margin: 0;
+  font: 800 var(--ol-hero)/1.06 var(--font-baslik);
+  letter-spacing: var(--iz-hero);
+  color: var(--krem);
+  /* Ana:98, tasarımdaki tek kullanım; --golge-baslik'ten ayrı bir değer */
+  text-shadow: 0 8px 60px rgba(10, 8, 7, 0.6);
+}
+
+.altSatir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 34px;
+  margin-top: 28px;
+}
+
+.altBaslik {
+  font: 800 var(--ol-hero-alt)/1 var(--font-baslik);
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem-72);
+}
+
+.ctaSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 46px;
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  padding-left: 10px;
+  font: 500 14.5px/1.6 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-74);
+}
+
+.metaAyirici {
+  width: 1px;
+  height: 14px;
+  flex: none;
+  background: var(--cizgi-meta);
+}
+
+/*
+ * Kaydırma ipucu. Rengi açıkça yazılır: reset.css her <a>'ya var(--tangerine),
+ * hover'da var(--krem) veriyor, tasarımda ise ipucu krem-66 ve hover'da RENK
+ * değiştirmiyor, yalnız gap açılıyor.
+ *
+ * Görünür kutu 15px yüksekliğinde; dokunma hedefi görünmez ::after ile 44px'e
+ * çıkarılır (AltBilgi'de kurulan teknik). Üstteki CTA satırına uzaklık en az
+ * 40px (margin-top clamp'inin alt ucu), yani 44px'lik alan komşu hiçbir hedefle
+ * çakışmaz; ölçüm için bkz. task-9-report.md.
+ */
+.ipucu {
+  position: relative;
+  margin-top: clamp(40px, 6vh, 72px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  color: var(--krem-66);
+  transition: gap var(--gecis-yerlesim);
+}
+
+.ipucu:hover {
+  gap: 22px;
+  color: var(--krem-66);
+}
+
+.ipucu::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+.ipucuKare {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border-radius: 2px;
+  background: var(--krem-55);
+}
+
+.ipucuCizgi {
+  width: 52px;
+  height: 1px;
+  flex: none;
+  background: var(--cizgi-tire);
+}
+
+.ipucuMetin {
+  font: 400 13px/1 var(--font-govde);
+  color: var(--krem-66);
+}
+
+/*
+ * 780px altında ipucu basılmaz. Gerekçe ölçümle bulundu: sabit MobilAksiyonBari
+ * aynı eşikte görünür oluyor (MobilAksiyonBari.module.css:55) ve 390x844'te
+ * hero'nun dibindeki ipucunun 44px'lik hedefinin yalnız 8px'i erişilebilir
+ * kalıyor, kalanı barın altında. Yanlış hedef "Yol tarifi"ye, yani haritaya
+ * gider: çakışan hedef kısa hedeften kötüdür.
+ *
+ * Kaldırma keyfi değil, tasarımın kendi kararı: "Mobil Prototip.dc.html"in
+ * hero'sunda bu ipucu yok (dosyada "kanıtı tanede" geçmiyor), mobil düzen onu
+ * zaten düşürüyor. Bkz. IYILESTIRMELER.md ve task-9-report.md.
+ */
+@media (max-width: 780px) {
+  .ipucu {
+    display: none;
+  }
+}
