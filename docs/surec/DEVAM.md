@@ -87,6 +87,23 @@ Ele alırken önce hangi sorun olduğu ayrılmalı, ikisi zıt yönde düzeltme 
   ölçeği veya kontrastı artırmak)
 - kor içeriğin okunurluğunu düşürüyor (çözüm: tam tersi, sahneyi geri çekmek)
 
+**Gece şeridi gereksiz görünüyor.** Sahibi 12 Ağustos 2026, 01:07'de bildirdi: üst
+bardaki ince şerit ("Gece açığız, ocak yanıyor") anlaşılmıyor, aynı şey zaten aşağıda
+yazıyor. Gözlem doğru: 01:00-05:00 arası aynı olgu üç kez söyleniyor.
+
+| Nerede | Metin |
+|---|---|
+| `GeceSeridi` (üst bar) | Gece açığız, ocak yanıyor |
+| `DurumCipi` (hero) | Şu an açığız |
+| `DurumAltMetni` (hero) | Ocak 05:00'e kadar yanıyor |
+
+Şerit tasarımdan geliyor (`Ana Sayfa Alternatif.dc.html:44`) ve yalnız gece
+görünür, bu yüzden gündüz yapılan hiçbir incelemede ortaya çıkmadı. Task 16'da
+karara bağlanacak. Seçenekler: şeridi kaldırmak, hero'nun alt metnini gece
+saatlerinde susturmak, ya da şeridi yalnız ana sayfa dışındaki rotalarda göstermek
+(orada hero durum satırı yok, tekrar da yok). Üçüncüsü tekrarı çözerken tasarımın
+niyetini de korur, ama ölçülmeden karar verilmemeli.
+
 Bugünkü zemin, karar verirken ölçülecek yerler: `components/ember/KorSahnesi.tsx`
 (yoğunluk takibi `lib/cerceve.ts`'ten geliyor), bölüm başına `data-yogunluk`
 katsayıları (acilis 1, iddia 0.55, ocaktan 0.4, ikram 0.7, gece 1.25, bozo 0.45,
