@@ -52,7 +52,7 @@ export function UstBar({ dil, aktif, ilerleme = false }: Props) {
           </Link>
 
           <div className={stil.sagGrup}>
-            <nav className={stil.navLinks} aria-label={dil === 'tr' ? 'Site navigasyonu' : 'Site navigation'}>
+            <nav className={stil.navLinks} aria-label={s.ortak.erisim.anaGezinme}>
               {IC_SAYFA_LINKLERI.map(({ anahtar, anahtarSozluk }, i) => (
                 <span key={anahtar} className={stil.navOgesi}>
                   {anahtar === aktif ? (

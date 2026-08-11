@@ -107,8 +107,16 @@
   color: var(--tangerine);
 }
 
+/*
+ * Dokunma alanı hedefi kasıtlı olarak yok: bu, geçerli sayfayı işaretleyen
+ * <span aria-current="page">, href'i ve tıklama işleyicisi yok. Tasarımın
+ * kendisi de bunu diğer nav öğelerinden ayırıyor: aktif sekmede cursor:pointer
+ * veya data-git yok (bkz. Hikaye/Konum Sayfasi.dc.html), yalnız komşusu "Gece"
+ * gibi gerçekten tıklanabilir öğelerde var. fix round 1'de eklenen ::before
+ * kaldırıldı; boş bir dokunma hedefi tıklanamayan bir elemanın üstünde ölü
+ * makine olurdu (fix round 2, "decide rather than just fix").
+ */
 .aktifLink {
-  position: relative;
   font-family: var(--font-govde);
   font-weight: 600;
   font-size: 15px;
@@ -116,22 +124,6 @@
   color: var(--tangerine);
   padding-bottom: 2px;
   border-bottom: 2px solid var(--tangerine);
-}
-
-/*
- * .link'in min-height+flex tekniği burada uygun değil: aktif çizgi metne bitişik
- * durur, kutu 44px'e büyürse çizgi metinden görünür biçimde uzaklaşırdı. Bunun
- * yerine görünmez bir ::before katmanı dokunma alanını büyütür, görünen kutu
- * (ve alt çizgisi) hiç değişmez (fix round 1, Finding 3).
- */
-.aktifLink::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 44px;
-  transform: translateY(-50%);
 }
 
 .ctaSarici {

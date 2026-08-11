@@ -93,7 +93,7 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
         <span aria-hidden="true" />
       </button>
 
-      <nav className={stil.linkler} aria-label={dil === 'tr' ? 'Site navigasyonu' : 'Site navigation'}>
+      <nav className={stil.linkler} aria-label={s.ortak.erisim.mobilGezinme}>
         {linkler.map((link, i) => (
           <Link
             key={link.anahtar}

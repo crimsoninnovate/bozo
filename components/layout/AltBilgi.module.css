@@ -83,11 +83,16 @@
   line-height: 1.7;
 }
 
-/* min-height:44px: dokunma alanı, görünen konum flex ortalamayla değişmez (fix round 1, Finding 3). */
+/*
+ * fix round 1'in min-height:44px'i burada `.kolon`un dikey gap'li sütun akışını
+ * büyütüyordu (fix round 2, Open 2: satır Y konumları ölçülüp doğrulandı, bkz.
+ * task-6-report.md). `.aktifLink`'teki aynı görünmez ::before tekniği kullanıldı:
+ * kutunun kendi boyu değişmez, yalnız dokunma alanı büyür.
+ */
 .yolTarifi {
+  position: relative;
   display: flex;
   align-items: center;
-  min-height: 44px;
   gap: 9px;
   width: fit-content;
   text-decoration: none;
@@ -101,6 +106,16 @@
 
 .yolTarifi:hover {
   gap: 16px;
+}
+
+.yolTarifi::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .yolTarifiCizgi {
@@ -126,11 +141,16 @@
   color: var(--krem-70);
 }
 
-/* min-height:44px: dokunma alanı, görünen konum flex ortalamayla değişmez (fix round 1, Finding 3). */
+/*
+ * fix round 1'in min-height:44px'i burada `.kolon`un dikey gap'li sütun akışını
+ * büyütüyordu (fix round 2, Open 2: üç satırın Y konumu ölçülüp doğrulandı, bkz.
+ * task-6-report.md). Görünmez ::before dokunma alanını büyütür, kutunun kendi
+ * boyu (ve dolayısıyla sütun akışındaki konumu) değişmez.
+ */
 .iletisimSatiri {
+  position: relative;
   display: flex;
   align-items: center;
-  min-height: 44px;
   gap: 10px;
   text-decoration: none;
   font-family: var(--font-govde);
@@ -139,6 +159,16 @@
   line-height: 1;
   color: var(--krem-70);
   transition: color var(--gecis-hizli);
+}
+
+.iletisimSatiri::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .iletisimSatiri svg {
