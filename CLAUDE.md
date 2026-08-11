@@ -73,6 +73,17 @@ npm run preview    # serve the out/ export locally
 - **Never invent new marketing copy.** All text comes verbatim from `docs/tasarim/metin-envanteri.json`
   or the `.dc.html` handoff files.
 
+## Comments
+
+Comment density here has drifted into essays. Keep them short.
+
+- A comment earns its place by recording something the code cannot say: a design
+  source (`Ana:176`), a measured value, a decision that looks wrong without context.
+- One or two lines. Not a paragraph, and never a rationale essay.
+- Do not restate what the line does, do not narrate the process that produced it,
+  do not argue with a hypothetical reader.
+- The reasoning belongs in `docs/surec/`, not in the file.
+
 ## Naming
 
 - Domain concepts in Turkish: `TaneDizilimi`, `KorSahnesi`, `FotoYuvasi`, `urunler.ts`,

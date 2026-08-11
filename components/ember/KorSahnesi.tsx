@@ -5,19 +5,7 @@ import { hareketAzaltilmisMi } from '@/lib/hareket'
 import { cerceveyeAboneOl } from '@/lib/cerceve'
 import stil from './KorSahnesi.module.css'
 
-/**
- * Tasarımda iki sahne var, biri ötekinin ayarlanmış hali değil.
- *
- * `ana`: Ana Sayfa Alternatif.dc.html:28-35. Parlak (kor .78, çekirdek .42),
- *   üç duman pufu, kaydırmaya bağlı yoğunluk takibi.
- * `ic`:  Menu / Hikaye / Konum Sayfasi.dc.html:27-33, üçünde birebir aynı.
- *   Sönük (kor .55, çekirdek .26), iki puf, sabit; takip yok.
- *
- * Ayrım okunurluk için gerekli, kozmetik değil: iç sayfalarda gövde metni
- * sahnenin üstünde okunuyor ve ana sayfanın sahnesi oraya basıldığında krem .78
- * metnin kontrastı 4.34:1'e düşüp AA'yı geçmiyor (ölçüm: task-14-report.md).
- * Tasarımın kendi çözümü metni açmak değil, sahneyi kısmak.
- */
+/** ana: Ana:28-35, parlak ve kaydırma takipli. ic: Hikaye/Konum:27-33, sönük ve sabit. */
 export type SahneVaryanti = 'ana' | 'ic'
 
 type Props = {
@@ -30,8 +18,7 @@ export function KorSahnesi({ varyant }: Props) {
   const anaMi = varyant === 'ana'
 
   useEffect(() => {
-    // Yoğunluk takibi bölümlerin `data-yogunluk` değerini okur; o değeri yalnız
-    // ana sayfa taşır (diğer üç tasarım dosyasında `data-yogunluk` hiç geçmiyor).
+    // `data-yogunluk` yalnız ana sayfada var.
     if (!anaMi) return
     const kor = korRef.current
     const cekirdek = cekirdekRef.current

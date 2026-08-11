@@ -7,15 +7,8 @@
   pointer-events: none;
 }
 
-/* Tasarımda iki sahne var, biri ötekinin kopyası değil. Ana sayfanınki
-   (Ana Sayfa Alternatif.dc.html:28-35) parlak, kaydırmayı izler, üç duman pufu ve
-   imleç koru taşır. İç sayfalarınki (Menu/Hikaye/Konum Sayfasi.dc.html:27-33,
-   üçünde birebir aynı) sönük, sabit, iki puflu ve imleçsizdir.
-
-   Fark kozmetik değil: iç sayfalarda gövde metni sahnenin üstünde okunuyor.
-   Ana sayfanın sahnesi oraya basıldığında krem .78 metin kontrastı 4.34:1'e
-   düşüyor ve AA'yı geçmiyor (ölçüm: task-14-report.md). Tasarımın kendi çözümü
-   metni açmak değil, sahneyi kısmak. */
+/* .ana = Ana:28-35, .ic = Hikaye/Konum:27-33.
+   Menu:29-32 altı değerde ayrışıyor, çoğunluğa normalize edildi (IYILESTIRMELER.md). */
 
 .kor {
   position: absolute;
@@ -32,7 +25,7 @@
     rgba(183, 53, 28, 0.2) 44%,
     transparent 70%
   );
-  animation: emberBreath 8s ease-in-out infinite;
+  animation: emberBreathAna 8s ease-in-out infinite;
   /* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
   transition: opacity 0.9s ease-out, transform 0.9s ease-out;
   will-change: opacity, transform;
@@ -61,7 +54,7 @@
   width: min(780px, 110%);
   height: 520px;
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.42), transparent 72%);
-  animation: emberSoft 11s ease-in-out infinite;
+  animation: emberSoftAna 11s ease-in-out infinite;
   transition: opacity 0.9s ease-out;
   will-change: opacity;
 }
@@ -76,10 +69,11 @@
 .duman {
   position: absolute;
   border-radius: 50%;
-  animation-name: smokeDrift;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+.ana .duman { animation-name: smokeDriftAna; }
+.ic .duman { animation-name: smokeDrift; }
 
 .duman1 {
   left: 28%;
