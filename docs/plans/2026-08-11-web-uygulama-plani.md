@@ -433,7 +433,7 @@ test('durum_gecikSaat0230_acikVeGecedir', () => {
   assert.equal(d.gece, true)
 })
 
-test('durum_0459_hâlâAciktir', () => {
+test('durum_0459_halaAciktir', () => {
   const d = durumHesapla(girne('2026-08-12T04:59:00+03:00'))
   assert.equal(d.acik, true)
   assert.equal(d.gece, true)
