@@ -13,7 +13,9 @@ export const isletme: Isletme = {
   cadde: 'Naci Talat Caddesi',
   sehir: 'Girne',
   ulke: 'KKTC',
-  binaNo: null,
+  // Handoff README'si (11 Ağustos 2026) ve dört tasarım dosyası da bu numarayı verir;
+  // metin-envanteri.json bu alanı bilinmiyor sayar, daha eski ve daha az özel kaynaktır.
+  binaNo: 'Şht. Özdemir Apt No:4',
   postaKodu: null,
   koordinat: null,
   telefon: null,

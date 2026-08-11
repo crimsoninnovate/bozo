@@ -4,7 +4,7 @@ import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
-import { ocaktanUrunler, ikramlar } from './urunler.ts'
+import { ICECEK_YER_TUTUCU_ADEDI, ocaktanUrunler, ikramlar } from './urunler.ts'
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -57,6 +57,7 @@ test('isletme_bilinmeyenAlanlarNullDur', () => {
   assert.equal(isletme.instagram, null)
   assert.equal(isletme.eposta, null)
   assert.equal(isletme.koordinat, null)
+  assert.equal(isletme.postaKodu, null)
 })
 
 test('isletme_dogrulanmisAlanlarDoludur', () => {
@@ -64,6 +65,29 @@ test('isletme_dogrulanmisAlanlarDoludur', () => {
   assert.equal(isletme.cadde, 'Naci Talat Caddesi')
   assert.equal(isletme.sehir, 'Girne')
   assert.equal(isletme.alkolServisi, false)
+})
+
+/**
+ * Bina numarası handoff README'sinde (11 Ağustos 2026) ve dört tasarım
+ * dosyasının hepsinde geçer. JSON-LD streetAddress bu alandan kurulur;
+ * null kalırsa arama motorlarına eksik adres gider.
+ */
+test('isletme_binaNoDogrulanmisDegerTasir', () => {
+  assert.equal(isletme.binaNo, 'Şht. Özdemir Apt No:4')
+})
+
+/**
+ * Yapısal veri streetAddress alanını isletme.cadde ve isletme.binaNo üzerinden
+ * kurar; görünen adres satırı sözlükten gelir. İkisi ayrışırsa arama motoruna
+ * giden adres ile sayfadaki adres çelişir, yerel görünürlük bundan zarar görür.
+ */
+test('adres_yapisalVeGorunenAyniDegeriTasir', () => {
+  assert.equal(`${isletme.cadde}, ${isletme.binaNo}`, tr.ortak.satirlar.adresTamSatir)
+})
+
+/** Menü tasarımında üç adlı içeceğin ardında tek kesik yer tutucu vardır. */
+test('icecekler_tekYerTutucuSlotuVardir', () => {
+  assert.equal(ICECEK_YER_TUTUCU_ADEDI, 1)
 })
 
 test('urunler_ocaktanBesUrundur', () => {

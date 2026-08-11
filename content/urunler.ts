@@ -24,5 +24,8 @@ export const icecekler: Icecek[] = [
   { id: 'cay', fiyat: null },
 ]
 
-/** İçecek listesi işletmeden gelmedi; arayüz bu sayıda kesik yer tutucu basar. */
-export const ICECEK_YER_TUTUCU_ADEDI = 3
+/**
+ * İçecek listesi işletmeden gelmedi; arayüz adlı içeceklerin ardına bu sayıda
+ * kesik yer tutucu basar. Tasarımda üç adlı içeceğin ardında tek slot vardır.
+ */
+export const ICECEK_YER_TUTUCU_ADEDI = 1
