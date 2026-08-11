@@ -1,0 +1,408 @@
+{
+  "bolumler": [
+    {
+      "id": "sahne-kap",
+      "ad": "Ambient Ocak Sahnesi (arka plan katmani)",
+      "ozet": "Section degil; kok div'in ilk cocugu. position:absolute;top:0;left:0;right:0;height:100vh;z-index:0;overflow:hidden;pointer-events:none;will-change:transform. Icinde sirasiyla 6 mutlak konumlu katman: (1) kor parlamasi left:0;right:0;bottom:-16%;height:92%;background:radial-gradient(76% 90% at 50% 100%,rgba(183,53,28,.55),rgba(183,53,28,.14) 44%,transparent 70%);animation:emberBreath 9s ease-in-out infinite. (2) amber havuz left:50%;bottom:-10%;width:min(760px,110%);height:460px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(250,170,31,.26),transparent 72%);animation:emberSoft 12s ease-in-out infinite. (3) duman-1 left:26%;bottom:2%;230x230;border-radius:50%;radial-gradient(closest-side,rgba(242,233,220,.3),transparent);filter:blur(32px);animation:smokeDrift 24s linear infinite. (4) duman-2 left:60%;bottom:0%;200x200;radial-gradient(closest-side,rgba(250,170,31,.32),transparent);filter:blur(28px);animation:smokeDrift 30s linear infinite 10s. (5) vinyet inset:0;box-shadow:inset 0 0 240px rgba(0,0,0,.86). (6) grain grid inset:0;opacity:.5;repeating-linear-gradient(0deg,rgba(242,233,220,.014) 0 1px,transparent 1px 3px) + ayni gradient 90deg. Tum icerik bu katmanin uzerinde position:relative;z-index:10 saran div icinde. Hic gorunur metin yok.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "AmbientOcakSahnesi",
+        "emberBreath keyframe",
+        "emberSoft keyframe",
+        "smokeDrift keyframe"
+      ],
+      "metinAnahtarlari": []
+    },
+    {
+      "id": "ust-serit",
+      "ad": "Ust Serit (fixed top bar) + Gece Seridi",
+      "ozet": "position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Iki satir. SATIR 1 gece seridi (data-gece-serit=1): display:none varsayilan, JS 01:00-05:00 arasi flex yapar; padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px; icinde 7px nokta (#FAAA1F, box-shadow:0 0 10px rgba(250,170,31,.9), dotPulse 2.4s) + metin font:600 12.5px/1 Inter, color:#FAAA1F. SATIR 2 nav: height:78px;padding:0 clamp(24px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px. Sol: logo <a href=Ana Sayfa Alternatif> flex gap:13px, 6-boncuk rayi + kelime markasi font:800 21px/1 Bricolage Grotesque ls:-.03em. Sag: flex gap:28px iceren nav — Menu link, Hikaye link (her ikisi font:500 15px/1 Inter, rgba(242,233,220,.86), hover #FAAA1F), Konum AKTIF durum (div, link degil; font:600 15px/1;color:#FAAA1F;padding-bottom:2px;border-bottom:2px solid #FAAA1F), dil degistirici TR / EN, ve kirmizi CTA (data-git=harita) padding:13px 24px.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "BoncukRayi (nav varyanti 8/5px)",
+        "NavLink",
+        "NavAktifSekme",
+        "DilDegistirici",
+        "BirincilButon (kompakt varyant)",
+        "GeceSeridi",
+        "dotPulse keyframe"
+      ],
+      "metinAnahtarlari": [
+        "nav.marka",
+        "nav.menu",
+        "nav.hikaye",
+        "nav.konum",
+        "nav.dil.tr",
+        "nav.dil.en",
+        "nav.cta.yolTarifi",
+        "geceSerit.mesaj"
+      ]
+    },
+    {
+      "id": "konum-acilis",
+      "ad": "Konum Acilis (hero)",
+      "ozet": "<section data-screen-label=\"Konum Acilis\"> position:relative;padding:172px clamp(24px,5vw,64px) 54px. Tek kolon, 4 blok dikey sirada. (1) Durum satiri: display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-bottom:22px — icinde a) durum cipi (padding:9px 15px;background:rgba(10,8,7,.62);border:1px solid rgba(250,170,31,.3);gap:10px) = 8px canli nokta (data-nokta) + data-durum metni font:600 13.5px/1 #FAAA1F; b) canli saat font:700 clamp(24px,2.6vw,34px)/1 Bricolage, tabular-nums, ls:-.02em, #F2E9DC, span[data-saat-s]=03 + iki nokta (colonBlink 2s step-end infinite, #FAAA1F) + span[data-saat-d]=40; c) alt not font:400 13.5px/1, rgba(242,233,220,.62). (2) H1: font:800 clamp(48px,7.4vw,116px)/1.02 Bricolage;ls:-.03em;#F2E9DC;text-shadow:0 8px 50px rgba(10,8,7,.7); metin iki satir <br> ile 'Naci Talat / Caddesi, Girne'. (3) Adres satiri: flex;gap:10px;align-items:flex-start;margin-top:22px;color:rgba(242,233,220,.78) — 16x16 pin SVG (#FAAA1F, margin-top:4px) + adres font:400 clamp(16px,1.4vw,19px)/1.6, ikinci satir <span data-en> ile Girne/KKTC. (4) CTA satiri: flex;flex-wrap:wrap;gap:12px;margin-top:32px — birincil kirmizi buton (padding:19px 32px) + telefon hayalet butonu (15x15 telefon SVG + numara).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "DurumCipi",
+        "CanliSaat",
+        "BirincilButon (buyuk varyant)",
+        "HayaletButon (koyu varyant)",
+        "PinIkon",
+        "TelefonIkon",
+        "dotPulse keyframe",
+        "colonBlink keyframe"
+      ],
+      "metinAnahtarlari": [
+        "hero.durum.acik",
+        "hero.durum.kapali",
+        "hero.saatEtiketi",
+        "hero.baslik.satir1",
+        "hero.baslik.satir2",
+        "hero.adres.satir1",
+        "hero.adres.satir2",
+        "hero.cta.yolTarifi",
+        "hero.cta.telefon"
+      ]
+    },
+    {
+      "id": "harita",
+      "ad": "Harita (cizilmis harita levhasi)",
+      "ozet": "<section id=\"harita\" data-screen-label=\"Harita\"> position:relative;padding:10px clamp(24px,5vw,64px) 60px. Tek levha: position:relative;min-height:clamp(420px,58vh,600px);border:1px solid rgba(242,233,220,.16);background:rgba(10,8,7,.6);overflow:hidden. Icinde 11 mutlak konumlu cocuk (gercek harita degil, CSS ile cizilmis): (1) 52px izgara repeating-linear-gradient 0deg+90deg rgba(242,233,220,.05) 0 1px. (2) yatay cadde left:0;right:0;top:54%;height:16px;rgba(242,233,220,.08). (3) dikey yol left:20%;width:9px;rgba(242,233,220,.05). (4) dikey yol left:64%;width:7px;rgba(242,233,220,.045). (5) cadde etiketi left:10%;top:57.5%;font:400 12px/1;rgba(242,233,220,.55). (6) pin halkasi left:42%;top:47%;110x110;margin:-55px 0 0 -55px;border-radius:50%;border:1px solid rgba(183,53,28,.45). (7) pin noktasi ayni koordinat;18x18;margin:-9px 0 0 -9px;background:#B7351C;box-shadow:0 0 0 7px rgba(183,53,28,.22),0 0 32px rgba(183,53,28,.85);animation:dotPulse 2.6s ease-in-out infinite. (8) pin etiketi margin:-46px 0 0 18px;padding:8px 13px;background:#0A0807;border:1px solid rgba(250,170,31,.4);font:600 13px/1;#F2E9DC;white-space:nowrap; ikinci parca span rgba(242,233,220,.55) font-weight:400. (9-11) uc POI cipi. (12) sol-alt aciklama left:24px;bottom:22px;font:500 12.5px/1.5;rgba(242,233,220,.68). Ust seritteki ve hero'daki data-git=harita butonlarinin scroll hedefi bu section.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "HaritaLevhasi",
+        "HaritaPini",
+        "HaritaPOICipi",
+        "dotPulse keyframe"
+      ],
+      "metinAnahtarlari": [
+        "harita.caddeEtiketi",
+        "harita.pin.ad",
+        "harita.pin.kapiNo",
+        "harita.poi.soliBet",
+        "harita.poi.hititBet",
+        "harita.poi.macroMarket",
+        "harita.altYazi"
+      ]
+    },
+    {
+      "id": "saatler-ve-iletisim",
+      "ad": "Saatler ve Iletisim (iki kart)",
+      "ozet": "<section data-screen-label=\"Saatler ve Iletisim\"> position:relative;padding:20px clamp(24px,5vw,64px) 70px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px). Iki esit kart, her biri flex:1 1 440px;min-width:300px (dar ekranda alt alta sarar). Ortak kart kabugu: padding:clamp(26px,2.8vw,40px);background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.1);display:flex;flex-direction:column;gap:22px. KART 1 Saatler: baslik font:700 clamp(26px,2.8vw,38px)/1.14 Bricolage ls:-.02em; ardindan gap'siz kolon iceren 3 satir — a) BUGUN satiri padding:16px 14px;border-bottom:1px solid rgba(242,233,220,.12);background:rgba(250,170,31,.07); sol data-bugun font:600 16px/1 #F2E9DC (JS gun adini yazar), sag saat font:600 16px/1 tabular-nums #FAAA1F; b) haftalik satir padding:16px 14px;border-bottom:1px solid rgba(242,233,220,.1); iki taraf da font:400 16px/1 rgba(242,233,220,.76); c) not paragrafi padding:16px 14px;font:400 14.5px/1.65 tabular-nums rgba(242,233,220,.68). Kart altinda alkolsuz rozeti: flex;gap:10px;padding:13px 16px;border:1px solid rgba(242,233,220,.14); 7px statik nokta (#FAAA1F, animasyonsuz) + font:500 14px/1 rgba(242,233,220,.74). KART 2 Iletisim: ayni baslik stili; altinda flex-direction:column;gap:12px ile 3 tiklanabilir iletisim satiri (Telefon / WhatsApp / Instagram), her biri 17x17 #FAAA1F ikon + iki satirli metin yigini (gap:5px).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "PanelKart",
+        "SaatSatiri",
+        "AlkolsuzRozeti",
+        "IletisimSatiri",
+        "TelefonIkon",
+        "WhatsAppIkon",
+        "InstagramIkon"
+      ],
+      "metinAnahtarlari": [
+        "saatler.baslik",
+        "saatler.bugun",
+        "saatler.bugunSaat",
+        "saatler.haftalikEtiket",
+        "saatler.haftalikSaat",
+        "saatler.not",
+        "saatler.alkolsuz",
+        "iletisim.baslik",
+        "iletisim.telefon.etiket",
+        "iletisim.telefon.numara",
+        "iletisim.whatsapp.etiket",
+        "iletisim.whatsapp.alt",
+        "iletisim.instagram.etiket",
+        "iletisim.instagram.alt",
+        "gunler.pazar",
+        "gunler.pazartesi",
+        "gunler.sali",
+        "gunler.carsamba",
+        "gunler.persembe",
+        "gunler.cuma",
+        "gunler.cumartesi"
+      ]
+    },
+    {
+      "id": "paket",
+      "ad": "Paket Seridi (turuncu CTA bandi)",
+      "ozet": "<div data-screen-label=\"Paket\"> — <section> DEGIL, div. position:relative;padding:clamp(40px,6vh,64px) clamp(24px,5vw,64px);background:#E96112;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 40px. Sayfadaki tek acik zeminli bolum, tum metin koyu (#1A1614). SOL kolon: display:flex;flex-direction:column;gap:12px;max-width:620px — (1) koyu boncuk rayi gap:8px, boncuklar 12px(border-radius:2px,#1A1614) / 7px(rgba(26,22,20,.55)) sirasiyla 12-7-12-12-7-12; (2) baslik font:700 clamp(28px,3vw,40px)/1.16 Bricolage ls:-.02em #1A1614; (3) paragraf font:400 clamp(15px,1.3vw,17px)/1.6 Inter rgba(26,22,20,.9). SAG: display:flex;flex-wrap:wrap;gap:12px — dolu koyu buton (background:#1A1614;padding:18px 30px;color:#F2E9DC) + cerceveli telefon butonu (border:1px solid rgba(26,22,20,.55);padding:17px 29px;color:#1A1614;tabular-nums).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "BoncukRayi (koyu varyant 12/7px)",
+        "BirincilButon (koyu-uzeri-turuncu varyant)",
+        "HayaletButon (acik varyant)"
+      ],
+      "metinAnahtarlari": [
+        "paket.baslik",
+        "paket.metin",
+        "paket.cta.siparis",
+        "paket.cta.telefon"
+      ]
+    },
+    {
+      "id": "footer",
+      "ad": "Footer",
+      "ozet": "<div data-screen-label=\"Footer\"> — <section> DEGIL, div. position:relative;padding:56px clamp(24px,5vw,64px) 30px;background:rgba(10,8,7,.9);border-top:1px solid rgba(242,233,220,.1). UST SATIR: display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 56px; 4 kolon — (1) Marka kolonu max-width:280px;gap:12px: kelime markasi font:800 20px/1 Bricolage ls:-.03em + adres font:400 14.5px/1.7 rgba(242,233,220,.66) uc satir <br> ile; (2) Sayfalar kolonu: baslik font:600 14.5px/1 #F2E9DC + iki link (Ana sayfa, Menu) font:400 14.5px/1 rgba(242,233,220,.7) hover #FAAA1F — DIKKAT: footer'da Hikaye ve Konum linki YOK; (3) Saatler kolonu: baslik + 'Her gun 10:00 - 05:00' (tabular-nums) + alkolsuz notu; (4) Iletisim kolonu: baslik + telefon (tabular-nums) + 'WhatsApp · Instagram'. ALT SERIT: margin-top:40px;padding-top:18px;border-top:1px solid rgba(242,233,220,.09);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px — solda telif font:400 12.5px/1 rgba(242,233,220,.5), sagda opacity:.45 kucuk boncuk rayi (7px/4px, gap:4px).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "FooterKolonu",
+        "FooterLink",
+        "BoncukRayi (kucuk varyant 7/4px, opacity .45)"
+      ],
+      "metinAnahtarlari": [
+        "footer.marka",
+        "footer.adres.satir1",
+        "footer.adres.satir2",
+        "footer.adres.satir3",
+        "footer.sayfalar.baslik",
+        "footer.sayfalar.anaSayfa",
+        "footer.sayfalar.menu",
+        "footer.saatler.baslik",
+        "footer.saatler.hergun",
+        "footer.saatler.alkolsuz",
+        "footer.iletisim.baslik",
+        "footer.iletisim.telefon",
+        "footer.iletisim.sosyal",
+        "footer.telif"
+      ]
+    }
+  ],
+  "paylasilanBilesenler": [
+    {
+      "ad": "BoncukRayi",
+      "gorev": "Marka isareti: 6 kare boncuktan olusan yatay ray, buyuk-kucuk-buyuk-buyuk-kucuk-buyuk ritminde. Logo yaninda, turuncu seritte ve footer alt seridinde tekrar eder.",
+      "varyantlar": [
+        "nav (gap:4px; 8px boncuk border-radius:1px background:#F2E9DC, 5px boncuk background:#FAAA1F, kare)",
+        "paket-koyu (gap:8px; 12px boncuk border-radius:2px background:#1A1614, 7px boncuk background:rgba(26,22,20,.55))",
+        "footer-kucuk (gap:4px; 7px boncuk border-radius:1px #F2E9DC, 4px boncuk #FAAA1F; sarmalayici opacity:.45)"
+      ],
+      "kesinDegerler": "display:flex;align-items:center; boncuk dizilimi her zaman [buyuk,kucuk,buyuk,buyuk,kucuk,buyuk]; buyuk boncuklarda border-radius 1px (nav/footer) veya 2px (paket), kucuk boncuklar tamamen kare (border-radius yok)"
+    },
+    {
+      "ad": "BirincilButon",
+      "gorev": "Kirmizi dolu ana eylem butonu (yol tarifi / paket siparis). div olarak yazilmis, cursor:pointer; React'te <button> olmali.",
+      "varyantlar": [
+        "kompakt-nav (padding:13px 24px;font:600 14.5px/1;box-shadow:0 8px 26px rgba(183,53,28,.34))",
+        "buyuk-hero (padding:19px 32px;font:600 16px/1;box-shadow:0 12px 34px rgba(183,53,28,.4))",
+        "koyu-uzeri-turuncu (background:#1A1614;padding:18px 30px;font:600 16px/1;color:#F2E9DC; golge yok, hover'da transform:translateY(-2px);box-shadow:0 14px 34px rgba(26,22,20,.4))"
+      ],
+      "kesinDegerler": "background:#B7351C;color:#F2E9DC;cursor:pointer;transition:background .15s ease-out,transform .15s ease-out; hover: background:#C93E22;transform:translateY(-1px). Koyu varyantta transition:transform .15s ease-out,box-shadow .15s ease-out. Hicbir varyantta border-radius YOK (tam kare kose)."
+    },
+    {
+      "ad": "HayaletButon",
+      "gorev": "Cerceveli ikincil buton, sayfada her zaman telefon numarasi tasir.",
+      "varyantlar": [
+        "koyu-zemin (hero: border:1px solid rgba(242,233,220,.38);padding:18px 28px;color:#F2E9DC;background:rgba(10,8,7,.4); ikonlu, gap:9px)",
+        "acik-zemin (paket seridi: border:1px solid rgba(26,22,20,.55);padding:17px 29px;color:#1A1614; ikonsuz)"
+      ],
+      "kesinDegerler": "font:600 16px/1 Inter;font-variant-numeric:tabular-nums;cursor:pointer. Koyu varyant transition:border-color .15s ease-out,background .15s ease-out; hover border-color:rgba(250,170,31,.85);background:rgba(250,170,31,.1). Acik varyant transition:background .15s ease-out; hover background:rgba(26,22,20,.1). border-radius yok."
+    },
+    {
+      "ad": "DurumCipi",
+      "gorev": "Hero'da canli acik/kapali gostergesi; nabiz atan nokta + JS ile guncellenen durum metni.",
+      "varyantlar": [
+        "acik (nokta background:#FAAA1F;box-shadow:0 0 12px rgba(250,170,31,.9); metin color:#FAAA1F)",
+        "kapali (nokta background:rgba(242,233,220,.35);box-shadow:none; metin color:rgba(242,233,220,.8))"
+      ],
+      "kesinDegerler": "kap: display:flex;align-items:center;gap:10px;padding:9px 15px;background:rgba(10,8,7,.62);border:1px solid rgba(250,170,31,.3). Nokta: 8x8;border-radius:50%;animation:dotPulse 2.4s ease-in-out infinite. Metin: font:600 13.5px/1 Inter,sans-serif"
+    },
+    {
+      "ad": "CanliSaat",
+      "gorev": "Girne (Europe/Nicosia) saatini SS:DD olarak gosterir, iki nokta yanip soner.",
+      "varyantlar": [
+        "hero-tek-kullanim"
+      ],
+      "kesinDegerler": "kap: display:flex;align-items:baseline;gap:2px;font:700 clamp(24px,2.6vw,34px)/1 'Bricolage Grotesque',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:#F2E9DC. Iki nokta: animation:colonBlink 2s step-end infinite;color:#FAAA1F. Statik HTML degerleri 03 ve 40 (JS uzerine yazar)."
+    },
+    {
+      "ad": "PanelKart",
+      "gorev": "Saatler ve Iletisim bloklarini saran koyu panel kabugu.",
+      "varyantlar": [
+        "saatler",
+        "iletisim"
+      ],
+      "kesinDegerler": "flex:1 1 440px;min-width:300px;padding:clamp(26px,2.8vw,40px);background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.1);display:flex;flex-direction:column;gap:22px. Baslik: font:700 clamp(26px,2.8vw,38px)/1.14 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC"
+    },
+    {
+      "ad": "SaatSatiri",
+      "gorev": "Saatler kartinda gun etiketi + saat araligini iki uca yaslar.",
+      "varyantlar": [
+        "bugun-vurgulu (background:rgba(250,170,31,.07);border-bottom:1px solid rgba(242,233,220,.12); sol font:600 16px/1 #F2E9DC, sag font:600 16px/1 #FAAA1F)",
+        "haftalik-sade (border-bottom:1px solid rgba(242,233,220,.1); her iki taraf font:400 16px/1 rgba(242,233,220,.76))",
+        "not-paragrafi (kenarliksiz; font:400 14.5px/1.65;color:rgba(242,233,220,.68))"
+      ],
+      "kesinDegerler": "display:flex;justify-content:space-between;align-items:baseline;padding:16px 14px; saat degerlerinde font-variant-numeric:tabular-nums"
+    },
+    {
+      "ad": "IletisimSatiri",
+      "gorev": "Ikon + iki satirli metin (etiket + aciklama) iceren tiklanabilir iletisim kutusu.",
+      "varyantlar": [
+        "telefon (alt satir tabular-nums, line-height 1)",
+        "whatsapp (alt satir line-height 1.4)",
+        "instagram (alt satir line-height 1.4)"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(242,233,220,.14);cursor:pointer;transition:border-color .15s ease-out,background .15s ease-out; hover: border-color:rgba(250,170,31,.7);background:rgba(250,170,31,.07). Ikon 17x17, color:#FAAA1F, flex:none. Metin yigini: display:flex;flex-direction:column;gap:5px; etiket font:600 14.5px/1 #F2E9DC; alt font:400 14px rgba(242,233,220,.68)"
+    },
+    {
+      "ad": "HaritaLevhasi",
+      "gorev": "Gercek harita yerine CSS ile cizilmis koyu tema harita plakasi; canli entegrasyon gelene kadar yer tutucu.",
+      "varyantlar": [
+        "tek-kullanim"
+      ],
+      "kesinDegerler": "position:relative;min-height:clamp(420px,58vh,600px);border:1px solid rgba(242,233,220,.16);background:rgba(10,8,7,.6);overflow:hidden. Izgara: repeating-linear-gradient(0deg,rgba(242,233,220,.05) 0 1px,transparent 1px 52px) + ayni 90deg. Yollar: yatay top:54%;height:16px;rgba(242,233,220,.08); dikey left:20%;width:9px;rgba(242,233,220,.05) ve left:64%;width:7px;rgba(242,233,220,.045)"
+    },
+    {
+      "ad": "HaritaPini",
+      "gorev": "Restoranin harita uzerindeki isareti: halka + nabiz atan nokta + isim etiketi, ucu de left:42%;top:47% ayni koordinatta.",
+      "varyantlar": [
+        "tek-kullanim"
+      ],
+      "kesinDegerler": "Halka: 110x110;margin:-55px 0 0 -55px;border-radius:50%;border:1px solid rgba(183,53,28,.45). Nokta: 18x18;margin:-9px 0 0 -9px;border-radius:50%;background:#B7351C;box-shadow:0 0 0 7px rgba(183,53,28,.22),0 0 32px rgba(183,53,28,.85);animation:dotPulse 2.6s ease-in-out infinite. Etiket: margin:-46px 0 0 18px;padding:8px 13px;background:#0A0807;border:1px solid rgba(250,170,31,.4);font:600 13px/1;color:#F2E9DC;white-space:nowrap"
+    },
+    {
+      "ad": "HaritaPOICipi",
+      "gorev": "Harita uzerindeki komsu isletme etiketleri (yon bulmayi kolaylastiran referans noktalari).",
+      "varyantlar": [
+        "soliBet (left:30%;top:60%)",
+        "hititBet (left:61%;top:26%)",
+        "macroMarket (left:66%;top:62%; ek font-variant-numeric:tabular-nums)"
+      ],
+      "kesinDegerler": "position:absolute;padding:7px 11px;background:rgba(10,8,7,.85);border:1px solid rgba(242,233,220,.16);font:500 11.5px/1 Inter,sans-serif;color:rgba(242,233,220,.66);white-space:nowrap"
+    },
+    {
+      "ad": "UstSerit",
+      "gorev": "Sabit ust navigasyon; marka, sayfa linkleri, aktif sayfa gostergesi, dil degistirici ve harita CTA'si.",
+      "varyantlar": [
+        "konum-aktif (Konum bir <div>, link degil: font:600 15px/1;color:#FAAA1F;padding-bottom:2px;border-bottom:2px solid #FAAA1F)"
+      ],
+      "kesinDegerler": "position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Nav satiri height:78px;padding:0 clamp(24px,5vw,64px);gap:20px; link grubu gap:28px. Pasif link: font:500 15px/1 Inter;color:rgba(242,233,220,.86);transition:color .15s ease-out; hover color:#FAAA1F"
+    },
+    {
+      "ad": "GeceSeridi",
+      "gorev": "Gece 01:00-05:00 arasi ust seridin ustunde beliren 'ocak yaniyor' duyurusu.",
+      "varyantlar": [
+        "gizli (display:none, varsayilan)",
+        "gorunur (JS display:flex)"
+      ],
+      "kesinDegerler": "padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px. Nokta 7x7;border-radius:50%;background:#FAAA1F;box-shadow:0 0 10px rgba(250,170,31,.9);animation:dotPulse 2.4s ease-in-out infinite. Metin font:600 12.5px/1 Inter;color:#FAAA1F"
+    },
+    {
+      "ad": "DilDegistirici",
+      "gorev": "TR / EN metin degistirici; aktif dil parlak, pasif sonuk.",
+      "varyantlar": [
+        "tr-aktif (TR #F2E9DC, EN rgba(242,233,220,.58))",
+        "en-aktif (TR rgba(242,233,220,.58), EN #F2E9DC)"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:8px;font:600 14px/1 Inter,sans-serif; ayirici '/' color:rgba(242,233,220,.28); her iki dugme de cursor:pointer"
+    },
+    {
+      "ad": "AlkolsuzRozeti",
+      "gorev": "Mekanin alkolsuz oldugunu bildiren cerceveli not; Saatler kartinin altinda ve footer'da metin olarak tekrar eder.",
+      "varyantlar": [
+        "kart-cerceveli",
+        "footer-duz-metin"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid rgba(242,233,220,.14). Nokta 7x7;border-radius:50%;background:#FAAA1F (ANIMASYONSUZ). Metin font:500 14px/1;color:rgba(242,233,220,.74)"
+    },
+    {
+      "ad": "AmbientOcakSahnesi",
+      "gorev": "Sayfa arkasindaki kor/duman atmosferi; scroll ile viewport'a kilitlenir (position:fixed taklidi).",
+      "varyantlar": [
+        "tek-kullanim"
+      ],
+      "kesinDegerler": "height:100vh;z-index:0;pointer-events:none;will-change:transform. Keyframe'ler: emberBreath 9s ease-in-out infinite (opacity .6->1, scale 1->1.05), emberSoft 12s (opacity .4->.82), smokeDrift 24s/30s linear (translate3d(0,36px,0) scale(1) -> translate3d(30px,-170px,0) scale(1.6), opacity 0->.14->0), dotPulse (opacity .45->1), colonBlink 2s step-end (0-45% opacity 1, 50-95% opacity .25)"
+    },
+    {
+      "ad": "Ikonlar (inline SVG)",
+      "gorev": "Tum ikonlar inline SVG, viewBox 0 0 24 24, flex:none.",
+      "varyantlar": [
+        "PinIkon 16x16 fill=currentColor color:#FAAA1F margin-top:4px",
+        "TelefonIkon 15x15 (hero hayalet buton) ve 17x17 (iletisim satiri, color:#FAAA1F)",
+        "WhatsAppIkon 17x17 fill=currentColor color:#FAAA1F",
+        "InstagramIkon 17x17 fill=none stroke=currentColor stroke-width:1.9; rect x=3.2 y=3.2 w=17.6 h=17.6 rx=5 + circle r=4.1 + circle cx=17.1 cy=6.9 r=1.15 fill=currentColor stroke=none"
+      ],
+      "kesinDegerler": "Telefon ve pin ikonlari fill=\"currentColor\", Instagram tek stroke tabanli ikon (stroke-width:1.9)"
+    },
+    {
+      "ad": "Global Tema Tokenlari",
+      "gorev": "Sayfa genelinde tekrar eden renk / tipografi degerleri; CSS Modules'da :root degiskeni olmali.",
+      "varyantlar": [
+        "renk",
+        "tipografi",
+        "zemin"
+      ],
+      "kesinDegerler": "Zemin #0A0807; metin #F2E9DC; kirmizi #B7351C (hover #C93E22); amber #FAAA1F; turuncu serit #E96112; turuncu uzeri koyu #1A1614. body background:#0A0807;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased. a{color:#FAAA1F} a:hover{color:#F2E9DC}. ::selection{background:#B7351C;color:#F2E9DC}. html{scroll-behavior:smooth}. Fontlar: Bricolage Grotesque opsz 12..96 wght 600..800 (basliklar), Inter 400/500/600 (govde). Sayfa yatay dolgusu her yerde clamp(24px,5vw,64px). Hicbir yerde border-radius kullanilmaz (boncuklar ve dairesel noktalar haric)."
+    }
+  ],
+  "davranislar": [
+    {
+      "ad": "Canli saat ve acik/kapali durumu (yaz)",
+      "tetikleyici": "componentDidMount -> kur() icinde bir kez calisir, sonra setInterval(yaz, 1000) ile saniyede bir tekrarlanir. componentWillUnmount'ta clearInterval(this.saatTimer).",
+      "detay": "Saat kaynagi: g = new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Nicosia'})); isNaN(g.getTime()) ise g = new Date(); try/catch icinde, hata halinde de g = new Date(). h=g.getHours(), m=g.getMinutes(). ACIK FORMULU: acik = (h >= 10 || h < 5). Sifir dolgusu: p = n => String(n).padStart(2,'0'). Yazilan alanlar: [data-saat-s].textContent = p(h); [data-saat-d].textContent = p(m). [data-durum].textContent = en ? (acik ? 'We are open' : 'We are closed, opening at 10:00') : (acik ? 'Su an acigiz' : 'Su an kapaliyiz, 10:00'da aciliyoruz') ve .style.color = acik ? '#FAAA1F' : 'rgba(242,233,220,.8)'. [data-nokta].style.background = acik ? '#FAAA1F' : 'rgba(242,233,220,.35)'; .style.boxShadow = acik ? '0 0 12px rgba(250,170,31,.9)' : 'none'. Not: Turkce metinler dosyada gercek Turkce karakterlerle yazili (Su an acigiz / Su an kapaliyiz, 10:00'da aciliyoruz).",
+      "istemciMi": true
+    },
+    {
+      "ad": "Gece seridi gorunurlugu",
+      "tetikleyici": "Ayni yaz() dongusu icinde, saniyede bir.",
+      "detay": "[data-gece-serit].style.display = (h >= 1 && h < 5) ? 'flex' : 'none'. Yani serit yalnizca 01:00 ile 04:59 arasinda gorunur; acilis penceresinin tamami (10:00-05:00) degil. HTML'de varsayilan display:none.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Bugunun gun adi (data-bugun)",
+      "tetikleyici": "Ayni yaz() dongusu icinde, saniyede bir.",
+      "detay": "gunler = ['Pazar','Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi']. bugun.textContent = this.en ? 'Today' : gunler[h < 5 ? (g.getDay() + 6) % 7 : g.getDay()]. Yani gece yarisindan sonra saat 05:00'e kadar HALA onceki gunun adi gosterilir ((getDay()+6)%7 = bir onceki gun), cunku isletme gunu 10:00'da baslayip ertesi 05:00'te biter.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Ambient sahne scroll kilidi (kilitle)",
+      "tetikleyici": "window 'scroll' olayi, { passive: true }; ayrica kur() sonunda bir kez manuel cagrilir.",
+      "detay": "sahne.style.transform = 'translate3d(0,' + window.pageYOffset + 'px,0)'. position:absolute olan sahne katmanini scroll miktari kadar asagi otelemek suretiyle position:fixed davranisi taklit edilir (will-change:transform ile GPU katmanina alinmis). React'te useEffect + passive scroll listener + ref gerekir; alternatif olarak dogrudan position:fixed ile JS'siz de cozulebilir.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Harita bolumune yumusak kaydirma ([data-git])",
+      "tetikleyici": "data-git ozniteligi tasiyan her ogeye 'click'. Bu sayfada iki tane var: ust serit CTA'si ve hero birincil butonu, ikisi de data-git=\"harita\".",
+      "detay": "const hedef = document.getElementById(el.getAttribute('data-git')); hedef yoksa cikis. window.scrollTo({ top: Math.max(0, hedef.getBoundingClientRect().top + window.pageYOffset - 96), behavior: azalt ? 'auto' : 'smooth' }). 96px sabit ofset, 78px nav + 18px nefes payi. azalt = window.matchMedia('(prefers-reduced-motion: reduce)').matches, mount aninda bir kez okunur.",
+      "istemciMi": true
+    },
+    {
+      "ad": "TR/EN dil degistirme (cevir)",
+      "tetikleyici": "[data-dil=\"tr\"] tiklaninca cevir(false), [data-dil=\"en\"] tiklaninca cevir(true).",
+      "detay": "this.en = en. Tum [data-en] ogeleri icin: eger data-tr yoksa once el.setAttribute('data-tr', el.textContent) ile Turkce orijinal saklanir; sonra el.textContent = en ? el.getAttribute('data-en') : el.getAttribute('data-tr'). Dugme renkleri: tr.style.color = en ? 'rgba(242,233,220,.58)' : '#F2E9DC'; enB.style.color = en ? '#F2E9DC' : 'rgba(242,233,220,.58)'. Son adimda this.yazFn() cagrilarak saat/durum/gun metinleri yeni dilde yeniden yazilir. UYARI 1: textContent atamasi ic HTML'i yok eder — H1'de <br> ile bolunmus 'Naci Talat / Caddesi, Girne' basligi EN'e gecince tek kelimelik 'Location' olur (tasarim referansinin bilinen kaybi). UYARI 2: ic ice data-en kullanimlari var (orn. adres blogundaki <span data-en=\"Kyrenia / TRNC\">) — React'te bu mekanizma yerine gercek bir sozluk (i18n dictionary) ile kurulmali, DOM metin degistirme ile degil. React'te dil durumu Context/route segment olarak tasinmali; ceviri kendisi sunucu tarafinda cozulebilir, yalnizca degistirici tiklamasi istemci.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Tek seferlik kurulum korumasi (kuruldu)",
+      "tetikleyici": "componentDidMount ve componentDidUpdate ikisi de kur() cagirir.",
+      "detay": "kur() basinda if (this.kuruldu) return; ardindan sahne bulunamazsa yine cikilir; bulunursa this.kuruldu = true. Boylece interval ve event listener'lar bir kereden fazla baglanmaz. React'te useEffect'in bos bagimlilik dizisi bunu zaten karsilar; ayrica listener ve interval temizligi return fonksiyonunda yapilmali (orijinalde scroll ve click listener'lari HIC kaldirilmiyor, yalnizca interval temizleniyor — port ederken duzeltilmeli).",
+      "istemciMi": true
+    },
+    {
+      "ad": "Azaltilmis hareket (prefers-reduced-motion)",
+      "tetikleyici": "Global CSS media sorgusu; ayrica JS'de azalt degiskeni scroll davranisini belirler.",
+      "detay": "@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important} html{scroll-behavior:auto}}. Tum ember/duman/nokta/iki nokta animasyonlari ve tum .15s hover gecisleri durur. JS tarafinda scrollTo behavior 'smooth' yerine 'auto' olur. Bu tamamen CSS ile karsilanir, scroll ofseti disinda JS gerektirmez.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Yumusak sayfa ici kaydirma (CSS)",
+      "tetikleyici": "Sayfa yuklendiginde pasif olarak gecerli.",
+      "detay": "html{scroll-behavior:smooth}. JS scrollTo cagrisiyla birlikte calisir; hash link davranisi icin de gecerlidir. Next.js'de globals.css'e tasinir, istemci JS gerektirmez.",
+      "istemciMi": false
+    }
+  ],
+  "fotoYuvalari": [
+    {
+      "etiket": "BU SAYFADA HIC FOTOGRAF YER TUTUCUSU YOK. Dosyada <img>, arka plan fotografi, 'foto/gorsel' etiketli plaka veya aspect-ratio dolgusu bulunmuyor; tum gorsellik CSS gradient, inline SVG ve cizilmis harita ile uretilmis.",
+      "yer": "Tum sayfa (satir 1-277 tarandi, sonuc: sifir fotograf yuvasi)",
+      "oran": ""
+    },
+    {
+      "etiket": "harita · koyu tema, tek işaret; canlı harita entegrasyonla gelir",
+      "yer": "Harita levhasi (section#harita) icinde sol alt kose: position:absolute;left:24px;bottom:22px;font:500 12.5px/1.5 Inter,sans-serif;color:rgba(242,233,220,.68). Sayfadaki TEK yer tutucu plakasi; fotograf degil, canli harita entegrasyonu icin ayrilmis alan. Uygulamada bu plaka gercek bir harita bileseniyle (Google Maps / Mapbox koyu tema) degistirilecek, alt yazi kaldirilacak.",
+      "oran": "Sabit en-boy orani yok; yukseklik min-height:clamp(420px,58vh,600px) ile viewport'a bagli, genislik ana kolonun tamami (100% - 2*clamp(24px,5vw,64px)). Ic isaretler yuzde koordinatli (pin left:42%;top:47%), yani oran degisince pin de kayar."
+    }
+  ],
+  "sayfa": "Konum"
+}

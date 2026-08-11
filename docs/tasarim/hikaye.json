@@ -1,0 +1,347 @@
+{
+  "bolumler": [
+    {
+      "id": "kor-sahnesi",
+      "ad": "Kor sahnesi (arka plan katmanı)",
+      "ozet": "section degil, sayfa kokunde tek top-level div: data-sahne-kap=\"1\", position:absolute;top:0;left:0;right:0;height:100vh;z-index:0;overflow:hidden;pointer-events:none;will-change:transform. Icinde ust uste 6 mutlak katman, sirayla: (1) kor tabani left:0;right:0;bottom:-16%;height:92%;radial-gradient(76% 90% at 50% 100%,rgba(183,53,28,.55),rgba(183,53,28,.14) 44%,transparent 70%) + animation:emberBreath 9s ease-in-out infinite; (2) amber halka left:50%;bottom:-10%;width:min(760px,110%);height:460px;transform:translateX(-50%);radial-gradient(closest-side,rgba(250,170,31,.26),transparent 72%) + animation:emberSoft 12s ease-in-out infinite; (3) duman A left:26%;bottom:2%;230x230px;border-radius:50%;radial-gradient(closest-side,rgba(242,233,220,.3),transparent);filter:blur(32px);animation:smokeDrift 24s linear infinite; (4) duman B left:60%;bottom:0%;200x200px;border-radius:50%;radial-gradient(closest-side,rgba(250,170,31,.32),transparent);filter:blur(28px);animation:smokeDrift 30s linear infinite 10s; (5) vinyet inset:0;box-shadow:inset 0 0 240px rgba(0,0,0,.86); (6) grain izgara inset:0;opacity:.5;repeating-linear-gradient(0deg,rgba(242,233,220,.014) 0 1px,transparent 1px 3px) + ayni gradient 90deg. Sayfa govdesi bu katmanin uzerinde ayri bir div ile position:relative;z-index:10 olarak durur. Kullaniciya gorunur metin yok.",
+      "bilesenler": [
+        "KorSahnesi"
+      ],
+      "metinAnahtarlari": [],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "ust-bar",
+      "ad": "Sabit ust bar + gece seridi",
+      "ozet": "section degil, top-level fixed div: position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Iki satir. Satir 1 = gece seridi (data-gece-serit=\"1\", display:none varsayilan, JS 01:00-05:00 arasi flex yapar): padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px; icinde nabiz noktasi (7x7px;border-radius:50%;background:#FAAA1F;box-shadow:0 0 10px rgba(250,170,31,.9);animation:dotPulse 2.4s ease-in-out infinite) + metin (font:600 12.5px/1 Inter;color:#FAAA1F). Satir 2 = ana bar: height:78px;padding:0 clamp(24px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px. Sol: Ana Sayfa'ya link, display:flex;align-items:center;gap:13px;color:#F2E9DC, icinde 6 taneli bead rail (gap:4px) + kelime markasi (font:800 21px/1 'Bricolage Grotesque';letter-spacing:-.03em). Sag grup gap:28px, sirayla: Menu linki, Hikaye (aktif sayfa, <a> degil <div>, alt cizgi 2px solid #FAAA1F, padding-bottom:2px, font:600 15px/1 Inter, color:#FAAA1F), Konum linki, TR/EN dil anahtari (gap:8px;font:600 14px/1 Inter; TR #F2E9DC cursor:pointer, ayrac / rgba(242,233,220,.28), EN rgba(242,233,220,.58) cursor:pointer), birincil CTA 'Yol tarifi al' (Konum sayfasina).",
+      "bilesenler": [
+        "UstBar",
+        "GeceSerit",
+        "BeadRail (sm)",
+        "NavLink",
+        "DilAnahtari",
+        "Buton (birincil-sm)"
+      ],
+      "metinAnahtarlari": [
+        "ustbar.gece-serit",
+        "ustbar.marka-adi",
+        "ustbar.nav-menu",
+        "ustbar.nav-hikaye",
+        "ustbar.nav-konum",
+        "ustbar.dil-tr",
+        "ustbar.dil-en",
+        "ustbar.cta-yol-tarifi"
+      ],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "hikaye-acilis",
+      "ad": "Hikaye Açılış",
+      "ozet": "<section data-screen-label=\"Hikaye Açılış\"> — position:relative;padding:176px clamp(24px,5vw,64px) 64px. Tek kolon, sol hizali, 3 oge alt alta: (1) ustyazi satiri display:flex;align-items:center;gap:12px;margin-bottom:26px, icinde amber kare 11x11px;border-radius:1px;background:#FAAA1F + etiket font:500 15px/1 Inter;color:rgba(242,233,220,.74); (2) H1 font:800 clamp(44px,6.6vw,104px)/1.06 'Bricolage Grotesque';letter-spacing:-.025em;color:#F2E9DC;text-shadow:0 8px 50px rgba(10,8,7,.7);max-width:1100px; (3) giris paragrafi margin-top:26px;font:400 clamp(17px,1.5vw,21px)/1.65 Inter;color:rgba(242,233,220,.8);max-width:680px. Foto yok, CTA yok, id/anchor yok.",
+      "bilesenler": [
+        "EtiketSatiri (amber kare + metin)"
+      ],
+      "metinAnahtarlari": [
+        "acilis.ustyazi",
+        "acilis.baslik",
+        "acilis.giris"
+      ],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "portre",
+      "ad": "Portre",
+      "ozet": "<section data-screen-label=\"Portre\"> — position:relative;padding:0 clamp(24px,5vw,64px) 70px;display:flex;flex-wrap:wrap;gap:clamp(28px,3vw,56px);align-items:stretch. Iki kolon (wrap ile mobilde alt alta). SOL: foto plakasi flex:1 1 380px;min-width:280px;max-width:560px;min-height:clamp(380px,52vh,560px);position:relative;border:1px solid rgba(242,233,220,.22);box-shadow:inset 0 0 90px rgba(0,0,0,.5); 4 kose isareti 24x24px, 1px solid rgba(250,170,31,.6), inset 18px (sol-ust border-left+top, sag-ust border-right+top, sol-alt border-left+bottom, sag-alt border-right+bottom); alt-sol tasan etiket sekmesi left:24px;bottom:-14px;padding:6px 12px;background:#0A0807;display:flex;gap:10px, icinde 18x1px #FAAA1F cizgi + font:500 12.5px/1.4 Inter;color:rgba(242,233,220,.72). SAG: cam kart flex:1 1 460px;min-width:0;padding:clamp(28px,3vw,48px);background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.1);backdrop-filter:blur(3px);display:flex;flex-direction:column;justify-content:center;gap:22px; icinde 3 oge: baslik 'İsim' (font:700 clamp(28px,3.2vw,44px)/1.12 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC), govde (font:400 clamp(16px,1.35vw,19px)/1.7 Inter;color:rgba(242,233,220,.78);max-width:560px), not blogu (font:400 14.5px/1.65 Inter;color:rgba(242,233,220,.58);border-left:2px solid rgba(250,170,31,.5);padding-left:16px).",
+      "bilesenler": [
+        "FotoPlaka",
+        "CamKart (.72 opak)",
+        "NotBlogu (sol amber cizgili)"
+      ],
+      "metinAnahtarlari": [
+        "portre.plaka-etiketi",
+        "portre.kart-basligi",
+        "portre.kart-metni",
+        "portre.kart-notu"
+      ],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "usul",
+      "ad": "Usül",
+      "ozet": "<section data-screen-label=\"Usül\"> — position:relative;padding:10px clamp(24px,5vw,64px) 70px. Icinde tek cam kart: max-width:1180px;padding:clamp(28px,3vw,44px);background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.1);backdrop-filter:blur(3px). Kart yapisi: (A) baslik satiri display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(242,233,220,.14) — solda 'Usül Urfa'dan' (font:700 clamp(30px,3.6vw,48px)/1.12 'Bricolage Grotesque';letter-spacing:-.02em;color:#F2E9DC), sagda md bead rail (gap:10px). (B) 3 adet numarali satir, her biri display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px 26px;padding:26px 12px; ilk ikisinde border-bottom:1px solid rgba(242,233,220,.1), ucuncude cizgi yok. Satir grid'i: numara (width:26px;flex:none;padding-top:6px;font:600 13px/1 Inter;tabular-nums;color:rgba(242,233,220,.62)) + etiket (width:clamp(150px,18vw,240px);flex:none;font:700 clamp(22px,2.2vw,30px)/1.14 'Bricolage Grotesque';letter-spacing:-.015em;color:#F2E9DC) + govde (flex:1;min-width:240px). 01 Tane = duz metin govde (font:400 15.5px/1.65 Inter;color:rgba(242,233,220,.74)). 02 Ölçü = govde yerine cip grubu (display:flex;flex-wrap:wrap;gap:10px, 3 cip; cipler data-en TASIMIYOR, sozluge elle eklenmeli). 03 Saat = duz metin govde + font-variant-numeric:tabular-nums. 01/02/03 numaralari cevrilmez, statik rakam.",
+      "bilesenler": [
+        "CamKart (.74 opak)",
+        "BeadRail (md)",
+        "UsulSatiri (metin varyanti)",
+        "UsulSatiri (cip varyanti)",
+        "Cip"
+      ],
+      "metinAnahtarlari": [
+        "usul.baslik",
+        "usul.satir-01-etiket",
+        "usul.satir-01-metin",
+        "usul.satir-02-etiket",
+        "usul.cip-sis-sayisi",
+        "usul.cip-sis-icerigi",
+        "usul.cip-pisirme",
+        "usul.satir-03-etiket",
+        "usul.satir-03-metin"
+      ],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "sofra",
+      "ad": "Sofra",
+      "ozet": "<section data-screen-label=\"Sofra\"> — position:relative;padding:20px clamp(24px,5vw,64px) 80px;text-align:center. Tek merkezli kolon: max-width:860px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:24px. Sirayla 4 oge: (1) lg bead rail (gap:10px); (2) baslik 'Sofra kurulu gelir' font:700 clamp(34px,4.6vw,64px)/1.1 'Bricolage Grotesque';letter-spacing:-.025em;color:#F2E9DC;text-shadow:0 8px 50px rgba(10,8,7,.7); (3) govde font:400 clamp(16.5px,1.4vw,20px)/1.65 Inter;color:rgba(242,233,220,.78);max-width:600px; (4) CTA cifti display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px — birincil lg 'Menüyü gör' (Menu Sayfasi) + ikincil lg 'Konum ve saatler' (Konum Sayfasi). Sayfanin tek CTA bloku, foto yok.",
+      "bilesenler": [
+        "BeadRail (lg)",
+        "Buton (birincil-lg)",
+        "Buton (ikincil-lg)"
+      ],
+      "metinAnahtarlari": [
+        "sofra.baslik",
+        "sofra.metin",
+        "sofra.cta-menu",
+        "sofra.cta-konum"
+      ],
+      "dataYogunluk": ""
+    },
+    {
+      "id": "footer",
+      "ad": "Footer",
+      "ozet": "<div data-screen-label=\"Footer\"> (section degil, div) — position:relative;padding:56px clamp(24px,5vw,64px) 30px;background:rgba(10,8,7,.9);border-top:1px solid rgba(242,233,220,.1). Ust blok: display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 56px, 4 kolon (hepsi flex-direction:column;gap:12px): (1) Marka — max-width:280px; kelime markasi font:800 20px/1 'Bricolage Grotesque';letter-spacing:-.03em;color:#F2E9DC (link DEGIL, div) + adres font:400 14.5px/1.7 Inter;color:rgba(242,233,220,.66), <br> ile 3 satir, sehir satiri ayri <span data-en>. (2) Sayfalar — baslik font:600 14.5px/1 Inter;color:#F2E9DC + 3 link font:400 14.5px/1 Inter;color:rgba(242,233,220,.7);transition:color .15s ease-out, hover #FAAA1F (Ana sayfa, Menü, Konum; mevcut Hikaye sayfasi listede YOK). (3) Saatler — baslik + 'Her gün 10:00 - 05:00' (tabular-nums, data-en yok) + alkolsuz notu. (4) İletişim — baslik + telefon '000 000 00 00' (tabular-nums, yer tutucu, data-en yok) + 'WhatsApp · Instagram' (duz metin, link degil). Alt bar: margin-top:40px;padding-top:18px;border-top:1px solid rgba(242,233,220,.09);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px — solda telif font:400 12.5px/1 Inter;color:rgba(242,233,220,.5) (sehir kismi ayri <span data-en>), sagda xs bead rail (gap:4px;opacity:.45).",
+      "bilesenler": [
+        "Footer",
+        "BeadRail (xs)",
+        "NavLink (footer varyanti)"
+      ],
+      "metinAnahtarlari": [
+        "footer.marka-adi",
+        "footer.adres-cadde",
+        "footer.adres-bina",
+        "footer.adres-sehir",
+        "footer.sayfalar-basligi",
+        "footer.link-ana-sayfa",
+        "footer.link-menu",
+        "footer.link-konum",
+        "footer.saatler-basligi",
+        "footer.saatler-degeri",
+        "footer.alkolsuz-notu",
+        "footer.iletisim-basligi",
+        "footer.telefon",
+        "footer.sosyal",
+        "footer.telif",
+        "footer.telif-sehir"
+      ],
+      "dataYogunluk": ""
+    }
+  ],
+  "davranislar": [
+    {
+      "ad": "kur() tek-sefer kurulum ve temizlik",
+      "tetikleyici": "componentDidMount + componentDidUpdate; componentWillUnmount'ta temizlik",
+      "detay": "this.kuruldu bayragi ile idempotent; document.querySelector('[data-sahne-kap]') bulunamazsa erken cikar (kurulum ertelenir). componentWillUnmount'ta yalnizca clearInterval(this.saatTimer) yapilir — scroll listener KALDIRILMIYOR (referans dosyada sizinti; React portunda useEffect cleanup'ta removeEventListener sart). Ayrica const p = n => String(n).padStart(2,'0') tanimli ama bu sayfada HIC kullanilmiyor (olu kod, porta tasinmaz).",
+      "istemciMi": true
+    },
+    {
+      "ad": "Gece seridi otomatik gorunurlugu",
+      "tetikleyici": "Mount aninda bir kez + setInterval(yaz, 30000) — 30 saniyede bir",
+      "detay": "g = new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Nicosia'})); isNaN(g.getTime()) ise g = new Date(); try/catch icinde, hata durumunda yine g = new Date(). h = g.getHours(). document.querySelectorAll('[data-gece-serit]') uzerinde el.style.display = (h >= 1 && h < 5) ? 'flex' : 'none'. Yani serit yalnizca 01:00-04:59 (Europe/Nicosia) arasi gorunur. Next.js'te 'use client' + SSR/CSR hydration uyusmazligini onlemek icin ilk render'da gizli, mount sonrasi hesaplanan durum.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Kor sahnesi scroll kilidi (yapay fixed)",
+      "tetikleyici": "window 'scroll' olayi, {passive:true} + mount aninda bir kez cagri",
+      "detay": "kilitle = () => { sahne.style.transform = 'translate3d(0,' + window.pageYOffset + 'px,0)'; }. rAF throttle YOK (ana sayfadan farkli), yogunluk/opacity hesabi YOK — sahne sadece scroll ile birlikte tasinip viewport'a sabitlenmis gorunur. React'te CSS position:fixed ile ayni etki JS'siz elde edilebilir; sadelestirme onerilir, aksi halde 'use client' + passive scroll listener + cleanup gerekir.",
+      "istemciMi": true
+    },
+    {
+      "ad": "TR/EN dil degistirme",
+      "tetikleyici": "[data-dil=\"tr\"] ve [data-dil=\"en\"] elemanlarina click",
+      "detay": "cevir(en): this.en = en; tum [data-en] elemanlari icin data-tr yoksa el.setAttribute('data-tr', el.textContent) ile mevcut TR metni saklanir, sonra el.textContent = en ? getAttribute('data-en') : getAttribute('data-tr'). Ardindan buton renkleri: TR = en ? 'rgba(242,233,220,.58)' : '#F2E9DC'; EN = en ? '#F2E9DC' : 'rgba(242,233,220,.58)'. Sayfada 31 adet data-en tasiyan eleman var. DIKKAT: textContent yazimi ic HTML'i yok eder — footer adresindeki <br>'ler bu yuzden sadece sehir satirinin ayri <span data-en> olmasiyla korunuyor. React portunda dogru yol: next-intl/dictionary tabanli i18n, data-en degerleri EN sozlugunun kaynagi.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Birincil buton hover",
+      "tetikleyici": ":hover (referansta style-hover attribute'u)",
+      "detay": "transition:background .15s ease-out, transform .15s ease-out; hover'da background #B7351C -> #C93E22 ve transform:translateY(-1px). Golge hover'da degismiyor (sm: 0 8px 26px rgba(183,53,28,.34); lg: 0 12px 34px rgba(183,53,28,.4)). Saf CSS.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Ikincil buton hover",
+      "tetikleyici": ":hover (style-hover)",
+      "detay": "transition:border-color .15s ease-out, background .15s ease-out; hover'da border-color rgba(242,233,220,.38) -> rgba(250,170,31,.85), background rgba(10,8,7,.4) -> rgba(250,170,31,.1). Saf CSS.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Nav ve footer link hover",
+      "tetikleyici": ":hover (style-hover)",
+      "detay": "transition:color .15s ease-out; hover'da color -> #FAAA1F. Ust bar linkleri rgba(242,233,220,.86) tabanindan, footer linkleri rgba(242,233,220,.7) tabanindan. Global kural: a{color:#FAAA1F} a:hover{color:#F2E9DC}. Saf CSS.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Kor animasyonlari (CSS keyframes)",
+      "tetikleyici": "Sayfa yuklenince surekli calisir",
+      "detay": "@keyframes emberBreath{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}} 9s ease-in-out infinite. @keyframes emberSoft{0%,100%{opacity:.4}50%{opacity:.82}} 12s ease-in-out infinite. @keyframes smokeDrift{0%{opacity:0;transform:translate3d(0,36px,0) scale(1)}30%{opacity:.14}100%{opacity:0;transform:translate3d(30px,-170px,0) scale(1.6)}} — duman A 24s linear infinite, duman B 30s linear infinite 10s gecikmeli. @keyframes dotPulse{0%,100%{opacity:.45}50%{opacity:1}} 2.4s ease-in-out infinite (gece seridi noktasi). @keyframes colonBlink{0%,45%{opacity:1}50%,95%{opacity:.25}100%{opacity:1}} TANIMLI AMA BU SAYFADA KULLANILMIYOR (canli saat yok) — porta tasinmasi gerekmez.",
+      "istemciMi": false
+    },
+    {
+      "ad": "prefers-reduced-motion kapatma anahtari",
+      "tetikleyici": "@media (prefers-reduced-motion:reduce)",
+      "detay": "*{animation:none !important;transition:none !important} ve html{scroll-behavior:auto}. Tum kor/duman/nabiz animasyonlarini ve tum hover gecislerini tamamen kapatir. Saf CSS, birebir tasinmali.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Yumusak sayfa ici kaydirma",
+      "tetikleyici": "Global CSS",
+      "detay": "html{scroll-behavior:smooth}. Bu sayfada anchor linki yok (tum linkler diger sayfalara gidiyor), yalnizca global davranis olarak tanimli.",
+      "istemciMi": false
+    }
+  ],
+  "fotoYuvalari": [
+    {
+      "etiket": "portre, ocak başında (EN: portrait, at the fire)",
+      "yer": "Portre bolumu, sol kolon; plaka flex:1 1 380px;min-width:280px;max-width:560px; etiket sekmesi plakanin sol-alt kosesinden tasiyor (left:24px;bottom:-14px;background:#0A0807;padding:6px 12px), oncesinde 18x1px #FAAA1F cizgi. Cerceve: 1px solid rgba(242,233,220,.22) + box-shadow:inset 0 0 90px rgba(0,0,0,.5), 4 kosede 24x24px 1px solid rgba(250,170,31,.6) kose isareti, inset 18px.",
+      "oran": "Sabit aspect-ratio yok; yukseklik min-height:clamp(380px,52vh,560px) ile surulur, genislik flex ile 380-560px arasinda esner (align-items:stretch nedeniyle sag kart daha uzunsa plaka onunla ayni yukseklige uzar). Dikey/portre egilimli, kabaca 3:4 ile 1:1 arasi. Sayfadaki TEK foto yuvasi."
+    }
+  ],
+  "paylasilanBilesenler": [
+    {
+      "ad": "UstBar",
+      "gorev": "Sabit ust navigasyon: marka kilidi, 3 sayfa linki, TR/EN anahtari, birincil CTA; ustunde kosullu gece seridi",
+      "varyantlar": [
+        "gece seridi gizli (varsayilan)",
+        "gece seridi acik (01:00-04:59)",
+        "aktif sayfa = Hikaye (bu sayfada)"
+      ],
+      "kesinDegerler": "Kap: position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Ana satir: height:78px;padding:0 clamp(24px,5vw,64px);display:flex;justify-content:space-between;gap:20px. Marka linki gap:13px;color:#F2E9DC. Nav grubu gap:28px. Sayfa govdesi ust bar icin ayri padding almiyor; Hikaye Acilis bolumunun padding-top:176px bu bosluğu karsiliyor."
+    },
+    {
+      "ad": "GeceSerit",
+      "gorev": "Gece saatlerinde 'ocak yaniyor' bildirim seridi",
+      "varyantlar": [
+        "gizli (display:none)",
+        "gorunur (display:flex)"
+      ],
+      "kesinDegerler": "padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px. Nokta: 7x7px;border-radius:50%;background:#FAAA1F;box-shadow:0 0 10px rgba(250,170,31,.9);animation:dotPulse 2.4s ease-in-out infinite. Metin: font:600 12.5px/1 Inter,sans-serif;color:#FAAA1F."
+    },
+    {
+      "ad": "BeadRail (tane dizilimi)",
+      "gorev": "Marka motifi: 6 taneli kare dizisi, buyuk-kucuk-buyuk-buyuk-kucuk-buyuk ritmi (buyukler krem, kucukler amber). Gecici logo kilidinin parcasi",
+      "varyantlar": [
+        "xs (footer alt bari)",
+        "sm (ust bar marka kilidi)",
+        "md (Usül kart basligi)",
+        "lg (Sofra bolumu)"
+      ],
+      "kesinDegerler": "xs: gap:4px;opacity:.45; buyuk 7x7px;border-radius:1px;background:#F2E9DC; kucuk 4x4px;background:#FAAA1F (radius yok). sm: gap:4px; buyuk 8x8px;border-radius:1px;background:#F2E9DC; kucuk 5x5px;background:#FAAA1F. md: gap:10px; buyuk 13x13px;border-radius:2px;background:rgba(242,233,220,.8); kucuk 8x8px;background:#FAAA1F. lg: gap:10px; buyuk 14x14px;border-radius:2px;background:#F2E9DC; kucuk 9x9px;border-radius:1px;background:#FAAA1F. Dizilim her varyantta ayni: B,K,B,B,K,B."
+    },
+    {
+      "ad": "Buton",
+      "gorev": "Birincil (kor dolgulu) ve ikincil (cerceveli) eylem butonlari; hepsi <a>, kose yaricapi 0",
+      "varyantlar": [
+        "birincil-sm (ust bar CTA)",
+        "birincil-lg (Sofra CTA)",
+        "ikincil-lg (Sofra CTA)"
+      ],
+      "kesinDegerler": "birincil-sm: background:#B7351C;padding:13px 24px;font:600 14.5px/1 Inter;color:#F2E9DC;box-shadow:0 8px 26px rgba(183,53,28,.34);transition:background .15s ease-out,transform .15s ease-out; hover background:#C93E22;transform:translateY(-1px). birincil-lg: ayni ama padding:18px 30px;font:600 16px/1 Inter;box-shadow:0 12px 34px rgba(183,53,28,.4). ikincil-lg: border:1px solid rgba(242,233,220,.38);padding:17px 29px;font:600 16px/1 Inter;color:#F2E9DC;background:rgba(10,8,7,.4);transition:border-color .15s ease-out,background .15s ease-out; hover border-color:rgba(250,170,31,.85);background:rgba(250,170,31,.1). (ikincil padding 17/29, birincil 18/30 — 1px cerceve farkini dengeler.)"
+    },
+    {
+      "ad": "NavLink",
+      "gorev": "Ust bar ve footer sayfa linkleri",
+      "varyantlar": [
+        "ustbar-pasif",
+        "ustbar-aktif (mevcut sayfa)",
+        "footer"
+      ],
+      "kesinDegerler": "ustbar-pasif: font:500 15px/1 Inter;color:rgba(242,233,220,.86);transition:color .15s ease-out; hover color:#FAAA1F. ustbar-aktif: <a> degil <div>; font:600 15px/1 Inter;color:#FAAA1F;padding-bottom:2px;border-bottom:2px solid #FAAA1F. footer: font:400 14.5px/1 Inter;color:rgba(242,233,220,.7);transition:color .15s ease-out; hover color:#FAAA1F."
+    },
+    {
+      "ad": "DilAnahtari",
+      "gorev": "TR/EN metin dili degistirici",
+      "varyantlar": [
+        "TR aktif",
+        "EN aktif"
+      ],
+      "kesinDegerler": "Kap: display:flex;align-items:center;gap:8px;font:600 14px/1 Inter. Aktif dil color:#F2E9DC, pasif dil color:rgba(242,233,220,.58), ikisi de cursor:pointer. Ayrac '/' color:rgba(242,233,220,.28). Renkler JS ile inline yaziliyor (React'te aktif state'e bagli class olmali)."
+    },
+    {
+      "ad": "FotoPlaka",
+      "gorev": "Cekilmemis fotograflar icin kose isaretli koyu plaka + tasan etiket sekmesi",
+      "varyantlar": [
+        "portre (dikey, tek kullanim bu sayfada)"
+      ],
+      "kesinDegerler": "Cerceve: border:1px solid rgba(242,233,220,.22);box-shadow:inset 0 0 90px rgba(0,0,0,.5);min-height:clamp(380px,52vh,560px). Kose isaretleri: 24x24px, 1px solid rgba(250,170,31,.6), inset 18px (left/top, right/top, left/bottom, right/bottom). Etiket sekmesi: position:absolute;left:24px;bottom:-14px;padding:6px 12px;background:#0A0807;display:flex;align-items:center;gap:10px; cizgi 18x1px background:#FAAA1F; metin font:500 12.5px/1.4 Inter;color:rgba(242,233,220,.72)."
+    },
+    {
+      "ad": "CamKart",
+      "gorev": "Kor sahnesinin uzerinde icerigi okunur kilan yari saydam blur'lu panel",
+      "varyantlar": [
+        "portre-yan (.72 opak)",
+        "usul (.74 opak, genis)"
+      ],
+      "kesinDegerler": "Ortak: border:1px solid rgba(242,233,220,.1);backdrop-filter:blur(3px); koseler keskin (radius 0). portre-yan: background:rgba(10,8,7,.72);padding:clamp(28px,3vw,48px);display:flex;flex-direction:column;justify-content:center;gap:22px;flex:1 1 460px;min-width:0. usul: background:rgba(10,8,7,.74);padding:clamp(28px,3vw,44px);max-width:1180px."
+    },
+    {
+      "ad": "UsulSatiri",
+      "gorev": "Numara + etiket + icerik uclusunden olusan yontem satiri",
+      "varyantlar": [
+        "metin govdeli (01 Tane, 03 Saat)",
+        "cip govdeli (02 Ölçü)",
+        "son satir (alt cizgisiz)"
+      ],
+      "kesinDegerler": "Satir: display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px 26px;padding:26px 12px;border-bottom:1px solid rgba(242,233,220,.1) (son satirda yok). Numara: width:26px;flex:none;padding-top:6px;font:600 13px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.62). Etiket: width:clamp(150px,18vw,240px);flex:none;font:700 clamp(22px,2.2vw,30px)/1.14 'Bricolage Grotesque';letter-spacing:-.015em;color:#F2E9DC. Govde: flex:1;min-width:240px;font:400 15.5px/1.65 Inter;color:rgba(242,233,220,.74) (03 Saat'te ek olarak font-variant-numeric:tabular-nums). Cip govdesi: flex:1;min-width:240px;display:flex;flex-wrap:wrap;gap:10px."
+    },
+    {
+      "ad": "Cip",
+      "gorev": "Olcu/deger rozeti (hover veya tiklama davranisi yok)",
+      "varyantlar": [
+        "olcu (bu sayfadaki tek varyant)"
+      ],
+      "kesinDegerler": "padding:10px 14px;background:rgba(242,233,220,.06);font:500 14px/1 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.78); border yok, radius 0. Bu 3 cip data-en TASIMIYOR — EN sozluk girdileri elle uretilmeli."
+    },
+    {
+      "ad": "NotBlogu",
+      "gorev": "Sol amber cizgili ikincil not / soz blogu",
+      "varyantlar": [
+        "portre karti icinde"
+      ],
+      "kesinDegerler": "font:400 14.5px/1.65 Inter;color:rgba(242,233,220,.58);border-left:2px solid rgba(250,170,31,.5);padding-left:16px."
+    },
+    {
+      "ad": "EtiketSatiri",
+      "gorev": "Bolum ustyazisi: kucuk amber kare + kisa etiket metni",
+      "varyantlar": [
+        "acilis (11px kare)"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:12px;margin-bottom:26px; kare 11x11px;border-radius:1px;background:#FAAA1F; metin font:500 15px/1 Inter;color:rgba(242,233,220,.74)."
+    },
+    {
+      "ad": "KorSahnesi",
+      "gorev": "Sayfa arkasindaki kor/duman/vinyet/grain katman yigini",
+      "varyantlar": [
+        "hikaye (sabit yogunluk; ana sayfadaki data-yogunluk suruculu varyant BU SAYFADA YOK)"
+      ],
+      "kesinDegerler": "Kap: position:absolute;top:0;left:0;right:0;height:100vh;z-index:0;overflow:hidden;pointer-events:none;will-change:transform. Icerik govdesi kardes div: position:relative;z-index:10. Sayfa zemini body{background:#0A0807}, kap div ayrica background:#0A0807;color:#F2E9DC;overflow-x:clip."
+    },
+    {
+      "ad": "Footer",
+      "gorev": "4 kolonlu site alt bilgisi + telif bari",
+      "varyantlar": [
+        "standart (tum sayfalarda ayni)"
+      ],
+      "kesinDegerler": "Kap: padding:56px clamp(24px,5vw,64px) 30px;background:rgba(10,8,7,.9);border-top:1px solid rgba(242,233,220,.1). Kolon sirasi: display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 56px; her kolon flex-direction:column;gap:12px. Kolon basliklari font:600 14.5px/1 Inter;color:#F2E9DC; kolon metinleri font:400 14.5px/1 Inter;color:rgba(242,233,220,.7); adres font:400 14.5px/1.7 Inter;color:rgba(242,233,220,.66). Alt bar: margin-top:40px;padding-top:18px;border-top:1px solid rgba(242,233,220,.09);gap:14px; telif font:400 12.5px/1 Inter;color:rgba(242,233,220,.5). Sayisal degerlerde font-variant-numeric:tabular-nums."
+    },
+    {
+      "ad": "Tipografi ve renk token'lari (sayfa geneli)",
+      "gorev": "Bu sayfada gecen tum tasarim degerleri",
+      "varyantlar": [
+        "renk",
+        "tipografi",
+        "global"
+      ],
+      "kesinDegerler": "Renk: zemin #0A0807; krem metin #F2E9DC ve opaklik skalasi .5/.58/.62/.66/.7/.72/.74/.78/.8/.86; kor #B7351C, hover #C93E22; tangerine #FAAA1F; kart zemini rgba(10,8,7,.4/.72/.74/.9); ince cizgi rgba(242,233,220,.09/.1/.14/.22/.38). Tipografi: baslik 'Bricolage Grotesque' 700/800 (Google Fonts opsz,wght@12..96,600..800), govde Inter 400/500/600. Global: body{margin:0;background:#0A0807;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}; a{color:#FAAA1F;text-decoration:none} a:hover{color:#F2E9DC}; ::selection{background:#B7351C;color:#F2E9DC}; html{scroll-behavior:smooth}. Yatay sayfa padding'i her yerde clamp(24px,5vw,64px). Koseler 0-3px."
+    }
+  ],
+  "sayfa": "Hikaye"
+}

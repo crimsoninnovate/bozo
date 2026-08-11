@@ -1,0 +1,503 @@
+{
+  "sayfa": "Menu",
+  "bolumler": [
+    {
+      "id": "sahne-kor-katmani",
+      "ad": "Sahne / Kor Arka Plan Katmani (data-sahne-kap)",
+      "ozet": "Bir <section> degil; sayfa kokundeki ilk kardes div. position:absolute;top:0;left:0;right:0;height:100vh;z-index:0;overflow:hidden;pointer-events:none;will-change:transform. Icinde ust uste 6 mutlak katman, dokuman sirasiyla: (1) alt kor havuzu left:0;right:0;bottom:-16%;height:92%;radial-gradient(76% 90% at 50% 100%,rgba(183,53,28,.58),rgba(183,53,28,.15) 44%,transparent 70%);animation:emberBreath 9s ease-in-out infinite; (2) sicak merkez left:50%;bottom:-10%;width:min(760px,110%);height:460px;transform:translateX(-50%);radial-gradient(closest-side,rgba(250,170,31,.28),transparent 72%);animation:emberSoft 12s ease-in-out infinite; (3) duman A left:24%;bottom:2%;230x230px;border-radius:50%;radial-gradient(closest-side,rgba(242,233,220,.3),transparent);filter:blur(32px);animation:smokeDrift 24s linear infinite; (4) duman B left:62%;bottom:0%;200x200px;border-radius:50%;radial-gradient(closest-side,rgba(250,170,31,.34),transparent);filter:blur(28px);animation:smokeDrift 30s linear infinite 10s; (5) vinyet inset:0;box-shadow:inset 0 0 240px rgba(0,0,0,.86); (6) grid dokusu inset:0;opacity:.5;repeating-linear-gradient(0deg,rgba(242,233,220,.014) 0 1px,transparent 1px 3px) + ayni desen 90deg. Kullanici metni yok. JS her scroll'da translate3d ile viewport'a kilitler. Sayfa icerigi z-index:10 olan saran div'de.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "SahneKorKatmani"
+      ],
+      "metinAnahtarlari": []
+    },
+    {
+      "id": "ust-bar",
+      "ad": "Ust Bar (sabit) + Gece Seridi",
+      "ozet": "Bir <section> degil; position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Iki satir. Satir 1 = gece seridi [data-gece-serit] display:none (JS 01:00-05:00 arasi 'flex' yapar), padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px; icinde 7px nabiz noktasi + 'Gece acigiz, ocak yaniyor' metni. Satir 2 = ana bar height:78px;padding:0 clamp(24px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px. Sol: marka kilidi <a href=\"Ana%20Sayfa%20Alternatif.dc.html\"> = 6-tane bead rail (gap:4px) + 'Cigerci Bozo' font:800 21px/1 Bricolage Grotesque;letter-spacing:-.03em. Sag blok display:flex;align-items:center;gap:28px sirasiyla: Ocaktan (data-git=ocaktan), Ikramlar (data-git=ikramlar), Icecekler (data-git=icecekler) = sayfa-ici kaydirma tetikleyicileri (div, link degil); Hikaye (a href=Hikaye%20Sayfasi.dc.html), Konum (a href=Konum%20Sayfasi.dc.html); TR/EN dil anahtari; 'Yol tarifi al' birincil buton.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "UstBar",
+        "GeceSeridi",
+        "TaneDizilimi (marka varyanti)",
+        "DilAnahtari",
+        "Buton/Birincil (ustbar varyanti)",
+        "NabizNoktasi"
+      ],
+      "metinAnahtarlari": [
+        "ustbar.geceSerit",
+        "marka.ad",
+        "nav.ocaktan",
+        "nav.ikramlar",
+        "nav.icecekler",
+        "nav.hikaye",
+        "nav.konum",
+        "dil.tr",
+        "dil.en",
+        "cta.yolTarifiAl"
+      ]
+    },
+    {
+      "id": "menu-acilis",
+      "ad": "Menu Acilisi (id'siz ilk <section>)",
+      "ozet": "padding:172px clamp(24px,5vw,64px) 46px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px. Iki kolon. Sol kolon (flex-direction:column;gap:20px): (a) ust satir display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px iceren durum cipi (8px nokta + 'Su an acigiz') ve canli saat 03:40 font:700 clamp(24px,2.6vw,34px)/1 Bricolage;font-variant-numeric:tabular-nums;letter-spacing:-.03em, iki nokta ayri span animation:colonBlink 2s step-end infinite;color:#FAAA1F; (b) H1 'Menu' font:800 clamp(56px,9vw,140px)/.9 Bricolage;letter-spacing:-.055em;color:#F2E9DC;text-shadow:0 8px 50px rgba(10,8,7,.7); (c) spot metin font:400 clamp(16px,1.4vw,19px)/1.6 Inter;color:rgba(242,233,220,.78);max-width:540px. Sag kolon = 'Gece menusu' notu max-width:300px;padding:20px 22px;background:rgba(10,8,7,.7);border:1px solid rgba(242,233,220,.14);flex-direction:column;gap:9px; baslik font:700 16px/1.2 Bricolage;letter-spacing:-.02em; govde font:400 13px/1.6 Inter;tabular-nums;color:rgba(242,233,220,.68).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "DurumCipi",
+        "CanliSaat",
+        "NotKarti (gece menusu)"
+      ],
+      "metinAnahtarlari": [
+        "durum.acik",
+        "durum.kapali",
+        "acilis.baslik",
+        "acilis.spot",
+        "geceMenusu.baslik",
+        "geceMenusu.govde"
+      ]
+    },
+    {
+      "id": "ocaktan",
+      "ad": "Ocaktan (imza urun spread'i + 4 urun karti)",
+      "ozet": "<section id=\"ocaktan\"> padding:0 clamp(24px,5vw,64px) 40px. (1) Bolum basligi: display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:20px;border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:34px; solda 'Ocaktan' font:700 clamp(30px,3.6vw,48px)/1.06 Bricolage;letter-spacing:-.04em; sagda 6-tane bead rail (gap:10px). (2) Imza spread: display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px);align-items:stretch;margin-bottom:clamp(24px,3vw,44px); solda foto yuvasi flex:1 1 520px;min-width:300px;min-height:clamp(340px,46vh,480px) (hover box-shadow:inset 0 0 120px rgba(183,53,28,.4)), sagda detay paneli flex:1 1 380px;min-width:280px;padding:clamp(24px,2.6vw,38px);background:rgba(10,8,7,.78);border:1px solid rgba(183,53,28,.4);gap:16px;justify-content:center; panel icerigi sirasiyla: '01' indeksi + 'imza urun' outline cipi, baslik 'Ciger' font:700 clamp(34px,4vw,54px)/1.02 Bricolage, aciklama font:400 clamp(15px,1.3vw,17px)/1.6, 3 adet spec cipi ('8 sis', '4 ciger, 2 kuyruk yagi', '3 dakika'), fiyat satiri (padding-top:16px;border-top:1px solid rgba(242,233,220,.14)) 'porsiyon' + '000 TL' font:600 clamp(20px,2vw,26px)/1;color:#FAAA1F. (3) Urun izgarasi: display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,2.4vw,34px) icinde 4 ozdes UrunKarti (02 Dalak, 03 Yurek, 04 Kuzu sis, 05 Terbiyesiz tavuk sis); her kart ustte foto yuvasi (height:clamp(240px,30vh,300px), sag ustte indeks rozeti, sol ustte tek kose isareti, sol altta cizgi+etiket) + govde padding:22px 24px 24px;gap:10px;flex:1 + alt satirda 3-tane mini bead rail ve '000 TL'.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "BolumBasligi",
+        "TaneDizilimi (bolum varyanti)",
+        "FotoYuvasi/Spread",
+        "ImzaUrunPaneli",
+        "Cip/Outline",
+        "SpecCipi",
+        "UrunKarti",
+        "FotoYuvasi/KartUstu",
+        "IndeksRozeti",
+        "TaneDizilimi (kart mini varyanti)"
+      ],
+      "metinAnahtarlari": [
+        "ocaktan.baslik",
+        "urun.ciger.rozet",
+        "urun.ciger.ad",
+        "urun.ciger.aciklama",
+        "urun.ciger.spec.sis",
+        "urun.ciger.spec.dagilim",
+        "urun.ciger.spec.sure",
+        "ortak.porsiyon",
+        "ortak.fiyatYerTutucu",
+        "yuva.taneYakinCekimiYatay",
+        "urun.dalak.ad",
+        "urun.dalak.aciklama",
+        "yuva.dalakKaresi",
+        "urun.yurek.ad",
+        "urun.yurek.aciklama",
+        "yuva.yurekKaresi",
+        "urun.kuzuSis.ad",
+        "urun.kuzuSis.aciklama",
+        "yuva.kuzuSisKaresi",
+        "urun.tavukSis.ad",
+        "urun.tavukSis.aciklama",
+        "yuva.tavukSisKaresi"
+      ]
+    },
+    {
+      "id": "ikramlar",
+      "ad": "Ikramlar (2 yatay ikram karti)",
+      "ozet": "<section id=\"ikramlar\"> padding:70px clamp(24px,5vw,64px) 40px. (1) Bolum basligi ayni flex/baseline kalibi ama border-bottom:1px solid rgba(250,170,31,.3);margin-bottom:30px; solda 'Ikramlar', sagda alt metin font:400 15px/1.5 Inter;color:rgba(242,233,220,.72) (bead rail YOK). (2) Kart siras: display:flex;flex-wrap:wrap;gap:clamp(20px,2.4vw,34px), iki adet yatay ikram karti flex:1 1 400px;min-width:290px;display:flex;flex-wrap:wrap;background:rgba(10,8,7,.74);border:1px solid rgba(250,170,31,.28). Her kart solda foto yuvasi flex:1 1 180px;min-width:160px;min-height:200px (kor rengi rgba(122,31,43,.5), kose isareti ve indeks YOK), sagda govde flex:1 1 200px;padding:24px;flex-direction:column;gap:9px;justify-content:center: baslik font:700 clamp(22px,2vw,27px)/1.1 Bricolage;letter-spacing:-.03em, aciklama font:400 14px/1.55, 'ikram' rozeti font:600 15px/1 Inter;color:#FAAA1F;margin-top:4px. Kart 1 Lebeni corbasi, kart 2 Bostana. Hover efekti tanimli degil.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "BolumBasligi",
+        "IkramKarti",
+        "FotoYuvasi/Ikram",
+        "IkramRozeti"
+      ],
+      "metinAnahtarlari": [
+        "ikramlar.baslik",
+        "ikramlar.altMetin",
+        "ikram.lebeni.ad",
+        "ikram.lebeni.aciklama",
+        "yuva.lebeniKaresi",
+        "ikram.bostana.ad",
+        "ikram.bostana.aciklama",
+        "yuva.bostanaKaresi",
+        "ortak.ikramRozeti"
+      ]
+    },
+    {
+      "id": "icecekler",
+      "ad": "Icecekler (foto + fiyat listesi + alkolsuz/QR dipnotu)",
+      "ozet": "<section id=\"icecekler\"> padding:60px clamp(24px,5vw,64px) 70px. (1) Bolum basligi border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:26px; solda 'Icecekler', sagda alt metin font:400 15px/1.5;color:rgba(242,233,220,.64). (2) Ana blok display:flex;flex-wrap:wrap;gap:clamp(20px,2.4vw,34px);align-items:stretch: solda foto yuvasi flex:1 1 340px;min-width:280px;min-height:260px etiketi 'bakir masrapada ayran'; sagda liste kolonu flex:1 1 420px;min-width:300px;flex-direction:column;gap:12px iceren 3 fiyat satiri (Ayran, Salgam, Cay) padding:18px 20px;background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.12), ardindan kesikli yer tutucu padding:16px 20px;border:1px dashed rgba(242,233,220,.22) 'liste tamamlanacak'. (3) Dipnot satiri margin-top:28px;padding-top:22px;border-top:1px solid rgba(242,233,220,.12);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px: solda 'Mekanimiz alkolsuzdur.' font:400 15px/1.6;color:rgba(242,233,220,.74); sagda 34x34px QR glifi (3x3 grid, 4 kose + merkez dolu) + aciklama font:400 13.5px/1.5;color:rgba(242,233,220,.62);max-width:260px.",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "BolumBasligi",
+        "FotoYuvasi/Icecek",
+        "FiyatSatiri",
+        "KesikliYerTutucu",
+        "QRGlifi"
+      ],
+      "metinAnahtarlari": [
+        "icecekler.baslik",
+        "icecekler.altMetin",
+        "yuva.bakirMasrapadaAyran",
+        "icecek.ayran",
+        "icecek.salgam",
+        "icecek.cay",
+        "ortak.fiyatYerTutucu",
+        "icecekler.listeTamamlanacak",
+        "icecekler.alkolsuz",
+        "icecekler.qrNotu"
+      ]
+    },
+    {
+      "id": "cekim-listesi",
+      "ad": "Cekim Listesi (id'siz son <section>)",
+      "ozet": "<section> padding:0 clamp(24px,5vw,64px) 80px. Tek panel padding:26px clamp(20px,2.4vw,32px);background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.12). Panel basligi display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:20px: solda 'Cekim listesi' font:700 22px/1.15 Bricolage;letter-spacing:-.03em, sagda 'Menunun bekledigi yedi kare' font:400 13.5px/1.5;color:rgba(242,233,220,.64). Ardindan display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px icinde 7 kucuk yuva karosu height:110px;background:#0C0A09;overflow:hidden; her karo ANIMASYONSUZ kor lekesi left:-20%;bottom:-40%;width:140%;height:100%;radial-gradient(closest-side,rgba(183,53,28,.3),transparent) + sol altta sadece metin etiket (cizgi yok) left:12px;bottom:11px;font:500 11.5px/1.3 Inter;color:rgba(242,233,220,.68). Panelin altinda not margin-top:18px;font:400 13px/1.6;color:rgba(242,233,220,.6).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "FotoYuvasi/CekimKarosu"
+      ],
+      "metinAnahtarlari": [
+        "cekim.baslik",
+        "cekim.altMetin",
+        "cekim.kare.taneYakinCekimi",
+        "cekim.kare.korUzerindeSis",
+        "cekim.kare.ustaninEli",
+        "cekim.kare.kuruluSofra",
+        "cekim.kare.geceCephesi",
+        "cekim.kare.paketVeGelAl",
+        "cekim.kare.besUrunAyriAyri",
+        "cekim.aiGorselNotu"
+      ]
+    },
+    {
+      "id": "alt-bilgi",
+      "ad": "Alt Bilgi (Footer)",
+      "ozet": "Bir <section> degil; sayfa sarmalayicisinin son <div>'i. padding:60px clamp(24px,5vw,64px);background:rgba(10,8,7,.9);border-top:1px solid rgba(242,233,220,.1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:26px. Sol: flex-direction:column;gap:9px, marka 'Cigerci Bozo' font:800 20px/1 Bricolage;letter-spacing:-.04em + meta satiri 'Girne, Naci Talat Caddesi - Her gun 10:00 - 05:00' (ayrac karakteri dosyada orta nokta) font:400 14.5px/1.6 Inter;tabular-nums;color:rgba(242,233,220,.68). Sag: display:flex;flex-wrap:wrap;gap:12px, birincil buton 'Yol tarifi al' (padding:17px 28px;font:600 15.5px/1;background:#B7351C, box-shadow YOK) + outline buton telefon '000 000 00 00' (border:1px solid rgba(242,233,220,.36);padding:16px 27px).",
+      "dataYogunluk": "",
+      "bilesenler": [
+        "AltBilgi",
+        "Buton/Birincil (footer varyanti)",
+        "Buton/Outline"
+      ],
+      "metinAnahtarlari": [
+        "marka.ad",
+        "footer.adresSaat",
+        "cta.yolTarifiAl",
+        "footer.telefonYerTutucu"
+      ]
+    }
+  ],
+  "paylasilanBilesenler": [
+    {
+      "ad": "UstBar",
+      "gorev": "Sabit ust navigasyon; marka kilidi, 5 nav ogesi, TR/EN anahtari, birincil CTA ve ustunde kosula bagli gece seridi.",
+      "varyantlar": [
+        "gece seridi acik (01:00-05:00)",
+        "gece seridi kapali"
+      ],
+      "kesinDegerler": "position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)). Ic satir height:78px;padding:0 clamp(24px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px. Sag grup gap:28px. Nav ogesi font:500 15px/1 Inter,sans-serif;color:rgba(242,233,220,.86);transition:color .15s ease-out; hover color:#FAAA1F. Marka yazisi font:800 21px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#F2E9DC; marka kilidi gap:13px. Anchor kaydirma offset'i 96px."
+    },
+    {
+      "ad": "GeceSeridi",
+      "gorev": "01:00-05:00 arasinda ust bara eklenen 'gece acigiz' seridi; JS display'i flex/none arasinda cevirir.",
+      "varyantlar": [
+        "flex (goruntulenir)",
+        "none (varsayilan inline stil)"
+      ],
+      "kesinDegerler": "display:none;padding:8px clamp(24px,5vw,64px);background:rgba(183,53,28,.2);align-items:center;gap:10px. Nokta 7x7px;border-radius:50%;background:#FAAA1F;box-shadow:0 0 10px rgba(250,170,31,.9);animation:dotPulse 2.4s ease-in-out infinite. Metin font:600 12.5px/1 Inter,sans-serif;color:#FAAA1F."
+    },
+    {
+      "ad": "TaneDizilimi (bead rail)",
+      "gorev": "Sise dizilmis tane ritmini temsil eden dekoratif kare dizisi; marka kilidinde, bolum basliginda ve urun karti alt satirinda tekrar eder.",
+      "varyantlar": [
+        "marka (6 tane, gap:4px, buyuk 8x8px border-radius:1px #F2E9DC / kucuk 5x5px #FAAA1F; sira: buyuk-kucuk-buyuk-buyuk-kucuk-buyuk)",
+        "bolum basligi (6 tane, gap:10px, buyuk 13x13px border-radius:2px rgba(242,233,220,.8) / kucuk 8x8px #FAAA1F; ayni 6'li sira)",
+        "kart mini (3 tane, gap:4px, buyuk 9x9px border-radius:1px rgba(242,233,220,.5) / kucuk 5x5px rgba(250,170,31,.8); sira: buyuk-kucuk-buyuk)"
+      ],
+      "kesinDegerler": "Kapsayici display:flex;align-items:center. Kucuk taneler her varyantta border-radius'suz (keskin kare), buyuk taneler 1px veya 2px yumusatma. Tum taneler ayni satirda, ayrik div'ler."
+    },
+    {
+      "ad": "Buton/Birincil",
+      "gorev": "Ana eylem butonu ('Yol tarifi al'); hover'da renk degisimi + 1px yukselme.",
+      "varyantlar": [
+        "ustbar (padding:13px 24px;font:600 14.5px/1 Inter;box-shadow:0 8px 26px rgba(183,53,28,.34))",
+        "footer (padding:17px 28px;font:600 15.5px/1 Inter; box-shadow yok)"
+      ],
+      "kesinDegerler": "background:#B7351C;color:#F2E9DC;cursor:pointer;transition:background .15s ease-out,transform .15s ease-out; hover background:#C93E22;transform:translateY(-1px). border-radius TANIMSIZ (keskin kose)."
+    },
+    {
+      "ad": "Buton/Outline",
+      "gorev": "Ikincil eylem (telefon numarasi); sadece kenarlik rengi degisir.",
+      "varyantlar": [
+        "footer telefon"
+      ],
+      "kesinDegerler": "border:1px solid rgba(242,233,220,.36);padding:16px 27px;font:600 15.5px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:#F2E9DC;cursor:pointer;transition:border-color .15s ease-out; hover border-color:rgba(250,170,31,.85)."
+    },
+    {
+      "ad": "DurumCipi",
+      "gorev": "Acik/kapali durumunu nabzi atan nokta + metinle gosterir; icerigi ve rengi saat davranisindan gelir.",
+      "varyantlar": [
+        "acik (nokta background:#FAAA1F + boxShadow:'0 0 12px rgba(250,170,31,.9)', metin color:#FAAA1F)",
+        "kapali (nokta background:rgba(242,233,220,.35), boxShadow:'none', metin color:rgba(242,233,220,.8))"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:10px;padding:9px 15px;background:rgba(10,8,7,.62);border:1px solid rgba(250,170,31,.3). Nokta [data-nokta] 8x8px;border-radius:50%;animation:dotPulse 2.4s ease-in-out infinite. Metin [data-durum] font:600 13.5px/1 Inter,sans-serif."
+    },
+    {
+      "ad": "CanliSaat",
+      "gorev": "Girne (Europe/Nicosia) saatini SS:DD olarak gosterir; iki nokta ayri span olarak yanip soner.",
+      "varyantlar": [
+        "menu acilisi (tek boyut)"
+      ],
+      "kesinDegerler": "display:flex;align-items:baseline;gap:2px;font:700 clamp(24px,2.6vw,34px)/1 'Bricolage Grotesque',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:#F2E9DC. Iki nokta span: animation:colonBlink 2s step-end infinite;color:#FAAA1F. Isaretciler [data-saat-s] (saat) ve [data-saat-d] (dakika); statik HTML degerleri 03 ve 40."
+    },
+    {
+      "ad": "FotoYuvasi (photo plate)",
+      "gorev": "Cekilmemis fotograflarin yerine gecen koyu plaka: koyu zemin + animasyonlu kor lekesi + vinyet + (varsa) kose isaretleri + cizgi/etiket + (varsa) indeks rozeti. data-yuva=\"1\" ile isaretli, sayfada 15 adet.",
+      "varyantlar": [
+        "spread (imza urun)",
+        "kart-ustu (4 urun karti)",
+        "ikram (yatay kartin sol yarisi)",
+        "icecek (buyuk sol plaka)",
+        "cekim-karosu (110px kucuk karo)"
+      ],
+      "kesinDegerler": "ORTAK: position:relative;background:#0C0A09;overflow:hidden. SPREAD: flex:1 1 520px;min-width:300px;min-height:clamp(340px,46vh,480px);transition:box-shadow .3s ease-out; hover box-shadow:inset 0 0 120px rgba(183,53,28,.4); kor left:-14%;bottom:-30%;width:128%;height:92%;radial-gradient(closest-side,rgba(183,53,28,.5),transparent);animation:emberSoft 9s ease-in-out infinite; vinyet inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,.7); kose isaretleri 26x26px 1px solid rgba(250,170,31,.55) sol-ust (left:20px;top:20px, border-left+border-top) ve sag-alt (right:20px;bottom:20px, border-right+border-bottom); etiket left:24px;bottom:22px;gap:10px, cizgi 20x1px #FAAA1F, metin font:500 12.5px/1.4 Inter;color:rgba(242,233,220,.72). KART-USTU: height:clamp(240px,30vh,300px); kor left:-16%;bottom:-30%;width:132%;height:92%;rgba(183,53,28,.36); animasyon kart sirasina gore emberSoft 10s .6s / 11s 1.2s / 9.5s 1.8s / 12s 2.4s; vinyet inset 0 0 90px rgba(0,0,0,.72); TEK kose isareti sol-ust 20x20px 1px solid rgba(250,170,31,.5) (left:16px;top:16px); etiket left:18px;bottom:16px;gap:9px, cizgi 16x1px #FAAA1F, metin font:500 12px/1.4;color:rgba(242,233,220,.7); indeks rozeti right:16px;top:14px;font:600 12px/1 Inter;tabular-nums;color:rgba(242,233,220,.55). IKRAM: flex:1 1 180px;min-width:160px;min-height:200px; kor left:-16%;bottom:-30%;width:132%;height:92%;rgba(122,31,43,.5); emberSoft 11s / 12s gecikme 1.5s; vinyet inset 0 0 80px rgba(0,0,0,.7); etiket left:16px;bottom:14px;gap:9px, cizgi 16x1px; kose isareti ve indeks YOK. ICECEK: flex:1 1 340px;min-width:280px;min-height:260px; kor left:-14%;bottom:-30%;width:128%;height:92%;rgba(183,53,28,.34); emberSoft 13s; vinyet inset 0 0 90px rgba(0,0,0,.7); etiket left:18px;bottom:16px;gap:9px, cizgi 16x1px. CEKIM-KAROSU: height:110px; kor left:-20%;bottom:-40%;width:140%;height:100%;rgba(183,53,28,.3) ANIMASYONSUZ; vinyet YOK; sadece metin etiket left:12px;bottom:11px;font:500 11.5px/1.3 Inter;color:rgba(242,233,220,.68), cizgi YOK."
+    },
+    {
+      "ad": "UrunKarti",
+      "gorev": "Ocaktan izgarasindaki dikey urun karti: ust foto yuvasi + govde (ad, aciklama, alt satirda mini bead rail + fiyat).",
+      "varyantlar": [
+        "02 Dalak",
+        "03 Yurek",
+        "04 Kuzu sis",
+        "05 Terbiyesiz tavuk sis"
+      ],
+      "kesinDegerler": "display:flex;flex-direction:column;background:rgba(10,8,7,.74);border:1px solid rgba(242,233,220,.12);transition:transform .22s cubic-bezier(.2,.7,.2,1),border-color .22s ease-out,box-shadow .22s ease-out; hover transform:translateY(-6px);border-color:rgba(183,53,28,.65);box-shadow:0 26px 60px rgba(0,0,0,.5). Govde padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1. Baslik font:700 clamp(24px,2.2vw,30px)/1.1 'Bricolage Grotesque';letter-spacing:-.03em;color:#F2E9DC. Aciklama font:400 14.5px/1.55 Inter;color:rgba(242,233,220,.7). Alt satir margin-top:auto;padding-top:14px;border-top:1px solid rgba(242,233,220,.12);display:flex;align-items:center;justify-content:space-between. Fiyat font:600 18px/1 Inter;font-variant-numeric:tabular-nums;color:#FAAA1F. Izgara: display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,2.4vw,34px)."
+    },
+    {
+      "ad": "ImzaUrunPaneli",
+      "gorev": "Spread'in sag yarisi: imza urunun genis anlatimi, spec cipleri ve porsiyon fiyati.",
+      "varyantlar": [
+        "Ciger (sayfadaki tek ornek)"
+      ],
+      "kesinDegerler": "flex:1 1 380px;min-width:280px;padding:clamp(24px,2.6vw,38px);background:rgba(10,8,7,.78);border:1px solid rgba(183,53,28,.4);display:flex;flex-direction:column;gap:16px;justify-content:center. Ust satir gap:12px: indeks font:600 13px/1 Inter;tabular-nums;color:rgba(242,233,220,.5) + outline cip. Baslik font:700 clamp(34px,4vw,54px)/1.02 'Bricolage Grotesque';letter-spacing:-.04em;color:#F2E9DC. Aciklama font:400 clamp(15px,1.3vw,17px)/1.6 Inter;color:rgba(242,233,220,.76). Fiyat satiri display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-top:16px;border-top:1px solid rgba(242,233,220,.14); etiket font:400 14px/1 Inter;color:rgba(242,233,220,.6); fiyat font:600 clamp(20px,2vw,26px)/1 Inter;tabular-nums;color:#FAAA1F."
+    },
+    {
+      "ad": "Cip/Outline (rozet)",
+      "gorev": "Kategori rozeti ('imza urun').",
+      "varyantlar": [
+        "imza urun"
+      ],
+      "kesinDegerler": "padding:5px 10px;border:1px solid rgba(250,170,31,.45);font:600 11.5px/1 Inter,sans-serif;color:#FAAA1F."
+    },
+    {
+      "ad": "SpecCipi (dolgulu cip)",
+      "gorev": "Porsiyon/sure gibi olcu bilgilerini tasiyan dolgu cip; spread panelinde 3 adet yan yana.",
+      "varyantlar": [
+        "8 sis",
+        "4 ciger, 2 kuyruk yagi",
+        "3 dakika"
+      ],
+      "kesinDegerler": "padding:7px 12px;background:rgba(242,233,220,.06);font:500 12.5px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.74). Kapsayici display:flex;flex-wrap:wrap;gap:8px."
+    },
+    {
+      "ad": "BolumBasligi",
+      "gorev": "Bolum adini ve sagdaki yardimci ogeyi (bead rail veya alt metin) alt cizgiyle ayiran baslik satiri.",
+      "varyantlar": [
+        "ocaktan (sagda bead rail; border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:34px)",
+        "ikramlar (sagda alt metin; border-bottom:1px solid rgba(250,170,31,.3);margin-bottom:30px)",
+        "icecekler (sagda alt metin; border-bottom:1px solid rgba(242,233,220,.16);margin-bottom:26px)"
+      ],
+      "kesinDegerler": "display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:20px. Baslik font:700 clamp(30px,3.6vw,48px)/1.06 'Bricolage Grotesque',sans-serif;letter-spacing:-.04em;color:#F2E9DC. Alt metin font:400 15px/1.5 Inter; ikramlar'da color:rgba(242,233,220,.72), icecekler'de color:rgba(242,233,220,.64). Not: cekim-listesi panelinin basligi bu bilesenin daha kucuk akrabasi (font:700 22px/1.15;letter-spacing:-.03em;gap:14px;margin-bottom:20px; alt cizgi yok)."
+    },
+    {
+      "ad": "IkramKarti",
+      "gorev": "Yatay ikram karti: solda foto yuvasi, sagda ad/aciklama/'ikram' rozeti.",
+      "varyantlar": [
+        "Lebeni corbasi",
+        "Bostana"
+      ],
+      "kesinDegerler": "flex:1 1 400px;min-width:290px;display:flex;flex-wrap:wrap;background:rgba(10,8,7,.74);border:1px solid rgba(250,170,31,.28). Govde flex:1 1 200px;padding:24px;display:flex;flex-direction:column;gap:9px;justify-content:center. Baslik font:700 clamp(22px,2vw,27px)/1.1 'Bricolage Grotesque';letter-spacing:-.03em;color:#F2E9DC. Aciklama font:400 14px/1.55 Inter;color:rgba(242,233,220,.7). Rozet font:600 15px/1 Inter;color:#FAAA1F;margin-top:4px. Hover durumu TANIMSIZ."
+    },
+    {
+      "ad": "FiyatSatiri",
+      "gorev": "Icecek listesindeki ad + fiyat satiri.",
+      "varyantlar": [
+        "Ayran",
+        "Salgam",
+        "Cay"
+      ],
+      "kesinDegerler": "display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:18px 20px;background:rgba(10,8,7,.72);border:1px solid rgba(242,233,220,.12). Ad font:600 17px/1 Inter;color:#F2E9DC. Fiyat font:600 15px/1 Inter;font-variant-numeric:tabular-nums;color:#FAAA1F. Kolon gap:12px. Hover TANIMSIZ."
+    },
+    {
+      "ad": "KesikliYerTutucu",
+      "gorev": "Henuz kesinlesmemis liste ogeleri icin kesik cerceveli bos slot.",
+      "varyantlar": [
+        "liste tamamlanacak"
+      ],
+      "kesinDegerler": "padding:16px 20px;border:1px dashed rgba(242,233,220,.22);display:flex;align-items:center;justify-content:center. Metin font:400 14px/1 Inter;color:rgba(242,233,220,.58)."
+    },
+    {
+      "ad": "QRGlifi",
+      "gorev": "Masadaki QR menuye isaret eden 3x3 dekoratif glif.",
+      "varyantlar": [
+        "tek varyant"
+      ],
+      "kesinDegerler": "width:34px;height:34px;border:1px solid rgba(242,233,220,.25);display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:2px;padding:5px. Dolu hucreler: dort kose background:rgba(242,233,220,.7), merkez background:rgba(250,170,31,.85); kalan dort hucre bos div."
+    },
+    {
+      "ad": "DilAnahtari",
+      "gorev": "TR/EN metin degistirme anahtari; aktif dil parlak, pasif dil soluk.",
+      "varyantlar": [
+        "TR aktif (varsayilan)",
+        "EN aktif"
+      ],
+      "kesinDegerler": "display:flex;align-items:center;gap:8px;font:600 14px/1 Inter,sans-serif. Aktif color:#F2E9DC; pasif color:rgba(242,233,220,.5); ayrac '/' color:rgba(242,233,220,.28). Isaretciler [data-dil=\"tr\"] ve [data-dil=\"en\"], her ikisi cursor:pointer."
+    },
+    {
+      "ad": "SahneKorKatmani",
+      "gorev": "Sayfanin arkasinda duran, scroll ile viewport'a kilitlenen kor/duman/vinyet/grid atmosfer katmani.",
+      "varyantlar": [
+        "tek varyant"
+      ],
+      "kesinDegerler": "position:absolute;top:0;left:0;right:0;height:100vh;z-index:0;overflow:hidden;pointer-events:none;will-change:transform. Sarmalayici div: position:relative;width:100%;overflow-x:clip;background:#0A0807;color:#F2E9DC. Icerik saricisi position:relative;z-index:10. Animasyonlar: emberBreath 9s ease-in-out infinite; emberSoft 12s ease-in-out infinite; smokeDrift 24s linear infinite; smokeDrift 30s linear infinite 10s."
+    },
+    {
+      "ad": "AltBilgi",
+      "gorev": "Sayfa sonu marka + adres/saat bilgisi ve iki eylem butonu.",
+      "varyantlar": [
+        "tek varyant"
+      ],
+      "kesinDegerler": "position:relative;padding:60px clamp(24px,5vw,64px);background:rgba(10,8,7,.9);border-top:1px solid rgba(242,233,220,.1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:26px. Marka font:800 20px/1 'Bricolage Grotesque';letter-spacing:-.04em;color:#F2E9DC. Meta font:400 14.5px/1.6 Inter;font-variant-numeric:tabular-nums;color:rgba(242,233,220,.68). Sol kolon gap:9px; buton grubu gap:12px."
+    },
+    {
+      "ad": "GlobalTema (tokenlar)",
+      "gorev": "Sayfa genelinde tekrar eden renk / tipografi / keyframe tanimlari; CSS Modules'a token olarak tasinmali.",
+      "varyantlar": [
+        "renk",
+        "tipografi",
+        "keyframe",
+        "reduced-motion"
+      ],
+      "kesinDegerler": "Renkler: sayfa zemini #0A0807; plaka zemini #0C0A09; metin #F2E9DC; kor sarisi #FAAA1F; kor kirmizisi #B7351C, hover #C93E22; ikram koru rgba(122,31,43,.5); panel zemini rgba(10,8,7,.70/.72/.74/.78/.90); kenarlik rgba(242,233,220,.10/.12/.14/.16/.25/.36) ve rgba(250,170,31,.28/.30/.45/.55) ve rgba(183,53,28,.40/.65). Global CSS: html{scroll-behavior:smooth}; body{margin:0;background:#0A0807;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}; a{color:#FAAA1F;text-decoration:none} a:hover{color:#F2E9DC}; ::selection{background:#B7351C;color:#F2E9DC}. Fontlar (Google Fonts): Bricolage Grotesque opsz,wght@12..96,600..800 (baslik) + Inter wght@400;500;600 (metin). Keyframeler: emberBreath{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}; emberSoft{0%,100%{opacity:.4}50%{opacity:.82}}; smokeDrift{0%{opacity:0;transform:translate3d(0,36px,0) scale(1)}30%{opacity:.14}100%{opacity:0;transform:translate3d(30px,-170px,0) scale(1.6)}}; dotPulse{0%,100%{opacity:.45}50%{opacity:1}}; colonBlink{0%,45%{opacity:1}50%,95%{opacity:.25}100%{opacity:1}}. @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}html{scroll-behavior:auto}}. Sayfada border-radius yalnizca nokta/tane ogelerinde var (50%, 1px, 2px); tum kutu ve butonlar keskin kose."
+    }
+  ],
+  "davranislar": [
+    {
+      "ad": "Canli saat ve acik/kapali durumu (yaz)",
+      "tetikleyici": "componentDidMount -> kur() icinde bir kez calisir, ardindan setInterval(yaz, 1000)",
+      "detay": "Saat kaynagi: g = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Nicosia' })); isNaN(g.getTime()) ise g = new Date(); tumu try/catch icinde, hata olursa yine g = new Date(). p = n => String(n).padStart(2,'0'). h = g.getHours(), m = g.getMinutes(). ACIK KURALI: acik = (h >= 10 || h < 5). Yazilanlar: her [data-saat-s].textContent = p(h); her [data-saat-d].textContent = p(m). Her [data-durum]: metin EN ise acik 'We are open' / kapali 'We are closed, opening at 10:00'; TR ise acik 'Su an acigiz' / kapali \"Su an kapaliyiz, 10:00'da aciliyoruz\"; style.color = acik ? '#FAAA1F' : 'rgba(242,233,220,.8)'. Her [data-nokta]: style.background = acik ? '#FAAA1F' : 'rgba(242,233,220,.35)'; style.boxShadow = acik ? '0 0 12px rgba(250,170,31,.9)' : 'none'. Her [data-gece-serit]: style.display = (h >= 1 && h < 5) ? 'flex' : 'none'. Temizlik: componentWillUnmount -> clearInterval(this.saatTimer). React notu: SSR/hydration uyusmazligini onlemek icin ilk render statik '03:40' yerine suppressHydrationWarning veya mount sonrasi ilk deger yazimi gerekir.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Sahne kilidi (kor katmanini viewport'a sabitleme)",
+      "tetikleyici": "window 'scroll' olayi (addEventListener('scroll', kilitle, { passive: true })) + kur() icinde bir kez cagrilir",
+      "detay": "sahne = document.querySelector('[data-sahne-kap]'); element yoksa kur() erken doner (this.kuruldu isaretlenmeden). kilitle = () => { sahne.style.transform = 'translate3d(0,' + window.pageYOffset + 'px,0)'; }. Etki: position:absolute + height:100vh olan kor katmani her scroll'da scroll miktari kadar otelenir, boylece position:fixed gibi davranir ama kendi transform/kompozisyon katmaninda kalir (will-change:transform). ORIJINAL KODDA removeEventListener YOK; React portunda useEffect cleanup'inda kaldirilmali. Alternatif: position:fixed ile JS'siz esdeger sonuc.",
+      "istemciMi": true
+    },
+    {
+      "ad": "Bolum ici yumusak kaydirma (anchor)",
+      "tetikleyici": "[data-git] tasiyan ust bar ogelerine click (data-git degerleri: ocaktan, ikramlar, icecekler)",
+      "detay": "hedef = document.getElementById(el.getAttribute('data-git')); hedef yoksa return. window.scrollTo({ top: Math.max(0, hedef.getBoundingClientRect().top + window.pageYOffset - 96), behavior: azalt ? 'auto' : 'smooth' }). 96 = sabit ust bar payi (px). azalt = window.matchMedia('(prefers-reduced-motion: reduce)').matches, kur() basinda BIR KEZ okunur (canli dinleyici yok). Next.js'te <a href=\"#ocaktan\"> + section'lara scroll-margin-top:96px ile JS'siz karsilanabilir; o durumda global html{scroll-behavior:smooth} ve reduced-motion override zaten yerinde.",
+      "istemciMi": true
+    },
+    {
+      "ad": "TR/EN dil degistirme (cevir)",
+      "tetikleyici": "[data-dil=\"tr\"] click -> cevir(false); [data-dil=\"en\"] click -> cevir(true)",
+      "detay": "cevir(en) { this.en = en; her [data-en] elemani icin: el.hasAttribute('data-tr') degilse el.setAttribute('data-tr', el.textContent) ile mevcut TR metin saklanir; sonra el.textContent = en ? el.getAttribute('data-en') : el.getAttribute('data-tr'). Buton renkleri: tr.style.color = en ? 'rgba(242,233,220,.5)' : '#F2E9DC'; enB.style.color = en ? '#F2E9DC' : 'rgba(242,233,220,.5)'. Son adim this.yazFn() ile saat/durum metni yeni dilde yeniden yazilir. } Varsayilan dil TR (this.en baslangicta undefined). React notu: bu DOM mutasyonu YERINE sozluk + locale state (veya next-intl / [locale] route) kullanilmali; [data-en] tasiyan HER metin sozluge girmeli. Onemli: [data-en] tasimayan metinler (urun adlari Ciger/Dalak/Yurek/Kuzu sis/Terbiyesiz tavuk sis/Lebeni corbasi/Bostana/Ayran/Salgam/Cay, spec cipleri, yuva etiketleri, '000 TL', marka adi, adres satiri) tasarimda bilincli olarak CEVRILMEZ, iki dilde de ayni kalir.",
+      "istemciMi": true
+    },
+    {
+      "ad": "kur() tek-sefer kurulum korumasi",
+      "tetikleyici": "componentDidMount ve componentDidUpdate her ikisi de kur() cagirir",
+      "detay": "if (this.kuruldu) return; ile idempotent yapilir; ayrica [data-sahne-kap] DOM'da yoksa this.kuruldu isaretlenmeden erken donulur (bir sonraki update'te yeniden denenir). React'te bu koruma gereksiz: useEffect(..., []) ile karsilanir. Ancak orijinal kod scroll listener'i ve [data-git]/[data-dil] click listener'larini hic kaldirmiyor; port ederken cleanup ZORUNLU (clearInterval zaten var, removeEventListener eklenmeli).",
+      "istemciMi": true
+    },
+    {
+      "ad": "Hover gecisleri (yalnizca CSS, style-hover ozniteliklerinde)",
+      "tetikleyici": "mouse hover",
+      "detay": "Nav ogesi: transition:color .15s ease-out -> color:#FAAA1F. Birincil buton: transition:background .15s ease-out,transform .15s ease-out -> background:#C93E22; transform:translateY(-1px). Outline buton: transition:border-color .15s ease-out -> border-color:rgba(250,170,31,.85). UrunKarti: transition:transform .22s cubic-bezier(.2,.7,.2,1),border-color .22s ease-out,box-shadow .22s ease-out -> transform:translateY(-6px); border-color:rgba(183,53,28,.65); box-shadow:0 26px 60px rgba(0,0,0,.5). Spread foto yuvasi: transition:box-shadow .3s ease-out -> box-shadow:inset 0 0 120px rgba(183,53,28,.4). Global a:hover{color:#F2E9DC}. IkramKarti, FiyatSatiri, cekim karolari ve kart-ustu yuvalarinda hover TANIMSIZ.",
+      "istemciMi": false
+    },
+    {
+      "ad": "Ortam animasyonlari (CSS keyframe)",
+      "tetikleyici": "sayfa yuklenir yuklenmez, sonsuz dongu",
+      "detay": "emberBreath 9s ease-in-out infinite -> sahne alt kor havuzu. emberSoft ease-in-out infinite -> sahne merkezi 12s; spread yuvasi 9s; kart yuvalari 10s gecikme .6s / 11s gecikme 1.2s / 9.5s gecikme 1.8s / 12s gecikme 2.4s; ikram yuvalari 11s ve 12s gecikme 1.5s; icecek yuvasi 13s. smokeDrift linear infinite -> duman A 24s, duman B 30s gecikme 10s. dotPulse 2.4s ease-in-out infinite -> durum cipi noktasi ve gece seridi noktasi. colonBlink 2s step-end infinite -> saatteki iki nokta. Cekim listesi karolarindaki kor lekesinde animasyon YOK. @media (prefers-reduced-motion:reduce) tum animation ve transition'lari !important ile kapatir ve html{scroll-behavior:auto} yapar.",
+      "istemciMi": false
+    }
+  ],
+  "fotoYuvalari": [
+    {
+      "etiket": "tane yakın çekimi · yatay",
+      "yer": "Ocaktan bolumu, imza urun (Ciger) spread'inin sol yarisi; data-yuva=\"1\", flex:1 1 520px;min-width:300px; iki kose isaretli (sol-ust, sag-alt), hover'da ic kor parlamasi",
+      "oran": "Sabit oran yok; min-height:clamp(340px,46vh,480px), genislik esnek. Etiket acikca 'yatay' istiyor; pratikte ~3:2 - 16:9 arasi yatay kadraj"
+    },
+    {
+      "etiket": "dalak karesi",
+      "yer": "Ocaktan izgarasi, 02 numarali Dalak kartinin ust plakasi (indeks rozeti '02', sol-ust kose isareti)",
+      "oran": "height:clamp(240px,30vh,300px); sutun genisligi minmax(280px,1fr) - kareye yakin ('kare' etiketi)"
+    },
+    {
+      "etiket": "yürek karesi",
+      "yer": "Ocaktan izgarasi, 03 numarali Yurek kartinin ust plakasi (indeks rozeti '03')",
+      "oran": "height:clamp(240px,30vh,300px); sutun genisligi minmax(280px,1fr) - kareye yakin"
+    },
+    {
+      "etiket": "kuzu şiş karesi",
+      "yer": "Ocaktan izgarasi, 04 numarali Kuzu sis kartinin ust plakasi (indeks rozeti '04')",
+      "oran": "height:clamp(240px,30vh,300px); sutun genisligi minmax(280px,1fr) - kareye yakin"
+    },
+    {
+      "etiket": "tavuk şiş karesi",
+      "yer": "Ocaktan izgarasi, 05 numarali Terbiyesiz tavuk sis kartinin ust plakasi (indeks rozeti '05')",
+      "oran": "height:clamp(240px,30vh,300px); sutun genisligi minmax(280px,1fr) - kareye yakin"
+    },
+    {
+      "etiket": "lebeni karesi",
+      "yer": "Ikramlar bolumu, Lebeni corbasi kartinin sol yarisi (kor rengi rgba(122,31,43,.5))",
+      "oran": "flex:1 1 180px;min-width:160px;min-height:200px - kareye yakin, notr"
+    },
+    {
+      "etiket": "bostana karesi",
+      "yer": "Ikramlar bolumu, Bostana kartinin sol yarisi (kor rengi rgba(122,31,43,.5))",
+      "oran": "flex:1 1 180px;min-width:160px;min-height:200px - kareye yakin, notr"
+    },
+    {
+      "etiket": "bakır maşrapada ayran",
+      "yer": "Icecekler bolumu, fiyat listesi kolonunun solundaki buyuk plaka",
+      "oran": "flex:1 1 340px;min-width:280px;min-height:260px - hafif yatay"
+    },
+    {
+      "etiket": "tane yakın çekimi",
+      "yer": "Cekim listesi paneli, 1. karo (animasyonsuz kor lekesi, cizgisiz metin etiket)",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr)) - yatay kucuk karo, yaklasik 1.4:1"
+    },
+    {
+      "etiket": "kor üzerinde şiş",
+      "yer": "Cekim listesi paneli, 2. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    },
+    {
+      "etiket": "ustanın eli",
+      "yer": "Cekim listesi paneli, 3. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    },
+    {
+      "etiket": "kurulu sofra",
+      "yer": "Cekim listesi paneli, 4. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    },
+    {
+      "etiket": "gece cephesi",
+      "yer": "Cekim listesi paneli, 5. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    },
+    {
+      "etiket": "paket ve gel al",
+      "yer": "Cekim listesi paneli, 6. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    },
+    {
+      "etiket": "beş ürün ayrı ayrı",
+      "yer": "Cekim listesi paneli, 7. karo",
+      "oran": "height:110px; sutun repeat(auto-fit,minmax(150px,1fr))"
+    }
+  ]
+}

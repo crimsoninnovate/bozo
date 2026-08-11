@@ -26,7 +26,7 @@ amber `#E8A33D` yerine tangerine `#FAAA1F`). Handoff README bu güncellemeleri z
 |---|---|---|
 | Framework | Next.js 16.3 App Router, React 19.2, TypeScript strict | Handoff'un önerdiği yön; metadata, sitemap ve route yapısı hazır gelir |
 | Çıktı | `output: 'export'` statik, `images.unoptimized: true` | Yayın hedefi researchos-server üzerinde Caddy `file_server`; sunucu runtime'ı yok |
-| i18n | Route group `(tr)` kökte + `en/` alt ağacı, sözlük modülleri | Statik export'ta middleware çalışmaz; next-intl'in `localePrefix: 'as-needed'` düzeni middleware ister. Bu yapı TR'yi kökte tutar ve bağımlılık eklemez |
+| i18n | İki root layout: `(tr)` kökte, `(en)/en` alt ağacında; sözlük modülleri | Statik export'ta middleware çalışmaz; next-intl'in `localePrefix: 'as-needed'` düzeni middleware ister. Bu yapı TR'yi kökte tutar, her dile doğru `<html lang>` verir ve bağımlılık eklemez |
 | Stil | CSS Modules + `styles/tokens.css` | Tasarımdaki kesin değerler (`clamp(60px,10.4vw,168px)`, `.5/.58/.62` opaklık skalası) okunur kalır ve handoff'a karşı 1:1 denetlenebilir |
 | Yayın | researchos-server, statik | Regulus ve oykualemdar kalıbı |
 | Runtime bağımlılığı | `next`, `react`, `react-dom` | Animasyon kütüphanesi yok: tasarımdaki hareket CSS keyframes + `requestAnimationFrame` |
@@ -35,6 +35,17 @@ amber `#E8A33D` yerine tangerine `#FAAA1F`). Handoff README bu güncellemeleri z
 
 Middleware, Server Actions, intercepting routes ve varsayılan image optimizer kullanılamaz.
 Formlar sunucuya post edemez; rezervasyon ikinci fazda WhatsApp yönlendirmesi ve `mailto` ile çözülür.
+
+### Çoklu root layout ve 404
+
+Kök `app/layout.tsx` yoktur; `<html>` etiketini iki route group layout'u basar. Bu düzende
+sıradan bir `app/not-found.tsx` sarmalanacak kök layout bulamaz ve `out/404.html` dosyasını
+`<html>`, `<body>` ve stylesheet olmadan üretir. Ölçülerek doğrulanmıştır.
+
+Çözüm: `experimental.globalNotFound: true` ve kendi `<html>` iskeletini taşıyan
+`app/global-not-found.tsx`. Bu bayrak deneyseldir; kaldırılırsa geri dönüş yolu tek root layout
+(`<html lang="tr">`) ve EN içeriğinin `<div lang="en">` ile sarmalanmasıdır. `hreflang` etiketleri
+her iki durumda da doğru kalır.
 
 ## 3. Kapsam
 
@@ -65,14 +76,12 @@ tek sitemap, karışıklık yok; İngilizce ziyaretçi için yol adı bir okuma 
 ```
 Web/
   app/
-    layout.tsx                  # <html lang>, font, tokens, kor sahnesi, JSON-LD
-    (tr)/
-      layout.tsx                # TR sözlüğünü sağlar
-      page.tsx  menu/  hikaye/  konum/  gizlilik/
-    en/
-      layout.tsx                # EN sözlüğünü sağlar
-      page.tsx  menu/  hikaye/  konum/  gizlilik/
-    not-found.tsx
+    (tr)/layout.tsx             # <html lang="tr">, font, tokens, JSON-LD
+    (tr)/page.tsx  menu/  hikaye/  konum/  gizlilik/
+    (en)/layout.tsx             # <html lang="en">
+    (en)/en/page.tsx  en/menu/  en/hikaye/  en/konum/  en/gizlilik/
+    global-not-found.tsx        # kendi <html>/<body> iskeletini taşır
+    globals.css
     sitemap.ts
     robots.ts
   components/

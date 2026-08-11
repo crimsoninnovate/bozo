@@ -1,0 +1,371 @@
+{
+  "hazirMetinler": [
+    {
+      "baglam": "Tek cümle (tabela altı, ambalaj). Brief Bölüm 12. Ayrıca web açılış ekranı başlığı olarak Bölüm 8'de birebir kullanılıyor.",
+      "metin": "Tavla zarı ciğer, meşe korunda."
+    },
+    {
+      "baglam": "Kısa bio (sosyal medya, Google profili). Brief Bölüm 12 / bilgi dosyası 6.10.",
+      "metin": "Urfa usulü ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00 - 05:00."
+    },
+    {
+      "baglam": "Ana mesaj (mesaj mimarisinin çatısı). Brief Bölüm 12 / bilgi dosyası 6.9.",
+      "metin": "Tavla zarı ciğer, meşe korunda, sabahın beşine kadar."
+    },
+    {
+      "baglam": "İddia bloğu metni (ana sayfa 3. blok: tane yakın çekimi yanına). Brief Bölüm 12.",
+      "metin": "Urfa'da ustayı tanesinden anlarsınız. Tavla zarı kadar küçük, eşit doğranmış ciğer; aralara giren kuyruk yağı ondan da küçük, ki yerken ağza yağ gelmesin."
+    },
+    {
+      "baglam": "Orta versiyon (menü içi, iç mekan panosu; hikaye sayfası gövdesi için de uygun). Brief Bölüm 12 / bilgi dosyası 6.10.",
+      "metin": "Urfa'da ustayı tanesinden anlarsınız. Tavla zarı kadar küçük doğranmış ciğer, ondan bir tık küçük kuyruk yağı, yüksek meşe koru ve üç dakika. Ciğerci Bozo bu ölçüyü Girne'ye taşıdı ve saatini genişletti: sabahın beşine kadar aynı ocak, aynı tane."
+    },
+    {
+      "baglam": "Manifesto (iç mekan panosu; hikaye sayfasında da kullanılabilir). Brief Bölüm 12, üç paragraf halinde. Not: bilgi dosyası 6.8'deki sürümde son cümle (\"Ve ocağın sahibi oradadır.\") yoktur; brief sürümü esas alınır.",
+      "metin": "Ateş küçük taneyi sever.\nUrfa'da ciğerin ustası, tanenin büyüklüğünden belli olur. Tavla zarı kadar. Ne bir tık büyük, ne bir tık küçük. Çünkü küçük tane meşe korunun üstünde üç dakikada pişer; dışı tutar, içi sulu kalır.\nBu, sabır isteyen bir iştir. Girne'de, Naci Talat'ta, sabahın beşine kadar yanan bir ocağın başında yapılır. Ve ocağın sahibi oradadır."
+    },
+    {
+      "baglam": "Bozo kimdir bloğu (ana sayfa 7. blok ve hikaye sayfası). Brief Bölüm 12.",
+      "metin": "Bozo bir marka ismi değil, bir insandır. Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Bu mekana kendi lakabından başka isim düşünmedi; çünkü ocağın başında da, kapıda da, sofranızın yanında da o var. Bozo'yu sorarsanız gösterecekleri kişi bellidir."
+    },
+    {
+      "baglam": "Bozo kimdir, hikaye sayfası uzun taslak sürümü (bilgi dosyası 6.10). Brief sürümünden tek farkı ikinci cümlenin konum bilgisi içermesi. İkisinden biri seçilir, ikisi aynı sayfada birlikte kullanılmaz.",
+      "metin": "Bozo bir marka ismi değil, bir insandır. Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Girne'de, Naci Talat'ta açtığı bu mekana kendi lakabından başka isim düşünmedi. Çünkü ocağın başında da, kapıda da, sofranızın yanında da o var. Bozo'yu sorarsanız gösterecekleri kişi bellidir."
+    },
+    {
+      "baglam": "Gece bloğu (ana sayfa 6. blok, sitenin en ayırt edici parçası). Brief Bölüm 12 ve Bölüm 8'de birebir aynı.",
+      "metin": "Girne uyurken ocak yanıyor. Vardiyadan çıkana da, geç kalana da aynı tane."
+    },
+    {
+      "baglam": "İkram bloğu (ana sayfa 5. blok, kurulu sofra görseli yanına). Brief Bölüm 12 ve Bölüm 8'de birebir aynı.",
+      "metin": "Lebeni ve bostana ikramımızdır. Sofra kurulu gelir, istemenize gerek yok."
+    },
+    {
+      "baglam": "Alkol sorusu yanıtı (menü sayfası, sık sorulanlar, yorum yanıtı). Brief Bölüm 12.",
+      "metin": "Mekanımız alkolsüzdür. Sofra ve ocak bizden, yine bekleriz."
+    },
+    {
+      "baglam": "İngilizce çekirdek metin (EN hikaye / about bloğu). Brief Bölüm 12.",
+      "metin": "Bozo is not a brand name; it is a person. It is the lifelong nickname of our founder, Engin Çağlar from Urfa, and he is here every day, by the fire. In Urfa, you can tell a master by the size of the cut: dice-sized, even, always. We brought that measure to Girne and stretched its hours until five in the morning."
+    },
+    {
+      "baglam": "Buton metinleri (ana sayfa, mobil sabit alt bar, konum ve iletişim). Brief Bölüm 12. Dört ayrı buton etiketidir, tek satır değildir.",
+      "metin": "Yol tarifi al · Menüyü gör · WhatsApp'tan yaz · Ara"
+    },
+    {
+      "baglam": "Canlı açık/kapalı durum göstergesi metinleri. Brief Bölüm 12.",
+      "metin": "Şu an açığız · Şu an kapalıyız, 10:00'da açılıyoruz"
+    },
+    {
+      "baglam": "Açılış ekranı alt satırı (ana sayfa 2. blok). Brief Bölüm 8.",
+      "metin": "Girne, Naci Talat Caddesi · Her gün 10:00 - 05:00"
+    },
+    {
+      "baglam": "İddia bloğu üç sayı vurgusu (ana sayfa 3. blok, amber sayı vurgusu). Brief Bölüm 2 ve Bölüm 8.",
+      "metin": "8 şiş · 4 ciğer, 2 kuyruk yağı · 3 dakika"
+    },
+    {
+      "baglam": "Konumlandırma cümlesi (hikaye sayfası girişi, basın/meta açıklama zemini). Brief Bölüm 2 / bilgi dosyası 6.1. Not: bilgi dosyasında [ÖNERİ] etiketli, işletme onayı bekliyor.",
+      "metin": "Ciğerci Bozo, Girne'de gece beşe kadar açık kalan, Urfa'nın tavla zarı ciğerini meşe korunda pişiren ciğercidir."
+    },
+    {
+      "baglam": "Konumlandırmanın kısa hali (etiket, alt başlık). Brief Bölüm 2.",
+      "metin": "Girne'nin gece ciğercisi"
+    },
+    {
+      "baglam": "Marka vaadi (hikaye sayfası veya alt bilgi üstü kısa manifesto satırı). Brief Bölüm 2 / bilgi dosyası 6.2.",
+      "metin": "Saat kaç olursa olsun kor sıcak, tane doğru, sofra cömert."
+    },
+    {
+      "baglam": "Gün aşan çalışma saatinin uzun yazımı (konum ve saatler bloğu, alt bilgi). Brief Bölüm 3 kural örneği, birebir kullanılır.",
+      "metin": "Her gün 10:00'dan ertesi sabah 05:00'e kadar"
+    },
+    {
+      "baglam": "Menü kategori başlıkları (menü sayfası ve QR menü). Brief Bölüm 1 ve Bölüm 7.",
+      "metin": "Ocaktan · İkramlar · İçecekler"
+    },
+    {
+      "baglam": "Ciğer ürün kartı açıklama satırı (menü). Brief Bölüm 11.",
+      "metin": "Urfa usulü, tavla zarı büyüklüğünde"
+    },
+    {
+      "baglam": "Menü tonunda teknik açıklama örneği (ciğer porsiyon detayı). Bilgi dosyası 7.2 kanal tonu tablosu.",
+      "metin": "Sekiz şiş. Her şişte dört ciğer, iki kuyruk yağı"
+    },
+    {
+      "baglam": "Paket servis hattının adı (ana sayfa paket servis bloğu, ambalaj). Brief Bölüm 7 / bilgi dosyası 6.11.",
+      "metin": "Ocaktan çıkan"
+    },
+    {
+      "baglam": "Adlandırılmış menü katmanları (ayrı logo yok, ana markanın tipografisiyle yazılır). Bilgi dosyası 6.11.",
+      "metin": "Gece menüsü · Bozo'nun ikramı · Ocaktan çıkan"
+    },
+    {
+      "baglam": "İngilizce sayfada isim açıklaması (Bozo kelimesinin İngilizcedeki olumsuz anlamını nötralize eder, zorunlu). Brief Bölüm 3 / bilgi dosyası 7.6.",
+      "metin": "Bozo is the lifelong nickname of our founder, Engin Çağlar from Urfa."
+    },
+    {
+      "baglam": "İngilizce ürün adı yazım kalıbı (EN menü). Türkçe orijinal isim korunur, parantez içinde açıklanır. Brief Bölüm 3.",
+      "metin": "Urfa liver kebab (ciğer)"
+    },
+    {
+      "baglam": "İngilizce sayfada ve menüde görünür olması zorunlu alkol bilgisi. Brief Bölüm 3 ve Bölüm 8.",
+      "metin": "Alcohol-free"
+    },
+    {
+      "baglam": "Dil değiştirici etiketi (bayrak ikonu değil, metin). Brief Bölüm 8 / bilgi dosyası 9.3.",
+      "metin": "TR / EN"
+    },
+    {
+      "baglam": "Instagram / gece içeriği ton örneği (saat damgalı gönderi). Bilgi dosyası 7.2. Web değil sosyal kanal örneğidir.",
+      "metin": "Saat 03:40. Ocak hala yanıyor"
+    },
+    {
+      "baglam": "Tabela alt satırı, izin verilen tek ek mesaj. Brief Bölüm 7.",
+      "metin": "Tavla zarı ciğer, meşe korunda"
+    }
+  ],
+  "yazimKurallari": [
+    "Em dash (uzun çizgi) kullanılmaz; yerine nokta, virgül veya iki nokta kullanılır. (Brief Bölüm 3 ve Bölüm 10, bağlayıcı)",
+    "Şapkalı harf kullanılmaz: a, i, u üzerinde düzeltme işareti yok.",
+    "Başlıklar cümle yazımıyla yazılır: sadece ilk kelime ve özel isimler büyük harfle başlar.",
+    "Tamamı büyük harften oluşan cümle kullanılmaz.",
+    "Ünlem nadirdir; marka bağırmaz. Ünlem yığını yasaktır.",
+    "Saat yazımı iki haneli ve iki nokta ile: 10:00 - 05:00.",
+    "Gün aşan saat açıkça yazılır: \"Her gün 10:00'dan ertesi sabah 05:00'e kadar\".",
+    "Fiyat yazımı: 450 TL biçiminde. TL ana birim, binlik ayracı nokta.",
+    "Ürün miktarı rakamla ve birimle yazılır: 8 şiş, 4 ciğer, 2 kuyruk yağı.",
+    "Süre rakamla yazılır: 3 ila 5 dakika.",
+    "Sayı ve ölçü sıfattan üstündür; marka dili abartıyla değil ölçüyle kurulur (\"Muhteşem ciğer\" değil, \"tavla zarı büyüklüğünde, sekiz şiş\").",
+    "Kısa konuşulur: cümleler kısa, paragraflar kısa.",
+    "Mizah ürünün içinden gelir, zorlanmaz (\"terbiyesiz tavuk şiş\" zaten karakterlidir).",
+    "Uydurma veri, uydurma istatistik, uydurma deneyim iddiası yasaktır. Bilinmeyen için \"bilinmiyor\" denir; yeni pazarlama metni uydurulmaz, metinler Bölüm 12'den birebir alınır.",
+    "İsim yazımı: tam \"Ciğerci Bozo\", kısa \"Bozo\". Alan adı ve kullanıcı adı: cigercibozo (Türkçe karakter kullanılmaz, teknik zorunluluk).",
+    "İngilizce, Türkçenin çevirisi değil aynı tonun İngilizce halidir. Ürün adları çevrilmez, açıklanır: \"Urfa liver kebab (ciğer)\".",
+    "İngilizce içerikte \"Bozo\" isminin bir kişinin lakabı olduğu açıkça söylenir; \"alcohol-free\" bilgisi görünür olur.",
+    "Marka adı ürüne eklenmez (\"Bozo Ciğer\" gibi kullanım yok); ürünlere süslü sıfat eklenmez, yaratıcı ürün ismi üretilmez, geleneksel adı varsa o kullanılır.",
+    "Alkolsüzlük sorulduğunda sakin ve net anlatılır; açıklanır, pazarlanmaz, özür dilenmez.",
+    "Türkçe karakter desteği zorunlu kontrol edilir: ğ Ğ ı İ ş Ş ç Ç ö ü.",
+    "El yazısı ve script font kullanılmaz (tek istisna: logo içindeki özel çizim).",
+    "Web gövde metni 16 px altına inmez; menü gövdesi 10 punto altına inmez.",
+    "Başlık fontu Oswald (500-700), gövde fontu Inter (400-600). Alternatifler: Zilla Slab (basılı), Archivo (tek aile).",
+    "Aynı üründe en fazla iki font ağırlığı kullanılır; harf aralığı sadece büyük harfli kısa başlıklarda açılır.",
+    "Web tipografi ölçeği (masaüstü / mobil): açılış başlığı 56-72 / 34-40 px, bölüm başlığı 32-40 / 26-30 px, alt başlık 20-24 / 18-20 px, gövde 17-18 / 16-17 px, küçük metin 14 / 14 px.",
+    "Dil değiştirici metin olarak yazılır: TR / EN. Bayrak ikonu kullanılmaz.",
+    "Kontrast WCAG AA hedefi her yerde geçerlidir; kor rengi (#B7351C) koyu zeminde gövde metni olarak kullanılmaz, sadece başlık, buton ve grafik öğe.",
+    "Dokunma hedefleri en az 44 px."
+  ],
+  "terminolojiKilitleri": [
+    "misafir kullanılır, müşteri kullanılmaz (sofra kültürü ticari ilişkiden önce gelir)",
+    "ikram kullanılır; bedava, hediye, ücretsiz kullanılmaz",
+    "ocak, kor, meşe kömürü kullanılır; mangal, barbekü, ızgara kullanılmaz",
+    "usta kullanılır; şef, aşçı kullanılmaz",
+    "tane kullanılır; parça, lokma kullanılmaz (ayırt edici iddianın taşıyıcı kelimesi)",
+    "şiş, porsiyon kullanılır; adet, tabak kullanılmaz",
+    "sofra kullanılır; masa kullanılmaz (yemek bağlamında)",
+    "Urfa usulü kullanılır; otantik lezzet, geleneksel tat kullanılmaz",
+    "gece açığız kullanılır; 7/24, non-stop kullanılmaz (doğru olmayan iddiadan kaçınma)",
+    "alkolsüz kullanılır (sorulunca, sakin ve net); \"içki yok!\", kuru vurgusu, savunmacı ton kullanılmaz",
+    "Kategori adı ciğerci'dir. Ocakbaşı kategori adı olarak kullanılmaz; sadece pişirme yöntemi anlatılırken serbesttir",
+    "İkram fiyat alanında \"ikram\" yazılır, fiyat yazılmaz (lebeni çorbası ve bostana)",
+    "Ürün adları menüde sabit: Ciğer, Dalak, Yürek, Kuzu şiş, Terbiyesiz tavuk şiş, Lebeni çorbası (ikram), Bostana (ikram)"
+  ],
+  "yasakliIfadeler": [
+    "eşsiz lezzet",
+    "damaklarda iz bırakan",
+    "efsane",
+    "bomba lezzet",
+    "ağızda dağılan",
+    "dumanı üstünde (klişe kullanımda)",
+    "sınırsız",
+    "kaçırılmayacak fırsat",
+    "Türkiye'nin en iyisi",
+    "dünyaca ünlü",
+    "şef önerisi",
+    "leziz",
+    "7/24 · non-stop (gece açığız yerine kullanılamaz)",
+    "\"içki yok!\" ve alkol konusunda savunmacı veya pazarlamacı ton",
+    "CİĞERCİ BOZO (tamamı büyük yazım)",
+    "Cigerci Bozo (ğ ve ç kaybı)",
+    "Bozo's",
+    "Bozo Ciğer gibi marka adının ürüne eklenmesi",
+    "İngilizce alt satır ekleri: Since, Est., Kebab House",
+    "Em dash (uzun çizgi)",
+    "Şapkalı harf (a, i, u üzerinde düzeltme işareti)",
+    "Tamamı büyük harften oluşan cümle",
+    "Ünlem yığını",
+    "Bayrak ikonuyla dil seçimi",
+    "Bozo'yu karaktere, maskota veya bıyıklı aşçı karikatürüne çevirmek",
+    "Alev ikonu",
+    "Gradyan, gölge, 3B efekt",
+    "Kırmızı-sarı fast food renk kombinasyonu",
+    "Osmanlıca tipografi taklidi",
+    "Soğuk beyaz ışık ve mavi tonlar",
+    "Yapay zeka ile üretilmiş gerçekçi yemek görseli",
+    "Stok fotoğraf, beyaz zeminde izole ürün, aşırı filtre ve HDR, çiğ ciğer gösterimi",
+    "Beyaz porselen estetiği",
+    "Vejetaryen veya vegan için sahte alternatif üretmek"
+  ],
+  "isletmeGercekleri": [
+    {
+      "alan": "İşletme adı",
+      "deger": "Ciğerci Bozo",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Kategori",
+      "deger": "Urfa usulü ciğerci (restoran). Ocakbaşı kategori adı değildir, sadece pişirme yöntemidir",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Adres (cadde ve şehir)",
+      "deger": "Naci Talat Caddesi, Girne, KKTC",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Adres detayı (bina no, kat, posta kodu)",
+      "deger": "Bilinmiyor. Kaynakta yalnızca cadde adı var; bina numarası verilmemiş. Yer tutucu gerekir",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Harita koordinatları (enlem, boylam)",
+      "deger": "Bilinmiyor. Her iki kaynakta da koordinat yok. Harita gömme ve Restaurant yapısal verisi için yer tutucu gerekir",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Çalışma saatleri",
+      "deger": "Her gün 10:00 - 05:00 (ertesi sabah). Uzun yazım: Her gün 10:00'dan ertesi sabah 05:00'e kadar",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Telefon",
+      "deger": "Bilinmiyor. Brief Bölüm 11'de açıkça \"belli değil, yer tutucu\" olarak işaretli",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "WhatsApp numarası",
+      "deger": "Bilinmiyor. Brief Bölüm 11'de yer tutucu olarak işaretli. WhatsApp Business kanal rolü tanımlı ama numara yok",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "E-posta",
+      "deger": "Bilinmiyor. Brief Bölüm 11'de yer tutucu olarak işaretli",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Instagram hesabı",
+      "deger": "Hesap henüz yok. Rezerve edilecek hedef kullanıcı adları: @cigercibozo (öncelikli), @cigercibozogirne, @bozocigerci. Yer tutucu gerekir",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Diğer sosyal medya (TikTok, Facebook, YouTube)",
+      "deger": "Hesaplar henüz açılmamış, kullanıcı adları rezerve edilecek. Yer tutucu gerekir",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Alan adı",
+      "deger": "Henüz alınmamış. Hedef: cigercibozo.com (öncelikli), ayrıca .com.tr ve KKTC uzantıları. Yazım kuralı: cigercibozo (Türkçe karaktersiz)",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Google Business Profile",
+      "deger": "Henüz oluşturulmamış/doğrulanmamış. Doğrulama posta ile haftalar alabilir. Site bilgileriyle birebir tutarlı olmalı",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "İşletme sahibi",
+      "deger": "Engin Çağlar, Urfalı. Lakabı Bozo; mekan adı bu lakaptan gelir. Her daim dükkanda olacak (10 Ağustos 2026 doğrulaması)",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Alkol politikası",
+      "deger": "Alkol servisi yok. Mekan alkolsüzdür (işletme kararı, kesin, 10 Ağustos 2026). Yapısal veride servesAlcohol alanı hayır olarak işaretlenir; İngilizcede \"alcohol-free\" görünür olmalı",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Mutfak / ürün listesi",
+      "deger": "Kesin 5 ocak ürünü: ciğer, dalak, yürek, kuzu şiş, terbiyesiz tavuk şiş",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "İkramlar",
+      "deger": "Lebeni çorbası ve bostana. Fiyat yerine \"ikram\" yazılır",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Menü kategorileri",
+      "deger": "Ocaktan · İkramlar · İçecekler",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Ciğer teknik detayları",
+      "deger": "Tane tavla zarı büyüklüğünde; 1 porsiyon 8 şiş; her şişte 4 ciğer, 2 kuyruk yağı; kuyruk yağı ciğerden bir tık küçük; yüksek meşe korunda 3-5 dakika",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Dalak, yürek, kuzu şiş porsiyon detayları",
+      "deger": "Bilinmiyor. Şiş dizilimi, gramaj, hazırlama detayı [AÇIK]. Menü açıklamalarında kısa yer tutucu bırakılır",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Terbiyesiz tavuk şiş hazırlama detayı",
+      "deger": "Kalçadan yapılır, Urfa'ya özgü marinesi vardır, aralara kuyruk yağı konur (işletmeci beyanı doğrulanmış). Ancak \"terbiyesiz\" adı ile marine ilişkisi [AÇIK]; menü açıklaması bu netleşmeye bağlı",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Fiyatlar",
+      "deger": "Bilinmiyor. Brief Bölüm 11: \"000 TL\" yer tutucu kullanılır",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "İçecek listesi",
+      "deger": "Bilinmiyor [AÇIK]. Yer tutucu dizilim: \"Ayran · Şalgam · Çay · ...\"",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Ciğerin menüdeki yazımı",
+      "deger": "Varsayılan \"Ciğer\", açıklama satırı \"Urfa usulü, tavla zarı büyüklüğünde\". Ancak \"Ciğer\" mi \"Urfa ciğer\" mi kararı [AÇIK], menü tasarımında netleşecek",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Açılış tarihi",
+      "deger": "Bilinmiyor. Durum: açılış öncesi, kesin açılış tarihi [AÇIK]",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Otopark",
+      "deger": "Bilinmiyor [AÇIK], saha doğrulaması gerekiyor. Sitede otopark iddiası yazılmaz",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Bozo'nun (Engin Çağlar) yüz fotoğrafı kullanımı",
+      "deger": "Karar bekliyor [AÇIK]. Hikaye bölümünde \"ustanın eli\" kadrajıyla ilerlenir",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Paket servis / teslimat kanalı",
+      "deger": "Bilinmiyor [AÇIK]: kendi kurye ağı mı platform mu belirsiz. KKTC'de Yemeksepeti ve Tıkla Gelsin aktif ama Bozo'nun listelenmesi doğrulanmadı; gece saatlerinde kapsama doğrulanmalı",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Rezervasyon kanalı",
+      "deger": "Bilinmiyor. Site mimarisinde rezervasyon sayfası \"form veya WhatsApp yönlendirmesi\" olarak öneriliyor, kesinleşmemiş",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Diller",
+      "deger": "Türkçe varsayılan, İngilizce ikincil. Dil değiştirici metin olarak TR / EN",
+      "dogrulanmisMi": true
+    },
+    {
+      "alan": "Para birimi",
+      "deger": "Türk Lirası ana birim (KKTC resmi para birimi). Euro, Sterlin, Dolar yaygın kabul görür; ancak Bozo'nun çoklu para birimi kabulü ve kur politikası [AÇIK]",
+      "dogrulanmisMi": false
+    },
+    {
+      "alan": "Ajans / proje sahibi",
+      "deger": "Crimson Innovate (crimsoninnovate.com), proje sahibi Murat Koçuk",
+      "dogrulanmisMi": true
+    }
+  ]
+}
