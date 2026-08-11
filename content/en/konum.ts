@@ -10,7 +10,8 @@ export const konum = {
     pinKapiNo: 'No:4',
     poiSoliBet: 'Soli Bet Casino',
     poiHititBet: 'Hitit Bet',
-    poiMacroMarket: 'Girne Macro Market · 80 m',
+    // The design's "· 80 m" is unverified; the owner removed it. The name stays.
+    poiMacroMarket: 'Girne Macro Market',
     altYazi: 'map · dark theme, one marker; the live map arrives with the integration',
   },
   saatler: {

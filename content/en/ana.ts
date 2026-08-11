@@ -56,7 +56,8 @@ export const ana = {
     komsular: {
       soliBet: 'Soli Bet Casino, next door',
       hititBet: 'Hitit Bet, next door',
-      macroMarket: 'Girne Macro Market, 80 m',
+      // The design's "80 m" is unverified; the owner removed it. The name stays.
+      macroMarket: 'Girne Macro Market',
     },
     haritaSokak: 'Naci Talat Street',
     haritaAltNot: 'map · dark theme, one marker',

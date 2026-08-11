@@ -15,7 +15,8 @@ export const hikaye = {
     kartNotu: "Urfa'dan Girne'ye uzanan hikayenin tamamı, burada kendi ağzından anlatılacak.",
   },
   usul: {
-    baslik: "Usül Urfa'dan",
+    // Tasarım "Usül" yazıyor; işletme sahibi bunun yazım hatası olduğunu onayladı.
+    baslik: "Usul Urfa'dan",
     taneEtiketi: 'Tane',
     taneMetni:
       'Tavla zarı kadar küçük, eşit doğranmış ciğer. Aralara giren kuyruk yağı ondan da küçük; ' +

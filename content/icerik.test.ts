@@ -51,6 +51,29 @@ test('sozluk_emDashIcermez', () => {
   assert.deepEqual(kirli, [], 'Marka kuralı: em dash kullanılmaz')
 })
 
+/**
+ * Komşu çipleri yön bulma ipucudur, ölçüm değil. "80 m" mesafesi tasarımda
+ * geçiyor ama isletmeGercekleri içinde karşılığı yok; işletme sahibi kaldırdı.
+ * Tasarım ekran görüntüleri hala eski hali gösterdiği için ileride bir parite
+ * turu bunu "eksik" sanıp geri ekleyebilir; bu test o yolu kapatır.
+ * Doğrulanmış ölçüler (8 şiş, 4 ciğer, 3 dakika) bu desene takılmaz.
+ */
+test('sozluk_dogrulanmamisMesafeIddiasiIcermez', () => {
+  const mesafeli: string[] = []
+  const gez = (nesne: unknown, onek = ''): void => {
+    if (typeof nesne === 'string') {
+      if (/\d+\s?(m|km|metre|mt)\b/i.test(nesne)) mesafeli.push(`${onek}: ${nesne}`)
+      return
+    }
+    if (typeof nesne === 'object' && nesne !== null) {
+      for (const [k, v] of Object.entries(nesne)) gez(v, onek ? `${onek}.${k}` : k)
+    }
+  }
+  gez(tr)
+  gez(en)
+  assert.deepEqual(mesafeli, [], 'Mesafe iddiası doğrulanmış bir kaynak ister')
+})
+
 test('isletme_bilinmeyenAlanlarNullDur', () => {
   assert.equal(isletme.telefon, null)
   assert.equal(isletme.whatsapp, null)

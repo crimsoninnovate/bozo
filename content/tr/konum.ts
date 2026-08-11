@@ -10,7 +10,8 @@ export const konum = {
     pinKapiNo: 'No:4',
     poiSoliBet: 'Soli Bet Casino',
     poiHititBet: 'Hitit Bet',
-    poiMacroMarket: 'Girne Macro Market · 80 m',
+    // Tasarımdaki "· 80 m" mesafesi doğrulanmadı, işletme sahibi kaldırdı; ad kalır.
+    poiMacroMarket: 'Girne Macro Market',
     altYazi: 'harita · koyu tema, tek işaret; canlı harita entegrasyonla gelir',
   },
   saatler: {

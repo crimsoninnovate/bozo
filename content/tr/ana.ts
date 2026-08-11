@@ -56,7 +56,8 @@ export const ana = {
     komsular: {
       soliBet: 'Soli Bet Casino, yanımızda',
       hititBet: 'Hitit Bet, yanımızda',
-      macroMarket: 'Girne Macro Market, 80 m',
+      // Tasarımdaki "80 m" mesafesi doğrulanmadı, işletme sahibi kaldırdı; ad kalır.
+      macroMarket: 'Girne Macro Market',
     },
     haritaSokak: 'Naci Talat Caddesi',
     haritaAltNot: 'harita · koyu tema, tek işaret',
