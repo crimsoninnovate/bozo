@@ -789,7 +789,8 @@ export const isletme: Isletme = {
   cadde: 'Naci Talat Caddesi',
   sehir: 'Girne',
   ulke: 'KKTC',
-  binaNo: null,
+  // Tasarım dosyalarında ve handoff README'de geçiyor, doğrulanmış kabul edilir
+  binaNo: 'Şht. Özdemir Apt No:4',
   postaKodu: null,
   koordinat: null,
   telefon: null,
@@ -837,8 +838,12 @@ export const icecekler: Icecek[] = [
   { id: 'cay', fiyat: null },
 ]
 
-/** İçecek listesi işletmeden gelmedi; arayüz bu sayıda kesik yer tutucu basar. */
-export const ICECEK_YER_TUTUCU_ADEDI = 3
+/**
+ * Menü tasarımında üç adlı içeceğin ardından tek bir kesik yer tutucu vardır,
+ * "dahası gelecek" anlamında. Sayı tasarımdan sayılmıştır, brief'teki
+ * "Ayran · Şalgam · Çay · ..." üç noktası üç boş slot demek değildir.
+ */
+export const ICECEK_YER_TUTUCU_ADEDI = 1
 ```
 
 ```ts
