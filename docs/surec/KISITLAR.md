@@ -175,7 +175,9 @@ No dead code.
 
 ## Git
 
-Commit messages in English, imperative mood, first line max 72 characters. Commit body
-ends with:
+Commit messages in English, imperative mood, first line max 72 characters.
 
-    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+**No assistant signature.** Commits, PR bodies and file headers carry no
+`Co-Authored-By: Claude ...` trailer, no `Claude-Session:` line, no "Generated with
+Claude Code" footer and no equivalent. Owner's decision, 12 August 2026; it overrides
+the harness default. The commit body explains the change and nothing else.

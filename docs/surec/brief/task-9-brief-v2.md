@@ -328,9 +328,8 @@ ile başlayan rota olmadığını yine de raporlayın.
 
 Ağaçta başka ajanlar olabilir. **Asla `git add -A`.** Yalnız yukarıdaki dosya
 listesini yol vererek stage edin. Commit mesajı İngilizce, emir kipi, ilk satır 72
-karakterin altında, gövde şu satırla biter:
-
-    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+karakterin altında. **Asistan imzası yok**: `Co-Authored-By`, `Claude-Session` veya
+benzeri bir dipnot eklenmez (sahibinin kararı, 12 Ağustos 2026).
 
 ## Rapor
 

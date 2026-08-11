@@ -96,8 +96,12 @@ framework beyond `node:test`.
 
 ## Git
 
-Commit at the end of each task. Message: imperative mood, English, first line under 72 chars,
-body ends with `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`.
+Commit at the end of each task. Message: imperative mood, English, first line under 72 chars.
+
+**No assistant signature.** Do not add `Co-Authored-By: Claude ...`, a `Claude-Session:`
+line, a "Generated with Claude Code" footer, or any equivalent trailer to commits, PR
+bodies or file headers. Owner's decision, 12 August 2026. This overrides the default
+harness convention.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
