@@ -28,6 +28,20 @@
 .cerceveli.lg { padding: 17px 29px; }
 .cerceveli.xl { padding: 19px 33px; }
 
+/* Kenarlık ve gölge boya BAĞLANMADI. Beş tasarım dosyasındaki on birincil ve
+   altı ikincil butonun tamamı ölçüldü; boy adımı başına birden çok değer çıktı:
+     boy        birincil gölge                   ikincil kenarlık / hover zemini
+     sm 13/24   0 8px 26px .34 x3, .36 x1        (masaüstünde ikincil sm yok)
+     md 17/28   gölge YOK x1 (Menu:289)          .36 x1 (Menu:290), hover zemini yok
+     lg 18/30   0 12px 34px .4 x2, 0 10px 30px .34 x1   .38 x2, .36 x2
+     xl 20/34   0 12px 34px .4 x1                .4 x1, hover zemini .12
+   lg adımı hem gölgede hem kenarlıkta kendi içinde çelişiyor: Ana:318-320 ile
+   Hikaye:128-129 aynı dolguyu ve punto ölçüsünü paylaşır, farklı değer taşır.
+   Boya bağlanabilir bir merdiven türetilemediği için değerler çoğunluğa
+   normalize edildi (kenarlık .36, hover zemini .10, gölge sm ayrı / diğerleri
+   --kor-golge). Kalan sapmalar: Hikaye:129 ve Konum:81 kenarlığı .38 (0.02),
+   Ana:113 kenarlığı .4 ve hover zemini .12 (0.04 / 0.02), Ana:318 gölgesi
+   0 10px 30px .34, Menu:289 gölgesiz. Kaynak: on-gecis-report.md. */
 .birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
 .birincil.sm { box-shadow: var(--kor-golge-kucuk); }
 .birincil:hover {

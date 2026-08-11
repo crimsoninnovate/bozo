@@ -35,5 +35,7 @@
 
 .not {
   font: 400 15px/1.5 var(--font-govde);
-  color: var(--krem-66);
 }
+.krem64 { color: var(--krem-64); }
+.krem66 { color: var(--krem-66); }
+.krem72 { color: var(--krem-72); }

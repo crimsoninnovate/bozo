@@ -7,9 +7,17 @@ import stil from './BolumBasligi.module.css'
  */
 export type BaslikOlcegi = 'genis' | 'orta' | 'sayfa'
 
+/**
+ * Notun tipografisi her yerde 400 15px/1.5, yalnız krem alfası değişiyor:
+ * Ana Sayfa Ocaktan .66 (Ana:173), Menü İkramlar .72 (Menu:203), Menü
+ * İçecekler .64 (Menu:236).
+ */
+export type NotTonu = 'krem64' | 'krem66' | 'krem72'
+
 type Props = {
   baslik: string
   not?: string
+  notTonu?: NotTonu
   /** Not yerine geçen serbest öge, ör. tane rayı. */
   sag?: React.ReactNode
   olcek?: BaslikOlcegi
@@ -17,13 +25,20 @@ type Props = {
   vurguCizgi?: boolean
 }
 
-export function BolumBasligi({ baslik, not: notMetni, sag, olcek = 'genis', vurguCizgi = false }: Props) {
+export function BolumBasligi({
+  baslik,
+  not: notMetni,
+  notTonu = 'krem66',
+  sag,
+  olcek = 'genis',
+  vurguCizgi = false,
+}: Props) {
   const sinif = `${stil.satir} ${stil[olcek]}${vurguCizgi ? ` ${stil.vurgu}` : ''}`
 
   return (
     <div className={sinif}>
       <h2 className={stil.baslik}>{baslik}</h2>
-      {sag ?? (notMetni ? <span className={stil.not}>{notMetni}</span> : null)}
+      {sag ?? (notMetni ? <span className={`${stil.not} ${stil[notTonu]}`}>{notMetni}</span> : null)}
     </div>
   )
 }

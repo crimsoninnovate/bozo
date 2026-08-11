@@ -1,7 +1,11 @@
 .panel {
   border: 1px solid var(--cizgi-soluk);
-  backdrop-filter: blur(3px);
 }
+
+/* Bulanıklık koşullu: tasarımda backdrop-filter yalnız Ana Sayfa (Ana:130, 170,
+   271, 298) ve Hikaye (Hikaye:83, 91) dosyalarında var, Menü ve Konum'da hiç
+   geçmiyor. Varsayılan açık, çünkü bugünkü iki çağrı yeri de Ana Sayfa'da. */
+.bulanik { backdrop-filter: blur(3px); }
 
 /* Tasarımda zemin ile dolgu birlikte hareket ediyor (.72 ile 48px, .74 ile 44px)
    ama bağlanmış değil: Konum sayfası .74 zemini 40px dolguyla kullanıyor.

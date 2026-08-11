@@ -15,6 +15,16 @@
   --panel-poi: rgba(10, 8, 7, 0.85);
   /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
   --panel-buton: rgba(10, 8, 7, 0.4);
+  /* Üç rolün paylaştığı yarı saydam zemin, o yüzden rol değil alfa adı taşıyor:
+     durum çipi (Ana:89, Mobil:73, 263), Konum'un harita levhası (Konum:89) ve
+     mobil üst barın gradyan ucu (Mobil:50, 240). Ana Sayfa'nın harita levhası
+     bu değeri DEĞİL --panel-yari'yi (.55, Ana:323) kullanıyor. */
+  --panel-60: rgba(10, 8, 7, 0.6);
+  /* gece menüsü not kartının zemini. Tek kullanım: Menu:79. Aynı alfa
+     --golge-baslik'in içinde 8 kez daha geçer, ama orada gölge rengi olarak. */
+  --panel-not: rgba(10, 8, 7, 0.7);
+  /* menü imza panelinin zemini. Tek kullanım: Menu:104 */
+  --panel-imza: rgba(10, 8, 7, 0.78);
 
   /* metin: krem #F2E9DC, kömür üstünde 14.94:1 */
   --krem: #F2E9DC;
@@ -42,12 +52,18 @@
 
   /* çizgi ve kenarlık: .5 altı yapısal krem alfaları bu ailede toplanır */
   --cizgi-buton: rgba(242, 233, 220, 0.36);
+  /* gece bölümünde canlı saatin yanındaki yatay kural, clamp(30px,5vw,70px) x 1px.
+     Tek kullanım: Ana:249 */
+  --cizgi-saat: rgba(242, 233, 220, 0.34);
   /* Metnin yanına konan 1px'lik kısa çizgi. 7 kullanım, beş dosyanın dördü:
      kaydırma ipucu (Ana:122), gece vardiya şeridi (Ana:262), mobil ayraçlar
      (Mobil:155, 345) ve üç dosyanın duman tüyü gradyanı (Hikaye/Konum/Menu:31).
      Ad çizgi rolünü taşır; duman Ana Sayfa'nın kendi .32 değerinde kaldığı için
      (KorSahnesi.module.css:74) bu token kodda yalnız çizgi olarak kullanılır. */
   --cizgi-tire: rgba(242, 233, 220, 0.3);
+  /* QR glifinin 34x34 çerçevesi. Tek kullanım: Menu:254. Glifin dolu hücreleri
+     --krem-70 ile basılır (Menu:255-257). */
+  --cizgi-qr: rgba(242, 233, 220, 0.25);
   /* hero meta satırının dikey ayırıcısı, 1x14px. Tek kullanım: Ana:116 */
   --cizgi-meta: rgba(242, 233, 220, 0.24);
   --cizgi-guclu: rgba(242, 233, 220, 0.22);
@@ -63,6 +79,15 @@
   --cizgi-hayalet: rgba(242, 233, 220, 0.08);
   /* çip dolgusu: ölçü ve spec çipleri (Menu:112-114, Hikaye:107-109) */
   --krem-dolgu: rgba(242, 233, 220, 0.06);
+  /* Ana Sayfa harita levhasının dikey yolu, 9px genişliğinde blok (Ana:326).
+     Değer --krem-dolgu ile aynı ama rol farklı (çip dolgusu değil, harita
+     çizimi); --kor-leke-hover / --kor-kenar ayrımıyla aynı gerekçe. */
+  --cizgi-harita-yol: rgba(242, 233, 220, 0.06);
+  /* Harita ızgarası ve ince yolları. 5 kullanım, üç dosya: Ana:324 (adım 50px),
+     Konum:90 (adım 52px), Konum:92 (dikey yol 9px), Mobil:170, 360 (adım 40px). */
+  --cizgi-harita: rgba(242, 233, 220, 0.05);
+  /* Konum haritasının ikinci dikey yolu, 7px. Tek kullanım: Konum:93 */
+  --cizgi-harita-ince: rgba(242, 233, 220, 0.045);
 
   /* eylem: kor kömür üstünde 3.03:1, gövde metni olarak KULLANILMAZ */
   --kor: #B7351C;
@@ -77,6 +102,21 @@
   --kor-leke-solgun: rgba(183, 53, 28, 0.34);
   --kor-leke-karo: rgba(183, 53, 28, 0.3);
   --kor-leke-hover: rgba(183, 53, 28, 0.4);
+
+  /* kor kenarlıkları: üstteki leke ailesinden ayrı, çünkü rol kenarlık.
+     --kor-kenar, --kor-leke-hover ile aynı değeri taşır ve --kor-golge'nin
+     alfasıyla da eşittir; üçü ayrı rol olduğu için ayrı adları var. */
+  --kor-kenar-hover: rgba(183, 53, 28, 0.65); /* menü ürün kartı hover (Menu:125, 143, 161, 179) */
+  --kor-kenar: rgba(183, 53, 28, 0.4); /* menü imza paneli (Menu:104) */
+
+  /* harita levhasının halkası ve pini. İki levha aynı değerleri paylaşmıyor:
+     Ana Sayfa'nın halkası 80px/.5 (Ana:327), Konum'unki 110px/.45 (Konum:95).
+     Pin renkleri ise iki levhada aynı, yalnız yayılma yarıçapı ayrışıyor
+     (Ana:328 6px/30px, Konum:96 7px/32px, Mobil:173, 363 5px/24px). */
+  --kor-halka: rgba(183, 53, 28, 0.5);
+  --kor-halka-konum: rgba(183, 53, 28, 0.45);
+  --kor-pin-halka: rgba(183, 53, 28, 0.22);
+  --kor-pin-parilti: rgba(183, 53, 28, 0.85);
   /* Nar #7A1F2B, markanın yedinci rengi.
      Kaynak: Cigerci-Bozo-Claude-Design-Brief.md:100
        | Nar | #7A1F2B | Sınırlı aksan: bostana ve nar ekşisi bağlantısı | Meşe ile birlikte |
@@ -89,12 +129,20 @@
   --tangerine: #FAAA1F;
   --tangerine-85: rgba(250, 170, 31, 0.85);
   --tangerine-80: rgba(250, 170, 31, 0.8);
+  /* iletişim satırının hover kenarlığı. 3 kullanım: Konum:127, 134, 141 */
+  --tangerine-70: rgba(250, 170, 31, 0.7);
   --tangerine-60: rgba(250, 170, 31, 0.6);
   --tangerine-55: rgba(250, 170, 31, 0.55);
   --tangerine-50: rgba(250, 170, 31, 0.5);
   --tangerine-45: rgba(250, 170, 31, 0.45);
+  /* harita pin etiketinin kenarlığı (Konum:97); aynı değer mobil kor
+     çekirdeğinin gradyanında da geçiyor (Mobil:33). */
+  --tangerine-40: rgba(250, 170, 31, 0.4);
   --tangerine-32: rgba(250, 170, 31, 0.32);
   --tangerine-30: rgba(250, 170, 31, 0.3);
+  /* ikram kartının kenarlığı (Menu:206, 218); aynı değer menü sayfasının kor
+     çekirdek gradyanında da geçiyor (Menu:30). */
+  --tangerine-28: rgba(250, 170, 31, 0.28);
   --tangerine-12: rgba(250, 170, 31, 0.12);
   --tangerine-10: rgba(250, 170, 31, 0.1);
   --tangerine-08: rgba(250, 170, 31, 0.08);
@@ -104,6 +152,8 @@
   /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
   --pumpkin: #E96112;
   --mese: #6B4A2F;
+  /* paket şeridinin paragraf rengi, pumpkin üstünde. 2 kullanım: Ana:342, Konum:158 */
+  --komur-90: rgba(26, 22, 20, 0.9);
   --komur-55: rgba(26, 22, 20, 0.55);
   --komur-10: rgba(26, 22, 20, 0.1);
   --komur-golge: 0 14px 34px rgba(26, 22, 20, 0.4);
@@ -114,14 +164,43 @@
 
   --ol-hero: clamp(60px, 10.4vw, 168px);
   --ol-hero-alt: clamp(34px, 4.6vw, 76px);
+  /* İç sayfaların H1'leri. Üçü de tek kullanımlık ve birbirinden farklı;
+     Ana Sayfa'nın --ol-hero'su hiçbirini karşılamıyor. */
+  --ol-hero-menu: clamp(56px, 9vw, 140px); /* Menu:76, satır .9 */
+  --ol-hero-konum: clamp(48px, 7.4vw, 116px); /* Konum:74, satır 1.02 */
+  --ol-hero-hikaye: clamp(44px, 6.6vw, 104px); /* Hikaye:68, satır 1.06 */
   --ol-bolum-baslik: clamp(32px, 4vw, 54px);
   --ol-bolum-baslik-orta: clamp(30px, 3.6vw, 48px);
   --ol-duygusal: clamp(44px, 7vw, 112px);
+  /* "Sofra kurulu gelir" H2'si, Hikaye'nin kapanış bölümü. Tek kullanım: Hikaye:125 */
+  --ol-sofra-baslik: clamp(34px, 4.6vw, 64px);
+  /* menü imza panelindeki ürün adı ("Ciğer"). Tek kullanım: Menu:109 */
+  --ol-imza-ad: clamp(34px, 4vw, 54px);
+  /* portre kartının "İsim" başlığı. Tek kullanım: Hikaye:84 */
+  --ol-portre-baslik: clamp(28px, 3.2vw, 44px);
+  /* Konum'un iki kart başlığı ("Saatler", "İletişim"). 2 kullanım: Konum:107, 125.
+     Alt çizgisi olmadığı için BolumBasligi ile basılmaz. */
+  --ol-kart-baslik: clamp(26px, 2.8vw, 38px);
+  /* menü ürün kartlarının adı. 4 kullanım: Menu:134, 152, 170, 188 */
+  --ol-urun-ad: clamp(24px, 2.2vw, 30px);
   --ol-menu-kalem: clamp(22px, 2.2vw, 30px);
-  --ol-govde: clamp(16px, 1.35vw, 19px);
+  /* ikram kartlarının adı. 2 kullanım: Menu:213, 225 */
+  --ol-ikram-ad: clamp(22px, 2vw, 27px);
+  /* menü imza panelinin fiyatı, tangerine ve tabular. Tek kullanım: Menu:118 */
+  --ol-imza-fiyat: clamp(20px, 2vw, 26px);
   /* gövde metninin bir adım büyüğü. 3 kullanım, iki dosya: ikram paragrafı
      (Ana:225), gece paragrafı (Ana:253), bozo paragrafı (Hikaye:69) */
   --ol-govde-buyuk: clamp(17px, 1.5vw, 21px);
+  /* Hikaye'nin kapanış paragrafı, satır 1.65. Tek kullanım: Hikaye:126 */
+  --ol-sofra-govde: clamp(16.5px, 1.4vw, 20px);
+  --ol-govde: clamp(16px, 1.35vw, 19px);
+  /* Sayfa açılışının spot metni, satır 1.6. --ol-govde ile aynı uçlarda durur ama
+     ortası daha hızlı büyür (1.4vw), o yüzden ayrı token. 2 kullanım, iki sayfa:
+     Menu:77, Konum:77 */
+  --ol-spot: clamp(16px, 1.4vw, 19px);
+  /* gövde metninin bir adım küçüğü, satır 1.6. 3 kullanım, üç dosya: menü imza
+     açıklaması (Menu:110), paket paragrafı (Ana:342, Konum:158) */
+  --ol-govde-kucuk: clamp(15px, 1.3vw, 17px);
 
   --iz-hero: -0.018em;
   --iz-bolum: -0.02em;
@@ -132,10 +211,14 @@
   --iz-baslik: -0.025em;
   --iz-sayfa-baslik: -0.04em;
   --iz-duygusal: -0.03em;
+  /* Menü H1'inin izi, dosyanın en sıkı değeri. Tek kullanım: Menu:76 */
+  --iz-hero-menu: -0.055em;
 
   /* Zemin üstünde tek başına duran başlığın gölgesi. 5 kullanım, dört dosya:
      Ana:224, Hikaye:68, Hikaye:125, Konum:74, Menu:76 */
   --golge-baslik: 0 8px 50px rgba(10, 8, 7, 0.7);
+  /* menü ürün kartının hover gölgesi. 4 kullanım: Menu:125, 143, 161, 179 */
+  --golge-kart-hover: 0 26px 60px rgba(0, 0, 0, 0.5);
 
   /* aralık */
   --sayfa-yatay: clamp(24px, 5vw, 64px);

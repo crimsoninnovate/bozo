@@ -85,9 +85,35 @@ design is wrong. Report it.
 - Headings, wordmark and numerals: Bricolage Grotesque 600-800
 - Body and UI: Inter 400/500/600
 - Numerals carry `font-variant-numeric: tabular-nums` wherever they render
-- Body text never below 16px. Corner radius 0-3px.
+- Corner radius 0-3px. Body text has a 16px floor, but it binds only one of three
+  tiers; see below.
 - Both fonts declare `subsets: ['latin', 'latin-ext']`. Turkish `ğ Ğ ş Ş İ` live in
   latin-ext; `ı ç ö ü` live in latin. Omitting latin-ext silently breaks Turkish text.
+
+### The 16px floor, and what it binds
+
+This replaces the flat "body text never below 16px" line, which the design
+contradicts on all three inner pages. Three tiers, decided once:
+
+**1. Reading text: the floor binds.** The lead paragraph and the primary body copy
+of a section, that is anything set with `--ol-govde`, `--ol-spot` or
+`--ol-govde-buyuk`. Never below 16px.
+
+**2. UI micro text: the design's size wins.** Chips, plate and frame labels, meta
+rows, table notes, section-heading notes, nav and footer links, button labels.
+Rounding these up to 16px would break the design's rhythm and its information
+hierarchy, which is a larger fidelity loss than the size itself.
+
+**3. Secondary reading copy at a fixed 14.5px to 15.5px: the design's size wins,
+and each page records it once.** Menu product-card descriptions at 14.5px/1.55, the
+usul rows on Hikaye at 15.5px/1.65, the Hikaye note block at 14.5px/1.65, the Konum
+contact sub-lines at 14px/1.4. This is real prose below the floor, so it is a
+deviation, not an exemption: state it once per page and do not round it up. Do not
+re-litigate it. `--ol-govde-kucuk` (`clamp(15px, 1.3vw, 17px)`) is the same case in
+clamp form and needs no separate record.
+
+Accessibility for tiers 2 and 3 is carried by contrast (WCAG AA) and by the 44px
+touch target, not by the type size.
 
 ## Copy rules (binding, a violation is a defect)
 
