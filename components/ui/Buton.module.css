@@ -30,10 +30,15 @@
   color: var(--krem);
 }
 
-/* pumpkin şerit üstünde: zemin kömür, metin krem */
+/* pumpkin şerit üstünde: zemin kömür, metin krem.
+   Tasarımda koyu buton hover'da zemin DEĞİŞTİRMEZ, yalnız yükselir ve gölge alır. */
 .koyu { background: var(--komur); color: var(--krem); }
-.koyu:hover { background: #241e1b; color: var(--krem); }
+.koyu:hover {
+  color: var(--krem);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(26, 22, 20, 0.4);
+}
 .koyuOutline { border: 1px solid rgba(26, 22, 20, 0.5); color: var(--komur); }
-.koyuOutline:hover { border-color: var(--komur); color: var(--komur); }
+.koyuOutline:hover { background: rgba(26, 22, 20, 0.1); color: var(--komur); }
 
 .pasif { opacity: 0.55; cursor: default; pointer-events: none; }
