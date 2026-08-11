@@ -64,9 +64,13 @@
   --kor-leke-solgun: rgba(183, 53, 28, 0.34);
   --kor-leke-karo: rgba(183, 53, 28, 0.3);
   --kor-leke-hover: rgba(183, 53, 28, 0.4);
-  /* İkram yuvalarının vişne koru. Marka kitabının renk listesinde YOK; tasarımdan
-     (Menu Sayfasi.dc.html:208, 220) doğrulandı, iki kullanım. Raporlandı. */
-  --kor-visne: rgba(122, 31, 43, 0.5);
+  /* Nar #7A1F2B, markanın yedinci rengi.
+     Kaynak: Cigerci-Bozo-Claude-Design-Brief.md:100
+       | Nar | #7A1F2B | Sınırlı aksan: bostana ve nar ekşisi bağlantısı | Meşe ile birlikte |
+     KAPSAM: sınırlı aksan. Yalnız bostana ve nar ekşisi bağlantısının olduğu yerde
+     kullanılır; tasarımda tek kullanım alanı ikram yuvalarının koru (Menu:208, 220)
+     ve ikramların biri bostanadır. Siteye yayılmaz, kor (#B7351C) yerine geçmez. */
+  --nar: rgba(122, 31, 43, 0.5);
 
   /* vurgu: tangerine kömür üstünde 9.27:1 */
   --tangerine: #FAAA1F;

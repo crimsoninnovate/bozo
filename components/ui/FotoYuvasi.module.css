@@ -76,9 +76,10 @@
   background: radial-gradient(closest-side, var(--kor-leke), transparent);
   animation: emberSoft 10s ease-in-out infinite 0.6s;
 }
-/* İkram yuvasının koru vişne tonunda, kırmızıdan ayrı. Menu:208, 220 */
+/* İkram yuvasının koru nar tonunda, kordan ayrı: ikramların biri bostana ve
+   nar ekşisi taşır, Nar da markada tam o bağlantının rengi. Menu:208, 220 */
 .ikram .kor {
-  background: radial-gradient(closest-side, var(--kor-visne), transparent);
+  background: radial-gradient(closest-side, var(--nar), transparent);
   animation: emberSoft 11s ease-in-out infinite;
 }
 .icecek .kor {
