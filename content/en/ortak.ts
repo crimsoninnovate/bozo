@@ -24,6 +24,13 @@ export const ortak = {
   erisim: {
     menuyuAc: 'Open the menu',
     menuyuKapat: 'Close the menu',
+    /**
+     * Navigation landmark names. Two separate regions, two separate names.
+     * "Menu" is deliberately avoided: on this site the menu is the food, not
+     * the navigation.
+     */
+    anaGezinme: 'Main navigation',
+    mobilGezinme: 'Mobile navigation',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {

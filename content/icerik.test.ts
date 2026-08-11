@@ -88,6 +88,21 @@ test('cta_mobilYolTarifiEtiketiKisaKalir', () => {
   }
 })
 
+/**
+ * İki gezinme bölgesinin adı birbirinden farklı olmak zorunda. Bileşenlerde
+ * ikisi de "Site navigasyonu" yazıyordu; aynı adı taşıyan iki landmark, ekran
+ * okuyucunun landmark listesinde ayırt edilemez ve adlandırmanın amacı kaybolur.
+ */
+test('erisim_gezinmeBolgeleriFarkliAdTasir', () => {
+  for (const s of [tr, en]) {
+    assert.notEqual(
+      s.ortak.erisim.anaGezinme,
+      s.ortak.erisim.mobilGezinme,
+      'İki gezinme landmarkı aynı adı taşıyamaz',
+    )
+  }
+})
+
 test('isletme_bilinmeyenAlanlarNullDur', () => {
   assert.equal(isletme.telefon, null)
   assert.equal(isletme.whatsapp, null)

@@ -23,6 +23,13 @@ export const ortak = {
   erisim: {
     menuyuAc: 'Menüyü aç',
     menuyuKapat: 'Menüyü kapat',
+    /**
+     * Gezinme landmarklarının adı. İkisi ayrı bölgedir ve ayrı ad taşır.
+     * "Menü" kelimesi bilinçli olarak kullanılmadı: bu sitede menü yemek
+     * listesidir, gezinme değil.
+     */
+    anaGezinme: 'Ana gezinme',
+    mobilGezinme: 'Mobil gezinme',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
