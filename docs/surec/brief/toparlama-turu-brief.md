@@ -7,6 +7,29 @@ Yeni bir şey keşfetmek değil, kanıtı zaten toplanmış olanı yerine koymak
 Her maddenin kanıtı `docs/surec/rapor/` altındaki raporlarda. **Uygulamadan önce o
 ölçümü kendiniz doğrulayın**; bir madde ölçümle çelişiyorsa uygulamayın, raporlayın.
 
+## 0. Önce bunu okuyun: iki ajanı yanıltan ölçüm hatası
+
+Kontrast ölçerken **`fullPage` ekran yakalaması kullanmayın.** Kor sahnesi
+`position: fixed`; `fullPage` yakalama sabit katmanı belge boyuna gerer ve metnin
+arkasına gerçekte hiç gelmeyen bir parıltı bindirir. Bu hata iki ayrı raporda
+toplam **dört sahte "AA FAIL"** üretti (menü sayfasında üç, konum sayfasında üç;
+konumunki kendi ajanı tarafından yakalandı).
+
+Doğru yöntem, koordinatörün kullandığı ve sonuçlarını aşağıda verdiği yöntem:
+hedefi `scrollIntoView({block:'center'})` ile viewport ortasına getir, metnin
+rengini geçici olarak `transparent` yap, **yalnız o kutunun** viewport
+yakalamasını al, piksel ortalamasını zemin kabul et, metnin kendi rengini alfasıyla
+o zemine bindir, sonra oranı hesapla.
+
+**Sitenin bugünkü durumu, ölçüldü:** beş sayfa (`/`, `/menu/`, `/hikaye/`,
+`/konum/`, `/gizlilik/`) x iki genişlik (390x844, 1440x900), `main` içindeki
+toplam **198 metin**. **Gerçek hata: sıfır.** Tek eşik altı sonuç gece bölümünün
+arka planındaki hayalet saat (alfa `.055`, 1.11:1) ve o dekoratif, `aria-hidden`,
+`CanliSaat` onu bilerek gizliyor.
+
+Yani bu turda **hiçbir metnin opaklığını yükseltmek için sebep yok.** Bir ölçüm
+size aksini söylüyorsa önce yönteminizi sorgulayın.
+
 ## 1. `Buton`: ikonlu dolgu adımı
 
 Task 10 ölçtü ve rampa **çelişkisiz**: tasarımdaki iki ikonlu butonun ikisi de yatay
@@ -41,7 +64,12 @@ değil; Task 14 raporu yöntemi yazıyor.
 Aynı soruyu `HataSayfasi` için de sorun: o `.80`'de kaldı ve dikey ortalı olduğu için
 sahnenin bandına hiç girmiyordu, ama sahne değişti.
 
-## 3. `ImlecKoru` hiçbir yere bağlı değil
+## 3. (mobil turuna taşındı)
+
+`ImlecKoru`'nun bağlanması `mobil-turu-brief.md` madde 3'te. Sebep: `components/ember/`
+dosyalarının tamamı o turun elinde.
+
+<!--
 
 Task 5'te yazıldı, hiçbir sayfa render etmiyor. Tasarımda o katman kor sahnesinin
 **içinde** ve yalnız ana sayfada (`Ana Sayfa Alternatif.dc.html:31`, `data-imlec`:
@@ -54,7 +82,14 @@ dışında mı duruyor (bileşenin kendi `.kap`'ı var), z-index sırası, ve `o
 kabın ışığı kırpıp kırpmadığı. Hareket azaltılmışta dinleyici zaten bağlanmıyor, o
 davranışı bozmayın.
 
-## 4. `-0.015em` izi token'a çıkarılmalı
+-->
+
+## 4. (mobil turuna taşındı)
+
+Token işi `styles/tokens.css`'e dokunuyor ve o dosya mobil turunun elinde (mobil
+ölçüler için token gerekecek). Sizin işiniz değil.
+
+<!--
 
 İki dosyada ham yazılı: `components/ui/MenuSatiri.module.css:31-33` ve Task 12'nin
 `Usul.module.css`'i. Kural "birden çok yerde geçen değer token olur" diyor, iki
@@ -64,6 +99,8 @@ Aynı taramayı yaparken `clamp(28px,3vw,40px)`, `0.18s ease-out` ve `rgba(10,8,
 değerlerine de bakın: Task 10 bunları ham yazıp gerekçelendirdi (o sırada
 `tokens.css` kilitliydi). Beş tasarım dosyasında kaç kez geçtiklerini sayın; eşiği
 geçen token olur, geçmeyen kaynak yorumuyla ham kalır.
+
+-->
 
 ## 5. `IYILESTIRMELER.md` birikmiş kayıtlar
 
@@ -96,11 +133,22 @@ Task 14 ölçtü: statik export `out/404.html` yanında `out/_not-found/index.ht
 çıktısı. `node_modules/next/dist/docs/` altında bunun beklenen davranış olup olmadığına
 bakın; beklenense dokümante edin, değilse çözün. Sitemap'e sızmadığını doğrulayın.
 
-## 8. Kor sahnesinin mobil ölçüsü yok, ve bu bir AA hatasına yol açıyor
+## 8. (mobil turuna taşındı)
 
-Task 11 ölçtü: menü sayfasında 390px'te `--krem-58` metin **3.80:1** ile AA'yı
-geçmiyor ("liste tamamlanacak"), QR notu 4.51 ve içecek notu 4.55 ile sınırda.
-Sebep metin değil: çekirdek mobilde kolonun tamamını kaplıyor.
+Mobil kor sahnesi `mobil-turu-brief.md` madde 1'de.
+
+<!--
+
+> **Bu maddenin gerekçesi düzeltildi.** İlk hali Task 11'in "390px'te AA hatası var"
+> ölçümüne dayanıyordu. **O ölçüm yanlıştı** ve madde 0'daki yöntem hatasından
+> geliyordu. Koordinatör beş sayfayı iki genişlikte yeniden ölçtü: menü sayfasında
+> "liste tamamlanacak" **5.88:1** (3.80 değil), QR notu **6.61:1** (4.51 değil).
+> Sitede AA hatası yok. Yani bu madde bir erişilebilirlik acili değil, **sadakat
+> eksiği**. Öncelik sırasını buna göre kurun; metin opaklıklarına dokunmak için
+> hiçbir sebep kalmadı.
+
+Tasarımın mobil prototipinde sahnenin kendi ölçüleri var ve masaüstünden farklılar.
+Uygulama bunları hiç taşımıyor: mobilde masaüstü değerleri basılıyor.
 
 Tasarımın mobil prototipinde sahnenin **kendi ölçüleri** var
 (`Mobil Prototip.dc.html:30-35`), ve masaüstünden farklılar:
@@ -126,6 +174,8 @@ opaklığını yükseltmeden**.
 Kırılma noktasını uydurmayın; prototipin genişliğinden (390px) ve sayfaların
 `flex-wrap` eşiklerinden türetin, gerekçesini yazın.
 
+-->
+
 ## 9. Gece şeridi açıkken çapa payı yetmiyor
 
 Task 11 ölçtü: `GeceSeridi` görünürken üst bar 107px oluyor ve 96px'lik çapa payı
@@ -146,6 +196,102 @@ da altında. Kuralı yazan ön geçiş bu iki metni görmemişti.
 Kuralı tamamlayın: ya üçüncü katmanın bandı genişler ve bu iki metin adıyla anılır,
 ya da dördüncü bir durum tanımlanır. **Metinleri büyütmeyin**; kural eksik, tasarım
 değil. Yeni hâli hangi metni hangi katmana koyduğunu tek tek saysın.
+
+## 11. `Buton`'un iki değerinin kaynağı yok (F6)
+
+`border-radius: 2px` (`Buton.module.css:8`): beş tasarım dosyasındaki hiçbir buton
+`border-radius` bildirmiyor, tarandı. `IYILESTIRMELER.md` 21 ve 32. satırları
+`Cip`'in 2px'ini tam bu kanıt standardıyla kaldırmış. Marka zarfı 0-3px olduğu için
+görsel etkisi küçük ama gerekçesiz: ya kaldırın ya kaydedin.
+
+`letter-spacing: -0.005em` (`Buton.module.css:11`): handoff'ta hiçbir Inter buton
+dizisinde `letter-spacing` yok. Uydurulmuş değer.
+
+Madde 1 ile aynı dosyaya dokunuyor, birlikte yapın.
+
+## 12. Konum hero butonları hiçbir `boy` adımına oturmuyor (F5)
+
+Tasarım birincil `19px 32px`, hayalet `18px 28px` (`Konum:80-81`). `boy="lg"`
+`18px 30px` ve `cerceveli.lg` `17px 29px` basıyor. İki ajan bunu ayrı ayrı ölçtü ve
+ikisi de kendi dosyası olmadığı için dokunmadı.
+
+Karar sizin: yeni bir boy adımı mı, kayıtlı sapma mı. Yeni adım üç sayfayı ilgilendirir,
+o yüzden **ölçün**: beş dosyadaki bütün buton dolguları çıkarılsın, `19/32` ve `18/28`
+tek örnek mi yoksa bir aile mi. Tek örnekse sapma olarak kaydetmek daha ucuz.
+
+## 13. Mobil üst barın alt saç çizgisi düşmüş (F7)
+
+`Mobil Prototip.dc.html:55` bara `border-bottom:1px solid rgba(242,233,220,.09)`
+veriyor. `UstBar.module.css:156-160` (`max-width: 780px`) yüksekliği ve dolguyu
+alıyor, kenarlığı almıyor. Aynı `.09` değeri üç footer'ın telif şeridinde de ham
+duruyor; token'ı yoksa **eklemeyin**, `styles/tokens.css` mobil turunun elinde.
+Ham yazıp raporlayın, o tur token'a çevirir.
+
+## 14. Çekmece noktası tasarımda yanıp sönmüyor (F8)
+
+`Mobil Prototip.dc.html:209` noktayı `animation` olmadan çiziyor.
+`Cekmece.module.css:92` `dotPulse 2.4s` ekliyor. `IYILESTIRMELER.md` 56. satırdaki
+kayıtlı karar noktanın **kapalıyken sönmesi** hakkında, nabız eklemek hakkında
+değil. Ya kaldırın ya kaydedin.
+
+## 15. İki eskimiş yorum, bir yanlış gerekçe (F10 + ek)
+
+- `components/sayfa/konum/Harita.module.css:15` Ana Sayfa pinini `0 0 0 6px + 32px`
+  diye yazıyor; `Ana:328` `0 0 30px`. `HaritaPlakasi.module.css:12` aynı satırı
+  doğru yazıyor, iki dosya çelişiyor. Kod doğru, yorum yanlış.
+- Aynı dosyanın 12. satırındaki tablo satırı bozuk, okunmuyor.
+- `IYILESTIRMELER.md` 49. satır `DilAnahtari` pasif rengi için "`.5` hiçbir kaynakta
+  yok" diyor; `Menu Sayfasi.dc.html:56` ve betiği `.5` kullanıyor. Seçilen `.58`
+  dörtte üç çoğunluk olduğu için **sonuç savunulabilir**, yalnız gerekçe yanlış.
+  Gerekçeyi düzeltin, kararı değiştirmeyin.
+
+Bu üçünü düzeltirken `CLAUDE.md`'nin yeni "Comments" kuralına uyun: yorumları
+uzatmayın, kısaltın.
+
+## 16. Footer İngilizce sayfalarda Türkçe cadde adını basıyor (B1) — EN CİDDİ MADDE
+
+Beş İngilizce rotanın hepsinde. `AltBilgiTam.tsx:41` ve `AltBilgiSayfalar.tsx:33`
+dil-nötr `isletme.cadde`'yi okuyor; sözlükteki `ortak.satirlar.adresCadde`
+(EN: `Naci Talat Street`) **sıfır çağıranlı** duruyor. Kanıt:
+`out/en/hikaye/index.html` içinde "Naci Talat Street" 0 kez, "Naci Talat Caddesi"
+4 kez.
+
+Bu, "yetim sanılan sözlük anahtarı aslında eksik bir bağlantıydı" kalıbının
+**üçüncü** örneği (önceki ikisi: `footer.sayfalarBaslik` ve `satirlar.adresVeSaat`).
+Düzeltirken aynı kalıbı tarayın: `content/tr/` ve `content/en/` altındaki her
+anahtarın gerçek bir çağıranı var mı. Çağıransız kalan her anahtarı raporlayın;
+uydurma bir kullanım yaratmayın.
+
+`isletme.cadde` dil-nötr kalmalı (yapısal veri ve harita bağlantıları onu kullanıyor);
+görünen metin sözlükten gelir. İkisini karıştırmayın.
+
+## 17. `HataSayfasi` etiket satırının üçüncü kopyasını taşıyor (B2)
+
+`EtiketSatiri`'nin `sayfa` ölçeğiyle birebir aynı (11x11 tangerine kare,
+`500 15px/1`, krem `.74`, gap 12px). Kronoloji: 404 sayfası `843524e` ile geldi,
+primitif ondan sonra `d94570f` ile yazıldı ve o tur yalnız ana sayfanın kopyasını
+ortaklaştırdı.
+
+Primitife bağlayın. **Ölçün**: bağladıktan sonra 404 sayfasının görünümü değişmemeli.
+
+## 18. On yerde token varken ham `rgba()` yazılmış (B5)
+
+Kabuk, saat ve kor modülleri. En keskini `--panel-60`: token'ın kendi yorumu üç rolü
+sayıyor, üçünden ikisi (`DurumCipi.module.css:18`, `UstBar.module.css:152`) token'ı
+atlıyor. Sebep kronolojik: token turu 48. commit, o modüller 24-31. commit ve çağrı
+yerleri hiç taşınmadı.
+
+`capraz-inceleme.md` on yerin listesini veriyor. **Değeri değiştirmeyin**, yalnız
+token'a bağlayın; her biri için hesaplanmış stilin aynı kaldığını doğrulayın.
+
+`styles/tokens.css`'e **dokunmayın** (mobil turunun elinde); yeni token gerekiyorsa
+raporlayın.
+
+## 19. `GizlilikSayfasi.module.css:103`'teki gerekçe bayat
+
+Yorum, krem `.86` sapmasını "iç sayfalarda kor tam şiddette yanıyor" diye açıklıyor.
+`4f8b085` bunu değiştirdi. Madde 2'yi çözerken bu yorumu da düzeltin; sapma kalırsa
+gerekçesi yeni ölçüme dayansın, kalkarsa yorum da kalksın.
 
 ## Kısıtlar
 
