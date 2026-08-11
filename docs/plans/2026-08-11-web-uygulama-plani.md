@@ -1223,7 +1223,13 @@ CSS kesin değerleri (`docs/tasarim/ana-sayfa.json`, `FotoPlakasi` bileşeni). E
 ```css
 /* components/ui/FotoYuvasi.module.css */
 .kap { position: relative; }
-.bos { background: rgba(10, 8, 7, 0.55); }
+
+/* portre ve genis plakalarin ZEMINI YOKTUR. Plaka opak bir kutu degil,
+   arkadaki sabit kor sahnesine acilan bir penceredir; ic golge kenarlari
+   karartir ve kor parilti cercevenin ortasinda toplanir. Zemin eklemek
+   markanin "cam ardindan izlenen ocak" duygusunu yok eder.
+   Karo bunun istisnasidir: CamPanel icinde durur, sahne gorunmez,
+   bu yuzden opak zemin ve kendi kor lekesi vardir. */
 
 /* portre: iddia ve bozo bölümleri, 4 köşe */
 .portre {
