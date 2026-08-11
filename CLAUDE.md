@@ -62,7 +62,8 @@ npm run preview    # serve the out/ export locally
 
 ## Copy rules (binding, a violation is a bug)
 
-- No em dash (`—`). No circumflex accents. No all-caps sentences. Exclamation marks are rare.
+- No em dash (U+2014) as punctuation; use a colon, comma, or period. No circumflex accents. No
+  all-caps sentences. Exclamation marks are rare.
 - Headings use sentence case. Hours are written `10:00 - 05:00`.
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
