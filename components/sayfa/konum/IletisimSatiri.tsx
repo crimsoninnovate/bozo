@@ -26,7 +26,7 @@ type Props = {
  * bilinen satır gerçek `<a>` olur; hedefi bilinmeyen satır düz `<div>` kalır,
  * çünkü o bir devre dışı kontrol değil, henüz bağlantısı olmayan bir bilgidir.
  * `Buton`'un `.pasif` sönükleştirmesi burada uygulanmaz: tasarım bu satırları
- * tam opaklıkta gösteriyor ve satırın metni her hâlükârda okunmalı.
+ * tam opaklıkta gösteriyor ve satırın metni her durumda okunmalı.
  */
 export function IletisimSatiri({ ikon, etiket, alt, tur, href, hariciMi = false }: Props) {
   const icerik = (

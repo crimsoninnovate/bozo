@@ -49,7 +49,8 @@ export const menu = {
     altMetin: 'Liste işletmeden gelince kesinleşir',
     urunler: { ayran: 'Ayran', salgam: 'Şalgam', cay: 'Çay' },
     listeTamamlanacak: 'liste tamamlanacak',
-    qrNotu: 'Masadaki QR menü aynı listeyi gösterir',
+    // Handoff "Masadaki" yazıyor; sofra/masa kilidi sert kural, kilit kazanır.
+    qrNotu: 'Sofradaki QR menü aynı listeyi gösterir',
   },
   cekim: {
     baslik: 'Çekim listesi',

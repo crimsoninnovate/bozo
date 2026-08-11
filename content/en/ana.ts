@@ -19,7 +19,12 @@ export const ana = {
     baslik: 'From the fire',
     altNot: 'Five products, two on the house',
     urunler: {
-      ciger: { ad: 'Urfa liver kebab (ciğer)', aciklama: 'Urfa style, cut to the size of a dice' },
+      // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
+      // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).
+      ciger: {
+        ad: 'Urfa liver kebab (ciğer)',
+        aciklama: 'Urfa style, cut to the size of a backgammon die',
+      },
       dalak: { ad: 'Spleen (dalak)', aciklama: 'Portion details pending from the kitchen' },
       yurek: { ad: 'Heart (yürek)', aciklama: 'Portion details pending from the kitchen' },
       'kuzu-sis': { ad: 'Lamb skewer (kuzu şiş)', aciklama: 'For guests who skip offal' },
