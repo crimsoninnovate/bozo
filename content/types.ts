@@ -40,6 +40,8 @@ export type Foto = {
 
 export type FotoId =
   | 'tane-yakin-cekim'
+  /** Aynı konunun yatay kadrajı; menü sayfasının geniş imza panosu için ayrı kare. */
+  | 'tane-yakin-cekim-yatay'
   | 'kor-uzerinde-sis'
   | 'ustanin-eli'
   | 'kurulu-sofra'

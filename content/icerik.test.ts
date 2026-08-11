@@ -170,6 +170,19 @@ test('urunler_hicbirFiyatUydurulmamis', () => {
   }
 })
 
+/**
+ * Kadraj etiketi fotoğrafçıya hangi kareyi çekeceğini söyleyen tek şeydir.
+ * İki kayıt aynı etiketi taşırsa çekim listesinde ayırt edilemez hale gelir;
+ * "tane yakın çekimi" ile yatay kardeşini ayıran da tam olarak bu etikettir.
+ */
+test('fotograflar_herKadrajBenzersizEtiketTasir', () => {
+  const kareler = Object.values(fotograflar)
+  const etiketler = kareler.map((f) => f.etiket)
+  const etiketlerEn = kareler.map((f) => f.etiketEn)
+  assert.equal(new Set(etiketler).size, etiketler.length, 'İki kare aynı kadraj etiketini taşıyamaz')
+  assert.equal(new Set(etiketlerEn).size, etiketlerEn.length, 'İki kare aynı İngilizce etiketi taşıyamaz')
+})
+
 test('fotograflar_hicbiriHenuzDosyaTasimaz', () => {
   for (const [id, foto] of Object.entries(fotograflar)) {
     assert.equal(foto.dosya, undefined, `${id} için fotoğraf henüz çekilmedi`)

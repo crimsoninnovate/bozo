@@ -7,6 +7,12 @@ import type { Foto, FotoId } from './types.ts'
  */
 export const fotograflar: Record<FotoId, Foto> = {
   'tane-yakin-cekim': { etiket: 'tane yakın çekimi', etiketEn: 'the cut, close up' },
+  // Menü imza panosu geniş ve alçaktır; ana sayfadaki dikey pano ile aynı dosya
+  // ikisini birden kadrajlayamaz. Tasarım bu yuvada kadrajı açıkça yazar.
+  'tane-yakin-cekim-yatay': {
+    etiket: 'tane yakın çekimi · yatay',
+    etiketEn: 'the cut, close up, landscape',
+  },
   'kor-uzerinde-sis': { etiket: 'kor üzerinde şiş', etiketEn: 'skewers over embers' },
   'ustanin-eli': { etiket: 'ustanın eli', etiketEn: "the master's hand" },
   'kurulu-sofra': { etiket: 'kurulu sofra, üstten', etiketEn: 'the table, from above' },
