@@ -56,7 +56,9 @@ npm run preview    # serve the out/ export locally
 
 - Headings, wordmark and numerals: Bricolage Grotesque 600-800, `font-variant-numeric: tabular-nums`.
 - Body and UI: Inter 400/500/600.
-- Body text never drops below 16px. Corner radius 0-3px.
+- Corner radius 0-3px. The 16px floor binds reading text only, not UI micro text;
+  the three tiers are decided once in `docs/surec/KISITLAR.md`. Do not "fix" a
+  14.5px chip or frame label up to 16px.
 - Both fonts require `subsets: ['latin', 'latin-ext']`: `ğ Ğ ş Ş İ` live in latin-ext, `ı ç ö ü`
   live in latin. Dropping latin-ext silently breaks Turkish rendering.
 

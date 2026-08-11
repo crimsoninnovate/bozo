@@ -70,13 +70,28 @@ denetim bulgularına göre yeniden şekillendirildi; her yazılı özet bayat ol
 - Kısıt listesi tasarımla çeliştiğinde **liste eksiktir**, tasarım yanlış değil. İki
   kez oldu: `#0C0A09` plaka zemini ve `#7A1F2B` Nar aksanı.
 
-## Sahibinin bakması gereken açık madde
+## Sahibinin bakması gereken açık maddeler
 
-Footer'daki iletişim satırlarında dokunma hedefi şu an 28px, çakışmıyor, hiçbir
-dokunuş yanlış satıra gitmiyor. 44px'e ulaşmak `.kolon`'un `gap` değerini 13px'ten
-yaklaşık 29px'e çıkarmayı gerektiriyor, bu da görünür bir footer yeniden düzeni.
-Tek başına yapılmadı. 44px mi footer ritmi mi öncelikli, Task 16'da veya yayın
-öncesi karara bağlanacak.
+**Footer dokunma hedefi.** Footer'daki iletişim satırlarında dokunma hedefi şu an
+28px, çakışmıyor, hiçbir dokunuş yanlış satıra gitmiyor. 44px'e ulaşmak `.kolon`'un
+`gap` değerini 13px'ten yaklaşık 29px'e çıkarmayı gerektiriyor, bu da görünür bir
+footer yeniden düzeni. Tek başına yapılmadı. 44px mi footer ritmi mi öncelikli,
+Task 16'da veya yayın öncesi karara bağlanacak.
+
+**Kor sahnesi okunmuyor.** Sahibi 12 Ağustos 2026'da bildirdi: kor şu an "pek
+anlaşılmıyor", daha anlaşılır olabilir mi. Sayfaların tamamı kurulduktan sonra,
+**Task 16'da** ele alınacak; sahibi açıkça en sona bıraktı.
+
+Ele alırken önce hangi sorun olduğu ayrılmalı, ikisi zıt yönde düzeltme ister:
+- kor efektinin kendisi fazla sönük, arkada ne olduğu okunmuyor (çözüm: yoğunluğu,
+  ölçeği veya kontrastı artırmak)
+- kor içeriğin okunurluğunu düşürüyor (çözüm: tam tersi, sahneyi geri çekmek)
+
+Bugünkü zemin, karar verirken ölçülecek yerler: `components/ember/KorSahnesi.tsx`
+(yoğunluk takibi `lib/cerceve.ts`'ten geliyor), bölüm başına `data-yogunluk`
+katsayıları (acilis 1, iddia 0.55, ocaktan 0.4, ikram 0.7, gece 1.25, bozo 0.45,
+konum 0.3) ve `styles/tokens.css` içindeki `--kor-leke*` ailesi. Yoğunluk merdiveni
+tasarımdan birebir alındı; değişirse `iyilestirmeler.md`'ye gerekçesiyle yazılır.
 
 ## İşletmeden bekleyen veriler
 
