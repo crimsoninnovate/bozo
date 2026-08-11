@@ -23,6 +23,9 @@ type Props = { bolumler: Bolum[] }
  */
 export function BeadRay({ bolumler }: Props) {
   const [aktifId, setAktifId] = useState<string | null>(null)
+  // Bir kez okunur (bkz. KorSahnesi ile aynı desen): canlı bir medya sorgusu
+  // dinleyicisi değil, yalnız ilk render'daki tercihi yakalar.
+  const [azaltilmisMi] = useState(() => hareketAzaltilmisMi())
 
   useEffect(() => cerceveyeAboneOl((durum) => setAktifId(durum.aktifId)), [])
 
@@ -30,26 +33,32 @@ export function BeadRay({ bolumler }: Props) {
     const hedef = document.getElementById(hedefId)
     if (!hedef) return
     const ust = hedef.getBoundingClientRect().top + window.scrollY - 70
-    window.scrollTo({ top: ust, behavior: hareketAzaltilmisMi() ? 'auto' : 'smooth' })
+    window.scrollTo({ top: ust, behavior: azaltilmisMi ? 'auto' : 'smooth' })
   }
 
   return (
     <div className={stil.ray} aria-hidden="true">
       <span className={stil.ustCizgi} />
-      {bolumler.map((bolum, i) => (
-        <Fragment key={bolum.id}>
-          {i > 0 && <span className={stil.baglayici} />}
-          <button
-            type="button"
-            tabIndex={-1}
-            className={`${stil.bead} ${bolum.buyuk ? stil.buyuk : stil.kucuk} ${
-              bolum.id === aktifId ? stil.aktif : ''
-            }`}
-            onClick={() => kaydir(bolum.id)}
-            aria-label={bolum.id}
-          />
-        </Fragment>
-      ))}
+      {bolumler.map((bolum, i) => {
+        const aktif = bolum.id === aktifId
+        return (
+          <Fragment key={bolum.id}>
+            {i > 0 && <span className={stil.baglayici} />}
+            <button
+              type="button"
+              tabIndex={-1}
+              // Renk/parlama (kararma) her zaman aktifliği işaretler; ölçek (scale)
+              // baş dönmesi yapabilecek bir harekettir, yalnız hareket izni varken
+              // eklenir (bkz. lib/cerceve.ts dosya başı sözleşmesi ve task-6-report.md).
+              className={`${stil.bead} ${bolum.buyuk ? stil.buyuk : stil.kucuk} ${aktif ? stil.aktif : ''} ${
+                aktif && !azaltilmisMi ? stil.aktifOlcek : ''
+              }`}
+              onClick={() => kaydir(bolum.id)}
+              aria-label={bolum.id}
+            />
+          </Fragment>
+        )
+      })}
       <span className={stil.altCizgi} />
     </div>
   )

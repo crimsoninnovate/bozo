@@ -54,8 +54,17 @@
   border-radius: 1px;
 }
 
+/* Kararma: rengi ve parlamayı taşır, hareket tercihinden bağımsız her zaman uygulanır. */
 .aktif {
   background: var(--kor);
-  transform: scale(1.5);
   box-shadow: 0 0 16px rgba(183, 53, 28, 0.9);
+}
+
+/*
+ * Hareket: yalnız prefers-reduced-motion kapalıyken eklenir (bkz. BeadRay.tsx).
+ * Baş dönmesi yapabilecek bir ölçek büyümesi olduğu için azaltılmış hareket
+ * tercihinde hiç yazılmaz; aktiflik yalnız rengiyle işaretlenir.
+ */
+.aktifOlcek {
+  transform: scale(1.5);
 }
