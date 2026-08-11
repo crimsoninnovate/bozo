@@ -3,12 +3,12 @@ import { AnaSayfa } from '@/components/sayfa/AnaSayfa'
 import { Kabuk } from '@/components/sayfa/Kabuk'
 import { sayfaMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = sayfaMetadata('ana', 'tr')
+export const metadata: Metadata = sayfaMetadata('ana', 'en')
 
 export default function Sayfa() {
   return (
-    <Kabuk dil="tr" aktif="ana">
-      <AnaSayfa dil="tr" />
+    <Kabuk dil="en" aktif="ana">
+      <AnaSayfa dil="en" />
     </Kabuk>
   )
 }
