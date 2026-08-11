@@ -1,0 +1,108 @@
+/*
+ * Ana Sayfa'nın harita levhası, Ana Sayfa Alternatif.dc.html:323-331.
+ *
+ * Konum sayfasının levhası (Konum:89-101) AYNI DEĞİL, ve fark halkadan ibaret
+ * değil. Ölçülen tam liste (on-gecis-report.md §3):
+ *   zemin        .55 (--panel-yari)      -> .6 (--panel-60)
+ *   yükseklik    min-height:420px        -> clamp(420px,58vh,600px) + overflow:hidden
+ *   ızgara adımı 50px                    -> 52px
+ *   yatay yol    top:56%; height:14px    -> top:54%; height:16px
+ *   dikey yol    tek: left:44%; 9px; .06 -> iki: left:20% 9px .05 + left:64% 7px .045
+ *   halka        80px @46%/53%, .5       -> 110px @42%/47%, .45 (--kor-halka-konum)
+ *   nabız        16px, 0 0 0 6px/30px    -> 18px, 0 0 0 7px/32px
+ *   cadde        left:8%/top:59%, 11.5px/.62 -> left:10%/top:57.5%, 12px/.55
+ *   ek katman    yok                     -> pin etiketi + üç POI çipi
+ *
+ * Yani Task 13 ya buraya bir `varyant` sınıfı ekler ya da kendi levhasını yazar;
+ * her katman kendi sınıfında durduğu için ikisi de ucuz. POI çipleri bileşenin
+ * `children`'ı olarak geçer, yeni bir prop gerekmez.
+ */
+.levha {
+  position: relative;
+  border: 1px solid var(--cizgi-bolum);
+  background: var(--panel-yari);
+}
+
+/* 50px adımlı iki eksenli ızgara; iki gradyan da aynı alfayı taşır (Ana:324) */
+.izgara {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 50px);
+}
+
+/* Ana:325 */
+.yatayYol {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 56%;
+  height: 14px;
+  background: var(--cizgi-hayalet);
+}
+
+/* Ana:326 */
+.dikeyYol {
+  position: absolute;
+  left: 44%;
+  top: 0;
+  bottom: 0;
+  width: 9px;
+  background: var(--cizgi-harita-yol);
+}
+
+/* Ana:327 */
+.halka {
+  position: absolute;
+  left: 46%;
+  top: 53%;
+  width: 80px;
+  height: 80px;
+  margin: -40px 0 0 -40px;
+  border-radius: 50%;
+  border: 1px solid var(--kor-halka);
+}
+
+/* Ana:328. Nabız yalnız opaklık değiştirir (dotPulse); hareket azaltılmışsa
+   animasyonlar.css'in `animation: none !important` kuralı onu tümüyle durdurur. */
+.nabiz {
+  position: absolute;
+  left: 46%;
+  top: 53%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: var(--kor);
+  box-shadow: 0 0 0 6px var(--kor-pin-halka), 0 0 30px var(--kor-pin-parilti);
+  animation: dotPulse 2.6s ease-in-out infinite;
+}
+
+/* Ana:329, işaretin sağ altına kayık oturur */
+.isletmeAdi {
+  position: absolute;
+  left: 46%;
+  top: 53%;
+  margin: 26px 0 0 14px;
+  font: 500 12.5px/1 var(--font-govde);
+  color: var(--krem-82);
+}
+
+/* Ana:330 */
+.sokak {
+  position: absolute;
+  left: 8%;
+  top: 59%;
+  font: 400 11.5px/1 var(--font-govde);
+  color: var(--krem-62);
+}
+
+/* Ana:331 */
+.altNot {
+  position: absolute;
+  left: 24px;
+  bottom: 22px;
+  font: 500 12.5px/1.5 var(--font-govde);
+  color: var(--krem-68);
+}

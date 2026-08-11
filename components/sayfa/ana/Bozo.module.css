@@ -1,0 +1,104 @@
+/* Ana Sayfa Alternatif.dc.html:269-294 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+}
+
+.erit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 3vw, 56px);
+  width: 100%;
+  align-items: center;
+}
+
+/* Panelin zemini, kenarlığı, bulanıklığı ve dolgusu CamPanel'de; burada yalnız
+   ızgaradaki yeri ve iç kolonu var (Ana:271). */
+.panel {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kare {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  border-radius: 1px;
+  background: var(--tangerine);
+}
+
+.kickerMetin {
+  font: 500 14.5px/1 var(--font-govde);
+  color: var(--krem-72);
+}
+
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+/* Satır yüksekliği 1.7, iddia paragrafının 1.65'i değil (Ana:277). */
+.metin {
+  margin: 0;
+  font: 400 var(--ol-govde)/1.7 var(--font-govde);
+  color: var(--krem-78);
+  max-width: 560px;
+}
+
+/*
+ * Rengi açıkça yazılır: reset.css her <a>'ya hover'da var(--krem) veriyor,
+ * tasarımda ise bağlantı tangerine kalır ve yalnız gap açılır (Ana:278-281).
+ *
+ * 0.18s ham: --gecis-yerlesim 0.2s ve yuvarlamak sessiz bir sapma olurdu.
+ * Aynı değer AltBilgi.module.css:205'te de ham duruyor; iki kullanıma çıktığı
+ * için bir token hak ediyor ama styles/tokens.css bu turda başka bir görevin
+ * kapsamında, bkz. task-10-report.md.
+ */
+.hikayeLinki {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font: 600 15px/1 var(--font-govde);
+  color: var(--tangerine);
+  transition: gap 0.18s ease-out;
+}
+
+.hikayeLinki:hover {
+  gap: 18px;
+  color: var(--tangerine);
+}
+
+/* Görünür kutu 15px; dokunma hedefi görünmez ::before ile 44px'e çıkar
+   (AltBilgi.module.css:212'de kurulan teknik). Üstteki paragrafa uzaklık
+   24px olduğundan komşu hiçbir hedefle çakışmaz. */
+.hikayeLinki::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+.linkCizgi {
+  width: 24px;
+  height: 1px;
+  flex: none;
+  background: var(--tangerine);
+}

@@ -6,9 +6,11 @@
   margin-top: 6px;
 }
 
+/* Zemin rgba(10,8,7,.5) ham: --panel* ailesinde .5 adımı yok ve styles/tokens.css
+   bu turda başka bir görevin kapsamındaydı (bkz. task-10-report.md). */
 .cip {
   padding: 9px 15px;
-  border: 1px solid rgba(242, 233, 220, 0.16);
+  border: 1px solid var(--cizgi-bolum);
   background: rgba(10, 8, 7, 0.5);
   font-family: var(--font-govde);
   font-size: 13.5px;
@@ -49,5 +51,6 @@
 .cizgi {
   width: 26px;
   height: 1px;
-  background: rgba(242, 233, 220, 0.3);
+  flex: none;
+  background: var(--cizgi-tire);
 }

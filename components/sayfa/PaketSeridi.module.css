@@ -1,0 +1,39 @@
+/* Ana Sayfa Alternatif.dc.html:336-348, Konum Sayfasi.dc.html:152-163 (birebir aynı kabuk) */
+.serit {
+  position: relative;
+  padding: clamp(40px, 6vh, 64px) var(--sayfa-yatay);
+  background: var(--pumpkin);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+}
+
+.kolon {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 620px;
+}
+
+/* Ana:341. Ölçek tasarımda yalnız bu şeride ait (iki dosyada da aynı), o yüzden
+   --ol-* ailesinde karşılığı yok ve burada ham durur. */
+.baslik {
+  margin: 0;
+  font: 700 clamp(28px, 3vw, 40px)/1.16 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--komur);
+}
+
+.paragraf {
+  margin: 0;
+  font: 400 var(--ol-govde-kucuk)/1.6 var(--font-govde);
+  color: var(--komur-90);
+}
+
+.butonlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

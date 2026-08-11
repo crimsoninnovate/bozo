@@ -1,0 +1,73 @@
+/* Ana Sayfa Alternatif.dc.html:296-334 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+}
+
+/* stretch: harita levhasının panel boyuna uzaması buna bağlı (Ana:297). */
+.erit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 3vw, 56px);
+  width: 100%;
+  align-items: stretch;
+}
+
+.panel {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik-orta)/1.14 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+/* Negatif üst boşluk, adresi 26px'lik kolon boşluğuna rağmen başlığa yaklaştırır
+   (Ana:300). Ölçü 15px: KISITLAR'ın 2. katmanı, meta satırı. */
+.adres {
+  margin: -12px 0 0;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  color: var(--krem-72);
+}
+
+.adres svg {
+  flex: none;
+  margin-top: 3px;
+}
+
+.adresMetin {
+  font: 400 15px/1.55 var(--font-govde);
+}
+
+.komsular {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* margin-top:auto: buton şeridi panelin dibine yaslanır (Ana:317). */
+.butonlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+
+/* Levhanın zemini, kenarlığı ve çizim katmanları HaritaPlakasi'nde; burada
+   yalnız ızgaradaki yeri var (Ana:323). */
+.harita {
+  flex: 1 1 380px;
+  min-width: 280px;
+  max-width: 560px;
+  min-height: 420px;
+}

@@ -1,0 +1,59 @@
+/* Ana Sayfa Alternatif.dc.html:244-267 */
+.bolum {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+}
+
+/*
+ * 1100px, diğer bölümlerin --panel-en'i (1180px) DEĞİL: bu bölüm tasarımda tek
+ * kullanımlık bir ölçü taşıyor (Ana:245). `position: relative` Bolum.module.css'in
+ * .erit sınıfından gelir; hayalet saat ona göre konumlanır.
+ */
+.erit {
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.saatSatiri {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.cizgi {
+  width: clamp(30px, 5vw, 70px);
+  height: 1px;
+  flex: none;
+  background: var(--cizgi-saat);
+}
+
+.etiket {
+  font: 400 16.5px/1 var(--font-govde);
+  color: var(--krem-76);
+}
+
+/*
+ * --ol-duygusal ile --iz-duygusal'ın gerçek sahibi burasıdır (Ana:252); ikram
+ * başlığı onları kullanmaz. Gölge --golge-baslik'ten ayrı bir değer taşıyor
+ * (0 8px 50px değil 0 10px 60px) ve tasarımda tek kullanımlık, o yüzden ham.
+ */
+.baslik {
+  margin: 0;
+  font: 800 var(--ol-duygusal)/1.08 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem);
+  text-shadow: 0 10px 60px rgba(10, 8, 7, 0.7);
+}
+
+.metin {
+  margin: 0;
+  font: 400 var(--ol-govde-buyuk)/1.6 var(--font-govde);
+  color: var(--krem-80);
+  max-width: 640px;
+}
