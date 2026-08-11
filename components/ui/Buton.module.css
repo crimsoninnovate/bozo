@@ -1,0 +1,39 @@
+.taban {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  border-radius: 2px;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: background var(--gecis-hizli), border-color var(--gecis-hizli),
+    transform var(--gecis-hizli), box-shadow var(--gecis-hizli);
+}
+.sm { padding: 12px 20px; font-size: 14.5px; }
+.md { padding: 16px 28px; font-size: 15.5px; }
+.lg { padding: 20px 34px; font-size: 16.5px; }
+
+.birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
+.birincil:hover {
+  background: var(--kor-hover);
+  color: var(--krem);
+  transform: translateY(-1px);
+  box-shadow: var(--kor-golge-hover);
+}
+
+.ikincil { border: 1px solid var(--cizgi-guclu); color: var(--krem-86); }
+.ikincil:hover {
+  border-color: var(--tangerine-85);
+  background: var(--tangerine-08);
+  color: var(--krem);
+}
+
+/* pumpkin şerit üstünde: zemin kömür, metin krem */
+.koyu { background: var(--komur); color: var(--krem); }
+.koyu:hover { background: #241e1b; color: var(--krem); }
+.koyuOutline { border: 1px solid rgba(26, 22, 20, 0.5); color: var(--komur); }
+.koyuOutline:hover { border-color: var(--komur); color: var(--komur); }
+
+.pasif { opacity: 0.55; cursor: default; pointer-events: none; }

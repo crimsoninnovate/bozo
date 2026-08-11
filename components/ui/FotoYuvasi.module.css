@@ -1,0 +1,51 @@
+.kap { position: relative; }
+.bos { background: rgba(10, 8, 7, 0.55); }
+
+/* portre: iddia ve bozo bölümleri, 4 köşe */
+.portre {
+  flex: 1 1 360px;
+  min-width: 280px;
+  max-width: 520px;
+  height: clamp(360px, 54vh, 560px);
+  border: 1px solid rgba(242, 233, 220, 0.22);
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.5);
+}
+/* geniş: ikram bölümü, yalnız çapraz iki köşe, ortalanmış etiket */
+.genis {
+  width: min(760px, 100%);
+  height: clamp(120px, 20vh, 200px);
+  border: 1px solid rgba(242, 233, 220, 0.2);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
+}
+/* karo: menü sayfasındaki çekim listesi ızgarası */
+.karo {
+  height: 110px;
+  border: 1px solid rgba(242, 233, 220, 0.18);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+.kose { position: absolute; width: 24px; height: 24px; border: 0 solid rgba(250, 170, 31, 0.6); }
+.solUst { top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px; }
+.sagAlt { bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px; }
+.sagUst { top: 18px; right: 18px; border-top-width: 1px; border-right-width: 1px; }
+.solAlt { bottom: 18px; left: 18px; border-bottom-width: 1px; border-left-width: 1px; }
+
+.genis .kose { width: 20px; height: 20px; border-color: rgba(250, 170, 31, 0.55); }
+.genis .solUst, .genis .sagUst { top: 16px; }
+.genis .sagAlt, .genis .solAlt { bottom: 16px; }
+.genis .solUst, .genis .solAlt { left: 16px; }
+.genis .sagUst, .genis .sagAlt { right: 16px; }
+
+.etiket {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--zemin);
+  font: 500 12.5px/1.4 var(--font-govde);
+  color: rgba(242, 233, 220, 0.72);
+}
+.sol { left: 24px; bottom: -14px; padding: 6px 12px; }
+.orta { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
+.etiketCizgi { width: 18px; height: 1px; background: var(--tangerine); }
+.orta .etiketCizgi { display: none; }

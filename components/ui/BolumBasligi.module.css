@@ -1,0 +1,21 @@
+.satir {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik) / 1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+.not {
+  font: 400 15px/1.5 var(--font-govde);
+  color: var(--krem-66);
+}

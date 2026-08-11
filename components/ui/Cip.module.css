@@ -1,0 +1,31 @@
+.taban {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 0;
+  font-family: var(--font-govde);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* kategori rozeti: imza ürün gibi anahat etiketler */
+.outline {
+  border: 1px solid rgba(250, 170, 31, 0.45);
+  color: var(--tangerine);
+  background: transparent;
+}
+
+/* ölçü bilgisi: 8 şiş, 4 ciğer 2 kuyruk yağı, 3 dakika gibi dolgu rozetler */
+.dolu {
+  background: rgba(242, 233, 220, 0.06);
+  color: var(--krem-78);
+  font-variant-numeric: tabular-nums;
+}
+
+/* fiyat yerine geçen ikram rozeti */
+.ikram {
+  border: 1px solid rgba(250, 170, 31, 0.32);
+  background: rgba(10, 8, 7, 0.55);
+  color: var(--krem);
+}
