@@ -13,22 +13,29 @@ Claude Design çalışmasının Next.js 16'ya statik export olarak taşınması.
 
 ## Nerede duruyoruz
 
-**Kapanan (inceleme temiz):** 1 iskele ve tokenlar, 2 gün aşan saat çekirdeği,
-3 içerik katmanı (+4 ek tur), 4 temel UI bileşenleri, 5 kor sahnesi ve hareket,
-7 rotalar ve yapısal veri, 8 canlı saat bileşenleri.
+**Sayfaların hepsi bitti.** Görevler 1-14 kapalı: iskele, saat çekirdeği, içerik
+katmanı, UI bileşenleri, kor sahnesi, kabuk, rotalar, canlı saat, beş sayfa
+(9-13), 404 ve gizlilik (14), primitif turu (17).
 
-Ayrıca **6** kabuk bileşenleri, **17** paylaşılan primitiflerin sağlamlaştırılması ve
-**toparlama turu** (biriken ölçümlerin paylaşılan katmana uygulanması, 12 Ağustos;
-raporu `docs/surec/rapor/toparlama-turu-report.md`).
+Sayfa görevlerinden sonra dört toparlama geçti (hepsi 12 Ağustos, raporları
+`docs/surec/rapor/` altında):
+- **ön geçiş**: 33 token, buton merdiveni kararı
+- **kabuk turu**: UstBar/AltBilgi sayfa varyantları, 96px çapa payı
+- **toparlama turu**: biriken 15 ölçümün uygulanması; EN footer'daki Türkçe
+  cadde adı düzeltmesi dahil
+- **mobil turu**: mobil prototipin sahne ve tipografi ölçüleri, ImlecKoru bağlandı
 
-Açık düzeltme turu yok. Ağaç temiz derleniyor, 60 test geçiyor, çalışma ağacında
-yarım iş yok.
+İki bağımsız inceleme (`bagimsiz-sadakat-denetimi.md`, `capraz-inceleme.md`) ve
+bir metin denetimi (`metin-denetimi.md`) koştu; bulguları uygulandı. Metin
+denetimi canlıda duran üç kilit ihlali yakaladı, üçü de handoff'un kendi hatasıydı
+(commit `b36ba3a`, `b677175`).
 
-**Bekleyen:** 9 ve 10 ana sayfa, 11 menü, 12 hikaye, 13 konum, 14 404 ve gizlilik,
-15 parite ve yayın doğrulaması, 16 tasarım ve hareket denetimi.
+**Şu an koşan:** 15 parite ve yayın doğrulaması, 16 tasarım ve hareket (öneri
+turu olarak, izole worktree'de; kod değiştirmiyor), eksiklik eleştirisi, ve
+mobilde dört vardiya çipi işi.
 
-Sayfa görevleri (9-13) **teker teker** çalışır, paralel değil: hepsi tarayıcı ölçümü
-gerektiriyor ve paylaşılan sekme çekişmesi ölçümleri kaydırıyor.
+**Kalan:** Task 15 ve 16 sonuçlarının işlenmesi, sahibinin açık kararları
+(aşağıda), işletme verisi geldiğinde içerik doldurma.
 
 ## Okuma sırası
 
