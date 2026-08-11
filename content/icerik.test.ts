@@ -4,7 +4,7 @@ import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
-import { ICECEK_YER_TUTUCU_ADEDI, ocaktanUrunler, ikramlar } from './urunler.ts'
+import { ICECEK_YER_TUTUCU_ADEDI, icecekler, ocaktanUrunler, ikramlar } from './urunler.ts'
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -62,8 +62,12 @@ test('isletme_bilinmeyenAlanlarNullDur', () => {
 
 test('isletme_dogrulanmisAlanlarDoludur', () => {
   assert.equal(isletme.ad, 'Ciğerci Bozo')
+  assert.equal(isletme.kisaAd, 'Bozo')
+  assert.equal(isletme.kategori, 'Urfa usulü ciğerci')
   assert.equal(isletme.cadde, 'Naci Talat Caddesi')
   assert.equal(isletme.sehir, 'Girne')
+  assert.equal(isletme.ulke, 'KKTC')
+  assert.equal(isletme.sahip, 'Engin Çağlar')
   assert.equal(isletme.alkolServisi, false)
 })
 
@@ -103,9 +107,21 @@ test('ikramlar_fiyatTasimaz', () => {
   for (const i of ikramlar) assert.equal('fiyat' in i, false)
 })
 
+/**
+ * Fiyatlar işletmeden gelmedi ve uydurulması yasak. Bu, mekanik güvencesi olmayan
+ * tek sert kuraldı: fiyat alanı sayı taşıyan bir sürüm diğer tüm testleri ve
+ * tsc'yi temiz geçiyordu. Fiyat geldiğinde bu test bilinçli olarak güncellenir.
+ */
+test('urunler_hicbirFiyatUydurulmamis', () => {
+  for (const u of [...ocaktanUrunler, ...icecekler]) {
+    assert.equal(u.fiyat, null, `${u.id} için fiyat işletmeden gelmedi, uydurulamaz`)
+  }
+})
+
 test('fotograflar_hicbiriHenuzDosyaTasimaz', () => {
   for (const [id, foto] of Object.entries(fotograflar)) {
     assert.equal(foto.dosya, undefined, `${id} için fotoğraf henüz çekilmedi`)
-    assert.ok(foto.etiket.length > 0)
+    assert.ok(foto.etiket.length > 0, `${id} için kadraj etiketi boş`)
+    assert.ok(foto.etiketEn.length > 0, `${id} için İngilizce kadraj etiketi boş`)
   }
 })
