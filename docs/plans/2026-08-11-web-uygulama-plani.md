@@ -1340,7 +1340,19 @@ git commit -m "feat: add the base UI components from the design tokens"
   - `export function rafKisitla(fn: () => void): () => void`
   - Bölümler `data-yogunluk="0.55"` özniteliği taşır; KorSahnesi bunları okur
 
-**Kritik port kararı:** Handoff'ta kor sahnesi `position:absolute` ve scroll'da `translate3d` ile yerinde tutuluyor. Bunun tek sebebi tasarım dosyasının bir tuval içinde yaşamasıdır. Next'te gerçek `position: fixed` kullanılır ve o scroll dinleyicisi tamamen düşer. Aynı sonucu daha az kodla verir.
+**Kritik port kararı:** Handoff'ta kor sahnesi `position:absolute` ve scroll'da `translate3d` ile yerinde tutuluyor. Bunun tek sebebi tasarım dosyasının bir tuval içinde yaşamasıdır. Next'te gerçek `position: fixed` kullanılır ve o scroll dinleyicisi tamamen düşer.
+
+**Tek kare döngüsü.** Tasarımın `cerceve()` fonksiyonu tek bir rAF döngüsünde dört iş yapar: bölüm eritme fade'i, viewport merkezine en yakın bölümün tespiti, kor ve çekirdek yoğunluğu, bead aktiflik durumu. Bu üç ayrı bileşene bölünmez; `lib/cerceve.ts` tek abone tabanlı döngü olur, `KorSahnesi`, `Bolum` ve `BeadRay` ona abone olur. Bölmek hem kare başına üç ayrı rect okuması demek hem de kor ile bead'in farklı karelerde güncellenip gözle görülür biçimde desenkronize olması demek.
+
+Kesin formüller:
+- kor: `opacity = min(1, 0.3 + y*0.7)`, `scale = 0.9 + y*0.16`
+- çekirdek: `opacity = min(1, 0.24 + y*0.6)`
+- erit bloğu (her karede yeniden hesaplanır, geri sarılabilir):
+  `o = clamp(görünenYükseklik / min(blokYüksekliği, ekran*0.62), 0, 1)`,
+  `opacity = 0.86 + o*0.14`, `translateY = (1-o)*14px`
+- bead aktif: `background #B7351C`, `scale(1.5)`, `box-shadow 0 0 16px rgba(183,53,28,.9)`
+
+Eritme tek seferlik bir IntersectionObserver tetiklemesi **değildir**; görünürlük oranına bağlı süreklidir.
 
 - [ ] **Step 1: lib/hareket.ts yaz**
 
