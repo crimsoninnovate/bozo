@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 11 Ağustos 2026, 23:37
+Son güncelleme: 11 Ağustos 2026, 23:42
 
 ## Proje bir cümlede
 
@@ -17,14 +17,10 @@ Claude Design çalışmasının Next.js 16'ya statik export olarak taşınması.
 3 içerik katmanı (+4 ek tur), 4 temel UI bileşenleri, 5 kor sahnesi ve hareket,
 7 rotalar ve yapısal veri, 8 canlı saat bileşenleri.
 
-**Açık, düzeltme turunda:**
-- **Task 6** kabuk bileşenleri, düzeltme turu 3. Açık madde: footer'daki dokunma
-  hedefi katmanları 16px çakışıyor (satır ~15px + gap 13px = 28px adım, iki 44px
-  katman 28px arayla). Katmanlar 28px'e kısılacak, kalan 44px açığı sahibe
-  bildirilecek.
-- **Task 17** paylaşılan primitifler, düzeltme turu 3. Açık madde: `FotoYuvasi`
-  `bicim` başına tek kor animasyon zamanlaması yazıyor, tasarım altı plakayı tek tek
-  kaydırıyor (kart: 10s/.6s, 11s/1.2s, 9.5s/1.8s, 12s/2.4s; ikram: 11s, 12s/1.5s).
+Ayrıca **6** kabuk bileşenleri ve **17** paylaşılan primitiflerin sağlamlaştırılması.
+
+Açık düzeltme turu yok. Ağaç temiz derleniyor, 51 test geçiyor, çalışma ağacında
+yarım iş yok.
 
 **Bekleyen:** 9 ve 10 ana sayfa, 11 menü, 12 hikaye, 13 konum, 14 404 ve gizlilik,
 15 parite ve yayın doğrulaması, 16 tasarım ve hareket denetimi.
@@ -73,6 +69,14 @@ denetim bulgularına göre yeniden şekillendirildi; her yazılı özet bayat ol
   örnek başına değil; bu yüzden örnek başına sadakati kanıtlayamıyordu.
 - Kısıt listesi tasarımla çeliştiğinde **liste eksiktir**, tasarım yanlış değil. İki
   kez oldu: `#0C0A09` plaka zemini ve `#7A1F2B` Nar aksanı.
+
+## Sahibinin bakması gereken açık madde
+
+Footer'daki iletişim satırlarında dokunma hedefi şu an 28px, çakışmıyor, hiçbir
+dokunuş yanlış satıra gitmiyor. 44px'e ulaşmak `.kolon`'un `gap` değerini 13px'ten
+yaklaşık 29px'e çıkarmayı gerektiriyor, bu da görünür bir footer yeniden düzeni.
+Tek başına yapılmadı. 44px mi footer ritmi mi öncelikli, Task 16'da veya yayın
+öncesi karara bağlanacak.
 
 ## İşletmeden bekleyen veriler
 
