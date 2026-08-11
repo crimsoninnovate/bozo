@@ -1,0 +1,48 @@
+/*
+ * Ölçüler "Ana Sayfa Alternatif.dc.html" hero durum çipinden (satır ~89-91):
+ * padding:10px 16px;gap:11px;background:rgba(10,8,7,.6);border:1px solid rgba(250,170,31,.3);
+ * nokta 9x9. "Konum Sayfasi.dc.html" hero'sunda bundan biraz küçük tek kullanımlık bir
+ * varyant var (9px 15px, 8x8 nokta, 13.5px metin); arayüzde boy prop'u olmadığından
+ * o varyant burada yok, bkz. iyilestirmeler.md.
+ */
+.kap {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 16px;
+  background: rgba(10, 8, 7, 0.6);
+  border: 1px solid var(--tangerine-30);
+}
+
+.nokta {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.acikNokta {
+  background: var(--tangerine);
+  box-shadow: 0 0 14px rgba(250, 170, 31, 0.9);
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+.kapaliNokta {
+  background: rgba(242, 233, 220, 0.35);
+}
+
+.acikMetin,
+.kapaliMetin {
+  font-family: var(--font-govde);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.acikMetin {
+  color: var(--tangerine);
+}
+
+/* tasarımda rgba(242,233,220,.8); skala .5 .58 .62 .66 .7 .74 .78 .86'da yok, en yakın .78'e yuvarlandı */
+.kapaliMetin {
+  color: var(--krem-78);
+}

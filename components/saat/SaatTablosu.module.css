@@ -1,0 +1,44 @@
+/*
+ * "Konum Sayfasi.dc.html" (satır 108-118) Saatler kartı iki satırdan oluşur:
+ * Bugün (JS gün adını yazar) ve haftalık özet. Saatler her gün aynı olduğundan
+ * yedi ayrı satır yok; üçüncü bir "not" satırı da var ama sayfaya özel metin
+ * taşıdığı ve bu bileşenin arayüzü yalnız dil aldığı için burada değil,
+ * bkz. iyilestirmeler.md.
+ */
+.tablo {
+  display: flex;
+  flex-direction: column;
+  font-variant-numeric: tabular-nums;
+}
+
+.satir {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 14px;
+  font-family: var(--font-govde);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.bugun {
+  border-bottom: 1px solid rgba(242, 233, 220, 0.12);
+  background: rgba(250, 170, 31, 0.07);
+}
+
+.haftalik {
+  border-bottom: 1px solid var(--cizgi-soluk);
+  font-weight: 400;
+  /* tasarımda rgba(242,233,220,.76); skalada yok, en yakın .74'e yuvarlandı */
+  color: var(--krem-74);
+}
+
+.gunAdi {
+  font-weight: 600;
+  color: var(--krem);
+}
+
+.saatBugun {
+  font-weight: 600;
+  color: var(--tangerine);
+}

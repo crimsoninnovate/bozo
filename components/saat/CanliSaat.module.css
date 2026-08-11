@@ -1,0 +1,43 @@
+.taban {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* hero'daki ayrık saat: krem rakamlar, ayrı ve yanıp sönen tangerine iki nokta */
+.dev {
+  gap: 3px;
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--krem);
+}
+
+.kolon {
+  color: var(--tangerine);
+  animation: colonBlink 2s step-end infinite;
+}
+
+/* gece bölümündeki düz saat: tek renk tangerine, nokta sabit (tasarımda ayrı span yok) */
+.orta {
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tangerine);
+}
+
+/* gece bölümü arka planındaki dev hayalet saat; konumlandırma için üst öğe position:relative olmalı */
+.hayalet {
+  position: absolute;
+  z-index: -1;
+  top: -16%;
+  right: -2%;
+  font-size: clamp(120px, 22vw, 320px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgba(242, 233, 220, 0.055);
+  pointer-events: none;
+  user-select: none;
+}
