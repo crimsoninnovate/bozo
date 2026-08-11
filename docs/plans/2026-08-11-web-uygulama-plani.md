@@ -482,7 +482,7 @@ test('saatMetni_tekHaneleriIkiHaneYazar', () => {
 })
 
 test('durum_kisSaatiUTCArti2_dogruCevirir', () => {
-  // 15 Ocak 2026, Girne UTC+2. UTC 02:30 -> yerel 04:30, hâlâ açık ve gece.
+  // 15 Ocak 2026, Girne UTC+2. UTC 02:30 -> yerel 04:30, hala açık ve gece.
   const d = durumHesapla(new Date('2026-01-15T02:30:00Z'))
   assert.equal(d.saat, 4)
   assert.equal(d.acik, true)
