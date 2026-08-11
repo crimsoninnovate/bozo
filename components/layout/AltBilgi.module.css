@@ -146,6 +146,13 @@
  * büyütüyordu (fix round 2, Open 2: üç satırın Y konumu ölçülüp doğrulandı, bkz.
  * task-6-report.md). Görünmez ::before dokunma alanını büyütür, kutunun kendi
  * boyu (ve dolayısıyla sütun akışındaki konumu) değişmez.
+ *
+ * fix round 3: 44px'lik ::before komşu satırlarla 16px çakışıyordu (satır
+ * aralığı = .kolon gap:13px + ~15px satır yüksekliği = 28px pitch; 44px bir
+ * ::before önceki/sonraki satırın alanına taşıyordu, yanlış satıra dokunma
+ * riski). Üst-üste binmeyen tek yükseklik pitch'in kendisi (28px); komşu
+ * ::before'lar artık kesişmeden birbirine değiyor. 44px hedefine bu pitch
+ * içinde ulaşmanın yolu yok, bkz. task-6-report.md "residual" notu.
  */
 .iletisimSatiri {
   position: relative;
@@ -167,7 +174,7 @@
   top: 50%;
   left: 0;
   right: 0;
-  height: 44px;
+  height: 28px;
   transform: translateY(-50%);
 }
 
