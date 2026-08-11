@@ -104,6 +104,20 @@ saatlerinde susturmak, ya da şeridi yalnız ana sayfa dışındaki rotalarda g�
 (orada hero durum satırı yok, tekrar da yok). Üçüncüsü tekrarı çözerken tasarımın
 niyetini de korur, ama ölçülmeden karar verilmemeli.
 
+**Bu maddenin bir yarısı 12 Ağustos'ta zaten kapandı** (commit `4f8b085`). Kabuk on
+rotanın hepsine ana sayfanın sahnesini basıyordu; tasarımda iç sayfaların kendi sönük
+sahnesi var (kor `.55`, çekirdek `.26`, iki duman pufu, sabit). Bu bir porting hatasıydı
+ve ölçülebilir bir sonucu vardı: iç sayfalarda krem `.78` gövde metni 4.34:1 ile AA'yı
+geçmiyordu. Yani "kor fazla" okumasının bir kısmı gerçek bir hataymış. **Ana sayfanın
+sahnesi değişmedi**, sahibinin gözlemi oraya bakıyorsa hâlâ açık.
+
+İki bağlı iş kaldı:
+- `components/ember/ImlecKoru.tsx` Task 5'te yazıldı ama **hiçbir yere bağlanmadı**.
+  Tasarımda o katman sahnenin içinde ve yalnız ana sayfada (`Ana:31`, `data-imlec`).
+  Bağlanması hareket turunun işi; z-index ve sahne kabına göre konumu ölçülmeli.
+- `GizlilikSayfasi` gövde metnini parlak sahne yüzünden krem `.86`'ya çıkarmıştı
+  (tasarım `.78`). Sahne söndüğüne göre yeniden ölçülüp `.78`'e dönmesi gerekebilir.
+
 Bugünkü zemin, karar verirken ölçülecek yerler: `components/ember/KorSahnesi.tsx`
 (yoğunluk takibi `lib/cerceve.ts`'ten geliyor), bölüm başına `data-yogunluk`
 katsayıları (acilis 1, iddia 0.55, ocaktan 0.4, ikram 0.7, gece 1.25, bozo 0.45,
