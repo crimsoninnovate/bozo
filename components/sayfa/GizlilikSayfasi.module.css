@@ -1,0 +1,120 @@
+/*
+ * Bu sayfanın tasarımı yok. Hiçbir ölçü uydurulmadı; her değer sitenin zaten
+ * kullandığı bir kalıptan alındı ve kaynağı satırında yazıyor.
+ *
+ * OKUMA ÖLÇÜSÜ (KISITLAR.md, "The 16px floor, and what it binds"): bu sayfanın
+ * metni okunan metindir, yani 1. katman ve 16px tabanı BAĞLAYICI. Spot
+ * --ol-spot (clamp(16px,1.4vw,19px)), bölüm paragrafları --ol-govde
+ * (clamp(16px,1.35vw,19px)); ikisinin de alt ucu 16px. Bu sayfada 2. veya
+ * 3. katmandan tek bir ölçü kullanılmıyor, yani kaydedilecek sapma yok.
+ */
+
+/* 172px üst pay: iç sayfa açılışlarının payı (Konum:63, Menu:65; Hikaye 176px).
+   Yatay pay --sayfa-yatay, tasarımın clamp(24px,5vw,64px) değeriyle aynı.
+   80px alt pay: sayfa kapanış bölümlerinin payı (Menu:264, Hikaye:120). */
+.sayfa {
+  padding: 172px var(--sayfa-yatay) 80px;
+}
+
+/* max-width 680px: Hikaye açılış paragrafının okuma ölçüsü (Hikaye:69).
+   --panel-en (1180px) okunan metin için fazla geniş. Sola yaslı kalır: site
+   okunan metni ortalamıyor, ortalama yalnız duygusal tam ekran bölümlerde var. */
+.icerik {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.tepe {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/*
+ * İç sayfaların üç H1 ölçüsü (--ol-hero-menu / -konum / -hikaye) tasarımda tek
+ * kullanımlık ve o sayfalara ait; gizlilik için ödünç alınmadı ve yeni token da
+ * eklenmedi. Sitenin paylaşılan en büyük başlık ölçüsü kullanılır; ağırlık,
+ * satır ve iz BolumBasligi'nin `genis` ölçeğiyle aynı hizada (BolumBasligi:20-24).
+ * Sayfa hero'su ölçüsünde bir başlık burada tonu yanlış kurardı: bu bir okuma
+ * sayfası, bir açılış değil.
+ */
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+/*
+ * Menu:77 ve Konum:77 ile aynı: --ol-spot / 1.6. Renk tasarımın krem .78'i
+ * DEĞİL .86: gerekçe ölçüldü, bkz. aşağıdaki kontrast notu.
+ */
+.spot {
+  margin: 0;
+  font: 400 var(--ol-spot)/1.6 var(--font-govde);
+  color: var(--krem-86);
+}
+
+/* Panel, Konum'un bilgi kartıdır: zemin .74, dolgu clamp(26px,2.8vw,40px),
+   kenarlık krem .10, bulanıklık yok (Konum:106). CamPanel bunların hepsini
+   opaklik/dolgu/bulanik prop'larından basar; buraya yalnız iç yerleşim kalır. */
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bölümler arası ayraç, kart ve liste satırı kenarlığı (--cizgi-kart, .12,
+   tasarımda 25 kullanım). İlk bölüm ayraçsız, son bölüm alt paysız: panelin
+   kendi dolgusu zaten kenarları taşıyor. */
+.bolum {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 0;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.bolum:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.bolum:last-child {
+  padding-bottom: 0;
+}
+
+/* Konum'un panel içi kart başlığı, birebir: 700 clamp(26px,2.8vw,38px)/1.14
+   Bricolage, iz -.02em, krem (Konum:107, 125). Alt çizgisi olmadığı için
+   BolumBasligi ile basılmaz, tokens.css:181-183 bunu ayrıca not ediyor. */
+.bolumBaslik {
+  margin: 0;
+  font: 700 var(--ol-kart-baslik)/1.14 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+/*
+ * KONTRAST SAPMASI, ölçüldü. Tasarımın gövde proze rengi krem .78 (Menu:77,
+ * Konum:77) veya .80 (Hikaye:69, Ana:225). Burada .86 kullanılıyor.
+ *
+ * Sebep: `KorSahnesi` sabit bir katman ve iç sayfalarda yoğunluk takibi kapalı
+ * (Kabuk.tsx:34), yani kor tam şiddette yanıyor; parlak bant her zaman ekranın
+ * dibinde durur ve sayfa kaydıkça panelin altından geçer. 1440x900'de panelin
+ * içi ölçüldü (satır medyanı, sRGB bağıl parlaklık): en kötü zemin (112,74,50),
+ * krem .78 ile 4.64:1, korun tepesine denk gelen ham zeminde 4.06:1. WCAG AA
+ * gövde metni için 4.5:1 ister, yani .78 bu sayfada tabanın altına düşüyor.
+ * Aynı zeminde .86 sırasıyla 5.26:1 ve 4.55:1 veriyor.
+ *
+ * Bu sayfanın metni okunan metin olduğu için erişilebilirlik tabanı sert kısıt,
+ * renk ise varsayılan kısıt; sert olan kazanır. Kalıcı çözüm renkte değil:
+ * `CamPanel` yalnız .72/.74 zemin sunuyor ve iç sayfalarda kor kısılmıyor.
+ * İkisi de bu görevin dosyaları değil, rapora bulgu olarak yazıldı.
+ */
+.bolumMetin {
+  margin: 0;
+  font: 400 var(--ol-govde)/1.6 var(--font-govde);
+  color: var(--krem-86);
+}

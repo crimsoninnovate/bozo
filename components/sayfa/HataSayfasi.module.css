@@ -1,0 +1,85 @@
+/*
+ * Bu sayfanın tasarımı yok. Hiçbir ölçü uydurulmadı; her değer sitenin zaten
+ * kullandığı bir kalıptan alındı ve kaynağı satırında yazıyor.
+ *
+ * Blok kalıbı: ikram bölümü (Ana Sayfa Alternatif.dc.html:219-242), tasarımın
+ * tek ortalanmış tam ekran bloğu.
+ * z-index 1: `KorSahnesi` sabit ve z-index 0 (KorSahnesi.module.css:1-8),
+ * içerik onun üstünde durmalı.
+ */
+.bolum {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--bolum-dikey) var(--sayfa-yatay);
+  text-align: center;
+}
+
+/* max-width 620px: ikram paragrafının okuma ölçüsü (Ana:225). gap 28px: aynı
+   bölümün kolon boşluğu (Ana:220). */
+.blok {
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/*
+ * Kicker, Hikaye açılışının küçük kare + etiket kalıbı (Hikaye:64-66):
+ * 11x11 tangerine kare, 1px köşe, 12px boşluk, Inter 500 15px/1, krem .74.
+ * Tasarımda sola yaslı; burada blok ortalandığı için satır da ortalanır.
+ * tabular-nums, "404" bir sayı olduğu için (KISITLAR.md, tipografi).
+ */
+.kicker {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 500 15px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-74);
+}
+
+.kickerKare {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  border-radius: 1px;
+  background: var(--tangerine);
+}
+
+/*
+ * İç sayfaların üç H1 ölçüsü (--ol-hero-menu / -konum / -hikaye) tasarımda tek
+ * kullanımlık ve o sayfalara ait; 404 için ödünç alınmadı ve yeni token da
+ * eklenmedi. Bunun yerine sitenin paylaşılan en büyük başlık ölçüsü kullanılır.
+ * Ağırlık, satır ve iz BolumBasligi'nin `genis` ölçeğiyle aynı hizada tutuldu
+ * (BolumBasligi.module.css:20-24). Gölge, zemin üstünde tek başına duran
+ * başlığın gölgesidir (--golge-baslik, 5 kullanım, dört dosya).
+ */
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+/* Ana:225 ile aynı: --ol-govde-buyuk / 1.6, krem .80. */
+.metin {
+  margin: 0;
+  font: 400 var(--ol-govde-buyuk)/1.6 var(--font-govde);
+  color: var(--krem-80);
+}
+
+/* gap 14px: hero CTA satırının boşluğu (Ana:110). Butonların kendi min-height
+   değeri 44px olduğu için dokunma hedefi Buton'da karşılanıyor. */
+.butonlar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
