@@ -2,6 +2,10 @@
   /* zemin */
   --zemin: #0A0807;
   --komur: #1A1614;
+  /* Menü sayfasının çekim listesi ve ürün plakalarının zemini, --zemin'den ayrı.
+     Marka kitabının sekiz renkli listesinde yok; tasarımdan (Menu Sayfasi.dc.html,
+     15 kullanım, yalnız o sayfada) doğrulandı. */
+  --plaka-zemin: #0C0A09;
   --panel-koyu: rgba(10, 8, 7, 0.9);
   --panel-orta: rgba(10, 8, 7, 0.74);
   --panel-acik: rgba(10, 8, 7, 0.72);

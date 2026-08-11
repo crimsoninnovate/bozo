@@ -8,7 +8,7 @@ type Props = {
   dil: Dil
   bicim: 'portre' | 'genis' | 'karo'
   etiketYeri?: 'sol' | 'orta'
-  koseIsaretleri?: 2 | 4
+  koseIsaretleri?: 0 | 2 | 4
 }
 
 export function FotoYuvasi({
@@ -16,7 +16,7 @@ export function FotoYuvasi({
   dil,
   bicim,
   etiketYeri = 'sol',
-  koseIsaretleri = 4,
+  koseIsaretleri,
 }: Props) {
   const foto = fotograflar[id]
   const etiket = dil === 'en' ? foto.etiketEn : foto.etiket
@@ -29,6 +29,9 @@ export function FotoYuvasi({
     )
   }
 
+  // karo (menü çekim listesi karosu) köşe işareti taşımaz; diğer biçimler 4 köşeyle başlar.
+  const koseSayisi = koseIsaretleri ?? (bicim === 'karo' ? 0 : 4)
+
   // Köşe sınıfları açık dizi olarak tutulur; şablon dizgisiyle indekslemek
   // noUncheckedIndexedAccess altında string | undefined döndürür ve derlemez.
   // Sıra kritik: 2 köşeli varyant tasarımda sol-üst ve sağ-alt işaretlerini
@@ -38,7 +41,7 @@ export function FotoYuvasi({
   return (
     <div className={`${stil.kap} ${stil[bicim]} ${stil.bos}`} role="img" aria-label={etiket}>
       <span aria-hidden="true" className={stil.kor} />
-      {koseSiniflari.slice(0, koseIsaretleri).map((koseSinif) => (
+      {koseSiniflari.slice(0, koseSayisi).map((koseSinif) => (
         <span key={koseSinif} aria-hidden="true" className={`${stil.kose} ${koseSinif}`} />
       ))}
       <span aria-hidden="true" className={`${stil.etiket} ${stil[etiketYeri]}`}>
