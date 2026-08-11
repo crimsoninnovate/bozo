@@ -1,5 +1,8 @@
 .kap { position: relative; }
-.bos { background: rgba(10, 8, 7, 0.55); }
+
+/* portre ve geniş zemin taşımaz: plaka, arkasındaki kor sahnesine açılan bir
+   pencere. Kenarlık ve iç gölge çerçeveyi karartır, ortası sahneden gelen
+   parıltıyla dolar. Yalnız karo kendi zeminini taşır (aşağıda). */
 
 /* portre: iddia ve bozo bölümleri, 4 köşe */
 .portre {

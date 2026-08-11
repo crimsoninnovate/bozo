@@ -39,7 +39,7 @@ export function FotoYuvasi({
   const koseSiniflari = [stil.solUst, stil.sagAlt, stil.sagUst, stil.solAlt]
 
   return (
-    <div className={`${stil.kap} ${stil[bicim]} ${stil.bos}`} role="img" aria-label={etiket}>
+    <div className={`${stil.kap} ${stil[bicim]}`} role="img" aria-label={etiket}>
       <span aria-hidden="true" className={stil.kor} />
       {koseSiniflari.slice(0, koseSayisi).map((koseSinif) => (
         <span key={koseSinif} aria-hidden="true" className={`${stil.kose} ${koseSinif}`} />
