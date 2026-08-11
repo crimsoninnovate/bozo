@@ -14,10 +14,21 @@ export const ortak = {
     ocaktan: 'Ocaktan',
     ikramlar: 'İkramlar',
     icecekler: 'İçecekler',
+    gizlilik: 'Gizlilik',
+  },
+  /**
+   * Yalnızca ekran okuyucu için; ikondan ibaret kontrollerin adı. Tasarım
+   * yardımcı teknoloji için işaretlenmediğinden bu iki metnin kaynağı yoktur.
+   */
+  erisim: {
+    menuyuAc: 'Menüyü aç',
+    menuyuKapat: 'Menüyü kapat',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
     yolTarifiAl: 'Yol tarifi al',
+    /** Mobil alt bar. Tasarımda ("Mobil Prototip.dc.html") bu buton kısa yazılır. */
+    yolTarifiKisa: 'Yol tarifi',
     menuyuGor: 'Menüyü gör',
     whatsapptanYaz: "WhatsApp'tan yaz",
     ara: 'Ara',

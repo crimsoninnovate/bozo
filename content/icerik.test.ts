@@ -74,6 +74,20 @@ test('sozluk_dogrulanmamisMesafeIddiasiIcermez', () => {
   assert.deepEqual(mesafeli, [], 'Mesafe iddiası doğrulanmış bir kaynak ister')
 })
 
+/**
+ * Mobil alt bar 390px'de üç eşit hedef taşır ve tasarım orada kısa etiketi
+ * kullanır ("Yol tarifi"), üst bardaki uzun etiketi değil. İkisi tek etikete
+ * indirgenirse mobil yerleşim sessizce bozulur, o yüzden fark burada kilitli.
+ */
+test('cta_mobilYolTarifiEtiketiKisaKalir', () => {
+  for (const s of [tr, en]) {
+    assert.ok(
+      s.ortak.cta.yolTarifiKisa.length < s.ortak.cta.yolTarifiAl.length,
+      `${s.ortak.cta.yolTarifiKisa} kısa etiketi ${s.ortak.cta.yolTarifiAl} kadar uzun`,
+    )
+  }
+})
+
 test('isletme_bilinmeyenAlanlarNullDur', () => {
   assert.equal(isletme.telefon, null)
   assert.equal(isletme.whatsapp, null)

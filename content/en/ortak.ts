@@ -15,10 +15,21 @@ export const ortak = {
     ocaktan: 'From the fire',
     ikramlar: 'On the house',
     icecekler: 'Drinks',
+    gizlilik: 'Privacy',
+  },
+  /**
+   * Screen readers only; the names of the icon-only controls. The design is not
+   * marked up for assistive technology, so these two strings have no source.
+   */
+  erisim: {
+    menuyuAc: 'Open the menu',
+    menuyuKapat: 'Close the menu',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
     yolTarifiAl: 'Get directions',
+    /** Mobile bottom bar. The design writes this button short; English follows suit. */
+    yolTarifiKisa: 'Directions',
     menuyuGor: 'See the menu',
     whatsapptanYaz: 'Message on WhatsApp',
     ara: 'Call',
