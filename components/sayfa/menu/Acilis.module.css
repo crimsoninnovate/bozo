@@ -1,0 +1,67 @@
+/* Menü sayfasının açılışı. Menu Sayfasi.dc.html:65-83 */
+.bolum {
+  position: relative;
+  /* Üst dolgu 172px, sabit iç sayfa barının (78px) altındaki tek nefes payı;
+     ana sayfanın --bolum-dikey'i (120px) burada geçerli değil. Menu:65 */
+  padding: 172px var(--sayfa-yatay) 46px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.kolon {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.durumSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+}
+
+.baslik {
+  margin: 0;
+  font: 800 var(--ol-hero-menu)/0.9 var(--font-baslik);
+  letter-spacing: var(--iz-hero-menu);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.spot {
+  margin: 0;
+  max-width: 540px;
+  font: 400 var(--ol-spot)/1.6 var(--font-govde);
+  color: var(--krem-78);
+}
+
+/* gece menüsü not kartı. Menu:79-82 */
+.notKarti {
+  max-width: 300px;
+  padding: 20px 22px;
+  background: var(--panel-not);
+  border: 1px solid var(--cizgi);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.notBasligi {
+  margin: 0;
+  font: 700 16px/1.2 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+/* `font` kısayolu font-variant-numeric'i sıfırlar, tabular kural ondan sonra
+   gelmek zorunda; gövde "01:00" taşıyor. Menu:81 */
+.notGovde {
+  margin: 0;
+  font: 400 13px/1.6 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-68);
+}

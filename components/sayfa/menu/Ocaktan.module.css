@@ -1,0 +1,95 @@
+/* Menü sayfasının ocaktan bölümü. Menu Sayfasi.dc.html:85-198 */
+.bolum {
+  position: relative;
+  /* Üst dolgu SIFIR: bölüm açılışın hemen altına yaslanır. Menu:85 */
+  padding: 0 var(--sayfa-yatay) 40px;
+}
+
+/*
+ * Tasarım bu boşluğu başlık satırının margin-bottom'una veriyor (Menu:86, 34px).
+ * `BolumBasligi` className almadığı için aynı boşluk bir sonraki kutunun
+ * margin-top'una yazıldı; blok akışında iki komşunun arasındaki mesafe birebir
+ * aynı, ikinci bir sarmalayıcı <div> gerekmiyor.
+ */
+.imzaSatiri {
+  margin-top: 34px;
+  margin-bottom: clamp(24px, 3vw, 44px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: clamp(24px, 3vw, 44px);
+}
+
+/* İmza ürün paneli. CamPanel DEĞİL: zemini .78, kenarlığı kor ve dolgusu
+   clamp(24px,2.6vw,38px), üçü de CamPanel'in üç adımının hiçbiri değil. Menu:104 */
+.imzaPaneli {
+  flex: 1 1 380px;
+  min-width: 280px;
+  padding: clamp(24px, 2.6vw, 38px);
+  background: var(--panel-imza);
+  border: 1px solid var(--kor-kenar);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.imzaUst {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.indeks {
+  font: 600 13px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-50);
+}
+
+.imzaAd {
+  margin: 0;
+  font: 700 var(--ol-imza-ad)/1.02 var(--font-baslik);
+  letter-spacing: var(--iz-sayfa-baslik);
+  color: var(--krem);
+}
+
+/* clamp(15px,1.3vw,17px): KISITLAR'ın 16px tabanı clamp biçiminde,
+   ayrı bir kayıt gerektirmiyor (bkz. KISITLAR.md, 3. katman). Menu:110 */
+.imzaAciklama {
+  margin: 0;
+  font: 400 var(--ol-govde-kucuk)/1.6 var(--font-govde);
+  color: var(--krem-76);
+}
+
+.specSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fiyatSatiri {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cizgi);
+}
+
+.porsiyon {
+  font: 400 14px/1 var(--font-govde);
+  color: var(--krem-60);
+}
+
+.imzaFiyat {
+  font: 600 var(--ol-imza-fiyat)/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}
+
+.izgara {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(20px, 2.4vw, 34px);
+}

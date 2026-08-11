@@ -1,0 +1,56 @@
+/* Menü sayfasının ikramlar bölümü. Menu Sayfasi.dc.html:200-231 */
+.bolum {
+  position: relative;
+  padding: 70px var(--sayfa-yatay) 40px;
+}
+
+/* Başlık satırının margin-bottom'u (Menu:201, 30px); bkz. Ocaktan.module.css'teki
+   aynı gerekçe. */
+.satir {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(20px, 2.4vw, 34px);
+}
+
+.kart {
+  flex: 1 1 400px;
+  min-width: 290px;
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--panel-orta);
+  border: 1px solid var(--tangerine-28);
+}
+
+.govde {
+  flex: 1 1 200px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+}
+
+.ad {
+  margin: 0;
+  font: 700 var(--ol-ikram-ad)/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem);
+}
+
+/* 14px/1.55: KISITLAR'ın 16px tabanının 3. katmanı, sayfa raporunda kayıtlı. Menu:214 */
+.aciklama {
+  margin: 0;
+  font: 400 14px/1.55 var(--font-govde);
+  color: var(--krem-70);
+}
+
+/*
+ * "ikram" ibaresinin 4px'lik ek boşluğu (Menu:215, 227) çağıranın yerleşimidir:
+ * `Cip tur="ikram"` kutusuz düz metindir ve bu ölçüyü bilerek taşımaz
+ * (IYILESTIRMELER.md). Gövdenin son çocuğu her zaman o ibaredir; ikinci bir
+ * sarmalayıcı eklemek yerine boşluk buradan veriliyor.
+ */
+.govde > :last-child {
+  margin-top: 4px;
+}

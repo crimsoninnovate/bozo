@@ -1,0 +1,70 @@
+/* Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125, 133-139 */
+.kart {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-orta);
+  border: 1px solid var(--cizgi-kart);
+  /* Süre ve yumuşama tasarımdan birebir (Menu:125) ve --gecis-* ailesinin
+     hiçbir adımıyla eşleşmiyor: 0.22s ve cubic-bezier(.2,.7,.2,1) yalnız bu
+     kartta geçiyor. Token turuna raporlandı, ham yazıldı. */
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.22s ease-out,
+    box-shadow 0.22s ease-out;
+}
+
+.kart:hover {
+  transform: translateY(-6px);
+  border-color: var(--kor-kenar-hover);
+  box-shadow: var(--golge-kart-hover);
+}
+
+/* Plakanın sağ üstündeki indeks rozeti. Gövdede değil, FotoYuvasi'nin children
+   yuvasında; konumlandırmayı çağıran verir. Menu:131 */
+.indeks {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  font: 600 12px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-55);
+}
+
+.govde {
+  flex: 1;
+  padding: 22px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ad {
+  margin: 0;
+  font: 700 var(--ol-urun-ad)/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem);
+}
+
+/* 14.5px/1.55: KISITLAR'ın 16px tabanının 3. katmanı (sabit ölçülü ikincil
+   okuma kopyası). Sayfa raporunda bir kez sapma olarak kayıtlı. Menu:135 */
+.aciklama {
+  margin: 0;
+  font: 400 14.5px/1.55 var(--font-govde);
+  color: var(--krem-70);
+}
+
+/* margin-top:auto: kartlar ızgarada eşit yükseklikte, alt satır dibe yapışır */
+.altSatir {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--cizgi-kart);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fiyat {
+  font: 600 18px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}

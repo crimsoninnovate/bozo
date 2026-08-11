@@ -1,0 +1,116 @@
+/* Menü sayfasının içecekler bölümü. Menu Sayfasi.dc.html:233-262 */
+.bolum {
+  position: relative;
+  padding: 60px var(--sayfa-yatay) 70px;
+}
+
+/* Başlık satırının margin-bottom'u (Menu:234, 26px). */
+.satir {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: clamp(20px, 2.4vw, 34px);
+}
+
+.kolon {
+  flex: 1 1 420px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Liste kendi 12px'ini taşır; kolonun 12px'i listeyi yer tutucudan ayırır,
+   yani tasarımın tek düzeydeki 12px adımı iki düzeyde de aynı çıkar. */
+.liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kalem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--panel-acik);
+  border: 1px solid var(--cizgi-kart);
+}
+
+.ad {
+  font: 600 17px/1 var(--font-govde);
+  color: var(--krem);
+}
+
+.fiyat {
+  font: 600 15px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}
+
+/* Kesik çerçeveli slot boş değil, ortalanmış "liste tamamlanacak" taşır. Menu:248 */
+.yerTutucu {
+  padding: 16px 20px;
+  border: 1px dashed var(--cizgi-guclu);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 14px/1 var(--font-govde);
+  color: var(--krem-58);
+}
+
+.dipnot {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--cizgi-kart);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.alkolsuz {
+  margin: 0;
+  font: 400 15px/1.6 var(--font-govde);
+  color: var(--krem-74);
+}
+
+.qrGrup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* QR glifi. Menu:254-258 */
+.qr {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  border: 1px solid var(--cizgi-qr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.qrDolu {
+  background: var(--krem-70);
+}
+
+.qrMerkez {
+  background: var(--tangerine-85);
+}
+
+.qrNotu {
+  margin: 0;
+  max-width: 260px;
+  font: 400 13.5px/1.5 var(--font-govde);
+  color: var(--krem-62);
+}
