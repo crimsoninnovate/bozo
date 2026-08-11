@@ -72,12 +72,16 @@
   background: radial-gradient(closest-side, var(--kor-leke-guclu), transparent);
   animation: emberSoft 9s ease-in-out infinite;
 }
+/* Buradaki süre ve gecikme, biçimin tasarımdaki İLK örneğinin değeridir.
+   Sonraki örnekler kendi zamanlamalarını `korNefesi` ile geçer; kartlar
+   10s/.6s, 11s/1.2s, 9.5s/1.8s, 12s/2.4s (Menu:126, 144, 162, 180). */
 .kart .kor {
   background: radial-gradient(closest-side, var(--kor-leke), transparent);
   animation: emberSoft 10s ease-in-out infinite 0.6s;
 }
 /* İkram yuvasının koru nar tonunda, kordan ayrı: ikramların biri bostana ve
-   nar ekşisi taşır, Nar da markada tam o bağlantının rengi. Menu:208, 220 */
+   nar ekşisi taşır, Nar da markada tam o bağlantının rengi. Menu:208, 220
+   Zamanlama ilk örneğin (lebeni); bostana 12s/1.5s'i korNefesi ile geçer. */
 .ikram .kor {
   background: radial-gradient(closest-side, var(--nar), transparent);
   animation: emberSoft 11s ease-in-out infinite;

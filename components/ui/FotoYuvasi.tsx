@@ -31,12 +31,34 @@ const VARSAYILAN_KOSE: Record<YuvaBicimi, 0 | 1 | 2 | 4> = {
 /** Kor lekesi ve vinyet yalnız ocak ailesinde var. */
 const OCAK_AILESI: ReadonlySet<YuvaBicimi> = new Set<YuvaBicimi>(['spread', 'kart', 'ikram', 'icecek', 'karo'])
 
+/**
+ * Bir plakanın kor nefesinin süresi ve gecikmesi, saniye.
+ *
+ * Tasarım her plakaya kendi zamanlamasını veriyor: ürün kartları 10s/.6s,
+ * 11s/1.2s, 9.5s/1.8s, 12s/2.4s (Menu:126, 144, 162, 180) ve ikramlar 11s/0
+ * ile 12s/1.5s (Menu:207, 219). Dört plakanın birlikte nefes alması mekanik
+ * görünürdü; kayık ve farklı periyotlu olunca birbirinden bağımsız korlar gibi
+ * okunuyor, sahnenin bütün amacı da bu.
+ *
+ * Gecikmeler kartlarda index * 0.6s kuralına uyuyor ama SÜRELER hiçbir kurala
+ * uymuyor (9, 9.5, 10, 11, 11, 12, 12, 13) ve ikramların gecikmesi de (0, 1.5)
+ * o kuralı bozuyor. Bu yüzden index değil, değer geçilir: index'ten türetmek
+ * yalnız kart gecikmelerinde çalışan, ilk yeni plakada kırılan sahte bir
+ * soyutlama olurdu.
+ */
+export type KorNefesi = { sure: number; gecikme?: number }
+
 type Props = {
   id: FotoId
   dil: Dil
   bicim: YuvaBicimi
   /** Biçimin varsayılanını ezmek gerekirse. Tasarımda 0, 1, 2 ve 4 köşe var. */
   koseIsaretleri?: 0 | 1 | 2 | 4
+  /**
+   * Bu örneğin kor nefesi. Verilmezse biçimin tasarımdaki ilk örneğinin
+   * zamanlaması kullanılır, yani hiç geçmeyen bir çağrı da doğru basar.
+   */
+  korNefesi?: KorNefesi
   /**
    * Plakanın içine mutlak konumlanan katman: iddia plakasının ortasındaki tane
    * rayı (Ana:149) ve menü kartının sağ üst indeks rozeti (Menu:131). Konumu
@@ -45,7 +67,12 @@ type Props = {
   children?: React.ReactNode
 }
 
-export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, children }: Props) {
+function korNefesiStili(nefes: KorNefesi | undefined): React.CSSProperties | undefined {
+  if (!nefes) return undefined
+  return { animationDuration: `${nefes.sure}s`, animationDelay: `${nefes.gecikme ?? 0}s` }
+}
+
+export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children }: Props) {
   const foto = fotograflar[id]
   const etiket = dil === 'en' ? foto.etiketEn : foto.etiket
 
@@ -69,7 +96,10 @@ export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, children }: Props) 
     <div className={`${stil.kap} ${stil[bicim]}`}>
       {OCAK_AILESI.has(bicim) && (
         <>
-          <span aria-hidden="true" className={stil.kor} />
+          {/* Satır içi zamanlama yalnız süre ve gecikmeyi ezer; animasyon adı,
+              yumuşama ve yineleme CSS'te kalır. Hareket azaltılmışta
+              animasyonlar.css'in `animation: none !important` kuralı kazanır. */}
+          <span aria-hidden="true" className={stil.kor} style={korNefesiStili(korNefesi)} />
           <span aria-hidden="true" className={stil.vinyet} />
         </>
       )}
