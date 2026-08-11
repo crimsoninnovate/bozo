@@ -2,7 +2,9 @@
 export const menu = {
   acilis: {
     baslik: 'Menu',
-    spot: 'Everything comes off the fire. Five products, two on the house.',
+    // Üçüncü cümle TR spotunda var, EN'de düşmüştü; sekiz "000 TL" onsuz
+    // açıklamasız kalıyordu (tr/menu.ts:5).
+    spot: 'Everything comes off the fire. Five products, two on the house. Prices are confirmed at opening.',
   },
   geceMenusu: {
     baslik: 'Night menu',
