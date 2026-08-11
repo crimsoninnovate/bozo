@@ -233,6 +233,8 @@ Değerler `docs/tasarim/*.json` ve `.dc.html` dosyalarından birebir alınmışt
   /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
   --pumpkin: #E96112;
   --mese: #6B4A2F;
+  /* menü sayfasının foto plakası zemini, tasarımdan; --zemin'den ayrıdır */
+  --plaka-zemin: #0C0A09;
 
   /* tipografi */
   --font-baslik: var(--font-bricolage), system-ui, sans-serif;
@@ -1006,7 +1008,7 @@ git commit -m "feat: add the typed bilingual content layer"
   - `<Buton tur="birincil" | "ikincil" | "koyu" | "koyuOutline" boy="sm" | "md" | "lg" href={string | null} disabled?={boolean} hariciMi?={boolean}>`
   - `<Cip tur="outline" | "dolu" | "ikram">`
   - `<TaneDizilimi boy={number} bosluk={number} anahat?={boolean} cizgi?={boolean} />`: 6 tane, büyük-küçük-büyük-büyük-küçük-büyük ritmi
-  - `<FotoYuvasi id={FotoId} dil={Dil} bicim="portre" | "genis" | "karo" etiketYeri?="sol" | "orta" koseIsaretleri?={2 | 4} />`
+  - `<FotoYuvasi id={FotoId} dil={Dil} bicim="portre" | "genis" | "karo" etiketYeri?="sol" | "orta" | "ic" koseIsaretleri?={0 | 2 | 4} />` — `karo` biçimi köşe işareti taşımaz, bu yüzden `0` bir geçerli değerdir
   - `<CamPanel opaklik={0.72 | 0.74 | 0.9}>`
   - `<BolumBasligi baslik={string} not?={string} sag?={ReactNode} />`
   - `Ikonlar` dosyası `<PinIkon />`, `<TelefonIkon />`, `<WhatsAppIkon />`, `<InstagramIkon />` verir; hepsi `viewBox="0 0 24 24"`, `fill="currentColor"`, 15-17px
@@ -1239,11 +1241,21 @@ CSS kesin değerleri (`docs/tasarim/ana-sayfa.json`, `FotoPlakasi` bileşeni). E
   border: 1px solid rgba(242, 233, 220, 0.2);
   box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
 }
-/* karo: menü sayfasındaki çekim listesi ızgarası */
+/* karo: menü sayfasındaki çekim listesi ızgarası.
+   Tasarımda kenarlık, köşe işareti ve iç gölge YOKTUR; kor lekesi ve
+   kutunun içinde duran etiket vardır. Zemin --plaka-zemin. */
 .karo {
   height: 110px;
-  border: 1px solid rgba(242, 233, 220, 0.18);
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
+  background: var(--plaka-zemin);
+  overflow: hidden;
+}
+.korLekesi {
+  position: absolute;
+  left: -20%;
+  bottom: -40%;
+  width: 140%;
+  height: 100%;
+  background: radial-gradient(closest-side, rgba(183, 53, 28, 0.3), transparent);
 }
 
 .kose { position: absolute; width: 24px; height: 24px; border: 0 solid rgba(250, 170, 31, 0.6); }
@@ -1269,6 +1281,8 @@ CSS kesin değerleri (`docs/tasarim/ana-sayfa.json`, `FotoPlakasi` bileşeni). E
 }
 .sol { left: 24px; bottom: -14px; padding: 6px 12px; }
 .orta { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
+/* karo etiketi kutunun içindedir, zemin taşımaz */
+.ic { left: 12px; bottom: 11px; background: none; font: 500 11.5px/1.3 var(--font-govde); color: rgba(242, 233, 220, 0.68); }
 .etiketCizgi { width: 18px; height: 1px; background: var(--tangerine); }
 .orta .etiketCizgi { display: none; }
 ```
@@ -1277,7 +1291,7 @@ Biçim ve etiket yeri tasarımda eşleşiktir: `portre` sol etiket ve 4 köşe, 
 
 - [ ] **Step 4: Cip, CamPanel, BolumBasligi ve Ikonlar bileşenlerini yaz**
 
-- `Cip`: `outline` (kategori rozeti), `dolu` (ölçü bilgisi), `ikram` (fiyat yerine geçen rozet). Ortak: `padding:6px 12px`, `border-radius:2px`, `font-size:12.5px`, `font-weight:600`.
+- `Cip`: `outline` (kategori rozeti), `dolu` (ölçü bilgisi), `ikram` (fiyat yerine geçen ibare). Köşe yarıçapı **0**, tasarımda çipler yarıçapsızdır. Kesin değerler `docs/tasarim/menu.json` içindeki gerçek kullanımlardan alınır, uydurulmaz. `ikram` bir kutu değildir: `font: 600 15px/1 Inter`, `color: var(--tangerine)`, `margin-top: 4px`, kenarlık ve zemin yok.
 - `CamPanel`: `background: rgba(10,8,7,<opaklik>)`, `border:1px solid var(--cizgi-soluk)`, `backdrop-filter: blur(3px)`, `padding: var(--kart-ic)`.
 - `BolumBasligi`: `display:flex; justify-content:space-between; align-items:baseline; padding-bottom:22px; border-bottom:1px solid var(--cizgi)`. Sol başlık `font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik); letter-spacing: var(--iz-bolum)`.
 - `Ikonlar`: pin, telefon, WhatsApp, Instagram. Hepsi `fill="currentColor"`, `width`/`height` prop'u varsayılan 16.
