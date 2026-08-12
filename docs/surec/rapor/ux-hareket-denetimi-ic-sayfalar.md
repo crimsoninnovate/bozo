@@ -9,12 +9,21 @@ hikaye, konum, galeri, 404. Gizlilik de tarandı, temiz çıktı.
 Sayısal taban beş sayfada da temiz. Üç bulgunun üçü de karar gerektiriyor ve
 üçü de aynı sebepten: tasarımın çizmediği ya da eksik bıraktığı yerler.
 
-| Bulgu | Sayfa | Etki | Kaynak |
-|---|---|---|---|
-| S1 Hero'nun sağ yarısı boş | konum | orta | tasarım, ama ana sayfayla tutarsız |
-| S2 Izgarada öksüz kare | galeri | orta | bizim, tasarımı yok |
-| S3 Sayfada marka yok | 404 | orta | bizim, tasarımı yok |
-| S4 Öksüz satır | menü | düşük | tasarımın kendi kuralı, dokunulmadı |
+| Bulgu | Sayfa | Etki | Kaynak | Durum |
+|---|---|---|---|---|
+| S1 Hero'nun sağ yarısı boş | konum | orta | tasarım, ama ana sayfayla tutarsız | ertelendi, gerçek harita bekleniyor |
+| S2 Izgarada öksüz kare | galeri | orta | bizim, tasarımı yok | ertelendi, fotoğraflar bekleniyor |
+| S3 Sayfada marka yok | 404 | orta | bizim, tasarımı yok | **uygulandı** (`8094109`) |
+| S4 Öksüz satır | menü | düşük | tasarımın kendi kuralı | dokunulmadı, kayıtta |
+| S5 İngilizce 404 Türkçe geliyor | 404 | orta | bizim, kayıtlı ama açık | sahibine |
+
+S1 ve S2'nin ertelenme gerekçesi ortak: ikisi de yer tutucu içeriğin etrafında
+yerleşim kararı vermeyi gerektiriyor. Konum hero'sunun sağını neyle
+dolduracağımıza karar vermek, harita levhası hâlâ "canlı harita entegrasyonla
+gelir" yazan boş bir kutuyken erken; galeride de on altı boş çerçevedeki öksüz
+satır, on altı gerçek fotoğraftakinden çok daha fazla göze batıyor. İkisinde de
+gerçek içerik geldiğinde denge değişecek. Karar maddeleri
+`IYILESTIRMELER.md`'de.
 
 ## Ölçülen ve temiz çıkan
 
@@ -104,6 +113,33 @@ kararımız. İki buton iyi bir kurtarma yolu; eksik olan kimlik.
 
 En ucuz düzeltme başlığın üstüne wordmark koymak. Tam kabuğu (üst bar + alt
 bilgi) basmak da bir seçenek ama sayfanın sakinliğini bozar.
+
+**Uygulandı** (`8094109`): başlığın üstüne tane dizilimi + "Ciğerci Bozo",
+ana sayfaya bağlantılı. Yeni ölçü girmedi; tane 8/5/4, gap 13px, 800 21px, iz
+-0.03em ve görünmez `::before` ile 44px dokunma hedefi, hepsi
+`UstBar.module.css`'in `.marka` çiftinden birebir. Alttaki boşluk `.blok`un
+kendi 28px gap'i.
+
+## S5: İngilizce bir yol bozuksa 404 Türkçe geliyor
+
+Etki: orta. Karar sahibinin. Bu tur keşfedilmedi, doğrulama sırasında canlı
+görüldü; kayıt `eksiklik-elestirisi.md:269`'da zaten duruyor.
+
+Ölçüldü: `/en/yok-boyle/` isteği `lang="tr"` bir belge, Türkçe H1 ("Bu sayfa
+ocakta yok.") ve ana sayfaya `/` ile giden bir wordmark döndürüyor, `/en/`
+değil. Yani İngilizce gezinen bir misafir bozuk bir bağlantıya bastığında hem
+dilini hem de dilinin ana sayfasını kaybediyor.
+
+`global-not-found.tsx`'in kendi yorumu bunu "sınırlama, tercih değil" diye
+kaydediyor: statik export tek bir `out/404.html` üretir ve dosya sunucusu
+istek yolunu sayfaya geçirmez. Sunucu tarafı için doğru. Ama daha önceki bir
+eleştiri haklı olarak şunu söylüyor: istemcide `location.pathname` `/en/`
+önekini görür, yani metin ve bağlantılar JS ile İngilizceye çevrilebilir.
+`content/en/hata.ts` bugün parite için duruyor ve hiç render edilmiyor.
+
+Yani sınırlama sunucuda gerçek, istemcide değil. Karar: 404'e istemci tarafı
+bir dil anahtarı girsin mi, yoksa tek dilli kalması kabul mü. İkisi de
+savunulabilir; kaydın bugün söylediği şey ise eksik.
 
 ## S4: Menüdeki öksüz satırlar, kayda geçti
 
