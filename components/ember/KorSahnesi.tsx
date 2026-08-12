@@ -59,10 +59,6 @@ export function KorSahnesi({ varyant }: Props) {
       <span ref={cekirdekRef} className={stil.cekirdekYogunluk}>
         <span className={stil.cekirdekTitreme}>
           <span className={stil.cekirdek} />
-          {/* Kor yatağı çekirdeğin yoğunluğunu paylaşır: taneler ateşin
-              kendisidir, ışık havuzunun üstüne serpilmiş bir doku değil. */}
-          <span className={stil.taneYatagi} />
-          {anaMi && <span className={`${stil.taneYatagi} ${stil.taneYatagiSeyrek}`} />}
         </span>
       </span>
       {/* İmleç koru sahnenin katmanı ve sırası çekirdek ile duman arasında (Ana:31). */}
@@ -80,7 +76,9 @@ export function KorSahnesi({ varyant }: Props) {
         </>
       )}
       <span className={stil.vinyet} />
-      <span className={stil.izgara} />
+      {/* Sahnenin alt ucu ekranın dibinde sert bir çizgiyle bitiyordu; bu katman
+          onu zemine söndürür. UYGULAMA-NOTLARI 1.3 zorunlu tutuyor. */}
+      <span className={stil.dip} />
     </div>
   )
 }
