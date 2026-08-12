@@ -8,6 +8,8 @@ export const ortak = {
   nav: {
     anaSayfa: 'Ana sayfa',
     menu: 'Menü',
+    /** Tasarımın çekmece listesindeki sayfa adı; rota kurulunca geri geldi. */
+    galeri: 'Galeri',
     gece: 'Gece',
     hikaye: 'Hikaye',
     konum: 'Konum',
@@ -102,6 +104,15 @@ export const ortak = {
       aciklama: 'Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00 - 05:00.',
     },
     menu: { baslik: 'Menü · Ciğerci Bozo', aciklama: 'Ocaktan beş ürün, iki ikram ve içecekler.' },
+    /**
+     * Açıklama sayfanın kendi iki satırından kuruldu: kare sayısı (galeri.altMetin)
+     * ve site haritasındaki amaç satırı ("Mekan ve ürün fotoğrafları"). Fotoğraflar
+     * gelmeden var gibi göstermemek için sayı öne alındı.
+     */
+    galeri: {
+      baslik: 'Galeri · Ciğerci Bozo',
+      aciklama: 'Sitenin beklediği on altı kare: mekan ve ürün fotoğrafları.',
+    },
     hikaye: { baslik: 'Hikaye · Ciğerci Bozo', aciklama: "Urfa'da ustayı tanesinden anlarsınız." },
     konum: {
       baslik: 'Konum · Ciğerci Bozo',

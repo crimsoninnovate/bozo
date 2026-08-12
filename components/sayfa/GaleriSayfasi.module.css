@@ -1,0 +1,51 @@
+/*
+ * Bu sayfanın tasarımı yok; her değer sitenin zaten kullandığı bir kalıptan
+ * alındı ve kaynağı satırında yazıyor. Gizlilik sayfası da aynı durumdaydı ve
+ * ölçüleri oradan geliyor (GizlilikSayfasi.module.css).
+ */
+
+/* 172px üst pay ve 80px alt pay: iç sayfa açılış ve kapanış payları
+   (Konum:63, Menu:65; Menu:264, Hikaye:120). Yatay pay --sayfa-yatay. */
+.sayfa {
+  padding: 172px var(--sayfa-yatay) 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Gizlilik sayfasının başlık bloğu, aynı 22px iç boşlukla. */
+.tepe {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 680px;
+}
+
+/* Sitenin paylaşılan en büyük başlık ölçüsü. İç sayfaların üç hero ölçüsü
+   (--ol-hero-menu / -konum / -hikaye) tek kullanımlık ve o sayfalara ait;
+   ödünç alınmadı, yeni token da eklenmedi. GizlilikSayfasi.module.css:38. */
+.baslik {
+  margin: 0;
+  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+/* Çekim listesinin alt metniyle aynı rol ve aynı değer: 400 13.5px/1.5,
+   krem .64 (CekimListesi.module.css:32, Menu:268). Tier 2 (etiket/meta),
+   16px tabanı bağlamaz. */
+.altMetin {
+  margin: 0;
+  font: 400 13.5px/1.5 var(--font-govde);
+  color: var(--krem-64);
+}
+
+/* Menü sayfasındaki aynı notun tipografisi, birebir: 400 13px/1.6, krem .60
+   (CekimListesi.module.css:44, Menu:279). KISITLAR.md 3. katman: 13px sabit
+   ikincil okuma metni, tasarımın ölçüsü kazanır, yuvarlanmaz. */
+.aiNotu {
+  margin: 0;
+  font: 400 13px/1.6 var(--font-govde);
+  color: var(--krem-60);
+}

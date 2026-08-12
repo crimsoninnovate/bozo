@@ -5,7 +5,7 @@ import { en } from '../content/en/index.ts'
 import { altBilgiSayfaLinkleri, altBilgiVaryanti, geceSeridiGosterilirMi, ustBarVaryanti } from './kabuk.ts'
 import type { RotaAnahtari } from './site.ts'
 
-const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'gizlilik']
+const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'galeri', 'hikaye', 'konum', 'gizlilik']
 
 /**
  * Ana sayfa barı 2px ilerleme rayı + 80px satır (Ana:41,46); iç sayfalarda ray
@@ -26,6 +26,20 @@ test('ustBar_menuNavi_ucCapaVeIkiRotaTasir', () => {
 })
 
 /**
+ * Galeri üç barda var, menü barında yok. Ölçüm: altıncı öğe menü barının satırını
+ * 803px'e çıkarıyor ve 781-802px bandında CTA ekran dışına taşıyor (bkz. kabuk.ts).
+ * Bu bilinçli bir istisna; sessizce geri eklenirse o bant yeniden kırılır.
+ */
+test('ustBar_galeri_menuBarindaYokDigerUcundeVar', () => {
+  const galeriVarMi = (rota: RotaAnahtari) =>
+    ustBarVaryanti(rota).nav.some((o) => o.tur === 'rota' && o.rota === 'galeri')
+  assert.equal(galeriVarMi('menu'), false)
+  for (const rota of ['ana', 'hikaye', 'konum', 'gizlilik'] as const) {
+    assert.equal(galeriVarMi(rota), true, rota)
+  }
+})
+
+/**
  * Menü sayfasında aktif sekme yoktur (Menu:50-54: hiçbir öğe tangerine alt
  * çizgi taşımaz). Kabuk bunu ayrı bir bayrakla değil, "navda bulunulan rota
  * yoksa aktif de yok" kuralıyla üretir; kural bozulursa menüde yanlış bir
@@ -38,8 +52,8 @@ test('ustBar_menuNavi_bulunulanRotayiIcermez', () => {
   )
 })
 
-test('ustBar_hikayeVeKonumNavi_bulunulanRotayiIcerir', () => {
-  for (const rota of ['hikaye', 'konum'] as const) {
+test('ustBar_icSayfaNavi_bulunulanRotayiIcerir', () => {
+  for (const rota of ['hikaye', 'konum', 'galeri'] as const) {
     assert.ok(
       ustBarVaryanti(rota).nav.some((o) => o.tur === 'rota' && o.rota === rota),
       rota,
@@ -71,6 +85,7 @@ test('altBilgi_varyanti_menuSeritDigerleriKolonlu', () => {
   assert.equal(altBilgiVaryanti('gizlilik'), 'tam')
   assert.equal(altBilgiVaryanti('hikaye'), 'sayfalar')
   assert.equal(altBilgiVaryanti('konum'), 'sayfalar')
+  assert.equal(altBilgiVaryanti('galeri'), 'sayfalar')
   assert.equal(altBilgiVaryanti('menu'), 'serit')
 })
 
@@ -78,18 +93,19 @@ test('altBilgi_varyanti_menuSeritDigerleriKolonlu', () => {
 test('altBilgi_sayfaLinkleri_bulunulanSayfayiIcermez', () => {
   assert.deepEqual(
     altBilgiSayfaLinkleri('hikaye').map((l) => l.rota),
-    ['ana', 'menu', 'konum'],
+    ['ana', 'menu', 'konum', 'galeri'],
   )
   assert.deepEqual(
     altBilgiSayfaLinkleri('konum').map((l) => l.rota),
-    ['ana', 'menu', 'hikaye'],
+    ['ana', 'menu', 'hikaye', 'galeri'],
   )
 })
 
-/** Şerit yalnız hero durum çipi ve canlı saati olmayan iki rotada tek kaynaktır. */
+/** Şerit yalnız hero durum çipi ve canlı saati olmayan üç rotada tek kaynaktır. */
 test('geceSeridi_yalnizCanliGostergesizRotalarda', () => {
   for (const rota of ROTALAR) {
-    assert.equal(geceSeridiGosterilirMi(rota), rota === 'hikaye' || rota === 'gizlilik', rota)
+    const gostergesiz = rota === 'hikaye' || rota === 'gizlilik' || rota === 'galeri'
+    assert.equal(geceSeridiGosterilirMi(rota), gostergesiz, rota)
   }
 })
 

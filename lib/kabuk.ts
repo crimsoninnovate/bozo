@@ -20,6 +20,7 @@ import type { RotaAnahtari } from './site.ts'
 export type NavEtiketi =
   | 'anaSayfa'
   | 'menu'
+  | 'galeri'
   | 'gece'
   | 'hikaye'
   | 'konum'
@@ -52,16 +53,25 @@ export type AltBilgiVaryanti = 'tam' | 'sayfalar' | 'serit'
 const NAV_ETIKETI: Record<RotaAnahtari, NavEtiketi> = {
   ana: 'anaSayfa',
   menu: 'menu',
+  galeri: 'galeri',
   hikaye: 'hikaye',
   konum: 'konum',
   gizlilik: 'gizlilik',
 }
 
-/** Hikaye, Konum ve tasarımda karşılığı olmayan rotaların ortak nav'ı. */
+/**
+ * Hikaye, Konum, Galeri ve tasarımda karşılığı olmayan rotaların ortak nav'ı.
+ *
+ * `galeri` sonda: tasarımın çekmece listesi Menü/Hikaye/Konum/Galeri sırasını
+ * yazıyor (`Mobil Prototip.dc.html`, bkz. IYILESTIRMELER.md). O listede Galeri
+ * vardı ve yalnız rotası olmadığı için düşmüştü; rota kurulunca geri geliyor,
+ * uydurulmuş bir sıra değil.
+ */
 const IC_NAV: NavOgesi[] = [
   { tur: 'rota', rota: 'menu', etiket: 'menu' },
   { tur: 'rota', rota: 'hikaye', etiket: 'hikaye' },
   { tur: 'rota', rota: 'konum', etiket: 'konum' },
+  { tur: 'rota', rota: 'galeri', etiket: 'galeri' },
 ]
 
 /**
@@ -80,12 +90,18 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
           { tur: 'capa', hedef: 'gece', etiket: 'gece' },
           { tur: 'rota', rota: 'hikaye', etiket: 'hikaye' },
           { tur: 'rota', rota: 'konum', etiket: 'konum' },
+          { tur: 'rota', rota: 'galeri', etiket: 'galeri' },
         ],
         // Ana:61 hedefi olmayan bir <div>; port ölü bir kutu basamaz, harici
         // yol tarifi aramasına bağlanır (Task 6 kararı, burada korunuyor).
         cta: { tur: 'harici' },
       }
     case 'menu':
+      // Galeri bu barda YOK, diğer üçünde var. Ölçüldü: menü barı tasarımın en
+      // kalabalığı (üç sayfa içi çapa + iki rota) ve altıncı öğe satırı 731px'ten
+      // 803px'e çıkarıyor; 781-802px bandında "Yol tarifi al" butonu ekranın
+      // dışına taşıyor. Nav 780px altında zaten çekmeceye düşer, yani kırılan
+      // bant dar ama gerçek. Kırık bir CTA eksik bir nav öğesinden kötü.
       return {
         anaVaryantMi: false,
         nav: [
@@ -104,6 +120,7 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
     case 'konum':
       // Konum:56 data-git="harita", yani sayfa içi kaydırma.
       return { anaVaryantMi: false, nav: IC_NAV, cta: { tur: 'capa', hedef: 'harita' } }
+    case 'galeri':
     case 'gizlilik':
       // Tasarımda yok. İç sayfa varsayılanı; CTA ana sayfanınkiyle aynı.
       return { anaVaryantMi: false, nav: IC_NAV, cta: { tur: 'harici' } }
@@ -114,12 +131,12 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
  * Gece şeridi yalnız sayfanın başka canlı durum göstergesi olmadığı rotalarda.
  *
  * Ölçüm (Girne 03:36-03:47): ana, menü ve konum aynı olguyu üç dört kez söylüyor
- * (şerit + hero durum çipi + canlı saat / saat tablosu); hikaye ve gizlilikte
- * şerit tek kaynak. Ölçüt sayfa kimliği değil, o rotada başka bir canlı gösterge
- * olup olmadığı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
+ * (şerit + hero durum çipi + canlı saat / saat tablosu); hikaye, gizlilik ve
+ * galeride şerit tek kaynak. Ölçüt sayfa kimliği değil, o rotada başka bir canlı
+ * gösterge olup olmadığı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
  */
 export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
-  return aktif === 'hikaye' || aktif === 'gizlilik'
+  return aktif === 'hikaye' || aktif === 'gizlilik' || aktif === 'galeri'
 }
 
 /**
@@ -130,17 +147,20 @@ export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
  * Gizlilik tasarımda yok; `tam` kalır, çünkü Gizlilik'e giden tek bağlantı o
  * varyantın telif şeridindedir ve rotayı kendi footer'ında da göstermek onu
  * ana sayfanın footer'ıyla aynı tutar.
+ *
+ * Galeri de tasarımda yok ama Hikaye ve Konum ile aynı türden bir iç içerik
+ * sayfası, o yüzden onların `sayfalar` varyantını alır.
  */
 export function altBilgiVaryanti(aktif: RotaAnahtari): AltBilgiVaryanti {
   if (aktif === 'menu') return 'serit'
-  if (aktif === 'hikaye' || aktif === 'konum') return 'sayfalar'
+  if (aktif === 'hikaye' || aktif === 'konum' || aktif === 'galeri') return 'sayfalar'
   return 'tam'
 }
 
-const FOOTER_SAYFA_SIRASI: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum']
+const FOOTER_SAYFA_SIRASI: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'galeri']
 
 /**
- * "Sayfalar" kolonunun bağlantıları: dört içerik rotası eksi bulunulan sayfa.
+ * "Sayfalar" kolonunun bağlantıları: beş içerik rotası eksi bulunulan sayfa.
  * Hikaye'nin listesi tasarımla birebir (`Ana sayfa / Menü / Konum`, `Hikaye:142-144`).
  * Konum'un tasarımı Hikaye'yi de düşürüyor (`Konum:174-175`, yalnız iki bağlantı);
  * bu kuralın kendisiyle çelişen tek örnek ve gözden kaçmış görünüyor, bilinçli

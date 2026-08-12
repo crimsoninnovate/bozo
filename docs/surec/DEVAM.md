@@ -40,7 +40,9 @@ tasarım kararları turu.
 Beş sayfada 42 bildirim, 0 koşan. Düzeltildi (`80ad3b6`) ve regresyon testi eklendi
 (`styles/animasyon.test.ts`). Sahibinin "kor pek anlaşılmıyor" gözleminin sebebi buydu.
 
-**Şu an koşan:** Galeri sayfası (`docs/surec/brief/galeri-brief.md`).
+**Galeri kuruldu** (`docs/surec/rapor/galeri-report.md`): `/galeri/` ve `/en/galeri/`,
+manifestteki on altı kadrajın tamamı. Sayfanın çizimi yoktu, kalıplar Gizlilik
+sayfasından ve menü ürün ızgarasından alındı.
 
 ## Eksik sayfalar: talep yedi diyor, tasarım dört çizmiş
 
@@ -52,7 +54,7 @@ talep açılınca çıktı.
 | # | Sayfa | Durum |
 |---|---|---|
 | 1-4, 7 | ana, menü, hikaye, konum, 404 | kuruldu |
-| 5 | **Galeri** (12-18 kare, tembel yüklemeli ızgara) | **kuruluyor** |
+| 5 | **Galeri** (12-18 kare, tembel yüklemeli ızgara) | kuruldu, 16 kare |
 | 6 | **Rezervasyon** (sade form + WhatsApp alternatifi) | **sahibi "şimdilik gerekli değil" dedi** |
 
 Rezervasyon açılırsa üç şey birbirine bağlı: statik export'ta sunucu yok (form dış

@@ -5,7 +5,7 @@ import { en } from '../content/en/index.ts'
 import { sayfaMetadata } from './metadata.ts'
 import type { RotaAnahtari } from './site.ts'
 
-const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'gizlilik']
+const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'galeri', 'hikaye', 'konum', 'gizlilik']
 
 test('sayfaMetadata_tumRotalarda_sozlukBasligiVeAciklamasiniTasir', () => {
   for (const anahtar of ROTALAR) {

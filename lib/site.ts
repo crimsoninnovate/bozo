@@ -4,11 +4,12 @@ import type { Dil, Isletme } from '../content/types.ts'
 /** Alan adı henüz alınmadı. Satın alındığında yalnızca bu sabit değişir. */
 export const SITE_URL = 'https://cigercibozo.com'
 
-export type RotaAnahtari = 'ana' | 'menu' | 'hikaye' | 'konum' | 'gizlilik'
+export type RotaAnahtari = 'ana' | 'menu' | 'galeri' | 'hikaye' | 'konum' | 'gizlilik'
 
 const YOLLAR: Record<RotaAnahtari, string> = {
   ana: '',
   menu: 'menu',
+  galeri: 'galeri',
   hikaye: 'hikaye',
   konum: 'konum',
   gizlilik: 'gizlilik',

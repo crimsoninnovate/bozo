@@ -1,0 +1,8 @@
+/* Menü ürün ızgarasının ölçüleri, birebir (Ocaktan.module.css:93-94, Menu:120).
+   Sitenin fotoğraf plakası taşıyan tek ızgarası odur; galeri için ikinci bir
+   ızgara ölçüsü uydurulmadı. auto-fit: 1440px'te dört kolon, 390px'te tek. */
+.izgara {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(20px, 2.4vw, 34px);
+}

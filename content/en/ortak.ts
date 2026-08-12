@@ -9,6 +9,8 @@ export const ortak = {
   nav: {
     anaSayfa: 'Home',
     menu: 'Menu',
+    /** The page name from the design's drawer list; it returned with the route. */
+    galeri: 'Gallery',
     gece: 'Night',
     hikaye: 'Story',
     konum: 'Location',
@@ -105,6 +107,11 @@ export const ortak = {
     menu: {
       baslik: 'Menu · Ciğerci Bozo',
       aciklama: 'Five dishes from the fire, two on the house, and drinks.',
+    },
+    /** Built from the page's own two lines; see the Turkish file for the sources. */
+    galeri: {
+      baslik: 'Gallery · Ciğerci Bozo',
+      aciklama: 'Sixteen frames the site is waiting for: the place and the dishes.',
     },
     hikaye: {
       baslik: 'Story · Ciğerci Bozo',

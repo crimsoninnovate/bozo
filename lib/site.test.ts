@@ -21,6 +21,7 @@ test('yol_altRotalar_trOnekssizDoner', () => {
   assert.equal(yol('menu', 'tr'), '/menu/')
   assert.equal(yol('hikaye', 'tr'), '/hikaye/')
   assert.equal(yol('konum', 'tr'), '/konum/')
+  assert.equal(yol('galeri', 'tr'), '/galeri/')
   assert.equal(yol('gizlilik', 'tr'), '/gizlilik/')
 })
 
@@ -28,13 +29,15 @@ test('yol_altRotalar_enOnekliVeRotaAdiTurkceKalir', () => {
   assert.equal(yol('menu', 'en'), '/en/menu/')
   assert.equal(yol('hikaye', 'en'), '/en/hikaye/')
   assert.equal(yol('konum', 'en'), '/en/konum/')
+  // Rota adı iki dilde de Türkçe: /en/gallery/ değil.
+  assert.equal(yol('galeri', 'en'), '/en/galeri/')
   assert.equal(yol('gizlilik', 'en'), '/en/gizlilik/')
 })
 
-test('tumYollar_besRotaIcinTrVeEnUretir', () => {
+test('tumYollar_altiRotaIcinTrVeEnUretir', () => {
   const liste = tumYollar()
-  assert.equal(liste.length, 5)
-  const beklenenAnahtarlar: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'gizlilik']
+  assert.equal(liste.length, 6)
+  const beklenenAnahtarlar: RotaAnahtari[] = ['ana', 'menu', 'galeri', 'hikaye', 'konum', 'gizlilik']
   assert.deepEqual(
     liste.map((g) => g.anahtar),
     beklenenAnahtarlar,
