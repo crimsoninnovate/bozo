@@ -76,7 +76,11 @@ göre:
   plaka fotoğrafla birlikte köşe işaretlerini ve vinyeti düşürüyor
   (`IYILESTIRMELER.md`).
 - **Yayın turu.** Alan adı, Caddy, `SITE_URL`, favicon. Favicon için onaylı
-  işaret hâlâ yok.
+  işaret hâlâ yok. **Caddy tarafında bilinen bir tuzak var ve README'ye yazıldı:**
+  `file_server` bilinmeyen yolda kendi boş 404'ünü döndürür, `out/404.html`'i
+  değil; `handle_errors` bloğu olmadan Task 14'te çizilen 404 sayfası yayında
+  hiç görünmez. Gereken blok README'nin yayın bölümünde, ama **canlı sunucuda
+  doğrulanmadı**, buradan Caddy koşturulamıyor.
 - **Rezervasyon sayfası**, sahibi isterse (şu an "şimdilik gerekli değil").
 - Aşağıdaki açık maddelerden biri.
 

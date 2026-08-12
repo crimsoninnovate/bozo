@@ -56,3 +56,34 @@ for the Regulus and oykualemdar sites. `trailingSlash: true` in `next.config.ts`
 this: it makes `/menu` resolve to `menu/index.html` instead of a bare file the server cannot find.
 
 Production domain: `https://cigercibozo.com`.
+
+### The 404 page needs server config
+
+`file_server` answers a missing path with its own empty 404, not with `out/404.html`. The site
+ships a designed 404 page (`app/global-not-found.tsx`), so without a `handle_errors` block that
+page never reaches a visitor:
+
+```caddyfile
+cigercibozo.com {
+    root * /srv/enliq/bozo/out
+    encode zstd gzip
+    file_server
+
+    handle_errors {
+        @notfound expression {err.status_code} == 404
+        handle @notfound {
+            rewrite * /404.html
+            file_server
+        }
+    }
+}
+```
+
+Two things to check on the server rather than assume, both unverified from this repo:
+
+- A request to `/menu` (no trailing slash) must land on `/menu/`. `file_server` redirects
+  directory requests, so this should hold, but it is what `trailingSlash: true` depends on.
+- Client-side navigation fetches RSC payload files whose names contain `!`, for example
+  `menu/__next.!KHRyKQ.menu.__PAGE__.txt`. Any rule that filters unusual filenames would break
+  in-page navigation while leaving every page individually reachable, which is a failure mode
+  that hides well.
