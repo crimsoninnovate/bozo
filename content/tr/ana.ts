@@ -70,11 +70,20 @@ export const ana = {
     cip1: { ad: 'Lebeni Çorbası', detay: 'nohut, yoğurt, kekik' },
     cip2: { ad: 'Bostana', detay: 'vişne suyu, nar ekşisi' },
   },
+  /*
+   * UYGULAMA-NOTLARI 4. Vardiya çipleri (21:00-04:00) yerini pencerenin
+   * tamamını gösteren zaman çizelgesine bıraktı; çipler günün on beş saatinde
+   * hiçbiri aktif olmadan duruyordu. `vardiyaEtiketi` büyük harfe CSS ile
+   * çevrilir, sözlükte cümle düzeninde durur.
+   */
   gece: {
     etiket: 'Ocak hala yanıyor',
+    vardiyaEtiketi: 'Gece vardiyası',
     baslik: 'Girne uyurken ocak yanıyor',
     metin: 'Vardiyadan çıkana da, geç kalana da aynı tane.',
-    vardiyalar: ['21:00', '23:00', '01:00', '02:00', '03:00', '04:00'],
+    simdi: 'şimdi',
+    cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
+    cizelgeNotlari: ['Ocak yanar', "Gece vardiyası 21:00'den sonra", '05:00 · ocak söner'],
     sonNot: "ocak 05:00'te söner",
   },
   bozo: {

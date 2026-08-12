@@ -1,33 +1,38 @@
 import { CanliSaat } from '@/components/saat/CanliSaat'
-import { VardiyaSeridi } from '@/components/saat/VardiyaSeridi'
+import { VardiyaCizelgesi } from '@/components/saat/VardiyaCizelgesi'
 import { Bolum } from '@/components/ui/Bolum'
 import { sozluk, type Dil } from '@/content'
 import stil from './Gece.module.css'
 
 type Props = { dil: Dil }
 
-/** Ana sayfanın gece bölümü. Ana Sayfa Alternatif.dc.html:244-267 */
+/**
+ * Ana sayfanın gece bölümü. Kaynak UYGULAMA-NOTLARI 4;
+ * Ana Sayfa Alternatif.dc.html:244-267 önceki hali.
+ *
+ * Arka plandaki hayalet saat KALKTI: "ocak" kelimesinin üstüne biniyor ve
+ * sağdan kırpılıyordu. Başlık artık kendi genişliğinde, çakışacak dekoratif
+ * eleman yok.
+ */
 export function Gece({ dil }: Props) {
   const s = sozluk(dil)
 
   return (
     <Bolum id="gece" yogunluk={1.25} className={stil.bolum} eritClassName={stil.erit}>
-      {/* Arka plandaki dev saat; konumunu ve rengini CanliSaat'in kendi
-          `hayalet` sınıfı taşır, erit katmanına göre yerleşir (Ana:246). */}
-      <CanliSaat boy="hayalet" />
+      {/* Ufuk koru: gece hissi ışıktan gelir, tipografiden değil. */}
+      <span aria-hidden="true" className={stil.ufuk} />
 
       <div className={stil.saatSatiri}>
-        <CanliSaat boy="orta" />
+        <span className={stil.vardiyaEtiketi}>{s.ana.gece.vardiyaEtiketi}</span>
         <span aria-hidden="true" className={stil.cizgi} />
+        <CanliSaat boy="orta" />
         <span className={stil.etiket}>{s.ana.gece.etiket}</span>
       </div>
 
       <h2 className={stil.baslik}>{s.ana.gece.baslik}</h2>
       <p className={stil.metin}>{s.ana.gece.metin}</p>
 
-      {/* Şeridin `margin-top:6px`'i ve yedinci öğesi (bitiş notu) bileşenin
-          içinde; sarmalayıcı gerekmez (VardiyaSeridi.module.css:1-7). */}
-      <VardiyaSeridi dil={dil} />
+      <VardiyaCizelgesi dil={dil} />
     </Bolum>
   )
 }

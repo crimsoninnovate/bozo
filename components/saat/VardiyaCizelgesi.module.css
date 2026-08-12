@@ -1,0 +1,100 @@
+/* Gece bölümünün zaman çizelgesi. UYGULAMA-NOTLARI 4. */
+.kap {
+  margin-top: 44px;
+}
+
+.ray {
+  position: relative;
+  height: 3px;
+  background: rgba(242, 233, 220, 0.13);
+}
+
+/* Genişliği JS yazar; kor kızıldan tangerine'e, yani geceye doğru ısınır. */
+.dolgu {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--kor), var(--tangerine));
+}
+
+/*
+ * Konumu JS yazar. Çapa imlecin KENDİSİ: sarmalayıcı kare kadar ve rayın
+ * ortasına oturur, etiket ondan yukarı mutlak konumlanır. Etiketle kare aynı
+ * akışa girerse kolonun ortası raya çakılır ve kare rayın altına, saat
+ * etiketlerinin üstüne düşer.
+ */
+.imlecKap {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  transform: translate(-50%, -50%);
+}
+
+.simdi {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 600 16px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}
+
+.imlec {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--kor);
+  box-shadow: 0 0 22px 6px rgba(183, 53, 28, 0.55);
+}
+
+.saatler {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font: 400 15px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-58);
+}
+
+.notlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  margin: 26px 0 0;
+  font: 400 15px/1.5 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.not {
+  color: var(--krem-70);
+}
+
+/* Kapanış: çizelgenin tek vurgusu. */
+.notSon {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}
+
+@media (max-width: 800px) {
+  .kap {
+    margin-top: 34px;
+  }
+
+  /* Yedi etiket 390px'te üst üste biniyor; dördü düşer, kalan üçü pencerenin
+     iki ucunu ve ortasını verir. */
+  .saatler li:nth-child(2),
+  .saatler li:nth-child(4),
+  .saatler li:nth-child(6) {
+    display: none;
+  }
+
+  .simdi {
+    font-size: 14.5px;
+  }
+}

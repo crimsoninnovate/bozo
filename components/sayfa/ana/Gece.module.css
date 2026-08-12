@@ -1,33 +1,58 @@
-/* Ana Sayfa Alternatif.dc.html:244-267 */
-/* min-height:100vh kaldırıldı: docs/surec/IYILESTIRMELER.md, 12 Ağustos 2026. */
+/*
+ * Gece. Kaynak UYGULAMA-NOTLARI 4; Ana Sayfa Alternatif.dc.html:244-267
+ * önceki hali. Zemin sayfadan bir kademe koyu: gece hissi ışıktan gelir.
+ */
 .bolum {
+  position: relative;
   display: flex;
   align-items: center;
   padding: var(--bolum-dikey) var(--sayfa-yatay);
+  background: #060504;
+  overflow: hidden;
+}
+
+/* Alt kenarda ufuk koru. Kor sahnesinin üstünde durur, onu boğmaz. */
+.ufuk {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 46%;
+  background: radial-gradient(
+    60% 100% at 50% 100%,
+    rgba(183, 53, 28, 0.3),
+    rgba(183, 53, 28, 0) 70%
+  );
+  filter: blur(40px);
+  pointer-events: none;
 }
 
 /*
  * 1100px, diğer bölümlerin --panel-en'i (1180px) DEĞİL: bu bölüm tasarımda tek
- * kullanımlık bir ölçü taşıyor (Ana:245). `position: relative` Bolum.module.css'in
- * .erit sınıfından gelir; hayalet saat ona göre konumlanır.
+ * kullanımlık bir ölçü taşıyor (Ana:245).
  */
 .erit {
   max-width: 1100px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 26px;
 }
 
 .saatSatiri {
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
+  gap: 16px 20px;
+}
+
+/* Sözlükte cümle düzeninde durur, büyük harfe burada çevrilir. */
+.vardiyaEtiketi {
+  font: 500 13px/1 var(--font-govde);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--krem-58);
 }
 
 .cizgi {
-  width: clamp(30px, 5vw, 70px);
+  width: 56px;
   height: 1px;
   flex: none;
   background: var(--cizgi-saat);
@@ -39,13 +64,13 @@
 }
 
 /*
- * --ol-duygusal ile --iz-duygusal'ın gerçek sahibi burasıdır (Ana:252); ikram
- * başlığı onları kullanmaz. Gölge --golge-baslik'ten ayrı bir değer taşıyor
- * (0 8px 50px değil 0 10px 60px) ve tasarımda tek kullanımlık, o yüzden ham.
+ * Hayalet saat kalktığı için başlığın çakışacağı bir şey yok; ölçü 92px'e
+ * çıktı ve genişlik 900px'te durur.
  */
 .baslik {
   margin: 0;
-  font: 800 var(--ol-duygusal)/1.08 var(--font-baslik);
+  max-width: 900px;
+  font: 800 clamp(40px, 6.4vw, 92px)/1.04 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
   text-shadow: 0 10px 60px rgba(10, 8, 7, 0.7);
@@ -53,9 +78,9 @@
 
 .metin {
   margin: 0;
+  max-width: 640px;
   font: 400 var(--ol-govde-buyuk)/1.6 var(--font-govde);
   color: var(--krem-80);
-  max-width: 640px;
 }
 
 /* Mobil başlık ölçüsü: Mobil Prototip.dc.html:157. -.045em token'lı merdivende yok. */

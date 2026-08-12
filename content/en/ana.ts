@@ -71,9 +71,12 @@ export const ana = {
   },
   gece: {
     etiket: 'The fire is still lit',
+    vardiyaEtiketi: 'Night shift',
     baslik: 'The fire burns while Kyrenia sleeps',
     metin: 'The same cut for the one leaving a shift and the one running late.',
-    vardiyalar: ['21:00', '23:00', '01:00', '02:00', '03:00', '04:00'],
+    simdi: 'now',
+    cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
+    cizelgeNotlari: ['The fire is lit', 'Night shift after 21:00', '05:00 · the fire goes out'],
     sonNot: 'the fire goes out at 05:00',
   },
   bozo: {
