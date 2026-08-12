@@ -81,7 +81,6 @@ export const ortak = {
   bugun: 'Today',
   alkolsuz: 'Our place is alcohol-free. The table and the fire are on us, come again.',
   alkolsuzKisa: 'Our place is alcohol-free',
-  porsiyon: 'portion',
   ikramRozeti: 'on the house',
   telif: '© 2026 Ciğerci Bozo',
   paket: {
@@ -110,7 +109,7 @@ export const ortak = {
     },
     menu: {
       baslik: 'Menu · Ciğerci Bozo',
-      aciklama: 'Five dishes from the fire, two on the house, and drinks.',
+      aciklama: 'Six portions from the fire, wraps, eight on the house, and drinks.',
     },
     /** Built from the page's own two lines; see the Turkish file for the sources. */
     galeri: {

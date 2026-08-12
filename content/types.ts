@@ -22,14 +22,23 @@ export type Isletme = {
 
 export type Urun = {
   id: string
-  /** Fiyat kuruşsuz TL. Bilinmiyorsa null, arayüzde "000 TL" basılır. */
-  fiyat: number | null
+  /** Tam porsiyon, kuruşsuz TL. Yarım porsiyon ayrı kalem değil, tamın yarısıdır. */
+  tam: number | null
+  /** Beş şişlik dürüm, kuruşsuz TL. Dürümü olmayan üründe null. */
+  durum: number | null
   fotoId: FotoId | null
 }
 
+/** Tek ölçüsü olan kombinasyon: yarımı ve dürümü yoktur. */
+export type OzelUrun = { id: string; fiyat: number }
+
 export type Ikram = { id: string; fotoId: FotoId | null }
 
-export type Icecek = { id: string; fiyat: number | null }
+/** Plakasız ikram kümesi; `ogeler` sözlükteki `menu.ikramlar.ogeler` anahtarlarıdır. */
+export type IkramGrubu = { id: string; ogeler: string[] }
+
+/** `olculer` sözlükteki `menu.icecekler.olculer` anahtarları; ölçüsüz içecekte boş. */
+export type Icecek = { id: string; olculer: string[] }
 
 export type Foto = {
   /** Çekim listesindeki kadraj etiketi, plaka üstünde görünür. */
@@ -50,7 +59,8 @@ export type FotoId =
   | 'bes-urun'
   | 'dalak'
   | 'yurek'
-  | 'kuzu-sis'
+  | 'terbiyeli-kusbasi'
+  | 'bozo-karisik'
   | 'tavuk-sis'
   | 'lebeni'
   | 'bostana'

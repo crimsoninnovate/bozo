@@ -45,6 +45,51 @@
   color: var(--krem-70);
 }
 
+/* Plakasız ikram kümeleri. Kartların altında, aynı yatay ritimde üç sütun. */
+.gruplar {
+  margin-top: clamp(20px, 2.4vw, 34px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(20px, 2.4vw, 34px);
+}
+
+.grup {
+  padding: 20px 22px;
+  background: var(--panel-acik);
+  border: 1px solid var(--cizgi-kart);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grupBaslik {
+  margin: 0;
+  font: 700 16px/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem-86);
+}
+
+.grupListesi {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.oge {
+  font: 400 15px/1.45 var(--font-govde);
+  color: var(--krem-74);
+}
+
+/* 13.5px: çerçeve etiketi katmanı, okuma metni değil (KISITLAR.md). */
+.grupNotu {
+  margin: 0;
+  font: 400 13.5px/1.45 var(--font-govde);
+  color: var(--krem-58);
+}
+
 /*
  * "ikram" ibaresinin 4px'lik ek boşluğu (Menu:215, 227) çağıranın yerleşimidir:
  * `Cip tur="ikram"` kutusuz düz metindir ve bu ölçüyü bilerek taşımaz

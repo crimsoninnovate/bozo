@@ -21,47 +21,44 @@
   gap: 12px;
 }
 
-/* Liste kendi 12px'ini taşır; kolonun 12px'i listeyi yer tutucudan ayırır,
-   yani tasarımın tek düzeydeki 12px adımı iki düzeyde de aynı çıkar. */
+/* Üç adlı içecek on kaleme çıktı; tek sütun sayfayı gereksiz uzatıyordu.
+   Tasarımın 12px adımı sütun içinde ve sütunlar arasında aynı kalır. */
 .liste {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
 }
 
 .kalem {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 14px;
-  padding: 18px 20px;
+  gap: 6px 14px;
+  padding: 16px 20px;
   background: var(--panel-acik);
   border: 1px solid var(--cizgi-kart);
 }
 
 .ad {
-  font: 600 17px/1 var(--font-govde);
+  font: 600 17px/1.2 var(--font-govde);
   color: var(--krem);
 }
 
-.fiyat {
-  font: 600 15px/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+/* Ölçüler fiyat değil, sunum biçimi: tangerine yerine sakin krem tonunda. */
+.olculer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
 }
 
-/* Kesik çerçeveli slot boş değil, ortalanmış "liste tamamlanacak" taşır. Menu:248 */
-.yerTutucu {
-  padding: 16px 20px;
-  border: 1px dashed var(--cizgi-guclu);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font: 400 14px/1 var(--font-govde);
-  color: var(--krem-58);
+.olcu {
+  font: 400 13.5px/1.3 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-62);
 }
 
 .dipnot {

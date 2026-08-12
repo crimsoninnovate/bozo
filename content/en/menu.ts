@@ -2,9 +2,7 @@
 export const menu = {
   acilis: {
     baslik: 'Menu',
-    // Üçüncü cümle TR spotunda var, EN'de düşmüştü; sekiz "000 TL" onsuz
-    // açıklamasız kalıyordu (tr/menu.ts:5).
-    spot: 'Everything comes off the fire. Five products, two on the house. Prices are confirmed at opening.',
+    spot: 'Everything comes off the fire. Six portions, one special, eight on the house.',
   },
   geceMenusu: {
     baslik: 'Night Menu',
@@ -16,6 +14,9 @@ export const menu = {
     baslik: 'From the Fire',
     imzaRozeti: 'signature',
     cigerSpec: { sis: '8 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
+    olculer: { tam: 'Full', yarim: 'Half', durum: 'Wrap' },
+    durumNotu: '5 skewers',
+    yarimNotu: 'A half portion is half the full price',
     urunler: {
       ciger: {
         ad: 'Urfa Liver Kebab (Ciğer)',
@@ -35,32 +36,72 @@ export const menu = {
           'A classic of the Urfa offal line. Firm textured; the cut that stays ' +
           'longest over the embers.',
       },
-      'kuzu-sis': {
-        ad: 'Lamb Skewer (Kuzu Şiş)',
-        aciklama: 'The main alternative for guests who skip offal.',
-      },
       'terbiyesiz-tavuk-sis': {
         ad: 'Chicken Skewer (Terbiyesiz Tavuk Şiş)',
         aciklama: 'From the thigh, with an Urfa marinade, tail fat between the pieces.',
       },
+      'terbiyeli-kusbasi': {
+        ad: 'Marinated Cubes (Terbiyeli Kuşbaşı)',
+        aciklama: 'Rested in its marinade. The main alternative for guests who skip offal.',
+      },
+      'bozo-karisik': {
+        ad: 'Bozo Mixed (Bozo Karışık)',
+        aciklama: 'Liver, spleen and heart together.',
+      },
+    },
+    ozel: {
+      ad: 'Bozo Special',
+      aciklama: 'Two skewers of every item.',
+      sisNotu: '10 skewers',
     },
   },
   ikramlar: {
     baslik: 'On the House',
     altMetin: 'The table comes set, you do not need to ask.',
     urunler: {
-      lebeni: { ad: 'Lebeni Soup', aciklama: 'Chickpea, yoghurt and thyme. Served before the fire.' },
+      lebeni: {
+        ad: 'Lebeni Soup',
+        aciklama: 'Yoghurt and thyme, no chickpeas. Served before the fire.',
+      },
       bostana: {
         ad: 'Bostana',
         aciklama: 'Finely chopped and juicy, with sour cherry juice and pomegranate molasses.',
       },
     },
+    gruplar: { yesillik: 'Greens', sogan: 'Onion', kozde: 'From the Embers' },
+    yesillikNotu: 'washed and picked over',
+    ogeler: {
+      nane: 'Fresh Mint',
+      maydanoz: 'Parsley',
+      sumakli: 'Sumac Onion',
+      kozdeSogan: 'Ember Roasted Onion',
+      domates: 'Tomato',
+      biber: 'Hot and Mild Peppers',
+    },
   },
   icecekler: {
     baslik: 'Drinks',
-    altMetin: 'List to be confirmed by the kitchen',
-    urunler: { ayran: 'Ayran', salgam: 'Şalgam', cay: 'Tea (çay)' },
-    listeTamamlanacak: 'More to be added',
+    altMetin: 'Drink prices are confirmed at opening',
+    olculer: {
+      sise250: 'Bottle 250 ml',
+      kutu330: 'Can 330 ml',
+      sise: 'Bottle',
+      kutu: 'Can',
+      kapali: 'Bottled',
+      acikYayik: 'Churned, by the Glass',
+    },
+    urunler: {
+      kola: 'Cola',
+      kolaZero: 'Cola Zero',
+      sprite: 'Sprite',
+      fanta: 'Fanta',
+      fuseTea: 'Fuse Tea Flavours',
+      cappy: 'Cappy Flavours',
+      ayran: 'Ayran',
+      salgam: 'Şalgam (Turnip Juice)',
+      su: 'Water',
+      cay: 'Tea (Çay)',
+    },
     qrNotu: 'The same list runs behind the table QR',
   },
   cekim: {

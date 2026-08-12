@@ -22,9 +22,10 @@ const HAFTA_GUNLERI = [
  * bu, geceyi aşan çalışma saatinin schema.org yazımıdır ve Google bunu destekler.
  * İki ayrı aralığa bölünmez, `23:59` gibi bir yaklaşıklık yazılmaz.
  *
- * `priceRange` kasıtlı olarak yoktur: `content/urunler.ts` içindeki her ürün fiyatı
- * `null`, yani doğrulanmış bir fiyat aralığı yok. Brifin `'$$'` örneği burada
- * uydurma bir gerçek olurdu; kisitlar.md'nin "no invented prices" kuralı gereği atlandı.
+ * `priceRange` hâlâ yoktur. Ocak fiyatları 13 Ağustos 2026'da geldi (600-1000 TL) ama
+ * içecek fiyatları gelmedi, yani menünün tamamını kapsayan bir aralık hâlâ yok.
+ * Brifin `'$$'` örneği ayrıca bir para birimi sınıfı iddiası; kisitlar.md'nin
+ * "no invented prices" kuralı gereği atlandı. İçecek fiyatı gelince açılabilir.
  *
  * `isletmeVerisi` varsayılan olarak tekil `isletme` kaynağını okur; parametre yalnız
  * testlerin bilinen-koordinat/telefon dallarını gerçek veriyi değiştirmeden

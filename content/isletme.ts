@@ -37,3 +37,12 @@ export const FIYAT_YER_TUTUCU = '000 TL'
 export function fiyatMetni(fiyat: number | null): string {
   return fiyat === null ? FIYAT_YER_TUTUCU : `${fiyat.toLocaleString('tr-TR')} TL`
 }
+
+/**
+ * Yarım porsiyon ayrı fiyat taşımaz, tamın yarısıdır (sahibi, 13 Ağustos 2026).
+ * Bugünkü tam fiyatların hepsi çift sayı; tekini `urunler_tamFiyatlarCiftSayidir`
+ * yakalar, yani yuvarlama sessizce devreye giremez.
+ */
+export function yarimFiyat(tam: number | null): number | null {
+  return tam === null ? null : Math.round(tam / 2)
+}

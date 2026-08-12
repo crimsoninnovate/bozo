@@ -1,8 +1,7 @@
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { sozluk, type Dil, type Sozluk } from '@/content'
-import { fiyatMetni } from '@/content/isletme'
-import { ICECEK_YER_TUTUCU_ADEDI, icecekler } from '@/content/urunler'
+import { icecekler } from '@/content/urunler'
 import stil from './Icecekler.module.css'
 
 type Props = { dil: Dil }
@@ -17,6 +16,13 @@ function icecekAdi(s: Sozluk, id: string): string {
   const kayit: Record<string, string | undefined> = s.menu.icecekler.urunler
   const ad = kayit[id]
   if (!ad) throw new Error(`İçecek sözlükte yok: ${id}`)
+  return ad
+}
+
+function olcuAdi(s: Sozluk, id: string): string {
+  const kayit: Record<string, string | undefined> = s.menu.icecekler.olculer
+  const ad = kayit[id]
+  if (!ad) throw new Error(`İçecek ölçüsü sözlükte yok: ${id}`)
   return ad
 }
 
@@ -49,19 +55,24 @@ export function Icecekler({ dil }: Props) {
       <div className={stil.satir}>
         <FotoYuvasi id="ayran" dil={dil} bicim="icecek" />
         <div className={stil.kolon}>
+          {/* Fiyat sütunu yok: içecek fiyatı işletmeden gelmedi ve on satır
+              "000 TL" basmaktansa sunum ölçüsü basılıyor. */}
           <ul className={stil.liste}>
             {icecekler.map((icecek) => (
               <li key={icecek.id} className={stil.kalem}>
                 <span className={stil.ad}>{icecekAdi(s, icecek.id)}</span>
-                <span className={stil.fiyat}>{fiyatMetni(icecek.fiyat)}</span>
+                {icecek.olculer.length > 0 && (
+                  <span className={stil.olculer}>
+                    {icecek.olculer.map((olcu) => (
+                      <span key={olcu} className={stil.olcu}>
+                        {olcuAdi(s, olcu)}
+                      </span>
+                    ))}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
-          {Array.from({ length: ICECEK_YER_TUTUCU_ADEDI }, (_, sira) => (
-            <p key={sira} className={stil.yerTutucu}>
-              {s.menu.icecekler.listeTamamlanacak}
-            </p>
-          ))}
         </div>
       </div>
 

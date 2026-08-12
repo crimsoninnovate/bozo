@@ -42,21 +42,23 @@ export const ana = {
       },
       dalak: { ad: 'Dalak', aciklama: 'Ciğerin yanına, iri doğranmış: yüksek ateşte kısa tutulur.' },
       yurek: { ad: 'Yürek', aciklama: 'Sıkı dokulu; korun üstünde en uzun kalan tane.' },
-      'kuzu-sis': {
-        ad: 'Kuzu Şiş',
-        aciklama: 'Sakatat yemeyen misafir için: aynı ocak, aynı meşe koru.',
-      },
       'terbiyesiz-tavuk-sis': {
         ad: 'Terbiyesiz Tavuk Şiş',
         aciklama: "Kalçadan, Urfa'ya özgü marineyle.",
       },
+      'terbiyeli-kusbasi': {
+        ad: 'Terbiyeli Kuşbaşı',
+        aciklama: 'Sakatat yemeyen misafir için: aynı ocak, aynı meşe koru.',
+      },
     },
-    /* Fiyat sütunu kalktı; yer tutucu rakam yerine listenin altında tek blok. */
+    /*
+     * Fiyat sütunu kalktı; rakamlar listenin altında tek blokta toplanır.
+     * Fiyatlar 13 Ağustos 2026'da geldi: blok artık "kesinleşmedi" demiyor,
+     * ana sayfa beş kalemde kalsın diye rakamları menüye yönlendiriyor.
+     */
     fiyat: {
-      baslik: 'Fiyat listesi henüz kesinleşmedi.',
-      metin:
-        'Netleşince tam liste burada yayınlanacak. Şimdilik porsiyon ve fiyat için ' +
-        'ocağı arayabilirsiniz.',
+      baslik: 'Tam liste ve fiyatlar menüde.',
+      metin: 'Her üründe tam, yarım ve dürüm var. Yarım porsiyon tam fiyatın yarısıdır.',
       menuLinki: 'Menünün Tamamı',
     },
     ikramSatiri: {
@@ -67,7 +69,7 @@ export const ana = {
   ikram: {
     baslik: 'Sofra kurulu gelir',
     metin: 'Lebeni ve bostana ikramımızdır. Sofra kurulu gelir, istemenize gerek yok.',
-    cip1: { ad: 'Lebeni Çorbası', detay: 'nohut, yoğurt, kekik' },
+    cip1: { ad: 'Lebeni Çorbası', detay: 'yoğurt, kekik, nohutsuz' },
     cip2: { ad: 'Bostana', detay: 'vişne suyu, nar ekşisi' },
   },
   /*

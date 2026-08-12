@@ -5,7 +5,8 @@ import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
 import type { FotoId, Urun } from '@/content/types'
-import { ocaktanUrunler } from '@/content/urunler'
+import { menuUrunler, ozelUrun } from '@/content/urunler'
+import { OlcuSatirlari } from './OlcuSatirlari'
 import { UrunKarti } from './UrunKarti'
 import stil from './Ocaktan.module.css'
 
@@ -14,15 +15,17 @@ type Props = { dil: Dil }
 type UrunMetni = { ad: string; aciklama: string }
 
 /**
- * Dört kartın kor nefesi. Tasarım her plakaya kendi süresini veriyor ve süreler
+ * Kartların kor nefesi. Tasarım her plakaya kendi süresini veriyor ve süreler
  * hiçbir kurala uymuyor (10 / 11 / 9.5 / 12), o yüzden indeksten türetilmez.
- * Menu:127, 145, 163, 181
+ * Menu:127, 145, 163, 181. Beşincisi tasarımda yok: karışık ürün 13 Ağustos
+ * 2026'da eklendi, süre komşularının aralığından seçildi.
  */
 const KART_NEFESLERI: KorNefesi[] = [
   { sure: 10, gecikme: 0.6 },
   { sure: 11, gecikme: 1.2 },
   { sure: 9.5, gecikme: 1.8 },
   { sure: 12, gecikme: 2.4 },
+  { sure: 10.5, gecikme: 3 },
 ]
 
 /**
@@ -65,11 +68,31 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
         <Cip tur="dolu">{spec.dagilim}</Cip>
         <Cip tur="dolu">{spec.sure}</Cip>
       </div>
-      <div className={stil.fiyatSatiri}>
-        <span className={stil.porsiyon}>{s.ortak.porsiyon}</span>
-        <span className={stil.imzaFiyat}>{fiyatMetni(urun.fiyat)}</span>
+      <div className={stil.olcuBlogu}>
+        <OlcuSatirlari dil={dil} urun={urun} />
       </div>
     </div>
+  )
+}
+
+/**
+ * Bozo Special: tek ölçüsü olan kombinasyon, o yüzden ızgarada değil ızgaranın
+ * altında kendi şeridinde. Yarım ve dürüm satırı basılmaz, taşımıyor.
+ */
+function OzelSerit({ dil }: { dil: Dil }) {
+  const { ozel } = sozluk(dil).menu.ocaktan
+
+  return (
+    <article className={stil.ozel}>
+      <div className={stil.ozelGovde}>
+        <div className={stil.ozelUst}>
+          <h3 className={stil.ozelAd}>{ozel.ad}</h3>
+          <Cip tur="dolu">{ozel.sisNotu}</Cip>
+        </div>
+        <p className={stil.ozelAciklama}>{ozel.aciklama}</p>
+      </div>
+      <span className={stil.ozelFiyat}>{fiyatMetni(ozelUrun.fiyat)}</span>
+    </article>
   )
 }
 
@@ -86,7 +109,7 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
  */
 export function Ocaktan({ dil }: Props) {
   const s = sozluk(dil)
-  const [imza, ...kartlar] = ocaktanUrunler
+  const [imza, ...kartlar] = menuUrunler
   if (!imza) throw new Error('Ocaktan ürün listesi boş')
 
   return (
@@ -113,12 +136,18 @@ export function Ocaktan({ dil }: Props) {
               indeks={indeksMetni(sira + 1)}
               ad={metin.ad}
               aciklama={metin.aciklama}
-              fiyat={urun.fiyat}
+              urun={urun}
               korNefesi={KART_NEFESLERI[sira]}
             />
           )
         })}
       </div>
+
+      <OzelSerit dil={dil} />
+
+      {/* Kuralı bir kez söyleyen dipnot. `BolumBasligi`nin not yuvası tane rayına
+          ait (sag ?? not), o yüzden başlıkta değil fiyatların altında. */}
+      <p className={stil.olcuNotu}>{s.menu.ocaktan.yarimNotu}</p>
     </section>
   )
 }

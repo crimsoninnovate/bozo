@@ -1,0 +1,41 @@
+/* Tam / Yarım / Dürüm satırları. Ölçü solda, fiyat sağda, aralarında ince çizgi. */
+.liste {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.satir {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.satir:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* 14.5px: KISITLAR'ın üçüncü katmanı, okuma metni değil çerçeve etiketi. */
+.olcu {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.not {
+  font: 400 13px/1.2 var(--font-govde);
+  color: var(--krem-50);
+}
+
+.fiyat {
+  margin: 0;
+  font: 600 16px/1.2 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
+}

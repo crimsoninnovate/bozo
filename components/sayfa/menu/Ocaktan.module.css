@@ -68,28 +68,66 @@
   gap: 8px;
 }
 
-.fiyatSatiri {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 14px;
+/* Tek fiyat satırının yerini üç ölçü aldı; ayırıcı çizgi blokta kalır. */
+.olcuBlogu {
   padding-top: 16px;
   border-top: 1px solid var(--cizgi);
-}
-
-.porsiyon {
-  font: 400 14px/1 var(--font-govde);
-  color: var(--krem-60);
-}
-
-.imzaFiyat {
-  font: 600 var(--ol-imza-fiyat)/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
 }
 
 .izgara {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: clamp(20px, 2.4vw, 34px);
+}
+
+/* Bozo Special şeridi: ızgaranın altında, imza paneliyle aynı kor kenarlığında. */
+.ozel {
+  margin-top: clamp(20px, 2.4vw, 34px);
+  padding: clamp(22px, 2.4vw, 32px);
+  background: var(--panel-imza);
+  border: 1px solid var(--kor-kenar);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.ozelGovde {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ozelUst {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ozelAd {
+  margin: 0;
+  font: 700 var(--ol-urun-ad)/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem);
+}
+
+.ozelAciklama {
+  margin: 0;
+  font: 400 var(--ol-govde-kucuk)/1.6 var(--font-govde);
+  color: var(--krem-76);
+}
+
+.olcuNotu {
+  margin: 16px 0 0;
+  font: 400 14px/1.5 var(--font-govde);
+  color: var(--krem-58);
+}
+
+.ozelFiyat {
+  font: 600 var(--ol-imza-fiyat)/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--tangerine);
 }

@@ -152,6 +152,26 @@ Sütunlar: nerede, ne değişti veya ne öneriliyor, neden, durum.
 | Galeri ızgarasında öksüz kare | 16 kare `repeat(auto-fit, minmax(280px,1fr))` ile 1180px kapsayıcıda 3 sütun veriyor: beş tam satır artı tek başına kalan 16. kare, son satırın üçte ikisi boş | Bu sayfanın tasarımı yok; ızgara menü ürün ızgarasından kopyalandı, yani öksüz tasarımdan değil bizden geliyor ve 16 dörde tam bölünüyor. Ölçüldü: `minmax(260px,1fr)` aynı kapsayıcıda 4 sütun veriyor ((1180 - 3x34) / 4 = 269px) ve öksüz kalmıyor, bedeli karenin 371px'ten 269px'e inmesi (%27 küçülme). Yemek fotoğrafı için büyük kare genelde daha iyi olduğundan bu bir takas, düz kazanç değil. Üçüncü yol manifestin kadraj yönünü ("tane yakın çekimi · yatay") kullanan karma bir yerleşim, ama o artık ızgara ayarı değil sayfaya tasarım yapmak. **12 Ağu 2026'da ertelendi:** on altı boş çerçevede öksüz satır, on altı gerçek fotoğrafta olduğundan çok daha fazla göze batıyor | sahibine, fotoğraflar geldiğinde |
 | Menü ve çekim listesindeki öksüz satırlar | Menü ürün ızgarası 4 kart taşıyıp 3 sütun veriyor ("Terbiyesiz tavuk şiş" tek başına), çekim listesi 7 kare taşıyıp 6 sütun veriyor | Galeriden farkı: ikisi de tasarımın kendi kuralı, `repeat(auto-fit, minmax(280px,1fr))` ve `minmax(150px,1fr)` `Menu Sayfasi.dc.html`'de birebir yazılı ve ürün sayısı da tasarımdan geliyor. Tasarım aynı öksüzü üretiyor. Kaydedildi, dokunulmadı | sahibine, düşük öncelik |
 
+## 13 Ağustos 2026: gerçek menü verisi geldi
+
+Sahibi tam fiyat listesini, içecek listesini ve ikram listesini verdi. Menü sayfası
+yer tutucu bir menüden gerçek menüye geçti. Handoff'tan sapmaların hepsi veriden
+geliyor: tasarım beş ürünlü ve fiyatsız bir menü çiziyordu, gelen veri altı porsiyon,
+bir kombinasyon, üç ölçü, on içecek ve sekiz ikram taşıyor.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Ürün listesi | `ocaktanUrunler` ikiye ayrıldı: `anaUrunler` (beş kalem) ve `menuUrunler` (altı) | Sahibi ana sayfanın beş kalemde kalmasını, tam listenin yalnız menüde olmasını istedi. Tek dizi paylaşılırken bu ayrım yapılamıyordu; fiyat hâlâ tek kaynakta | uygulandı |
+| Kuzu Şiş | Kaldırıldı, yerine Terbiyeli Kuşbaşı | Sahibinin fiyat listesinde kuzu şiş yok, terbiyeli kuşbaşı var. Kadraj yuvası (`kuzu-sis` > `terbiyeli-kusbasi`) ve "sakatat yemeyen misafir için" açıklaması yeni ürüne taşındı, yeni metin yazılmadı | uygulandı, teyit bekliyor |
+| Fiyat modeli | `Urun.fiyat: number \| null` yerine `tam` + `durum`; yarım `yarimFiyat()` ile türetiliyor | Sahibi "yarım, tamın yarısı, ayrı kalem değil" dedi. Yarımı veri olarak saklamak iki değerin ayrışmasına açık kapı bırakırdı. `urunler_tamFiyatlarCiftSayidir` tek sayı fiyat girilirse uyarır, yuvarlama sessizce devreye giremez | uygulandı |
+| Menü ürün ızgarası | 4 kart yerine 5; öksüz satır 1'den 2 karta çıktı | Ürün sayısı veriden geliyor. Yukarıdaki "öksüz satırlar" maddesi bu ölçüde iyileşti, kapanmadı | uygulandı |
+| Bozo Special | Izgarada değil, ızgaranın altında kendi şeridinde | Tek ölçüsü var: yarım ve dürüm satırı basılamaz, ürün kartı kalıbına girmiyor. `OzelUrun` ayrı tip | uygulandı |
+| İkramlar | İki plakalı karta ek olarak üç kümeli liste (Yeşillik / Soğan / Közde) | Sekiz kalem iki karta sığmıyor, düz sekizli liste de hiyerarşisiz. Kümeler hazırlanışa göre: sahibinin listesinde üç kalem "közde pişmiş", ikisi "temizlenmiş ve ayıklanmış" ile başlıyor | uygulandı |
+| İçecekler | Fiyat sütunu kalktı, yerine sunum ölçüsü. Kesik "liste tamamlanacak" yuvası silindi. Tek sütun iki sütuna çıktı | İçecek fiyatı gelmedi; on satır "000 TL" basmak yer tutucudan beter okunuyordu. Liste geldiği için yer tutucu yuvanın gerekçesi kalmadı. On kalem tek sütunda sayfayı gereksiz uzatıyordu | uygulandı |
+| Lebeni açıklaması | "Nohut, yoğurt ve kekik" > "Yoğurt ve kekik, nohutsuz" | Sahibi "lebeni çorbası nohutsuz olacak" dedi. Yayındaki metin gerçekle çelişiyordu; ana sayfadaki `cip1.detay` de düzeltildi | uygulandı |
+| Ana sayfa fiyat bloğu | "Fiyat listesi henüz kesinleşmedi" > "Tam liste ve fiyatlar menüde", menü butonu ikincilden birincile | Fiyatlar geldi, cümle yalan oldu. Bölüm büyütülmedi: beş ad, altında menüye giden CTA (sahibinin tarifi) | uygulandı |
+| `ortak.porsiyon` | Silindi | İmza panelinin tek fiyat satırıyla birlikte çağıranı kalmadı. Yukarıdaki "çağıranı olmayan sözlük anahtarları" maddesinin dördüncü örneği, bu turda ölü hale geldiği için beklemeden silindi | uygulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

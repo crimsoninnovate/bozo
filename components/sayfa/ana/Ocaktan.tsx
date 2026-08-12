@@ -3,7 +3,7 @@ import { Buton } from '@/components/ui/Buton'
 import { MenuSatiri } from '@/components/ui/MenuSatiri'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import { isletme } from '@/content/isletme'
-import { ocaktanUrunler } from '@/content/urunler'
+import { anaUrunler } from '@/content/urunler'
 import { telefonUrl, yol } from '@/lib/site'
 import stil from './Ocaktan.module.css'
 
@@ -44,7 +44,7 @@ export function Ocaktan({ dil }: Props) {
       </div>
 
       <ol className={stil.liste}>
-        {ocaktanUrunler.map((urun, sira) => {
+        {anaUrunler.map((urun, sira) => {
           const metin = urunMetni(s, urun.id)
           return (
             <MenuSatiri
@@ -69,7 +69,9 @@ export function Ocaktan({ dil }: Props) {
               {isletme.telefon}
             </Buton>
           )}
-          <Buton tur="ikincil" boy="md" href={yol('menu', dil)}>
+          {/* Fiyatlar menüye taşındığı için bu blokta asıl yol bu buton: telefon
+              ikincil kalır, menü birincil olur. */}
+          <Buton tur="birincil" boy="md" href={yol('menu', dil)}>
             {fiyat.menuLinki}
           </Buton>
         </div>

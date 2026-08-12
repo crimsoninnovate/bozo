@@ -3,12 +3,15 @@ import { Cip } from '@/components/ui/Cip'
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import type { FotoId, Ikram } from '@/content/types'
-import { ikramlar } from '@/content/urunler'
+import { ikramGruplari, ikramlar } from '@/content/urunler'
 import stil from './Ikramlar.module.css'
 
 type Props = { dil: Dil }
 
 type IkramMetni = { ad: string; aciklama: string }
+
+/** "temizlenmiş ve ayıklanmış" notu yalnız bu kümeye ait; sahibinin ifadesi. */
+const NOTLU_GRUP = 'yesillik'
 
 /** Lebeni 11s/0 (biçimin varsayılanı), bostana 12s/1.5s. Menu:208, 220 */
 const IKRAM_NEFESLERI: KorNefesi[] = [{ sure: 11 }, { sure: 12, gecikme: 1.5 }]
@@ -23,6 +26,20 @@ function ikramMetni(s: Sozluk, id: string): IkramMetni {
 function fotoIdGerekli(ikram: Ikram): FotoId {
   if (!ikram.fotoId) throw new Error(`İkramın foto yuvası yok: ${ikram.id}`)
   return ikram.fotoId
+}
+
+function grupBasligi(s: Sozluk, id: string): string {
+  const kayit: Record<string, string | undefined> = s.menu.ikramlar.gruplar
+  const baslik = kayit[id]
+  if (!baslik) throw new Error(`İkram kümesi sözlükte yok: ${id}`)
+  return baslik
+}
+
+function ogeAdi(s: Sozluk, id: string): string {
+  const kayit: Record<string, string | undefined> = s.menu.ikramlar.ogeler
+  const ad = kayit[id]
+  if (!ad) throw new Error(`İkram kalemi sözlükte yok: ${id}`)
+  return ad
 }
 
 /**
@@ -81,6 +98,26 @@ export function Ikramlar({ dil }: Props) {
             />
           )
         })}
+      </div>
+
+      {/* Plakası olmayan ikramlar: iki kart taşıyamayacağı kadar çok kalem var,
+          hazırlanışa göre üç kümede toplandı (content/urunler.ts). */}
+      <div className={stil.gruplar}>
+        {ikramGruplari.map((grup) => (
+          <div key={grup.id} className={stil.grup}>
+            <h3 className={stil.grupBaslik}>{grupBasligi(s, grup.id)}</h3>
+            <ul className={stil.grupListesi}>
+              {grup.ogeler.map((oge) => (
+                <li key={oge} className={stil.oge}>
+                  {ogeAdi(s, oge)}
+                </li>
+              ))}
+            </ul>
+            {grup.id === NOTLU_GRUP && (
+              <p className={stil.grupNotu}>{s.menu.ikramlar.yesillikNotu}</p>
+            )}
+          </div>
+        ))}
       </div>
     </section>
   )

@@ -1,17 +1,17 @@
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
-import { fiyatMetni } from '@/content/isletme'
-import type { Dil, FotoId } from '@/content/types'
+import type { Dil, FotoId, Urun } from '@/content/types'
+import { OlcuSatirlari } from './OlcuSatirlari'
 import stil from './UrunKarti.module.css'
 
 type Props = {
   dil: Dil
   fotoId: FotoId
-  /** İki haneli statik indeks ("02" ... "05"), plakanın sağ üstünde. */
+  /** İki haneli statik indeks ("02" ... "06"), plakanın sağ üstünde. */
   indeks: string
   ad: string
   aciklama: string
-  fiyat: number | null
+  urun: Urun
   korNefesi?: KorNefesi
 }
 
@@ -23,7 +23,7 @@ type Props = {
  * ürün kartı taşımaz. Paylaşılan primitife çıkarılırsa tek çağıranı olan bir
  * API donar.
  */
-export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, fiyat, korNefesi }: Props) {
+export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }: Props) {
   return (
     <article className={stil.kart}>
       <FotoYuvasi id={fotoId} dil={dil} bicim="kart" korNefesi={korNefesi}>
@@ -34,8 +34,8 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, fiyat, korNefesi 
         <p className={stil.aciklama}>{aciklama}</p>
         <div className={stil.altSatir}>
           <TaneDizilimi adet={3} buyuk={9} kucuk={5} bosluk={4} ton="krem50" />
-          <span className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
         </div>
+        <OlcuSatirlari dil={dil} urun={urun} />
       </div>
     </article>
   )

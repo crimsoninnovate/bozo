@@ -81,7 +81,6 @@ export const ortak = {
   bugun: 'Bugün',
   alkolsuz: 'Mekanımız alkolsüzdür. Sofra ve ocak bizden, yine bekleriz.',
   alkolsuzKisa: 'Mekanımız alkolsüzdür',
-  porsiyon: 'porsiyon',
   ikramRozeti: 'ikram',
   telif: '© 2026 Ciğerci Bozo',
   paket: {
@@ -113,7 +112,10 @@ export const ortak = {
       baslik: 'Ciğerci Bozo',
       aciklama: 'Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00 - 05:00.',
     },
-    menu: { baslik: 'Menü · Ciğerci Bozo', aciklama: 'Ocaktan beş ürün, iki ikram ve içecekler.' },
+    menu: {
+      baslik: 'Menü · Ciğerci Bozo',
+      aciklama: 'Ocaktan altı porsiyon, dürümler, sekiz ikram ve içecekler.',
+    },
     /**
      * Açıklama sayfanın kendi iki satırından kuruldu: kare sayısı (galeri.altMetin)
      * ve site haritasındaki amaç satırı ("Mekan ve ürün fotoğrafları"). Fotoğraflar

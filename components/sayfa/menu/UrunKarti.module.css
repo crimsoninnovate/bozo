@@ -53,18 +53,12 @@
   color: var(--krem-70);
 }
 
-/* margin-top:auto: kartlar ızgarada eşit yükseklikte, alt satır dibe yapışır */
+/* margin-top:auto: kartlar ızgarada eşit yükseklikte, ölçü bloğu dibe yapışır.
+   Ayırıcı çizgi buradan kalktı: OlcuSatirlari her satırın üstüne kendi
+   çizgisini koyuyor, ikisi üst üste binince çift çizgi çıkıyordu. */
 .altSatir {
   margin-top: auto;
   padding-top: 14px;
-  border-top: 1px solid var(--cizgi-kart);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.fiyat {
-  font: 600 18px/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
 }

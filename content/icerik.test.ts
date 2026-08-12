@@ -4,7 +4,8 @@ import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
-import { ICECEK_YER_TUTUCU_ADEDI, icecekler, ocaktanUrunler, ikramlar } from './urunler.ts'
+import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun } from './urunler.ts'
+import { yarimFiyat } from './isletme.ts'
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -164,17 +165,60 @@ test('adres_yapisalVeGorunenAyniDegeriTasir', () => {
   assert.equal(`${isletme.cadde} ${isletme.binaNo}`, tr.ortak.satirlar.adresTamSatir)
 })
 
-/** Menü tasarımında üç adlı içeceğin ardında tek kesik yer tutucu vardır. */
-test('icecekler_tekYerTutucuSlotuVardir', () => {
-  assert.equal(ICECEK_YER_TUTUCU_ADEDI, 1)
+/**
+ * Ana sayfa beş ana kalemde kalır (sahibinin kararı, 13 Ağustos 2026). Karışık
+ * ve special kombinasyondur ve yalnız menü sayfasında görünür; bu test ana
+ * sayfa bölümünün sessizce büyümesini engeller.
+ */
+test('urunler_anaSayfaBesKalemdeKalir', () => {
+  assert.deepEqual(
+    anaUrunler.map((u) => u.id),
+    ['ciger', 'dalak', 'yurek', 'terbiyesiz-tavuk-sis', 'terbiyeli-kusbasi'],
+  )
 })
 
-test('urunler_ocaktanBesUrundur', () => {
-  assert.equal(ocaktanUrunler.length, 5)
+test('urunler_menuListesiKarisigiEkler', () => {
   assert.deepEqual(
-    ocaktanUrunler.map((u) => u.id),
-    ['ciger', 'dalak', 'yurek', 'kuzu-sis', 'terbiyesiz-tavuk-sis'],
+    menuUrunler.map((u) => u.id),
+    [...anaUrunler.map((u) => u.id), 'bozo-karisik'],
   )
+})
+
+/**
+ * Fiyatlar sahibinden 13 Ağustos 2026'da geldi. Önceki sürümde bu testin işi
+ * "hiçbir fiyat uydurulmamış" demekti; artık işi, gelen değerlerin bir
+ * yenileme turunda sessizce kaymamasını sağlamak.
+ */
+test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
+  const beklenen: Record<string, [number, number]> = {
+    ciger: [800, 500],
+    dalak: [600, 400],
+    yurek: [700, 450],
+    'terbiyesiz-tavuk-sis': [600, 400],
+    'terbiyeli-kusbasi': [850, 550],
+    'bozo-karisik': [800, 500],
+  }
+  for (const urun of menuUrunler) {
+    assert.deepEqual([urun.tam, urun.durum], beklenen[urun.id], `${urun.id} fiyatı kaymış`)
+  }
+  assert.equal(ozelUrun.fiyat, 1000)
+})
+
+/**
+ * `yarimFiyat` tek sayıda yuvarlar. Bugünkü tam fiyatların hepsi çift, yani
+ * yuvarlama hiç çalışmıyor. Tek sayı bir fiyat girilirse yarım porsiyon sessizce
+ * yuvarlanmış bir değer basardı; karar insanın olsun diye burada durduruluyor.
+ */
+test('urunler_tamFiyatlarCiftSayidir', () => {
+  for (const urun of menuUrunler) {
+    assert.equal(urun.tam === null || urun.tam % 2 === 0, true, `${urun.id} tam fiyatı tek sayı`)
+  }
+})
+
+test('yarimFiyat_tamPorsiyonunYarisidir', () => {
+  assert.equal(yarimFiyat(800), 400)
+  assert.equal(yarimFiyat(850), 425)
+  assert.equal(yarimFiyat(null), null)
 })
 
 test('ikramlar_fiyatTasimaz', () => {
@@ -182,14 +226,36 @@ test('ikramlar_fiyatTasimaz', () => {
   for (const i of ikramlar) assert.equal('fiyat' in i, false)
 })
 
+/** İçecek fiyatı gelmedi; alan hiç yok, "000 TL" basan bir yol da yok. */
+test('icecekler_fiyatAlaniTasimaz', () => {
+  for (const i of icecekler) assert.equal('fiyat' in i, false)
+})
+
 /**
- * Fiyatlar işletmeden gelmedi ve uydurulması yasak. Bu, mekanik güvencesi olmayan
- * tek sert kuraldı: fiyat alanı sayı taşıyan bir sürüm diğer tüm testleri ve
- * tsc'yi temiz geçiyordu. Fiyat geldiğinde bu test bilinçli olarak güncellenir.
+ * Kimlikler sözlükte karşılığı olmayınca bileşenler derleme sırasında patlıyor.
+ * Bu test aynı hatayı testte, iki dil için birden yakalar: bir ürün yeniden
+ * adlandırılıp yalnız bir sözlük güncellenirse burada görünür.
  */
-test('urunler_hicbirFiyatUydurulmamis', () => {
-  for (const u of [...ocaktanUrunler, ...icecekler]) {
-    assert.equal(u.fiyat, null, `${u.id} için fiyat işletmeden gelmedi, uydurulamaz`)
+test('kimlikler_ikiDildeDeSozluktedir', () => {
+  for (const s of [tr, en]) {
+    for (const urun of menuUrunler) {
+      assert.ok(urun.id in s.menu.ocaktan.urunler, `${urun.id} menü sözlüğünde yok`)
+    }
+    for (const urun of anaUrunler) {
+      assert.ok(urun.id in s.ana.ocaktan.urunler, `${urun.id} ana sayfa sözlüğünde yok`)
+    }
+    for (const icecek of icecekler) {
+      assert.ok(icecek.id in s.menu.icecekler.urunler, `${icecek.id} içecek sözlüğünde yok`)
+      for (const olcu of icecek.olculer) {
+        assert.ok(olcu in s.menu.icecekler.olculer, `${olcu} ölçüsü sözlükte yok`)
+      }
+    }
+    for (const grup of ikramGruplari) {
+      assert.ok(grup.id in s.menu.ikramlar.gruplar, `${grup.id} kümesi sözlükte yok`)
+      for (const oge of grup.ogeler) {
+        assert.ok(oge in s.menu.ikramlar.ogeler, `${oge} ikramı sözlükte yok`)
+      }
+    }
   }
 })
 

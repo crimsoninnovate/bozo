@@ -42,8 +42,8 @@ export const ana = {
         ad: 'Heart (Yürek)',
         aciklama: 'Firm textured; the cut that stays longest over the embers.',
       },
-      'kuzu-sis': {
-        ad: 'Lamb Skewer (Kuzu Şiş)',
+      'terbiyeli-kusbasi': {
+        ad: 'Marinated Cubes (Terbiyeli Kuşbaşı)',
         aciklama: 'For guests who skip offal: same fire, same oak embers.',
       },
       'terbiyesiz-tavuk-sis': {
@@ -52,10 +52,8 @@ export const ana = {
       },
     },
     fiyat: {
-      baslik: 'The price list is not final yet.',
-      metin:
-        'The full list will be published here once it is. For portions and prices, ' +
-        'you can call the fire.',
+      baslik: 'The full list and prices are on the menu.',
+      metin: 'Every item comes full, half or as a wrap. A half portion is half the full price.',
       menuLinki: 'The Full Menu',
     },
     ikramSatiri: {
@@ -66,7 +64,7 @@ export const ana = {
   ikram: {
     baslik: 'The table comes set',
     metin: 'Lebeni and bostana are on the house. You do not need to ask.',
-    cip1: { ad: 'Lebeni Soup', detay: 'chickpea, yoghurt, thyme' },
+    cip1: { ad: 'Lebeni Soup', detay: 'yoghurt, thyme, no chickpeas' },
     cip2: { ad: 'Bostana', detay: 'sour cherry juice, pomegranate molasses' },
   },
   gece: {
