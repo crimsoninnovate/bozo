@@ -183,37 +183,28 @@ hepsini bir turda kapatabilirim; görsel çıktı değişmez.
 ## E. Menü verisi, 13 Ağustos 2026
 
 Tam fiyat listesi geldi ve menü sayfası gerçek veriye geçti (ölçümler ve sapmalar
-`IYILESTIRMELER.md` > "13 Ağustos 2026"). Üç madde uydurulamayacağı için açık kaldı.
+`IYILESTIRMELER.md` > "13 Ağustos 2026"). Üç madde uydurulamayacağı için sahibine
+soruldu; **üçü de 13 Ağustos 2026'da yanıtlandı, hiçbiri kod değişikliği gerektirmedi.**
 
-### E1. Kuzu Şiş gerçekten kalktı mı?
+### E1. Kuzu Şiş: kalktı ✔
 
-Verdiğin fiyat listesinde kuzu şiş yok, terbiyeli kuşbaşı var. Kuzu şiş menüden
-çıkarıldı ve hem ana sayfada hem menüde yerini terbiyeli kuşbaşı aldı; kadraj yuvası
-da yeni ürüne geçti. Yanlışsa geri almak tek satır.
+Sahibinin fiyat listesinde kuzu şiş yoktu, terbiyeli kuşbaşı vardı. Uygulamada kuzu
+şiş çıkarılmış, hem ana sayfada hem menüde yerini terbiyeli kuşbaşı almış, kadraj
+yuvası da yeni ürüne geçmişti.
 
-**Soru:** kuzu şiş menüden kalktı mı, yoksa listede mi unutuldu?
-**Seçenekler:** (a) kalktı, doğru · (b) duruyor, geri ekleyin (fiyatı da lazım)
-**Önerim: (a).** Liste altı porsiyonu fiyatıyla sayıyor, eksik kalem gibi durmuyor.
+**Karar:** "Terbiyeli olan yerini aldı." Kuzu şiş menüden kalktı, geri gelmiyor.
 
-### E2. Çay listede yoktu, menüde duruyor
+### E2. Çay: kalıyor ✔
 
-Verdiğin içecek listesi buzdolabı listesi gibi okunuyor: şişe, kutu, ayran, şalgam,
-su. Çay onda yok ama sitede handoff'tan beri yayında. Yayındaki bir ürünü çıkarma
-kararını tahminle vermek istemedim, bu yüzden listede bıraktım.
+Sahibinin içecek listesi soğuk raf listesiydi (şişe, kutu, ayran, şalgam, su); çay
+onda yoktu ama sitede handoff'tan beri yayındaydı. Yayındaki ürünü tahminle silmemek
+için listede bırakılmıştı.
 
-**Soru:** çay var mı?
-**Seçenekler:** (a) var, kalsın · (b) yok, çıkarın
-**Önerim: (a).** Çay sıcak içecek, verdiğin liste soğuk raf; yokluğu listenin
-türüyle açıklanıyor. Yine de tek kelimeyle kapanır.
+**Karar:** "Çay kalsın." Liste bugünkü haliyle doğru.
 
-### E3. Shot şalgam
+### E3. Shot şalgam: yazılmayacak ✔
 
-"Belki shot şalgam (fikrinizi almak istiyorum)" diye yazmıştın. Bu bir soru olduğu
-için siteye konmadı.
+"Belki shot şalgam (fikrinizi almak istiyorum)" bir soruydu, siteye konmamıştı.
+Öneri şalgamın ölçüsü olarak eklemekti.
 
-**Soru:** menüye girsin mi?
-**Seçenekler:** (a) girmesin · (b) girsin, şalgamın altına ölçü olarak · (c) girsin,
-ayrı kalem olarak
-**Önerim: (b).** Şalgam zaten listede; shot onun bir ölçüsü, ayrı satır listeyi
-uzatır. İçecek ölçüleri (Şişe 250 ml, Kutu 330 ml) için kurulan yapı bunu bedava
-taşıyor. Fiyat gerekmiyor, çünkü hiçbir içecekte fiyat basılmıyor.
+**Karar:** "Shot Şalgam'ı yazma." Menüye girmiyor. Öneri reddedildi, madde kapandı.

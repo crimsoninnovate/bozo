@@ -162,7 +162,7 @@ bir kombinasyon, üç ölçü, on içecek ve sekiz ikram taşıyor.
 | Nerede | Değişiklik | Gerekçe | Durum |
 |---|---|---|---|
 | Ürün listesi | `ocaktanUrunler` ikiye ayrıldı: `anaUrunler` (beş kalem) ve `menuUrunler` (altı) | Sahibi ana sayfanın beş kalemde kalmasını, tam listenin yalnız menüde olmasını istedi. Tek dizi paylaşılırken bu ayrım yapılamıyordu; fiyat hâlâ tek kaynakta | uygulandı |
-| Kuzu Şiş | Kaldırıldı, yerine Terbiyeli Kuşbaşı | Sahibinin fiyat listesinde kuzu şiş yok, terbiyeli kuşbaşı var. Kadraj yuvası (`kuzu-sis` > `terbiyeli-kusbasi`) ve "sakatat yemeyen misafir için" açıklaması yeni ürüne taşındı, yeni metin yazılmadı | uygulandı, teyit bekliyor |
+| Kuzu Şiş | Kaldırıldı, yerine Terbiyeli Kuşbaşı | Sahibinin fiyat listesinde kuzu şiş yok, terbiyeli kuşbaşı var. Kadraj yuvası (`kuzu-sis` > `terbiyeli-kusbasi`) ve "sakatat yemeyen misafir için" açıklaması yeni ürüne taşındı, yeni metin yazılmadı | uygulandı, sahibi teyit etti (13 Ağu 2026) |
 | Fiyat modeli | `Urun.fiyat: number \| null` yerine `tam` + `durum`; yarım `yarimFiyat()` ile türetiliyor | Sahibi "yarım, tamın yarısı, ayrı kalem değil" dedi. Yarımı veri olarak saklamak iki değerin ayrışmasına açık kapı bırakırdı. `urunler_tamFiyatlarCiftSayidir` tek sayı fiyat girilirse uyarır, yuvarlama sessizce devreye giremez | uygulandı |
 | Menü ürün ızgarası | 4 kart yerine 5; öksüz satır 1'den 2 karta çıktı | Ürün sayısı veriden geliyor. Yukarıdaki "öksüz satırlar" maddesi bu ölçüde iyileşti, kapanmadı | uygulandı |
 | Bozo Special | Izgarada değil, ızgaranın altında kendi şeridinde | Tek ölçüsü var: yarım ve dürüm satırı basılamaz, ürün kartı kalıbına girmiyor. `OzelUrun` ayrı tip | uygulandı |
