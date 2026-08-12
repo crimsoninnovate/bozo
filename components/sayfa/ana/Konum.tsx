@@ -41,14 +41,17 @@ export function Konum({ dil }: Props) {
           <Cip tur="komsuluk">{komsular.macroMarket}</Cip>
         </div>
 
+        {/* Tek eylem satırı: ara, yol tarifi, WhatsApp. Üç `lg` buton panelin
+            genişliğine sığmayıp ikinci satıra taşıyor ve WhatsApp tek başına
+            kalıyordu; `md` ile üçü tek satırda (UYGULAMA-NOTLARI 5). */}
         <div className={stil.butonlar}>
-          <Buton tur="birincil" boy="lg" href={yolTarifiUrl()} hariciMi>
-            {s.ortak.cta.yolTarifiAl}
-          </Buton>
-          <Buton tur="ikincil" boy="lg" href={telefonUrl(isletme.telefon)}>
+          <Buton tur="birincil" boy="md" href={telefonUrl(isletme.telefon)}>
             {isletme.telefon ?? TELEFON_YER_TUTUCU}
           </Buton>
-          <Buton tur="ikincil" boy="lg" href={whatsappUrl(isletme.whatsapp)} hariciMi>
+          <Buton tur="ikincil" boy="md" href={yolTarifiUrl()} hariciMi>
+            {s.ortak.cta.yolTarifiAl}
+          </Buton>
+          <Buton tur="ikincil" boy="md" href={whatsappUrl(isletme.whatsapp)} hariciMi>
             {s.ortak.cta.whatsapp}
           </Buton>
         </div>

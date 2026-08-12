@@ -14,7 +14,9 @@
   color: var(--krem);
 }
 
+/* 13px'ten 14.5px'e: koyu zeminde ikincil metnin tabanı 14px
+   (UYGULAMA-NOTLARI 5 ve 6). Opaklık .66'dan .74'e aynı gerekçeyle. */
 .detay {
-  font: 400 13px/1.4 var(--font-govde);
-  color: var(--krem-66);
+  font: 400 14.5px/1.4 var(--font-govde);
+  color: var(--krem-74);
 }

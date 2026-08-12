@@ -36,10 +36,12 @@
   color: var(--komur);
 }
 
+/* Kömür tam opaklıkta: .9 pumpkin üstünde koyu turuncuya kayıyor ve kontrast
+   düşüyordu (UYGULAMA-NOTLARI 5). Başlıkla aynı renk, 5.29:1. */
 .paragraf {
   margin: 0;
   font: 400 var(--ol-govde-kucuk)/1.6 var(--font-govde);
-  color: var(--komur-90);
+  color: var(--komur);
 }
 
 .butonlar {

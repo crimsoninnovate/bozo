@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import { yol, type RotaAnahtari } from '@/lib/site'
 import stil from './AltBilgi.module.css'
@@ -38,9 +37,6 @@ export function TelifSeridi({ dil, aktif, sikMi = false }: Props) {
           </>
         )}
       </div>
-      <span className={stil.telifRayi} aria-hidden="true">
-        <TaneDizilimi buyuk={7} kucuk={4} bosluk={4} />
-      </span>
     </div>
   )
 }

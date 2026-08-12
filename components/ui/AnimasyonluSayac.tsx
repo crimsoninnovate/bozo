@@ -34,6 +34,9 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
     if (!eleman || hareketAzaltilmisMi()) return
 
     let kare = 0
+    let zamanlayici = 0
+    const bitir = (): void => setDeger(hedef)
+
     const gozlemci = new IntersectionObserver(
       (girisler) => {
         if (!girisler.some((giris) => giris.isIntersecting)) return
@@ -47,6 +50,12 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
           if (oran < 1) kare = requestAnimationFrame(adim)
         }
         kare = requestAnimationFrame(adim)
+        // Emniyet: arka plandaki sekmede requestAnimationFrame hiç çalışmaz ve
+        // sayaç ulaştığı ara değerde donar; gözlem de bırakıldığı için bir daha
+        // toparlanmaz. Ölçüldü: sekme gizliyken "8" yerine "0" kalıyordu.
+        // Zamanlayıcılar gizli sekmede de tetiklenir, son değeri onlar garanti eder.
+        zamanlayici = window.setTimeout(bitir, sure + 120)
+        document.addEventListener('visibilitychange', bitir)
       },
       { threshold: ESIK },
     )
@@ -55,6 +64,8 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
     return () => {
       gozlemci.disconnect()
       if (kare) cancelAnimationFrame(kare)
+      if (zamanlayici) clearTimeout(zamanlayici)
+      document.removeEventListener('visibilitychange', bitir)
     }
   }, [hedef, sure])
 

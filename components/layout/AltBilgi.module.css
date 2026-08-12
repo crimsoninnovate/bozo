@@ -36,15 +36,28 @@
   gap: 30px 56px;
 }
 
+/*
+ * Dört kolon eşit pay alır. Önceden içeriklerine göre boyutlanıp
+ * `space-between` ile dağılıyorlardı ve genişlikleri birbirini tutmuyordu
+ * (UYGULAMA-NOTLARI 5). Taban 180px: altında dördü tek satıra sığmaz ve sarar.
+ */
 .kolon {
   display: flex;
   flex-direction: column;
   gap: 13px;
+  flex: 1 1 180px;
+  min-width: 0;
 }
 
+/*
+ * Marka kolonunun iç ritmi daha sıkı: `tanim` ve `isimNotu` aynı cümlenin
+ * devamı, 14px gap artı iki satırın yarım aralığı arada kopuk bir boşluk
+ * bırakıyordu. Kolon en geniş olan, o yüzden payı da bir tık fazla.
+ */
 .kolon:first-child {
-  gap: 14px;
-  max-width: 280px;
+  gap: 8px;
+  flex-basis: 260px;
+  max-width: 320px;
 }
 
 /* Hikaye/Konum'da dört kolonun dördü de 12px, marka kolonu dahil. */
@@ -70,6 +83,14 @@
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--krem);
+}
+
+/* Marka kolonunun iki paragrafı <p>: tarayıcı varsayılanı 1em alt ve üst
+   margin veriyordu ve flex kabında margin'ler birleşmediği için `tanim` ile
+   `isimNotu` arasında 36px kopuk boşluk kalıyordu (ölçüldü). */
+.tanim,
+.isimNotu {
+  margin: 0;
 }
 
 .tanim {
@@ -374,11 +395,6 @@ a.iletisimSatiri:hover {
   right: 0;
   height: 44px;
   transform: translateY(-50%);
-}
-
-.telifRayi {
-  display: inline-flex;
-  opacity: 0.45;
 }
 
 /* --- Menü şeridi (Menu Sayfasi.dc.html:283-292) --- */

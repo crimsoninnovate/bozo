@@ -1,5 +1,10 @@
-/* Ana Sayfa Alternatif.dc.html:269-294 */
-/* min-height:100vh kaldırıldı: docs/surec/IYILESTIRMELER.md, 12 Ağustos 2026. */
+/*
+ * Hikaye (#bozo). Kaynak UYGULAMA-NOTLARI 5;
+ * Ana Sayfa Alternatif.dc.html:269-294 önceki hali.
+ *
+ * Sayfanın "ortalanmış anı": İddia ve Konum asimetrik, Ocaktan tam genişlik,
+ * burası ortada. Dört bölümün aynı kart şablonunu tekrarlaması bu turda kırıldı.
+ */
 .bolum {
   display: flex;
   align-items: center;
@@ -8,78 +13,53 @@
 
 .erit {
   display: flex;
-  flex-wrap: wrap;
-  gap: clamp(28px, 3vw, 56px);
-  width: 100%;
-  align-items: center;
-}
-
-/* Panelin zemini, kenarlığı, bulanıklığı ve dolgusu CamPanel'de; burada yalnız
-   ızgaradaki yeri ve iç kolonu var (Ana:271). */
-.panel {
-  flex: 1 1 460px;
-  min-width: 0;
-  display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 24px;
+  width: 100%;
 }
 
-.baslik {
+.kicker {
+  justify-content: center;
+}
+
+/*
+ * Sayfanın en iyi cümlesi en küçük başlıkta duruyordu. Alıntı ölçeği bölüm
+ * başlığının (--ol-bolum-baslik, tavan 54px) değil, Gece'nin duygusal
+ * ölçeğinin komşusu.
+ */
+.alinti {
   margin: 0;
-  font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
-  letter-spacing: var(--iz-bolum);
+  max-width: 980px;
+  font: 800 clamp(34px, 5vw, 72px)/1.1 var(--font-baslik);
+  letter-spacing: -0.025em;
   color: var(--krem);
+  text-shadow: 0 10px 60px rgba(10, 8, 7, 0.7);
 }
 
 /* Satır yüksekliği 1.7, iddia paragrafının 1.65'i değil (Ana:277). */
 .metin {
   margin: 0;
+  max-width: 620px;
   font: 400 var(--ol-govde)/1.7 var(--font-govde);
-  color: var(--krem-78);
-  max-width: 560px;
+  color: var(--krem-86);
 }
 
-/*
- * Rengi açıkça yazılır: reset.css her <a>'ya hover'da var(--krem) veriyor,
- * tasarımda ise bağlantı tangerine kalır ve yalnız gap açılır (Ana:278-281).
- *
- * 0.18s ham: --gecis-yerlesim 0.2s ve yuvarlamak sessiz bir sapma olurdu.
- * Aynı değer AltBilgi.module.css:205'te de ham duruyor; iki kullanıma çıktığı
- * için bir token hak ediyor ama styles/tokens.css bu turda başka bir görevin
- * kapsamında, bkz. task-10-report.md.
- */
-.hikayeLinki {
-  position: relative;
+/* Geniş plaka ortalanır ve alıntıdan bir nefes uzakta durur. */
+.plakaKabi {
+  width: 100%;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  width: fit-content;
-  font: 600 15px/1 var(--font-govde);
-  color: var(--tangerine);
-  transition: gap 0.18s ease-out;
+  justify-content: center;
+  margin-top: 16px;
 }
 
-.hikayeLinki:hover {
-  gap: 18px;
-  color: var(--tangerine);
-}
+@media (max-width: 800px) {
+  .erit {
+    gap: 18px;
+  }
 
-/* Görünür kutu 15px; dokunma hedefi görünmez ::before ile 44px'e çıkar
-   (AltBilgi.module.css:212'de kurulan teknik). Üstteki paragrafa uzaklık
-   24px olduğundan komşu hiçbir hedefle çakışmaz. */
-.hikayeLinki::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
-.linkCizgi {
-  width: 24px;
-  height: 1px;
-  flex: none;
-  background: var(--tangerine);
+  .plakaKabi {
+    margin-top: 8px;
+  }
 }

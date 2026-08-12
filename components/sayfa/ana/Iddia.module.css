@@ -1,5 +1,7 @@
-/* Ana Sayfa Alternatif.dc.html:128-167 */
-/* min-height:100vh kaldırıldı: docs/surec/IYILESTIRMELER.md, 12 Ağustos 2026. */
+/*
+ * İddia. Kaynak UYGULAMA-NOTLARI 5; Ana Sayfa Alternatif.dc.html:128-167
+ * cam panel içinde çiziyordu, çerçeve kalktı.
+ */
 .bolum {
   display: flex;
   align-items: center;
@@ -14,17 +16,11 @@
   width: 100%;
 }
 
-/* Panelin zemini, kenarlığı, bulanıklığı ve dolgusu CamPanel'in kendisinde;
-   burada yalnız ızgaradaki yeri var (Ana:130). */
-.panel {
-  flex: 1 1 480px;
+.sol {
+  flex: 1 1 560px;
   min-width: 0;
 }
 
-/*
- * BolumBasligi kullanılmaz: onun `genis` varyantı padding-bottom:22px ve
- * border-bottom taşır, o Ocaktan başlık satırının chrome'udur. Burada çizgi yok.
- */
 .baslik {
   margin: 0;
   font: 700 var(--ol-bolum-baslik)/1.12 var(--font-baslik);
@@ -32,46 +28,61 @@
   color: var(--krem);
 }
 
+/* Gövde .78'den .86'ya: koyu zeminde ikincil metin sınırın altındaydı. */
 .metin {
   margin: 22px 0 0;
   font: 400 var(--ol-govde)/1.65 var(--font-govde);
-  color: var(--krem-78);
-  max-width: 560px;
+  color: var(--krem-86);
+  max-width: 620px;
 }
 
 /* 1px gap + zemin: hücreler arasındaki hairline ızgara (Ana:133) */
 .sayaclar {
-  margin-top: 34px;
+  margin-top: 38px;
   display: flex;
   flex-wrap: wrap;
   gap: 1px;
   background: var(--cizgi-kart);
 }
 
+/*
+ * Taban 190px: 150px'te "ciğer ve kuyruk yağı, her şişte" iki satıra kırılıyor
+ * ve üç hücrenin etiketleri farklı yükseklikte oturuyordu (ölçüldü, 1440px).
+ */
 .hucre {
-  flex: 1 1 150px;
+  flex: 1 1 190px;
   background: var(--panel-koyu);
-  padding: 22px 24px;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
 
 .sayi {
   /* Ana:135, 139, 143: üç hücrenin tek ölçüsü, tasarımda başka yerde yok */
-  font: 700 clamp(44px, 4.6vw, 64px)/1 var(--font-baslik);
+  font: 700 clamp(48px, 5vw, 72px)/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--iz-bolum);
   color: var(--tangerine);
 }
 
 .etiket {
-  font: 400 14px/1.45 var(--font-govde);
+  font: 400 14.5px/1.45 var(--font-govde);
   color: var(--krem-74);
 }
 
+/*
+ * Plaka fotoğraf gelene kadar küçük: 496x560 boş dikdörtgen bölümün yarısını
+ * kaplıyordu ve söyleyecek bir şeyi yoktu. Fotoğraflar bağlanınca bu sınır
+ * kalkar (UYGULAMA-NOTLARI 5 ve 6.1).
+ */
+.erit > :last-child {
+  flex: 0 1 340px;
+  max-height: 420px;
+}
+
 /* Mobil sayaç şeridi: Mobil Prototip.dc.html:100-103. Üç hücre mobilde de tek
-   satırda kalır, o yüzden flex tabanı 150px'ten 0'a iner. */
+   satırda kalır, o yüzden flex tabanı 0'a iner. */
 @media (max-width: 800px) {
   .hucre {
     flex-basis: 0;
@@ -90,6 +101,11 @@
     font-size: 11.5px;
     line-height: 1.35;
     color: var(--krem-72);
+  }
+
+  .erit > :last-child {
+    flex-basis: 100%;
+    max-height: 300px;
   }
 }
 
