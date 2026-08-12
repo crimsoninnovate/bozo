@@ -279,15 +279,25 @@
   line-height: 1;
   color: var(--krem-70);
   transition: color var(--gecis-hizli);
+  /* Satır aralığını 13px'ten 29px'e çıkarır; gerekçe aşağıdaki ::before'da. */
+  margin-block: 8px;
 }
 
+/*
+ * Hedef 28px'ken satır aralığıyla (15px satır + 13px gap) tam örtüşüyordu, yani
+ * yer tutucu döneminin ölçüsüydü: satırlar pasif <span>'di. Telefon ve WhatsApp
+ * 12 Ağustos 2026'da aktif <a> oldu ve 44px tabanı bağlayıcı hale geldi.
+ * `margin-block` şart: yalnız ::before'u 44px yapmak komşu satırın hedefiyle
+ * 16px çakışırdı, çakışan hedef kısa hedeften kötüdür. 8+8 margin aralığı
+ * 13px'ten 29px'e çıkarır, pitch 44px olur ve hedefler bitişik ama örtüşmez.
+ */
 .iletisimSatiri::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 0;
   right: 0;
-  height: 28px;
+  height: 44px;
   transform: translateY(-50%);
 }
 
