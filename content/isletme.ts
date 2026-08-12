@@ -13,8 +13,9 @@ export const isletme: Isletme = {
   cadde: 'Naci Talat Caddesi',
   sehir: 'Girne',
   ulke: 'KKTC',
-  // Handoff README'si (11 Ağustos 2026) ve dört tasarım dosyası da bu numarayı verir;
-  // metin-envanteri.json bu alanı bilinmiyor sayar, daha eski ve daha az özel kaynaktır.
+  // Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti: "Naci Talat Caddesi,
+  // Şht. Özdemir Apt. No:4 Girne". Tasarımdan bağımsız kaynak; önceki gerekçe
+  // (tasarım dosyaları + handoff README) dairesel olduğu için geçersizdi.
   binaNo: 'Şht. Özdemir Apt No:4',
   postaKodu: null,
   koordinat: null,
