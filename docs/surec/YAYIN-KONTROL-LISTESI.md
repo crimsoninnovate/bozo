@@ -88,9 +88,23 @@ ve kalan:
   `crimsoninnovate.com` 185.210.92.206'ya çözülüyor; researchos sunucusu
   185.210.92.166. Blok bugün kurulsa Let's Encrypt HTTP-01 doğrulaması .206'ya
   gider, sertifika çıkmaz ve adres açılmaz. .206'ya devops anahtarıyla erişim yok.
-- **Karar sahibin:** ya A kaydı 185.210.92.166'ya çevrilir (Cloudflare
-  kullanılıyorsa proxy kapalı, yoksa ACME doğrulaması Cloudflare'de takılır), ya
-  researchos'a çözülen başka bir alt alan açılır, ya da .206'ya erişim verilir.
+- **Sahibi seçti (12 Ağustos 2026): A kaydı researchos'a çevrilecek.** Gereken tek
+  kayıt:
+
+  | Tip | Ad | Değer | Proxy |
+  |---|---|---|---|
+  | A | `bozo` (`bozo.crimsoninnovate.com`) | `185.210.92.166` | **kapalı** |
+
+  Proxy'nin kapalı olması şart: Let's Encrypt HTTP-01 doğrulaması sunucuya
+  doğrudan ulaşmak zorunda, Cloudflare turuncu bulut arkasında sertifika çıkmaz.
+
+- **Kayıt değişince kalan iş bir dakika:** blok `/etc/caddy/Caddyfile`'a eklenir
+  (önce yedek, sonra `caddy validate`, sonra `systemctl reload caddy`), ardından
+  yukarıdaki duman testi canlı adrese karşı koşulur. Reload beş canlı siteyi
+  (`pomobile.loodos.space`, `bigo.adelonlaw.com`, `api.loodos.space`,
+  `vox.loodos.space`, `loodos.space`) etkilediği için doğrulama adımı atlanmaz.
+  Blok DNS'ten ÖNCE kurulmadı: Caddy başarısız ACME denemelerinde katlanarak
+  geri çekilir, erken kurulum yayını hızlandırmaz, geciktirir.
 
 Blok demo olduğu için `X-Robots-Tag: noindex, nofollow` taşıyor: derlemenin
 canonical URL'leri ve `sitemap.xml`'i `cigercibozo.com`'u gösteriyor, demo
