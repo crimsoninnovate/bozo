@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026, 02:30
+Son güncelleme: 12 Ağustos 2026, 11:00
 
 ## Proje bir cümlede
 
@@ -43,6 +43,39 @@ Beş sayfada 42 bildirim, 0 koşan. Düzeltildi (`80ad3b6`) ve regresyon testi e
 **Galeri kuruldu** (`docs/surec/rapor/galeri-report.md`): `/galeri/` ve `/en/galeri/`,
 manifestteki on altı kadrajın tamamı. Sayfanın çizimi yoktu, kalıplar Gizlilik
 sayfasından ve menü ürün ızgarasından alındı.
+
+**Ağaçta çalışan ajan yok.** 74 test geçiyor, typecheck ve build temiz, 22 commit
+itildi (`github.com/crimsoninnovate/bozo`).
+
+## SIRADAKİ GÖREV: bütün sayfaların ve yapının kontrolü
+
+Sahibinin 12 Ağustos 11:00'de verdiği iş. Site artık **altı sayfa** (ana, menü,
+galeri, hikaye, konum, gizlilik) artı 404, ve son kontrol turundan (Task 15) sonra
+**dört tur daha** değişiklik yaptı: erişilebilirlik tabanı, hareket, tasarım
+kararları, galeri. Yani `docs/PARITE.md` artık eski bir ağaca ait.
+
+Kapsaması gerekenler:
+
+- `docs/PARITE.md`'nin tamamı yeni ağaca karşı yeniden koşulur. **Galeri o listede
+  hiç yok**, eklenmeli.
+- Altı sayfa x iki dil x iki genişlik: parite, erişilebilirlik, konsol, ağ.
+- Yapı: rota tabloları (`lib/site.ts`, `lib/kabuk.ts`, `app/sitemap.ts`, gezinme
+  listeleri) tek gerçeği söylüyor mu, galeri hepsine girdi mi.
+- Kontrast ve dokunma hedefleri **yeniden** ölçülür: hareket turu kor sahnesinin
+  parlaklık dağılımını değiştirdi, erişilebilirlik turu hedefleri büyüttü, ikisi de
+  Task 15'in ölçümünden sonra oldu.
+- Ölü ağırlık: yeni eklenen export, token ve sözlük anahtarlarının çağıranı var mı.
+
+**Yöntem kuralı, bu gecenin en pahalı dersi: kanıtın kendisi de denetlenmeli.**
+Yedi kez bir görevin temiz raporu sonraki ölçümle çürüdü. En büyüğü: on beş görev
+`getComputedStyle`'a bakıp "animation-name dolu, süre doğru" gördü, kimse
+`document.getAnimations()`'a bakmadı, sitede sıfır animasyon koşuyordu. Kontrol turu
+raporlara güvenmez, kendi ölçümünü yapar ve **hangi aracın neyi ölçtüğünü** sorgular.
+
+Bilinen iki tuzak: kontrast ölçerken `fullPage` yakalama kullanma (`position:fixed`
+kor sahnesini belge boyuna gerer, bu gece dört sahte AA hatası üretti); dokunma
+hedefi ölçerken `getBoundingClientRect` kullanma (hedefler görünmez `::before`
+overlay'lerinde yaşıyor, `document.elementFromPoint` gerekir).
 
 ## Eksik sayfalar: talep yedi diyor, tasarım dört çizmiş
 
