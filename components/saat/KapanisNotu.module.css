@@ -1,0 +1,14 @@
+/* Hero saatinin altındaki iki satır. UYGULAMA-NOTLARI 2: 17px, .66 */
+.not {
+  margin: 22px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font: 400 17px/1.5 var(--font-govde);
+  color: var(--krem-66);
+}
+
+/* Kalan süre saniyede bir değişen bir sayı taşır. */
+.kalan {
+  font-variant-numeric: tabular-nums;
+}

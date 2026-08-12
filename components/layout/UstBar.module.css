@@ -1,6 +1,8 @@
 /*
  * Ana Sayfa Alternatif.dc.html: yükseklik 80px, gap:30px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.9),rgba(10,8,7,0)), transition:background .3s ease-out.
+ * ANA VARYANT BU DEĞERLERDEN AYRILDI (UYGULAMA-NOTLARI 2): 84px, düz .55 perde,
+ * blur(14px), alt saç çizgisi; marka 23px, nav 16px. İç varyant tasarımda kaldı.
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
  * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
@@ -22,29 +24,19 @@
   flex-direction: column;
 }
 
-.anaVaryant {
-  background: linear-gradient(to bottom, var(--panel-koyu), rgba(10, 8, 7, 0));
-  transition: background 0.3s ease-out;
-}
-
 /*
- * Tasarımın .9'dan 0'a inen perdesi marka adının hizasında yarı saydam kalıyor,
- * altından geçen içerik adın içinden okunuyor (scrollY 6351'de Konum çipleriyle
- * çakıştığı ölçüldü). Mobil prototip aynı barda blur(10px) kullanıyor, masaüstüne
- * o taşındı. Ayrı katman: mask barın kendisine binerse nav metnini de soldurur.
- * z-index -1 blur'u perdenin altına koyar, sıra önce bulanıklık sonra perde olur.
- * 801px tabanı: 800px altında barın kendisi zaten blur taşıyor, iki kat olurdu.
+ * Düz perde + bulanıklık + alt saç çizgisi (UYGULAMA-NOTLARI 2).
+ *
+ * Tasarımın .9'dan 0'a inen gradyanı marka adının hizasında yarı saydam
+ * kalıyordu ve altından geçen içerik adın içinden okunuyordu; 12 Ağustos'ta
+ * maskeli ayrı bir blur katmanıyla yamanmıştı. Not aynı sorunu daha basit
+ * çözüyor: gradyan yerine tek alfa, maske yok, ayrı katman yok. Alt kenardaki
+ * saç çizgisi barın nerede bittiğini söyler, gradyanın yaptığı işi devralır.
  */
-@media (min-width: 801px) {
-  .anaVaryant::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    backdrop-filter: blur(10px);
-    mask-image: linear-gradient(to bottom, #000 55%, transparent);
-    pointer-events: none;
-  }
+.anaVaryant {
+  background: rgba(10, 8, 7, 0.55);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(242, 233, 220, 0.08);
 }
 
 /* .94 ucunun token'ı yok (--panel-* ailesinde .94 adımı yok). */
@@ -61,7 +53,7 @@
 }
 
 .anaVaryant .satir {
-  height: 80px;
+  height: 84px;
 }
 
 .icVaryant .satir {
@@ -102,6 +94,21 @@
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--krem);
+}
+
+/*
+ * Notun büyüttüğü iki ölçü YALNIZ ana varyantta. Sebebi ölçüm: `.link` ve
+ * `.markaAd` varyanttan bağımsız yazılınca menü sayfasının barı 852px'ten
+ * 882px'e çıkıyor ve 800px eşiği yetmiyor, 12 Ağustos'ta kapatılan kırpılma
+ * geri geliyordu. İç sayfaların barı kendi ölçülmüş tasarımında kalır.
+ */
+.anaVaryant .markaAd {
+  font-size: 23px;
+}
+
+.anaVaryant .link,
+.anaVaryant .aktifLink {
+  font-size: 16px;
 }
 
 .sagGrup {
@@ -202,6 +209,9 @@
   .icVaryant {
     background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));
     backdrop-filter: blur(10px);
+    /* Mobilde saç çizgisi `.satir`da; masaüstünün bar üstündeki çizgisi
+       kalırsa iki çizgi üst üste biner. */
+    border-bottom: none;
   }
 
   /* Mobil:55 barın altına saç çizgisi veriyor. Aynı .09 üç footer'ın telif

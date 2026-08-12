@@ -6,12 +6,20 @@
   line-height: 1;
 }
 
-/* hero'daki ayrık saat: krem rakamlar, ayrı ve yanıp sönen tangerine iki nokta */
+/*
+ * Hero'daki ayrık saat: krem rakamlar, ayrı ve yanıp sönen tangerine iki nokta.
+ *
+ * Ölçü 44px tavanından 130px'e çıktı (UYGULAMA-NOTLARI 2): saat markanın ana
+ * fikri ama hero'da 28px'e düşüp meta satırı gibi okunuyordu. Alt uç 64px,
+ * sağ kolon 1100px altında tek kolona indiğinde başlıkla yarışmasın diye.
+ * Tek çağıranı ana sayfa hero'su.
+ */
 .dev {
-  gap: 3px;
-  font-size: clamp(30px, 3.4vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  gap: 4px;
+  font-size: clamp(64px, 9vw, 130px);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
   color: var(--krem);
 }
 

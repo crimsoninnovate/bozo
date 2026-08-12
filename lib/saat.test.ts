@@ -1,7 +1,13 @@
 // lib/saat.test.ts
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { durumHesapla, gosterimGunIndeksi, saatMetni } from './saat.ts'
+import {
+  durumHesapla,
+  gosterimGunIndeksi,
+  saatMetni,
+  vardiyaYuzdesi,
+  kapanisaKalan,
+} from './saat.ts'
 
 /** Girne yerel saatini veren yardımcı. Girne yazın UTC+3, kışın UTC+2. */
 function girne(iso: string): Date {
@@ -81,4 +87,42 @@ test('durum_kisSaatiUTCArti2_dogruCevirir', () => {
   assert.equal(d.saat, 4)
   assert.equal(d.acik, true)
   assert.equal(d.gece, true)
+})
+
+// Vardiya penceresi 10:00 > 05:00, on dokuz saat. Yüzde ve kalan süre hero'nun
+// gün merdiveni ile Gece bölümünün zaman çizelgesini besler.
+
+test('vardiyaYuzdesi_acilisAninda_sifirdir', () => {
+  assert.equal(vardiyaYuzdesi(girne('2026-08-11T10:00:00+03:00')), 0)
+})
+
+test('vardiyaYuzdesi_kapanisAninda_yuzdir', () => {
+  assert.equal(vardiyaYuzdesi(girne('2026-08-12T05:00:00+03:00')), 100)
+})
+
+test('vardiyaYuzdesi_geceYarisiniAsanSaat_gunuIleriTasir', () => {
+  // 02:00, açılıştan on altı saat sonra: 16/19
+  assert.equal(Math.round(vardiyaYuzdesi(girne('2026-08-12T02:00:00+03:00'))), 84)
+})
+
+test('vardiyaYuzdesi_ogleVakti_penceredekiYerineOturur', () => {
+  // 16:00, açılıştan altı saat sonra: 6/19
+  assert.equal(Math.round(vardiyaYuzdesi(girne('2026-08-11T16:00:00+03:00'))), 32)
+})
+
+// Kapalı aralıkta (05:00 - 10:00) pencere bitmiştir; merdiven tepede durur.
+test('vardiyaYuzdesi_kapaliAralik_yuzdeKirpilir', () => {
+  assert.equal(vardiyaYuzdesi(girne('2026-08-11T07:30:00+03:00')), 100)
+})
+
+test('kapanisaKalan_acilisAninda_onDokuzSaattir', () => {
+  assert.deepEqual(kapanisaKalan(girne('2026-08-11T10:00:00+03:00')), { saat: 19, dakika: 0 })
+})
+
+test('kapanisaKalan_gece0230_ikiSaatOtuzDakikadir', () => {
+  assert.deepEqual(kapanisaKalan(girne('2026-08-12T02:30:00+03:00')), { saat: 2, dakika: 30 })
+})
+
+test('kapanisaKalan_kapaliyken_nullDoner', () => {
+  assert.equal(kapanisaKalan(girne('2026-08-11T07:30:00+03:00')), null)
 })

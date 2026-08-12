@@ -164,7 +164,10 @@
   --font-baslik: var(--font-bricolage), system-ui, sans-serif;
   --font-govde: var(--font-inter), system-ui, sans-serif;
 
-  --ol-hero: clamp(60px, 10.4vw, 168px);
+  /* Hero başlığı iki satırdan üçe çıktı (UYGULAMA-NOTLARI 2) ve tavan 168px'ten
+     116px'e indi: üç satır eski ölçüde tek ekrana sığmıyordu, CTA'lar katlanın
+     altına düşüyordu. 8.05vw 1440px'te tam 116px verir, notun ölçüsü orada. */
+  --ol-hero: clamp(52px, 8.05vw, 116px);
   --ol-hero-alt: clamp(34px, 4.6vw, 76px);
   /* İç sayfaların H1'leri. Üçü de tek kullanımlık ve birbirinden farklı;
      Ana Sayfa'nın --ol-hero'su hiçbirini karşılamıyor. */

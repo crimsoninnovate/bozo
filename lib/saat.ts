@@ -52,6 +52,38 @@ export function durumHesapla(simdi: Date): Durum {
   }
 }
 
+/** Vardiya penceresinin uzunluğu: 10:00'dan ertesi sabah 05:00'e, on dokuz saat. */
+const PENCERE_SAATI = 24 - ACILIS_SAATI + KAPANIS_SAATI
+
+/**
+ * Verilen anın vardiya penceresindeki kesirli saat karşılığı. Gece yarısını aşan
+ * pencere tek eksende ölçülebilsin diye 05:00 öncesi saatler ertesi güne taşınır:
+ * 02:00 burada 26'dır, yani açılıştan on altı saat sonra.
+ */
+function pencereSaati(simdi: Date): number {
+  const { saat, dakika } = girneParcalari(simdi)
+  const kesirli = saat + dakika / 60
+  return kesirli < ACILIS_SAATI ? kesirli + 24 : kesirli
+}
+
+/**
+ * Vardiyanın ne kadarının geçtiği, yüzde. Hero'nun gün merdiveni ve Gece
+ * bölümünün zaman çizelgesi bunu okur. Kapalı aralıkta (05:00 - 10:00) pencere
+ * bitmiştir ve 100'e kırpılır: gösterge tepede durur, geri sarmaz.
+ */
+export function vardiyaYuzdesi(simdi: Date): number {
+  const gecen = pencereSaati(simdi) - ACILIS_SAATI
+  return Math.min(100, Math.max(0, (gecen / PENCERE_SAATI) * 100))
+}
+
+/** Kapanışa kalan süre. Kapalıyken null: geri sayılacak bir şey yok. */
+export function kapanisaKalan(simdi: Date): { saat: number; dakika: number } | null {
+  const kalanKesirli = ACILIS_SAATI + PENCERE_SAATI - pencereSaati(simdi)
+  if (kalanKesirli <= 0) return null
+  const toplamDakika = Math.round(kalanKesirli * 60)
+  return { saat: Math.floor(toplamDakika / 60), dakika: toplamDakika % 60 }
+}
+
 /**
  * Saat tablosundaki "Bugün" satırının hangi güne düşeceğini verir.
  * 05:00 öncesi vardiya bir önceki güne aittir.
