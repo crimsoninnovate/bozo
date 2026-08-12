@@ -1,6 +1,6 @@
 /* Ana Sayfa Alternatif.dc.html:219-242 */
+/* min-height:100vh kaldırıldı: docs/surec/IYILESTIRMELER.md, 12 Ağustos 2026. */
 .bolum {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
