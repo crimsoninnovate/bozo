@@ -149,7 +149,8 @@ kor nefesi kaynaklı bir dalgalanma değil.
 | 5.2.5 | Escape çekmeceyi kapatır | geçti, `/`, `/menu/`, `/en/` |
 | 5.2.6 | Kapanışta odak tetikleyiciye döner | geçti |
 | 5.2.7 | Çekmece açıkken gövde kaydırması kilitli | geçti |
-| 5.2.8 | Atlanan blok bağlantısı (skip link) | **yok**, `<main>` id'siz. Bkz. task-15 raporu |
+| 5.2.8 | Atlanan blok bağlantısı (skip link) | geçti, `<main id="icerik" tabindex="-1">`. İlk Tab durağı, Enter içeriğe iner, sonraki durak barın altındaki ilk kontrol (`erisim-turu-report.md`) |
+| 5.2.9 | Odak halkası site genelinde tanımlı | geçti, `:focus-visible` 2px `--tangerine`, offset 3px. Öncesinde 180 durağın 180'i tarayıcı varsayılanındaydı |
 
 ### 5.3 Landmark ve başlık
 
@@ -158,21 +159,23 @@ kor nefesi kaynaklı bir dalgalanma değil.
 | 5.3.1 | Her rotada tam bir `h1` | geçti, 10/10 |
 | 5.3.2 | Atlanan başlık seviyesi yok | geçti, h1 > h2 > h3 |
 | 5.3.3 | İki `nav` ayrı ad taşır | geçti, `Ana gezinme` / `Mobil gezinme` (EN: `Main navigation` / `Mobile navigation`) |
-| 5.3.4 | `role="dialog"` erişilebilir ad | **yok**, çekmecede `aria-label` eksik. Bkz. task-15 raporu |
+| 5.3.4 | `role="dialog"` erişilebilir ad | geçti, `Gezinme çekmecesi` / `Navigation drawer`; iç `<nav>`ın adından farklı, testle kilitli |
 
 ### 5.4 Dokunma hedefi
 
 1154 gerçek isabet ölçümü, 84 benzersiz hedef türü, 41'i tabanı geçiyor. Taban
 44px, kaynak brief'in kendi kuralı (proje bilgi dosyası bölüm 9.5).
 
+Erişilebilirlik tabanı turu (12 Ağustos 2026) üç grubu kapattı, ikisi açık kaldı:
+
 | Grup | 44px altı | Not |
 |---|---|---|
-| `BeadRay` boncukları (14-22px) | 14 tür | `aria-hidden`, `tabIndex={-1}`, dekoratif; kayıtlı (`IYILESTIRMELER.md` satır 63) |
-| `AltBilgi.sayfaLinki` (26-28px yükseklik) | 16 tür | metin bağlantısı, iki genişlikte de |
-| `UstBar.link` Menü/Gece/Story/Night (40-42px genişlik) | 5 tür | yalnız masaüstü, 44px'e 2-4px kalıyor |
-| `DilAnahtari` TR/EN (20px genişlik) | 4 tür | asıl dokunma hedefi, iki genişlikte de |
-| `AltBilgi.gizlilikLink` (42-44px) | 2 tür | |
-| `UstBar.marka` (20px mobil, 26px masaüstü yükseklik) | 2 tür | |
+| `BeadRay` boncukları (9-22px) | 14 tür | `aria-hidden`, `tabIndex={-1}`, dekoratif; kayıtlı (`IYILESTIRMELER.md` satır 63) |
+| `AltBilgi.sayfaLinki` | genişlik kapandı (38-69 > 44-69), **yükseklik 26.5px'te kilitli** | kolonun satır adımı 26.5px; adımdan yüksek bir hedef komşuya biner. 44px, gap'i 12>29.5px yapmayı ister, o görsel bir karar (`erisim-turu-report.md` madde 4) |
+| `UstBar.link` Menü/Gece/Story/Night (39-42px genişlik) | 5 tür | yalnız masaüstü, 44px'e 2-5px kalıyor; bu turun kapsamında değildi |
+| `DilAnahtari` TR/EN | **kapandı**, 19-20 > 45-46px | görünmez `::before`, yatayda -13px |
+| `AltBilgi.gizlilikLink` (39-45px genişlik) | 2 tür | yükseklik 45px |
+| `UstBar.marka` | **kapandı**, 21/26 > 45/44px | görünmez `::before`, 44px |
 
 Çakışma taraması (hedefler çift çift kesiştirildi):
 

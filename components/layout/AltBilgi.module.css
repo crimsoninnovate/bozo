@@ -131,14 +131,25 @@
 
 /*
  * "Sayfalar" kolonunun bağlantıları (Hikaye:142-144, Konum:174-175).
- * Dokunma alanı: bu kolonun satır adımı 12px gap + 14.5px satır = 26.5px;
- * 44px'lik görünmez bir ::before komşu satırın alanına taşar ve yanlış hedefe
- * dokunma riski üretir. .iletisimSatiri'ndeki (fix round 3) aynı gerekçe
- * geçerli: üst üste binmeyen en büyük yükseklik adımın kendisidir.
+ *
+ * Dokunma alanı iki eksende ayrı ayrı sınırlı.
+ *
+ * Yatay: kutu 38.7-68px arasıydı, kolonlar arası boşluk 56px. min-width kolonun
+ * kendi genişliğini (en uzun satır 68px) değiştirmez, metin sola yaslı kaldığı
+ * için görünen hiçbir şey kımıldamaz; hedef 44px'e çıkar.
+ *
+ * Dikey: kolonun satır adımı 12px gap + 14.5px satır = 26.5px, altı sayfada da
+ * birebir ölçüldü. Adımdan yüksek bir ::before komşu satırın üstüne biner, yani
+ * yanlış hedefe dokunma riski üretir; kısa hedef görünür biçimde başarısız olur,
+ * çakışan hedef sessizce yanlış sayfaya götürür. Üst üste binmeyen en büyük
+ * yükseklik adımın kendisidir, .iletisimSatiri'yle (fix round 3) aynı gerekçe.
+ * 44px'e ulaşmanın tek yolu kolonun 12px'lik gap'ini 29.5px'e çıkarmak, yani üç
+ * footer varyantının görünen ritmini değiştirmek: karar sahibinin.
  */
 .sayfaLinki {
   position: relative;
   width: fit-content;
+  min-width: 44px;
   font-family: var(--font-govde);
   font-weight: 400;
   font-size: 14.5px;
@@ -158,7 +169,7 @@
   top: 50%;
   left: 0;
   right: 0;
-  height: 26px;
+  height: 26.5px;
   transform: translateY(-50%);
 }
 

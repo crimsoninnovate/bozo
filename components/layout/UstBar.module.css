@@ -43,11 +43,30 @@
 }
 
 .marka {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 13px;
   text-decoration: none;
   color: var(--krem);
+}
+
+/*
+ * Gerçek isabet alanı 390px'te 171x21, 1440px'te 195x26 idi; bardaki diğer altı
+ * hedef 44-45px. 390px'te nav gizli olduğu için bu bağlantı ana sayfaya dönmenin
+ * tek yolu. AltBilgi'de altı kez kullanılan görünmez ::before tekniği: kutunun
+ * kendi boyu (ve barın yerleşimi) değişmez, yalnız dokunma alanı büyür.
+ * Yatayda en yakın hedef 50px (390px'te dil anahtarı), dikeyde bar içinde tek
+ * satır var; çakışma yok, ölçüldü.
+ */
+.marka::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .markaAd {

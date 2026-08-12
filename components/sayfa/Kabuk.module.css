@@ -1,4 +1,38 @@
 /*
+ * Atlanan blok bağlantısı. Odak almadan görünmez ama DOM'da ve odak sırasında
+ * durur; `display:none` olsaydı odaklanamaz, yani hiç işe yaramazdı.
+ *
+ * Görünen tasarıma dokunmaz: kutu `position:fixed`, akışta yer kaplamaz ve odak
+ * dışında viewport'un üstünde bekler. z-index üç sabit katmanın üstünde (üst bar
+ * 60, mobil eylem barı 70, çekmece 80). Geçiş yok, yani azaltılmış harekette de
+ * aynı anda belirir. Krem #F2E9DC kömür #1A1614 üstünde 14.94:1.
+ */
+.atla {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 2px;
+  background: var(--komur);
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--krem);
+  transform: translateY(-200%);
+}
+
+.atla:focus {
+  color: var(--krem);
+  transform: translateY(0);
+}
+
+/*
  * Sayfa içi çapa payı.
  *
  * Tasarımın kendi kaydırma yardımcısı iki farklı pay kullanıyor:

@@ -21,12 +21,32 @@
 /* min-height:44px + flex ortalama: dokunma alanı, görünen metin konumu değişmez
    (fix round 1, Finding 3). .aktif tıklanabilir değil, aynı işlem gerekmiyor. */
 .pasif {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   color: var(--krem-58);
   text-decoration: none;
   transition: color var(--gecis-hizli);
+}
+
+/*
+ * Yükseklik 44px'ti ama genişlik 19px: 84 hedef türünün en darı. İki dilli bir
+ * sitede birincil kontrol. Anahtarda her seferinde TEK bağlantı var (.aktif bir
+ * <span>, href'i yok), yani genişleyecek hedefin komşusu bir hedef değil.
+ * 13px'lik pay 19px'i 45px'e taşır ve şu payları bırakır: .aktif metnine 8.3px
+ * (ayırıcı glifi hedefin içinde kalır, o dekoratif), 390px'te hamburgere 17px,
+ * 1440px'te nav ve CTA'ya 17px. Çift çift kesiştirildi, çakışma yok.
+ * Görünen kutu ve yerleşim değişmez: ::before mutlak konumlu, akış dışında.
+ */
+.pasif::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -13px;
+  right: -13px;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .pasif:hover {

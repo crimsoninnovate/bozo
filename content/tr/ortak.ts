@@ -30,6 +30,14 @@ export const ortak = {
      */
     anaGezinme: 'Ana gezinme',
     mobilGezinme: 'Mobil gezinme',
+    /**
+     * `role="dialog"` erişilebilir adı. İçindeki `<nav>` zaten mobilGezinme
+     * adını taşıyor; aynı adı ikinci kez vermek iki bölgeyi ayırt edilemez
+     * kılardı. "Çekmece" bileşenin kendi alan adıdır (Cekmece.tsx).
+     */
+    gezinmeCekmecesi: 'Gezinme çekmecesi',
+    /** Atlanan blok bağlantısı. Arayüz metni, pazarlama metni değil. */
+    icerigeAtla: 'İçeriğe atla',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {

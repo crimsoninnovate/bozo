@@ -103,6 +103,19 @@ test('erisim_gezinmeBolgeleriFarkliAdTasir', () => {
   }
 })
 
+/**
+ * Çekmecenin `role="dialog"` adı, içindeki `<nav>`'ın adıyla aynı olamaz.
+ * Aynı olsaydı ekran okuyucu iç içe iki bölgeyi aynı adla duyurur ve
+ * adlandırmanın amacı, üstteki gezinme testindeki gibi, kaybolurdu.
+ */
+test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
+  for (const s of [tr, en]) {
+    const { gezinmeCekmecesi, mobilGezinme, anaGezinme } = s.ortak.erisim
+    assert.notEqual(gezinmeCekmecesi, mobilGezinme, 'Diyalog ve içindeki nav aynı adı taşıyamaz')
+    assert.notEqual(gezinmeCekmecesi, anaGezinme, 'Diyalog ve ana gezinme aynı adı taşıyamaz')
+  }
+})
+
 test('isletme_bilinmeyenAlanlarNullDur', () => {
   assert.equal(isletme.telefon, null)
   assert.equal(isletme.whatsapp, null)

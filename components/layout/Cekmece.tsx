@@ -82,7 +82,13 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
   ]
 
   return (
-    <div ref={kapsayiciRef} className={stil.kap} role="dialog" aria-modal="true">
+    <div
+      ref={kapsayiciRef}
+      className={stil.kap}
+      role="dialog"
+      aria-modal="true"
+      aria-label={s.ortak.erisim.gezinmeCekmecesi}
+    >
       <button
         type="button"
         className={stil.kapat}

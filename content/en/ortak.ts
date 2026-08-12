@@ -31,6 +31,14 @@ export const ortak = {
      */
     anaGezinme: 'Main navigation',
     mobilGezinme: 'Mobile navigation',
+    /**
+     * The accessible name of `role="dialog"`. The `<nav>` inside it already
+     * carries mobilGezinme; reusing that name would make the two regions
+     * indistinguishable. "Drawer" is the component's own domain word.
+     */
+    gezinmeCekmecesi: 'Navigation drawer',
+    /** Skip link. Interface text, not marketing copy. */
+    icerigeAtla: 'Skip to content',
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
