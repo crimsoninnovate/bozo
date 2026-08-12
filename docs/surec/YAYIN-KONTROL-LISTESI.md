@@ -18,7 +18,7 @@ temiz. On iki gezilebilir rota (altı Türkçe, altı İngilizce) artı `sitemap
 |---|---|---|---|
 | 1 | Alan adı alınmış ve DNS sunucuya bakıyor | `lib/site.ts` > `SITE_URL` | `cigercibozo.com` **varsayılıyor**, alınmadı |
 | 2 | Site ikonu | `app/icon.svg` + `app/apple-icon.png` | **Dosya yok.** Her sayfada konsola favicon 404'ü düşüyor; yerelde doğrulandı |
-| 3 | Caddy `handle_errors` bloğu sunucuda | `README.md` > Publishing | Blok yazıldı, **canlıda doğrulanmadı** |
+| 3 | Caddy `handle_errors` bloğu sunucuda | `README.md` > Publishing | **Kapandı 12 Ağu 2026:** demo kurulumunda canlıda doğrulandı |
 | 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: fiyat, telefon, WhatsApp, e-posta, Instagram, koordinat hâlâ `null` ve arayüz yer tutucu basıyor |
 
 **2. maddenin engeli veri değil karar.** Marka paketinde (`design_handoff_bozo_website/marka/`)
@@ -75,40 +75,45 @@ Bu probe'ların beşi de 12 Ağustos 2026'da yerel export üstünde (`npm run pr
 koşuldu ve beklenen değerleri verdi; tek istisna `favicon:404`, o da yukarıdaki
 açık madde. Yani liste canlıda ilk kez koşarken kendi doğruluğu sorun değil.
 
-## Demo yayını: bozo.crimsoninnovate.com
+## Demo yayını: bozo.crimsoninnovate.com, CANLI
 
-12 Ağustos 2026'da sahibi demo için researchos sunucusuna kurulum istedi. Yapılan
-ve kalan:
+12 Ağustos 2026, 16:20. Sahibi A kaydını `185.210.92.166`'ya çevirdi (proxy
+kapalı), blok kuruldu, sertifika otomatik çıktı. Adres: `https://bozo.crimsoninnovate.com`.
 
-- **Yapıldı:** derleme `researchos-server:/srv/enliq/bozo/out` altına yüklendi
-  (3.0 MB, 15 HTML). Caddy blok adayı `/tmp/bozo-aday.Caddyfile` içinde duruyor,
-  `caddy validate` ile tam yapılandırmaya karşı doğrulandı ve **canlı Caddyfile'a
-  yazılmadı**.
-- **Engel: DNS başka sunucuyu gösteriyor.** `bozo.crimsoninnovate.com` ve
-  `crimsoninnovate.com` 185.210.92.206'ya çözülüyor; researchos sunucusu
-  185.210.92.166. Blok bugün kurulsa Let's Encrypt HTTP-01 doğrulaması .206'ya
-  gider, sertifika çıkmaz ve adres açılmaz. .206'ya devops anahtarıyla erişim yok.
-- **Sahibi seçti (12 Ağustos 2026): A kaydı researchos'a çevrilecek.** Gereken tek
-  kayıt:
+Blok `X-Robots-Tag: noindex, nofollow` taşıyor: derlemenin canonical URL'leri ve
+`sitemap.xml`'i `cigercibozo.com`'u gösteriyor, demo kopyasının indekslenmesi o
+adresle çakışırdı.
 
-  | Tip | Ad | Değer | Proxy |
-  |---|---|---|---|
-  | A | `bozo` (`bozo.crimsoninnovate.com`) | `185.210.92.166` | **kapalı** |
+**Duman testinin altı adımı da canlıda geçti.** İki eski varsayım artık ölçüldü:
+`/menu` 308 ile `/menu/`'ye gidiyor, ve adında `!` olan RSC yükü 200 dönüyor
+(sayfalar tek tek açılırken sayfa içi gezinmeyi kıran, iyi saklanan arıza yok).
+`handle_errors` de doğrulandı: bilinmeyen yol 404 **ve** tasarlanmış gövdeyi
+döndürüyor. Tek kırmızı `favicon:404`, o da yukarıdaki 2. madde.
 
-  Proxy'nin kapalı olması şart: Let's Encrypt HTTP-01 doğrulaması sunucuya
-  doğrudan ulaşmak zorunda, Cloudflare turuncu bulut arkasında sertifika çıkmaz.
+### Sunucunun gerçek yapısı, iki tuzak
 
-- **Kayıt değişince kalan iş bir dakika:** blok `/etc/caddy/Caddyfile`'a eklenir
-  (önce yedek, sonra `caddy validate`, sonra `systemctl reload caddy`), ardından
-  yukarıdaki duman testi canlı adrese karşı koşulur. Reload beş canlı siteyi
-  (`pomobile.loodos.space`, `bigo.adelonlaw.com`, `api.loodos.space`,
-  `vox.loodos.space`, `loodos.space`) etkilediği için doğrulama adımı atlanmaz.
-  Blok DNS'ten ÖNCE kurulmadı: Caddy başarısız ACME denemelerinde katlanarak
-  geri çekilir, erken kurulum yayını hızlandırmaz, geciktirir.
+İkisi de ilk kurulumda zaman yaktı, `README.md` > Publishing altında da kayıtlı:
 
-Blok demo olduğu için `X-Robots-Tag: noindex, nofollow` taşıyor: derlemenin
-canonical URL'leri ve `sitemap.xml`'i `cigercibozo.com`'u gösteriyor, demo
-kopyasının indekslenmesi o adresle çakışırdı.
+- **Caddy systemd'de değil Docker'da.** `systemctl is-active caddy` `inactive`
+  diyor ve host'un `/etc/caddy/Caddyfile`'ı hiçbir şeyin okumadığı bayat bir
+  yem. Canlı yapılandırma `/opt/docker/caddy/Caddyfile`, `caddy:2-alpine`
+  konteynerine mount edilmiş. Reload:
+  `docker exec caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile`.
+- **Konteynerin `/srv/enliq`'i host'un `/var/www/enliq`'i.** Host'un kendi
+  `/srv/enliq`'ine yüklenen dosyaları Caddy göremez. Hedef dizin host'ta
+  `/var/www/enliq/bozo/out`, Caddyfile'da `root * /srv/enliq/bozo/out`.
+
+Tek bir Caddyfile kutudaki bütün siteleri karşılıyor, o yüzden reload'dan önce
+`caddy validate` ve reload'dan sonra komşu site kontrolü atlanmaz. 12 Ağustos
+kurulumunda beş komşu site reload öncesi ve sonrası birebir aynı durumu döndürdü
+(302 / 403 / 502 / 200 / 404; ikisi zaten sağlıksızdı, o halleriyle kaldı).
+
+### Güncelleme
+
+    npm run build
+    rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/
+
+Caddy reload gerekmez, `file_server` dosyaları diskten okur.
 
 ## Yayınla birlikte açılacak kararlar
 

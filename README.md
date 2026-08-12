@@ -50,12 +50,28 @@ npm run preview
 
 ## Publishing
 
-The build output in `out/` is a plain static site with no server runtime. It is meant to be
-served by a static file server (Caddy `file_server`) on researchos-server, the same pattern used
-for the Regulus and oykualemdar sites. `trailingSlash: true` in `next.config.ts` is required for
-this: it makes `/menu` resolve to `menu/index.html` instead of a bare file the server cannot find.
+The build output in `out/` is a plain static site with no server runtime, served by Caddy
+`file_server` on researchos-server, the same pattern as the Regulus and oykualemdar sites.
+`trailingSlash: true` in `next.config.ts` is required for this: it makes `/menu` resolve to
+`menu/index.html` instead of a bare file the server cannot find.
 
-Production domain: `https://cigercibozo.com`.
+Production domain: `https://cigercibozo.com` (not live yet). A demo of the current build runs at
+`https://bozo.crimsoninnovate.com`, deployed 12 August 2026.
+
+### Where the server actually keeps things
+
+Two traps cost time the first time round, so they are written down rather than rediscovered:
+
+- **Caddy runs in Docker, not systemd.** `systemctl is-active caddy` reports `inactive` and
+  `/etc/caddy/Caddyfile` on the host is a stale decoy that nothing reads. The live config is
+  `/opt/docker/caddy/Caddyfile`, mounted into the `caddy:2-alpine` container. Reload with
+  `docker exec caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile`, and
+  validate with the same path before reloading: one Caddyfile fronts every site on the box.
+- **The container's `/srv/enliq` is the host's `/var/www/enliq`.** Files uploaded to the host's
+  own `/srv/enliq` are invisible to Caddy. Deploy target is `/var/www/enliq/bozo/out` on the
+  host, written as `root * /srv/enliq/bozo/out` in the Caddyfile.
+
+Deploy is an rsync: `rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/`.
 
 ### The 404 page needs server config
 
@@ -79,11 +95,13 @@ cigercibozo.com {
 }
 ```
 
-Two things to check on the server rather than assume, both unverified from this repo:
+Two things that used to be listed here as unverified assumptions are now **measured against the
+live demo** (12 August 2026, full probe list in `docs/surec/YAYIN-KONTROL-LISTESI.md`):
 
-- A request to `/menu` (no trailing slash) must land on `/menu/`. `file_server` redirects
-  directory requests, so this should hold, but it is what `trailingSlash: true` depends on.
-- Client-side navigation fetches RSC payload files whose names contain `!`, for example
-  `menu/__next.!KHRyKQ.menu.__PAGE__.txt`. Any rule that filters unusual filenames would break
-  in-page navigation while leaving every page individually reachable, which is a failure mode
-  that hides well.
+- `/menu` without a trailing slash returns `308` to `/menu/`. `trailingSlash: true` holds.
+- RSC payload files whose names contain `!`, for example `menu/__next.!KHRyKQ.menu.__PAGE__.txt`,
+  are served with `200`. A rule filtering unusual filenames would break in-page navigation while
+  leaving every page individually reachable, a failure mode that hides well; it is not present.
+
+The `handle_errors` block itself is also verified live: an unknown path returns `404` **and** the
+designed page body, not Caddy's empty default.

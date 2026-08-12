@@ -26,10 +26,18 @@ döner, `<html lang>` ve sekme başlığı dahil.
 zaten kapanmıştı) ve `docs/surec/YAYIN-KONTROL-LISTESI.md` (yayın öncesi dört
 madde artı yerelde doğrulanmış duman testi).
 
-**Demo yayını başladı, DNS'te takıldı.** Derleme
-`researchos-server:/srv/enliq/bozo/out` altında duruyor; ama
-`bozo.crimsoninnovate.com` 185.210.92.206'ya çözülüyor, researchos ise
-185.210.92.166. Ayrıntı ve seçenekler `YAYIN-KONTROL-LISTESI.md` içinde.
+**Demo canlıda: `https://bozo.crimsoninnovate.com`** (12 Ağustos 16:20). Sahibi A
+kaydını çevirdi, blok kuruldu, sertifika otomatik çıktı, duman testinin altı adımı
+da geçti. Bununla iki eski varsayım ölçüme dönüştü (`/menu` 308, `!` içeren RSC
+yükü 200) ve `handle_errors` maddesi kapandı. Sunucu hakkında iki tuzak kayda
+geçti: Caddy systemd'de değil Docker'da, ve konteynerin `/srv/enliq`'i host'un
+`/var/www/enliq`'i. Ayrıntı `YAYIN-KONTROL-LISTESI.md` ve `README.md`'de.
+
+**İkon kararı:** CTA butonlarına ikon eklenmeyecek (sahibi, 12 Ağustos). Tasarımın
+kendi kuralı ölçüldü: 11 SVG kullanımı, 4 glif, hepsi bir kanalı (WhatsApp,
+telefon, Instagram) veya bir yeri (pin) adlandırıyor, hiçbiri bir eylemi
+adlandırmıyor. Lucide ayrıca bağımlılık kuralını bozardı ve üslubu tutmuyor
+(uniform 2px kontur; reponun dördünün üçü dolu).
 
 ## Proje bir cümlede
 
