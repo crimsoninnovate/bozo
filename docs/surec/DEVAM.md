@@ -30,12 +30,34 @@ bir metin denetimi (`metin-denetimi.md`) koştu; bulguları uygulandı. Metin
 denetimi canlıda duran üç kilit ihlali yakaladı, üçü de handoff'un kendi hatasıydı
 (commit `b36ba3a`, `b677175`).
 
-**Şu an koşan:** 15 parite ve yayın doğrulaması, 16 tasarım ve hareket (öneri
-turu olarak, izole worktree'de; kod değiştirmiyor), eksiklik eleştirisi, ve
-mobilde dört vardiya çipi işi.
+**12 Ağustos sabahı kapananlar:** Task 15 (parite ve yayın doğrulaması, bir yayın
+engeli bulup düzeltti: mobil çekmecenin kapatma düğmesi z-index altında ölüydü),
+Task 16 (tasarım ve hareket, 21 öneri), erişilebilirlik tabanı turu, hareket turu,
+tasarım kararları turu.
 
-**Kalan:** Task 15 ve 16 sonuçlarının işlenmesi, sahibinin açık kararları
-(aşağıda), işletme verisi geldiğinde içerik doldurma.
+**En büyük bulgu:** sitedeki CSS animasyonlarının hiçbiri koşmuyordu. CSS Modules
+`animation-name`'i hash'liyor, keyframe'ler global dosyadaydı, ad hiç çözülmüyordu.
+Beş sayfada 42 bildirim, 0 koşan. Düzeltildi (`80ad3b6`) ve regresyon testi eklendi
+(`styles/animasyon.test.ts`). Sahibinin "kor pek anlaşılmıyor" gözleminin sebebi buydu.
+
+**Şu an koşan:** Galeri sayfası (`docs/surec/brief/galeri-brief.md`).
+
+## Eksik sayfalar: talep yedi diyor, tasarım dört çizmiş
+
+Sahibinin tasarım talebi (`~/Desktop/Bozo/Cigerci-Bozo-Web-Tasarim-Talebi.md:11-19`)
+yedi sayfa istiyor. Handoff dörtte durmuş (aynı belgenin son satırı: aşamalı üretim).
+Tasarımı kaynak aldığımız için iki sayfa hiç gündeme gelmedi; 12 Ağustos 10:25'te
+talep açılınca çıktı.
+
+| # | Sayfa | Durum |
+|---|---|---|
+| 1-4, 7 | ana, menü, hikaye, konum, 404 | kuruldu |
+| 5 | **Galeri** (12-18 kare, tembel yüklemeli ızgara) | **kuruluyor** |
+| 6 | **Rezervasyon** (sade form + WhatsApp alternatifi) | **sahibi "şimdilik gerekli değil" dedi** |
+
+Rezervasyon açılırsa üç şey birbirine bağlı: statik export'ta sunucu yok (form dış
+servis ister), gizlilik sayfası "form toplamaz" diyor ve bu iddia kodla kanıtlandı
+(Task 15: on rotada tek origin), telefon ve WhatsApp `null`.
 
 ## Okuma sırası
 
