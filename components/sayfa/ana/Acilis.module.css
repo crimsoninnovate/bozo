@@ -43,6 +43,51 @@
   color: var(--krem-72);
 }
 
+/*
+ * Hero'nun sağ bandı. Tasarımda burası boş (Ana:86-126) ve 1440px'te başlık
+ * genişliğin yarısında bitip sağ yarı ölü kalıyor. Buraya konan şey sayfanın
+ * kendi iddiası: "İddianın kanıtı tanede" bugüne kadar 12px'lik bir dipnottu,
+ * artık görünüyor.
+ *
+ * Ölçek ve rol kor yatağından bilerek ayrı: yatak küçük, sıcak ve sık (ateş),
+ * bu iri, krem ve seyrek (ürün). İki doku aynı kareyi kullanıp farklı şey
+ * söylüyor. Tangerine taneler kordan çıkmış olanlar, her üçüncü hücrede.
+ */
+.taneAlani {
+  position: absolute;
+  right: max(24px, calc(var(--sayfa-yatay) - 40px));
+  top: 50%;
+  width: min(420px, 33vw);
+  height: min(400px, 44vh);
+  transform: translateY(-56%);
+  pointer-events: none;
+  /* Renk tamamen arka planda, ızgaranın İKİ ekseni de maskede: tek eksen maskede
+     kalınca sıcak lekeler dikey kesim almıyor ve kare yerine yatay çubuk
+     okunuyordu. Kor yatağıyla aynı düzen. */
+  background:
+    radial-gradient(24% 20% at 68% 30%, rgba(250, 170, 31, 0.34), transparent 68%),
+    radial-gradient(18% 16% at 38% 63%, rgba(250, 170, 31, 0.26), transparent 70%),
+    radial-gradient(14% 13% at 83% 70%, rgba(201, 62, 34, 0.3), transparent 72%),
+    radial-gradient(12% 11% at 53% 19%, rgba(201, 62, 34, 0.22), transparent 74%),
+    radial-gradient(64% 64% at 60% 44%, rgba(242, 233, 220, 0.1) 10%, transparent 76%);
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 24px, transparent 24px 44px),
+    repeating-linear-gradient(0deg, #000 0 24px, transparent 24px 44px);
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 24px, transparent 24px 44px),
+    repeating-linear-gradient(0deg, #000 0 24px, transparent 24px 44px);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* Dar ekranda hero zaten tek kolon ve dolu; alan yer kaplamaktan başka iş
+   yapmaz. 1100px altında düşer. */
+@media (max-width: 1100px) {
+  .taneAlani {
+    display: none;
+  }
+}
+
 .ctaSatiri {
   display: flex;
   flex-wrap: wrap;

@@ -16,6 +16,9 @@ export function Acilis({ dil }: Props) {
 
   return (
     <Bolum id="acilis" yogunluk={1} className={stil.bolum} eritClassName={stil.erit}>
+      {/* Hero'nun sağ bandındaki tane alanı: dekoratif, ağaçta yeri yok. */}
+      <span aria-hidden="true" className={stil.taneAlani} />
+
       <div className={stil.durumSatiri}>
         <DurumCipi dil={dil} boy="dev" />
         <CanliSaat boy="dev" />
