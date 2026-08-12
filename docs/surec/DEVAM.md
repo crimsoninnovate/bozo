@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026, kontrol turu sonrası
+Son güncelleme: 12 Ağustos 2026 14:51, UX ve hareket turları sonrası
 
 ## Proje bir cümlede
 
@@ -61,12 +61,47 @@ düzeltildi:
 kontrast ölçümü yalnız `color`'ın alfasına bakıyordu, ata `opacity` zincirine
 değil. `PARITE.md`'nin ölçüm kuralları bu turda beş yeni maddeyle genişledi.
 
+**Öğleden sonra üç tur daha koştu** (12 Ağustos, 13:07-14:51):
+
+1. **Kor taneleşti** (`1451063`). Sahibinin "kor pek anlaşılmıyor" gözlemi için
+   parlaklık hipotezi ölçülüp çürütüldükten sonra düz radial gradyan taneli bir
+   kor yatağına çevrildi. Aşağıdaki "Kor sahnesi" maddesi bununla değişti.
+2. **Hero'nun sağ yarısı doldu** (`01d42ee`). 1440px'te başlık genişliğin
+   yarısında bitiyor ve sağ yarı ölü kalıyordu; oraya sayfanın kendi iddiası
+   kondu (tane alanı).
+3. **UX, arayüz ve hareket denetimi**, iki parça. Raporlar:
+   `docs/surec/rapor/ux-hareket-denetimi.md` (ana sayfa) ve
+   `ux-hareket-denetimi-ic-sayfalar.md` (menü, hikaye, konum, galeri, 404).
+
+Ana sayfada dört bulgu uygulandı:
+
+- **Üst bar kaydırmada içerikle çakışıyordu** (`39e88f3`, `bf263b6`). Tasarımın
+  `.9`'dan `0`'a inen perdesi marka adının hizasında yarı saydam kalıyor,
+  altından geçen içerik adın içinden okunuyordu. Mobilin `blur(10px)`'i
+  masaüstüne taşındı, ayrı katmanda ve mask ile.
+- **Bölüm ritmi düzensizdi** (`c9b6a26`). Yedi bölümün `min-height:100vh`'i
+  1440x980'de %43-69 doluluk ve 240/243/334/375/286px'lik aralıklar üretiyordu.
+  Altı içerik bölümünden kaldırıldı, beş aralık da tam 240px oldu, belge
+  7441px'ten 6175px'e indi. Hero'da kaldı.
+- **Menüde isim sütunu sarıyordu** (`ebcf42a`). Tavan 260px'ten 300px'e çıktı.
+- **`transition: all` sıfırlandı** (`a4271b7`).
+
+İç sayfalarda sayısal taban temiz çıktı (44px altı gerçek hedef yok,
+`transition: all` yok, yerleşim animasyonu yok, 390px'te taşma yok, AA altında
+yalnız `aria-disabled` yer tutucular). Bir bulgu uygulandı: **404'te marka
+görünmüyordu** (`8094109`), başlığın üstüne wordmark kondu. Üçü sahibin
+kararına bırakıldı, aşağıda.
+
 **Ağaçta çalışan ajan yok.** 76 test geçiyor, typecheck ve build temiz.
 
 ## SIRADAKİ GÖREV: sahibi seçecek
 
-Yapı tarafında bilinen açık iş kalmadı. Sıradaki adayları, sahibinin kararına
-göre:
+Yapı tarafında bilinen açık iş kalmadı. Tasarım, hareket ve UX denetimleri de
+koştu (12 Ağustos): ana sayfa ve beş iç sayfa ölçüldü, bulunan yedi maddenin
+beşi uygulandı, üçü sahibin kararına bırakıldı. Kalan işlerin neredeyse tamamı
+artık işletme verisine ya da sahibin bir kararına bağlı, koda değil.
+
+Sıradaki adaylar, sahibinin kararına göre:
 
 - **İşletme verisi geldiğinde doldurma turu.** Aşağıdaki "İşletmeden bekleyen
   veriler" listesi kapandıkça `content/` tek noktadan dolar. Fotoğraf yolu artık
@@ -106,7 +141,9 @@ servis ister), gizlilik sayfası "form toplamaz" diyor ve bu iddia kodla kanıtl
 1. `docs/specs/2026-08-11-web-mimarisi.md`: onaylı mimari kararlar ve gerekçeleri
 2. `docs/surec/KISITLAR.md`: bağlayıcı kısıtlar, iki katmanlı (sert / varsayılan)
 3. `docs/surec/SAYFA-GOREVI-CERCEVESI.md`: sayfa görevlerinin ortak zemini
-4. `docs/surec/IYILESTIRMELER.md`: tasarımdan her sapma, gerekçesiyle
+4. `docs/surec/IYILESTIRMELER.md`: tasarımdan her sapma, gerekçesiyle. Üç
+   tablo: uygulandı, karar bekliyor, reddedildi. Bekleyen tablosu bugün
+   sahibin önündeki en uzun listedir
 5. `docs/surec/denetim/denetim-task-N.json`: her sayfa görevinin brief'inin nerede
    yanlış olduğu, kaynak göstererek
 6. `docs/plans/2026-08-11-web-uygulama-plani.md`: uygulama planı. **Dikkat:** bu
@@ -166,14 +203,55 @@ sayıyor. `prefetch={false}` bunu kapatır ama istemci gezintisinin anındalığ
 götürür. Mobil veriyle gelen bir misafir için gerçek bir bedel, ama bir hız
 kararı: sahibine bırakıldı.
 
-**Kor sahnesi okunmuyor.** Sahibi 12 Ağustos 2026'da bildirdi: kor şu an "pek
-anlaşılmıyor", daha anlaşılır olabilir mi. Sayfaların tamamı kurulduktan sonra,
-**Task 16'da** ele alınacak; sahibi açıkça en sona bıraktı.
+**UX turundan dört karar maddesi** (12 Ağustos, ayrıntı ve ölçüler
+`IYILESTIRMELER.md` ile iki UX raporunda):
 
-Ele alırken önce hangi sorun olduğu ayrılmalı, ikisi zıt yönde düzeltme ister:
-- kor efektinin kendisi fazla sönük, arkada ne olduğu okunmuyor (çözüm: yoğunluğu,
-  ölçeği veya kontrastı artırmak)
-- kor içeriğin okunurluğunu düşürüyor (çözüm: tam tersi, sahneyi geri çekmek)
+- **Konum hero'sunun sağ yarısı boş.** Tasarım orada tek sütun çiziyor, yani tek
+  başına sapma değildi; kusur hale getiren kendi düzeltmemiz oldu, ana sayfanın
+  aynı boşluğu doldurulunca iki hero ayrıştı. **Ertelendi:** harita levhası hâlâ
+  yer tutucu, onun etrafında yerleşim kararı vermek erken. Gerçek harita
+  entegrasyonuyla birlikte açılacak.
+- **Galeri ızgarasında öksüz kare.** 16 kare 3 sütuna diziliyor, sonuncusu tek
+  başına kalıyor. Izgara bizden (sayfanın tasarımı yok) ve 16 dörde bölünüyor:
+  `minmax(260px,1fr)` 4 sütun verir ama kare 371px'ten 269px'e iner.
+  **Ertelendi:** boş çerçevede öksüz satır, gerçek fotoğrafta olduğundan çok
+  daha fazla göze batıyor.
+- **İngilizce bir yol bozuksa 404 Türkçe geliyor.** `/en/yok-boyle/` `lang="tr"`
+  belge, Türkçe başlık ve `/en/` yerine `/` gösteren wordmark döndürüyor.
+  `global-not-found.tsx`'in "sınırlama, tercih değil" kaydı sunucu için doğru,
+  istemci için değil: `location.pathname` `/en/` önekini görür ve
+  `content/en/hata.ts` zaten hazır duruyor, hiç render edilmiyor. Karar: istemci
+  tarafı dil anahtarı girsin mi, yoksa tek dilli kalması kabul mü.
+- **`aria-disabled` telefon yer tutucularının kontrastı.** Paket şeridinde
+  2.62:1, alt bilgi satırlarında 3.14:1. WCAG 1.4.3 etkin olmayan bileşenleri
+  muaf tuttuğu için bugün ihlal değil. Numara `content/isletme.ts`'e girdiği an
+  bu öğeler `<a>` olup etkinleşecek ve 4.5:1 gerekecek; doldurma turunda hepsi
+  birlikte ölçülmeli.
+
+**Kor sahnesi okunmuyor: iki müdahale yapıldı, sahibin onayı bekleniyor.**
+Sahibi 12 Ağustos 2026'da bildirdi: kor "pek anlaşılmıyor", daha anlaşılır
+olabilir mi.
+
+Ele alırken hangi sorun olduğu ayrıldı, çünkü ikisi zıt yönde düzeltme ister:
+kor efektinin kendisi fazla sönük olabilir (çözüm: yoğunluk, ölçek, kontrast
+artırmak) ya da kor içeriğin okunurluğunu düşürüyor olabilir (çözüm: tam tersi,
+sahneyi geri çekmek). Ölçüm birinciyi seçti ama beklenen sebeple değil:
+**parlaklık hipotezi çürüdü**, sahne zemini tepe noktada 95-107 RGB birimi
+kaldırıyor, yani sönük değil. Eksik olan taneydi; düz gradyan ekranda kor değil
+yumuşak bir ışık havuzu okuyordu.
+
+İki düzeltme uygulandı, ikisi de `IYILESTIRMELER.md`'de kayıtlı:
+
+1. **CSS animasyonlarının hiçbiri koşmuyordu** (`80ad3b6`, aşağıda "En büyük
+   bulgu"). Gözlemin bir kısmının sebebi buydu.
+2. **Kor yatağı taneleşti** (`1451063`): tasarımın iki düz radial gradyanına
+   maskeli ızgaralarla 4px ve 6px kareler açan bir katman eklendi. Yön markanın
+   kendi sözlüğünden geldi (`TaneDizilimi`, wordmark, "tavla zarı kadar"),
+   uydurulmadı. Kontrast değişmedi, hareket azaltılmışta 13 rotada 0 koşan
+   animasyon, yeni renk yok.
+
+**Açık kalan: sahibi bakıp "şimdi okunuyor" diyecek mi.** İki müdahaleden sonra
+gözlemin kapanıp kapanmadığı sorulmadı.
 
 **Gece şeridi gereksiz görünüyor.** Sahibi 12 Ağustos 2026, 01:07'de bildirdi: üst
 bardaki ince şerit ("Gece açığız, ocak yanıyor") anlaşılmıyor, aynı şey zaten aşağıda
@@ -194,12 +272,12 @@ görünür, bu yüzden gündüz yapılan hiçbir incelemede ortaya çıkmadı.
 menü ve konumda hero durum çipi ile canlı saat zaten aynı şeyi söylüyor. Tekrar
 çözüldü, tasarımın niyeti korundu. `kabuk.test.ts` kuralı kilitliyor.
 
-**Bu maddenin bir yarısı 12 Ağustos'ta zaten kapandı** (commit `4f8b085`). Kabuk on
-rotanın hepsine ana sayfanın sahnesini basıyordu; tasarımda iç sayfaların kendi sönük
-sahnesi var (kor `.55`, çekirdek `.26`, iki duman pufu, sabit). Bu bir porting hatasıydı
-ve ölçülebilir bir sonucu vardı: iç sayfalarda krem `.78` gövde metni 4.34:1 ile AA'yı
-geçmiyordu. Yani "kor fazla" okumasının bir kısmı gerçek bir hataymış. **Ana sayfanın
-sahnesi değişmedi**, sahibinin gözlemi oraya bakıyorsa hâlâ açık.
+**"Kor fazla" okumasının bir yarısı da 12 Ağustos'ta kapandı** (commit `4f8b085`).
+Kabuk on rotanın hepsine ana sayfanın sahnesini basıyordu; tasarımda iç sayfaların
+kendi sönük sahnesi var (kor `.55`, çekirdek `.26`, iki duman pufu, sabit). Bu bir
+porting hatasıydı ve ölçülebilir bir sonucu vardı: iç sayfalarda krem `.78` gövde
+metni 4.34:1 ile AA'yı geçmiyordu. Yani "kor fazla" okumasının bir kısmı gerçek bir
+hataymış.
 
 `ImlecKoru` **bağlandı** (mobil turu): `KorSahnesi.tsx:65`, `{anaMi && <ImlecKoru />}`,
 yani sahnenin içinde ve yalnız ana sayfada, tasarımdaki gibi (`Ana:31`).
