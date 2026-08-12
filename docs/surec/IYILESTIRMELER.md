@@ -189,6 +189,18 @@ Reddedilenler listesindeki beş öneriyle çakışmadıkları tek tek kontrol ed
 | Hero şiş grafiği | Altı kare bağımsız ısınıyor: `brightness` + kor lekesi, asal periyotlar (7/11/13/17/19/23s) ve negatif gecikme | Markanın kendi nesnesi, stok efekt değil. **Gezen dalga değil:** o kalıp aşağıda "yükleniyor-iskeleti" gerekçesiyle reddedilmişti. Ölçüldü, altı karenin anlık parlaklığı birbirinden farklı ve sıralı değil | uygulandı |
 | Ertelendi | `animation-timeline: scroll()` ile kor yoğunluğunu JS aboneliğinden almak | Kazanç compositor thread ve bir scroll dinleyicisi eksik, ama Firefox stable'da özellik hâlâ bayraklı, yani mevcut JS yolu `@supports` fallback'i olarak kalmak zorunda. Çalışan bir özelliğin yanına ikinci yol, görünür kazanç yok | ertelendi |
 
+## 13 Ağustos 2026: hero şişi ve mobil bar kapısı
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Hero şiş grafiği | Altı eşit 17px kare yerine `TaneDizilimi` hero rayı: 20/12/20/20/12/20, gap 12, çubuk karelerin ARKASINDAN geçiyor | Sahibi beğenmedi. Mevcut hali `UYGULAMA-NOTLARI 2` madde 3'e birebir sadıktı, yani port değil kaynak sorunluydu; ondan önceki handoff (`Ana Sayfa Alternatif.dc.html:101-103`, `docs/tasarim/ana-sayfa.json`) zaten doğru rayı çiziyordu. Bileşenin `cizgi` ve `kor` propları tam bu ray için yazılmış ve on iki kullanımın hiçbirinde çağrılmıyordu: ölü koddu | uygulandı |
+| Aynı | `RITIMLER[6]` = 4 büyük + 2 küçük | Sitenin kendi sayacı "4+2, ciğer ve kuyruk yağı, her şişte" diyor. Hero, on iki rayın bu ritmi bozan tek yeriydi | uygulandı |
+| Aynı | İki commit önce eklenen `taneIsisi` (altı karenin hepsi ısınır) silindi | Bileşenin kendi ayrımı daha doğru: "küçük tane tangerine, yani tanelerin ARASINDAKİ kor; büyük tane krem, yani etin kendisi. Ateş yanar, et yanmaz." `kor` propu yalnız küçük taneleri nefes ettiriyor | uygulandı |
+| `TaneDizilimi` `.korlu` | Büyük taneye üstten ışık gradyanı ve zemin gölgesi, küçük taneye kor lekesi | Sahibi "iyi çizimli kareler" istedi. Aydınlatma beyaz EKLENEREK değil altı karartılarak kuruldu: palet kapalı bir liste ve krem zaten en açık ton. Yalnız `.korlu`, diğer on bir ray düz kaldı | uygulandı |
+| Isı dalgası, mobil | Kapatılmak yerine küçültüldü (bant 140px, `bottom:78px`) | Sahibinin önceliği performans değil görünüş. 390x844'te ölçüldü: bant açıkken 16.66ms, kapalıyken 16.66ms, p95 ikisinde de 18.1 | uygulandı |
+| Mobil eylem barı | 120-240px arası kayarak girer, tepede görünmez | Hero'nun kendi "Yol Tarifi Al" butonu ekrandayken bar aynı eylemi ikinci kez basıyordu. `animation-timeline: scroll(root)` ile, JS yok, hidrasyon yok. Ölçüldü: 0px'te `translateY(80.85px)` + opaklık 0, 300px'te `translateY(0)` + opaklık 1 | uygulandı |
+| Aynı | Desteklenmeyen tarayıcıda ve `prefers-reduced-motion`'da bar hep görünür | Başarısızlık yönü güvenli: kapı kurulamazsa düğmeler kaybolmuyor, bugünkü davranış kalıyor | uygulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

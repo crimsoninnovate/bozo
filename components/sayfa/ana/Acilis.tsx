@@ -5,14 +5,12 @@ import { GunMerdiveni } from '@/components/saat/GunMerdiveni'
 import { KapanisNotu } from '@/components/saat/KapanisNotu'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
+import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import { yolTarifiUrl } from '@/lib/site'
 import stil from './Acilis.module.css'
 
 type Props = { dil: Dil }
-
-/** Şiş grafiğinin altı karesi, soldan sağa. UYGULAMA-NOTLARI 2. */
-const SIS_RENKLERI = ['krem', 'tangerine', 'krem', 'kor', 'tangerine', 'krem'] as const
 
 /**
  * Ana sayfanın açılış bölümü.
@@ -42,14 +40,24 @@ export function Acilis({ dil }: Props) {
             <span className={stil.baslikUcuncu}>{s.ana.hero.altBaslik}</span>
           </h1>
 
-          {/* Şiş grafiği: altı eşit kare ve sağa doğru sönen çizgi. Ölçüler
-              TaneDizilimi'nin büyük/küçük ritmine oturmuyor (altısı da 17px,
-              üç ayrı renk), o yüzden hero'ya özel kaldı. */}
-          <div aria-hidden="true" className={stil.sis}>
-            {SIS_RENKLERI.map((renk, sira) => (
-              <span key={sira} className={`${stil.sisKare} ${stil[renk]}`} />
-            ))}
-            <span className={stil.sisCizgi} />
+          {/*
+            Şiş grafiği. UYGULAMA-NOTLARI 2 bunu altı eşit 17px kareye ve üç
+            renge düşürmüştü, çubuk da karelerin sağında duruyordu; sahibi
+            13 Ağustos 2026'da beğenmedi. Handoff'un rayına dönüldü:
+            20/12/20/20/12/20, gap 12, çubuk karelerin ARKASINDAN geçiyor
+            (Ana Sayfa Alternatif.dc.html:101-103, docs/tasarim/ana-sayfa.json).
+            Mobil ölçüler Mobil Prototip.dc.html:80-81'in ray varyantı.
+          */}
+          <div className={stil.sisSatiri}>
+            <TaneDizilimi
+              adet={6}
+              buyuk={20}
+              kucuk={12}
+              bosluk={12}
+              mobil={{ buyuk: 13, kucuk: 8, bosluk: 8 }}
+              cizgi
+              kor
+            />
           </div>
 
           <div className={stil.ctaSatiri}>

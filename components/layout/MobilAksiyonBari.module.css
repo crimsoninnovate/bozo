@@ -58,4 +58,34 @@
   .bar {
     display: flex;
   }
+
+  /*
+   * Bar sayfanın tepesinde durmaz: hero'nun kendi "Yol Tarifi Al" butonu
+   * ekranda dururken bar aynı eylemi ikinci kez basıyor ve üst üste biniyordu
+   * (sahibi, 13 Ağustos 2026). 120px'ten sonra kayarak girer.
+   *
+   * Kaydırma zaman çizelgesi JS'siz çalışır ve hidrasyon gerektirmez, yani
+   * ilk boyamada bir kare bile görünüp kaybolmaz. Desteklenmeyen tarayıcıda
+   * (bugün Firefox stable) ve `prefers-reduced-motion` altında animasyon hiç
+   * kurulmaz: bar bugünkü gibi hep görünür kalır, yani başarısızlık yönü
+   * güvenli, düğmeler asla kaybolmaz.
+   */
+  @supports (animation-timeline: scroll()) {
+    .bar {
+      animation: barGirisi linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 120px 240px;
+    }
+
+    @keyframes barGirisi {
+      from {
+        transform: translateY(105%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
 }

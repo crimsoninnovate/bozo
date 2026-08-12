@@ -53,6 +53,22 @@
 .korlu .kucukTane { animation: taneKoru 9s ease-in-out infinite; }
 .korlu .kucukTane ~ .kucukTane { animation-delay: -4.5s; }
 
+/*
+ * Hero rayı bir kademe "çizilmiş": sahibi 13 Ağustos 2026'da düz kareleri
+ * beğenmedi. Büyük tane üstten ışık alan bir küp gibi (alt kenarı sönük,
+ * altında zemine düşen gölge), küçük tane kor lekesi bırakıyor. Aydınlatma
+ * beyaz eklenerek değil ALTI karartılarak kuruldu: palet kapalı bir liste,
+ * krem zaten en açık ton. Yalnız `.korlu`, yani on iki rayın yalnız hero'su.
+ */
+.korlu .buyukTane {
+  background-image: linear-gradient(180deg, var(--krem), rgba(242, 233, 220, 0.66));
+  box-shadow: 0 2px 10px rgba(10, 8, 7, 0.6);
+}
+
+.korlu .kucukTane {
+  box-shadow: 0 0 12px rgba(250, 170, 31, 0.5);
+}
+
 @keyframes taneKoru {
   0%, 100% { opacity: 0.62; }
   50% { opacity: 1; }
