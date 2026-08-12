@@ -8,22 +8,25 @@ type Adres = { '@type': string; streetAddress: string; addressLocality: string; 
 type Saat = { '@type': string; dayOfWeek: string[]; opens: string; closes: string }
 
 test('restaurantJsonLd_gercekVeriyle_bilinmeyenAlanlariHicYazmaz', () => {
-  // Gerçek işletme verisi: koordinat, e-posta, instagram henüz null. Telefon
-  // 12 Ağustos 2026'da geldi ve artık yazılıyor, aşağıdaki testte kilitli.
+  // Gerçek işletme verisi: koordinat ve e-posta henüz null. Telefon ve Instagram
+  // 12 Ağustos 2026'da geldi, ikisi de aşağıdaki testlerde kilitli.
   assert.equal(isletme.koordinat, null)
   assert.equal(isletme.eposta, null)
-  assert.equal(isletme.instagram, null)
 
   const veri = restaurantJsonLd() as Record<string, unknown>
   assert.equal('geo' in veri, false)
   assert.equal('email' in veri, false)
-  assert.equal('sameAs' in veri, false)
   assert.equal('priceRange' in veri, false)
 })
 
 test('restaurantJsonLd_gercekVeriyle_telefonuYazar', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
   assert.equal(veri.telephone, '+90 533 888 74 24')
+})
+
+test('restaurantJsonLd_gercekVeriyle_instagramiSameAsaYazar', () => {
+  const veri = restaurantJsonLd() as Record<string, unknown>
+  assert.deepEqual(veri.sameAs, ['https://instagram.com/cigercibozo'])
 })
 
 test('restaurantJsonLd_temelAlanlariDogruBasar', () => {

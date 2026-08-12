@@ -117,10 +117,15 @@ test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
 })
 
 test('isletme_bilinmeyenAlanlarNullDur', () => {
-  assert.equal(isletme.instagram, null)
   assert.equal(isletme.eposta, null)
   assert.equal(isletme.koordinat, null)
   assert.equal(isletme.postaKodu, null)
+})
+
+// Kullanıcı adı saklanır, tam URL değil: AltBilgi öneki kendisi kurar.
+test('isletme_instagram_kullaniciAdiTasirUrlDegil', () => {
+  assert.equal(isletme.instagram, 'cigercibozo')
+  assert.equal(isletme.instagram?.includes('/'), false)
 })
 
 // Telefon ve WhatsApp aynı hat. `wa.me` baştaki sıfırı kabul etmez, o yüzden
