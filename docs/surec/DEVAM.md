@@ -3,7 +3,39 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026 16:15, işletme verisi ve metin turu sonrası
+Son güncelleme: 12 Ağustos 2026 17:50, ana sayfa yeniden tasarım turu sonrası
+
+## Ana sayfa yeniden tasarlandı (12 Ağustos akşamı)
+
+Kaynak: `~/Desktop/Bozo/export/UYGULAMA-NOTLARI.md`, Crimson Innovate'in canlı
+demoya karşı yaptığı bölüm bölüm denetim. **Ana sayfa için kanonik kaynak artık
+bu not**, `design_handoff_bozo_website/*.dc.html` değil; iç sayfalar handoff'ta
+kaldı. Altı bölümün altısı da uygulandı, on dört maddelik kontrol listesi
+doğrulandı.
+
+- **Hero** (`7bcd18b`): iki kolon, saat 130px sağ kolonda, gün merdiveni,
+  meta satırı kendi satırında. Öğleden sonra konan tane alanı kalktı.
+- **Ocaktan** (`720c92e`): kart çerçevesi kalktı, ad 34px, açıklama 18px,
+  `000 TL` sütunu ve üçlü kare ikonlar gitti, fiyat bilgi bloğu geldi.
+- **Gece** (`9782ba8`): hayalet saat kalktı, vardiya çipleri yerine canlı zaman
+  çizelgesi. `VardiyaSeridi` ve üç dosyası silindi.
+- **Kor sahnesi** (`343f47e`): bütün tiling katmanları kalktı, alt vinyet geldi.
+  Bu, sabah yapılan taneleştirmenin geri alınması demek; sahibinin kararı.
+- **İddia, Hikaye, Konum, paket, footer** (`a85f408`).
+- **Tipografi** (`11874cf`): kademe 1 tabanı 17px. Kademe 2 ve 3 KISITLAR'a göre
+  tasarımın ölçüsünde kaldı, kontrastla ölçüldü.
+
+**İki gerçek hata bu turda çıktı:** sayaçlar arka plandaki sekmede sıfırda
+donuyordu (`requestAnimationFrame` çalışmıyor, gözlemci de bırakılmış); footer'ın
+marka kolonundaki 36px kopukluk `<p>` varsayılan margin'iydi, gap değil.
+
+**Notun uygulanmayan iki maddesi:** kumarhane komşuluk çipleri (yerine ne
+konacağı sahibin kararı) ve gerçek koyu harita (koordinat hâlâ `null`). Bir
+madde de bilinçli atlandı: not paket bandının kalkmasını istiyor, sahibi aynı gün
+rozetli düzeni seçmişti.
+
+**Menü sayfası hâlâ `000 TL` basıyor.** Notun kapsamı ana sayfaydı; menü
+sayfasında fiyatın nasıl görüneceği ayrı bir karar.
 
 ## En son ne oldu (12 Ağustos öğleden sonra)
 
