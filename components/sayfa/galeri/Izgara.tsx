@@ -25,7 +25,7 @@ export function Izgara({ dil }: Props) {
   return (
     <div className={stil.izgara}>
       {kadrajlar.map((id) => (
-        <FotoYuvasi key={id} id={id} dil={dil} bicim="kart" />
+        <FotoYuvasi key={id} id={id} dil={dil} bicim="kart" etiketGoster />
       ))}
     </div>
   )

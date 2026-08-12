@@ -35,7 +35,7 @@ export function CekimListesi({ dil }: Props) {
         </div>
         <div className={stil.izgara}>
           {CEKIM_KARELERI.map((id) => (
-            <FotoYuvasi key={id} id={id} dil={dil} bicim="karo" />
+            <FotoYuvasi key={id} id={id} dil={dil} bicim="karo" etiketGoster />
           ))}
         </div>
         <p className={stil.aiNotu}>{s.menu.cekim.aiGorselNotu}</p>

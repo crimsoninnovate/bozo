@@ -8,7 +8,6 @@ export const konum = {
   harita: {
     caddeEtiketi: 'Naci Talat Caddesi',
     pinKapiNo: 'No:4',
-    altYazi: 'harita · koyu tema, tek işaret; canlı harita entegrasyonla gelir',
   },
   saatler: {
     baslik: 'Saatler',

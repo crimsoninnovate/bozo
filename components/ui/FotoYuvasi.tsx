@@ -64,6 +64,14 @@ type Props = {
    * rayı (Ana:149) ve menü kartının sağ üst indeks rozeti (Menu:131). Konumu
    * çağıran verir, plaka yalnız `position: relative` zeminini sağlar.
    */
+  /**
+   * Kadraj etiketini basar. Varsayılan `false`: ürün ve hero plakalarında etiket
+   * fotoğrafçıya yazılmış bir yönergeydi ve misafire caption gibi okunuyordu
+   * (UYGULAMA-NOTLARI 1.2). Galeri ızgarası ile menünün çekim listesinde ise
+   * etiket İÇERİĞİN KENDİSİ: o iki yüzey "beklenen kareler"i sayar, adları
+   * düşünce geriye anonim koyu kutular kalıyor.
+   */
+  etiketGoster?: boolean
   children?: React.ReactNode
 }
 
@@ -72,10 +80,16 @@ function korNefesiStili(nefes: KorNefesi | undefined): React.CSSProperties | und
   return { animationDuration: `${nefes.sure}s`, animationDelay: `${nefes.gecikme ?? 0}s` }
 }
 
-export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children }: Props) {
+export function FotoYuvasi({
+  id,
+  dil,
+  bicim,
+  koseIsaretleri,
+  korNefesi,
+  etiketGoster = false,
+  children,
+}: Props) {
   const foto = fotograflar[id]
-  // Kadraj etiketi ("tane yakın çekimi") fotoğrafçıya yazılmış bir yönerge, misafire
-  // gösterilecek başlık değil; boş plakada artık basılmıyor (UYGULAMA-NOTLARI 1.2).
   // Fotoğraf geldiğinde aynı metin `alt` olarak ağaçta kalır.
   const etiket = dil === 'en' ? foto.etiketEn : foto.etiket
 
@@ -109,6 +123,7 @@ export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children
       {koseSiniflari.slice(0, koseSayisi).map((koseSinif) => (
         <span key={koseSinif} aria-hidden="true" className={`${stil.kose} ${koseSinif}`} />
       ))}
+      {etiketGoster && <span className={stil.etiket}>{etiket}</span>}
       {children}
     </div>
   )

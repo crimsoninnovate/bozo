@@ -25,11 +25,15 @@ export const menu = {
       },
       dalak: {
         ad: 'Spleen (Dalak)',
-        aciklama: 'A classic of the Urfa offal line. Portion details pending.',
+        aciklama:
+          'A classic of the Urfa offal line. Beside the liver, cut coarse: ' +
+          'kept short over a high fire.',
       },
       yurek: {
         ad: 'Heart (Yürek)',
-        aciklama: 'A classic of the Urfa offal line. Portion details pending.',
+        aciklama:
+          'A classic of the Urfa offal line. Firm textured; the cut that stays ' +
+          'longest over the embers.',
       },
       'kuzu-sis': {
         ad: 'Lamb Skewer (Kuzu Şiş)',

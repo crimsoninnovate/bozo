@@ -9,7 +9,6 @@ export const konum = {
     caddeEtiketi: 'Naci Talat Street',
     pinKapiNo: 'No:4',
     // The design's "· 80 m" is unverified; the owner removed it. The name stays.
-    altYazi: 'map · dark theme, one marker; the live map arrives with the integration',
   },
   saatler: {
     baslik: 'Hours',

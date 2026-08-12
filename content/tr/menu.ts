@@ -23,11 +23,15 @@ export const menu = {
       },
       dalak: {
         ad: 'Dalak',
-        aciklama: 'Urfa sakatat hattının klasiği. Porsiyon detayı işletmeden bekleniyor.',
+        aciklama:
+          'Urfa sakatat hattının klasiği. Ciğerin yanına, iri doğranmış: ' +
+          'yüksek ateşte kısa tutulur.',
       },
       yurek: {
         ad: 'Yürek',
-        aciklama: 'Urfa sakatat hattının klasiği. Porsiyon detayı işletmeden bekleniyor.',
+        aciklama:
+          'Urfa sakatat hattının klasiği. Sıkı dokulu; korun üstünde en uzun ' +
+          'kalan tane.',
       },
       'kuzu-sis': { ad: 'Kuzu Şiş', aciklama: 'Sakatat yemeyen misafir için ana alternatif.' },
       'terbiyesiz-tavuk-sis': {

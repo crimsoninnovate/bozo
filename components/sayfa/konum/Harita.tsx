@@ -41,7 +41,6 @@ export function Harita({ dil }: Props) {
           <span className={stil.kapiNo}> · {harita.pinKapiNo}</span>
         </span>
 
-        <span className={stil.altNot}>{harita.altYazi}</span>
       </div>
     </section>
   )
