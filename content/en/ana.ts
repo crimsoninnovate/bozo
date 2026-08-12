@@ -16,20 +16,20 @@ export const ana = {
     sayac3: { deger: '3', etiket: 'minutes over high oak embers' },
   },
   ocaktan: {
-    baslik: 'From the fire',
+    baslik: 'From the Fire',
     altNot: 'Five products, two on the house',
     urunler: {
       // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
       // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).
       ciger: {
-        ad: 'Urfa liver kebab (ciğer)',
+        ad: 'Urfa Liver Kebab (Ciğer)',
         aciklama: 'Urfa style, cut to the size of a backgammon die',
       },
-      dalak: { ad: 'Spleen (dalak)', aciklama: 'Portion details pending from the kitchen' },
-      yurek: { ad: 'Heart (yürek)', aciklama: 'Portion details pending from the kitchen' },
-      'kuzu-sis': { ad: 'Lamb skewer (kuzu şiş)', aciklama: 'For guests who skip offal' },
+      dalak: { ad: 'Spleen (Dalak)', aciklama: 'Portion details pending from the kitchen' },
+      yurek: { ad: 'Heart (Yürek)', aciklama: 'Portion details pending from the kitchen' },
+      'kuzu-sis': { ad: 'Lamb Skewer (Kuzu Şiş)', aciklama: 'For guests who skip offal' },
       'terbiyesiz-tavuk-sis': {
-        ad: 'Chicken skewer (terbiyesiz tavuk şiş)',
+        ad: 'Chicken Skewer (Terbiyesiz Tavuk Şiş)',
         aciklama: 'From the thigh, with an Urfa marinade',
       },
     },
@@ -37,7 +37,7 @@ export const ana = {
   ikram: {
     baslik: 'The table comes set',
     metin: 'Lebeni and bostana are on the house. You do not need to ask.',
-    cip1: { ad: 'Lebeni soup', detay: 'chickpea, yoghurt, thyme' },
+    cip1: { ad: 'Lebeni Soup', detay: 'chickpea, yoghurt, thyme' },
     cip2: { ad: 'Bostana', detay: 'sour cherry juice, pomegranate molasses' },
   },
   gece: {
@@ -53,7 +53,7 @@ export const ana = {
     metin:
       'Engin Çağlar from Urfa has been called Bozo for years. He gave this place no name other ' +
       'than his own nickname, because he is at the fire, at the door and beside your table.',
-    hikayeLinki: 'Read the full story',
+    hikayeLinki: 'Read the Full Story',
   },
   konum: {
     baslik: 'Naci Talat Street, Kyrenia',

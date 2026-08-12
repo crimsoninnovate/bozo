@@ -34,6 +34,6 @@ export const hikaye = {
     metin:
       'Lebeni and bostana are on the house; you do not need to ask. ' +
       'Our place is alcohol-free, the fire is the show.',
-    ctaKonum: 'Location and hours',
+    ctaKonum: 'Location and Hours',
   },
 }

@@ -5,7 +5,7 @@ export const menu = {
     spot: 'Hepsi ocaktan çıkar. Beş ürün, iki ikram. Fiyatlar açılışta kesinleşir.',
   },
   geceMenusu: {
-    baslik: 'Gece menüsü',
+    baslik: 'Gece Menüsü',
     govde:
       '01:00 sonrası sadeleşen adlandırılmış katman. ' +
       'Hangi ürünlerin ocakta kalacağı henüz belli değil.',
@@ -29,9 +29,9 @@ export const menu = {
         ad: 'Yürek',
         aciklama: 'Urfa sakatat hattının klasiği. Porsiyon detayı işletmeden bekleniyor.',
       },
-      'kuzu-sis': { ad: 'Kuzu şiş', aciklama: 'Sakatat yemeyen misafir için ana alternatif.' },
+      'kuzu-sis': { ad: 'Kuzu Şiş', aciklama: 'Sakatat yemeyen misafir için ana alternatif.' },
       'terbiyesiz-tavuk-sis': {
-        ad: 'Terbiyesiz tavuk şiş',
+        ad: 'Terbiyesiz Tavuk Şiş',
         aciklama: "Kalçadan, Urfa'ya özgü marineyle. Aralara kuyruk yağı konur.",
       },
     },
@@ -40,7 +40,7 @@ export const menu = {
     baslik: 'İkramlar',
     altMetin: 'Sofra kurulu gelir, istemenize gerek yok',
     urunler: {
-      lebeni: { ad: 'Lebeni çorbası', aciklama: 'Nohut, yoğurt ve kekik. Ocaktan önce gelir.' },
+      lebeni: { ad: 'Lebeni Çorbası', aciklama: 'Nohut, yoğurt ve kekik. Ocaktan önce gelir.' },
       bostana: { ad: 'Bostana', aciklama: 'İnce doğranmış, sulu. Vişne suyu ve nar ekşisiyle.' },
     },
   },
@@ -53,7 +53,7 @@ export const menu = {
     qrNotu: 'Sofradaki QR menü aynı listeyi gösterir',
   },
   cekim: {
-    baslik: 'Çekim listesi',
+    baslik: 'Çekim Listesi',
     altMetin: 'Menünün beklediği yedi kare',
     aiGorselNotu:
       'Yapay zeka ile üretilmiş yemek görseli kullanılmıyor. ' +

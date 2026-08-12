@@ -9,5 +9,5 @@ export const hata = {
   metin:
     'We could not find the page you were looking for. The fire is still lit; pick up from below.',
   anaSayfa: 'Home',
-  menu: 'See the menu',
+  menu: 'See the Menu',
 }

@@ -6,6 +6,6 @@ export const hata = {
   kicker: '404',
   baslik: 'Bu sayfa ocakta yok.',
   metin: 'Aradığınız sayfayı bulamadık. Ocak yanmaya devam ediyor, aşağıdan devam edin.',
-  anaSayfa: 'Ana sayfa',
-  menu: 'Menüyü gör',
+  anaSayfa: 'Ana Sayfa',
+  menu: 'Menüyü Gör',
 }

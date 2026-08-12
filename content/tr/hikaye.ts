@@ -35,6 +35,6 @@ export const hikaye = {
     metin:
       'Lebeni ve bostana ikramımızdır, istemenize gerek yok. ' +
       'Mekanımız alkolsüzdür; gösteri ocağın kendisidir.',
-    ctaKonum: 'Konum ve saatler',
+    ctaKonum: 'Konum ve Saatler',
   },
 }

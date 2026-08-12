@@ -22,9 +22,9 @@ export const ana = {
       ciger: { ad: 'Ciğer', aciklama: 'Urfa usulü, tavla zarı büyüklüğünde' },
       dalak: { ad: 'Dalak', aciklama: 'Porsiyon detayı işletmeden bekleniyor' },
       yurek: { ad: 'Yürek', aciklama: 'Porsiyon detayı işletmeden bekleniyor' },
-      'kuzu-sis': { ad: 'Kuzu şiş', aciklama: 'Sakatat yemeyen misafir için' },
+      'kuzu-sis': { ad: 'Kuzu Şiş', aciklama: 'Sakatat yemeyen misafir için' },
       'terbiyesiz-tavuk-sis': {
-        ad: 'Terbiyesiz tavuk şiş',
+        ad: 'Terbiyesiz Tavuk Şiş',
         aciklama: "Kalçadan, Urfa'ya özgü marineyle",
       },
     },
@@ -32,7 +32,7 @@ export const ana = {
   ikram: {
     baslik: 'Sofra kurulu gelir',
     metin: 'Lebeni ve bostana ikramımızdır. Sofra kurulu gelir, istemenize gerek yok.',
-    cip1: { ad: 'Lebeni çorbası', detay: 'nohut, yoğurt, kekik' },
+    cip1: { ad: 'Lebeni Çorbası', detay: 'nohut, yoğurt, kekik' },
     cip2: { ad: 'Bostana', detay: 'vişne suyu, nar ekşisi' },
   },
   gece: {
@@ -48,7 +48,7 @@ export const ana = {
     metin:
       "Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Bu mekana kendi lakabından başka isim " +
       'düşünmedi; çünkü ocağın başında da, kapıda da, sofranızın yanında da o var.',
-    hikayeLinki: 'Hikayenin tamamı',
+    hikayeLinki: 'Hikayenin Tamamı',
   },
   konum: {
     baslik: 'Naci Talat Caddesi, Girne',

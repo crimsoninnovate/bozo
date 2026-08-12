@@ -6,7 +6,7 @@
 export const ortak = {
   marka: { ad: 'Ciğerci Bozo', kisa: 'Bozo' },
   nav: {
-    anaSayfa: 'Ana sayfa',
+    anaSayfa: 'Ana Sayfa',
     menu: 'Menü',
     /** Tasarımın çekmece listesindeki sayfa adı; rota kurulunca geri geldi. */
     galeri: 'Galeri',
@@ -43,11 +43,11 @@ export const ortak = {
   },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
-    yolTarifiAl: 'Yol tarifi al',
+    yolTarifiAl: 'Yol Tarifi Al',
     /** Mobil alt bar. Tasarımda ("Mobil Prototip.dc.html") bu buton kısa yazılır. */
-    yolTarifiKisa: 'Yol tarifi',
-    menuyuGor: 'Menüyü gör',
-    whatsapptanYaz: "WhatsApp'tan yaz",
+    yolTarifiKisa: 'Yol Tarifi',
+    menuyuGor: 'Menüyü Gör',
+    whatsapptanYaz: "WhatsApp'tan Yaz",
     ara: 'Ara',
     whatsapp: 'WhatsApp',
     telefon: 'Telefon',
@@ -57,17 +57,19 @@ export const ortak = {
   durum: {
     acik: 'Şu an açığız',
     kapali: "Şu an kapalıyız, 10:00'da açılıyoruz",
+    /** Saat tablosunun dar hücresi için, `kapali`nin ilk cümleciği. Yeni metin değil. */
+    kapaliKisa: 'Şu an kapalıyız',
     acikAlt: "Ocak 05:00'e kadar yanıyor",
     kapaliAlt: 'Kapalı aralık: 05:00 - 10:00',
     geceSerit: 'Gece açığız, ocak yanıyor',
   },
   satirlar: {
-    adresKisa: 'Girne, Naci Talat Caddesi',
+    adresKisa: 'Girne, Naci Talat Caddesi No:4',
     adresCadde: 'Naci Talat Caddesi',
     adresBina: 'No:4',
     adresSehirUlke: 'Girne / KKTC',
     adresTamSatir: 'Naci Talat Caddesi No:4',
-    adresVeSaat: 'Girne, Naci Talat Caddesi · Her gün 10:00 - 05:00',
+    adresVeSaat: 'Girne, Naci Talat Caddesi No:4 · Her gün 10:00 - 05:00',
     saatlerGunluk: 'Her gün 10:00 - 05:00',
     saatlerUzun: "Her gün 10:00'dan ertesi sabah 05:00'e kadar",
     saatAraligi: '10:00 - 05:00',
@@ -87,6 +89,9 @@ export const ortak = {
     metin:
       'Paket kutuda gelir, sıcaklığını yolda korur. Ciğer soğumadan yenir; ' +
       'kutu ilk açıldığında hala kor sıcaklığındadır.',
+    // Hizmet 12 Ağustos 2026'da henüz başlamadı; sipariş butonu yerine rozet basılır.
+    hizmetAdi: 'Paket servis',
+    yakindaRozeti: 'yakında',
   },
   footer: {
     tanim: 'Urfa usulü ciğer, meşe korunda.',

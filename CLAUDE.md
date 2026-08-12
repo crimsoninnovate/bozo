@@ -66,7 +66,13 @@ npm run preview    # serve the out/ export locally
 
 - No em dash (U+2014) as punctuation; use a colon, comma, or period. No circumflex accents. No
   all-caps sentences. Exclamation marks are rare.
-- Headings use sentence case. Hours are written `10:00 - 05:00`.
+- Hours are written `10:00 - 05:00`.
+- **Case, owner's decision 12 August 2026.** Title case (word-initial capitals) on three
+  things only: product names (`Terbiyesiz Tavuk Şiş`), section and menu labels
+  (`Gece Menüsü`, `From the Fire`), and CTA/nav labels (`Yol Tarifi Al`, `See the Menu`).
+  Page headings and body copy stay sentence case: `Girne uyurken ocak yanıyor` is a
+  sentence, not a label. English follows English title case, so short articles and
+  prepositions stay lowercase (`On the House`). Screen-reader-only labels are untouched.
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).
