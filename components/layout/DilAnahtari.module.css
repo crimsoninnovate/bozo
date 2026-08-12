@@ -53,6 +53,12 @@
   color: var(--krem);
 }
 
+/*
+ * .28 kasıtlı: bu bir ayraç glifi, `aria-hidden` ve hiçbir bilgi taşımıyor.
+ * Ölçüldü 2.17:1, yani metin eşiğinin altında; WCAG 1.4.3 saf dekorasyonu muaf
+ * tutuyor ve yükseltmek onu pasif "EN" etiketiyle aynı sese çıkarır, hiyerarşiyi
+ * bozardı. Sayfa taramasında tek "başarısız" öğe budur (12 Ağustos 2026).
+ */
 .ayirici {
   color: rgba(242, 233, 220, 0.28);
 }

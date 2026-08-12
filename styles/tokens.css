@@ -198,11 +198,14 @@
   --ol-govde-buyuk: clamp(17px, 1.5vw, 21px);
   /* Hikaye'nin kapanış paragrafı, satır 1.65. Tek kullanım: Hikaye:126 */
   --ol-sofra-govde: clamp(16.5px, 1.4vw, 20px);
-  --ol-govde: clamp(16px, 1.35vw, 19px);
+  /* Taban 16px'ten 17px'e (UYGULAMA-NOTLARI 6). Yalnız dar ekranı ilgilendirir:
+     1259px üstünde clamp zaten 17px'i geçiyor. Kademe 1 metni, yani KISITLAR'ın
+     16px zeminini yükseltiyor, ihlal etmiyor. */
+  --ol-govde: clamp(17px, 1.35vw, 19px);
   /* Sayfa açılışının spot metni, satır 1.6. --ol-govde ile aynı uçlarda durur ama
      ortası daha hızlı büyür (1.4vw), o yüzden ayrı token. 2 kullanım, iki sayfa:
      Menu:77, Konum:77 */
-  --ol-spot: clamp(16px, 1.4vw, 19px);
+  --ol-spot: clamp(17px, 1.4vw, 19px);
   /* gövde metninin bir adım küçüğü, satır 1.6. 3 kullanım, üç dosya: menü imza
      açıklaması (Menu:110), paket paragrafı (Ana:342, Konum:158) */
   --ol-govde-kucuk: clamp(15px, 1.3vw, 17px);
