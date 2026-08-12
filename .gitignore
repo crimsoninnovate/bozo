@@ -33,3 +33,4 @@ next-env.d.ts
 
 # tarayici dogrulama artiklari
 .playwright-mcp/
+.gstack/
