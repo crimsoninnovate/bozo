@@ -224,8 +224,8 @@
     },
     {
       "alan": "Adres detayı (bina no, kat, posta kodu)",
-      "deger": "Bilinmiyor. Kaynakta yalnızca cadde adı var; bina numarası verilmemiş. Yer tutucu gerekir",
-      "dogrulanmisMi": false
+      "deger": "Bina numarası No:4. Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti; belgedeki apartman adı sahibinin kararıyla yazılmıyor. Kat ve posta kodu hâlâ bilinmiyor.",
+      "dogrulanmisMi": true
     },
     {
       "alan": "Harita koordinatları (enlem, boylam)",
