@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useGirneSaati } from '@/components/saat/useGirneSaati'
 import { sozluk, type Dil } from '@/content'
+import { cekmeceLinkleri } from '@/lib/kabuk'
 import { yol, type RotaAnahtari } from '@/lib/site'
 import stil from './Cekmece.module.css'
 
@@ -22,10 +23,7 @@ type Props = {
  * odak ilk linke gider ve kapsayıcı içinde döngüye alınır (focus trap),
  * kapanışta odak tetikleyiciye (hamburger) döner.
  *
- * Tasarımdaki bağlı link listesi Menü/Hikaye/Konum/Galeri/Rezervasyon'du;
- * Galeri ve Rezervasyon bu sitenin mimarisinde (RotaAnahtari, içerik
- * sözlüğü) karşılığı olmayan sayfalar, uydurulmadı. Gerçek üç rota
- * kullanıldı, bkz. task-6-report.md.
+ * Link listesi `lib/kabuk.ts`'ten gelir, burada yazılmaz.
  */
 export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
   const kapsayiciRef = useRef<HTMLDivElement>(null)
@@ -75,11 +73,7 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
 
   // Hydration güvenliği: mount öncesi/sonrası ilk render kapalı görünümle eşleşir.
   const acikMi = durum?.acik ?? false
-  const linkler: { anahtar: RotaAnahtari; etiket: string }[] = [
-    { anahtar: 'menu', etiket: s.ortak.nav.menu },
-    { anahtar: 'hikaye', etiket: s.ortak.nav.hikaye },
-    { anahtar: 'konum', etiket: s.ortak.nav.konum },
-  ]
+  const linkler = cekmeceLinkleri()
 
   return (
     <div
@@ -102,13 +96,13 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
       <nav className={stil.linkler} aria-label={s.ortak.erisim.mobilGezinme}>
         {linkler.map((link, i) => (
           <Link
-            key={link.anahtar}
+            key={link.rota}
             ref={i === 0 ? ilkLinkRef : undefined}
-            href={yol(link.anahtar, dil)}
+            href={yol(link.rota, dil)}
             className={stil.link}
-            aria-current={link.anahtar === aktif ? 'page' : undefined}
+            aria-current={link.rota === aktif ? 'page' : undefined}
           >
-            {link.etiket}
+            {s.ortak.nav[link.etiket]}
           </Link>
         ))}
       </nav>

@@ -327,12 +327,14 @@ a.iletisimSatiri:hover {
   padding-top: 18px;
 }
 
+/* krem-58, tasarımın krem-50'si değil: 390px'te kor parıltısı şeridin altına
+   toplanıyor, krem-50 orada 4.48 ölçüyor (eşik 4.5), krem-58 4.81. */
 .telifMetin {
   font-family: var(--font-govde);
   font-weight: 400;
   font-size: 12.5px;
   line-height: 1;
-  color: var(--krem-50);
+  color: var(--krem-58);
 }
 
 /*

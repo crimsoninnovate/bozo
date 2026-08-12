@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026, 11:00
+Son güncelleme: 12 Ağustos 2026, kontrol turu sonrası
 
 ## Proje bir cümlede
 
@@ -44,38 +44,38 @@ Beş sayfada 42 bildirim, 0 koşan. Düzeltildi (`80ad3b6`) ve regresyon testi e
 manifestteki on altı kadrajın tamamı. Sayfanın çizimi yoktu, kalıplar Gizlilik
 sayfasından ve menü ürün ızgarasından alındı.
 
-**Ağaçta çalışan ajan yok.** 74 test geçiyor, typecheck ve build temiz, 22 commit
-itildi (`github.com/crimsoninnovate/bozo`).
+**Kontrol turu koştu** (`docs/surec/rapor/kontrol-turu-report.md`). `docs/PARITE.md`
+yeni ağaca karşı baştan koşuldu ve galeri listeye girdi. Üç şey bulundu, üçü de
+düzeltildi:
 
-## SIRADAKİ GÖREV: bütün sayfaların ve yapının kontrolü
+1. **Galeri mobil çekmecede yoktu.** `Cekmece.tsx` link listesini elle yazıyordu
+   ve galeri rotası açılınca güncellenmemişti; 780px altında masaüstü nav
+   çekmeceye düştüğü için dar ekranda Galeri'ye üst gezinmeden hiç girilemiyordu.
+   Liste `lib/kabuk.ts` > `cekmeceLinkleri()`'ne taşındı, test kilitledi.
+2. **Canlı saatin iki noktası AA'yı geçmiyordu.** `colonBlink` dip fazı 1.62:1
+   (eşik 3.0). Dip `.25` > `.5`, artık 3.23:1. Sahibi onayladı.
+3. **Alt bilginin 12.5px satırı 390px'te eşikte titriyordu** (4.48-4.58, eşik 4.5).
+   `--krem-50` > `--krem-58`, artık 4.81. Sahibi onayladı.
 
-Sahibinin 12 Ağustos 11:00'de verdiği iş. Site artık **altı sayfa** (ana, menü,
-galeri, hikaye, konum, gizlilik) artı 404, ve son kontrol turundan (Task 15) sonra
-**dört tur daha** değişiklik yaptı: erişilebilirlik tabanı, hareket, tasarım
-kararları, galeri. Yani `docs/PARITE.md` artık eski bir ağaca ait.
+İkincisinin bugüne kadar görünmemesinin sebebi kayıtlı yöntemin kör noktasıydı:
+kontrast ölçümü yalnız `color`'ın alfasına bakıyordu, ata `opacity` zincirine
+değil. `PARITE.md`'nin ölçüm kuralları bu turda beş yeni maddeyle genişledi.
 
-Kapsaması gerekenler:
+**Ağaçta çalışan ajan yok.** 76 test geçiyor, typecheck ve build temiz.
 
-- `docs/PARITE.md`'nin tamamı yeni ağaca karşı yeniden koşulur. **Galeri o listede
-  hiç yok**, eklenmeli.
-- Altı sayfa x iki dil x iki genişlik: parite, erişilebilirlik, konsol, ağ.
-- Yapı: rota tabloları (`lib/site.ts`, `lib/kabuk.ts`, `app/sitemap.ts`, gezinme
-  listeleri) tek gerçeği söylüyor mu, galeri hepsine girdi mi.
-- Kontrast ve dokunma hedefleri **yeniden** ölçülür: hareket turu kor sahnesinin
-  parlaklık dağılımını değiştirdi, erişilebilirlik turu hedefleri büyüttü, ikisi de
-  Task 15'in ölçümünden sonra oldu.
-- Ölü ağırlık: yeni eklenen export, token ve sözlük anahtarlarının çağıranı var mı.
+## SIRADAKİ GÖREV: sahibi seçecek
 
-**Yöntem kuralı, bu gecenin en pahalı dersi: kanıtın kendisi de denetlenmeli.**
-Yedi kez bir görevin temiz raporu sonraki ölçümle çürüdü. En büyüğü: on beş görev
-`getComputedStyle`'a bakıp "animation-name dolu, süre doğru" gördü, kimse
-`document.getAnimations()`'a bakmadı, sitede sıfır animasyon koşuyordu. Kontrol turu
-raporlara güvenmez, kendi ölçümünü yapar ve **hangi aracın neyi ölçtüğünü** sorgular.
+Yapı tarafında bilinen açık iş kalmadı. Sıradaki adayları, sahibinin kararına
+göre:
 
-Bilinen iki tuzak: kontrast ölçerken `fullPage` yakalama kullanma (`position:fixed`
-kor sahnesini belge boyuna gerer, bu gece dört sahte AA hatası üretti); dokunma
-hedefi ölçerken `getBoundingClientRect` kullanma (hedefler görünmez `::before`
-overlay'lerinde yaşıyor, `document.elementFromPoint` gerekir).
+- **İşletme verisi geldiğinde doldurma turu.** Aşağıdaki "İşletmeden bekleyen
+  veriler" listesi kapandıkça `content/` tek noktadan dolar; fotoğraflar gelince
+  galeri ve menü plakaları `next/image`'a geçer ve o yol **hiç ölçülmedi**
+  (bugün yüklenecek görsel yok).
+- **Yayın turu.** Alan adı, Caddy, `SITE_URL`, favicon. Favicon için onaylı
+  işaret hâlâ yok.
+- **Rezervasyon sayfası**, sahibi isterse (şu an "şimdilik gerekli değil").
+- Aşağıdaki açık maddelerden biri.
 
 ## Eksik sayfalar: talep yedi diyor, tasarım dört çizmiş
 
@@ -152,6 +152,19 @@ gerektiriyor, bu da görünür bir footer yeniden düzeni; 26px'lik ikisi için 
 `kabuk-turu-report.md:343-349`'da kayıtlı. Tek başına yapılmadı. 44px mi footer ritmi
 mi öncelikli, Task 16'da veya yayın öncesi karara bağlanacak.
 
+Kontrol turu bunu yeniden ölçtü, madde aynen duruyor: galeri eklenince örnek
+sayısı 48'e çıktı ama tür ve ölçü değişmedi. Çakışma yok, sahipsiz hedef yok.
+
+**Prefetch ilk yüklemede 344 KB indirip atıyor.** Next 16 statik export'ta
+`<Link>` prefetch'i önce rota URL'sini istiyor (sunucu tam HTML döndürüyor),
+sonra o isteği iptal edip `__next.*.txt` yükünü alıyor. Ölçüldü (ana sayfa, ilk
+yükleme): 6 iptal edilmiş istek, 344 KB aktarılmış ve atılmış; gerçekten
+kullanılan `.txt` yükü 176 KB. Konsoldaki `net::ERR_ABORTED` yığını hata değil,
+Next'in kendi davranışı ve statik export rehberi prefetch'i destekleniyor
+sayıyor. `prefetch={false}` bunu kapatır ama istemci gezintisinin anındalığını da
+götürür. Mobil veriyle gelen bir misafir için gerçek bir bedel, ama bir hız
+kararı: sahibine bırakıldı.
+
 **Kor sahnesi okunmuyor.** Sahibi 12 Ağustos 2026'da bildirdi: kor şu an "pek
 anlaşılmıyor", daha anlaşılır olabilir mi. Sayfaların tamamı kurulduktan sonra,
 **Task 16'da** ele alınacak; sahibi açıkça en sona bıraktı.
@@ -172,11 +185,13 @@ yazıyor. Gözlem doğru: 01:00-05:00 arası aynı olgu üç kez söyleniyor.
 | `DurumAltMetni` (hero) | Ocak 05:00'e kadar yanıyor |
 
 Şerit tasarımdan geliyor (`Ana Sayfa Alternatif.dc.html:44`) ve yalnız gece
-görünür, bu yüzden gündüz yapılan hiçbir incelemede ortaya çıkmadı. Task 16'da
-karara bağlanacak. Seçenekler: şeridi kaldırmak, hero'nun alt metnini gece
-saatlerinde susturmak, ya da şeridi yalnız ana sayfa dışındaki rotalarda göstermek
-(orada hero durum satırı yok, tekrar da yok). Üçüncüsü tekrarı çözerken tasarımın
-niyetini de korur, ama ölçülmeden karar verilmemeli.
+görünür, bu yüzden gündüz yapılan hiçbir incelemede ortaya çıkmadı.
+
+**Bu madde kapandı.** Üçüncü seçenek uygulandı: `lib/kabuk.ts` >
+`geceSeridiGosterilirMi()` şeridi yalnız hikaye, gizlilik ve galeride gösteriyor.
+Ölçüt sayfa kimliği değil, o rotada başka canlı gösterge olup olmadığı; ana,
+menü ve konumda hero durum çipi ile canlı saat zaten aynı şeyi söylüyor. Tekrar
+çözüldü, tasarımın niyeti korundu. `kabuk.test.ts` kuralı kilitliyor.
 
 **Bu maddenin bir yarısı 12 Ağustos'ta zaten kapandı** (commit `4f8b085`). Kabuk on
 rotanın hepsine ana sayfanın sahnesini basıyordu; tasarımda iç sayfaların kendi sönük
@@ -185,10 +200,8 @@ ve ölçülebilir bir sonucu vardı: iç sayfalarda krem `.78` gövde metni 4.34
 geçmiyordu. Yani "kor fazla" okumasının bir kısmı gerçek bir hataymış. **Ana sayfanın
 sahnesi değişmedi**, sahibinin gözlemi oraya bakıyorsa hâlâ açık.
 
-Bağlı bir iş kaldı:
-- `components/ember/ImlecKoru.tsx` Task 5'te yazıldı ama **hiçbir yere bağlanmadı**.
-  Tasarımda o katman sahnenin içinde ve yalnız ana sayfada (`Ana:31`, `data-imlec`).
-  Bağlanması mobil turunun işi; z-index ve sahne kabına göre konumu ölçülmeli.
+`ImlecKoru` **bağlandı** (mobil turu): `KorSahnesi.tsx:65`, `{anaMi && <ImlecKoru />}`,
+yani sahnenin içinde ve yalnız ana sayfada, tasarımdaki gibi (`Ana:31`).
 
 `GizlilikSayfasi`'nın krem `.86` sapması **12 Ağustos'ta kapandı**: sönük sahneye karşı
 yeniden ölçüldü, tasarımın `.78`'i en kötü durumda 6.97:1 (390px) ve 8.51:1 (1440px)
@@ -242,5 +255,9 @@ sağlamıyor. Kayıtlı, düzeltilmedi.
 ## Doğrulama komutları
 
     npm run typecheck
-    npm test              # şu an 60 test
+    npm test              # şu an 76 test
     npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı
+
+`docs/PARITE.md` yeniden koşulabilir kontrol listesidir; ölçüm kuralları
+bölümünü **okumadan** kontrast ya da dokunma hedefi ölçme, listedeki yedi kural
+yedi ayrı sahte sonuç kaynağını kapatıyor.

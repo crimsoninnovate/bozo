@@ -128,6 +128,19 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
 }
 
 /**
+ * Mobil çekmecenin link listesi. `Mobil Prototip.dc.html:201-205` beş satır
+ * yazıyor: Menü / Hikaye / Konum / Galeri / Rezervasyon. Rezervasyon rotası yok
+ * (sahibi "şimdilik gerekli değil" dedi), kalan dördü `IC_NAV` ile aynı sıra.
+ *
+ * Liste burada, `Cekmece.tsx`'te değil: elle yazılmış ikinci bir liste rota
+ * tablosundan sessizce ayrılır. Galeri rotası açıldığında tam bu oldu, çekmece
+ * üç linkte kaldı ve dar ekranda Galeri'ye üst gezinmeden hiç girilemedi.
+ */
+export function cekmeceLinkleri(): { rota: RotaAnahtari; etiket: NavEtiketi }[] {
+  return IC_NAV.filter((o) => o.tur === 'rota').map((o) => ({ rota: o.rota, etiket: o.etiket }))
+}
+
+/**
  * Gece şeridi yalnız sayfanın başka canlı durum göstergesi olmadığı rotalarda.
  *
  * Ölçüm (Girne 03:36-03:47): ana, menü ve konum aynı olguyu üç dört kez söylüyor

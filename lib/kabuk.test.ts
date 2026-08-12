@@ -2,7 +2,13 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
-import { altBilgiSayfaLinkleri, altBilgiVaryanti, geceSeridiGosterilirMi, ustBarVaryanti } from './kabuk.ts'
+import {
+  altBilgiSayfaLinkleri,
+  altBilgiVaryanti,
+  cekmeceLinkleri,
+  geceSeridiGosterilirMi,
+  ustBarVaryanti,
+} from './kabuk.ts'
 import type { RotaAnahtari } from './site.ts'
 
 const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'galeri', 'hikaye', 'konum', 'gizlilik']
@@ -99,6 +105,27 @@ test('altBilgi_sayfaLinkleri_bulunulanSayfayiIcermez', () => {
     altBilgiSayfaLinkleri('konum').map((l) => l.rota),
     ['ana', 'menu', 'hikaye', 'galeri'],
   )
+})
+
+/**
+ * Çekmece dar ekranda üst gezinmenin TEK hali: masaüstü nav 780px altında düşer.
+ * Bir rota buradan eksikse o sayfaya üst gezinmeden hiç girilemez. Galeri rotası
+ * açıldığında çekmecenin elle yazılmış listesi güncellenmedi ve tam bu oldu.
+ */
+test('cekmece_icerikRotalarininHepsiniTasir', () => {
+  assert.deepEqual(
+    cekmeceLinkleri().map((l) => l.rota),
+    ['menu', 'hikaye', 'konum', 'galeri'],
+  )
+})
+
+/** Çekmece etiketleri de sözlükten gelir, elle yazılmaz. */
+test('cekmece_etiketleri_sozlukteKarsiligiVar', () => {
+  for (const link of cekmeceLinkleri()) {
+    for (const s of [tr, en]) {
+      assert.equal(typeof s.ortak.nav[link.etiket], 'string', link.rota)
+    }
+  }
 })
 
 /** Şerit yalnız hero durum çipi ve canlı saati olmayan üç rotada tek kaynaktır. */

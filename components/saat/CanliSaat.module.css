@@ -59,8 +59,10 @@
 
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
    bir sayfada duran düz ad tutmaz. Ana:22. */
+/* Dip .5, tasarımın (Ana:22) .25'i değil: .25 fazında iki nokta 1.62:1 ölçüyor,
+   büyük metin eşiği 3.0. .5 -> 3.23:1. */
 @keyframes colonBlink {
   0%, 45% { opacity: 1; }
-  50%, 95% { opacity: 0.25; }
+  50%, 95% { opacity: 0.5; }
   100% { opacity: 1; }
 }
