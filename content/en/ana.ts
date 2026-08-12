@@ -5,6 +5,14 @@ export const ana = {
     baslikSatir2: 'liver',
     altBaslik: 'over oak embers',
     scrollIpucu: 'The proof is in the cut',
+    saatEtiketi: 'Kyrenia · right now',
+    ocakSoner: 'The fire goes out at 05:00.',
+    kapanisaKalanKalibi: '{saat} hours {dakika} minutes to closing.',
+    kilometreTaslari: [
+      { saat: '10:00', metin: 'the fire is lit, the door opens' },
+      { saat: '21:00', metin: 'the night shift begins' },
+      { saat: '05:00', metin: 'the last cut, the fire goes out' },
+    ],
   },
   iddia: {
     baslik: 'You can tell a master by the cut',
@@ -65,6 +73,5 @@ export const ana = {
       macroMarket: 'Girne Macro Market',
     },
     haritaSokak: 'Naci Talat Street',
-    haritaAltNot: 'map · dark theme, one marker',
   },
 }

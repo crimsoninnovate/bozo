@@ -25,7 +25,7 @@
   border: 1px solid var(--cizgi-guclu);
   box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.5);
 }
-/* ikram bölümü, çapraz iki köşe, ortalanmış etiket. Ana:236 */
+/* ikram bölümü, çapraz iki köşe. Ana:236 */
 .genis {
   width: min(760px, 100%);
   height: clamp(120px, 20vh, 200px);
@@ -34,8 +34,7 @@
 }
 
 /* ---- ocak ailesi ---------------------------------------------------------
-   Kendi zemini var, kor lekesi alttan taşar, vinyet kenarları karartır,
-   etiket plakanın İÇİNDE oturur. */
+   Kendi zemini var, kor lekesi alttan taşar, vinyet kenarları karartır. */
 
 .spread,
 .kart,
@@ -122,63 +121,6 @@
 
 .kart .kose { width: 20px; height: 20px; border-color: var(--tangerine-50); }
 .kart .solUst { top: 16px; left: 16px; }
-
-/* ---- kadraj etiketi ------------------------------------------------------ */
-
-.etiket {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  left: 24px;
-  bottom: -14px;
-  padding: 6px 12px;
-  background: var(--zemin);
-  font: 500 12.5px/1.4 var(--font-govde);
-  color: var(--krem-72);
-}
-.etiketCizgi { width: 18px; height: 1px; flex: none; background: var(--tangerine); }
-
-/* geniş plakanın etiketi ortalanır ve çizgisiz basılır. Ana:238 */
-.genis .etiket { left: 50%; bottom: -13px; transform: translateX(-50%); padding: 5px 12px; }
-.genis .etiketCizgi { display: none; }
-
-/* ocak ailesinde etiket plakanın içinde oturur, kendi zeminini taşımaz. */
-.spread .etiket,
-.kart .etiket,
-.ikram .etiket,
-.icecek .etiket,
-.karo .etiket { padding: 0; background: transparent; }
-
-.spread .etiket { left: 24px; bottom: 22px; }
-.spread .etiketCizgi { width: 20px; }
-
-.kart .etiket,
-.icecek .etiket {
-  left: 18px;
-  bottom: 16px;
-  gap: 9px;
-  font: 500 12px/1.4 var(--font-govde);
-  color: var(--krem-70);
-}
-.ikram .etiket {
-  left: 16px;
-  bottom: 14px;
-  gap: 9px;
-  font: 500 12px/1.4 var(--font-govde);
-  color: var(--krem-70);
-}
-.kart .etiketCizgi,
-.icecek .etiketCizgi,
-.ikram .etiketCizgi { width: 16px; }
-
-.karo .etiket {
-  left: 12px;
-  bottom: 11px;
-  font: 500 11.5px/1.3 var(--font-govde);
-  color: var(--krem-68);
-}
-.karo .etiketCizgi { display: none; }
 
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
    bir sayfada duran düz ad tutmaz. Menu Sayfasi.dc.html:19. */

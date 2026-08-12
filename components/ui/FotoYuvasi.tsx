@@ -74,6 +74,9 @@ function korNefesiStili(nefes: KorNefesi | undefined): React.CSSProperties | und
 
 export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children }: Props) {
   const foto = fotograflar[id]
+  // Kadraj etiketi ("tane yakın çekimi") fotoğrafçıya yazılmış bir yönerge, misafire
+  // gösterilecek başlık değil; boş plakada artık basılmıyor (UYGULAMA-NOTLARI 1.2).
+  // Fotoğraf geldiğinde aynı metin `alt` olarak ağaçta kalır.
   const etiket = dil === 'en' ? foto.etiketEn : foto.etiket
 
   if (foto.dosya) {
@@ -106,10 +109,6 @@ export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children
       {koseSiniflari.slice(0, koseSayisi).map((koseSinif) => (
         <span key={koseSinif} aria-hidden="true" className={`${stil.kose} ${koseSinif}`} />
       ))}
-      <span className={stil.etiket}>
-        <span aria-hidden="true" className={stil.etiketCizgi} />
-        {etiket}
-      </span>
       {children}
     </div>
   )

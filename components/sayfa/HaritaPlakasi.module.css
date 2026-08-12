@@ -100,15 +100,6 @@
   color: var(--krem-62);
 }
 
-/* Ana:331 */
-.altNot {
-  position: absolute;
-  left: 24px;
-  bottom: 22px;
-  font: 500 12.5px/1.5 var(--font-govde);
-  color: var(--krem-68);
-}
-
 /*
  * Mobil levha: Mobil Prototip.dc.html:169-174. 180px'lik levhada tasarım dört
  * katman çiziyor: ızgara, yatay yol, halka, nabız. Dikey yol ve üç etiket
@@ -140,8 +131,7 @@
 
   .dikeyYol,
   .isletmeAdi,
-  .sokak,
-  .altNot {
+  .sokak {
     display: none;
   }
 }

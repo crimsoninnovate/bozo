@@ -58,7 +58,6 @@ export function Konum({ dil }: Props) {
         className={stil.harita}
         isletmeAdi={s.ortak.marka.ad}
         sokak={s.ana.konum.haritaSokak}
-        altNot={s.ana.konum.haritaAltNot}
       />
     </Bolum>
   )

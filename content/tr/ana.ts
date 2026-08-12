@@ -5,6 +5,16 @@ export const ana = {
     baslikSatir2: 'ciğer',
     altBaslik: 'meşe korunda',
     scrollIpucu: 'İddianın kanıtı tanede',
+    /* Sağ kolonun saat bloğu. UYGULAMA-NOTLARI 2, em dash ve şapkalı harf
+       kurallara göre düzeltilerek alındı. */
+    saatEtiketi: 'Girne · şu an',
+    ocakSoner: "Ocak 05:00'te söner.",
+    kapanisaKalanKalibi: 'Kapanışa {saat} saat {dakika} dakika.',
+    kilometreTaslari: [
+      { saat: '10:00', metin: 'ocak yanar, kapı açılır' },
+      { saat: '21:00', metin: 'gece vardiyası başlar' },
+      { saat: '05:00', metin: 'son tane, ocak söner' },
+    ],
   },
   iddia: {
     baslik: 'Ustayı tanesinden anlarsınız',
@@ -60,6 +70,5 @@ export const ana = {
       macroMarket: 'Girne Macro Market',
     },
     haritaSokak: 'Naci Talat Caddesi',
-    haritaAltNot: 'harita · koyu tema, tek işaret',
   },
 }

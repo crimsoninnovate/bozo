@@ -5,8 +5,6 @@ type Props = {
   isletmeAdi: string
   /** Levhanın sol tarafındaki cadde etiketi (Ana:330). */
   sokak: string
-  /** Sol altta duran levha notu (Ana:331). */
-  altNot: string
   /**
    * Levhanın sayfa ızgarasındaki yeri (flex tabanı, min-width, min-height).
    * Bu değerler çağıran sayfanın düzenine ait; levha yalnız zeminini,
@@ -25,7 +23,7 @@ type Props = {
  * levhasını yazdı (`components/sayfa/konum/Harita.*`). Bu bileşen ana sayfaya
  * özel kaldı, ortaklaştırma denemesi kapandı.
  */
-export function HaritaPlakasi({ isletmeAdi, sokak, altNot, className }: Props) {
+export function HaritaPlakasi({ isletmeAdi, sokak, className }: Props) {
   return (
     <div className={className ? `${stil.levha} ${className}` : stil.levha}>
       <span aria-hidden="true" className={stil.izgara} />
@@ -35,7 +33,6 @@ export function HaritaPlakasi({ isletmeAdi, sokak, altNot, className }: Props) {
       <span aria-hidden="true" className={stil.nabiz} />
       <span className={stil.isletmeAdi}>{isletmeAdi}</span>
       <span className={stil.sokak}>{sokak}</span>
-      <span className={stil.altNot}>{altNot}</span>
     </div>
   )
 }
