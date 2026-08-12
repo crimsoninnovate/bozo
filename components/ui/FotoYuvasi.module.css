@@ -179,3 +179,10 @@
   color: var(--krem-68);
 }
 .karo .etiketCizgi { display: none; }
+
+/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
+   bir sayfada duran düz ad tutmaz. Menu Sayfasi.dc.html:19. */
+@keyframes emberSoft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.82; }
+}

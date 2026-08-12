@@ -40,7 +40,7 @@ python3 -m http.server 8391 --directory out --bind 127.0.0.1 &
 | # | Madde | Sonuç | Kanıt |
 |---|---|---|---|
 | 1.1 | `npm run build` temiz | geçti | çıkış 0, TypeScript hatasız, 14 sayfa üretildi |
-| 1.2 | `npm test` | geçti | 65 test, 0 hata |
+| 1.2 | `npm test` | geçti | 68 test, 0 hata |
 | 1.3 | `npm run typecheck` | geçti | `tsc --noEmit` çıktısı boş |
 | 1.4 | On rota + `robots.txt` + `sitemap.xml` | geçti | `find out -name index.html` on rotayı verir |
 | 1.5 | `gecici-` dosyası yok | geçti | `grep -rl gecici- out` boş |
@@ -48,8 +48,10 @@ python3 -m http.server 8391 --directory out --bind 127.0.0.1 &
 | 1.7 | `out/404/index.html`, `out/404.html` ile birebir aynı | geçti | `cmp -s out/404.html out/404/index.html` |
 | 1.8 | `_not-found/` çıktısı (kayıtlı davranış, `DEVAM.md`) | kayıtlı | üretiliyor, sitemap'e sızmıyor |
 | 1.9 | `sitemap.xml` on rotayı verir, `_not-found` yok | geçti | 10 `<loc>`, her biri tr/en `xhtml:link` çiftli |
+| 1.10 | Her animasyon adının `@keyframes` karşılığı var | geçti | `styles/animasyon.test.ts`; son testi `out/` okur, yani `npm run build`'den SONRA koşar |
 
 ```bash
+npm run build && npm test            # 1.10'un derleme testi out/ ister
 find out -name index.html | sort
 grep -c '<loc>' out/sitemap.xml          # 10
 grep -c '_not-found' out/sitemap.xml     # 0

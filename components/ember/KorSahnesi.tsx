@@ -42,8 +42,14 @@ export function KorSahnesi({ varyant }: Props) {
 
   return (
     <div className={`${stil.kap} ${anaMi ? stil.ana : stil.ic}`} aria-hidden="true">
-      <span ref={korRef} className={stil.kor} />
-      <span ref={cekirdekRef} className={stil.cekirdek} />
+      {/* Dış span yoğunluğu, iç span nefesi taşır: animasyon aynı elemanda
+          inline style'ı ezer, ikisi ayrı katmanda olmazsa merdiven ölür. */}
+      <span ref={korRef} className={stil.korYogunluk}>
+        <span className={stil.kor} />
+      </span>
+      <span ref={cekirdekRef} className={stil.cekirdekYogunluk}>
+        <span className={stil.cekirdek} />
+      </span>
       {/* İmleç koru sahnenin katmanı ve sırası çekirdek ile duman arasında (Ana:31). */}
       {anaMi && <ImlecKoru />}
       {anaMi ? (

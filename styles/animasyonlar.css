@@ -1,42 +1,12 @@
-/* İç sayfaların seti (Menu/Hikaye/Konum:18-20). Ana sayfanınki ayrı, altta. */
-@keyframes emberBreath {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-@keyframes emberSoft {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.82; }
-}
-@keyframes smokeDrift {
-  0% { opacity: 0; transform: translate3d(0, 36px, 0) scale(1); }
-  30% { opacity: 0.14; }
-  100% { opacity: 0; transform: translate3d(30px, -170px, 0) scale(1.6); }
-}
-
-/* Ana Sayfa Alternatif.dc.html:18-20 */
-@keyframes emberBreathAna {
-  0%, 100% { opacity: 0.62; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.06); }
-}
-@keyframes emberSoftAna {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.85; }
-}
-@keyframes smokeDriftAna {
-  0% { opacity: 0; transform: translate3d(0, 40px, 0) scale(1); }
-  28% { opacity: 0.16; }
-  100% { opacity: 0; transform: translate3d(40px, -200px, 0) scale(1.7); }
-}
-@keyframes dotPulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 1; }
-}
-@keyframes colonBlink {
-  0%, 45% { opacity: 1; }
-  50%, 95% { opacity: 0.25; }
-  100% { opacity: 1; }
-}
-
+/*
+ * Keyframe'ler burada DEĞİL, onları kullanan `.module.css` dosyalarının içinde.
+ * CSS Modules (Next 16 / Turbopack / lightningcss) bir modüldeki her
+ * `animation-name` değerini modül-yerel hash'e çevirir; buradaki düz ad hiçbir
+ * zaman çözülmez ve animasyon sessizce hiç kurulmaz. Ölçüldü: beş sayfada 42
+ * bildirim, 0 koşan animasyon (Task 16).
+ *
+ * Bu dosya yalnız her modülü birden kesen kuralı taşır.
+ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;

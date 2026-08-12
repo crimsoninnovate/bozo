@@ -145,3 +145,10 @@
     display: none;
   }
 }
+
+/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
+   bir sayfada duran düz ad tutmaz. Ana:21 ve Menu/Hikaye/Konum:21. */
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}

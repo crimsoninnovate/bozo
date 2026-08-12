@@ -56,3 +56,11 @@
   pointer-events: none;
   user-select: none;
 }
+
+/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
+   bir sayfada duran düz ad tutmaz. Ana:22. */
+@keyframes colonBlink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0.25; }
+  100% { opacity: 1; }
+}

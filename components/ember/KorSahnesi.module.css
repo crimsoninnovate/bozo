@@ -10,6 +10,31 @@
 /* .ana = Ana:28-35, .ic = Hikaye/Konum:27-33.
    Menu:29-32 altı değerde ayrışıyor, çoğunluğa normalize edildi (IYILESTIRMELER.md). */
 
+/*
+ * Yoğunluk sarmalayıcıları. Animasyon bildirimleri author-normal bildirimleri,
+ * yani inline `style`ı da yener; nefes ile `KorSahnesi.tsx`'in kaydırmaya göre
+ * yazdığı opaklık/ölçek aynı elemanda duramaz, biri diğerini öldürür. İç içe
+ * opaklıklar çarpılır, transform'lar birleşir: sarmalayıcı yoğunluğu, iç eleman
+ * nefesi taşır. `.kap` height:100vh ve sarmalayıcı inset:0 olduğu için `.kor`un
+ * yüzdeleri aynı kutuya çözülür, geometri değişmez.
+ */
+.korYogunluk,
+.cekirdekYogunluk {
+  position: absolute;
+  inset: 0;
+}
+
+/* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
+.ana .korYogunluk {
+  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+  will-change: opacity, transform;
+}
+
+.ana .cekirdekYogunluk {
+  transition: opacity 0.9s ease-out;
+  will-change: opacity;
+}
+
 .kor {
   position: absolute;
   left: 0;
@@ -26,9 +51,6 @@
     transparent 70%
   );
   animation: emberBreathAna 8s ease-in-out infinite;
-  /* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
-  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
-  will-change: opacity, transform;
 }
 
 .ic .kor {
@@ -55,8 +77,6 @@
   height: 520px;
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.42), transparent 72%);
   animation: emberSoftAna 11s ease-in-out infinite;
-  transition: opacity 0.9s ease-out;
-  will-change: opacity;
 }
 
 .ic .cekirdek {
@@ -71,6 +91,9 @@
   border-radius: 50%;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  /* Gecikmeli iki puf, fill-mode olmadan gecikme boyunca (8s ve 16s) animasyon
+     öncesi statik opacity 1'de bekliyordu. Tasarımda da eksik (Ana:33-34). */
+  animation-fill-mode: backwards;
 }
 .ana .duman { animation-name: smokeDriftAna; }
 .ic .duman { animation-name: smokeDrift; }
@@ -205,4 +228,42 @@
   .ana .vinyet {
     box-shadow: inset 0 0 170px rgba(0, 0, 0, 0.86);
   }
+}
+
+/*
+ * Keyframe'ler modülün İÇİNDE olmak zorunda: CSS Modules `animation-name`i
+ * modül-yerel hash'e çevirir, global bir sayfada duran düz ad tutmaz.
+ * Değerler tasarımdan birebir; `emberSoftAna` transform yazmaz, çünkü
+ * `.cekirdek` ortalanmasını `transform: translateX(-50%)` ile kurar ve
+ * animasyonun yazacağı bir transform onu ezip çekirdeği yarım boy sağa kaydırır.
+ */
+
+/* Ana Sayfa Alternatif.dc.html:18-20 */
+@keyframes emberBreathAna {
+  0%, 100% { opacity: 0.62; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes emberSoftAna {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+@keyframes smokeDriftAna {
+  0% { opacity: 0; transform: translate3d(0, 40px, 0) scale(1); }
+  28% { opacity: 0.16; }
+  100% { opacity: 0; transform: translate3d(40px, -200px, 0) scale(1.7); }
+}
+
+/* İç sayfaların seti (Menu/Hikaye/Konum:18-20). */
+@keyframes emberBreath {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes emberSoft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.82; }
+}
+@keyframes smokeDrift {
+  0% { opacity: 0; transform: translate3d(0, 36px, 0) scale(1); }
+  30% { opacity: 0.14; }
+  100% { opacity: 0; transform: translate3d(30px, -170px, 0) scale(1.6); }
 }
