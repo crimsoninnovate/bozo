@@ -36,7 +36,10 @@
      (CanliSaat.module.css:14); token'a çıkarılması ayrı bir tur. */
   letter-spacing: -0.015em;
   color: var(--krem);
-  width: clamp(160px, 20vw, 260px);
+  /* Tavan 260px değil (Ana:178): "Terbiyesiz tavuk şiş" 260px'e sığmayıp iki
+     satıra iniyor ve satır 79px'ten 113px'e çıkıyordu, bu sırada hemen sağdaki
+     açıklama sütununun 551px'inin 300px'i boş duruyordu. IYILESTIRMELER.md. */
+  width: clamp(160px, 22vw, 300px);
   flex: none;
 }
 
