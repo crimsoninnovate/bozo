@@ -31,12 +31,21 @@ export function SaatTablosu({ dil, not, varyant = 'ana' }: Props) {
   const s = sozluk(dil)
   const gunAdi =
     durum === null ? s.ortak.bugun : (s.ortak.gunler[gosterimGunIndeksi(new Date())] ?? s.ortak.bugun)
+  // Yedi günün saati aynı olduğu için gün satırı aralığı tekrar ediyordu; satır
+  // artık tablodaki tek canlı bilgiyi taşır. Sahibi 12 Ağustos 2026.
+  // Mount öncesi aralığa düşer: sunucu çıktısı böylece hiçbir zaman yanlış olmaz.
+  const bugunDegeri =
+    durum === null
+      ? s.ortak.satirlar.saatAraligi
+      : durum.acik
+        ? s.ortak.durum.acik
+        : s.ortak.durum.kapaliKisa
 
   return (
     <div className={varyant === 'konum' ? `${stil.tablo} ${stil.konum}` : stil.tablo}>
       <div className={`${stil.satir} ${stil.bugun}`}>
         <span className={stil.gunAdi}>{gunAdi}</span>
-        <span className={stil.saatBugun}>{s.ortak.satirlar.saatAraligi}</span>
+        <span className={stil.saatBugun}>{bugunDegeri}</span>
       </div>
       <div className={`${stil.satir} ${stil.haftalik}`}>
         <span>{s.ortak.satirlar.haftaAraligi}</span>
