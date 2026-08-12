@@ -28,6 +28,40 @@
   gap: 28px;
 }
 
+/*
+ * Wordmark: UstBar.module.css'in `.marka` / `.markaAd` çiftiyle birebir aynı
+ * (tane 8/5/4, gap 13px, 800 21px, iz -0.03em). Yeni ölçü yok. Alttaki boşluk
+ * `.blok`un kendi 28px gap'i. Görünmez ::before, bardaki ile aynı teknik: metin
+ * 21px, dokunma hedefi 44px.
+ */
+.marka {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-decoration: none;
+  color: var(--krem);
+}
+
+.marka::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+.markaAd {
+  font-family: var(--font-baslik);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--krem);
+}
+
 /* Kicker EtiketSatiri'nin `sayfa` ölçeğidir (Hikaye:64-66); buraya yalnız
    tabular-nums kalır, "404" bir sayı olduğu için (KISITLAR.md, tipografi). */
 .kicker {
