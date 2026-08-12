@@ -95,7 +95,10 @@ export const ortak = {
   },
   footer: {
     tanim: 'Urfa usulü ciğer, meşe korunda.',
-    isimNotu: 'Bozo bir marka ismi değil, bir insandır.',
+    // Eskisi ("Bozo bir marka ismi değil, bir insandır.") ana sayfanın kendi bölüm
+    // başlığıyla birebir aynıydı; footer'da aynı iddiayı gerekçesiz tekrar ediyordu.
+    // Yenisi İngilizce satırın işini yapar: iddiayı değil kişiyi söyler.
+    isimNotu: "Bozo, Urfalı Engin Çağlar'ın yıllardır taşıdığı lakap.",
     adresBaslik: 'Adres',
     sayfalarBaslik: 'Sayfalar',
     saatlerBaslik: 'Saatler',
