@@ -3,7 +3,6 @@ import { HaritaPlakasi } from '@/components/sayfa/HaritaPlakasi'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { CamPanel } from '@/components/ui/CamPanel'
-import { Cip } from '@/components/ui/Cip'
 import { PinIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
@@ -15,7 +14,6 @@ type Props = { dil: Dil }
 /** Ana sayfanın konum bölümü. Ana Sayfa Alternatif.dc.html:296-334 */
 export function Konum({ dil }: Props) {
   const s = sozluk(dil)
-  const komsular = s.ana.konum.komsular
 
   return (
     <Bolum id="konum" yogunluk={0.3} className={stil.bolum} eritClassName={stil.erit}>
@@ -32,14 +30,6 @@ export function Konum({ dil }: Props) {
         </p>
 
         <SaatTablosu dil={dil} not={s.ana.konum.saatNotu} />
-
-        {/* Tasarımın üçüncü çipi "Girne Macro Market, 80 m" der; mesafe
-            doğrulanmadığı için sözlükte yok (content/tr/ana.ts:59). */}
-        <div className={stil.komsular}>
-          <Cip tur="komsuluk">{komsular.soliBet}</Cip>
-          <Cip tur="komsuluk">{komsular.hititBet}</Cip>
-          <Cip tur="komsuluk">{komsular.macroMarket}</Cip>
-        </div>
 
         {/* Tek eylem satırı: ara, yol tarifi, WhatsApp. Üç `lg` buton panelin
             genişliğine sığmayıp ikinci satıra taşıyor ve WhatsApp tek başına

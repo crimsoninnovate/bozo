@@ -97,12 +97,6 @@ export const ana = {
   konum: {
     baslik: 'Naci Talat Caddesi, Girne',
     saatNotu: "Her gün 10:00'dan ertesi sabah 05:00'e kadar. Mekanımız alkolsüzdür.",
-    komsular: {
-      soliBet: 'Soli Bet Casino, yanımızda',
-      hititBet: 'Hitit Bet, yanımızda',
-      // Tasarımdaki "80 m" mesafesi doğrulanmadı, işletme sahibi kaldırdı; ad kalır.
-      macroMarket: 'Girne Macro Market',
-    },
     haritaSokak: 'Naci Talat Caddesi',
   },
 }

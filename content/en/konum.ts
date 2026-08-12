@@ -8,10 +8,7 @@ export const konum = {
   harita: {
     caddeEtiketi: 'Naci Talat Street',
     pinKapiNo: 'No:4',
-    poiSoliBet: 'Soli Bet Casino',
-    poiHititBet: 'Hitit Bet',
     // The design's "· 80 m" is unverified; the owner removed it. The name stays.
-    poiMacroMarket: 'Girne Macro Market',
     altYazi: 'map · dark theme, one marker; the live map arrives with the integration',
   },
   saatler: {

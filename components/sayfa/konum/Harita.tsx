@@ -1,4 +1,3 @@
-import { Cip } from '@/components/ui/Cip'
 import { sozluk, type Dil } from '@/content'
 import stil from './Harita.module.css'
 
@@ -40,18 +39,6 @@ export function Harita({ dil }: Props) {
         <span className={stil.pinEtiketi}>
           {s.ortak.marka.ad}
           <span className={stil.kapiNo}> · {harita.pinKapiNo}</span>
-        </span>
-
-        {/* Tasarımın üçüncü çipi "Girne Macro Market · 80 m" der; mesafe
-            doğrulanmadığı için sözlükte yok (content/tr/konum.ts:13-14). */}
-        <span className={stil.poiSoliBet}>
-          <Cip tur="poi">{harita.poiSoliBet}</Cip>
-        </span>
-        <span className={stil.poiHititBet}>
-          <Cip tur="poi">{harita.poiHititBet}</Cip>
-        </span>
-        <span className={stil.poiMacroMarket}>
-          <Cip tur="poi">{harita.poiMacroMarket}</Cip>
         </span>
 
         <span className={stil.altNot}>{harita.altYazi}</span>

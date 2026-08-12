@@ -90,12 +90,6 @@ export const ana = {
   konum: {
     baslik: 'Naci Talat Street, Kyrenia',
     saatNotu: 'Every day from 10:00 until 05:00 the next morning. Alcohol-free.',
-    komsular: {
-      soliBet: 'Soli Bet Casino, next door',
-      hititBet: 'Hitit Bet, next door',
-      // The design's "80 m" is unverified; the owner removed it. The name stays.
-      macroMarket: 'Girne Macro Market',
-    },
     haritaSokak: 'Naci Talat Street',
   },
 }
