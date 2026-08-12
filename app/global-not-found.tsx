@@ -18,9 +18,10 @@ import './globals.css'
  * aynı örneği paylaşır; sınıflar elle tekrar yazılmaz.
  *
  * DİL: statik export tek bir `out/404.html` üretir ve dosya sunucusu istek yolunu
- * sayfaya geçirmez, yani hangi dilin 404'ü olduğu bilinemez. Sayfa daima TR
- * sözlüğünü basar. Bu bir sınırlama, tercih değil; `content/en/hata.ts` parite
- * için durur ve bugün render edilmez.
+ * sayfaya geçirmez, yani SUNUCU hangi dilin 404'ü olduğunu bilemez ve daima TR
+ * basar. `<html lang="tr">` ve aşağıdaki `metadata` bu ilk boyamanın değerleridir,
+ * son sözü değil: `HataSayfasi` bağlandıktan sonra `location.pathname`'e bakıp
+ * `/en/` altında metni, `lang`'i ve başlığı İngilizceye çevirir.
  *
  * Kök layout'ların Restaurant JSON-LD'si burada bilinçli olarak yok: bulunamayan
  * bir sayfa işletmeyi tarif etmez.
@@ -39,7 +40,7 @@ export default function GlobalNotFound() {
   return (
     <html lang="tr" className={fontSiniflari}>
       <body>
-        <HataSayfasi dil="tr" />
+        <HataSayfasi />
       </body>
     </html>
   )

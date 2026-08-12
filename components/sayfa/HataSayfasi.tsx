@@ -1,13 +1,14 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { KorSahnesi } from '@/components/ember/KorSahnesi'
 import { Buton } from '@/components/ui/Buton'
 import { EtiketSatiri } from '@/components/ui/EtiketSatiri'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
-import { yol } from '@/lib/site'
+import { yol, yoldanDil } from '@/lib/site'
 import stil from './HataSayfasi.module.css'
-
-type Props = { dil: Dil }
 
 /**
  * 404 gövdesi. Tasarım paketinde karşılığı yoktur; yerleşim sitenin kendi
@@ -23,9 +24,25 @@ type Props = { dil: Dil }
  * dizesi sayfada yalnız RSC yükünde geçiyor, görünür hiçbir yerde yok
  * (ux-hareket-denetimi-ic-sayfalar.md, S3). Wordmark tek başına basılır;
  * yukarıdaki iki gerekçe tam kabuğa ait, marka işaretine değil.
+ *
+ * DİL: statik export tek bir `out/404.html` üretir, yani sunucu hangi dilin
+ * istendiğini bilemez ve TR basar. Dil istemcide düzeltilir; ilk render sunucuyla
+ * aynı olmak zorunda olduğu için anahtar `useEffect` içinde, render sırasında değil.
  */
-export function HataSayfasi({ dil }: Props) {
+export function HataSayfasi() {
+  const [dil, setDil] = useState<Dil>('tr')
   const s = sozluk(dil)
+
+  useEffect(() => {
+    const istenenDil = yoldanDil(window.location.pathname)
+    if (istenenDil === 'tr') return
+    setDil(istenenDil)
+    // `<html lang>` ve başlık belgenin kendi katmanı; metinle birlikte dönmezse
+    // ekran okuyucu Türkçe seslendirmeye devam eder.
+    document.documentElement.lang = istenenDil
+    const t = sozluk(istenenDil)
+    document.title = `${t.hata.kicker} · ${t.ortak.marka.ad}`
+  }, [])
 
   return (
     <>

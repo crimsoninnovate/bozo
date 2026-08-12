@@ -22,6 +22,16 @@ export function yol(anahtar: RotaAnahtari, dil: Dil): string {
   return parca === '' ? `${onek}/` : `${onek}/${parca}/`
 }
 
+/**
+ * Tarayıcıdaki yoldan dili okur. Yalnız 404'ün istemci tarafı kullanır; statik
+ * export tek bir `out/404.html` ürettiği için sayfa hangi dilde istendiğini
+ * sunucudan öğrenemez. Karşılaştırma dize öneki değil yol parçası üstünden:
+ * 404 tam da uydurma yolları görür ve `/enfes-ciger/` İngilizce değildir.
+ */
+export function yoldanDil(yolAdi: string): Dil {
+  return yolAdi === '/en' || yolAdi.startsWith('/en/') ? 'en' : 'tr'
+}
+
 export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[] {
   return (Object.keys(YOLLAR) as RotaAnahtari[]).map((a) => ({
     anahtar: a,

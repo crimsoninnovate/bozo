@@ -3,7 +3,16 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
-import { yol, tumYollar, yolTarifiUrl, whatsappUrl, telefonUrl, SITE_URL, type RotaAnahtari } from './site.ts'
+import {
+  yol,
+  yoldanDil,
+  tumYollar,
+  yolTarifiUrl,
+  whatsappUrl,
+  telefonUrl,
+  SITE_URL,
+  type RotaAnahtari,
+} from './site.ts'
 
 test('SITE_URL_tekYerdeTanimlidir', () => {
   assert.equal(SITE_URL, 'https://cigercibozo.com')
@@ -86,4 +95,37 @@ test('telefonUrl_numaraNullIken_nullDoner', () => {
 
 test('telefonUrl_numaraVarken_bosluksuzTelUretir', () => {
   assert.equal(telefonUrl('+90 542 123 45 67'), 'tel:+905421234567')
+})
+
+test('yoldanDil_enKoku_enDoner', () => {
+  assert.equal(yoldanDil('/en/'), 'en')
+})
+
+test('yoldanDil_enAltRotasi_enDoner', () => {
+  assert.equal(yoldanDil('/en/menu/'), 'en')
+})
+
+test('yoldanDil_enAltindaOlmayanBirYol_enDoner', () => {
+  assert.equal(yoldanDil('/en/boyle-bir-sayfa-yok/'), 'en')
+})
+
+test('yoldanDil_bitisEgikCizgisizEnKoku_enDoner', () => {
+  assert.equal(yoldanDil('/en'), 'en')
+})
+
+test('yoldanDil_trKoku_trDoner', () => {
+  assert.equal(yoldanDil('/'), 'tr')
+})
+
+test('yoldanDil_trAltRotasi_trDoner', () => {
+  assert.equal(yoldanDil('/menu/'), 'tr')
+})
+
+// Dize öneki değil yol parçası: 404 tam da uydurma yolları gördüğü için bu dal gerçek.
+test('yoldanDil_enHarfleriyleBaslayanTurkceYol_trDoner', () => {
+  assert.equal(yoldanDil('/enfes-ciger/'), 'tr')
+})
+
+test('yoldanDil_bosDize_trDoner', () => {
+  assert.equal(yoldanDil(''), 'tr')
 })
