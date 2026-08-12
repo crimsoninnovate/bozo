@@ -30,7 +30,15 @@ export function Acilis({ dil }: Props) {
 
       <div className={stil.altSatir}>
         <span className={stil.altBaslik}>{s.ana.hero.altBaslik}</span>
-        <TaneDizilimi adet={6} buyuk={20} kucuk={12} bosluk={12} mobil={{ buyuk: 13, kucuk: 8, bosluk: 7 }} cizgi />
+        <TaneDizilimi
+          adet={6}
+          buyuk={20}
+          kucuk={12}
+          bosluk={12}
+          mobil={{ buyuk: 13, kucuk: 8, bosluk: 7 }}
+          cizgi
+          kor
+        />
       </div>
 
       <div className={stil.ctaSatiri}>

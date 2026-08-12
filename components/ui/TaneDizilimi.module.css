@@ -41,6 +41,23 @@
 .anahat .buyukTane { border: 1px solid var(--krem-50); }
 .anahat .kucukTane { border: 1px solid var(--tangerine-60); }
 
+/*
+ * Kor rayı: yalnız KÜÇÜK taneler nefes alır, büyükler almaz. Ayrım anlamsal,
+ * süs değil: küçük tane tangerine, yani tanelerin ARASINDAKİ kor; büyük tane
+ * krem, yani etin kendisi. Ateş yanar, et yanmaz. Aralık (.62 - 1) kor
+ * sahnesinin kendi nefes aralığıyla aynı, periyot (9s) sahnenin 8s'inden ayrı:
+ * ikisi kilitlenmez, faz kayar. İki küçük tane de aynı anda parlamasın diye
+ * ikincisi negatif gecikmeyle karşı faza alınır. Opt-in (`kor` prop'u): on altı
+ * rayın yalnız hero rayı bunu ister. Tasarımda karşılığı yok (IYILESTIRMELER.md).
+ */
+.korlu .kucukTane { animation: taneKoru 9s ease-in-out infinite; }
+.korlu .kucukTane ~ .kucukTane { animation-delay: -4.5s; }
+
+@keyframes taneKoru {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
+}
+
 /* Mobil ölçüler yalnız `mobil` verilen raylarda devreye girer; verilmeyende
    yedek değer masaüstününkidir. Hero rayının çizgisi: Mobil Prototip.dc.html:80-81. */
 @media (max-width: 780px) {

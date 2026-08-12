@@ -31,6 +31,8 @@ type Props = TaneOlculeri & {
   ton?: TaneTonu
   /** Hero rayı: karelerin arkasından geçen sönen çizgi. */
   cizgi?: boolean
+  /** Küçük (tangerine) taneler kor gibi nefes alır. Yalnız hero rayında. */
+  kor?: boolean
 }
 
 /**
@@ -55,8 +57,18 @@ function olcuDegiskenleri({ buyuk, kucuk, bosluk }: TaneOlculeri, ek = ''): Reco
   }
 }
 
-export function TaneDizilimi({ adet = 6, buyuk, kucuk, bosluk, mobil, ton = 'krem', cizgi = false }: Props) {
-  const kapSinif = `${stil.kap} ${stil[ton]}${cizgi ? ` ${stil.cizgiliKap}` : ''}`
+export function TaneDizilimi({
+  adet = 6,
+  buyuk,
+  kucuk,
+  bosluk,
+  mobil,
+  ton = 'krem',
+  cizgi = false,
+  kor = false,
+}: Props) {
+  const kapSinif =
+    `${stil.kap} ${stil[ton]}${cizgi ? ` ${stil.cizgiliKap}` : ''}${kor ? ` ${stil.korlu}` : ''}`
   const degiskenler = {
     ...olcuDegiskenleri({ buyuk, kucuk, bosluk }),
     ...(mobil ? olcuDegiskenleri(mobil, '-m') : {}),

@@ -28,7 +28,12 @@ export function KorSahnesi({ varyant }: Props) {
     return cerceveyeAboneOl(({ yogunluk }) => {
       // Kararma (opacity) prefers-reduced-motion'ın hedeflediği türden bir
       // hareket değildir, izlemeye devam eder.
-      kor.style.opacity = String(Math.min(1, 0.3 + yogunluk * 0.7))
+      //
+      // Katsayı 0.7 değil 0.56: 0.7 ile `acilis` (yoğunluk 1) ve `gece`
+      // (yoğunluk 1.25) İKİSİ de 1.0'a kırpılıyordu, yani tasarımın en parlak
+      // işareti sahnenin en gür katmanında hiç görünmüyordu. 0.56 tavanı
+      // 1.25'e bırakır: acilis 0.86, gece 1.00. Merdivenin sırası değişmez.
+      kor.style.opacity = String(Math.min(1, 0.3 + yogunluk * 0.56))
       cekirdek.style.opacity = String(Math.min(1, 0.24 + yogunluk * 0.6))
       // Ölçek (scale) kaydırmayla değişen bir dönüşümdür; bu tam olarak
       // prefers-reduced-motion'ın önlemek istediği şeydir, hele ki global
@@ -42,13 +47,19 @@ export function KorSahnesi({ varyant }: Props) {
 
   return (
     <div className={`${stil.kap} ${anaMi ? stil.ana : stil.ic}`} aria-hidden="true">
-      {/* Dış span yoğunluğu, iç span nefesi taşır: animasyon aynı elemanda
-          inline style'ı ezer, ikisi ayrı katmanda olmazsa merdiven ölür. */}
+      {/* Üç katman, üçü de opaklık yazdığı için ayrı elemanlarda: animasyon
+          aynı elemanda inline style'ı ezer, tek elemanda toplanırsa merdiven
+          ölür. Dıştan içe yoğunluk (nerede olduğun), titreme (ateşin
+          düzensizliği), nefes (yavaş salınım); opaklıklar çarpılır. */}
       <span ref={korRef} className={stil.korYogunluk}>
-        <span className={stil.kor} />
+        <span className={stil.korTitreme}>
+          <span className={stil.kor} />
+        </span>
       </span>
       <span ref={cekirdekRef} className={stil.cekirdekYogunluk}>
-        <span className={stil.cekirdek} />
+        <span className={stil.cekirdekTitreme}>
+          <span className={stil.cekirdek} />
+        </span>
       </span>
       {/* İmleç koru sahnenin katmanı ve sırası çekirdek ile duman arasında (Ana:31). */}
       {anaMi && <ImlecKoru />}

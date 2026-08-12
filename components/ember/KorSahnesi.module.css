@@ -19,10 +19,26 @@
  * yüzdeleri aynı kutuya çözülür, geometri değişmez.
  */
 .korYogunluk,
-.cekirdekYogunluk {
+.cekirdekYogunluk,
+.korTitreme,
+.cekirdekTitreme {
   position: absolute;
   inset: 0;
 }
+
+/*
+ * Titreme katmanı: nefes ile yoğunluk arasına girer, aynı sebeple ayrı bir
+ * eleman. Nefes tek başına TAM periyodik (ölçüldü: `.kor` 8.000s'de birebir
+ * aynı değere dönüyor, 0.620 / 4s'te 1.000 / 8s'te yine 0.620), yani ateş
+ * değil kısılan bir lamba okunuyor. Titreme düzensiz duraklı ve nefesle asal
+ * periyotlu; bileşik salınım 13x8 = 104s'den önce tekrar etmiyor. Genlik
+ * kasıtlı olarak düşük (en fazla %11 düşüş): ateşin düzensizliği görülmeli,
+ * dikkat çekmemeli.
+ */
+.ana .korTitreme { animation: korTitremesi 13s linear infinite; }
+.ana .cekirdekTitreme { animation: cekirdekTitremesi 17s linear infinite; }
+.ic .korTitreme { animation: korTitremesi 15s linear infinite; }
+.ic .cekirdekTitreme { animation: cekirdekTitremesi 19s linear infinite; }
 
 /* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
 .ana .korYogunluk {
@@ -266,4 +282,36 @@
   0% { opacity: 0; transform: translate3d(0, 36px, 0) scale(1); }
   30% { opacity: 0.14; }
   100% { opacity: 0; transform: translate3d(30px, -170px, 0) scale(1.6); }
+}
+
+/* Duraklar bilerek eşit aralıklı değil: eşit aralık ikinci bir sinüs üretir ve
+   nefesin yanında ikinci bir nabız gibi okunur. Tasarımda karşılığı yok, hareket
+   turunun eklemesi (IYILESTIRMELER.md). */
+@keyframes korTitremesi {
+  0% { opacity: 1; }
+  7% { opacity: 0.94; }
+  13% { opacity: 0.99; }
+  22% { opacity: 0.9; }
+  29% { opacity: 0.97; }
+  38% { opacity: 0.92; }
+  47% { opacity: 1; }
+  56% { opacity: 0.93; }
+  61% { opacity: 0.98; }
+  73% { opacity: 0.89; }
+  81% { opacity: 0.96; }
+  92% { opacity: 0.93; }
+  100% { opacity: 1; }
+}
+@keyframes cekirdekTitremesi {
+  0% { opacity: 1; }
+  9% { opacity: 0.95; }
+  17% { opacity: 0.91; }
+  26% { opacity: 0.99; }
+  34% { opacity: 0.93; }
+  43% { opacity: 0.97; }
+  52% { opacity: 0.9; }
+  64% { opacity: 0.98; }
+  71% { opacity: 0.94; }
+  85% { opacity: 0.92; }
+  100% { opacity: 1; }
 }
