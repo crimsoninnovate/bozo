@@ -3,7 +3,33 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026 14:51, UX ve hareket turları sonrası
+Son güncelleme: 12 Ağustos 2026 16:15, işletme verisi ve metin turu sonrası
+
+## En son ne oldu (12 Ağustos öğleden sonra)
+
+**Telefon geldi:** `+90 533 888 74 24`, aynı hat WhatsApp. `content/isletme.ts`
+dolu, iki test gerçek veriye göre güncellendi. Kayıtlı B4 maddesi (yer tutucu
+kontrastı) bununla kapandı; yerine gerçek bir kusur çıktı ve düzeltildi: alt bilgi
+iletişim satırları etkin bağlantıya dönünce 28px dokunma hedefiyle kaldı, 44px'e
+çıkarıldı.
+
+**Sahibinin metin kararları uygulandı:** başlık düzeni (ürün adları, bölüm/menü
+etiketleri, CTA ve nav; sayfa başlıkları ve gövde cümle düzeninde kaldı, `CLAUDE.md`
+aynı commit'te güncellendi), kısa adrese `No:4`, paket şeridinin sipariş butonu
+yerine `yakında` rozeti, saat tablosunun gün satırı canlı duruma çevrildi.
+
+**İngilizce 404 çözüldü** (`3659cfd`): `/en/` altındaki bozuk yollar artık İngilizce
+döner, `<html lang>` ve sekme başlığı dahil.
+
+**İki yeni belge:** `docs/surec/KARAR-FORMU.md` (22 bekleyen madde triyaj edildi:
+13'ü sahibin kararı, 4'ü veri bekliyor, 3'ü ertelendi, 4'ü teknik borcumuz, 2'si
+zaten kapanmıştı) ve `docs/surec/YAYIN-KONTROL-LISTESI.md` (yayın öncesi dört
+madde artı yerelde doğrulanmış duman testi).
+
+**Demo yayını başladı, DNS'te takıldı.** Derleme
+`researchos-server:/srv/enliq/bozo/out` altında duruyor; ama
+`bozo.crimsoninnovate.com` 185.210.92.206'ya çözülüyor, researchos ise
+185.210.92.166. Ayrıntı ve seçenekler `YAYIN-KONTROL-LISTESI.md` içinde.
 
 ## Proje bir cümlede
 

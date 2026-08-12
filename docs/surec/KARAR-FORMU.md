@@ -92,15 +92,18 @@ istiyor (fark 1-2px). Sapma olarak kaydedildi.
 **Seçenekler:** (a) kaydedildi kalsın · (b) yeni boy adımı açılsın
 **Önerim: (a).** Tek örnek için üç sayfayı ilgilendiren bir API büyümesi.
 
-### A10. Çağıranı olmayan üç sözlük anahtarı
+### A10. Çağıranı olmayan sözlük anahtarları
 
 `ortak.marka.kisa` ("Bozo"), `ortak.cta.whatsapptanYaz` ("WhatsApp'tan yaz"),
 `ortak.satirlar.saatlerUzun`. Üçü de hiçbir yerden çağrılmıyor.
 
 **Önerim, madde madde:**
 - `saatlerUzun` **silinsin**: aynı cümlenin üçüncü kopyası, ikisi zaten elle yazılı.
-- `whatsapptanYaz` **kalsın**: WhatsApp numarası `null`; numara girdiği gün bu CTA
-  gerekecek ve o zaman yeniden yazmak gerekir.
+- `whatsapptanYaz` **kalsın**: WhatsApp hattı 12 Ağustos'ta geldi ama bu CTA'yı
+  basan bir yüzey henüz yok; şeritte kısa `WhatsApp` etiketi kullanılıyor.
+- `cta.paketSiparis` (12 Ağustos'ta çağıransız kaldı) **kalsın**: paket servis
+  "yakında", hizmet başladığı gün buton geri gelecek ve onaylı İngilizce
+  karşılığı (`Order Takeaway`) yeniden yazılmak zorunda kalmasın.
 - `marka.kisa` **senin kararın**: bugün ölü, ama kısa marka adı ileride sekme
   başlığı veya ikon için işe yarayabilir.
 
@@ -138,7 +141,7 @@ tek satır CSS, başka hiçbir genişliği etkilemez. Onay ver, yapayım.
 | B1 | `FotoYuvasi`: fotoğraf gelince köşe işaretleri ve vinyet düşsün mü? Marka aygıtı sessizce kaybolur | 16 fotoğraf |
 | B2 | Menüdeki çekim listesi bölümü: silinsin mi, tek satırlık galeri bağlantısına mı insin? Bugün iki yüzey aynı yedi kareyi basıyor | 16 fotoğraf |
 | B3 | `instagram` alanı kullanıcı adı mı tam URL mü? Kod bugün kullanıcı adı varsayıyor | Instagram hesabı |
-| B4 | `aria-disabled` telefon yer tutucuları 2.62:1 ve 3.14:1. Bugün WCAG muaf; numara girince `<a>` olup 4.5:1 gerekecek | Telefon numarası |
+| ~~B4~~ | ~~`aria-disabled` telefon yer tutucuları~~ **KAPANDI 12 Ağu 2026.** Numara geldi, satırlar `<a>` oldu ve yeniden ölçüldü: 16.62:1 (koyu zemin), 8.27:1 (alt bilgi), 5.29:1 (pumpkin şerit). Aynı turda çıkan gerçek kusur kontrast değil dokunma hedefiydi (28px), o da 44px'e çıkarıldı | kapandı |
 
 ## C. Bilinçli ertelendi, erken açma
 

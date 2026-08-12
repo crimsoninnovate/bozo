@@ -75,6 +75,27 @@ Bu probe'ların beşi de 12 Ağustos 2026'da yerel export üstünde (`npm run pr
 koşuldu ve beklenen değerleri verdi; tek istisna `favicon:404`, o da yukarıdaki
 açık madde. Yani liste canlıda ilk kez koşarken kendi doğruluğu sorun değil.
 
+## Demo yayını: bozo.crimsoninnovate.com
+
+12 Ağustos 2026'da sahibi demo için researchos sunucusuna kurulum istedi. Yapılan
+ve kalan:
+
+- **Yapıldı:** derleme `researchos-server:/srv/enliq/bozo/out` altına yüklendi
+  (3.0 MB, 15 HTML). Caddy blok adayı `/tmp/bozo-aday.Caddyfile` içinde duruyor,
+  `caddy validate` ile tam yapılandırmaya karşı doğrulandı ve **canlı Caddyfile'a
+  yazılmadı**.
+- **Engel: DNS başka sunucuyu gösteriyor.** `bozo.crimsoninnovate.com` ve
+  `crimsoninnovate.com` 185.210.92.206'ya çözülüyor; researchos sunucusu
+  185.210.92.166. Blok bugün kurulsa Let's Encrypt HTTP-01 doğrulaması .206'ya
+  gider, sertifika çıkmaz ve adres açılmaz. .206'ya devops anahtarıyla erişim yok.
+- **Karar sahibin:** ya A kaydı 185.210.92.166'ya çevrilir (Cloudflare
+  kullanılıyorsa proxy kapalı, yoksa ACME doğrulaması Cloudflare'de takılır), ya
+  researchos'a çözülen başka bir alt alan açılır, ya da .206'ya erişim verilir.
+
+Blok demo olduğu için `X-Robots-Tag: noindex, nofollow` taşıyor: derlemenin
+canonical URL'leri ve `sitemap.xml`'i `cigercibozo.com`'u gösteriyor, demo
+kopyasının indekslenmesi o adresle çakışırdı.
+
 ## Yayınla birlikte açılacak kararlar
 
 - **Prefetch.** İlk yüklemede 344 KB indirilip atılıyor (6 iptal edilmiş istek);
