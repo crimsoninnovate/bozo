@@ -17,9 +17,24 @@ Kaynak otoritesi `Ana Sayfa Alternatif.dc.html` ve `docs/surec/KISITLAR.md`.
 | Metin | A |
 | Yapay zeka klişesi | A (on bir kalıbın hiçbiri yok) |
 
-Toplam: B+. Ana sayfa tasarım olarak sağlam duruyor. Üç bulgunun ikisi tasarım
+Toplam: B+. Ana sayfa tasarım olarak sağlam duruyor. Bulguların ikisi tasarım
 dosyasından birebir geliyor, yani port hatası değil, tasarımın kendi davranışı.
-KISITLAR.md'nin kuralı gereği sessizce düzeltilmediler, burada rapor ediliyorlar.
+KISITLAR.md'nin kuralı gereği sessizce düzeltilmediler; sahibine sunuldu ve
+onaydan sonra uygulandı.
+
+## Durum
+
+| Bulgu | Etki | Karar | İşlem |
+|---|---|---|---|
+| F1 üst bar çakışması | yüksek | uygulandı | `39e88f3`, `bf263b6` |
+| F2 bölüm doluluğu ve ritim | orta | uygulandı | `c9b6a26` |
+| F3 Ocaktan isim sütunu | orta | uygulandı | `ebcf42a` |
+| F4 `transition: all` | düşük | uygulandı | `a4271b7` |
+| F5 telefon yer tutucusu | bilgi | açık, veri bekliyor | numara geldiğinde ölçülecek |
+
+Uygulama sonrası ölçüm: her iki dilde bölüm aralıkları 213 (hero) ve beş kez
+240px, `transition: all` sayısı 0, 390px'te yatay taşma yok, AA eşiğinin altında
+kalan tek öğe F5. 76/76 test geçiyor, statik dışa aktarım 24 rotayla temiz.
 
 ## İlk izlenim
 
