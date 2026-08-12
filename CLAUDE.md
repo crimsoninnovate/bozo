@@ -14,6 +14,9 @@ npm run test       # node --test (bare, no shell glob; discovers *.test.ts itsel
 npm run preview    # serve the out/ export locally
 ```
 
+`tsconfig.json` sets `noUnusedLocals` and `noUnusedParameters`: one unused import fails
+`npm run typecheck`. Deploy is in `README.md` > Publishing.
+
 ## Architecture
 
 - App Router, `output: 'export'`. No server runtime after build; the site is plain static files
@@ -21,17 +24,21 @@ npm run preview    # serve the out/ export locally
 - **Two root layouts, no root `app/layout.tsx`.** `app/(tr)/layout.tsx` renders `<html lang="tr">`
   and keeps Turkish routes at the site root. `app/(en)/layout.tsx` renders `<html lang="en">` and
   nests English routes under `en/`. A root `app/layout.tsx` breaks this: do not add one.
-- `experimental.globalNotFound: true` in `next.config.ts` pairs with `app/global-not-found.tsx`
-  (added in a later task). Without that file the flag is inert; do not remove it.
-- Fonts are defined once in `lib/fontlar.ts` and shared by both root layouts (and later by
-  `global-not-found.tsx`) so every `<html>` tag gets the same font classes.
+- `experimental.globalNotFound: true` in `next.config.ts` pairs with `app/global-not-found.tsx`.
+  Without that file the flag is inert; do not remove it.
+- Fonts are defined once in `lib/fontlar.ts` and shared by both root layouts and
+  `global-not-found.tsx` so every `<html>` tag gets the same font classes.
 - Design tokens live in `styles/tokens.css` as CSS custom properties, imported through
   `app/globals.css` alongside `styles/reset.css` and `styles/animasyonlar.css`. Component styling
   uses CSS Modules on top of these tokens, no CSS framework.
-- Copy, prices, hours and contact data live under `content/`, not hardcoded in JSX (from Task 3
-  onward). The only business rule, the overnight opening hours window, is pure functions in
-  `lib/saat.ts` with unit tests.
+- Copy, prices, hours and contact data live under `content/`, not hardcoded in JSX. The only
+  business rule, the overnight opening hours window, is pure functions in `lib/saat.ts` with
+  unit tests.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
+- `components/` has five buckets: `ui/` primitives, `sayfa/` page bodies with a subfolder per
+  page, `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is
+  `X.tsx` next to `X.module.css`.
+- Imports go through the `@/*` alias from `tsconfig.json`, not relative paths.
 
 ## Design source of truth
 
@@ -46,6 +53,14 @@ npm run preview    # serve the out/ export locally
 - Architecture spec: `docs/specs/2026-08-11-web-mimarisi.md`
 - Implementation plan: `docs/plans/2026-08-11-web-uygulama-plani.md`
 - `support.js` from the handoff never ships to production.
+
+## Process files
+
+- `docs/surec/DEVAM.md` is the entry point after a context reset. Read it before branching out.
+- `docs/surec/KISITLAR.md` splits constraints into hard (never deviate) and soft. Anything
+  traceable to the handoff gets reported in `docs/surec/IYILESTIRMELER.md` with its measurement,
+  not silently fixed.
+- Pre-release checks: `docs/PARITE.md`, `docs/surec/YAYIN-KONTROL-LISTESI.md`.
 
 ## Colors (complete list, do not add others)
 

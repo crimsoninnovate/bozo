@@ -5,8 +5,16 @@ for architecture, design source of truth and binding copy rules.
 
 ## Requirements
 
-- Node.js `>=20.9.0` (developed on v25.6.0)
+- Node.js `>=22.18` (developed on v25.6.0). Next itself allows 20.9, but `npm run test` runs
+  `node --test` straight over `.ts` files and needs Node's built-in type stripping, on by
+  default only from 22.18.
 - npm (developed on 11.11.1)
+
+## Layout
+
+Six routes per language: `/`, `/menu`, `/hikaye`, `/konum`, `/galeri`, `/gizlilik`, with the
+English set under `/en/`. `app/` holds the two root layouts and thin page files, `components/`
+the bodies, `content/` every string and price, `lib/` the shared logic, `styles/` the tokens.
 
 ## Setup
 
