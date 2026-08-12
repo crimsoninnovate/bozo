@@ -45,5 +45,16 @@
 .butonlar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
+}
+
+/* Hizmet adı + "yakında" rozeti, kalkan sipariş butonunun yerinde. Punto
+   şeridin paragrafıyla aynı aile, ağırlık butonlarınkiyle eşleşir. */
+.hizmetDurumu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 var(--ol-govde-kucuk)/1 var(--font-govde);
+  color: var(--komur);
 }

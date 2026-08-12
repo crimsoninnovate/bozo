@@ -1,4 +1,5 @@
 import { Buton } from '@/components/ui/Buton'
+import { Cip } from '@/components/ui/Cip'
 import { WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
@@ -29,7 +30,6 @@ type Props = {
  */
 export function PaketSeridi({ dil, whatsappVarMi = false }: Props) {
   const s = sozluk(dil)
-  // Paket siparişin hedefi de WhatsApp; numara bilinmediği için ikisi de pasif basar.
   const whatsapp = whatsappUrl(isletme.whatsapp)
 
   return (
@@ -41,9 +41,11 @@ export function PaketSeridi({ dil, whatsappVarMi = false }: Props) {
       </div>
 
       <div className={stil.butonlar}>
-        <Buton tur="koyu" boy="lg" href={whatsapp} hariciMi>
-          {s.ortak.cta.paketSiparis}
-        </Buton>
+        {/* Hizmet başlamadı: sipariş butonu yerine rozet. Sahibi 12 Ağustos 2026. */}
+        <span className={stil.hizmetDurumu}>
+          {s.ortak.paket.hizmetAdi}
+          <Cip tur="yakinda">{s.ortak.paket.yakindaRozeti}</Cip>
+        </span>
         {whatsappVarMi && (
           <Buton tur="koyuOutline" boy="lg" href={whatsapp} hariciMi>
             <WhatsAppIkon boy={15} />

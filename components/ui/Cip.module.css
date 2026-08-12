@@ -53,6 +53,18 @@
   white-space: nowrap;
 }
 
+/* "yakında" rozeti, pumpkin şeridi üstünde. Tasarımda karşılığı yok: hizmet
+   başlamadığı için sipariş butonunun yerine geçer. Kömür 5.29:1; şeridin
+   tangerine'i burada 1.75:1 kalırdı. Kenarlık .55 alfada 2.62:1, `.outline`
+   ile aynı kalıp: rozet etkileşimli değil ve kenarlık tek bilgi taşıyıcı değil. */
+.yakinda {
+  padding: 5px 10px;
+  border: 1px solid var(--komur-55);
+  font: 600 11.5px/1 var(--font-govde);
+  color: var(--komur);
+  background: transparent;
+}
+
 /* Kısıtlar: rakam nerede render edilirse edilsin tabular-nums taşır. Çiplerin
    yarısı sayı içeriyor (ölçü, komşuluk mesafesi, POI mesafesi), ayrı bir prop
    yerine ailenin tamamına verilir. Varyantların `font` kısayolu bu özelliği
@@ -62,4 +74,5 @@
 .olcu,
 .ikram,
 .komsuluk,
-.poi { font-variant-numeric: tabular-nums; }
+.poi,
+.yakinda { font-variant-numeric: tabular-nums; }
