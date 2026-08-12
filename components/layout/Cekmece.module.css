@@ -8,7 +8,10 @@
 .kap {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  /* Tasarımda çekmece en üst katman (bar 20, eylem barı 30, çekmece 40). Portun
+   * ölçeğinde üst bar 60 ve eylem barı 70; 40 kalınca kapatma hedefi hamburgerin
+   * altında kalıyor ve tıklanamıyordu. */
+  z-index: 80;
   background: rgba(10, 8, 7, 0.96);
   backdrop-filter: blur(6px);
   display: flex;
