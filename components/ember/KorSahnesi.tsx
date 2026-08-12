@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { hareketAzaltilmisMi } from '@/lib/hareket'
 import { cerceveyeAboneOl } from '@/lib/cerceve'
 import { ImlecKoru } from './ImlecKoru'
+import { IsiDalgasi } from './IsiDalgasi'
 import stil from './KorSahnesi.module.css'
 
 /** ana: Ana:28-35, parlak ve kaydırma takipli. ic: Hikaye/Konum:27-33, sönük ve sabit. */
@@ -61,7 +62,9 @@ export function KorSahnesi({ varyant }: Props) {
           <span className={stil.cekirdek} />
         </span>
       </span>
-      {/* İmleç koru sahnenin katmanı ve sırası çekirdek ile duman arasında (Ana:31). */}
+      {/* Katman sırası ocağın kendi sırası: kor, üstünde ısı, sonra imleç
+          koru (Ana:31) ve en üstte duman. */}
+      {anaMi && <IsiDalgasi />}
       {anaMi && <ImlecKoru />}
       {anaMi ? (
         <>

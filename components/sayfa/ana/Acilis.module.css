@@ -55,11 +55,40 @@
   margin-top: 44px;
 }
 
+/*
+ * Kareler bağımsız ısınır, soldan sağa gezmez. Gezen vurgu reddedilmişti:
+ * yükleniyor-iskeleti kalıbının ta kendisi (IYILESTIRMELER.md > Reddedildi).
+ * Periyotlar asal, kor sahnesindeki 8/13/17 seçimiyle aynı gerekçe: dizilim
+ * pratikte hiç tekrarlamasın. Negatif gecikme ilk kareden itibaren dağıtır,
+ * yoksa altısı da t=0'da aynı parlaklıkta başlıyor.
+ */
 .sisKare {
   width: 17px;
   height: 17px;
   flex: none;
   border-radius: 2px;
+  animation: taneIsisi 13s ease-in-out infinite;
+}
+
+.sisKare:nth-child(1) { animation-duration: 7s; animation-delay: -2s; }
+.sisKare:nth-child(2) { animation-duration: 23s; animation-delay: -9s; }
+.sisKare:nth-child(3) { animation-duration: 13s; animation-delay: -5s; }
+.sisKare:nth-child(4) { animation-duration: 11s; animation-delay: -1s; }
+.sisKare:nth-child(5) { animation-duration: 19s; animation-delay: -14s; }
+.sisKare:nth-child(6) { animation-duration: 17s; animation-delay: -6s; }
+
+/* Isınma her malzemede aynı şeyi yapar: parlar. Kareye kendi rengini
+   koruttuğu için tasarımın krem/tangerine/kor dizilimi bozulmaz. */
+@keyframes taneIsisi {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow: 0 0 0 rgba(250, 170, 31, 0);
+  }
+  50% {
+    filter: brightness(1.3);
+    box-shadow: 0 0 9px rgba(250, 170, 31, 0.32);
+  }
 }
 
 .krem {

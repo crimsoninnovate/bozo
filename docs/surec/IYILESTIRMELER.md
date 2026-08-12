@@ -172,6 +172,23 @@ bir kombinasyon, üç ölçü, on içecek ve sekiz ikram taşıyor.
 | Ana sayfa fiyat bloğu | "Fiyat listesi henüz kesinleşmedi" > "Tam liste ve fiyatlar menüde", menü butonu ikincilden birincile | Fiyatlar geldi, cümle yalan oldu. Bölüm büyütülmedi: beş ad, altında menüye giden CTA (sahibinin tarifi) | uygulandı |
 | `ortak.porsiyon` | Silindi | İmza panelinin tek fiyat satırıyla birlikte çağıranı kalmadı. Yukarıdaki "çağıranı olmayan sözlük anahtarları" maddesinin dördüncü örneği, bu turda ölü hale geldiği için beklemeden silindi | uygulandı |
 
+## 13 Ağustos 2026: ana sayfaya ısı hareketi
+
+Sahibi ana sayfaya farklı bir hareket kurgusu istedi. Handoff'ta ve
+UYGULAMA-NOTLARI'nda hareket için tek satır var (`prefers-reduced-motion`
+zorunluluğu, satır 201), yani ikisi de sapma değil, boş alana ekleme.
+Reddedilenler listesindeki beş öneriyle çakışmadıkları tek tek kontrol edildi.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Kor sahnesi | Yeni `IsiDalgasi`: kor yatağının üstünde iki filtreli bant, `feTurbulence` + `feDisplacementMap` | Ocağın üstünde kırılan hava. Kütüphane gerektirmiyor (`CLAUDE.md` bağımlılık kuralı GSAP/Motion/Lenis'i baştan eliyor) ve web'de nadir. Ölçüldü, 1440x900'de kare süresi bant açıkken 16.66ms, kapalıyken 16.66ms: maliyet ölçülemiyor | uygulandı |
+| Aynı | Kaynak düz gradyan değil ince filament dokusu | İlk sürüm görünmüyordu ve sebebi teoriktı: düzgün bir alanın displacement'ı yine düzgün bir alan. Bükülecek kenar gerekiyor | uygulandı |
+| Aynı | Bant `bottom:0` değil `bottom:120px` | `.dip` alt 180px'i .92 alfaya kadar karartıyor (KorSahnesi.module.css:185) ve bandı tamamen yutuyordu | uygulandı |
+| Aynı | Filamentlere `blur(0.7px)` ve alfa .085 | Keskin ve düzenli aralıklı çizgiler ahşap damarı gibi okunuyordu (ekran görüntüsüyle doğrulandı, üç tur ayar) | uygulandı |
+| Aynı | SMIL `<animate>` kullanılmadı, hareket tamamen CSS | `animasyonlar.css`'in `prefers-reduced-motion` kuralı CSS animasyonunu kapatır, SMIL'i kapatmaz. SMIL ile erişilebilirlik güvencesi sessizce delinirdi | uygulandı |
+| Hero şiş grafiği | Altı kare bağımsız ısınıyor: `brightness` + kor lekesi, asal periyotlar (7/11/13/17/19/23s) ve negatif gecikme | Markanın kendi nesnesi, stok efekt değil. **Gezen dalga değil:** o kalıp aşağıda "yükleniyor-iskeleti" gerekçesiyle reddedilmişti. Ölçüldü, altı karenin anlık parlaklığı birbirinden farklı ve sıralı değil | uygulandı |
+| Ertelendi | `animation-timeline: scroll()` ile kor yoğunluğunu JS aboneliğinden almak | Kazanç compositor thread ve bir scroll dinleyicisi eksik, ama Firefox stable'da özellik hâlâ bayraklı, yani mevcut JS yolu `@supports` fallback'i olarak kalmak zorunda. Çalışan bir özelliğin yanına ikinci yol, görünür kazanç yok | ertelendi |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |
