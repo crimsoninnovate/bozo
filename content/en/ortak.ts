@@ -91,6 +91,7 @@ export const ortak = {
       'the box is still ember warm when you open it.',
     hizmetAdi: 'Takeaway',
     yakindaRozeti: 'coming soon',
+    simdilik: 'Until it opens you can call the fire or write on WhatsApp.',
   },
   footer: {
     tanim: 'Urfa style liver over oak embers.',

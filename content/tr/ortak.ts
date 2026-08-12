@@ -89,9 +89,11 @@ export const ortak = {
     metin:
       'Paket kutuda gelir, sıcaklığını yolda korur. Ciğer soğumadan yenir; ' +
       'kutu ilk açıldığında hala kor sıcaklığındadır.',
-    // Hizmet 12 Ağustos 2026'da henüz başlamadı; sipariş butonu yerine rozet basılır.
+    // Hizmet 12 Ağustos 2026'da henüz başlamadı; sipariş butonu yerine durum kartı
+    // basılır. Kart olmadan paragraf açık bir hizmeti anlatıyor gibi okunuyordu.
     hizmetAdi: 'Paket servis',
     yakindaRozeti: 'yakında',
+    simdilik: "Hizmet başlayana kadar ocağı arayabilir, WhatsApp'tan yazabilirsiniz.",
   },
   footer: {
     tanim: 'Urfa usulü ciğer, meşe korunda.',

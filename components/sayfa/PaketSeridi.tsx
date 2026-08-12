@@ -19,8 +19,12 @@ type Props = {
 }
 
 /**
- * Pumpkin paket şeridi. İki sayfada satır satır aynı kabuk:
- * `Ana Sayfa Alternatif.dc.html:336-348` ve `Konum Sayfasi.dc.html:152-163`.
+ * Pumpkin paket şeridi. Kabuk `Ana Sayfa Alternatif.dc.html:336-348` ve
+ * `Konum Sayfasi.dc.html:152-163`'ten; iki kolonlu düzen bizim.
+ *
+ * Tasarımın tek kolonu şeridin sağ yarısını boş bırakıyordu ve paragraf açık bir
+ * hizmeti anlatıyor gibi okunuyordu: paket servis henüz başlamadı. Sağ kolon o
+ * boşluğu durum kartıyla dolduruyor ve paragrafın zamanını okuyucu için kuruyor.
  *
  * `Bolum` KULLANILMAZ: tasarımda bu blok `id`, `data-yogunluk` ve `data-erit`
  * taşımaz, yani erime animasyonuna ve bead rayına girmez. Düz bir `<div>`.
@@ -31,6 +35,7 @@ type Props = {
 export function PaketSeridi({ dil, whatsappVarMi = false }: Props) {
   const s = sozluk(dil)
   const whatsapp = whatsappUrl(isletme.whatsapp)
+  const telefon = telefonUrl(isletme.telefon)
 
   return (
     <div className={stil.serit}>
@@ -40,21 +45,23 @@ export function PaketSeridi({ dil, whatsappVarMi = false }: Props) {
         <p className={stil.paragraf}>{s.ortak.paket.metin}</p>
       </div>
 
-      <div className={stil.butonlar}>
-        {/* Hizmet başlamadı: sipariş butonu yerine rozet. Sahibi 12 Ağustos 2026. */}
-        <span className={stil.hizmetDurumu}>
-          {s.ortak.paket.hizmetAdi}
+      <div className={stil.durumKarti}>
+        <div className={stil.durumUst}>
+          <span className={stil.hizmetAdi}>{s.ortak.paket.hizmetAdi}</span>
           <Cip tur="yakinda">{s.ortak.paket.yakindaRozeti}</Cip>
-        </span>
-        {whatsappVarMi && (
-          <Buton tur="koyuOutline" boy="lg" href={whatsapp} hariciMi>
-            <WhatsAppIkon boy={15} />
-            {s.ortak.cta.whatsapp}
+        </div>
+        <p className={stil.simdilik}>{s.ortak.paket.simdilik}</p>
+        <div className={stil.butonlar}>
+          {whatsappVarMi && (
+            <Buton tur="koyu" boy="md" href={whatsapp} hariciMi>
+              <WhatsAppIkon boy={15} />
+              {s.ortak.cta.whatsapp}
+            </Buton>
+          )}
+          <Buton tur="koyuOutline" boy="md" href={telefon}>
+            {isletme.telefon ?? TELEFON_YER_TUTUCU}
           </Buton>
-        )}
-        <Buton tur="koyuOutline" boy="lg" href={telefonUrl(isletme.telefon)}>
-          {isletme.telefon ?? TELEFON_YER_TUTUCU}
-        </Buton>
+        </div>
       </div>
     </div>
   )
