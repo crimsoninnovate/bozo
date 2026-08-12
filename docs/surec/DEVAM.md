@@ -33,6 +33,18 @@ yükü 200) ve `handle_errors` maddesi kapandı. Sunucu hakkında iki tuzak kayd
 geçti: Caddy systemd'de değil Docker'da, ve konteynerin `/srv/enliq`'i host'un
 `/var/www/enliq`'i. Ayrıntı `YAYIN-KONTROL-LISTESI.md` ve `README.md`'de.
 
+**Üst barın kırpılması kapandı** (`d50f16c`). Masaüstü barı 780px'te kendi
+içeriğine sığmıyordu. Mobil eşiği on yedi media query'de birlikte 800px'e taşındı;
+yalnız `UstBar`'da taşımak 781-800 arasında nav'ı ve hamburger'i birden gizlerdi.
+`KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik değil, dokunulmadı.
+
+**Instagram geldi:** `cigercibozo` (kullanıcı adı olarak saklanıyor, B3 kapandı).
+Hesap henüz açık değil, yayın listesine 5. madde olarak girdi. Bu değişiklikle alt
+bilgide pasif yer tutucu kalmadı.
+
+**Footer'ın `isimNotu` satırı yenilendi:** eskisi ana sayfanın kendi bölüm başlığını
+tekrar ediyordu, yenisi İngilizce satırın işini yapıyor (iddiayı değil kişiyi söyler).
+
 **İkon kararı:** CTA butonlarına ikon eklenmeyecek (sahibi, 12 Ağustos). Tasarımın
 kendi kuralı ölçüldü: 11 SVG kullanımı, 4 glif, hepsi bir kanalı (WhatsApp,
 telefon, Instagram) veya bir yeri (pin) adlandırıyor, hiçbiri bir eylemi

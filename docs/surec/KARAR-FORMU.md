@@ -122,7 +122,15 @@ sayfa geçişlerinin anındalığını götürür.
 **Seçenekler:** (a) açık kalsın · (b) `prefetch={false}`
 **Önerim: (a).** Site altı sayfa; geçiş hızı mobil veriden daha çok hissediliyor.
 
-### A13. Üst barda 11px kırpılma: bu bir hata, düzelteyim mi?
+### A13. Üst barda 11px kırpılma: KAPANDI 12 Ağustos 2026
+
+Sahibi onayladı, düzeltildi (`d50f16c`). Çözüm önerilenden farklı çıktı: "tek satır
+CSS" tahminim yanlıştı, 780px sitenin mobil eşiği ve on yedi media query'de
+geçiyor. Eşiğin yalnız `UstBar`'da taşınması 781-800 arasında hem nav'ı hem
+hamburger'i gizlerdi, yani gezinmeyi tamamen düşürürdü; on yedisi birlikte 800px'e
+taşındı. Ölçüm ayrıntısı `IYILESTIRMELER.md`'de.
+
+<details><summary>Maddenin özgün hali</summary>
 
 **Karar maddesi değil, kusur.** 781-793px arası dar bir bantta üst barın en sağdaki
 "Yol tarifi al" butonu 792px'te bitiyor, viewport 781px, yani 11px kırpılıyor.
@@ -132,6 +140,8 @@ Bugün ölçüldü (kayıtta "781-802px" yazıyordu, gerçek bant 13px genişli�
 **Önerim:** çekmeceye düşme eşiğini 780px'ten 800px'e çıkar. Bandı tamamen kapatır,
 tek satır CSS, başka hiçbir genişliği etkilemez. Onay ver, yapayım.
 
+</details>
+
 ---
 
 ## B. Veri gelince açılacak, şimdi cevap gerekmiyor
@@ -140,7 +150,7 @@ tek satır CSS, başka hiçbir genişliği etkilemez. Onay ver, yapayım.
 |---|---|---|
 | B1 | `FotoYuvasi`: fotoğraf gelince köşe işaretleri ve vinyet düşsün mü? Marka aygıtı sessizce kaybolur | 16 fotoğraf |
 | B2 | Menüdeki çekim listesi bölümü: silinsin mi, tek satırlık galeri bağlantısına mı insin? Bugün iki yüzey aynı yedi kareyi basıyor | 16 fotoğraf |
-| B3 | `instagram` alanı kullanıcı adı mı tam URL mü? Kod bugün kullanıcı adı varsayıyor | Instagram hesabı |
+| ~~B3~~ | ~~`instagram` alanı kullanıcı adı mı tam URL mü?~~ **KAPANDI 12 Ağu 2026:** `cigercibozo`, kullanıcı adı olarak saklanıyor. Hesap henüz açık değil, yayın listesine madde olarak girdi | kapandı |
 | ~~B4~~ | ~~`aria-disabled` telefon yer tutucuları~~ **KAPANDI 12 Ağu 2026.** Numara geldi, satırlar `<a>` oldu ve yeniden ölçüldü: 16.62:1 (koyu zemin), 8.27:1 (alt bilgi), 5.29:1 (pumpkin şerit). Aynı turda çıkan gerçek kusur kontrast değil dokunma hedefiydi (28px), o da 44px'e çıkarıldı | kapandı |
 
 ## C. Bilinçli ertelendi, erken açma

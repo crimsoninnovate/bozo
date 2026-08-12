@@ -19,7 +19,8 @@ temiz. On iki gezilebilir rota (altı Türkçe, altı İngilizce) artı `sitemap
 | 1 | Alan adı alınmış ve DNS sunucuya bakıyor | `lib/site.ts` > `SITE_URL` | `cigercibozo.com` **varsayılıyor**, alınmadı |
 | 2 | Site ikonu | `app/icon.svg` + `app/apple-icon.png` | **Dosya yok.** Her sayfada konsola favicon 404'ü düşüyor; yerelde doğrulandı |
 | 3 | Caddy `handle_errors` bloğu sunucuda | `README.md` > Publishing | **Kapandı 12 Ağu 2026:** demo kurulumunda canlıda doğrulandı |
-| 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: fiyat, telefon, WhatsApp, e-posta, Instagram, koordinat hâlâ `null` ve arayüz yer tutucu basıyor |
+| 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: fiyat, e-posta ve koordinat hâlâ `null`, arayüz yer tutucu basıyor. Telefon, WhatsApp ve Instagram 12 Ağustos'ta geldi |
+| 5 | Instagram hesabı gerçekten açık | instagram.com/cigercibozo | **Açık değil.** Adres `content/isletme.ts`'te ve alt bilgi ona bağlanıyor; hesap açılmadan yayına çıkarsa misafir ölü bağlantıya gider |
 
 **2. maddenin engeli veri değil karar.** Marka paketinde (`design_handoff_bozo_website/marka/`)
 çizilmiş logo dosyası yok, yalnız iki markdown ve işaretin sözle tarifi var
