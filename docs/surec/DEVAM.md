@@ -69,9 +69,12 @@ Yapı tarafında bilinen açık iş kalmadı. Sıradaki adayları, sahibinin kar
 göre:
 
 - **İşletme verisi geldiğinde doldurma turu.** Aşağıdaki "İşletmeden bekleyen
-  veriler" listesi kapandıkça `content/` tek noktadan dolar; fotoğraflar gelince
-  galeri ve menü plakaları `next/image`'a geçer ve o yol **hiç ölçülmedi**
-  (bugün yüklenecek görsel yok).
+  veriler" listesi kapandıkça `content/` tek noktadan dolar. Fotoğraf yolu artık
+  **ölçüldü** (`PARITE.md` 7.15): dört kadraja geçici görsel bağlanıp derlendi,
+  çalışıyor, sonra geri alındı. Fotoğraflar gelince yapılacak tek iş
+  `content/fotograflar.ts`'e yol yazmak; ama **bir karar da o an düşecek**,
+  plaka fotoğrafla birlikte köşe işaretlerini ve vinyeti düşürüyor
+  (`IYILESTIRMELER.md`).
 - **Yayın turu.** Alan adı, Caddy, `SITE_URL`, favicon. Favicon için onaylı
   işaret hâlâ yok.
 - **Rezervasyon sayfası**, sahibi isterse (şu an "şimdilik gerekli değil").
