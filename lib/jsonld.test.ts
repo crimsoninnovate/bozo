@@ -45,7 +45,7 @@ test('restaurantJsonLd_geceyiAsanCalismaSaatiniIkiyeBolmeden_yazar', () => {
 test('restaurantJsonLd_adresBinaNoIleBirlesir', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
   const adres = veri.address as Adres
-  assert.equal(adres.streetAddress, 'Naci Talat Caddesi, Şht. Özdemir Apt No:4')
+  assert.equal(adres.streetAddress, 'Naci Talat Caddesi No:4')
   assert.equal(adres.addressLocality, 'Girne')
   assert.equal(adres.addressCountry, 'CY')
 })

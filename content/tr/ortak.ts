@@ -54,9 +54,9 @@ export const ortak = {
   satirlar: {
     adresKisa: 'Girne, Naci Talat Caddesi',
     adresCadde: 'Naci Talat Caddesi',
-    adresBina: 'Şht. Özdemir Apt No:4',
+    adresBina: 'No:4',
     adresSehirUlke: 'Girne / KKTC',
-    adresTamSatir: 'Naci Talat Caddesi, Şht. Özdemir Apt No:4',
+    adresTamSatir: 'Naci Talat Caddesi No:4',
     adresVeSaat: 'Girne, Naci Talat Caddesi · Her gün 10:00 - 05:00',
     saatlerGunluk: 'Her gün 10:00 - 05:00',
     saatlerUzun: "Her gün 10:00'dan ertesi sabah 05:00'e kadar",

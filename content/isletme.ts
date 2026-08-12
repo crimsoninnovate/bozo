@@ -13,10 +13,9 @@ export const isletme: Isletme = {
   cadde: 'Naci Talat Caddesi',
   sehir: 'Girne',
   ulke: 'KKTC',
-  // Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti: "Naci Talat Caddesi,
-  // Şht. Özdemir Apt. No:4 Girne". Tasarımdan bağımsız kaynak; önceki gerekçe
-  // (tasarım dosyaları + handoff README) dairesel olduğu için geçersizdi.
-  binaNo: 'Şht. Özdemir Apt No:4',
+  // Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti. Belge apartman adını da
+  // taşıyor ("Şht. Özdemir Apt"), sahibi onu yazmamayı seçti: cadde + numara yeterli.
+  binaNo: 'No:4',
   postaKodu: null,
   koordinat: null,
   telefon: null,

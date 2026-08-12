@@ -41,8 +41,10 @@ export function AltBilgiTam({ dil, aktif }: Props) {
                 dil-nötr yapısal veridir ve yalnız harita/JSON-LD bağlantılarında kullanılır.
                 binaNo koşulu duruyor: bilinmeyen bina numarası satır basmaz. */}
             <div className={stil.adresMetin}>
-              <div>{s.ortak.satirlar.adresCadde}</div>
-              {isletme.binaNo && <div>{s.ortak.satirlar.adresBina}</div>}
+              <div>
+                {s.ortak.satirlar.adresCadde}
+                {isletme.binaNo ? ` ${s.ortak.satirlar.adresBina}` : ''}
+              </div>
               <div>{s.ortak.satirlar.adresSehirUlke}</div>
             </div>
           </div>

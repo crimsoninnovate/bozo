@@ -40,13 +40,14 @@ export function yolTarifiUrl(isletmeVerisi: Isletme = isletme): string {
     const { enlem, boylam } = isletmeVerisi.koordinat
     return `https://www.google.com/maps/dir/?api=1&destination=${enlem},${boylam}`
   }
-  const parcalar = [
-    isletmeVerisi.ad,
-    isletmeVerisi.cadde,
-    isletmeVerisi.binaNo,
-    isletmeVerisi.sehir,
-    isletmeVerisi.ulke,
-  ].filter((parca): parca is string => Boolean(parca))
+  // Cadde ile numara tek parça: "Naci Talat Caddesi, No:4" araması numarayı ayrı
+  // bir bileşen sanır ve sonucu bozar.
+  const sokak = isletmeVerisi.binaNo
+    ? `${isletmeVerisi.cadde} ${isletmeVerisi.binaNo}`
+    : isletmeVerisi.cadde
+  const parcalar = [isletmeVerisi.ad, sokak, isletmeVerisi.sehir, isletmeVerisi.ulke].filter(
+    (parca): parca is string => Boolean(parca),
+  )
   const adres = parcalar.join(', ')
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adres)}`
 }

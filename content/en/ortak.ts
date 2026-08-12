@@ -55,9 +55,9 @@ export const ortak = {
   satirlar: {
     adresKisa: 'Kyrenia, Naci Talat Street',
     adresCadde: 'Naci Talat Street',
-    adresBina: 'Şht. Özdemir Apt No:4',
+    adresBina: 'No:4',
     adresSehirUlke: 'Kyrenia / TRNC',
-    adresTamSatir: 'Naci Talat Street, Şht. Özdemir Apt No:4',
+    adresTamSatir: 'Naci Talat Street No:4',
     adresVeSaat: 'Kyrenia, Naci Talat Street · Every day 10:00 - 05:00',
     saatlerGunluk: 'Every day 10:00 - 05:00',
     saatlerUzun: 'Every day from 10:00 until 05:00 the next morning',

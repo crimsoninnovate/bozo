@@ -129,7 +129,7 @@ test('isletme_dogrulanmisAlanlarDoludur', () => {
  * null kalırsa arama motorlarına eksik adres gider.
  */
 test('isletme_binaNoDogrulanmisDegerTasir', () => {
-  assert.equal(isletme.binaNo, 'Şht. Özdemir Apt No:4')
+  assert.equal(isletme.binaNo, 'No:4')
 })
 
 /**
@@ -138,7 +138,7 @@ test('isletme_binaNoDogrulanmisDegerTasir', () => {
  * giden adres ile sayfadaki adres çelişir, yerel görünürlük bundan zarar görür.
  */
 test('adres_yapisalVeGorunenAyniDegeriTasir', () => {
-  assert.equal(`${isletme.cadde}, ${isletme.binaNo}`, tr.ortak.satirlar.adresTamSatir)
+  assert.equal(`${isletme.cadde} ${isletme.binaNo}`, tr.ortak.satirlar.adresTamSatir)
 })
 
 /** Menü tasarımında üç adlı içeceğin ardında tek kesik yer tutucu vardır. */

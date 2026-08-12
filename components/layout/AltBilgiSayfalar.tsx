@@ -31,8 +31,10 @@ export function AltBilgiSayfalar({ dil, aktif }: Props) {
           <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
           {/* Görünen adres sözlükten; isletme.cadde dil-nötr yapısal veridir (bkz. AltBilgiTam). */}
           <div className={stil.adresBloku}>
-            <div>{s.ortak.satirlar.adresCadde}</div>
-            {isletme.binaNo && <div>{s.ortak.satirlar.adresBina}</div>}
+            <div>
+              {s.ortak.satirlar.adresCadde}
+              {isletme.binaNo ? ` ${s.ortak.satirlar.adresBina}` : ''}
+            </div>
             <div>{s.ortak.satirlar.adresSehirUlke}</div>
           </div>
         </div>

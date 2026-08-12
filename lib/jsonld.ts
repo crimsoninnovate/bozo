@@ -42,7 +42,7 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
     address: {
       '@type': 'PostalAddress',
       streetAddress: isletmeVerisi.binaNo
-        ? `${isletmeVerisi.cadde}, ${isletmeVerisi.binaNo}`
+        ? `${isletmeVerisi.cadde} ${isletmeVerisi.binaNo}`
         : isletmeVerisi.cadde,
       addressLocality: isletmeVerisi.sehir,
       addressCountry: 'CY',
