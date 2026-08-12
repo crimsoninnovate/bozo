@@ -17,7 +17,10 @@
   font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  transition: all var(--gecis-orta);
+  transition:
+    border-color var(--gecis-orta),
+    background-color var(--gecis-orta),
+    color var(--gecis-orta);
 }
 
 /* mount öncesi yer tutucu; tasarımın statik başlangıç metni rgba(...,.7) ile eşleşir */
