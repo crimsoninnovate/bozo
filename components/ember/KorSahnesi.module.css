@@ -102,6 +102,83 @@
   animation: emberSoft 12s ease-in-out infinite;
 }
 
+/*
+ * Kor yatağı. Tasarımın sahnesi (Ana:29-30) iki düz radial gradyan ve ekranda
+ * kor değil yumuşak bir ışık havuzu okunuyor: sahibinin "pek anlaşılmıyor"
+ * gözlemi buydu. Ölçüm parlaklık hipotezini çürüttü (tepe zemin kaldırma 95-107
+ * RGB birimi). Eksik olan tane: kor tanelidir, ve bu sitenin işareti zaten tane.
+ *
+ * Renk alttaki gradyandan gelir (ortada tangerine, dışa doğru kor); maske iki
+ * çapraz ızgarayı kesiştirip 3px kareler açar. İki katmanın adımları farklı
+ * (17/13 ve 29/23), desen gözle görülür biçimde tekrarlamıyor.
+ */
+.taneYatagi {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4%;
+  height: 42%;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/*
+ * Öbeklenme, düzgün bir tarama yerine kor yatağı okunması için: renk katmanı
+ * tek bir radial değil, tabanın üstüne serpilmiş beş sıcak nokta. Taneler
+ * parlaklığını bulundukları noktadan alıyor, yani bazı öbekler kor halinde,
+ * aradakiler sönmüş. Izgara düzenli, ateş değil.
+ */
+.ana .taneYatagi {
+  background:
+    radial-gradient(22% 62% at 31% 96%, rgba(250, 170, 31, 0.62), transparent 70%),
+    radial-gradient(17% 48% at 62% 100%, rgba(250, 170, 31, 0.54), transparent 72%),
+    radial-gradient(13% 40% at 77% 92%, rgba(201, 62, 34, 0.5), transparent 74%),
+    radial-gradient(15% 44% at 46% 88%, rgba(201, 62, 34, 0.44), transparent 76%),
+    radial-gradient(64% 100% at 50% 100%, rgba(183, 53, 28, 0.5), transparent 78%);
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 4px, transparent 4px 16px),
+    repeating-linear-gradient(0deg, #000 0 4px, transparent 4px 12px);
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 4px, transparent 4px 16px),
+    repeating-linear-gradient(0deg, #000 0 4px, transparent 4px 12px);
+  animation: emberSoftAna 11s ease-in-out infinite;
+}
+
+/* İkinci katman: daha iri ve daha seyrek taneler, kendi öbekleriyle. Tek ızgara
+   halftone gibi okunuyordu; iki farklı adım onu kırıyor. */
+.ana .taneYatagiSeyrek {
+  height: 56%;
+  background:
+    radial-gradient(14% 40% at 24% 98%, rgba(250, 170, 31, 0.5), transparent 72%),
+    radial-gradient(12% 34% at 69% 96%, rgba(250, 170, 31, 0.44), transparent 74%),
+    radial-gradient(70% 100% at 50% 100%, rgba(183, 53, 28, 0.3), transparent 80%);
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 37px),
+    repeating-linear-gradient(0deg, #000 0 6px, transparent 6px 29px);
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 37px),
+    repeating-linear-gradient(0deg, #000 0 6px, transparent 6px 29px);
+  animation: emberBreathAna 8s ease-in-out infinite;
+}
+
+/* İç sayfalarda sahne zaten sönük ve sabit; yatak da o ölçüde. */
+.ic .taneYatagi {
+  height: 34%;
+  background: radial-gradient(
+    62% 100% at 50% 100%,
+    rgba(250, 170, 31, 0.26),
+    rgba(183, 53, 28, 0.22) 40%,
+    transparent 76%
+  );
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 17px),
+    repeating-linear-gradient(0deg, #000 0 3px, transparent 3px 13px);
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 17px),
+    repeating-linear-gradient(0deg, #000 0 3px, transparent 3px 13px);
+  animation: emberSoft 12s ease-in-out infinite;
+}
+
 .duman {
   position: absolute;
   border-radius: 50%;
