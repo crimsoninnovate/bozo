@@ -27,15 +27,18 @@
  * çakıştığı ölçüldü). Mobil prototip aynı barda blur(10px) kullanıyor, masaüstüne
  * o taşındı. Ayrı katman: mask barın kendisine binerse nav metnini de soldurur.
  * z-index -1 blur'u perdenin altına koyar, sıra önce bulanıklık sonra perde olur.
+ * 781px tabanı: 780px altında barın kendisi zaten blur taşıyor, iki kat olurdu.
  */
-.anaVaryant::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  backdrop-filter: blur(10px);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent);
-  pointer-events: none;
+@media (min-width: 781px) {
+  .anaVaryant::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    pointer-events: none;
+  }
 }
 
 /* .94 ucunun token'ı yok (--panel-* ailesinde .94 adımı yok). */
