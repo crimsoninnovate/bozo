@@ -8,7 +8,7 @@ type Props = { dil: Dil }
 /**
  * Sabit alt eylem barı: üç eşit hedef (yol tarifi, ara, WhatsApp), her biri
  * 50px yükseklik ve dokunma alanı 44px üzerinde. Telefon ve WhatsApp numarası
- * bilinmiyorsa (null) placeholder basılır, href üretilmez. 780px üstünde
+ * bilinmiyorsa (null) placeholder basılır, href üretilmez. 800px üstünde
  * gizlenir (bkz. MobilAksiyonBari.module.css).
  *
  * `cta.yolTarifiKisa` kullanılır: tasarımın bu bardaki metni kısaltılmış

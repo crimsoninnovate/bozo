@@ -114,7 +114,7 @@
  * katman çiziyor: ızgara, yatay yol, halka, nabız. Dikey yol ve üç etiket
  * mobilde yok; etiketlerin taşıdığı bilgi bölüm başlığında ve alt bilgide zaten var.
  */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .izgara {
     background-image:
       repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 40px),

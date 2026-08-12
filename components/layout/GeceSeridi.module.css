@@ -1,7 +1,7 @@
 /*
  * Ana Sayfa Alternatif.dc.html data-gece-serit: padding:8px clamp(24px,5vw,64px);
  * background:rgba(183,53,28,.2); gap:10px; nokta 7px, metin 12.5px.
- * 780px altı ölçüler Mobil Prototip.dc.html data-gece-serit'ten: padding:7px 18px,
+ * 800px altı ölçüler Mobil Prototip.dc.html data-gece-serit'ten: padding:7px 18px,
  * gap:8px, nokta 6px, metin 11.5px (bkz. task-6-report.md, kabuk genişliği kararı).
  */
 .serit {
@@ -30,7 +30,7 @@
   color: var(--tangerine);
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .serit {
     padding: 7px 18px;
     gap: 8px;

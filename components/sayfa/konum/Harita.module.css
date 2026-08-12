@@ -151,7 +151,7 @@
  * Prototip.dc.html:169-174) bu levha değil. Üç POI çipi ve alt not bu ekranda
  * başka hiçbir yerde geçmiyor; adres ve kapı numarası geçiyor. Bkz. rapor.
  */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .poiMacroMarket {
     left: auto;
     right: 12px;

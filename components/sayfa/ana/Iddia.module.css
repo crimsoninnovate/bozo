@@ -72,7 +72,7 @@
 
 /* Mobil sayaç şeridi: Mobil Prototip.dc.html:100-103. Üç hücre mobilde de tek
    satırda kalır, o yüzden flex tabanı 150px'ten 0'a iner. */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .hucre {
     flex-basis: 0;
     min-width: 0;

@@ -1,4 +1,4 @@
-/* Mobil Prototip.dc.html [alt-eylem-bari]: 780px üstünde görünmez, yalnız mobilde kullanılır. */
+/* Mobil Prototip.dc.html [alt-eylem-bari]: 800px üstünde görünmez, yalnız mobilde kullanılır. */
 .bar {
   position: fixed;
   left: 0;
@@ -54,7 +54,7 @@
   pointer-events: none;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .bar {
     display: flex;
   }

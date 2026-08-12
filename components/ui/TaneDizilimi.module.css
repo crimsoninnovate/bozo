@@ -60,7 +60,7 @@
 
 /* Mobil ölçüler yalnız `mobil` verilen raylarda devreye girer; verilmeyende
    yedek değer masaüstününkidir. Hero rayının çizgisi: Mobil Prototip.dc.html:80-81. */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .kap { gap: var(--tane-bosluk-m, var(--tane-bosluk)); }
   .buyukTane {
     width: var(--tane-buyuk-m, var(--tane-buyuk));

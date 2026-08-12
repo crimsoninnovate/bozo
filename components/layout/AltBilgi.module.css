@@ -255,17 +255,12 @@
 }
 
 /*
- * fix round 1'in min-height:44px'i burada `.kolon`un dikey gap'li sütun akışını
- * büyütüyordu (fix round 2, Open 2: üç satırın Y konumu ölçülüp doğrulandı, bkz.
- * task-6-report.md). Görünmez ::before dokunma alanını büyütür, kutunun kendi
- * boyu (ve dolayısıyla sütun akışındaki konumu) değişmez.
- *
- * fix round 3: 44px'lik ::before komşu satırlarla 16px çakışıyordu (satır
- * aralığı = .kolon gap:13px + ~15px satır yüksekliği = 28px pitch; 44px bir
- * ::before önceki/sonraki satırın alanına taşıyordu, yanlış satıra dokunma
- * riski). Üst-üste binmeyen tek yükseklik pitch'in kendisi (28px); komşu
- * ::before'lar artık kesişmeden birbirine değiyor. 44px hedefine bu pitch
- * içinde ulaşmanın yolu yok, bkz. task-6-report.md "residual" notu.
+ * Görünmez ::before dokunma alanını büyütür, kutunun kendi boyu (ve sütun
+ * akışındaki konumu) değişmez. Hedef uzun süre 28px'te kilitliydi: pitch de
+ * 28px olduğu için (13px gap + ~15px satır) daha yükseği komşuya binerdi ve
+ * "44px'e bu pitch içinde ulaşılamaz" diye kaydedilmişti. Doğru okuma pitch'in
+ * kendisini büyütmekti; 12 Ağustos 2026'da satırlar etkin bağlantıya dönünce
+ * yapıldı, aşağıya bak.
  */
 .iletisimSatiri {
   position: relative;
@@ -433,14 +428,14 @@ a.iletisimSatiri:hover {
 }
 
 /*
- * Sabit MobilAksiyonBari (77px, aynı 780px eşiği) footer'ın dibini örtüyor:
+ * Sabit MobilAksiyonBari (77px, aynı 800px eşiği) footer'ın dibini örtüyor:
  * 390x844'te ölçüldü, telif şeridi 778-812 aralığında ve bar 767'den başlıyor,
  * yani şerit tümüyle barın altında kalıyor (Gizlilik bağlantısı dahil). Üç
  * varyantın üçü de aynı payı ister. Değer tasarımın kendi mobil footer'ından:
  * Mobil Prototip.dc.html:181 ve 371 `padding:30px 20px 116px`.
  * .zemin bu üç varyant sınıfından SONRA tanımlı olmalı, özgüllükleri eşit.
  */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .zemin {
     padding-bottom: 116px;
   }

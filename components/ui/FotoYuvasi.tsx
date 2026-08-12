@@ -79,7 +79,7 @@ export function FotoYuvasi({ id, dil, bicim, koseIsaretleri, korNefesi, children
   if (foto.dosya) {
     return (
       <div className={`${stil.kap} ${stil[bicim]}`}>
-        <Image src={foto.dosya} alt={etiket} fill className={stil.gorsel} sizes="(max-width: 780px) 100vw, 50vw" />
+        <Image src={foto.dosya} alt={etiket} fill className={stil.gorsel} sizes="(max-width: 800px) 100vw, 50vw" />
         {children}
       </div>
     )

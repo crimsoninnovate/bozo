@@ -4,7 +4,13 @@
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
  * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
- * 780px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
+ * 800px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
+ *
+ * EŞİK 780 DEĞİL 800. Mobil prototip 780 diyor ama masaüstü barı o genişlikte
+ * kendi içeriğine sığmıyordu: 781px'te en sağdaki CTA 11px kırpılıyordu (ölçüldü,
+ * 12 Ağustos 2026), 795px'te sığıyordu. Eşik sitenin on yedi media query'sinde
+ * birlikte taşındı; yalnız burada taşımak 781-800 arasında hem nav'ı hem
+ * hamburger'i gizler, yani gezinmeyi tamamen düşürürdü.
  */
 .bar {
   position: fixed;
@@ -27,9 +33,9 @@
  * çakıştığı ölçüldü). Mobil prototip aynı barda blur(10px) kullanıyor, masaüstüne
  * o taşındı. Ayrı katman: mask barın kendisine binerse nav metnini de soldurur.
  * z-index -1 blur'u perdenin altına koyar, sıra önce bulanıklık sonra perde olur.
- * 781px tabanı: 780px altında barın kendisi zaten blur taşıyor, iki kat olurdu.
+ * 801px tabanı: 800px altında barın kendisi zaten blur taşıyor, iki kat olurdu.
  */
-@media (min-width: 781px) {
+@media (min-width: 801px) {
   .anaVaryant::before {
     content: '';
     position: absolute;
@@ -191,7 +197,7 @@
   background: var(--krem);
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .anaVaryant,
   .icVaryant {
     background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));

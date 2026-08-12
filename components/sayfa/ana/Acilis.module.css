@@ -172,7 +172,7 @@
 }
 
 /*
- * 780px altında ipucu basılmaz. Gerekçe ölçümle bulundu: sabit MobilAksiyonBari
+ * 800px altında ipucu basılmaz. Gerekçe ölçümle bulundu: sabit MobilAksiyonBari
  * aynı eşikte görünür oluyor (MobilAksiyonBari.module.css:55) ve 390x844'te
  * hero'nun dibindeki ipucunun 44px'lik hedefinin yalnız 8px'i erişilebilir
  * kalıyor, kalanı barın altında. Yanlış hedef "Yol tarifi"ye, yani haritaya
@@ -182,7 +182,7 @@
  * hero'sunda bu ipucu yok (dosyada "kanıtı tanede" geçmiyor), mobil düzen onu
  * zaten düşürüyor. Bkz. IYILESTIRMELER.md ve task-9-report.md.
  */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .ipucu {
     display: none;
   }

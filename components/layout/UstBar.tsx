@@ -63,7 +63,7 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
  * Sabit üst bar. Nav listesi, CTA hedefi ve bar ölçüsü rotaya göre değişir;
  * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada). Ana
  * sayfa 80px satır + ilerleme rayı, iç sayfalar 78px ve raysız. Gece şeridi de
- * rotaya bağlı (`geceSeridiGosterilirMi`). 780px altında
+ * rotaya bağlı (`geceSeridiGosterilirMi`). 800px altında
  * nav ve CTA gizlenir, hamburger görünür ve tam ekran Cekmece'yi açar.
  */
 export function UstBar({ dil, aktif }: Props) {

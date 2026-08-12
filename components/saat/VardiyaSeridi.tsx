@@ -13,7 +13,7 @@ import stil from './VardiyaSeridi.module.css'
 type Props = { dil: Dil }
 
 /** Kabuk bileşenlerinin tek kırılma noktası. */
-const MOBIL_SORGUSU = '(max-width: 780px)'
+const MOBIL_SORGUSU = '(max-width: 800px)'
 
 /**
  * useGirneSaati ile aynı kapı: sunucuda ve ilk istemci render'ında `null`, gerçek

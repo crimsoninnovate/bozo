@@ -12,7 +12,7 @@
 }
 
 /* Mobil prototipin sahnesinde bu katman yok (Mobil:31-37); dokunmada imleç de yok. */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .isik {
     display: none;
   }

@@ -68,7 +68,7 @@
  * tutuyor, açıklamayı adın altına alıyor; buradaki düz kardeşlerde aynı sonuç
  * açıklamaya tam satır ve son sıra verilerek çıkar. Hover mobilde yok.
  */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .satir {
     align-items: baseline;
     gap: 4px 12px;
