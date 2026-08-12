@@ -111,6 +111,18 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
 }
 
 /**
+ * Gece şeridi yalnız sayfanın başka canlı durum göstergesi olmadığı rotalarda.
+ *
+ * Ölçüm (Girne 03:36-03:47): ana, menü ve konum aynı olguyu üç dört kez söylüyor
+ * (şerit + hero durum çipi + canlı saat / saat tablosu); hikaye ve gizlilikte
+ * şerit tek kaynak. Ölçüt sayfa kimliği değil, o rotada başka bir canlı gösterge
+ * olup olmadığı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
+ */
+export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
+  return aktif === 'hikaye' || aktif === 'gizlilik'
+}
+
+/**
  * `tam`: dört kolon, adres ikonlu, iletişim satırları ayrı ayrı (Ana:351-386).
  * `sayfalar`: dört kolon ama ikincisi bağlantı listesi, ikon yok (Hikaye:134, Konum:166).
  * `serit`: kompakt tek şerit, telif şeridi yok (Menu:283-292).

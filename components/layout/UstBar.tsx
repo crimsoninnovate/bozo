@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
-import { ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
+import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
 import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
 import { Cekmece } from './Cekmece'
 import { DilAnahtari } from './DilAnahtari'
@@ -62,7 +62,8 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
 /**
  * Sabit üst bar. Nav listesi, CTA hedefi ve bar ölçüsü rotaya göre değişir;
  * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada). Ana
- * sayfa 80px satır + ilerleme rayı, iç sayfalar 78px ve raysız. 780px altında
+ * sayfa 80px satır + ilerleme rayı, iç sayfalar 78px ve raysız. Gece şeridi de
+ * rotaya bağlı (`geceSeridiGosterilirMi`). 780px altında
  * nav ve CTA gizlenir, hamburger görünür ve tam ekran Cekmece'yi açar.
  */
 export function UstBar({ dil, aktif }: Props) {
@@ -81,7 +82,7 @@ export function UstBar({ dil, aktif }: Props) {
     <>
       <header className={`${stil.bar} ${varyant.anaVaryantMi ? stil.anaVaryant : stil.icVaryant}`}>
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
-        <GeceSeridi dil={dil} />
+        {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
         <div className={stil.satir}>
           <Link href={yol('ana', dil)} className={stil.marka}>
             <TaneDizilimi buyuk={8} kucuk={5} bosluk={4} />

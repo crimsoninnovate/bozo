@@ -1,8 +1,12 @@
 /*
  * Ana Sayfa Alternatif.dc.html:176-214, beş satırın hepsi birebir aynı.
- * Hover satırı yerinden oynatmaz (translateX değil), yalnız iç dolguyu büyütür:
- * satırın zemini ve alt çizgisi yerinde kalır. Son satırın alt çizgisi kalkmaz,
- * tasarımda beşinin de border-bottom'ı var, :last-child istisnası yok.
+ * Son satırın alt çizgisi kalkmaz, tasarımda beşinin de border-bottom'ı var,
+ * :last-child istisnası yok.
+ *
+ * Tasarımın hover'ı 12px'lik dolgu kayması da veriyordu (padding-left 12 -> 24).
+ * Bu satırların tıklanacak bir hedefi yok: tasarımın cursor:pointer'ı daha önce
+ * düşürüldü, kayma kaldı. İki sinyalden yüksek sesli olan oydu; kaldırıldı,
+ * zemin rengi kaldı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
  */
 .satir {
   display: flex;
@@ -11,12 +15,11 @@
   gap: 18px 26px;
   padding: 22px 12px;
   border-bottom: 1px solid var(--cizgi-soluk);
-  transition: background var(--gecis-yerlesim), padding-left var(--gecis-yerlesim);
+  transition: background var(--gecis-yerlesim);
 }
 
 .satir:hover {
   background: var(--tangerine-07);
-  padding-left: 24px;
 }
 
 .sira {
@@ -71,7 +74,6 @@
 
   .satir:hover {
     background: none;
-    padding-left: 0;
   }
 
   .sira {

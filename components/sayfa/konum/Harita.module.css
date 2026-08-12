@@ -141,6 +141,24 @@
   color: var(--krem-68);
 }
 
+/*
+ * 390px'te üçüncü çip `left:66%` ile levhayı 17px aşıyor ve `overflow:hidden`
+ * onu kırpıyordu (ölçüldü). Çip sağ kenara demirlenir ve pin ile alt notun
+ * arasındaki boş banda iner; levhanın güneydoğu çeyreğindeki yeri korunur.
+ *
+ * Etiketler mobilde SİLİNMEDİ: ana sayfa levhası (`HaritaPlakasi`) tasarımın
+ * mobil karşılığını taşıdığı için etiketsiz, ama o karşılık (Mobil
+ * Prototip.dc.html:169-174) bu levha değil. Üç POI çipi ve alt not bu ekranda
+ * başka hiçbir yerde geçmiyor; adres ve kapı numarası geçiyor. Bkz. rapor.
+ */
+@media (max-width: 780px) {
+  .poiMacroMarket {
+    left: auto;
+    right: 12px;
+    top: 74%;
+  }
+}
+
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
    bir sayfada duran düz ad tutmaz. Ana:21 ve Menu/Hikaye/Konum:21. */
 @keyframes dotPulse {

@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
-import { altBilgiSayfaLinkleri, altBilgiVaryanti, ustBarVaryanti } from './kabuk.ts'
+import { altBilgiSayfaLinkleri, altBilgiVaryanti, geceSeridiGosterilirMi, ustBarVaryanti } from './kabuk.ts'
 import type { RotaAnahtari } from './site.ts'
 
 const ROTALAR: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'gizlilik']
@@ -84,6 +84,13 @@ test('altBilgi_sayfaLinkleri_bulunulanSayfayiIcermez', () => {
     altBilgiSayfaLinkleri('konum').map((l) => l.rota),
     ['ana', 'menu', 'hikaye'],
   )
+})
+
+/** Şerit yalnız hero durum çipi ve canlı saati olmayan iki rotada tek kaynaktır. */
+test('geceSeridi_yalnizCanliGostergesizRotalarda', () => {
+  for (const rota of ROTALAR) {
+    assert.equal(geceSeridiGosterilirMi(rota), rota === 'hikaye' || rota === 'gizlilik', rota)
+  }
 })
 
 test('altBilgi_sayfaLinkleri_etiketleriSozluktenGelir', () => {

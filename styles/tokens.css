@@ -223,7 +223,17 @@
   --golge-kart-hover: 0 26px 60px rgba(0, 0, 0, 0.5);
 
   /* aralık */
-  --sayfa-yatay: clamp(24px, 5vw, 64px);
+  /*
+   * Sayfa payı 1308px'e kadar tasarımın clamp'i, ondan sonra oluk: içerik sütunu
+   * --panel-en'de durur ve ortalanır. Tasarım her bloğu sol paya yaslıyor ve hiç
+   * `margin:auto` kullanmıyor (beş dosyada sıfır kez), ama kareler 924px'te
+   * çekildiği için 1180px'lik kapaklar orada hiç bağlamıyor. Geniş ekranda
+   * bağlıyorlardı: 1920px'te ana sayfanın dört ayrı sağ kenarı vardı, kapaklı
+   * bölümlerle tam genişlik bölümler arası fark 612px'ti (ölçüldü). Payı
+   * büyütmek üst barı, bölümleri ve alt bilgiyi tek sütuna sokar; 1308px altında
+   * hiçbir şey kıpırdamaz. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
+   */
+  --sayfa-yatay: max(clamp(24px, 5vw, 64px), (100vw - var(--panel-en)) / 2);
   --bolum-dikey: 120px;
   /* cam panel dolgusunun üç adımı, tasarımdan birebir */
   --kart-ic: clamp(28px, 3vw, 48px);

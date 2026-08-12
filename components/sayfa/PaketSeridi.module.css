@@ -10,6 +10,16 @@
   gap: 24px 40px;
 }
 
+/*
+ * Site geneli odak halkası tangerine (styles/reset.css); pumpkin üstünde 1.75:1,
+ * yani WCAG 1.4.11'in 3:1 eşiğinin altında. Kömür aynı zeminde 5.29:1 ve şeridin
+ * metniyle aynı renk. Şeridin üç butonu bugün telefon ve WhatsApp bilinmediği
+ * için pasif <span>, yani odak almıyor; kural veri geldiği gün tetiklenir.
+ */
+.serit :focus-visible {
+  outline-color: var(--komur);
+}
+
 .kolon {
   display: flex;
   flex-direction: column;
