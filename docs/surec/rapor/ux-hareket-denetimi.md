@@ -110,9 +110,9 @@ Aynı satırda açıklama sütunu 551px genişliğinde ama en uzun açıklaması
 250px kaplıyor. Yani sarmayı zorlayan 260px sınırının hemen sağında 300px
 kullanılmayan yer var.
 
-Öneri: isim sütununun üst sınırını yükseltmek (`clamp(160px, 24vw, 300px)`) ya da
-`flex: none`u bırakıp sütunun içeriğe göre büyümesine izin vermek. Tasarımdan
-sapma olduğu için karar ve gerekçe `iyilestirmeler.md`'ye yazılmalı.
+Uygulanan: üst sınır `clamp(160px, 22vw, 300px)`. Beş satır da 79px oldu.
+22vw her genişlikte 20vw'den geniş, yani dar ekranlarda sarma yalnız azalır.
+`flex: none` ve alt sınır tasarımdaki gibi kaldı.
 
 ## F4: On üç öğede `transition: all`
 
