@@ -56,6 +56,15 @@ python3 -m http.server 8392 --directory ~/Desktop/Bozo/design_handoff_bozo_websi
   kullanılır.
 - **Geniş tarama aday bulucudur, kanıt değildir.** Her aday yavaş yöntemle
   yeniden ölçülür. Kararsız sayı (koşumlar arası oynayan oran) ölçüm hatasıdır.
+- **Taramanın KAPSAMI da ölçülür.** "Kalan yok" ile "ölçmedim" aynı görünür.
+  Sayfadaki metin öğesi sayısı ile taramanın ölçtüğü sayı karşılaştırılır; fark
+  varsa hangileri olduğu adlandırılır. Kontrol turunda 1538'e karşı 1514 çıktı ve
+  aradaki 24, **dinlenirken ekran dışında duran atlama bağlantısıydı**: her
+  rotanın ilk klavye durağı, hiç ölçülmemişti (bkz. 5.2.10).
+- **Metne göre eşleştirme sırayı kaydırabilir.** Tasarımda üç, portta bir kez
+  geçen bir metin (`Girne / KKTC`) sıradaki bütün çiftleri kaydırır ve sahte bir
+  punto farkı üretir. Fark çıkan öğe tek tek, iki tarafta da sayılarak
+  doğrulanır.
 - Ekran görüntüsü tek kanıt değildir. Handoff kareleri 924px'te çekilmiş.
 - **`Mobil Prototip.dc.html` bir telefon maketidir**, sayfayı çerçeve içinde
   ölçekleyerek basar. Oradan okunan computed değerler portla karşılaştırılamaz;
@@ -130,6 +139,8 @@ grep -o '<html[^>]*>' out/404.html
 | 4.4 | `out/en/**` içinde Türkçe metin | geçti | yalnız korunan özel adlar: `(kuzu şiş)`, `(terbiyesiz tavuk şiş)`, `(ciğer)`, `(dalak)`, `(yürek)`, `(çay)` |
 | 4.5 | Sözlük anahtarlarının çağıranı | 3 ölü anahtar | `ortak.marka.kisa`, `ortak.cta.whatsapptanYaz`, `ortak.satirlar.saatlerUzun`. Değişmedi, `IYILESTIRMELER.md` satır 109'da kayıtlı |
 | 4.6 | Galeri iki dilde de rota, sitemap ve gezinmede | geçti | `/galeri/` + `/en/galeri/`, sitemap çifti, üst bar (menü barı hariç, kayıtlı), alt bilgi kolonu, **mobil çekmece** (bu turda düzeltildi, bkz. 9.1) |
+| 4.7 | `aria-current` bulunulan rotada ve yalnız orada | geçti | 12 rotada ölçüldü: `page` yalnız navda karşılığı olan bulunulan rotada (galeri, hikaye, konum). `/` ve `/menu/`'de yok (nav o rotayı taşımıyor, kayıtlı kural), `/gizlilik/` navda yok. Ayrıca aktif dilde `aria-current="true"` |
+| 4.8 | Yapısal veri (JSON-LD) geçerli ve uydurmasız | geçti | `Restaurant`, ayrıştırılabilir, boş/null alan 0. Taşıdıkları: `name`, `url`, `servesCuisine`, `servesAlcohol: false`, `address` (`streetAddress`, `addressLocality`, `addressCountry: CY`), `openingHoursSpecification` (7 gün, 10:00-05:00). `telephone`, `geo`, `sameAs`, `priceRange` **hiç basılmıyor**, çünkü veri `null` (bkz. 7) |
 
 ## 5. Erişilebilirlik
 
@@ -178,6 +189,7 @@ bir kez kötüye. Ölçüm tekrarlanmadan güncellenmemeli.
 | 5.2.7 | Çekmece açıkken gövde kaydırması kilitli | geçti, `overflow: hidden`, kapanışta geri alınıyor |
 | 5.2.8 | Atlanan blok bağlantısı (skip link) | geçti, 24 rota-genişlikte ilk durak. `404.html`'de kabuk yok, ilk durak "Ana sayfa" |
 | 5.2.9 | Odak halkası site genelinde tanımlı | geçti, `:focus-visible` 2px `--tangerine`, offset 3px |
+| 5.2.10 | **Atlama bağlantısı odaklıyken** ölçüldü | geçti, 24 rota-genişlikte: kontrast **14.54:1** (EN 14.56), gerçek dokunma hedefi **124x44** (EN 152x44), odak halkası 2px tangerine, Enter odağı `#icerik`'e indiriyor. Dinlenirken ekran dışında olduğu için hem kontrast hem hedef taraması onu atlıyordu; kapsam denetimi ortaya çıkardı |
 
 ### 5.3 Landmark ve başlık
 
@@ -246,7 +258,7 @@ karşılaştırılır, metne göre eşleştirilir.
 | Menü | 14/14 birebir |
 | Hikaye | 6/6 birebir; `Usül` > `Usul` kayıtlı sahip kararı, eşleşme dışı |
 | Konum | 7/7 birebir |
-| **Galeri** | **tasarımda yok.** Ölçütü ödünç aldığı kalıplar: ızgara Menü ürün ızgarası (`Ocaktan.module.css:93-94`), plaka `FotoYuvasi` `kart` biçimi (Menu:126), kabuk `sayfalar` alt bilgi varyantı. `IYILESTIRMELER.md`'de kayıtlı |
+| **Galeri** | **tasarımda yok.** Ölçütü ödünç aldığı kalıplar: ızgara Menü ürün ızgarası (`Ocaktan.module.css:93-94`), plaka `FotoYuvasi` `kart` biçimi (Menu:126), kabuk `sayfalar` alt bilgi varyantı. Bağımsız ölçüldü: 16 kare, 1440px'te **3 kolon 371x270** (gap 34px), 390px'te **tek kolon 342x253** (gap 20px), on altı kutu da aynı ölçüde. `IYILESTIRMELER.md`'nin yazdığı değerlerle birebir |
 | **Gizlilik** | **tasarımda yok.** `tam` alt bilgi varyantı, kayıtlı |
 
 ### 6.2 Mobil (390px)
@@ -263,6 +275,29 @@ portta 120px okunur, ikisi de doğru). Otorite dosyanın yazılı inline değeri
 | Konum başlığı | `700 30px`, iz `-.035em` | 30px/700/-1.05px | birebir |
 | Sofra başlığı | `700 34px`, iz `-.04em` | 34px/700/-1.36px | birebir |
 | Çekmece linki | `700 34px`, iz `-.035em` | 34px/700/-1.19px | birebir |
+
+### 6.2b Gövde metni (yalnız başlıklar değil)
+
+6.1'in ölçütü ("Bricolage, 26px ve üstü") sitedeki metnin küçük bir dilimi.
+Gövde metni, çipler, etiketler ve buton yazıları da karşılaştırıldı: punto,
+ağırlık, iz, aile ve **etkin alfa dahil renk**, metne göre eşleştirilerek.
+
+| Sayfa | Eşleşen | Birebir | Farklı |
+|---|---|---|---|
+| Ana | 108 | 100 | 8 |
+| Menü | 82 | 79 | 3 |
+| Hikaye | 42 | 41 | 1 |
+| Konum | 51 | 45 | 6 |
+| **Toplam** | **283** | **265** | **18** |
+
+**18 farkın hiçbiri yeni bulgu değil**, üç bilinen sebebe ayrılıyor:
+
+| Sebep | Adet | Ne |
+|---|---|---|
+| `.pasif` yer tutucu sönümlemesi | 14 | telefon, WhatsApp, Instagram, "Paket sipariş": veri `null` olduğu için `.55`/`.39` etkin alfa. Veri gelince düşer |
+| `colonBlink` faz farkı | 2 | tasarım o anda tepe fazında, port dip fazında. Dip değeri zaten kayıtlı sapma (9.2) |
+| Kayıtlı sapma | 1 | `DilAnahtari` pasif dil `--krem-58`; dört tasarım dosyasının üçü `.58` veriyor, yalnız `Menu:56` `.5`. Karşılaştırma tam o azınlık dosyaya karşı yapıldı. `IYILESTIRMELER.md` satır 49 |
+| Eşleştirme sırası kayması | 1 | `Girne / KKTC` tasarımda üç yerde (19px adres, 14.5px alt bilgi kolonu, 12.5px telif), portta bir standalone öğe: adres bloğu tek `<span>`, şehir satırı ayrı sarmalanmamış (tasarımdaki `<span>` yalnız `data-en` taşımak için var, portun rotası gerçek). Portun adres bloğu tek tek ölçüldü: **19px, `rgba(242,233,220,.78)`, tasarımla birebir** |
 
 ### 6.3 Ana sayfa bölüm iskeleti
 

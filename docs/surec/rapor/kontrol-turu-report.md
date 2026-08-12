@@ -92,6 +92,55 @@ hatası bildirirdi. Aynısı `/konum/` ve iki EN rotası için de geçerli.
 yöntemle (ortala, otur, üç kez örnekle) yeniden ölçülür. Bu turda tarama 107 aday
 attı, doğrulama onların bir kısmını geçirdi.
 
+## İkinci geçiş: turun kendi denetimi
+
+Turun sonuçları kapandıktan sonra sahibi denetim istedi. Denetimin sorusu şuydu:
+ilk geçiş taramanın **fazla** rapor ettiğini kanıtladı, peki **eksik** rapor
+edip etmediği hiç ölçüldü mü? Ölçülmemişti.
+
+### Kapsam boşluğu: her rotanın ilk klavye durağı hiç ölçülmemiş
+
+Kontrast taramasının filtresi kutunun viewport'a tam sığmasını istiyordu. Bu
+filtre sessizdir: sığmayan öğe ölçülmez ve raporda "kalan yok" diye görünür.
+Ölçüldü: sayfalarda 1538 metin öğesi var, tarama 1514 tanesini ölçmüş.
+
+Kaçan 46 kaydın 22'si canlı saatin metni iki koşum arasında değiştiği için
+oluşan eşleştirme artefaktıydı (sınıfları ölçülmüştü). Kalan **24'ü atlama
+bağlantısı**, 12 rota x 2 genişlik: dinlenirken ekran dışında park ettiği için
+hem kontrast hem dokunma hedefi taraması onu atlamış. Oysa odaklanınca görünür ve
+**her rotanın ilk klavye durağı**, yani tam da klavye kullanıcısını ilgilendiren
+kontrol.
+
+Odaklı durumda ölçüldü, 24 rota-genişlikte: kontrast **14.54:1** (EN 14.56),
+gerçek dokunma hedefi **124x44** (EN 152x44), odak halkası 2px tangerine, Enter
+odağı `#icerik`'e indiriyor. **Boşluk gerçekti, arkasında bulgu yoktu.**
+
+### Parite yönteminin kapsamı: yalnız başlıklar karşılaştırılmış
+
+Kayıtlı parite ölçütü "Bricolage ailesinden 26px ve üstü" diyor. Yani gövde
+metni, çipler, etiketler ve buton yazıları bugüne kadar tasarımla hiç
+karşılaştırılmamış; sitedeki metnin çoğu bu.
+
+Dört tasarım sayfasının tamamı için tüm metin öğeleri karşılaştırıldı (punto,
+ağırlık, iz, aile ve etkin alfa dahil renk): **283 eşleşen, 265 birebir, 18
+farklı.** On sekizin hiçbiri yeni bulgu değil: 14'ü `.pasif` yer tutucu
+sönümlemesi (telefon ve WhatsApp `null`), 2'si `colonBlink` faz farkı, 1'i
+kayıtlı `DilAnahtari` sapması, 1'i de kendi eşleştiricimin sıra kayması.
+
+Sonuncusu ayrıca kaydedilmeye değer bir yöntem tuzağı: `Girne / KKTC` tasarımda
+üç yerde geçiyor (19px adres bloğu, 14.5px alt bilgi kolonu, 12.5px telif),
+portta standalone olarak bir yerde. Metne göre eşleştirme sıradaki bütün
+çiftleri kaydırdı ve "punto 19>14.5" diye sahte bir fark üretti. Portun adres
+bloğu tek tek ölçüldü: **19px, `rgba(242,233,220,.78)`, tasarımla birebir.**
+
+### Doğrulanmamış repo iddiaları
+
+| İddia | Nerede yazılı | Ölçüm |
+|---|---|---|
+| Galeri ızgarası 1440'ta 3 kolon 371x270, 390'da 342x253 | `IYILESTIRMELER.md` | doğrulandı, birebir; 16 kutu da aynı ölçüde, gap 34/20px |
+| `aria-current` bulunulan rotada ve yalnız orada | `kabuk.ts` kuralı | doğrulandı, 12 rota; menü barında yok (kayıtlı), gizlilik navda yok |
+| Yapısal veri uydurulmuş alan taşımıyor | `PARITE.md` 7 | doğrulandı: `Restaurant` geçerli, boş/null alan 0, `telephone`/`geo`/`sameAs`/`priceRange` hiç basılmıyor |
+
 ## Yöntem: mobil pariteyi neyle ölçmemeli
 
 `Mobil Prototip.dc.html` bir **telefon maketi**: sayfayı çerçeve içinde
@@ -151,8 +200,9 @@ metin taşıdıkları için metin kuralı taraması `.txt` uzantısını da kaps
 |---|---|
 | Rota | 12 içerik + `404.html` (+ `_not-found`, kayıtlı) |
 | Test | 76 (74'tü, çekmece için iki test eklendi) |
-| Ölçülen metin | 1514 (13 rota x 2 genişlik) |
-| Ölçülen dokunma hedefi | 268 gerçek isabet ölçümü |
+| Ölçülen metin | 1514 + 24 atlama bağlantısı (sayfalarda toplam 1538) |
+| Karşılaştırılan metin öğesi (gövde dahil) | 283, 265 birebir |
+| Ölçülen dokunma hedefi | 268 gerçek isabet ölçümü + 24 atlama bağlantısı |
 | Konsol hatası / sayfa hatası | 0 / 0, 26 rota-genişlikte |
 | Dış origin | 0 |
 | Depolama (çerez, ls, ss, idb, sw) | hepsi boş, 26 rota-genişlikte |
