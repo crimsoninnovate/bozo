@@ -1,115 +1,84 @@
 /*
- * Ana Sayfa Alternatif.dc.html:176-214, beş satırın hepsi birebir aynı.
- * Son satırın alt çizgisi kalkmaz, tasarımda beşinin de border-bottom'ı var,
- * :last-child istisnası yok.
- *
- * Tasarımın hover'ı 12px'lik dolgu kayması da veriyordu (padding-left 12 -> 24).
- * Bu satırların tıklanacak bir hedefi yok: tasarımın cursor:pointer'ı daha önce
- * düşürüldü, kayma kaldı. İki sinyalden yüksek sesli olan oydu; kaldırıldı,
- * zemin rengi kaldı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
+ * Ocaktan listesinin satırı. UYGULAMA-NOTLARI 3: menü sayfanın kalbi ama en
+ * zayıf ölçekteydi (ad 20px, açıklama 12px). Fotoğraf yokken iştahı kuran tek
+ * şey tipografi, o yüzden ad 34px'e, açıklama 18px'e çıktı.
  */
 .satir {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 18px 26px;
-  padding: 22px 12px;
-  border-bottom: 1px solid var(--cizgi-soluk);
-  transition: background var(--gecis-yerlesim);
+  display: grid;
+  grid-template-columns: 56px 340px 1fr;
+  gap: 28px;
+  align-items: baseline;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(242, 233, 220, 0.07);
+  transition:
+    transform 0.15s ease-out,
+    background 0.15s ease-out;
 }
 
+/* Kayma ve zemin birlikte: ikisi tek geri bildirim. */
 .satir:hover {
-  background: var(--tangerine-07);
+  transform: translateX(20px);
+  background: rgba(250, 170, 31, 0.05);
 }
 
 .sira {
-  font: 600 13px/1 var(--font-govde);
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
   font-variant-numeric: tabular-nums;
-  color: var(--krem-62);
-  width: 26px;
-  flex: none;
+  color: var(--tangerine);
 }
 
 .ad {
-  font: 700 var(--ol-menu-kalem)/1.14 var(--font-baslik);
-  /* Ana:178. Aynı iz Ana:93 saatinde de var, orada da ham yazılı
-     (CanliSaat.module.css:14); token'a çıkarılması ayrı bir tur. */
-  letter-spacing: -0.015em;
+  font-family: var(--font-baslik);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--krem);
-  /* Tavan 260px değil (Ana:178): "Terbiyesiz tavuk şiş" 260px'e sığmayıp iki
-     satıra iniyor ve satır 79px'ten 113px'e çıkıyordu, bu sırada hemen sağdaki
-     açıklama sütununun 551px'inin 300px'i boş duruyordu. IYILESTIRMELER.md. */
-  width: clamp(160px, 22vw, 300px);
-  flex: none;
 }
 
 .aciklama {
-  flex: 1;
-  min-width: 200px;
-  font: 400 15px/1.5 var(--font-govde);
-  color: var(--krem-70);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  font: 400 18px/1.5 var(--font-govde);
+  color: rgba(242, 233, 220, 0.76);
 }
 
-.ray {
-  display: inline-flex;
-}
-
-.fiyat {
-  font: 600 17px/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
-  width: 96px;
-  text-align: right;
+/* İmza ürünün porsiyon çipi. Ölçü ve dolgu `Cip` ailesinin `dolu` varyantıyla
+   aynı; ayrı bileşene taşınmadı çünkü tek satırda ve tek kullanımda. */
+.cip {
   flex: none;
+  padding: 7px 12px;
+  background: var(--krem-dolgu);
+  font: 500 12.5px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-74);
 }
 
 /*
- * Mobil satır: Mobil Prototip.dc.html:113-116. Tasarım adı ve fiyatı aynı hizada
- * tutuyor, açıklamayı adın altına alıyor; buradaki düz kardeşlerde aynı sonuç
- * açıklamaya tam satır ve son sıra verilerek çıkar. Hover mobilde yok.
+ * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 800px altında
+ * açıklamaya yer bırakmıyor. Sıra numarası adın üstünde kalır.
  */
 @media (max-width: 800px) {
   .satir {
-    align-items: baseline;
-    gap: 4px 12px;
-    padding: 15px 0;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 22px 0;
   }
 
   .satir:hover {
-    background: none;
-  }
-
-  .sira {
-    width: 20px;
-    font-size: 11.5px;
-    color: var(--krem-50);
+    transform: none;
   }
 
   .ad {
-    flex: 1;
-    width: auto;
-    font-size: 19px;
-    line-height: 1.2;
-    letter-spacing: var(--iz-baslik);
+    font-size: 26px;
   }
 
   .aciklama {
-    order: 1;
-    flex-basis: 100%;
-    min-width: 0;
-    /* 20px sıra sütunu + 12px boşluk: açıklama adın altına hizalanır. */
-    margin-left: 32px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--krem-68);
-  }
-
-  .ray {
-    display: none;
-  }
-
-  .fiyat {
-    width: auto;
-    font-size: 15px;
+    font-size: 16px;
   }
 }

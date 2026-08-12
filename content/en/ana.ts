@@ -25,21 +25,42 @@ export const ana = {
   },
   ocaktan: {
     baslik: 'From the Fire',
-    altNot: 'Five products, two on the house',
+    altNot: 'Five dishes, two on the house: all from one fire',
+    cigerCipi: '8 skewers / portion',
     urunler: {
       // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
       // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).
       ciger: {
         ad: 'Urfa Liver Kebab (Ciğer)',
-        aciklama: 'Urfa style, cut to the size of a backgammon die',
+        aciklama: 'Urfa style, cut to the size of a backgammon die; tail fat goes in between.',
       },
-      dalak: { ad: 'Spleen (Dalak)', aciklama: 'Portion details pending from the kitchen' },
-      yurek: { ad: 'Heart (Yürek)', aciklama: 'Portion details pending from the kitchen' },
-      'kuzu-sis': { ad: 'Lamb Skewer (Kuzu Şiş)', aciklama: 'For guests who skip offal' },
+      dalak: {
+        ad: 'Spleen (Dalak)',
+        aciklama: 'Beside the liver, cut coarse: kept short over a high fire.',
+      },
+      yurek: {
+        ad: 'Heart (Yürek)',
+        aciklama: 'Firm textured; the cut that stays longest over the embers.',
+      },
+      'kuzu-sis': {
+        ad: 'Lamb Skewer (Kuzu Şiş)',
+        aciklama: 'For guests who skip offal: same fire, same oak embers.',
+      },
       'terbiyesiz-tavuk-sis': {
         ad: 'Chicken Skewer (Terbiyesiz Tavuk Şiş)',
-        aciklama: 'From the thigh, with an Urfa marinade',
+        aciklama: 'From the thigh, with a marinade particular to Urfa.',
       },
+    },
+    fiyat: {
+      baslik: 'The price list is not final yet.',
+      metin:
+        'The full list will be published here once it is. For portions and prices, ' +
+        'you can call the fire.',
+      menuLinki: 'The Full Menu',
+    },
+    ikramSatiri: {
+      vurgu: 'The table comes set',
+      ogeler: ['Lebeni Soup', 'Bostana', 'No need to ask'],
     },
   },
   ikram: {

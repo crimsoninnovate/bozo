@@ -1,23 +1,121 @@
-/* Ana Sayfa Alternatif.dc.html:169-217 */
-/* min-height:100vh kaldırıldı: docs/surec/IYILESTIRMELER.md, 12 Ağustos 2026. */
+/*
+ * Ocaktan. Kaynak UYGULAMA-NOTLARI 3; Ana Sayfa Alternatif.dc.html:169-217
+ * cam panel içinde çiziyordu, çerçeve kalktı ve bölüm tam genişliğe açıldı.
+ */
 .bolum {
   display: flex;
   align-items: center;
-  padding: var(--bolum-dikey) var(--sayfa-yatay);
+  padding: 88px var(--sayfa-yatay) 76px;
 }
 
-/*
- * Tasarımda erit katmanı ile cam panel aynı div (Ana:170). Bolum kendi erit
- * katmanını basmak zorunda olduğu için panel onun içine giriyor; genişliği
- * (width:100%, max-width:1180px) CamPanel'in `genislik="sayfa"` varyantı taşır,
- * erit katmanı yalnız o genişliği geçirir.
- */
 .erit {
   width: 100%;
+}
+
+.baslikSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 40px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid rgba(242, 233, 220, 0.14);
+}
+
+.baslik {
+  margin: 0;
+  font: 800 clamp(38px, 4.4vw, 64px)/1.05 var(--font-baslik);
+  letter-spacing: -0.03em;
+  color: var(--krem);
+}
+
+.altNot {
+  margin: 0;
+  font: 400 17px/1.5 var(--font-govde);
+  color: rgba(242, 233, 220, 0.62);
 }
 
 .liste {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* ---- fiyat bloğu ---------------------------------------------------------- */
+
+.fiyatBloku {
+  margin-top: 34px;
+  padding: 26px 30px;
+  border: 1px solid rgba(250, 170, 31, 0.26);
+  background: rgba(250, 170, 31, 0.05);
+}
+
+.fiyatBaslik {
+  margin: 0;
+  font: 600 18px/1.4 var(--font-govde);
+  color: var(--krem);
+}
+
+.fiyatMetin {
+  margin: 10px 0 0;
+  max-width: 620px;
+  font: 400 17px/1.6 var(--font-govde);
+  color: rgba(242, 233, 220, 0.76);
+}
+
+.fiyatButonlari {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ---- ikram satırı --------------------------------------------------------- */
+
+.ikramSatiri {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 4px;
+  margin: 34px 0 0;
+  font: 400 17px/1.5 var(--font-govde);
+  color: rgba(242, 233, 220, 0.7);
+}
+
+.ikramVurgu {
+  font-weight: 600;
+  color: var(--krem);
+}
+
+.ikramOge {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ikramAyirici {
+  width: 1px;
+  height: 14px;
+  margin-left: 10px;
+  background: var(--cizgi-meta);
+}
+
+@media (max-width: 800px) {
+  .bolum {
+    padding: 56px var(--sayfa-yatay) 52px;
+  }
+
+  .baslikSatiri {
+    padding-bottom: 24px;
+  }
+
+  .altNot,
+  .fiyatMetin,
+  .ikramSatiri {
+    font-size: 16px;
+  }
+
+  .fiyatBloku {
+    padding: 22px 20px;
+  }
 }

@@ -25,18 +25,43 @@ export const ana = {
     sayac2: { deger: '4+2', etiket: 'ciğer ve kuyruk yağı, her şişte' },
     sayac3: { deger: '3', etiket: 'dakika, yüksek meşe korunda' },
   },
+  /*
+   * UYGULAMA-NOTLARI 1.2 ve 3. Dalak ve Yürek'in açıklaması iç nottu
+   * ("Porsiyon detayı işletmeden bekleniyor") ve yayında duruyordu; beşi de
+   * notun önerdiği müşteri metniyle değişti. Em dash kural gereği iki nokta
+   * veya noktalı virgüle çevrildi.
+   */
   ocaktan: {
     baslik: 'Ocaktan',
-    altNot: 'Beş ürün, iki ikram',
+    altNot: 'Beş ürün, iki ikram: hepsi tek ocakta',
+    cigerCipi: '8 şiş / porsiyon',
     urunler: {
-      ciger: { ad: 'Ciğer', aciklama: 'Urfa usulü, tavla zarı büyüklüğünde' },
-      dalak: { ad: 'Dalak', aciklama: 'Porsiyon detayı işletmeden bekleniyor' },
-      yurek: { ad: 'Yürek', aciklama: 'Porsiyon detayı işletmeden bekleniyor' },
-      'kuzu-sis': { ad: 'Kuzu Şiş', aciklama: 'Sakatat yemeyen misafir için' },
+      ciger: {
+        ad: 'Ciğer',
+        aciklama: 'Urfa usulü, tavla zarı büyüklüğünde doğranır; arasına kuyruk yağı girer.',
+      },
+      dalak: { ad: 'Dalak', aciklama: 'Ciğerin yanına, iri doğranmış: yüksek ateşte kısa tutulur.' },
+      yurek: { ad: 'Yürek', aciklama: 'Sıkı dokulu; korun üstünde en uzun kalan tane.' },
+      'kuzu-sis': {
+        ad: 'Kuzu Şiş',
+        aciklama: 'Sakatat yemeyen misafir için: aynı ocak, aynı meşe koru.',
+      },
       'terbiyesiz-tavuk-sis': {
         ad: 'Terbiyesiz Tavuk Şiş',
-        aciklama: "Kalçadan, Urfa'ya özgü marineyle",
+        aciklama: "Kalçadan, Urfa'ya özgü marineyle.",
       },
+    },
+    /* Fiyat sütunu kalktı; yer tutucu rakam yerine listenin altında tek blok. */
+    fiyat: {
+      baslik: 'Fiyat listesi henüz kesinleşmedi.',
+      metin:
+        'Netleşince tam liste burada yayınlanacak. Şimdilik porsiyon ve fiyat için ' +
+        'ocağı arayabilirsiniz.',
+      menuLinki: 'Menünün Tamamı',
+    },
+    ikramSatiri: {
+      vurgu: 'Sofra kurulu gelir',
+      ogeler: ['Lebeni Çorbası', 'Bostana', 'İstemenize gerek yok'],
     },
   },
   ikram: {
