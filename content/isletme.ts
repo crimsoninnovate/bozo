@@ -18,8 +18,10 @@ export const isletme: Isletme = {
   binaNo: 'No:4',
   postaKodu: null,
   koordinat: null,
-  telefon: null,
-  whatsapp: null,
+  // Sahibi 12 Ağustos 2026'da verdi. Aynı numara WhatsApp hattı: KKTC mobil
+  // hatları +90 ülke kodunu kullanır, wa.me baştaki sıfırsız uluslararası biçim ister.
+  telefon: '+90 533 888 74 24',
+  whatsapp: '+90 533 888 74 24',
   eposta: null,
   instagram: null,
   alkolServisi: false,

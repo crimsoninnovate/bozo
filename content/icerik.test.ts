@@ -117,12 +117,17 @@ test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
 })
 
 test('isletme_bilinmeyenAlanlarNullDur', () => {
-  assert.equal(isletme.telefon, null)
-  assert.equal(isletme.whatsapp, null)
   assert.equal(isletme.instagram, null)
   assert.equal(isletme.eposta, null)
   assert.equal(isletme.koordinat, null)
   assert.equal(isletme.postaKodu, null)
+})
+
+// Telefon ve WhatsApp aynı hat. `wa.me` baştaki sıfırı kabul etmez, o yüzden
+// depolanan biçim uluslararası olmak zorunda.
+test('isletme_telefonVeWhatsapp_ayniUluslararasiHattiTasir', () => {
+  assert.equal(isletme.telefon, '+90 533 888 74 24')
+  assert.equal(isletme.whatsapp, isletme.telefon)
 })
 
 test('isletme_dogrulanmisAlanlarDoludur', () => {
