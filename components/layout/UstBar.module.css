@@ -105,11 +105,16 @@
 }
 
 /* min-height:44px + flex ortalama: metin satır içi konumunu değiştirmeden dokunma
-   alanını büyütür (fix round 1, Finding 3). */
+   alanını büyütür (fix round 1, Finding 3).
+   min-width aynı işi yatayda yapar: "Gece" 40px, "Menü" 42px ölçülmüştü. Gap'e
+   dokunulmadı, çünkü 44px'i zaten geçen uzun bağlantılar büyümez ve gap'i kısmak
+   yalnız onları birbirine yaklaştırırdı. Nav en fazla birkaç piksel yayılır. */
 .link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-govde);
   font-weight: 500;
   font-size: 15px;

@@ -210,13 +210,18 @@ sahipsiz hedef yok**: taranan hiçbir hedef "hiç isabet yok" durumunda değil.
 1440px'te hamburger ve mobil aksiyon barı, 390px'te masaüstü nav), 24 viewport
 dışı (odaklanınca görünen skip link). İkisi de doğru davranış.
 
-| Grup | 44px altı | Not |
+**240 hedef tabanı geçiyor, 28'i geçmiyor ve 28'inin hepsi dekoratif.** Yani
+sitedeki her gerçek etkileşimli hedef 44px'i karşılıyor.
+
+| Grup | Durum | Not |
 |---|---|---|
-| `AltBilgi.sayfaLinki` | 48 örnek, genişlik geçiyor, **yükseklik 26-28px'te kilitli** | kolonun satır adımı 26.5px; 44px, gap'i 12>29.5px yapmayı ister, görsel karar. Galeri eklenince örnek sayısı arttı, tür aynı. **Sahibinin açık maddesi** |
-| `BeadRay` boncukları | 28 örnek, 10-22px | `aria-hidden`, `tabIndex={-1}`, dekoratif; kayıtlı |
-| `UstBar.link` | 17 örnek, 40-42px genişlik x 44px yükseklik | yalnız masaüstü, 44px'e 2-4px kalıyor |
-| `AltBilgi.gizlilikLink` | 8 örnek, 40px genişlik x 44-46px yükseklik | görünmez `::before` yüksekliği taşıyor |
-| **Çekmece kapatma düğmesi** | **geçti**, 44x44 gerçek isabet | Task 15'in düzelttiği ölü hedef; 12 rotada yeniden doğrulandı |
+| `AltBilgi.sayfaLinki` | **kapandı**, 26-28 > 44px | Hedef artık `::before` değil öğenin kendi kutusu: 14.5px satır + 2x14.75px dolgu = 44px, kolon gap'i 0. Yalnız bağlantı kolonu büyüdü, diğer üçünün ritmi aynı |
+| `UstBar.link` | **kapandı**, 40-42 > 44px | `min-width: 44px` + `justify-content: center`. Gap'e dokunulmadı |
+| `AltBilgi.gizlilikLink` | **kapandı**, 40 > 44px | `inline-block` + `min-width: 44px`; alt çizgi harflerin altında kaldığı için görünen satır değişmedi |
+| `BeadRay` boncukları | 28 örnek, 10-22px, **açık** | `aria-hidden`, `tabIndex={-1}`, dekoratif. Klavyeye ve ekran okuyucuya kapalı; kayıtlı |
+| `DilAnahtari` TR/EN | geçti, 45-46px | görünmez `::before` |
+| `UstBar.marka` | geçti, 45/44px | görünmez `::before` |
+| **Çekmece kapatma düğmesi** | geçti, 44x44 gerçek isabet | Task 15'in düzelttiği ölü hedef; 12 rotada yeniden doğrulandı |
 | Çekmece açıkken arka plan hedefleri | geçti, 12 rotada 0 sızıntı | `aria-modal` sözü davranışta da tutuluyor |
 
 ### 5.5 Hareket azaltılmış

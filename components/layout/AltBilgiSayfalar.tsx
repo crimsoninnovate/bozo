@@ -45,7 +45,7 @@ export function AltBilgiSayfalar({ dil, aktif }: Props) {
          * listesini yeni bir varış noktası eklemeden kalabalıklaştırır. Sitenin
          * iki gezinme adı (ortak.erisim.anaGezinme / mobilGezinme) modeli korunur.
          */}
-        <div className={`${stil.kolon} ${stil.kolonSik}`}>
+        <div className={`${stil.kolon} ${stil.kolonSik} ${stil.baglantiKolonu}`}>
           <div className={stil.baslik}>{s.ortak.footer.sayfalarBaslik}</div>
           {altBilgiSayfaLinkleri(aktif).map((link) => (
             <Link key={link.rota} href={yol(link.rota, dil)} className={stil.sayfaLinki}>

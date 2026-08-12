@@ -145,22 +145,16 @@ denetim bulgularına göre yeniden şekillendirildi; her yazılı özet bayat ol
 
 ## Sahibinin bakması gereken açık maddeler
 
-**Footer dokunma hedefi.** Üç hedef, üçü de 44px'in altında, hiçbiri çakışmıyor ve
-hiçbir dokunuş yanlış satıra gitmiyor:
+**Footer dokunma hedefi: KAPANDI** (12 Ağustos, geliştirme turu). Madde aylardır
+"44px mi footer ritmi mi" diye açıktı; sahibinin "tasarım tavan değil" kararı
+onu çözdü. Ölçüm: **240 hedef tabanı geçiyor, kalan 28'in hepsi dekoratif**
+(`BeadRay` boncukları, `aria-hidden` + `tabIndex={-1}`). Yani sitedeki her
+gerçek etkileşimli hedef 44px'i karşılıyor.
 
-| Hedef | Yükseklik | Nerede |
-|---|---|---|
-| `tam` footer iletişim satırı | 28px | `AltBilgi.module.css:278` |
-| `sayfalar` footer sayfa bağlantısı | 26px | `AltBilgi.module.css:161` |
-| `sayfalar` footer telefon bağlantısı | 26px | `AltBilgi.module.css:183` |
-
-28px'i 44px'e çıkarmak `.kolon`'un `gap` değerini 13px'ten yaklaşık 29px'e taşımayı
-gerektiriyor, bu da görünür bir footer yeniden düzeni; 26px'lik ikisi için gerekçe
-`kabuk-turu-report.md:343-349`'da kayıtlı. Tek başına yapılmadı. 44px mi footer ritmi
-mi öncelikli, Task 16'da veya yayın öncesi karara bağlanacak.
-
-Kontrol turu bunu yeniden ölçtü, madde aynen duruyor: galeri eklenince örnek
-sayısı 48'e çıktı ama tür ve ölçü değişmedi. Çakışma yok, sahipsiz hedef yok.
+Kapanan üç grup: `AltBilgi.sayfaLinki` (48 örnek, hedef artık `::before` değil
+öğenin kendi kutusu), `UstBar.link` (17 örnek, `min-width`), `AltBilgi.gizlilikLink`
+(8 örnek, `inline-block` + `min-width`). Kontrast bu değişiklikten sonra
+yeniden ölçüldü, gerçek kalan hâlâ 0.
 
 **Prefetch ilk yüklemede 344 KB indirip atıyor.** Next 16 statik export'ta
 `<Link>` prefetch'i önce rota URL'sini istiyor (sunucu tam HTML döndürüyor),
