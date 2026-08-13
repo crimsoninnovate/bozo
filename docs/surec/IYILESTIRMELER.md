@@ -251,6 +251,26 @@ kontrast ve dokunma hedefi alarmlarının çoğu ölçüm hatasıydı ve orada b
 | `MenuSatiri` ve `ana/Ocaktan` yorumları | "Fiyat gelince rakamlar satırların sağına döner" cümlesi kaldırıldı | Fiyatlar geldi ama sahibi ana sayfanın beş ad artı tek CTA olarak kalmasını istedi. Yorum ileriki bir turu ana sayfaya fiyat eklemeye yönlendirirdi | uygulandı |
 | Konum bölümünün üç CTA'sı | `md` > `sm` ve ikincillerde ikon yok | İkonlar 43px ekleyip UYGULAMA-NOTLARI 5'in "üçü tek satırda" düzenini bozmuştu. Yalnız boy küçültmek yetmedi: TR tam 520/520 ile sığıyordu ama EN ("Get Directions") 540 isteyip sarıyordu, yani düzeltme yalnız bir dilde çalışıyordu. İkon, etiketin söylemediğini söylediğinde iş yapar; ham numara söylemiyor, "Yol Tarifi Al" ve "WhatsApp" söylüyor. Ölçüldü: TR 480/520, EN 500/520, üçü de 44px | uygulandı |
 
+## 13 Ağustos 2026: mobil hero, kor kıvılcımı ve tekrarlar
+
+Sahibi mobil ilk ekranın "hiç havalı gözükmediğini", iki koca butonun yapısal
+olarak şık olmadığını söyledi ve referans olarak `yztd.org.tr`'yi verdi: orada
+butonlar yan yana ve arkada canlı bir animasyon var.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Mobil hero | İki `xl` buton 800px altında hiç basılmıyor | **Port mobil tasarımı uygulamamış.** Mobil prototipin hero'su beş öğe sayıyor (durum rozeti, başlık, alt başlık satırı, saat satırı, adres) ve buton içermiyor: eylemler alt bara ait. Masaüstü hero'su mobile olduğu gibi düşüyor ve yüzen barı tekrar ediyordu | uygulandı |
+| Aynı | "meşe korunda" H1'den çıktı, rayın yanına geçti | İki tasarım kaynağı da bunu istiyor: handoff "alt-baslik satiri + yanina flex:1 zar rayi", mobil prototip "iki kolonlu satir". Masaüstünde satır sarıyor, yani görünüm değişmiyor; mobilde 26px'e inip yan yana oturuyor | uygulandı |
+| Aynı | Meta satırı mobilde alt alta, ayırıcısız | Üç öğe üç satıra sarıyor ve satır sonlarında sarkan dikey çizgiler kalıyordu (sahibinin ekran görüntüsünde görünüyor) | uygulandı |
+| Kor sahnesi | Yeni `KorKivilcimi`: canvas, yükselen kor taneleri | Sahnenin diğer katmanları ekranın dibine yaslıydı; dikey mobil ekranda hepsi katlamanın altında kalıyordu. Kıvılcım dikey yükseldiği için ilk ekrandan geçer. Taneler kare: markanın tanesi tavla zarı. Ölçüldü: yanan piksel 58'den 739'a, kare süresi 16.61ms vs kıvılcımsız 16.66ms | uygulandı |
+| Aynı | Yoğunluk böleni 26000 > 9000 | İlk sürüm 390x844'te 18 tane koyuyordu ve ekranda hiç okunmuyordu | uygulandı |
+| Aynı | `prefers-reduced-motion` elle okunuyor, sekme gizlenince duruyor | Canvas kendi rAF döngüsünü kurar, `animasyonlar.css`'in global kuralı ona ulaşmaz | uygulandı |
+| `IsiDalgasi` | **Tamamen kaldırıldı**, dosyaları silindi | Sahibi "dalgalar tasarımı kırıyor" dedi. İki ateş efekti yarışıyordu ve dalgalar İddia bölümünde ahşap damarı gibi okunuyordu; kıvılcım hikayeyi tek başına daha iyi anlatıyor | uygulandı |
+| Ocaktan ikram şeridi | Kaldırıldı | "Sofra kurulu gelir" **üç kez** geçiyordu: şeritte, hemen altındaki İkram bölümünün H2'sinde ve o bölümün paragrafında. Lebeni ve Bostana da iki kez listeleniyordu. Şerit, altındaki bölümün birebir zayıf kopyasıydı | uygulandı |
+| Konum panelinin adres satırı | Kaldırıldı | H2 zaten "Naci Talat Caddesi, Girne" diyor, satır aynı caddeyi ve şehri 60px altında tekrarlıyordu. Kapı numarası hero meta satırında ve footer'da duruyor | uygulandı |
+| Telif satırı | `krem-58` > `krem-74` | İkinci tur. Önce `krem-50` (4.48) `krem-58`'e (4.81) çıkarılmıştı; sahibi hala okunmadığını söyledi. Eşiği kıl payı geçmek 12.5px için yetmiyor ve arkadaki kor parıltısı sonradan güçlendi. Yeni oran **9.15:1** | uygulandı |
+| Favicon | `app/icon.svg` eklendi | Sitede hiç ikon yoktu, tarayıcı `/favicon.ico` için 404 alıyordu. İşaret markanın kendi altılı zar rayı, renkler palet listesinden | uygulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

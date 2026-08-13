@@ -55,10 +55,6 @@ export const ana = {
       metin: 'Every item comes full, half or as a wrap. A half portion is half the full price.',
       menuLinki: 'The Full Menu',
     },
-    ikramSatiri: {
-      vurgu: 'The table comes set',
-      ogeler: ['Lebeni Soup', 'Bostana', 'No need to ask'],
-    },
   },
   ikram: {
     baslik: 'The table comes set',

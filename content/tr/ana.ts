@@ -60,14 +60,10 @@ export const ana = {
       metin: 'Her üründe tam, yarım ve dürüm var. Yarım porsiyon tam fiyatın yarısıdır.',
       menuLinki: 'Menünün Tamamı',
     },
-    ikramSatiri: {
-      vurgu: 'Sofra kurulu gelir',
-      ogeler: ['Lebeni Çorbası', 'Bostana', 'İstemenize gerek yok'],
-    },
   },
   ikram: {
     baslik: 'Sofra kurulu gelir',
-    metin: 'Lebeni ve bostana ikramımızdır. Sofra kurulu gelir, istemenize gerek yok.',
+    metin: 'Lebeni ve bostana ikramımızdır. İstemenize gerek yok.',
     cip1: { ad: 'Lebeni Çorbası', detay: 'yoğurt, kekik, nohutsuz' },
     cip2: { ad: 'Bostana', detay: 'vişne suyu, nar ekşisi' },
   },

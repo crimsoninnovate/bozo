@@ -43,16 +43,24 @@
   text-shadow: 0 8px 60px rgba(10, 8, 7, 0.6);
 }
 
-/* Üçüncü satır başlığın parçası ama sesi bir kademe alçak. */
+/* Sesi başlığın bir kademe altında. H1'den çıktığı için tipografi artık
+   miras değil, burada yazılı; masaüstü görünümü birebir aynı kalıyor. */
 .baslikUcuncu {
+  font: 800 var(--ol-hero)/1 var(--font-baslik);
+  letter-spacing: -0.035em;
   color: rgba(242, 233, 220, 0.42);
 }
 
-/* Ray `flex:1` ile kolonun kalanını doldurur (TaneDizilimi `.cizgiliKap`),
-   o yüzden blok değil flex satırı içinde durur. */
-.sisSatiri {
+/* Alt başlık ve ray aynı satırda. Masaüstünde "meşe korunda" punto olarak
+   geniş, ray `min-width:260px` isteyince satır sarıyor ve ray alta düşüyor:
+   bugünkü görünüm bu. Mobilde punto 26px'e, rayın min-width'i 0'a inince
+   (TaneDizilimi `.cizgiliKap` mobil kuralı) yan yana oturuyorlar. */
+.altBaslikSatiri {
   display: flex;
-  margin-top: 44px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 14px;
+  margin-top: 28px;
 }
 
 .ctaSatiri {
@@ -197,21 +205,41 @@
     text-shadow: 0 8px 40px rgba(10, 8, 7, 0.7);
   }
 
-  .sis {
-    margin-top: 30px;
+  .altBaslikSatiri {
+    margin-top: 20px;
+    gap: 14px;
   }
 
-  .sisKare {
-    width: 13px;
-    height: 13px;
+  /* Mobil prototip: 'mese korunda' 800 26px/1, -.04em, .72 */
+  .baslikUcuncu {
+    font-size: 26px;
+    letter-spacing: -0.04em;
+    color: rgba(242, 233, 220, 0.72);
   }
 
+  /*
+   * Hero'da eylem butonu YOK. Mobil prototipin hero'su beş öğe sayıyor
+   * (durum rozeti, başlık, alt başlık satırı, saat satırı, adres) ve buton
+   * içermiyor: eylemler yüzen alt bara ait. Portta masaüstünün iki `xl`
+   * butonu mobile olduğu gibi düşüyor ve alt barı tekrar ediyordu.
+   */
   .ctaSatiri {
-    margin-top: 32px;
+    display: none;
   }
 
+  /*
+   * Meta alt alta, ayırıcısız. Yatay dizilimde üç öğe üç satıra sarıyor ve
+   * satır sonlarında sarkan dikey çizgiler kalıyordu.
+   */
   .meta {
     margin-top: 22px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
     font-size: 15px;
+  }
+
+  .metaAyirici {
+    display: none;
   }
 }

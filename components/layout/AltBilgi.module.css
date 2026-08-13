@@ -354,14 +354,16 @@ a.iletisimSatiri:hover {
   padding-top: 18px;
 }
 
-/* krem-58, tasarımın krem-50'si değil: 390px'te kor parıltısı şeridin altına
-   toplanıyor, krem-50 orada 4.48 ölçüyor (eşik 4.5), krem-58 4.81. */
+/* krem-74, tasarımın krem-50'si değil. İki tur: krem-50 390px'te 4.48 ölçüyordu
+   (eşik 4.5), krem-58'e çıkarıldı ve 4.81 oldu. 13 Ağustos 2026'da sahibi hala
+   okunmadığını söyledi: eşiği kıl payı geçmek 12.5px'lik bir satır için yetmiyor,
+   üstelik şeridin arkasındaki kor parıltısı sonradan güçlendi. */
 .telifMetin {
   font-family: var(--font-govde);
   font-weight: 400;
   font-size: 12.5px;
   line-height: 1;
-  color: var(--krem-58);
+  color: var(--krem-74);
 }
 
 /*

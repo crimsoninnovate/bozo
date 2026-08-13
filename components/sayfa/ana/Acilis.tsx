@@ -37,8 +37,6 @@ export function Acilis({ dil }: Props) {
             {s.ana.hero.baslikSatir1}
             <br />
             {s.ana.hero.baslikSatir2}
-            <br />
-            <span className={stil.baslikUcuncu}>{s.ana.hero.altBaslik}</span>
           </h1>
 
           {/*
@@ -49,7 +47,16 @@ export function Acilis({ dil }: Props) {
             (Ana Sayfa Alternatif.dc.html:101-103, docs/tasarim/ana-sayfa.json).
             Mobil ölçüler Mobil Prototip.dc.html:80-81'in ray varyantı.
           */}
-          <div className={stil.sisSatiri}>
+          {/*
+            "meşe korunda" H1'den çıkıp rayın yanına geldi. İki tasarım kaynağı
+            da bunu istiyor: handoff "alt-baslik satiri: 'meşe korunda' + yanina
+            flex:1 zar rayi", mobil prototip "iki kolonlu satir: solda 'mese
+            korunda', saginda flex:1 ZarRay". Masaüstünde punto büyük olduğu
+            için ray alt satıra sarıyor, yani bugünkü görünüm korunuyor; mobilde
+            26px'e inince yan yana oturuyorlar.
+          */}
+          <div className={stil.altBaslikSatiri}>
+            <span className={stil.baslikUcuncu}>{s.ana.hero.altBaslik}</span>
             <TaneDizilimi
               adet={6}
               buyuk={20}

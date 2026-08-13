@@ -39,7 +39,7 @@ function urunMetni(s: Sozluk, id: string): UrunMetni {
 export function Ocaktan({ dil }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
-  const { fiyat, ikramSatiri } = s.ana.ocaktan
+  const { fiyat } = s.ana.ocaktan
 
   return (
     <Bolum id="ocaktan" yogunluk={0.4} className={stil.bolum} eritClassName={stil.erit}>
@@ -82,15 +82,6 @@ export function Ocaktan({ dil }: Props) {
         </div>
       </div>
 
-      <p className={stil.ikramSatiri}>
-        <span className={stil.ikramVurgu}>{ikramSatiri.vurgu}</span>
-        {ikramSatiri.ogeler.map((oge) => (
-          <span key={oge} className={stil.ikramOge}>
-            <span aria-hidden="true" className={stil.ikramAyirici} />
-            {oge}
-          </span>
-        ))}
-      </p>
     </Bolum>
   )
 }

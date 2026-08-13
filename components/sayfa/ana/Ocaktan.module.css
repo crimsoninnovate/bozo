@@ -70,36 +70,6 @@
   margin-top: 20px;
 }
 
-/* ---- ikram satırı --------------------------------------------------------- */
-
-.ikramSatiri {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 4px;
-  margin: 34px 0 0;
-  font: 400 17px/1.5 var(--font-govde);
-  color: rgba(242, 233, 220, 0.7);
-}
-
-.ikramVurgu {
-  font-weight: 600;
-  color: var(--krem);
-}
-
-.ikramOge {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.ikramAyirici {
-  width: 1px;
-  height: 14px;
-  margin-left: 10px;
-  background: var(--cizgi-meta);
-}
-
 @media (max-width: 800px) {
   .bolum {
     padding: 56px var(--sayfa-yatay) 52px;
@@ -111,11 +81,7 @@
 
   .altNot,
   .fiyatMetin,
-  .ikramSatiri {
-    font-size: 16px;
-  }
-
-  .fiyatBloku {
+    .fiyatBloku {
     padding: 22px 20px;
   }
 }

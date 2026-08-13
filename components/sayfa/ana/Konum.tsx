@@ -3,7 +3,7 @@ import { HaritaPlakasi } from '@/components/sayfa/HaritaPlakasi'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { CamPanel } from '@/components/ui/CamPanel'
-import { PinIkon, TelefonIkon } from '@/components/ui/Ikonlar'
+import { TelefonIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
@@ -20,14 +20,10 @@ export function Konum({ dil }: Props) {
       <CamPanel opaklik={0.74} dolgu="orta" className={stil.panel}>
         <h2 className={stil.baslik}>{s.ana.konum.baslik}</h2>
 
-        {/* Ayırıcı nokta JSX'te, TelifSeridi.tsx:25 ile aynı desen: iki ayrı
-            sözlük değerinin arasındaki noktalama sözlüğe girmez. */}
-        <p className={stil.adres}>
-          <PinIkon boy={15} />
-          <span className={stil.adresMetin}>
-            {s.ortak.satirlar.adresTamSatir} · {s.ortak.satirlar.adresSehirUlke}
-          </span>
-        </p>
+        {/* Adres satırı KALDIRILDI (sahibi, 13 Ağustos 2026): hemen üstündeki
+            H2 zaten "Naci Talat Caddesi, Girne" diyor, satır aynı caddeyi ve
+            aynı şehri 60px altında tekrarlıyordu. Kapı numarası kaybolmadı,
+            hero meta satırında ve footer'da duruyor. */}
 
         <SaatTablosu dil={dil} not={s.ana.konum.saatNotu} />
 

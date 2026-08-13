@@ -30,25 +30,6 @@
   color: var(--krem);
 }
 
-/* Negatif üst boşluk, adresi 26px'lik kolon boşluğuna rağmen başlığa yaklaştırır
-   (Ana:300). Ölçü 15px: KISITLAR'ın 2. katmanı, meta satırı. */
-.adres {
-  margin: -12px 0 0;
-  display: flex;
-  gap: 9px;
-  align-items: flex-start;
-  color: var(--krem-72);
-}
-
-.adres svg {
-  flex: none;
-  margin-top: 3px;
-}
-
-.adresMetin {
-  font: 400 15px/1.55 var(--font-govde);
-}
-
 /* margin-top:auto: buton şeridi panelin dibine yaslanır (Ana:317). */
 .butonlar {
   display: flex;

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Sekme ikonu: markanın kendi işareti, wordmark'ın önündeki altılı zar rayı
+    (büyük, küçük, büyük, büyük, küçük, büyük). Renkler palet listesinden:
+    zemin #0A0807, krem #F2E9DC, tangerine #FAAA1F.
+  -->
+  <rect width="32" height="32" fill="#0A0807"/>
+  <g fill="#F2E9DC">
+    <rect x="4" y="13" width="6" height="6" rx="1"/>
+    <rect x="21" y="13" width="6" height="6" rx="1"/>
+  </g>
+  <g fill="#FAAA1F">
+    <rect x="12" y="14.5" width="3" height="3"/>
+    <rect x="17" y="14.5" width="3" height="3"/>
+  </g>
+</svg>
