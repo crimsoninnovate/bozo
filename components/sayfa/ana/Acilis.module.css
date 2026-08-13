@@ -270,4 +270,32 @@
   .saatEtiketi {
     display: none;
   }
+
+  /*
+   * Saat ve adres tek nesne gibi okunur. Sahibi 13 Ağustos 2026'da hero'yu
+   * "dağınık" buldu; sorun ölçek değil yapıydı, beş blok birbirinden bağımsız
+   * duruyordu. Sağlam bir kap (cam kart) DOM'u yeniden kurmayı gerektiriyor;
+   * ortak bir sol kor çizgisi aynı bağlamayı kapsız yapıyor.
+   *
+   * Ritim üç bölgeye iner: rozet, başlık bloğu, bilgi bloğu.
+   */
+  .izgara {
+    gap: 26px;
+  }
+
+  .sag > *,
+  .meta {
+    padding-left: 14px;
+    border-left: 2px solid var(--kor);
+  }
+
+  /*
+   * Çizgi kesintisiz olmalı, yoksa iki parça gibi okunuyor. `.sag`
+   * `display: contents` olduğu için kendi margin'i uygulanmaz; boşluğu
+   * `.izgara`nın gap'i açıyor ve onu kapatan tek yer `.meta`nın kendisi.
+   */
+  .meta {
+    margin-top: -26px;
+    padding-top: 13px;
+  }
 }
