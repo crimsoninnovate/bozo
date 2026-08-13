@@ -190,11 +190,11 @@
 }
 
 /*
- * Mobil sahne: Mobil Prototip.dc.html:31-37. Eşik 800px, kabuk bileşenlerinin
+ * Mobil sahne: Mobil Prototip.dc.html:31-37. Eşik 960px, kabuk bileşenlerinin
  * zaten kullandığı tek kırılma noktası (UstBar.module.css:149).
  * Prototip yalnız ana sayfayı çiziyor; `.ic` varyantının mobil karşılığı yok.
  */
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .ana .kor {
     bottom: -12%;
     height: 92%;

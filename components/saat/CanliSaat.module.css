@@ -25,7 +25,7 @@
 
 /* Mobil prototip hero'nun saatini 700 30px/1 yazıyor: orada saat başlığın
    yanında değil altında ve 64px'te yanındaki durum metnini iki satıra kırıyor. */
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .dev {
     font-size: 30px;
     font-weight: 700;

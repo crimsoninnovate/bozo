@@ -54,7 +54,7 @@
   margin-top: 16px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .erit {
     gap: 18px;
   }

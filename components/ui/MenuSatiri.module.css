@@ -49,10 +49,10 @@
 }
 
 /*
- * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 800px altında
+ * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 960px altında
  * açıklamaya yer bırakmıyor. Sıra numarası adın üstünde kalır.
  */
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .satir {
     grid-template-columns: 1fr;
     gap: 8px;

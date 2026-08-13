@@ -97,7 +97,7 @@
  * üstüne biniyordu ve dokunma hedefleri 9-21px'te kalıyordu, 44px kuralının
  * çok altında.
  */
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .ray {
     display: none;
   }

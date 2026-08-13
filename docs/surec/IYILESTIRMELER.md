@@ -367,7 +367,7 @@ sayfa içinde `#harita`ya kaydırıyor (`konum/Acilis.tsx:51-54`, kaynak Konum:8
 
 | Nerede | Ölçüm | Neden burada |
 |---|---|---|
-| Masaüstü barı, 800-880px bandı | 801px'te marka adı **bugün canlıda da** iki satıra kırılıyor (74+53px). Bar kendi içeriğine sığmıyor: `nowrap` denendiğinde sağ kenar 827'ye, yani içerik sınırının 66px dışına çıktı | Mobil turun kapsamı dışında ve ucuz bir düzeltmesi yok. `d50f16c` mobil eşiğini 780'den 800'e taşımıştı, demek ki yetmemiş. Seçenekler: eşiği ~880'e taşımak (on yedi media query birlikte taşınmalı), bu bantta nav ölçülerini küçültmek, ya da bilerek böyle bırakmak |
+| ~~Masaüstü barı, 800-880px bandı~~ | ~~801px'te marka adı iki satıra kırılıyor~~ | **Karar verildi, aşağıda uygulandı: eşik 960** |
 | ~~Konum hero'sunun üst satırı~~ | ~~"Girne saati, canlı" tek satırda yalnız TR + ≥390px'te duruyor~~ | **Karar verildi, aşağıda uygulandı** |
 
 ## 13 Ağustos 2026: konum saat etiketi mobilde kendi satırında
@@ -377,6 +377,21 @@ sayfa içinde `#harita`ya kaydırıyor (`konum/Acilis.tsx:51-54`, kaynak Konum:8
 | `konum/Acilis.saatEtiketi` | 800px altında `flex-basis: 100%` | **Sahibinin kararı:** sarma tesadüfe kalmasın, iki dil aynı görünsün. Ölçüldü: tek satırlık hal yalnız Türkçe ve ≥390px'te tutuyordu (390px'te sağda 1px pay), 360px'te Türkçe de 390px'te İngilizce de kendiliğinden sarıyordu | uygulandı |
 | Aynı | İki dil artık birebir aynı | Ölçüldü, 390px: rozet 172, saat 177, etiket 220, kap 61px; TR ve EN aynı değerler. 360px'te de aynı | doğrulandı |
 | Regresyon | Masaüstü değişmedi | 1440px'te ölçüldü: üçü de tek satırda, kap 34px | doğrulandı |
+
+## 13 Ağustos 2026: mobil eşik 800'den 960'a
+
+Sahibi masaüstü barının kırılmasını kapatmak için eşiğin taşınmasını istedi ve 880
+dedi; o sayı benim raporumdaki tahmindi ve ölçüm onu iki kez düzeltti.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Yirmi iki media query | `max-width: 800px` > `960px` | Eşik tek yerde taşınamaz: yalnız `UstBar`'da taşımak arada kalan bantta hem nav'ı hem hamburger'i gizler, yani gezinmeyi tamamen düşürür. `d50f16c` aynı sebeple on yedi sorguyu birlikte taşımıştı, bugün sayı yirmi iki | uygulandı |
+| Sayının kendisi | 880 ve 900 denendi, ikisi de yetmedi | **Tahmin değil ölçüm:** `.satir` geçici olarak `width:max-content` yapılıp barın kendi iç genişliği okundu. Ana varyant 831px, iç varyant 852px ister. Yan dolgu `5vw` olduğu için gereken pencere `içerik / 0.9`: 924 ve 948. 960, ikisini de 12px payla karşılar | uygulandı |
+| Yan ölçüler | `FotoYuvasi` `sizes` ipucu ve eşiği anlatan on bir yorum birlikte taşındı | `sizes="(max-width: 800px) 100vw"` eşiğe bağlı bir doğruluk beyanı; eşikle taşınmazsa tarayıcı yanlış srcset adayını seçer | uygulandı |
+| Dokunulmayan | `KorSahnesi` `min(780px, 110%)` | Bu bir genişlik, eşik değil. `d50f16c` turunda da ayrı tutulmuştu | doğrulandı |
+| Bedeli | 800-960 arası pencereler telefon düzeni alır | Sahibine ekran görüntüsüyle gösterildi ve onaylandı (13 Ağustos 2026). Gerçek telefonların hiçbiri bu bantta değil; etkilenen dar açılmış masaüstü pencereleri ve dikey tablet | kabul edildi |
+| Doğrulama | 961px'te iki varyant da temiz | Ölçüldü: marka tek satır, nav açık, hamburger yok, taşma yok; menü sayfasının CTA'sı tam sınırda oturuyor | doğrulandı |
+| Doğrulama | 900px'te yedi rota temiz | Ölçüldü: yatay taşma 0, hamburger açık, çekmece açılıp kapanıyor, yüzen bar yerinde | doğrulandı |
 
 ## Reddedildi
 

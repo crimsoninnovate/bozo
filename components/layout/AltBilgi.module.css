@@ -418,14 +418,14 @@ a.iletisimSatiri:hover {
 }
 
 /*
- * Sabit MobilAksiyonBari (77px, aynı 800px eşiği) footer'ın dibini örtüyor:
+ * Sabit MobilAksiyonBari (77px, aynı 960px eşiği) footer'ın dibini örtüyor:
  * 390x844'te ölçüldü, telif şeridi 778-812 aralığında ve bar 767'den başlıyor,
  * yani şerit tümüyle barın altında kalıyor (Gizlilik bağlantısı dahil). Üç
  * varyantın üçü de aynı payı ister. Değer tasarımın kendi mobil footer'ından:
  * Mobil Prototip.dc.html:181 ve 371 `padding:30px 20px 116px`.
  * .zemin bu üç varyant sınıfından SONRA tanımlı olmalı, özgüllükleri eşit.
  */
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .zemin {
     padding-bottom: 116px;
   }

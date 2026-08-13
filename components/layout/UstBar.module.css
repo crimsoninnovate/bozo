@@ -6,13 +6,28 @@
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
  * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
- * 800px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
+ * 960px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
  *
- * EŞİK 780 DEĞİL 800. Mobil prototip 780 diyor ama masaüstü barı o genişlikte
- * kendi içeriğine sığmıyordu: 781px'te en sağdaki CTA 11px kırpılıyordu (ölçüldü,
- * 12 Ağustos 2026), 795px'te sığıyordu. Eşik sitenin on yedi media query'sinde
- * birlikte taşındı; yalnız burada taşımak 781-800 arasında hem nav'ı hem
- * hamburger'i gizler, yani gezinmeyi tamamen düşürürdü.
+ * EŞİK 780 DEĞİL 960, iki kez taşındı ve ikisi de ölçümle.
+ *
+ * 1) 780 > 800 (12 Ağustos 2026): mobil prototip 780 diyor ama masaüstü barı o
+ *    genişlikte sığmıyordu, 781px'te en sağdaki CTA 11px kırpılıyordu.
+ * 2) 800 > 960 (13 Ağustos 2026): 800 de yetmiyormuş. 801px'te marka adı iki
+ *    satıra kırılıyordu ("Ciğerci" / "Bozo", 74+53px) ve bölünmesi `nowrap` ile
+ *    engellendiğinde bar 66px taşıyordu, yani sarma bir çözüm değil bir
+ *    belirtiydi.
+ *
+ * Sayı tahminle değil barın kendi içeriğiyle bulundu: `.satir` geçici olarak
+ * `width:max-content` yapılıp ölçüldü. Ana varyant 831px, iç varyant 852px
+ * ister; yan dolgu 5vw olduğu için gereken pencere `içerik / 0.9`, yani 924 ve
+ * 948. 960 ikisini de 12px payla karşılar. 880 ve 900 denendi, ikisinde de
+ * marka adı hâlâ kırılıyordu. Bedeli kayda geçsin: 800-960 arası pencereler
+ * telefon düzeni alır, sahibinin kararı (13 Ağustos 2026).
+ *
+ * Eşik sitenin YİRMİ İKİ media query'sinde birlikte taşınır; yalnız burada
+ * taşımak arada kalan bantta hem nav'ı hem hamburger'i gizler, yani gezinmeyi
+ * tamamen düşürür. `KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik
+ * değil, taşınmaz.
  */
 .bar {
   position: fixed;
@@ -99,8 +114,9 @@
 /*
  * Notun büyüttüğü iki ölçü YALNIZ ana varyantta. Sebebi ölçüm: `.link` ve
  * `.markaAd` varyanttan bağımsız yazılınca menü sayfasının barı 852px'ten
- * 882px'e çıkıyor ve 800px eşiği yetmiyor, 12 Ağustos'ta kapatılan kırpılma
- * geri geliyordu. İç sayfaların barı kendi ölçülmüş tasarımında kalır.
+ * 882px'e çıkıyor ve 12 Ağustos'ta kapatılan kırpılma geri geliyordu. Eşik
+ * 960'a taşındıktan sonra ikisi de sığar, ama ayrım korunuyor: iç sayfaların
+ * barı kendi ölçülmüş tasarımında kalır, ana varyantınki notun değerlerinde.
  */
 .anaVaryant .markaAd {
   font-size: 23px;
@@ -204,7 +220,7 @@
   background: var(--krem);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .anaVaryant,
   .icVaryant {
     background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));
@@ -235,9 +251,8 @@
     font-size: 17px;
     letter-spacing: -0.04em;
     /* Marka adı bölünmez. 17px'te bile 320px'de esneme onu "Ciğerci / Bozo"
-       diye kırıyordu. Kural bilerek yalnız mobil barda: 800px ÜSTÜNDE marka
-       zaten sarıyor ve `nowrap` orada sarmayı 66px'lik taşmaya çevirir
-       (801px'te ölçüldü), yani ayrı bir iş (`IYILESTIRMELER.md`). */
+       diye kırıyordu. Eşiğin üstünde ayrı bir kurala gerek yok: bar 960'tan
+       sonra kendi içeriğine sığıyor ve ad zaten tek satırda kalıyor. */
     white-space: nowrap;
   }
 
