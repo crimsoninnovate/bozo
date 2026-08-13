@@ -223,14 +223,39 @@
     border-bottom: 1px solid rgba(242, 233, 220, 0.09);
   }
 
-  .markaAd {
+  /*
+   * Varyant seçicileriyle aynı özgüllük, `.sagGrup`taki hatanın aynısı: düz
+   * `.markaAd` (0,1,0) `.anaVaryant .markaAd`ın 23px'ini (0,2,0) yenemiyordu ve
+   * mobil ölçü yalnız iç sayfalarda uygulanıyordu. Ölçüldü: ana sayfada 23px,
+   * menüde 17px; 375px'te (iPhone SE, 12/13 mini, 6/7/8) marka adı ana sayfada
+   * iki satıra kırılıyordu. 17px mobil prototipin kendi değeri.
+   */
+  .anaVaryant .markaAd,
+  .icVaryant .markaAd {
     font-size: 17px;
     letter-spacing: -0.04em;
+    /* Marka adı bölünmez. 17px'te bile 320px'de esneme onu "Ciğerci / Bozo"
+       diye kırıyordu. Kural bilerek yalnız mobil barda: 800px ÜSTÜNDE marka
+       zaten sarıyor ve `nowrap` orada sarmayı 66px'lik taşmaya çevirir
+       (801px'te ölçüldü), yani ayrı bir iş (`IYILESTIRMELER.md`). */
+    white-space: nowrap;
   }
 
   .navLinks,
   .ctaSarici {
     display: none;
+  }
+
+  /*
+   * 360px altında markanın dekoratif tane dizisi düşer. Ölçüldü (320px): marka
+   * bölünmez olunca 171px yer kaplıyor ve hamburger 326'ya, yani görünümün 6px
+   * dışına taşıyordu. Kırpılmış bir kontrol, sarmış bir yazıdan kötüdür; dizi
+   * `aria-hidden`, marka adı yerinde kalıyor. Tasarımın bu genişlikte çizimi yok.
+   */
+  @media (max-width: 360px) {
+    .marka > :first-child {
+      display: none;
+    }
   }
 
   /* Varyant seçicileriyle aynı özgüllük: `.anaVaryant .sagGrup{gap:30px}` düz

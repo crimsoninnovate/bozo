@@ -341,6 +341,35 @@ asılı kalmıştı.
 | Regresyon | Masaüstü değişmedi | 1440x900'de doğrulandı: iki kolon, 130px saat, gün merdiveni, iki CTA, üç parçalı meta satırı yerinde | doğrulandı |
 | Regresyon | İngilizce 800px sınırında doğru diziliyor | Doğrulandı: "The fire is lit until 05:00" saatin sağında tek satır, adres iki satır | doğrulandı |
 
+## 13 Ağustos 2026: mobil iç sayfa turu
+
+Sahibi "mobilde diğer sayfalara da bak" dedi. Altı rota 390px'te gezildi, ölçümler
+`PARITE.md`'nin kurallarına göre yapıldı (dokunma hedefi `elementFromPoint` ile,
+`getBoundingClientRect` ile değil; `fullPage` yakalama yok).
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `UstBar.markaAd` | Mobil ölçü artık ana sayfada da uygulanıyor | **Hata, özgüllük.** `@media` özgüllük eklemez: düz `.markaAd` (0,1,0) `.anaVaryant .markaAd`ın 23px'ini (0,2,0) yenemiyordu. Ölçüldü: ana sayfada 23px, menüde 17px; ana sayfanın marka adı 375px'te (iPhone SE, 12/13 mini, 6/7/8) ve 360px'te iki satıra kırılıyordu. 17px mobil prototipin kendi değeri. Aynı hata bu dosyada `.sagGrup` için bir kez yakalanmış, `.markaAd`'a bakılmamıştı | uygulandı |
+| Aynı | Mobil barda `white-space: nowrap` | 17px'te bile 320px'de esneme adı "Ciğerci / Bozo" diye kırıyordu. Kural bilerek yalnız 800px altında | uygulandı |
+| `UstBar.marka` | 360px altında dekoratif tane dizisi düşüyor | `nowrap` marka kutusunu 171px'te sabitleyince 320px'te hamburger görünümün 6px dışına taşıyordu. Çakışan değil kırpılmış bir kontrol, sarmış bir yazıdan kötü. Dizi `aria-hidden`, marka adı yerinde. Ölçüldü: 320px'te sağ kenar tam 302 = dolgu sınırı; 361px'te dizi hâlâ basılıyor ve sınır 343 = dolgu sınırı | uygulandı |
+| Regresyon | Masaüstü barı değişmedi | 801px'te ölçüldü: sağ kenar 770, canlıdaki sürümle birebir aynı | doğrulandı |
+
+Ölçülüp temiz çıkanlar (kanıt olarak kayda geçiyor, "bakmadım" ile "kusur yok"
+aynı görünmesin diye): altı rotanın hiçbirinde yatay taşma yok; menü sayfasının
+11 etkileşimli hedefinin 11'i gerçek isabet testinde 44px'i geçiyor (ilk taramada
+çıkan "9 kusur" 2px'lik tarama adımının artefaktıydı, 1px'e inince kayboldu); alt
+bilgi yüzen aksiyon barıyla çakışmıyor; Galeri ve Gizlilik'te başlık gövdeden sönük
+DEĞİL (tam opak krem, gövde `.78`; göz yanılmıştı, ölçüm düzeltti); Konum'daki
+"Yol Tarifi Al" butonunun aşağı oku doğru, o buton haritayı dışarıda açmıyor,
+sayfa içinde `#harita`ya kaydırıyor (`konum/Acilis.tsx:51-54`, kaynak Konum:80).
+
+## Öneri, karar bekliyor: mobil turdan iki madde
+
+| Nerede | Ölçüm | Neden burada |
+|---|---|---|
+| Masaüstü barı, 800-880px bandı | 801px'te marka adı **bugün canlıda da** iki satıra kırılıyor (74+53px). Bar kendi içeriğine sığmıyor: `nowrap` denendiğinde sağ kenar 827'ye, yani içerik sınırının 66px dışına çıktı | Mobil turun kapsamı dışında ve ucuz bir düzeltmesi yok. `d50f16c` mobil eşiğini 780'den 800'e taşımıştı, demek ki yetmemiş. Seçenekler: eşiği ~880'e taşımak (on yedi media query birlikte taşınmalı), bu bantta nav ölçülerini küçültmek, ya da bilerek böyle bırakmak |
+| Konum hero'sunun üst satırı | "Girne saati, canlı" tek satırda yalnız TR + ≥390px'te duruyor. 390px TR'de sağda 1px pay var; 360px TR'de ve 390px EN'de ("Kyrenia time, live") satır sarıyor | Sarma zarif, kırpılma veya çakışma yok, ama tek satırlık hal tesadüfi. İstenirse etiket 800px altında bilerek kendi satırına alınır ve iki dil aynı görünür |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |
