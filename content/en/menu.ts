@@ -4,12 +4,6 @@ export const menu = {
     baslik: 'Menu',
     spot: 'Everything comes off the fire. Six portions, one special, eight on the house.',
   },
-  geceMenusu: {
-    baslik: 'Night Menu',
-    govde:
-      'A named layer that simplifies after 01:00. ' +
-      'Which items stay on the fire is not decided yet.',
-  },
   ocaktan: {
     baslik: 'From the Fire',
     imzaRozeti: 'signature',
@@ -103,10 +97,5 @@ export const menu = {
       cay: 'Tea (Çay)',
     },
     qrNotu: 'The same list runs behind the table QR',
-  },
-  cekim: {
-    baslik: 'Photography List',
-    altMetin: 'Seven frames the menu is waiting for',
-    aiGorselNotu: 'No AI generated food imagery is used. Slots stay dark until the shoot.',
   },
 }

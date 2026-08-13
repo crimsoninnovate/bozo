@@ -4,12 +4,6 @@ export const menu = {
     baslik: 'Menü',
     spot: 'Hepsi ocaktan çıkar. Altı porsiyon, bir özel, sekiz ikram.',
   },
-  geceMenusu: {
-    baslik: 'Gece Menüsü',
-    govde:
-      '01:00 sonrası sadeleşen adlandırılmış katman. ' +
-      'Hangi ürünlerin ocakta kalacağı henüz belli değil.',
-  },
   ocaktan: {
     baslik: 'Ocaktan',
     imzaRozeti: 'imza ürün',
@@ -100,12 +94,5 @@ export const menu = {
     },
     // Handoff "Masadaki" yazıyor; sofra/masa kilidi sert kural, kilit kazanır.
     qrNotu: 'Sofradaki QR menü aynı listeyi gösterir',
-  },
-  cekim: {
-    baslik: 'Çekim Listesi',
-    altMetin: 'Menünün beklediği yedi kare',
-    aiGorselNotu:
-      'Yapay zeka ile üretilmiş yemek görseli kullanılmıyor. ' +
-      'Yuvalar çekim gelene kadar karanlık kalır.',
   },
 }

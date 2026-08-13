@@ -1,5 +1,4 @@
 import { Acilis } from './menu/Acilis'
-import { CekimListesi } from './menu/CekimListesi'
 import { Icecekler } from './menu/Icecekler'
 import { Ikramlar } from './menu/Ikramlar'
 import { Ocaktan } from './menu/Ocaktan'
@@ -31,7 +30,6 @@ export function MenuSayfasi({ dil }: Props) {
       <Ocaktan dil={dil} />
       <Ikramlar dil={dil} />
       <Icecekler dil={dil} />
-      <CekimListesi dil={dil} />
     </>
   )
 }

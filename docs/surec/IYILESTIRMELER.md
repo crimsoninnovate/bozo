@@ -282,6 +282,16 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Footer telif satırı | Gizlilik bağlantısı kaldırıldı | Sahibinin kararı, "şimdilik". Tasarımın hiçbir sayfasında zaten yoktu, fix turunda eklenmişti. Sayfa duruyor ve site haritasında kalıyor, yalnız içeriden bağlantısı yok | uygulandı |
 | Aynı | `.gizlilikLink` sınıfları, `TelifSeridi`in `aktif` propu ve `AltBilgiTam`in `aktif` propu silindi | Bağlantı gidince üçü de ölü kaldı | uygulandı |
 
+## 13 Ağustos 2026: rota değişiminde kaydırma hatası ve menü sadeleşmesi
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `reset.css` | `html { scroll-behavior: smooth }` kaldırıldı | **Kök neden bulundu ve ölçüldü.** `/` > `/menu/` gezinmesinde Next'in yönlendirme sonrası konum düzeltmesi, smooth açıkken sayfanın DİBİNDEN (y=3356, menü sayfasının tam maksimum kaydırması) başlayıp 82 karede y=0'a iniyordu. Aynı gezinme `auto` ile tek olayda doğrudan y=0'da bitiyor. Kodda tek `scrollTo` çağrısı var (BeadRay) ve olaya karışmıyor; kaydırmayı Next yapıyor, CSS onu görünür kılıyordu. Tasarım kaynağı bu kuralı yazıyor ama o tek sayfalık bir prototipti | uygulandı |
+| Aynı | Bead rayı etkilenmedi | Yumuşaklığını kendi JS çağrısında taşıyor (`behavior: 'smooth'`) | doğrulandı |
+| Menü sayfası | "Gece Menüsü" not kartı kaldırıldı | Sahibinin kararı. Blok "hangi ürünlerin ocakta kalacağı henüz belli değil" diyordu, yani karar verilmemiş bir şeyi duyuruyordu | uygulandı |
+| Menü sayfası | "Çekim Listesi" bölümü kaldırıldı | Sahibinin kararı: prototip iç notu, misafire ait değil. Aynı kareler zaten galeri sayfasında | uygulandı |
+| Footer | Üç varyant yerine tek footer: ana sayfanın dört kolonlu hali her sayfada | Sahibinin kararı. `AltBilgiSerit`, `AltBilgiSayfalar` ve seçici `altBilgiVaryanti` silindi | uygulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

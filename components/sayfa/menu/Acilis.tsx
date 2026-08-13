@@ -28,11 +28,6 @@ export function Acilis({ dil }: Props) {
         <h1 className={stil.baslik}>{s.menu.acilis.baslik}</h1>
         <p className={stil.spot}>{s.menu.acilis.spot}</p>
       </div>
-
-      <div className={stil.notKarti}>
-        <h2 className={stil.notBasligi}>{s.menu.geceMenusu.baslik}</h2>
-        <p className={stil.notGovde}>{s.menu.geceMenusu.govde}</p>
-      </div>
     </section>
   )
 }

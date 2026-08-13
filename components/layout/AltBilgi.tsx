@@ -1,23 +1,14 @@
 import type { Dil } from '@/content'
-import { altBilgiVaryanti } from '@/lib/kabuk'
-import type { RotaAnahtari } from '@/lib/site'
-import { AltBilgiSayfalar } from './AltBilgiSayfalar'
-import { AltBilgiSerit } from './AltBilgiSerit'
 import { AltBilgiTam } from './AltBilgiTam'
 
-type Props = { dil: Dil; aktif: RotaAnahtari }
+type Props = { dil: Dil }
 
 /**
- * Tasarımda tek bir footer yok, üç tane var. Hangisinin nereye gittiği
- * `lib/kabuk.ts` > `altBilgiVaryanti` içinde, kaynak satırlarıyla birlikte.
+ * Tek footer. Tasarımda üç varyant vardı (tam, sayfalar, şerit) ve
+ * `lib/kabuk.ts` hangisinin nereye gittiğini tutuyordu; sahibi 13 Ağustos
+ * 2026'da ana sayfanın dört kolonlu footer'ının her sayfada olmasını istedi.
+ * Diğer iki varyant ve seçici silindi.
  */
-export function AltBilgi({ dil, aktif }: Props) {
-  switch (altBilgiVaryanti(aktif)) {
-    case 'serit':
-      return <AltBilgiSerit dil={dil} />
-    case 'sayfalar':
-      return <AltBilgiSayfalar dil={dil} aktif={aktif} />
-    case 'tam':
-      return <AltBilgiTam dil={dil} />
-  }
+export function AltBilgi({ dil }: Props) {
+  return <AltBilgiTam dil={dil} />
 }

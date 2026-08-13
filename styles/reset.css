@@ -1,5 +1,20 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/*
+ * `scroll-behavior: smooth` KALDIRILDI (sahibi, 13 Ağustos 2026: alt sayfaya
+ * geçince sayfa garip bir noktadan başlıyor).
+ *
+ * Ölçüldü: `/` > `/menu/` gezinmesinde Next'in yönlendirme sonrası yaptığı
+ * konum düzeltmesi, smooth açıkken sayfanın DİBİNDEN (y=3356, menü sayfasının
+ * tam maksimum kaydırması) başlayıp 82 karede y=0'a iniyordu. Aynı gezinme
+ * `scroll-behavior: auto` ile tek olayda ve doğrudan y=0'da bitiyor.
+ *
+ * Tasarım kaynağı `html{scroll-behavior:smooth}` yazıyor ama o tek sayfalık
+ * bir prototipti ve yalnız çapa bağlantıları vardı; çok sayfalı bir uygulamada
+ * aynı kural her rota değişimini görünür bir yolculuğa çeviriyor.
+ *
+ * Kayıp küçük: bead rayı yumuşaklığını kendi JS çağrısında taşıyor
+ * (BeadRay.tsx, `behavior: 'smooth'`), etkilenmez.
+ */
 body {
   margin: 0;
   background: var(--zemin);

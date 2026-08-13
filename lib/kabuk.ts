@@ -47,7 +47,6 @@ export type UstBarVaryanti = {
   cta: UstBarCta
 }
 
-export type AltBilgiVaryanti = 'tam' | 'sayfalar' | 'serit'
 
 /** Rota anahtarının `ortak.nav` içindeki etiket anahtarı. Yalnız `ana` ayrışır. */
 const NAV_ETIKETI: Record<RotaAnahtari, NavEtiketi> = {
@@ -150,24 +149,6 @@ export function cekmeceLinkleri(): { rota: RotaAnahtari; etiket: NavEtiketi }[] 
  */
 export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
   return aktif === 'hikaye' || aktif === 'gizlilik' || aktif === 'galeri'
-}
-
-/**
- * `tam`: dört kolon, adres ikonlu, iletişim satırları ayrı ayrı (Ana:351-386).
- * `sayfalar`: dört kolon ama ikincisi bağlantı listesi, ikon yok (Hikaye:134, Konum:166).
- * `serit`: kompakt tek şerit, telif şeridi yok (Menu:283-292).
- *
- * Gizlilik tasarımda yok; `tam` kalır, çünkü Gizlilik'e giden tek bağlantı o
- * varyantın telif şeridindedir ve rotayı kendi footer'ında da göstermek onu
- * ana sayfanın footer'ıyla aynı tutar.
- *
- * Galeri de tasarımda yok ama Hikaye ve Konum ile aynı türden bir iç içerik
- * sayfası, o yüzden onların `sayfalar` varyantını alır.
- */
-export function altBilgiVaryanti(aktif: RotaAnahtari): AltBilgiVaryanti {
-  if (aktif === 'menu') return 'serit'
-  if (aktif === 'hikaye' || aktif === 'konum' || aktif === 'galeri') return 'sayfalar'
-  return 'tam'
 }
 
 const FOOTER_SAYFA_SIRASI: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'galeri']

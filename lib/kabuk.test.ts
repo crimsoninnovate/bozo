@@ -4,8 +4,7 @@ import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
 import {
   altBilgiSayfaLinkleri,
-  altBilgiVaryanti,
-  cekmeceLinkleri,
+    cekmeceLinkleri,
   geceSeridiGosterilirMi,
   ustBarVaryanti,
 } from './kabuk.ts'
@@ -84,15 +83,6 @@ test('ustBar_navEtiketleri_sozlukteKarsiligiVar', () => {
       }
     }
   }
-})
-
-test('altBilgi_varyanti_menuSeritDigerleriKolonlu', () => {
-  assert.equal(altBilgiVaryanti('ana'), 'tam')
-  assert.equal(altBilgiVaryanti('gizlilik'), 'tam')
-  assert.equal(altBilgiVaryanti('hikaye'), 'sayfalar')
-  assert.equal(altBilgiVaryanti('konum'), 'sayfalar')
-  assert.equal(altBilgiVaryanti('galeri'), 'sayfalar')
-  assert.equal(altBilgiVaryanti('menu'), 'serit')
 })
 
 /** Hikaye:142-144 ile birebir; Konum'da kural uygulanır, bkz. kabuk.ts notu. */
