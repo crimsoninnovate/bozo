@@ -242,4 +242,32 @@
   .metaAyirici {
     display: none;
   }
+
+  /*
+   * Mobil prototipin hero sırası: başlık, alt başlık satırı, SAAT, sonra adres.
+   * Portta adres `.sol`un içinde ve saat `.sag`da olduğu için tek kolona
+   * inince adres saatin üstünde kalıyordu. `display: contents` iki kolonun
+   * kutusunu kaldırır, çocuklar aynı akışa girer ve adres `order` ile sona
+   * alınabilir; DOM sırası ve masaüstü yerleşimi değişmez.
+   */
+  .izgara {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .sol,
+  .sag {
+    display: contents;
+  }
+
+  .meta {
+    order: 9;
+    margin-top: 0;
+  }
+
+  /* Saatin üstündeki "GİRNE · ŞU AN" etiketi mobil prototipte yok. */
+  .saatEtiketi {
+    display: none;
+  }
 }

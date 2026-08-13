@@ -292,6 +292,16 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Menü sayfası | "Çekim Listesi" bölümü kaldırıldı | Sahibinin kararı: prototip iç notu, misafire ait değil. Aynı kareler zaten galeri sayfasında | uygulandı |
 | Footer | Üç varyant yerine tek footer: ana sayfanın dört kolonlu hali her sayfada | Sahibinin kararı. `AltBilgiSerit`, `AltBilgiSayfalar` ve seçici `altBilgiVaryanti` silindi | uygulandı |
 
+## 13 Ağustos 2026: mobil hero prototipin beş bloğuna indi
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `KapanisNotu` | Sıfır birim basılmıyor | **Hata:** "Kapanışa 0 saat 18 dakika" cümle değil şablon artığıydı (sahibinin ekran görüntüsü). Saat 0 ise yalnız dakika, dakika 0 ise yalnız saat basılır | uygulandı |
+| Mobil hero | Adres bloğu saatten SONRA | Mobil prototipin sırası: başlık, alt başlık satırı, saat, adres. Portta adres `.sol`da, saat `.sag`da olduğu için tek kolona inince adres saatin üstünde kalıyordu. `display: contents` + `order` ile çözüldü, DOM sırası ve masaüstü değişmedi | uygulandı |
+| Mobil hero | "GİRNE · ŞU AN", `KapanisNotu` ve `GunMerdiveni` 800px altında basılmıyor | Sahibi "mobilde çok dağınık" dedi. Sayıldı: hero dokuz blok taşıyordu, mobil prototip beş sayıyor. Fazlalıklar masaüstünün sağ kolonundan düşmüştü | uygulandı |
+| Aynı | Gerçek bir tekrar da kapandı | Üstte "Ocak 05:00'e kadar yanıyor", 800px aşağıda "Ocak 05:00'te söner." Aynı şey iki kez. Gün merdiveninin bilgisi ana sayfanın Gece bölümünde duruyor, kayıp yok | uygulandı |
+| Açık kalan | EN'de "1 hours to closing" | Tekil/çoğul ayrımı yok, bugünkü hatanın komşusu ama ayrı iş | sahibine |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

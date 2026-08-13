@@ -20,14 +20,21 @@ export function KapanisNotu({ dil }: Props) {
   const s = sozluk(dil)
   const kalan = durum === null ? null : kapanisaKalan(new Date())
 
+  // Sıfır birim basılmaz: "Kapanışa 0 saat 18 dakika" cümle değil, şablon artığı.
+  const kalanMetni = (saat: number, dakika: number): string => {
+    if (saat === 0) return s.ana.hero.kapanisaKalanDakikaKalibi.replace('{dakika}', String(dakika))
+    if (dakika === 0) return s.ana.hero.kapanisaKalanSaatKalibi.replace('{saat}', String(saat))
+    return s.ana.hero.kapanisaKalanKalibi
+      .replace('{saat}', String(saat))
+      .replace('{dakika}', String(dakika))
+  }
+
   const ikinciSatir =
     kalan === null
       ? durum === null
         ? null
         : s.ortak.durum.kapaliAlt
-      : s.ana.hero.kapanisaKalanKalibi
-          .replace('{saat}', String(kalan.saat))
-          .replace('{dakika}', String(kalan.dakika))
+      : kalanMetni(kalan.saat, kalan.dakika)
 
   return (
     <p className={stil.not}>

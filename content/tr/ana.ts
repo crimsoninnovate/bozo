@@ -10,6 +10,8 @@ export const ana = {
     saatEtiketi: 'Girne · şu an',
     ocakSoner: "Ocak 05:00'te söner.",
     kapanisaKalanKalibi: 'Kapanışa {saat} saat {dakika} dakika.',
+    kapanisaKalanSaatKalibi: 'Kapanışa {saat} saat.',
+    kapanisaKalanDakikaKalibi: 'Kapanışa {dakika} dakika.',
     kilometreTaslari: [
       { saat: '10:00', metin: 'ocak yanar, kapı açılır' },
       { saat: '21:00', metin: 'gece vardiyası başlar' },

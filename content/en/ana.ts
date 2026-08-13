@@ -8,6 +8,8 @@ export const ana = {
     saatEtiketi: 'Kyrenia · right now',
     ocakSoner: 'The fire goes out at 05:00.',
     kapanisaKalanKalibi: '{saat} hours {dakika} minutes to closing.',
+    kapanisaKalanSaatKalibi: '{saat} hours to closing.',
+    kapanisaKalanDakikaKalibi: '{dakika} minutes to closing.',
     kilometreTaslari: [
       { saat: '10:00', metin: 'the fire is lit, the door opens' },
       { saat: '21:00', metin: 'the night shift begins' },

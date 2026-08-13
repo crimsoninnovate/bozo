@@ -83,3 +83,15 @@
     margin-top: 26px;
   }
 }
+
+/*
+ * Mobil hero'da basılmaz. Mobil prototipin hero'su beş blok sayıyor (durum
+ * rozeti, başlık, alt başlık satırı, saat, adres); bu blok masaüstünün sağ
+ * kolonuna ait ve tek kolona inince hero'yu dokuz bloğa çıkarıyordu.
+ * Sahibi 13 Ağustos 2026: "mobilde çok dağınık".
+ */
+@media (max-width: 800px) {
+  .kap {
+    display: none;
+  }
+}
