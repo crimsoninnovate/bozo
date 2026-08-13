@@ -196,9 +196,10 @@
     display: none;
   }
 
-  /* Mobil hero ölçüleri: Mobil Prototip.dc.html:77-79 */
+  /* Mobil hero ölçüleri: Mobil Prototip.dc.html:77-79. Bloklar arası boşluğu
+     ızgaranın gap'i veriyor, tek tek margin değil. */
   .baslik {
-    margin-top: 28px;
+    margin-top: 0;
     font-size: 52px;
     line-height: 0.92;
     letter-spacing: -0.05em;
@@ -206,7 +207,7 @@
   }
 
   .altBaslikSatiri {
-    margin-top: 20px;
+    margin-top: 0;
     gap: 14px;
   }
 
@@ -232,11 +233,17 @@
    * satır sonlarında sarkan dikey çizgiler kalıyordu.
    */
   .meta {
-    margin-top: 22px;
+    margin-top: 0;
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
     font-size: 15px;
+  }
+
+  /* Prototipin hero'sunda adres iki satır. Üçüncüsü ("Mekanımız alkolsüzdür")
+     alt bilgide, çekmecede, menüde ve konum sayfasında zaten duruyor. */
+  .meta > span:last-child {
+    display: none;
   }
 
   .metaAyirici {
@@ -244,58 +251,80 @@
   }
 
   /*
-   * Mobil prototipin hero sırası: başlık, alt başlık satırı, SAAT, sonra adres.
-   * Portta adres `.sol`un içinde ve saat `.sag`da olduğu için tek kolona
-   * inince adres saatin üstünde kalıyordu. `display: contents` iki kolonun
-   * kutusunu kaldırır, çocuklar aynı akışa girer ve adres `order` ile sona
-   * alınabilir; DOM sırası ve masaüstü yerleşimi değişmez.
+   * Mobil hero 100vh değil: prototipte yukarıdan başlayan bir blok, dolgusu
+   * 52/20/40 ve beş bölüm arası sabit 20px. Ölçüldü (390x844): 100vh artı
+   * dikey ortalama, 462px'lik içeriği üstünde 191px ve altında 131px boşlukla
+   * ortada asılı bırakıyordu. Sahibi 13 Ağustos 2026'da hero'dan memnun olmadı.
+   */
+  .bolum {
+    min-height: auto;
+    justify-content: flex-start;
+    /* 60px sabit üst bar (390px'te ölçüldü) + prototipin 52px'lik dolgusu:
+       bar hero'nun üstüne biniyor, prototipin barı ise akışın içinde. */
+    padding-top: 112px;
+    padding-bottom: 40px;
+  }
+
+  /*
+   * Prototipin sırası: rozet, başlık, alt başlık satırı, SAAT + durum alt
+   * metni aynı satırda, adres. Portta bu altı öğe üç ayrı sarmalayıcının
+   * içinde; `display: contents` sarmalayıcıların kutusunu kaldırır, çocuklar
+   * doğrudan ızgaranın hücrelerine girer. DOM sırası ve masaüstü değişmez.
    */
   .izgara {
-    display: flex;
-    flex-direction: column;
-    gap: 34px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px 12px;
+    align-items: baseline;
   }
 
   .sol,
-  .sag {
+  .sag,
+  .durumSatiri {
     display: contents;
   }
 
+  .durumSatiri > :first-child,
+  .baslik,
+  .altBaslikSatiri,
   .meta {
-    order: 9;
-    margin-top: 0;
+    grid-column: 1 / -1;
+  }
+
+  /* Rozet kendi genişliğinde kalır; ızgara hücresi onu yoksa satır boyu gerer. */
+  .durumSatiri > :first-child {
+    order: 1;
+    justify-self: start;
+  }
+
+  .baslik {
+    order: 2;
+  }
+
+  .altBaslikSatiri {
+    order: 3;
+  }
+
+  /* Saat kolon 1; `.sag`ın diğer çocukları (etiket, kapanış notu, gün
+     merdiveni) bu genişlikte zaten basılmıyor. */
+  .sag > * {
+    order: 4;
+    grid-column: 1;
+  }
+
+  /* "Ocak 05:00'e kadar yanıyor" saatin sağında, aynı satırda: prototipin
+     `display:flex; align-items:baseline; gap:12px` satırı. */
+  .durumSatiri > :last-child {
+    order: 5;
+    grid-column: 2;
+  }
+
+  .meta {
+    order: 6;
   }
 
   /* Saatin üstündeki "GİRNE · ŞU AN" etiketi mobil prototipte yok. */
   .saatEtiketi {
     display: none;
-  }
-
-  /*
-   * Saat ve adres tek nesne gibi okunur. Sahibi 13 Ağustos 2026'da hero'yu
-   * "dağınık" buldu; sorun ölçek değil yapıydı, beş blok birbirinden bağımsız
-   * duruyordu. Sağlam bir kap (cam kart) DOM'u yeniden kurmayı gerektiriyor;
-   * ortak bir sol kor çizgisi aynı bağlamayı kapsız yapıyor.
-   *
-   * Ritim üç bölgeye iner: rozet, başlık bloğu, bilgi bloğu.
-   */
-  .izgara {
-    gap: 26px;
-  }
-
-  .sag > *,
-  .meta {
-    padding-left: 14px;
-    border-left: 2px solid var(--kor);
-  }
-
-  /*
-   * Çizgi kesintisiz olmalı, yoksa iki parça gibi okunuyor. `.sag`
-   * `display: contents` olduğu için kendi margin'i uygulanmaz; boşluğu
-   * `.izgara`nın gap'i açıyor ve onu kapatan tek yer `.meta`nın kendisi.
-   */
-  .meta {
-    margin-top: -26px;
-    padding-top: 13px;
   }
 }

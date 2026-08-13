@@ -23,6 +23,17 @@
   color: var(--krem);
 }
 
+/* Mobil prototip hero'nun saatini 700 30px/1 yazıyor: orada saat başlığın
+   yanında değil altında ve 64px'te yanındaki durum metnini iki satıra kırıyor. */
+@media (max-width: 800px) {
+  .dev {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+}
+
 .kolon {
   color: var(--tangerine);
   animation: colonBlink 2s step-end infinite;

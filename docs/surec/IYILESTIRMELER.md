@@ -322,6 +322,25 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | `lib/saat.ts` > `kalanSuresi` (yeni) | Birleştirme saf fonksiyona taşındı | Sıfır birim düşürme kuralı bileşenin içindeydi ve test edilemiyordu; altı test artık iki dilde kilitliyor | uygulandı |
 | Regresyon | Türkçe çıktı bayt bayt aynı | Ölçüldü, beş durumda: `Kapanışa 2 saat 30 dakika.` eski kalıpla da yeni birleşimle de aynı | doğrulandı |
 
+## 13 Ağustos 2026: mobil hero prototipin ölçülerine oturdu
+
+Sahibi hero'dan memnun olmadığını söyledi. Ölçüm 390x844'te canlı sayfaya karşı
+koştu ve altı sapma çıktı, hepsi aynı yöne bakıyordu: içerik hollow bir kutuda
+asılı kalmıştı.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `.bolum` (mobil) | `min-height:100vh` + dikey ortalama kalktı; blok yukarıdan başlıyor | **Asıl kusur buydu.** Ölçüldü: 462px'lik içerik, üstünde 191px ve altında 131px boşlukla 844px'lik kutunun ortasında asılıydı. Prototipin hero'su `100vh` değil, `padding:52px 20px 40px`'lık bir blok | uygulandı |
+| Aynı | Üst dolgu 112px | 60px sabit üst bar (390px'te ölçüldü) artı prototipin 52px'i. Prototipin barı akışın içinde, bizimki hero'nun üstüne biniyor | uygulandı |
+| `.izgara` (mobil) | Bloklar arası tek değer: 20px | Canlıda 26 ile 80 arasında beş ayrı boşluk vardı (başlık 80, alt başlık 46, ...); prototip beşini de 20px yazıyor | uygulandı |
+| Aynı | Tek kolon yerine `auto 1fr` ızgara | Prototipte saat ve "Ocak 05:00'e kadar yanıyor" aynı satırda, saatin sağında. Canlıda durum metni rozetin altındaydı, ait olduğu saatten 270px uzakta | uygulandı |
+| Aynı | Üç sarmalayıcı `display: contents` | Altı öğe üç ayrı kutunun içinde; kutular kalkınca hepsi doğrudan ızgaranın hücrelerine giriyor. DOM sırası ve masaüstü değişmiyor, bütün kurallar 800px sorgusunun içinde | uygulandı |
+| `CanliSaat.dev` (mobil) | 64px > 30px | Prototip `700 30px/1` yazıyor. 64px'te yanındaki durum metni iki satıra kırılıyor ve saatin tabanına hizalanınca sarkıyor. Sahibi iki varyantı ekran görüntüsünde görüp 30px'i seçti | uygulandı |
+| Sol kor çizgisi | Kaldırıldı | Dün "beş blok dağınık duruyor" için eklenmişti; prototipte yok ve asıl dağınıklık boşluktan geliyormuş | uygulandı |
+| `.meta` (mobil) | Üçüncü satır ("Mekanımız alkolsüzdür") basılmıyor | Prototipin hero'sunda adres iki satır. Satır alt bilgide, çekmecede, menüde ve konum sayfasında zaten duruyor | uygulandı |
+| Regresyon | Masaüstü değişmedi | 1440x900'de doğrulandı: iki kolon, 130px saat, gün merdiveni, iki CTA, üç parçalı meta satırı yerinde | doğrulandı |
+| Regresyon | İngilizce 800px sınırında doğru diziliyor | Doğrulandı: "The fire is lit until 05:00" saatin sağında tek satır, adres iki satır | doğrulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |
