@@ -39,6 +39,9 @@ npm run preview    # serve the out/ export locally
   page, `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is
   `X.tsx` next to `X.module.css`.
 - Imports go through the `@/*` alias from `tsconfig.json`, not relative paths.
+- Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
+  keyframe sitting in a global file never resolves and the animation silently never runs. Measured
+  once at 42 declarations and 0 running; `styles/animasyon.test.ts` guards it now.
 
 ## Design source of truth
 
@@ -66,8 +69,8 @@ npm run preview    # serve the out/ export locally
 
 - Page ground `#0A0807`, charcoal surface `#1A1614`
 - Cream text `#F2E9DC`, opacity scale `.5 .58 .62 .66 .7 .74 .78 .86`
-- Ember (kor) `#B7351C`, hover `#C93E22`. Tangerine `#FAAA1F`. Pumpkin `#E96112` (packaging line
-  only). Oak (meşe) `#6B4A2F`.
+- Ember (kor) `#B7351C`, hover `#C93E22`. Tangerine `#FAAA1F`. Pumpkin `#E96112` (no consumer
+  since the packaging strip was removed; the token stays for when it returns). Oak (meşe) `#6B4A2F`.
 - Ember is never body text on any surface. Tangerine and ember never sit side by side in a large
   area.
 
@@ -101,6 +104,23 @@ npm run preview    # serve the out/ export locally
   açığız" (never 7/24).
 - **Never invent new marketing copy.** All text comes verbatim from `docs/tasarim/metin-envanteri.json`
   or the `.dc.html` handoff files.
+
+## Owner deletions, do not restore
+
+The design still contains these; the owner removed them on 13 August 2026. A parity round reading
+the handoff will see them as missing. They are not. Measurements and reasoning are in
+`docs/surec/IYILESTIRMELER.md`.
+
+- The pumpkin packaging strip (`PaketSeridi`), from every page. The service never launched, so the
+  band promised a "coming soon" for something that did not exist.
+- The menu page's "Gece Menüsü" card and its "Çekim Listesi" section. The first announced that its
+  own contents were undecided; the second was a note addressed to the photographer, not a guest.
+- Two of the three footer variants. Every page now carries the home page's four-column footer.
+- The mobile hero's two CTA buttons, below 800px. The mobile prototype has none either: actions
+  belong to the floating bar, and the hero was repeating it.
+- `html { scroll-behavior: smooth }`. It turned Next's route-change scroll correction into a visible
+  slide in from the bottom of the target page. Measured: 82 scroll events from y=3356 down to 0,
+  against one event at 0 without it. Bead rail easing is unaffected, it lives in its own JS call.
 
 ## Comments
 
@@ -138,7 +158,10 @@ names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined f
 ## Accessibility
 
 - Touch targets at least 44px. Contrast target WCAG AA.
-- `prefers-reduced-motion: reduce` turns off every animation and transition.
+- `prefers-reduced-motion: reduce` turns off every CSS animation and transition through the
+  global rule in `styles/animasyonlar.css`. It does NOT reach canvas loops or SMIL: those read the
+  preference themselves (see `components/ember/KorKivilcimi.tsx`). Any new non-CSS animation must
+  do the same, or the guarantee is silently broken.
 - The design mockups use `<div>` for buttons and links; the port uses real `<a>` or `<button>`.
 - Decorative layers (ember scene, smoke, grill, tane pattern) get `aria-hidden="true"`.
 
