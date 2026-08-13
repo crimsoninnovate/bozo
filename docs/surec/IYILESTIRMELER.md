@@ -368,7 +368,15 @@ sayfa içinde `#harita`ya kaydırıyor (`konum/Acilis.tsx:51-54`, kaynak Konum:8
 | Nerede | Ölçüm | Neden burada |
 |---|---|---|
 | Masaüstü barı, 800-880px bandı | 801px'te marka adı **bugün canlıda da** iki satıra kırılıyor (74+53px). Bar kendi içeriğine sığmıyor: `nowrap` denendiğinde sağ kenar 827'ye, yani içerik sınırının 66px dışına çıktı | Mobil turun kapsamı dışında ve ucuz bir düzeltmesi yok. `d50f16c` mobil eşiğini 780'den 800'e taşımıştı, demek ki yetmemiş. Seçenekler: eşiği ~880'e taşımak (on yedi media query birlikte taşınmalı), bu bantta nav ölçülerini küçültmek, ya da bilerek böyle bırakmak |
-| Konum hero'sunun üst satırı | "Girne saati, canlı" tek satırda yalnız TR + ≥390px'te duruyor. 390px TR'de sağda 1px pay var; 360px TR'de ve 390px EN'de ("Kyrenia time, live") satır sarıyor | Sarma zarif, kırpılma veya çakışma yok, ama tek satırlık hal tesadüfi. İstenirse etiket 800px altında bilerek kendi satırına alınır ve iki dil aynı görünür |
+| ~~Konum hero'sunun üst satırı~~ | ~~"Girne saati, canlı" tek satırda yalnız TR + ≥390px'te duruyor~~ | **Karar verildi, aşağıda uygulandı** |
+
+## 13 Ağustos 2026: konum saat etiketi mobilde kendi satırında
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `konum/Acilis.saatEtiketi` | 800px altında `flex-basis: 100%` | **Sahibinin kararı:** sarma tesadüfe kalmasın, iki dil aynı görünsün. Ölçüldü: tek satırlık hal yalnız Türkçe ve ≥390px'te tutuyordu (390px'te sağda 1px pay), 360px'te Türkçe de 390px'te İngilizce de kendiliğinden sarıyordu | uygulandı |
+| Aynı | İki dil artık birebir aynı | Ölçüldü, 390px: rozet 172, saat 177, etiket 220, kap 61px; TR ve EN aynı değerler. 360px'te de aynı | doğrulandı |
+| Regresyon | Masaüstü değişmedi | 1440px'te ölçüldü: üçü de tek satırda, kap 34px | doğrulandı |
 
 ## Reddedildi
 
