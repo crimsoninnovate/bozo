@@ -302,6 +302,16 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Aynı | Gerçek bir tekrar da kapandı | Üstte "Ocak 05:00'e kadar yanıyor", 800px aşağıda "Ocak 05:00'te söner." Aynı şey iki kez. Gün merdiveninin bilgisi ana sayfanın Gece bölümünde duruyor, kayıp yok | uygulandı |
 | Açık kalan | EN'de "1 hours to closing" | Tekil/çoğul ayrımı yok, bugünkü hatanın komşusu ama ayrı iş | sahibine |
 
+## 13 Ağustos 2026: çapa butonlarına yumuşak kaydırma geri geldi
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `CapaBaglantisi` (yeni) | Sayfa içi çapa butonları `scrollIntoView` ile yumuşak kayıyor | Global `scroll-behavior: smooth` rota değişimini bozduğu için kaldırılmıştı; yumuşaklık artık yalnız istendiği yerde ve JS'te, desen `BeadRay` ile aynı | uygulandı |
+| Aynı | `scrollIntoView` seçildi, elle ofset hesabı yok | `scroll-margin-top`u kendisi hesaba katıyor. Ölçüldü: tarayıcının kendi çapa atlaması 1490, bu sürüm de 1490; `scroll-margin-top: 70px` korunuyor | doğrulandı |
+| Aynı | `preventDefault` sonrası hash `pushState` ile yazılıyor | Yoksa bağlantı paylaşılabilir bir hedef olmaktan çıkardı | uygulandı |
+| Aynı | Yalnız çapa dalı istemciye iniyor | `Buton` sunucu bileşeni kalıyor; on sekiz çağrının yalnız ikisi çapa | uygulandı |
+| Regresyon | Rota değişimi hâlâ anlık | Ölçüldü: `/` > `/hikaye/` tek kaydırma olayı, y=0 | doğrulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

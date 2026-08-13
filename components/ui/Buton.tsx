@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { CapaBaglantisi } from './CapaBaglantisi'
 import { OkAsagiIkon, OkSagIkon } from './Ikonlar'
 import stil from './Buton.module.css'
 
@@ -66,10 +67,18 @@ export function Buton({
     )
   }
   // Sayfa içi çapa (#ocaktan gibi) yönlendirme değil, aynı belgede kaydırmadır;
-  // Link'in ön yükleme ve yönlendirme mantığına sokmadan düz <a> ile basılır.
-  if (hariciMi || capaMi) {
+  // Link'in ön yükleme ve yönlendirme mantığına sokulmaz. Yumuşak kaydırmayı
+  // `CapaBaglantisi` taşır, o yüzden yalnız çapa butonları istemciye iner.
+  if (capaMi) {
     return (
-      <a className={sinif} href={href} rel={hariciMi ? 'noopener' : undefined}>
+      <CapaBaglantisi href={href} className={sinif}>
+        {govde}
+      </CapaBaglantisi>
+    )
+  }
+  if (hariciMi) {
+    return (
+      <a className={sinif} href={href} rel="noopener">
         {govde}
       </a>
     )
