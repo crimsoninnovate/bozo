@@ -160,6 +160,7 @@ tek satır CSS, başka hiçbir genişliği etkilemez. Onay ver, yapayım.
 | C1 | Konum hero'sunun boş sağ yarısı (1440px'te ~450x400px) | Harita levhası hâlâ yer tutucu; yer tutucunun etrafında yerleşim kararı vermek erken |
 | C2 | Galeri ızgarasında öksüz kare (16 kare, 3 sütun) | Boş çerçevede öksüz satır, gerçek fotoğrafta olduğundan çok daha fazla göze batıyor |
 | C3 | Menü ve çekim listesindeki öksüz satırlar | Tasarımın kendi ızgara kuralı aynı öksüzü üretiyor; düşük öncelik |
+| C4 | Yasal metinler: aydınlatma metni, çerez politikası, `/gizlilik` güncellemesi | **Sahibinin kararı, 13 Ağustos 2026: gerek yok, backlogda kalsın.** Araştırma yapıldı ve kararı destekliyor: KKTC'de 89/2007 sayılı Kişisel Verilerin Korunması Yasası geçerli, GDPR değil; site bugün hiçbir takip, çerez veya form taşımıyor, yani toplanan veri yok. Analytics, iletişim formu veya rezervasyon eklendiği gün bu madde kendiliğinden açılır, `/gizlilik` bağlantısı da onunla birlikte geri gelir |
 
 ## D. Bizim teknik borcumuz, sana sormaya gerek yok
 
