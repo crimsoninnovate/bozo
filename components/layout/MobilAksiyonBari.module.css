@@ -1,51 +1,121 @@
-/* Mobil Prototip.dc.html [alt-eylem-bari]: 800px üstünde görünmez, yalnız mobilde kullanılır. */
+/*
+ * Yüzen cam bar. Kalıp sahibinin verdiği referanstan (elaves.com mobil barı):
+ * kenardan kopuk bir hap, cam zemin, ortada barın üstüne taşan ana eylem.
+ *
+ * Köşe kuralı burada bilerek delindi. `CLAUDE.md` yarıçapı 0-3px'e kilitler ve
+ * ilk sürüm ona uydu; sahibi 13 Ağustos 2026'da gördü ve "kare kare her şey"
+ * diyerek reddetti. Bu bileşen sitedeki tek yuvarlak öğe, istisna kayıtlı:
+ * geri 3px'e çevirmeyin.
+ */
 .bar {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /*
+   * Kenardan kenara değil, içeriği kadar geniş ve ortada (sahibi, 13 Ağustos
+   * 2026: "çok yüksek ve sağa sola geniş"). Ortalama `translate` ile, `transform`
+   * ile değil: `transform`u kaydırma animasyonu kullanıyor, ikisi aynı özellikte
+   * duramaz.
+   */
+  left: 50%;
+  translate: -50% 0;
+  /* iPhone ana ekran çubuğu; kenardan kopuk bar onun üstünde durmalı. */
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   z-index: 70;
-  padding: 10px 12px 16px;
-  background: linear-gradient(to top, rgba(10, 8, 7, 0.98), rgba(10, 8, 7, 0.86));
-  border-top: 1px solid var(--cizgi);
   display: none;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 6px 8px 8px;
+  border-radius: 999px;
+  /*
+   * Cam üç katman: üstten aşağı sönen ışık tabakası, koyu zemin, ve arkayı
+   * bulanıklaştırma. Tek bir yarı saydam renk cam gibi durmuyor, ışık
+   * tabakası olmadan düz bir kutu kalıyordu.
+   */
+  background:
+    linear-gradient(to bottom, rgba(242, 233, 220, 0.08), rgba(242, 233, 220, 0.015)),
+    rgba(10, 8, 7, 0.44);
+  backdrop-filter: blur(26px) saturate(1.4);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
+  border: 1px solid rgba(242, 233, 220, 0.13);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(242, 233, 220, 0.17);
 }
 
+/*
+ * Görünür kutu 38px, dokunma hedefi ::after ile 44px'e çıkar (AltBilgi'de
+ * kurulan teknik). Barı inceltmek erişilebilirlik tabanını düşürmemeli.
+ */
 .hedef {
-  flex: 1;
-  height: 50px;
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 82px;
+  min-height: 38px;
+  padding: 0 4px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 4px;
+  border-radius: 999px;
   text-align: center;
   text-decoration: none;
-  font-family: var(--font-govde);
-  font-weight: 600;
-  font-size: 14.5px;
-  line-height: 1;
+  color: var(--krem-70);
+  transition: color var(--gecis-hizli);
+}
+
+.hedef::after {
+  content: '';
+  position: absolute;
+  inset: -3px 0;
+}
+
+.hedef:hover {
   color: var(--krem);
 }
 
-/* Gölge ham: Mobil:190'ın kendi geometrisi (0 8px 22px), --kor-golge ailesinde
-   karşılığı yok ve tokens.css paralel bir turun elinde. */
-.birincil {
-  background: var(--kor);
-  box-shadow: 0 8px 22px rgba(183, 53, 28, 0.4);
-  transition: background var(--gecis-hizli);
+.etiket {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
-.birincil:hover {
-  background: var(--kor-hover);
+/*
+ * Orta düğme barın üstüne taşar. `margin-top` negatif: daire akışta yerini
+ * korur, yalnız yukarı çıkar, böylece etiketi komşularının etiketiyle aynı
+ * hizada kalır. Barın `overflow` değeri yok, taşan kısım kırpılmaz.
+ */
+.sofra {
+  color: var(--krem);
 }
 
-.ikincil {
-  border: 1px solid rgba(242, 233, 220, 0.32);
-  transition: border-color var(--gecis-hizli);
+.daire {
+  width: 46px;
+  height: 46px;
+  margin-top: -26px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(120% 120% at 50% 18%, var(--kor-hover), var(--kor) 68%);
+  /* İkinci gölge halka değil boşluk: daireyi camdan ayıran koyu bir çentik. */
+  box-shadow:
+    0 8px 20px rgba(183, 53, 28, 0.5),
+    0 0 0 5px rgba(10, 8, 7, 0.5),
+    inset 0 1px 0 rgba(250, 170, 31, 0.4);
+  transition:
+    transform var(--gecis-hizli),
+    box-shadow var(--gecis-hizli);
 }
 
-.ikincil:hover {
-  border-color: var(--tangerine-85);
+.sofra:hover .daire {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 32px rgba(183, 53, 28, 0.62),
+    0 0 0 6px rgba(10, 8, 7, 0.5),
+    inset 0 1px 0 rgba(250, 170, 31, 0.45);
 }
 
 .pasif {
@@ -79,7 +149,7 @@
 
     @keyframes barGirisi {
       from {
-        transform: translateY(105%);
+        transform: translateY(150%);
         opacity: 0;
       }
       to {

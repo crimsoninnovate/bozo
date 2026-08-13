@@ -50,6 +50,9 @@ export const ortak = {
     whatsapptanYaz: "WhatsApp'tan Yaz",
     ara: 'Ara',
     whatsapp: 'WhatsApp',
+    /* Mobil barın orta düğmesi. "Menü" yerine sahibinin seçimi, 13 Ağustos 2026;
+       "sofra" zaten kilitli terim. Hedef menü sayfası. */
+    bozoSofrasi: 'Bozo Sofrası',
     telefon: 'Telefon',
     instagram: 'Instagram',
     paketSiparis: 'Paket sipariş',

@@ -75,7 +75,11 @@ npm run preview    # serve the out/ export locally
 
 - Headings, wordmark and numerals: Bricolage Grotesque 600-800, `font-variant-numeric: tabular-nums`.
 - Body and UI: Inter 400/500/600.
-- Corner radius 0-3px. The 16px floor binds reading text only, not UI micro text;
+- Corner radius 0-3px, with one recorded exception: the mobile action bar
+  (`MobilAksiyonBari`) is a fully rounded floating glass pill with a raised circular
+  centre button. Owner's decision 13 August 2026, taken after seeing the 3px version
+  and rejecting it. Do not "fix" it back to 3px.
+- The 16px floor binds reading text only, not UI micro text;
   the three tiers are decided once in `docs/surec/KISITLAR.md`. Do not "fix" a
   14.5px chip or frame label up to 16px.
 - Both fonts require `subsets: ['latin', 'latin-ext']`: `ğ Ğ ş Ş İ` live in latin-ext, `ı ç ö ü`
@@ -119,9 +123,17 @@ Comment density here has drifted into essays. Keep them short.
 
 ## Dependencies
 
-Runtime: `next`, `react`, `react-dom` only. Dev: `typescript`, `@types/node`, `@types/react`,
-`@types/react-dom` only. No CSS framework, no i18n package, no animation library, no test
-framework beyond `node:test`.
+Runtime: `next`, `react`, `react-dom`, `lucide-react`. Dev: `typescript` and the three
+`@types` packages.
+
+**Owner's decision, 13 August 2026.** The old "those three packages only" rule is lifted: this
+is a small restaurant brand with a launch to make, not a bundle-budget project. Add a dependency
+when it buys the look or saves real work. Still out: CSS framework, i18n package, and any test
+framework beyond `node:test`. Those three were architecture decisions, not budget ones.
+
+Icons come from `lucide-react`, wrapped in `components/ui/Ikonlar.tsx` so call sites keep Turkish
+names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined from
+`lucide-static` to keep one drawing language.
 
 ## Accessibility
 

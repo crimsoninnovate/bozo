@@ -51,6 +51,7 @@ export const ortak = {
     whatsapptanYaz: 'Message on WhatsApp',
     ara: 'Call',
     whatsapp: 'WhatsApp',
+    bozoSofrasi: "Bozo's Table",
     telefon: 'Phone',
     instagram: 'Instagram',
     paketSiparis: 'Order Takeaway',

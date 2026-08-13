@@ -201,6 +201,26 @@ Reddedilenler listesindeki beş öneriyle çakışmadıkları tek tek kontrol ed
 | Mobil eylem barı | 120-240px arası kayarak girer, tepede görünmez | Hero'nun kendi "Yol Tarifi Al" butonu ekrandayken bar aynı eylemi ikinci kez basıyordu. `animation-timeline: scroll(root)` ile, JS yok, hidrasyon yok. Ölçüldü: 0px'te `translateY(80.85px)` + opaklık 0, 300px'te `translateY(0)` + opaklık 1 | uygulandı |
 | Aynı | Desteklenmeyen tarayıcıda ve `prefers-reduced-motion`'da bar hep görünür | Başarısızlık yönü güvenli: kapı kurulamazsa düğmeler kaybolmuyor, bugünkü davranış kalıyor | uygulandı |
 
+## 13 Ağustos 2026: yüzen cam mobil bar
+
+Sahibi barın "düz" olduğunu söyledi ve referans olarak `elaves.com`'un mobil barını
+verdi: kenardan kopuk hap, cam zemin, ortada barın üstüne taşan ana eylem. Kalıp
+oradan, içerik ve renk buradan.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| Mobil bar | Kenardan kenara opak şerit yerine yüzen cam hap | Şerit sayfanın zemininden kopmuyordu, "ekranın kesilmiş alt bandı" gibi okunuyordu | uygulandı |
+| Köşe | 3px yerine tam yuvarlak (`999px`) | **Kural bilerek delindi.** Önce `CLAUDE.md`'nin 0-3px kuralına sadık bir slab kuruldu, sahibi görüp "kare kare her şey" diyerek reddetti. İstisna `CLAUDE.md` > Typography'e yazıldı | uygulandı, istisna kayıtlı |
+| Cam | Üç katman: ışık gradyanı + koyu zemin + `blur(26px) saturate(1.4)` | Tek bir yarı saydam renk cam gibi durmuyor; camı pahalı gösteren şey bulanıklık, saç teli kenar ve zeminden ayıran derin gölgenin birlikte çalışması | uygulandı |
+| Orta öğe | "Menü" değil **Bozo Sofrası**, barın üstüne taşan yuvarlak kor düğmesi | Sahibinin kararı. "Sofra" zaten kilitli terim. Hedef yine `/menu`. Daire akışta yerini koruyup yalnız yukarı çıkıyor, böylece etiketi komşularıyla aynı hizada | uygulandı |
+| Telefon | Bardan çıktı, WhatsApp yeterli | Sahibinin kararı. `TelefonIkon` ölü kalmadı, beş yerde daha çağrılıyor | uygulandı |
+| İkon seti | Elle çizilen set yerine `lucide-react` | Sahibi "ikon kütüphanemiz hiç iyi değil" dedi. Eski set tutarsızdı: üçü dolu, biri çizgi, ağırlıklar farklı. Sarmalayıcılar korundu, altı çağıran dosyanın hiçbiri değişmedi | uygulandı |
+| Bağımlılık kuralı | "Yalnız üç runtime paketi" kuralı kaldırıldı | Sahibinin kararı: küçük bir restoran sitesi, bundle bütçesi projesi değil. CSS framework, i18n ve test framework yasağı duruyor, onlar mimari karardı | uygulandı |
+| Instagram ikonu | `lucide-static` geometrisi elle gömüldü | Lucide v1 marka ikonlarını kaldırdı, pakette yok. Elle gömmek seti tek dilde tutuyor | uygulandı |
+| Ölçü | 358x68'den **268x54**'e, kenardan kenara değil ortada | Sahibi "çok yüksek ve sağa sola geniş" dedi. Genişlik artık içeriğin kendisi; ortalama `translate` ile yapıldı çünkü `transform`u kaydırma animasyonu kullanıyor. Ölçüldü: 390px ekranda x=61, yani tam orta, hem gizliyken hem görünürken | uygulandı |
+| Aynı | Görünür kutu 38px ama dokunma hedefi `::after` ile 44px | İnceltmek erişilebilirlik tabanını düşürmemeli; teknik AltBilgi'de zaten kurulu | uygulandı |
+| WhatsApp ikonu | Marka işareti yerine Lucide `MessageCircle` | Lucide marka logosu taşımıyor. Her çağrıldığı yerde yanında "WhatsApp" etiketi var, tanınırlık etiketten geliyor. Marka işareti şart görülürse geri alınabilir | uygulandı, sahibine |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |
