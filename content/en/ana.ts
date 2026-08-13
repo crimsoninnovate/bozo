@@ -7,9 +7,11 @@ export const ana = {
     scrollIpucu: 'The proof is in the cut',
     saatEtiketi: 'Kyrenia · right now',
     ocakSoner: 'The fire goes out at 05:00.',
-    kapanisaKalanKalibi: '{saat} hours {dakika} minutes to closing.',
-    kapanisaKalanSaatKalibi: '{saat} hours to closing.',
-    kapanisaKalanDakikaKalibi: '{dakika} minutes to closing.',
+    kapanisaKalanKalibi: '{sure} to closing.',
+    kapanisaKalanBirimleri: {
+      saat: { tekil: '{sayi} hour', cogul: '{sayi} hours' },
+      dakika: { tekil: '{sayi} minute', cogul: '{sayi} minutes' },
+    },
     kilometreTaslari: [
       { saat: '10:00', metin: 'the fire is lit, the door opens' },
       { saat: '21:00', metin: 'the night shift begins' },

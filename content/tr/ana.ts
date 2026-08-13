@@ -9,9 +9,12 @@ export const ana = {
        kurallara göre düzeltilerek alındı. */
     saatEtiketi: 'Girne · şu an',
     ocakSoner: "Ocak 05:00'te söner.",
-    kapanisaKalanKalibi: 'Kapanışa {saat} saat {dakika} dakika.',
-    kapanisaKalanSaatKalibi: 'Kapanışa {saat} saat.',
-    kapanisaKalanDakikaKalibi: 'Kapanışa {dakika} dakika.',
+    kapanisaKalanKalibi: 'Kapanışa {sure}.',
+    // Türkçede sayıdan sonra çoğul eki gelmez; iki biçim bilerek aynı.
+    kapanisaKalanBirimleri: {
+      saat: { tekil: '{sayi} saat', cogul: '{sayi} saat' },
+      dakika: { tekil: '{sayi} dakika', cogul: '{sayi} dakika' },
+    },
     kilometreTaslari: [
       { saat: '10:00', metin: 'ocak yanar, kapı açılır' },
       { saat: '21:00', metin: 'gece vardiyası başlar' },

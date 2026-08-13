@@ -76,6 +76,27 @@ export function vardiyaYuzdesi(simdi: Date): number {
   return Math.min(100, Math.max(0, (gecen / PENCERE_SAATI) * 100))
 }
 
+/** Bir sayının yanına gelen birim; tekil ve çoğul biçimi dilden gelir. */
+export type SureBirimi = { tekil: string; cogul: string }
+
+/**
+ * Kalan süreyi "2 hours 30 minutes" / "18 dakika" biçimine getirir. Sıfır birim
+ * düşer; tekil-çoğul seçimi çağıranın sözlüğünden gelir, kurallar dile göre
+ * değişiyor.
+ */
+export function kalanSuresi(
+  kalan: { saat: number; dakika: number },
+  birimler: { saat: SureBirimi; dakika: SureBirimi },
+): string {
+  const yaz = (sayi: number, birim: SureBirimi): string =>
+    (sayi === 1 ? birim.tekil : birim.cogul).replace('{sayi}', String(sayi))
+
+  const parcalar: string[] = []
+  if (kalan.saat > 0) parcalar.push(yaz(kalan.saat, birimler.saat))
+  if (kalan.dakika > 0) parcalar.push(yaz(kalan.dakika, birimler.dakika))
+  return parcalar.join(' ')
+}
+
 /** Kapanışa kalan süre. Kapalıyken null: geri sayılacak bir şey yok. */
 export function kapanisaKalan(simdi: Date): { saat: number; dakika: number } | null {
   const kalanKesirli = ACILIS_SAATI + PENCERE_SAATI - pencereSaati(simdi)

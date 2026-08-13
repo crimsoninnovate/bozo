@@ -6,8 +6,11 @@ import {
   gosterimGunIndeksi,
   saatMetni,
   vardiyaYuzdesi,
+  kalanSuresi,
   kapanisaKalan,
 } from './saat.ts'
+import { tr } from '../content/tr/index.ts'
+import { en } from '../content/en/index.ts'
 
 /** Girne yerel saatini veren yardımcı. Girne yazın UTC+3, kışın UTC+2. */
 function girne(iso: string): Date {
@@ -125,4 +128,34 @@ test('kapanisaKalan_gece0230_ikiSaatOtuzDakikadir', () => {
 
 test('kapanisaKalan_kapaliyken_nullDoner', () => {
   assert.equal(kapanisaKalan(girne('2026-08-11T07:30:00+03:00')), null)
+})
+
+const trBirim = tr.ana.hero.kapanisaKalanBirimleri
+const enBirim = en.ana.hero.kapanisaKalanBirimleri
+
+test('kalanSuresi_birSaat_ingilizceTekilYazar', () => {
+  assert.equal(kalanSuresi({ saat: 1, dakika: 0 }, enBirim), '1 hour')
+})
+
+test('kalanSuresi_birDakika_ingilizceTekilYazar', () => {
+  assert.equal(kalanSuresi({ saat: 0, dakika: 1 }, enBirim), '1 minute')
+})
+
+test('kalanSuresi_birSaatBirDakika_ingilizceIkiBirimiDeTekilYazar', () => {
+  assert.equal(kalanSuresi({ saat: 1, dakika: 1 }, enBirim), '1 hour 1 minute')
+})
+
+test('kalanSuresi_ikiSaatOtuzDakika_ingilizceCogulYazar', () => {
+  assert.equal(kalanSuresi({ saat: 2, dakika: 30 }, enBirim), '2 hours 30 minutes')
+})
+
+// Türkçede sayıdan sonra çoğul eki gelmez: bir ile on dokuz aynı biçimi kullanır.
+test('kalanSuresi_birSaat_turkceCoguldanAyrilmaz', () => {
+  assert.equal(kalanSuresi({ saat: 1, dakika: 0 }, trBirim), '1 saat')
+  assert.equal(kalanSuresi({ saat: 19, dakika: 0 }, trBirim), '19 saat')
+})
+
+// Sıfır birim basılmaz: "0 saat 18 dakika" cümle değil, şablon artığı.
+test('kalanSuresi_sifirSaat_yalnizDakikayiYazar', () => {
+  assert.equal(kalanSuresi({ saat: 0, dakika: 18 }, trBirim), '18 dakika')
 })

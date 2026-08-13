@@ -300,7 +300,7 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Mobil hero | Adres bloğu saatten SONRA | Mobil prototipin sırası: başlık, alt başlık satırı, saat, adres. Portta adres `.sol`da, saat `.sag`da olduğu için tek kolona inince adres saatin üstünde kalıyordu. `display: contents` + `order` ile çözüldü, DOM sırası ve masaüstü değişmedi | uygulandı |
 | Mobil hero | "GİRNE · ŞU AN", `KapanisNotu` ve `GunMerdiveni` 800px altında basılmıyor | Sahibi "mobilde çok dağınık" dedi. Sayıldı: hero dokuz blok taşıyordu, mobil prototip beş sayıyor. Fazlalıklar masaüstünün sağ kolonundan düşmüştü | uygulandı |
 | Aynı | Gerçek bir tekrar da kapandı | Üstte "Ocak 05:00'e kadar yanıyor", 800px aşağıda "Ocak 05:00'te söner." Aynı şey iki kez. Gün merdiveninin bilgisi ana sayfanın Gece bölümünde duruyor, kayıp yok | uygulandı |
-| Açık kalan | EN'de "1 hours to closing" | Tekil/çoğul ayrımı yok, bugünkü hatanın komşusu ama ayrı iş | sahibine |
+| Açık kalan | EN'de "1 hours to closing" | Tekil/çoğul ayrımı yok, bugünkü hatanın komşusu ama ayrı iş | aşağıda kapandı |
 
 ## 13 Ağustos 2026: çapa butonlarına yumuşak kaydırma geri geldi
 
@@ -311,6 +311,16 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Aynı | `preventDefault` sonrası hash `pushState` ile yazılıyor | Yoksa bağlantı paylaşılabilir bir hedef olmaktan çıkardı | uygulandı |
 | Aynı | Yalnız çapa dalı istemciye iniyor | `Buton` sunucu bileşeni kalıyor; on sekiz çağrının yalnız ikisi çapa | uygulandı |
 | Regresyon | Rota değişimi hâlâ anlık | Ölçüldü: `/` > `/hikaye/` tek kaydırma olayı, y=0 | doğrulandı |
+
+## 13 Ağustos 2026: İngilizce geri sayımda tekil-çoğul
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `content/en/ana.ts` | "1 hours to closing" > "1 hour to closing" | **Hata.** Üç durumda görünüyordu: `1 hours`, `1 minutes` ve `1 hours 1 minutes`. Gecenin son saatinde İngilizce ziyaretçinin gördüğü tek cümle bu | uygulandı |
+| `content/*/ana.ts` | Üç cümle kalıbı yerine bir kalıp artı birim çiftleri | **Yapısal sebep:** kalıplar bütün cümleyi tutuyordu, sayıya bağlı dilbilgisine yer yoktu. Sayılan ad kendi tekil/çoğul çiftine taşındı, cümle çerçevesi ayrı kaldı | uygulandı |
+| `content/tr/ana.ts` | Türkçede iki biçim bilerek aynı | Sayıdan sonra çoğul eki gelmez (`1 saat`, `19 saat`). Hatanın bugüne kadar görünmemesinin sebebi de bu: kalıp Türkçede doğru çalışıyordu | uygulandı |
+| `lib/saat.ts` > `kalanSuresi` (yeni) | Birleştirme saf fonksiyona taşındı | Sıfır birim düşürme kuralı bileşenin içindeydi ve test edilemiyordu; altı test artık iki dilde kilitliyor | uygulandı |
+| Regresyon | Türkçe çıktı bayt bayt aynı | Ölçüldü, beş durumda: `Kapanışa 2 saat 30 dakika.` eski kalıpla da yeni birleşimle de aynı | doğrulandı |
 
 ## Reddedildi
 
