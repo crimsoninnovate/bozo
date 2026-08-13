@@ -3,7 +3,7 @@ import { HaritaPlakasi } from '@/components/sayfa/HaritaPlakasi'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { CamPanel } from '@/components/ui/CamPanel'
-import { PinIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
+import { PinIkon, TelefonIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
@@ -33,32 +33,29 @@ export function Konum({ dil }: Props) {
 
         {/* Tek eylem satırı: ara, yol tarifi, WhatsApp. Üç `lg` buton panelin
             genişliğine sığmayıp ikinci satıra taşıyor ve WhatsApp tek başına
-            kalıyordu; `md` ile üçü tek satırda (UYGULAMA-NOTLARI 5). */}
+            kalıyordu; `md` ile üçü tek satırda (UYGULAMA-NOTLARI 5).
+            13 Ağustos 2026'da ikonlar 43px ekleyip aynı sarmayı geri getirdi;
+            çözüm yine aynı, bir boy daha aşağı. `sm`in 40.5px'lik gövdesini
+            `Buton`un `min-height:44px`i dokunma hedefine taşır. */}
         <div className={stil.butonlar}>
           <Buton
             tur="birincil"
-            boy="md"
+            boy="sm"
             href={telefonUrl(isletme.telefon)}
             ikon={<TelefonIkon boy={17} />}
           >
             {isletme.telefon ?? TELEFON_YER_TUTUCU}
           </Buton>
-          <Buton
-            tur="ikincil"
-            boy="md"
-            href={yolTarifiUrl()}
-            hariciMi
-            ikon={<PinIkon boy={17} />}
-          >
+          {/* İkincillerde ikon YOK, bilerek. Bu satır üç butonu 520px'e
+              sığdırmak zorunda ve üç ikon 69px götürüyor: İngilizce ("Get
+              Directions") ikonlarla 540px istiyor, sarıyor. Ayrıca ikonun işi
+              etiketin söylemediğini söylemek; ham telefon numarası söylemiyor,
+              "Yol Tarifi Al" ve "WhatsApp" söylüyor. Ölçüldü: bu haliyle TR
+              474px, EN 494px, ikisinde de pay var. */}
+          <Buton tur="ikincil" boy="sm" href={yolTarifiUrl()} hariciMi>
             {s.ortak.cta.yolTarifiAl}
           </Buton>
-          <Buton
-            tur="ikincil"
-            boy="md"
-            href={whatsappUrl(isletme.whatsapp)}
-            hariciMi
-            ikon={<WhatsAppIkon boy={17} />}
-          >
+          <Buton tur="ikincil" boy="sm" href={whatsappUrl(isletme.whatsapp)} hariciMi>
             {s.ortak.cta.whatsapp}
           </Buton>
         </div>

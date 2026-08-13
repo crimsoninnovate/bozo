@@ -249,7 +249,7 @@ kontrast ve dokunma hedefi alarmlarının çoğu ölçüm hatasıydı ve orada b
 | Ocaktan satırları | "8 şiş / porsiyon" çipi kaldırıldı | Sahibi bütünlüğü bozduğunu söyledi. Beş satırın yalnız birinde ekstra kutu vardı; bilgi ayrıca bir bölüm yukarıda İddia sayacında duruyor. Ölçüldü: satırlar artık beşi de 94px | uygulandı |
 | Aynı | Arkasındaki ölü kod da silindi | `MenuSatiri.cip` propu, `.cip` sınıfı, `IMZA_URUN` sabiti ve iki dildeki `cigerCipi` anahtarı | uygulandı |
 | `MenuSatiri` ve `ana/Ocaktan` yorumları | "Fiyat gelince rakamlar satırların sağına döner" cümlesi kaldırıldı | Fiyatlar geldi ama sahibi ana sayfanın beş ad artı tek CTA olarak kalmasını istedi. Yorum ileriki bir turu ana sayfaya fiyat eklemeye yönlendirirdi | uygulandı |
-| Konum bölümünün üç CTA'sı | 2+1 sarıyor | İkonlar butonları genişletti. Bozuk değil, tek başına kalan bir "WhatsApp" satırı var | kaydedildi, sahibine |
+| Konum bölümünün üç CTA'sı | `md` > `sm` ve ikincillerde ikon yok | İkonlar 43px ekleyip UYGULAMA-NOTLARI 5'in "üçü tek satırda" düzenini bozmuştu. Yalnız boy küçültmek yetmedi: TR tam 520/520 ile sığıyordu ama EN ("Get Directions") 540 isteyip sarıyordu, yani düzeltme yalnız bir dilde çalışıyordu. İkon, etiketin söylemediğini söylediğinde iş yapar; ham numara söylemiyor, "Yol Tarifi Al" ve "WhatsApp" söylüyor. Ölçüldü: TR 480/520, EN 500/520, üçü de 44px | uygulandı |
 
 ## Reddedildi
 
