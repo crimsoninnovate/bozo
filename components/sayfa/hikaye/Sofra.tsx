@@ -25,10 +25,10 @@ export function Sofra({ dil }: Props) {
         <p className={stil.metin}>{s.hikaye.sofra.metin}</p>
 
         <div className={stil.butonlar}>
-          <Buton tur="birincil" boy="lg" href={yol('menu', dil)}>
+          <Buton tur="birincil" boy="lg" href={yol('menu', dil)} ok>
             {s.ortak.cta.menuyuGor}
           </Buton>
-          <Buton tur="ikincil" boy="lg" href={yol('konum', dil)}>
+          <Buton tur="ikincil" boy="lg" href={yol('konum', dil)} ok>
             {s.hikaye.sofra.ctaKonum}
           </Buton>
         </div>

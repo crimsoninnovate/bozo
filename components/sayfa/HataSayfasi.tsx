@@ -57,10 +57,10 @@ export function HataSayfasi() {
           <h1 className={stil.baslik}>{s.hata.baslik}</h1>
           <p className={stil.metin}>{s.hata.metin}</p>
           <div className={stil.butonlar}>
-            <Buton tur="birincil" boy="lg" href={yol('ana', dil)}>
+            <Buton tur="birincil" boy="lg" href={yol('ana', dil)} ok>
               {s.hata.anaSayfa}
             </Buton>
-            <Buton tur="ikincil" boy="lg" href={yol('menu', dil)}>
+            <Buton tur="ikincil" boy="lg" href={yol('menu', dil)} ok>
               {s.hata.menu}
             </Buton>
           </div>

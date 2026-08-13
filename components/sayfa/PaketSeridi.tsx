@@ -1,6 +1,6 @@
 import { Buton } from '@/components/ui/Buton'
 import { Cip } from '@/components/ui/Cip'
-import { WhatsAppIkon } from '@/components/ui/Ikonlar'
+import { TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
@@ -53,12 +53,17 @@ export function PaketSeridi({ dil, whatsappVarMi = false }: Props) {
         <p className={stil.simdilik}>{s.ortak.paket.simdilik}</p>
         <div className={stil.butonlar}>
           {whatsappVarMi && (
-            <Buton tur="koyu" boy="md" href={whatsapp} hariciMi>
-              <WhatsAppIkon boy={15} />
+            <Buton
+              tur="koyu"
+              boy="md"
+              href={whatsapp}
+              hariciMi
+              ikon={<WhatsAppIkon boy={17} />}
+            >
               {s.ortak.cta.whatsapp}
             </Buton>
           )}
-          <Buton tur="koyuOutline" boy="md" href={telefon}>
+          <Buton tur="koyuOutline" boy="md" href={telefon} ikon={<TelefonIkon boy={17} />}>
             {isletme.telefon ?? TELEFON_YER_TUTUCU}
           </Buton>
         </div>

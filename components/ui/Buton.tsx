@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { OkAsagiIkon, OkSagIkon } from './Ikonlar'
 import stil from './Buton.module.css'
 
 export type ButonTuru = 'birincil' | 'ikincil' | 'koyu' | 'koyuOutline'
@@ -12,32 +13,70 @@ type Props = {
   children: React.ReactNode
   disabled?: boolean
   hariciMi?: boolean
+  /**
+   * Etiketin solunda duran ikon: butonun NE yaptığını söyler. Yalnız eylem
+   * butonlarında (ara, WhatsApp, yol tarifi), gezinme butonlarında değil.
+   */
+  ikon?: React.ReactNode
+  /**
+   * Etiketin sağında duran ok: butonun NEREYE gittiğini söyler. Yalnız gezinme
+   * butonlarında. Yönü hedeften türer: sayfaya giden sağa, sayfa içi çapaya
+   * giden aşağı.
+   */
+  ok?: boolean
 }
 
 const CERCEVELI: ReadonlySet<ButonTuru> = new Set<ButonTuru>(['ikincil', 'koyuOutline'])
 
-export function Buton({ tur, boy, href, children, disabled = false, hariciMi = false }: Props) {
+/**
+ * İki katmanlı işaret dili (sahibinin kararı, 13 Ağustos 2026): baştaki ikon
+ * ağırlık katar, sondaki ok yol gösterir. İkisi aynı butonda kullanılmaz,
+ * yoksa fark kaybolur ve her buton süslenmiş gibi okunur.
+ */
+export function Buton({
+  tur,
+  boy,
+  href,
+  children,
+  disabled = false,
+  hariciMi = false,
+  ikon,
+  ok = false,
+}: Props) {
   const sinif = `${stil.taban} ${stil[tur]} ${stil[boy]}${CERCEVELI.has(tur) ? ` ${stil.cerceveli}` : ''}`
+  const capaMi = typeof href === 'string' && href.startsWith('#')
+
+  const govde = (
+    <>
+      {ikon}
+      {children}
+      {ok && (
+        <span className={`${stil.ok} ${capaMi ? stil.okAsagi : ''}`}>
+          {capaMi ? <OkAsagiIkon boy={17} /> : <OkSagIkon boy={17} />}
+        </span>
+      )}
+    </>
+  )
 
   if (disabled || href === null) {
     return (
       <span className={`${sinif} ${stil.pasif}`} aria-disabled="true">
-        {children}
+        {govde}
       </span>
     )
   }
   // Sayfa içi çapa (#ocaktan gibi) yönlendirme değil, aynı belgede kaydırmadır;
   // Link'in ön yükleme ve yönlendirme mantığına sokmadan düz <a> ile basılır.
-  if (hariciMi || href.startsWith('#')) {
+  if (hariciMi || capaMi) {
     return (
       <a className={sinif} href={href} rel={hariciMi ? 'noopener' : undefined}>
-        {children}
+        {govde}
       </a>
     )
   }
   return (
     <Link className={sinif} href={href}>
-      {children}
+      {govde}
     </Link>
   )
 }

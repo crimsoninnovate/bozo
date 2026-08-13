@@ -1,4 +1,5 @@
 import { Buton } from '@/components/ui/Buton'
+import { PinIkon, TelefonIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { telefonUrl, yolTarifiUrl } from '@/lib/site'
@@ -25,12 +26,18 @@ export function AltBilgiSerit({ dil }: Props) {
         <span className={stil.seritSatir}>{s.ortak.satirlar.adresVeSaat}</span>
       </div>
       <div className={stil.seritButonlar}>
-        <Buton tur="birincil" boy="md" href={yolTarifiUrl()} hariciMi>
+        <Buton
+          tur="birincil"
+          boy="md"
+          href={yolTarifiUrl()}
+          hariciMi
+          ikon={<PinIkon boy={17} />}
+        >
           {s.ortak.cta.yolTarifiAl}
         </Buton>
         {/* Tasarımdaki etiket numaranın kendisi; numara gelmediği için yer tutucu
             basılır ve Buton href=null ile devre dışı bir kutuya döner. */}
-        <Buton tur="ikincil" boy="md" href={telefon}>
+        <Buton tur="ikincil" boy="md" href={telefon} ikon={<TelefonIkon boy={17} />}>
           {isletme.telefon ?? TELEFON_YER_TUTUCU}
         </Buton>
       </div>

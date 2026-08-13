@@ -14,9 +14,30 @@
 }
 
 /* İkonlu buton yatay dolgudan 3px verir, dikeyi korur: Ana:347 ikonsuz 17/29,
-   yanındaki Ana:346 ikonlu 17/26. Beş dosyadaki 20 butonun ikisi ikonlu, istisna yok. */
+   yanındaki Ana:346 ikonlu 17/26. */
 .taban:has(svg) {
   --buton-ikon-payi: 3px;
+}
+
+/*
+ * Sondaki ok metnin parçası değil, gezinme işareti: soluk durur ve hover'da
+ * gideceği yöne doğru kayar. Baştaki ikon böyle davranmaz, o eylemin kendisi.
+ */
+.ok {
+  display: flex;
+  opacity: 0.55;
+  transition:
+    transform var(--gecis-hizli),
+    opacity var(--gecis-hizli);
+}
+
+.taban:hover .ok {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+.taban:hover .okAsagi {
+  transform: translateY(3px);
 }
 
 /* Dört ölçü, dolu türlerin dolgusu. sm 44px'e yetişmiyor (13+13+14.5 = 40.5),

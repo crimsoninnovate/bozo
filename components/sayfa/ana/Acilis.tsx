@@ -5,6 +5,7 @@ import { GunMerdiveni } from '@/components/saat/GunMerdiveni'
 import { KapanisNotu } from '@/components/saat/KapanisNotu'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
+import { PinIkon } from '@/components/ui/Ikonlar'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import { yolTarifiUrl } from '@/lib/site'
@@ -61,12 +62,18 @@ export function Acilis({ dil }: Props) {
           </div>
 
           <div className={stil.ctaSatiri}>
-            <Buton tur="birincil" boy="xl" href={yolTarifiUrl()} hariciMi>
+            <Buton
+              tur="birincil"
+              boy="xl"
+              href={yolTarifiUrl()}
+              hariciMi
+              ikon={<PinIkon boy={18} />}
+            >
               {s.ortak.cta.yolTarifiAl}
             </Buton>
             {/* Tasarımda data-git="ocaktan": menü SAYFASINA değil, sayfa içinde
                 "Ocaktan" bölümüne kaydırır (Ana:113). */}
-            <Buton tur="ikincil" boy="xl" href="#ocaktan">
+            <Buton tur="ikincil" boy="xl" href="#ocaktan" ok>
               {s.ortak.cta.menuyuGor}
             </Buton>
           </div>

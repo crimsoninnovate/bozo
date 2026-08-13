@@ -48,11 +48,18 @@ export function Acilis({ dil }: Props) {
       </p>
 
       <div className={stil.butonlar}>
-        <Buton tur="birincil" boy="lg" href="#harita">
+        {/* Bu buton harici harita açmıyor, sayfa içinde `#harita`ya kaydırıyor;
+            o yüzden eylem ikonu değil gezinme oku alıyor. Etiketin hedefiyle
+            uyumsuzluğu IYILESTIRMELER.md'ye yazıldı. */}
+        <Buton tur="birincil" boy="lg" href="#harita" ok>
           {s.ortak.cta.yolTarifiAl}
         </Buton>
-        <Buton tur="ikincil" boy="lg" href={telefonUrl(isletme.telefon)}>
-          <TelefonIkon boy={15} />
+        <Buton
+          tur="ikincil"
+          boy="lg"
+          href={telefonUrl(isletme.telefon)}
+          ikon={<TelefonIkon boy={17} />}
+        >
           {isletme.telefon ?? TELEFON_YER_TUTUCU}
         </Buton>
       </div>

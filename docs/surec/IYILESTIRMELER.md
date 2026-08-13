@@ -221,6 +221,22 @@ oradan, içerik ve renk buradan.
 | Aynı | Görünür kutu 38px ama dokunma hedefi `::after` ile 44px | İnceltmek erişilebilirlik tabanını düşürmemeli; teknik AltBilgi'de zaten kurulu | uygulandı |
 | WhatsApp ikonu | Marka işareti yerine Lucide `MessageCircle` | Lucide marka logosu taşımıyor. Her çağrıldığı yerde yanında "WhatsApp" etiketi var, tanınırlık etiketten geliyor. Marka işareti şart görülürse geri alınabilir | uygulandı, sahibine |
 
+## 13 Ağustos 2026: CTA butonlarında iki katmanlı işaret dili
+
+Sahibi CTA'ların ikonlu ve daha tasarlanmış olmasını istedi. Envanter: 19 buton,
+10 dosya. Hepsine ikon koymak reddedildi, ayrım yapıldı.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `Buton` | İki opsiyonel prop: `ikon` (başta) ve `ok` (sonda) | Baştaki ikon butonun NE yaptığını, sondaki ok NEREYE gittiğini söyler. İkisi aynı butonda kullanılmaz; hepsine aynı muamele yapılsa fark kaybolur ve butonlar süslenmiş gibi okunurdu | uygulandı |
+| Eylem butonları (10) | Başta ikon: `MapPin`, `Phone`, `MessageCircle` | En çok kazanan telefon butonu: etiketi ham numara (`+90 533 888 74 24`) ve beş yerde geçiyor. Çıplak numara "dokun ve ara" demiyor, veri gibi duruyordu | uygulandı |
+| Gezinme butonları (8) | Sonda ok, hover'da 3px kayıyor | Ok metnin parçası değil, o yüzden `.55` opaklıkta | uygulandı |
+| Ok yönü | Sayfaya giden sağa, sayfa içi çapaya giden aşağı | `href.startsWith('#')`'ten türer. Harici gezinme CTA'sı bugün yok, o dal hiç yazılmadı | uygulandı |
+| `UstBar` CTA'sı | **Dokunulmadı** | Tek `sm` buton ve üst bar zaten 781-802px bandında 11px taşıyor (bu dosyada kayıtlı). İkon barı genişletip taşmayı büyütürdü | bilinçli atlandı |
+| `Buton` CSS'i | Zaten hazırmış | `.taban` `gap:9px` ve `:has(svg)` dolgu telafisi tasarımdan geliyordu (`Ana:346`, `Konum:81`); ikonlu buton tasarımda vardı, portta hiç kullanılmamıştı. Yeni ölçü uydurulmadı | uygulandı |
+| `konum/Acilis` birincil butonu | Pin değil ok aldı | **Uyumsuzluk:** etiket "Yol Tarifi Al" ama hedef `#harita`, yani harici harita değil sayfa içi kaydırma. Pin koymak olmayan bir vaat verirdi. Sınıflandırma etikete göre değil davranışa göre yapıldı | uygulandı |
+| Aynı butonun etiketi | Değiştirilmedi | Etiket ile hedefin çelişkisi duruyor: ya etiket "Haritayı Gör" olmalı ya hedef harici haritaya bağlanmalı. Metin sahibin | sahibine |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

@@ -3,7 +3,7 @@ import { HaritaPlakasi } from '@/components/sayfa/HaritaPlakasi'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { CamPanel } from '@/components/ui/CamPanel'
-import { PinIkon } from '@/components/ui/Ikonlar'
+import { PinIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
@@ -35,13 +35,30 @@ export function Konum({ dil }: Props) {
             genişliğine sığmayıp ikinci satıra taşıyor ve WhatsApp tek başına
             kalıyordu; `md` ile üçü tek satırda (UYGULAMA-NOTLARI 5). */}
         <div className={stil.butonlar}>
-          <Buton tur="birincil" boy="md" href={telefonUrl(isletme.telefon)}>
+          <Buton
+            tur="birincil"
+            boy="md"
+            href={telefonUrl(isletme.telefon)}
+            ikon={<TelefonIkon boy={17} />}
+          >
             {isletme.telefon ?? TELEFON_YER_TUTUCU}
           </Buton>
-          <Buton tur="ikincil" boy="md" href={yolTarifiUrl()} hariciMi>
+          <Buton
+            tur="ikincil"
+            boy="md"
+            href={yolTarifiUrl()}
+            hariciMi
+            ikon={<PinIkon boy={17} />}
+          >
             {s.ortak.cta.yolTarifiAl}
           </Buton>
-          <Buton tur="ikincil" boy="md" href={whatsappUrl(isletme.whatsapp)} hariciMi>
+          <Buton
+            tur="ikincil"
+            boy="md"
+            href={whatsappUrl(isletme.whatsapp)}
+            hariciMi
+            ikon={<WhatsAppIkon boy={17} />}
+          >
             {s.ortak.cta.whatsapp}
           </Buton>
         </div>

@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react'
+import { ArrowDown, ArrowRight, MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react'
 
 type Props = {
   boy?: number
@@ -56,4 +56,16 @@ export function InstagramIkon({ boy = 16 }: Props) {
 /** Menü sayfasının ikonu. Bu sitede "menü" yemek listesidir, gezinme değil. */
 export function SofraIkon({ boy = 16 }: Props) {
   return <UtensilsCrossed size={boy} aria-hidden="true" />
+}
+
+/**
+ * Gezinme okları, yalnız `Buton`un `ok` propu için. Sayfaya giden buton sağa,
+ * sayfa içi çapaya giden buton aşağı gösterir: ikisi farklı hareket.
+ */
+export function OkSagIkon({ boy = 16 }: Props) {
+  return <ArrowRight size={boy} aria-hidden="true" />
+}
+
+export function OkAsagiIkon({ boy = 16 }: Props) {
+  return <ArrowDown size={boy} aria-hidden="true" />
 }

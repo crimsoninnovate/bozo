@@ -31,7 +31,7 @@ export function Bozo({ dil }: Props) {
       <h2 className={stil.alinti}>{s.ana.bozo.baslik}</h2>
       <p className={stil.metin}>{s.ana.bozo.metin}</p>
 
-      <Buton tur="ikincil" boy="md" href={yol('hikaye', dil)}>
+      <Buton tur="ikincil" boy="md" href={yol('hikaye', dil)} ok>
         {s.ana.bozo.hikayeLinki}
       </Buton>
 

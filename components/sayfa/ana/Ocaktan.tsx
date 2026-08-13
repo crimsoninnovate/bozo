@@ -1,5 +1,6 @@
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
+import { TelefonIkon } from '@/components/ui/Ikonlar'
 import { MenuSatiri } from '@/components/ui/MenuSatiri'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import { isletme } from '@/content/isletme'
@@ -65,13 +66,13 @@ export function Ocaktan({ dil }: Props) {
         <p className={stil.fiyatMetin}>{fiyat.metin}</p>
         <div className={stil.fiyatButonlari}>
           {telefon && (
-            <Buton tur="ikincil" boy="md" href={telefon}>
+            <Buton tur="ikincil" boy="md" href={telefon} ikon={<TelefonIkon boy={17} />}>
               {isletme.telefon}
             </Buton>
           )}
           {/* Fiyatlar menüye taşındığı için bu blokta asıl yol bu buton: telefon
               ikincil kalır, menü birincil olur. */}
-          <Buton tur="birincil" boy="md" href={yol('menu', dil)}>
+          <Buton tur="birincil" boy="md" href={yol('menu', dil)} ok>
             {fiyat.menuLinki}
           </Buton>
         </div>
