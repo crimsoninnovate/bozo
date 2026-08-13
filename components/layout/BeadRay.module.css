@@ -34,6 +34,7 @@
 }
 
 .bead {
+  position: relative;
   flex: none;
   padding: 0;
   border: none;
@@ -43,6 +44,22 @@
     background-color 0.3s ease-out,
     box-shadow 0.3s ease-out,
     transform 0.3s ease-out;
+}
+
+/*
+ * Tıklama alanı görünür kareden büyük: 9px'lik bir boncuk fare için de zor
+ * hedef. Yatayda 44px'e çıkar (rayın sağında 26px, solunda sayfa boşluğu var),
+ * dikeyde komşunun alanına girmemek için bağlayıcının yarısı kadar taşar.
+ * Teknik AltBilgi ve kaydırma ipucunda zaten kurulu.
+ */
+.bead::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 44px;
+  height: calc(100% + 18px);
 }
 
 .buyuk {
@@ -70,4 +87,18 @@
  */
 .aktifOlcek {
   transform: scale(1.5);
+}
+
+/*
+ * Mobilde ray hiç basılmaz. Mobil prototipin bileşen envanterinde bead rayı
+ * geçmiyor (docs/tasarim/mobil-prototip-davranis-referansi.json: on sekiz
+ * bölümün hiçbirinde yok); mobil gezinme alt eylem barı ve çekmece.
+ * Portta ray mobilde de basılıyordu ve iki sorun üretiyordu: hero içeriğinin
+ * üstüne biniyordu ve dokunma hedefleri 9-21px'te kalıyordu, 44px kuralının
+ * çok altında.
+ */
+@media (max-width: 800px) {
+  .ray {
+    display: none;
+  }
 }

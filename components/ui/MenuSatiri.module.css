@@ -48,17 +48,6 @@
   color: rgba(242, 233, 220, 0.76);
 }
 
-/* İmza ürünün porsiyon çipi. Ölçü ve dolgu `Cip` ailesinin `dolu` varyantıyla
-   aynı; ayrı bileşene taşınmadı çünkü tek satırda ve tek kullanımda. */
-.cip {
-  flex: none;
-  padding: 7px 12px;
-  background: var(--krem-dolgu);
-  font: 500 12.5px/1 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--krem-74);
-}
-
 /*
  * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 800px altında
  * açıklamaya yer bırakmıyor. Sıra numarası adın üstünde kalır.

@@ -26,7 +26,6 @@ export const ana = {
   ocaktan: {
     baslik: 'From the Fire',
     altNot: 'Five dishes, two on the house: all from one fire',
-    cigerCipi: '8 skewers / portion',
     urunler: {
       // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
       // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).

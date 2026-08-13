@@ -237,6 +237,20 @@ Sahibi CTA'ların ikonlu ve daha tasarlanmış olmasını istedi. Envanter: 19 b
 | `konum/Acilis` birincil butonu | Pin değil ok aldı | **Uyumsuzluk:** etiket "Yol Tarifi Al" ama hedef `#harita`, yani harici harita değil sayfa içi kaydırma. Pin koymak olmayan bir vaat verirdi. Sınıflandırma etikete göre değil davranışa göre yapıldı | uygulandı |
 | Aynı butonun etiketi | Değiştirilmedi | Etiket ile hedefin çelişkisi duruyor: ya etiket "Haritayı Gör" olmalı ya hedef harici haritaya bağlanmalı. Metin sahibin | sahibine |
 
+## 13 Ağustos 2026: ana sayfa uçtan uca denetim
+
+Tam rapor: `rapor/ana-sayfa-denetimi.md`. Üç gerçek bulgu, üçü de düzeltildi;
+kontrast ve dokunma hedefi alarmlarının çoğu ölçüm hatasıydı ve orada belgelendi.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `BeadRay` | 800px altında hiç basılmıyor | Mobil prototipin bileşen envanterinde bead rayı geçmiyor; mobil gezinme alt eylem barı ve çekmece. Portta mobilde de basılıyor, hero içeriğinin üstüne biniyor ve dokunma hedefleri 9-21px'te kalıyordu | uygulandı |
+| Aynı | Masaüstünde nokta başına `::after` ile 44px genişlik | 9px bir boncuk fare için de zor hedef. Dikeyde bağlayıcının yarısı kadar taşar, komşunun alanına girmez | uygulandı |
+| Ocaktan satırları | "8 şiş / porsiyon" çipi kaldırıldı | Sahibi bütünlüğü bozduğunu söyledi. Beş satırın yalnız birinde ekstra kutu vardı; bilgi ayrıca bir bölüm yukarıda İddia sayacında duruyor. Ölçüldü: satırlar artık beşi de 94px | uygulandı |
+| Aynı | Arkasındaki ölü kod da silindi | `MenuSatiri.cip` propu, `.cip` sınıfı, `IMZA_URUN` sabiti ve iki dildeki `cigerCipi` anahtarı | uygulandı |
+| `MenuSatiri` ve `ana/Ocaktan` yorumları | "Fiyat gelince rakamlar satırların sağına döner" cümlesi kaldırıldı | Fiyatlar geldi ama sahibi ana sayfanın beş ad artı tek CTA olarak kalmasını istedi. Yorum ileriki bir turu ana sayfaya fiyat eklemeye yönlendirirdi | uygulandı |
+| Konum bölümünün üç CTA'sı | 2+1 sarıyor | İkonlar butonları genişletti. Bozuk değil, tek başına kalan bir "WhatsApp" satırı var | kaydedildi, sahibine |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

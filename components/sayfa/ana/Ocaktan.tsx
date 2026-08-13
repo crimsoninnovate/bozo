@@ -12,8 +12,12 @@ type Props = { dil: Dil }
 
 type UrunMetni = { ad: string; aciklama: string }
 
-/** İmza ürün: porsiyon çipi yalnız onda basılır (UYGULAMA-NOTLARI 1.2). */
-const IMZA_URUN = 'ciger'
+/*
+ * Ciğer satırındaki "8 şiş / porsiyon" çipi kalktı (sahibi, 13 Ağustos 2026):
+ * beş satırın yalnız birinde ekstra kutu vardı ve listenin ritmini kırıyordu.
+ * Bilgi kaybolmadı, bir bölüm yukarıda zaten duruyor: İddia sayacı "8, şiş bir
+ * porsiyonda". UYGULAMA-NOTLARI 1.2 çipi burada istiyordu, karar onu kapatır.
+ */
 
 /**
  * `Urun.id` paylaşılan tipte `string`, sözlük ise sabit anahtarlı. Eşleşmeyen bir
@@ -53,14 +57,14 @@ export function Ocaktan({ dil }: Props) {
               sira={sira + 1}
               ad={metin.ad}
               aciklama={metin.aciklama}
-              cip={urun.id === IMZA_URUN ? s.ana.ocaktan.cigerCipi : undefined}
             />
           )
         })}
       </ol>
 
-      {/* Fiyat sütununun yerine geçen tek blok. Fiyatlar kesinleşince burası
-          kalkar ve rakamlar satırların sağına döner (UYGULAMA-NOTLARI 1.1). */}
+      {/* Fiyat sütununun yerine geçen tek blok. Kalıcı: fiyatlar 13 Ağustos
+          2026'da geldi ama sahibi ana sayfanın beş ad artı tek CTA olarak
+          kalmasını istedi, rakamlar menü sayfasında duruyor. */}
       <div className={stil.fiyatBloku}>
         <p className={stil.fiyatBaslik}>{fiyat.baslik}</p>
         <p className={stil.fiyatMetin}>{fiyat.metin}</p>

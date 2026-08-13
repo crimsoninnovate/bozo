@@ -34,7 +34,6 @@ export const ana = {
   ocaktan: {
     baslik: 'Ocaktan',
     altNot: 'Beş ürün, iki ikram: hepsi tek ocakta',
-    cigerCipi: '8 şiş / porsiyon',
     urunler: {
       ciger: {
         ad: 'Ciğer',
