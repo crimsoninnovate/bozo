@@ -54,7 +54,6 @@ export const ortak = {
     bozoSofrasi: "Bozo's Table",
     telefon: 'Phone',
     instagram: 'Instagram',
-    paketSiparis: 'Order Takeaway',
   },
   durum: {
     acik: 'We are open',
@@ -84,15 +83,6 @@ export const ortak = {
   alkolsuzKisa: 'Our place is alcohol-free',
   ikramRozeti: 'on the house',
   telif: '© 2026 Ciğerci Bozo',
-  paket: {
-    baslik: 'Straight from the fire',
-    metin:
-      'Takeaway comes in a box that holds the heat. Liver is eaten before it cools; ' +
-      'the box is still ember warm when you open it.',
-    hizmetAdi: 'Takeaway',
-    yakindaRozeti: 'coming soon',
-    simdilik: 'Until it opens you can call the fire or write on WhatsApp.',
-  },
   footer: {
     tanim: 'Urfa style liver over oak embers.',
     isimNotu: 'Bozo is the lifelong nickname of our founder, Engin Çağlar from Urfa.',

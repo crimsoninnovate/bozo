@@ -271,6 +271,17 @@ butonlar yan yana ve arkada canlı bir animasyon var.
 | Telif satırı | `krem-58` > `krem-74` | İkinci tur. Önce `krem-50` (4.48) `krem-58`'e (4.81) çıkarılmıştı; sahibi hala okunmadığını söyledi. Eşiği kıl payı geçmek 12.5px için yetmiyor ve arkadaki kor parıltısı sonradan güçlendi. Yeni oran **9.15:1** | uygulandı |
 | Favicon | `app/icon.svg` eklendi | Sitede hiç ikon yoktu, tarayıcı `/favicon.ico` için 404 alıyordu. İşaret markanın kendi altılı zar rayı, renkler palet listesinden | uygulandı |
 
+## 13 Ağustos 2026: paket şeridi kaldırıldı, Gizlilik bağlantısı kalktı
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `PaketSeridi` | **Tamamen kaldırıldı**, bileşen ve sözlük anahtarları silindi | Sahibi turuncu bandın tasarımını sordu; ardından "paket servisten hiçbir yerde söz etmek zorunda değiliz" dedi. Şeridin içeriğinin tamamı paket servis hakkındaydı ve servis başlamamıştı, yani band olmayan bir hizmet için "yakında" vaadi taşıyordu. Güzelleştirmek yerine kaldırmak doğru cevap | uygulandı |
+| Aynı | Ana sayfa ve Konum sayfasından çıktı | İki yerde kullanılıyordu | uygulandı |
+| Aynı | `ortak.paket` bloğu ve `cta.paketSiparis` silindi | Çağıranı kalmadı | uygulandı |
+| Kaldırılan tasarım sorunları | Bant 545px yükseklikte ve büyük kısmı boştu; turuncu tek parça düz levhaydı ve koyu bölümlerle arasında sert kesik vardı; sağdaki çerçeveli kart sitede eşi olmayan bir muameleydi; iki buton farklı genişlikte alt altaydı; asıl haber ("yakında") küçük kartın içindeydi | Hepsi bandın kendisiyle birlikte gitti. Servis başlarsa band git geçmişinden geri alınır, gerçek içerikle | kayıt |
+| Footer telif satırı | Gizlilik bağlantısı kaldırıldı | Sahibinin kararı, "şimdilik". Tasarımın hiçbir sayfasında zaten yoktu, fix turunda eklenmişti. Sayfa duruyor ve site haritasında kalıyor, yalnız içeriden bağlantısı yok | uygulandı |
+| Aynı | `.gizlilikLink` sınıfları, `TelifSeridi`in `aktif` propu ve `AltBilgiTam`in `aktif` propu silindi | Bağlantı gidince üçü de ölü kaldı | uygulandı |
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |

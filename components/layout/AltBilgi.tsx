@@ -18,6 +18,6 @@ export function AltBilgi({ dil, aktif }: Props) {
     case 'sayfalar':
       return <AltBilgiSayfalar dil={dil} aktif={aktif} />
     case 'tam':
-      return <AltBilgiTam dil={dil} aktif={aktif} />
+      return <AltBilgiTam dil={dil} />
   }
 }

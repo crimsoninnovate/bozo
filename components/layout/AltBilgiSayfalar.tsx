@@ -76,7 +76,7 @@ export function AltBilgiSayfalar({ dil, aktif }: Props) {
         </div>
       </div>
 
-      <TelifSeridi dil={dil} aktif={aktif} sikMi />
+      <TelifSeridi dil={dil} sikMi />
     </footer>
   )
 }

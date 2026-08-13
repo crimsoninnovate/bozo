@@ -371,34 +371,6 @@ a.iletisimSatiri:hover {
  * (satır içi metnin parçası), görünmez ::before dokunma alanını büyütür
  * (fix round 1, "privacy page is still unreachable").
  */
-/* min-width yatayı 44px'e taşır: metin 40px ölçülmüştü. Alt çizgi kutunun değil
-   harflerin altında kaldığı için görünen satır değişmiyor, telif şeridinin
-   sonunda 4px boşluk açılıyor. */
-.gizlilikLink {
-  position: relative;
-  display: inline-block;
-  min-width: 44px;
-  text-align: center;
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color var(--gecis-hizli);
-}
-
-.gizlilikLink:hover {
-  color: var(--tangerine);
-}
-
-.gizlilikLink::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
 /* --- Menü şeridi (Menu Sayfasi.dc.html:283-292) --- */
 
 .serit {

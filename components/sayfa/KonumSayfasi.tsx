@@ -1,4 +1,3 @@
-import { PaketSeridi } from './PaketSeridi'
 import { Acilis } from './konum/Acilis'
 import { Harita } from './konum/Harita'
 import { SaatlerVeIletisim } from './konum/SaatlerVeIletisim'
@@ -19,8 +18,6 @@ type Props = { dil: Dil }
  * görevi `#harita` id'sini taşımak; hem üst barın CTA'sı hem hero'nun birincil
  * butonu oraya gidiyor.
  *
- * Paket şeridi ana sayfayla paylaşılan bileşen (Konum:152-163 ile Ana:336-348
- * satır satır aynı kabuk). Tek fark buton sayısı: burada iki, ana sayfada üç.
  * Varsayılan hal Konum'unki olduğu için prop geçilmez.
  *
  * Footer bu ağaçta değil: Konum'un "Sayfalar" kolonlu footer'ı `Kabuk` >
@@ -32,7 +29,6 @@ export function KonumSayfasi({ dil }: Props) {
       <Acilis dil={dil} />
       <Harita dil={dil} />
       <SaatlerVeIletisim dil={dil} />
-      <PaketSeridi dil={dil} />
     </>
   )
 }

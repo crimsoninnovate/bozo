@@ -55,7 +55,6 @@ export const ortak = {
     bozoSofrasi: 'Bozo Sofrası',
     telefon: 'Telefon',
     instagram: 'Instagram',
-    paketSiparis: 'Paket sipariş',
   },
   durum: {
     acik: 'Şu an açığız',
@@ -86,17 +85,6 @@ export const ortak = {
   alkolsuzKisa: 'Mekanımız alkolsüzdür',
   ikramRozeti: 'ikram',
   telif: '© 2026 Ciğerci Bozo',
-  paket: {
-    baslik: 'Ocaktan çıkan',
-    metin:
-      'Paket kutuda gelir, sıcaklığını yolda korur. Ciğer soğumadan yenir; ' +
-      'kutu ilk açıldığında hala kor sıcaklığındadır.',
-    // Hizmet 12 Ağustos 2026'da henüz başlamadı; sipariş butonu yerine durum kartı
-    // basılır. Kart olmadan paragraf açık bir hizmeti anlatıyor gibi okunuyordu.
-    hizmetAdi: 'Paket servis',
-    yakindaRozeti: 'yakında',
-    simdilik: "Hizmet başlayana kadar ocağı arayabilir, WhatsApp'tan yazabilirsiniz.",
-  },
   footer: {
     tanim: 'Urfa usulü ciğer, meşe korunda.',
     // Eskisi ("Bozo bir marka ismi değil, bir insandır.") ana sayfanın kendi bölüm

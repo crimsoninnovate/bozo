@@ -7,7 +7,6 @@ import { Iddia } from './ana/Iddia'
 import { Ikram } from './ana/Ikram'
 import { Konum } from './ana/Konum'
 import { Ocaktan } from './ana/Ocaktan'
-import { PaketSeridi } from './PaketSeridi'
 
 type Props = { dil: Dil }
 
@@ -37,7 +36,6 @@ export function AnaSayfa({ dil }: Props) {
       <Gece dil={dil} />
       <Bozo dil={dil} />
       <Konum dil={dil} />
-      <PaketSeridi dil={dil} whatsappVarMi />
       <BeadRay bolumler={BOLUMLER} />
     </>
   )
