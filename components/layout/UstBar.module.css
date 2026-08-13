@@ -29,6 +29,19 @@
  * tamamen düşürür. `KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik
  * değil, taşınmaz.
  */
+/*
+ * Perde: düz .55 zemin, bulanıklık, alt saç çizgisi. İKİ VARYANT DA AYNI.
+ *
+ * Ana varyantta bu UYGULAMA-NOTLARI 2'den geldi: tasarımın .9'dan 0'a inen
+ * gradyanı marka adının hizasında yarı saydam kalıyor ve altından geçen içerik
+ * adın içinden okunuyordu (12 Ağustos, `39e88f3`, `bf263b6`). O tur iç varyanta
+ * bakmamış; tasarımın oradaki gradyanı (.94 > .55) ve bulanıklığın hiç olmaması
+ * aynı hatayı dört sayfada canlı bıraktı. Ölçüldü (1440px, menü, kaydırma
+ * 1290): üç ürün adı nav bağlantılarının içinden okunuyordu, `backdrop-filter`
+ * iç varyantta `none`. Sahibinin kararı 13 Ağustos 2026: ikisi aynı olsun.
+ *
+ * Saç çizgisi gradyanın işini devralır: barın nerede bittiğini söyler.
+ */
 .bar {
   position: fixed;
   top: 0;
@@ -37,26 +50,9 @@
   z-index: 60;
   display: flex;
   flex-direction: column;
-}
-
-/*
- * Düz perde + bulanıklık + alt saç çizgisi (UYGULAMA-NOTLARI 2).
- *
- * Tasarımın .9'dan 0'a inen gradyanı marka adının hizasında yarı saydam
- * kalıyordu ve altından geçen içerik adın içinden okunuyordu; 12 Ağustos'ta
- * maskeli ayrı bir blur katmanıyla yamanmıştı. Not aynı sorunu daha basit
- * çözüyor: gradyan yerine tek alfa, maske yok, ayrı katman yok. Alt kenardaki
- * saç çizgisi barın nerede bittiğini söyler, gradyanın yaptığı işi devralır.
- */
-.anaVaryant {
-  background: rgba(10, 8, 7, 0.55);
+  background: var(--panel-yari);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(242, 233, 220, 0.08);
-}
-
-/* .94 ucunun token'ı yok (--panel-* ailesinde .94 adımı yok). */
-.icVaryant {
-  background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-yari));
 }
 
 .satir {

@@ -393,6 +393,34 @@ dedi; o sayı benim raporumdaki tahmindi ve ölçüm onu iki kez düzeltti.
 | Doğrulama | 961px'te iki varyant da temiz | Ölçüldü: marka tek satır, nav açık, hamburger yok, taşma yok; menü sayfasının CTA'sı tam sınırda oturuyor | doğrulandı |
 | Doğrulama | 900px'te yedi rota temiz | Ölçüldü: yatay taşma 0, hamburger açık, çekmece açılıp kapanıyor, yüzen bar yerinde | doğrulandı |
 
+## 13 Ağustos 2026: iç sayfaların barı da perdesini kazandı
+
+1440px turunda çıktı. Ana sayfada 12 Ağustos'ta kapatılan hatanın (`39e88f3`,
+`bf263b6`) iç sayfalarda duran hali: o tur yalnız ana varyanta bakmış.
+
+| Nerede | Değişiklik | Gerekçe | Durum |
+|---|---|---|---|
+| `UstBar.bar` | Perde iki varyantta ortak: düz `--panel-yari`, `blur(14px)`, 1px saç çizgisi | **Hata.** Ölçüldü (1440px, menü, kaydırma 1290): iç varyantta `backdrop-filter: none` ve gradyanın alt ucu `.55`; barın altından geçen üç ürün adı ("Dalak", "Yürek", "Terbiyesiz Tavuk Şiş") nav bağlantılarının içinden okunuyordu. Dört sayfayı etkiliyordu: menü, hikaye, konum, galeri. Sahibi ekran görüntüsünü görüp ana sayfayla aynı olmasını seçti | uygulandı |
+| Aynı | `.anaVaryant` ve `.icVaryant` perde kuralları silindi | İkisi aynı değere geldiği için iki kural tek `.bar` kuralına indi. Varyant ayrımı duruyor: yükseklik 84/78, nav 16/15, marka 23/21, aktif sekme alt çizgisi | uygulandı |
+| Aynı | Ham `rgba(10,8,7,.55)` yerine `--panel-yari` | Aynı değerin token'ı zaten vardı (`tokens.css:15`) | uygulandı |
+| Regresyon | Mobil perde değişmedi | Ölçüldü (390px, iki varyant): gradyan `.94 > .6`, `blur(10px)`, saç çizgisi yok. Media query kuralı `.bar`la aynı özgüllükte ama sonra geldiği için kazanıyor | doğrulandı |
+
+## 13 Ağustos 2026: 1440px turu, temiz çıkanlar
+
+Sahibi masaüstünü kontrol etmemi istedi. Yukarıdaki bar hatası dışında altı rota
+temiz; kanıt olarak kayda geçiyor:
+
+- Ana sayfanın dokuz bölümü yerinde: hero iki kolon ve 130px saat, gün merdiveni,
+  İddia sayaçları, Ocaktan satırları, fiyat bloğu, İkram, Gece zaman çizelgesi
+  (canlı imleç doğru konumda), Bozo, Konum, dört kolonlu alt bilgi.
+- Menü: üç kolonlu ızgara, fiyat satırları hizalı, 13 etkileşimli hedefin 13'ü
+  gerçek isabet testinde 44px'i geçiyor, yatay taşma 0.
+- Hikaye, Galeri, Konum: yerleşim bozulmamış, taşma yok.
+- Bugünkü mobil işlerin hiçbiri 1440'a sızmamış: eşik 960 olduğu için hiçbir
+  mobil kural etkin değil, marka 23px tek satır, hamburger ve yüzen bar yok.
+- Yeniden görünen üç madde zaten kayıtlı ve ertelenmiş: konum hero'sunun boş sağ
+  yarısı, galeri ızgarasındaki öksüz kare, menünün son satırındaki boş hücre.
+
 ## Reddedildi
 
 | Nerede | Öneri | Neden reddedildi |
