@@ -69,7 +69,9 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
         zamanlayici = window.setTimeout(bitir, sure + 120)
         document.addEventListener('visibilitychange', bitir)
       },
-      { threshold: ESIK },
+      // Alt kenar %15 içeride: telefonda sayım yüzen barın altında, ekranın alt
+      // %20'sinde başlayıp bitiyordu (ölçüldü 390 ve 360). Masaüstünde fark yok.
+      { threshold: ESIK, rootMargin: '0px 0px -15% 0px' },
     )
     gozlemci.observe(eleman)
 

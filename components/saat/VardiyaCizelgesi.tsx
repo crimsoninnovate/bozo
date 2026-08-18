@@ -23,8 +23,6 @@ export function VardiyaCizelgesi({ dil }: Props) {
   const s = sozluk(dil)
   const yuzde = durum === null ? null : vardiyaYuzdesi(new Date())
   const simdi = durum ? saatMetni(durum) : null
-  // Uçlarda etiket imlecin kenarından sarkar (mobil CSS); ortada ortalanır.
-  const kenar = yuzde === null ? undefined : yuzde < 14 ? 'sol' : yuzde > 86 ? 'sag' : undefined
 
   return (
     <div className={stil.kap}>
@@ -32,7 +30,8 @@ export function VardiyaCizelgesi({ dil }: Props) {
         {yuzde !== null && (
           <>
             <span aria-hidden="true" className={stil.dolgu} style={{ width: `${yuzde}%` }} />
-            <span className={stil.imlecKap} style={{ left: `${yuzde}%` }} data-kenar={kenar}>
+            {/* --yuzde birimsiz: mobil CSS etiketi rayın içinde tutmak için cqi ile çarpar. */}
+            <span className={stil.imlecKap} style={{ left: `${yuzde}%`, '--yuzde': yuzde } as React.CSSProperties}>
               <span className={stil.simdi}>
                 {s.ana.gece.simdi} {simdi ? `${simdi.saat}:${simdi.dakika}` : ''}
               </span>

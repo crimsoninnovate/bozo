@@ -8,8 +8,9 @@
   color: var(--krem-66);
 }
 
-/* Kalan süre saniyede bir değişen bir sayı taşır. */
+/* Kalan süre saniyede bir değişen bir sayı taşır. Boşken de bir satır boyu tutar. */
 .kalan {
+  min-height: 1.5em;
   font-variant-numeric: tabular-nums;
 }
 

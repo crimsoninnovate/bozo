@@ -12,8 +12,9 @@ type Props = { dil: Dil }
  * süre. UYGULAMA-NOTLARI 2.
  *
  * Kalan süre yalnız açıkken yazılır; kapalı aralıkta geri sayılacak bir şey yok
- * ve o satır yerini `durum.kapaliAlt`a bırakır. Mount öncesi ikinci satır hiç
- * basılmaz: değeri zamana bağlı, sunucuda yazılan her sayı yanlış olurdu.
+ * ve o satır yerini `durum.kapaliAlt`a bırakır. Mount öncesi ikinci satır boş
+ * ama yerinde: değeri zamana bağlı, sunucuda yazılan her sayı yanlış olurdu;
+ * satır hiç basılmayınca da gün merdiveni hidrasyonda 31px aşağı düşüyordu.
  */
 export function KapanisNotu({ dil }: Props) {
   const durum = useGirneSaati()
@@ -33,7 +34,7 @@ export function KapanisNotu({ dil }: Props) {
   return (
     <p className={stil.not}>
       <span>{s.ana.hero.ocakSoner}</span>
-      {ikinciSatir && <span className={stil.kalan}>{ikinciSatir}</span>}
+      <span className={stil.kalan}>{ikinciSatir}</span>
     </p>
   )
 }
