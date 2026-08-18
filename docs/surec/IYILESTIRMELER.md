@@ -478,3 +478,20 @@ kalanı "karar bekliyor" başlığında.
   birlikte döner. Yalnız `--komur-90`'ın bayat kullanım sayısı düzeltildi.
 - **Token'ı olmayan dokuz krem alfası eklenmedi.** Dokuz yeni ad, rolü okunarak
   verilmeli ve `.28` iki ayrı rolde geçiyor; KARAR-FORMU D ile aynı turda yapılmalı.
+
+## 18 Ağustos 2026: sahibinin üç kararı, aynı turda uygulandı
+
+| Karar | Uygulama | Ölçüm |
+|---|---|---|
+| **Paket servis alınmıyor** | `konum.iletisim.whatsappAlt` iki dilde silindi, `IletisimSatiri`'nin `alt` prop'u opsiyonel oldu; manifestten `paket-ve-gel-al` karesi ve `FotoId` üyesi düştü; galeri sayısı on yediden on altıya döndü (dört dize, iki dil) | Cümle (`Paket sipariş de buradan alınır`) handoff'ta birebir yazılıydı, yani uydurma değildi; ama artık olgusal olarak yanlıştı ve KISITLAR'da olgusal doğruluk sert kural, tasarım sadakati yumuşak. Kalan iki satırın alt cümlesi duruyor. Ölçüldü: satır yükseklikleri 72 / 55 / 77px, üçü de 44px üstünde |
+| **Sosyal kart `icon.svg` çiziminden üretilsin** | 180x180 `app/apple-icon.png` ve 1200x630 `public/sosyal-kart.png`; `lib/metadata.ts` `openGraph.images`, `twitter.card: summary_large_image`, `twitter.images` ve `metadataBase` taşıyor | Önce sıfır rotada `og:image` vardı. İki tuzak ölçüldü: (1) `app/opengraph-image.png` konvansiyonu bu repoda çalışmıyor, çünkü iki kök layout var ve `app/` kökündeki dosya rota gruplarına iliştirilmiyor; (2) `metadataBase` ayarlı değilken Next uyarı basıp etiketi hiç yazmıyor. İkisi çözülünce on iki rotanın hepsinde `og:image` mutlak URL, boyut ve `alt` ile birlikte. Kart markanın kendi öğeleriyle kuruldu: sayfa zemini, kor parıltısı, dört tane ve sitenin kendi Bricolage 800 wordmark'ı |
+| **Dört yetim anahtar silinsin, `nav.gizlilik` dursun** | `ortak.cta.ara`, `ortak.satirlar.adresVeSaat`, `ortak.footer.sayfalarBaslik`, `ortak.footer.sosyal`, `ana.gece.sonNot` iki dilde silindi | Beşinin de okuyucusu yoktu ve her ziyaretçiye JS yükünde iniyorlardı. `ortak.nav.gizlilik` C4'e kadar duruyor. Parite testi geçiyor: 231'e 231 yaprak |
+| **Krem token turu ertelendi** | Dokuz alfa ham bırakıldı | Sahibinin kararı: ayrı bir token turunda, KARAR-FORMU D'nin kalan iki maddesiyle birlikte |
+
+### Açık kalan tek küçük madde
+
+`IletisimSatiri`: WhatsApp satırı artık alt cümlesiz, kardeşleri cümleli (72 / 55 / 77px).
+Ekranda kırık durmuyor ama ritim eşit değil. Alternatif, uydurma gerektirmeyen tek
+seçenek: sözlükte duran ve bugün çağıranı olmayan `ortak.cta.whatsapptanYaz`
+("WhatsApp'tan Yaz") satırın alt cümlesi yapılır; hem ritim döner hem de KARAR-FORMU
+A10'daki o anahtar bir yüzeye kavuşur. Sahibine bırakıldı.

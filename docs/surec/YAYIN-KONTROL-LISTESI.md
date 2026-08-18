@@ -18,16 +18,18 @@ temiz. (18 Ağustos 2026'da yeniden ölçüldü.) On iki gezilebilir rota (altı
 |---|---|---|---|
 | 1 | Alan adı alınmış ve DNS sunucuya bakıyor | `lib/site.ts` > `SITE_URL` | `cigercibozo.com` **varsayılıyor**, alınmadı |
 | 2a | Tarayıcı sekmesi ikonu | `app/icon.svg` | **Kapandı 13 Ağu 2026:** dosya var (617 B), `out/icon.svg` üretiliyor ve 15 HTML'in hepsi `<link rel="icon" ... type="image/svg+xml">` taşıyor. 18 Ağustos'ta yeniden ölçüldü, konsolda favicon 404'ü yok |
-| 2b | Dokunmatik ve sosyal kart görseli | `app/apple-icon.png`, `app/opengraph-image.png` | **Açık.** İkisi de yok: iOS "ana ekrana ekle" ekran görüntüsü kullanıyor, paylaşılan her bağlantı görselsiz kart açıyor. Engel karar, bkz. aşağıdaki not |
+| 2b | Dokunmatik ve sosyal kart görseli | `app/apple-icon.png`, `public/sosyal-kart.png` | **Kapandı 18 Ağu 2026:** sahibi `icon.svg` çiziminden üretilmesini onayladı. 180x180 dokunmatik ikon ve 1200x630 kart üretildi; on iki rotanın hepsi `og:image`, `twitter:image` ve `apple-touch-icon` taşıyor. Onaylı "şiş kilidi" markası çizilince iki PNG sıfır kod değişikliğiyle üzerine yazılır |
 | 3 | Caddy `handle_errors` bloğu sunucuda | `README.md` > Publishing | **Kapandı 12 Ağu 2026:** demo kurulumunda canlıda doğrulandı |
 | 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: e-posta, koordinat ve posta kodu hâlâ `null`, arayüz yer tutucu basıyor. Telefon, WhatsApp ve Instagram 12 Ağustos'ta, ocak fiyatları 13 Ağustos'ta geldi; içecek kalemleri fiyat alanı taşımıyor |
 | 5 | Instagram hesabı gerçekten açık | instagram.com/cigercibozo | **Açık değil.** Adres `content/isletme.ts`'te ve alt bilgi ona bağlanıyor; hesap açılmadan yayına çıkarsa misafir ölü bağlantıya gider |
 
-**2b'nin engeli veri değil karar.** Marka paketinde (`design_handoff_bozo_website/marka/`)
-çizilmiş logo dosyası yok, yalnız iki markdown ve işaretin sözle tarifi var
-("şiş kilidi"). `app/icon.svg` 13 Ağustos'ta çizildi ve sekme için onaylandı; aynı
-çizimin 180x180 ve 1200x630 rasterleri sahibinin onayını bekliyor. Dosyalar gelince
-Next ikisini de kendisi bağlar, kod değişmez.
+**Sosyal kart neden `public/` altında.** `app/opengraph-image.png` dosya konvansiyonu
+bu repoda çalışmıyor: iki kök layout var, `app/layout.tsx` yok, ve `app/` kökündeki
+dosya `(tr)`/`(en)` gruplarına iliştirilmiyor. Ölçüldü: dosya yerindeyken ve
+`/opengraph-image.png` rotası üretilmişken on iki rotanın hiçbirine `og:image`
+düşmedi. Görsel bu yüzden `public/sosyal-kart.png`'den açıkça bildiriliyor
+(`lib/metadata.ts`). `apple-icon.png` konvansiyonu ise çalışıyor, o `app/` altında.
+Ayrıca `metadataBase` ayarlanmadan Next mutlak URL kuramıyor ve etiketi hiç yazmıyor.
 
 **3. maddenin sebebi:** `file_server` bilinmeyen bir yolda `out/404.html`'i değil
 kendi boş 404'ünü döndürür. Blok olmadan tasarlanmış 404 sayfası yayında hiç
