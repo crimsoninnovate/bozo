@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { hareketAzaltilmisMi } from '@/lib/hareket'
+import { hareketAzaltilmisMi, rafKisitla } from '@/lib/hareket'
 import stil from './KorKivilcimi.module.css'
 
 type Kivilcim = {
@@ -68,12 +68,20 @@ export function KorKivilcimi() {
 
     let en = 0
     let boy = 0
+    let sonOran = 0
     let taneler: Kivilcim[] = []
 
     const olcekle = () => {
       const oran = Math.min(2, window.devicePixelRatio || 1)
-      en = tuval.clientWidth
-      boy = tuval.clientHeight
+      const yeniEn = tuval.clientWidth
+      const yeniBoy = tuval.clientHeight
+      // Mobil tarayıcıda adres çubuğu kayarken resize saniyede onlarca kez atar ve
+      // ölçü çoğu kez hiç değişmez. Ölçüldü: her çağrı 120 taneyi baştan üretir ve
+      // bitmap'i sıfırlar (1440x900 @DPR2'de 19,8 MiB).
+      if (yeniEn === en && yeniBoy === boy && oran === sonOran) return
+      en = yeniEn
+      boy = yeniBoy
+      sonOran = oran
       tuval.width = Math.round(en * oran)
       tuval.height = Math.round(boy * oran)
       ctx.setTransform(oran, 0, 0, oran, 0, 0)
@@ -124,12 +132,13 @@ export function KorKivilcimi() {
       }
     }
     document.addEventListener('visibilitychange', gorunurluk)
-    window.addEventListener('resize', olcekle)
+    const olcekleKisitli = rafKisitla(olcekle)
+    window.addEventListener('resize', olcekleKisitli, { passive: true })
 
     return () => {
       cancelAnimationFrame(kare)
       document.removeEventListener('visibilitychange', gorunurluk)
-      window.removeEventListener('resize', olcekle)
+      window.removeEventListener('resize', olcekleKisitli)
     }
   }, [])
 
