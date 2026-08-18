@@ -52,17 +52,7 @@
 .markaUst {
   display: flex;
   align-items: center;
-  gap: 6px;
   margin-bottom: 2px;
-}
-
-.markaAd {
-  font-family: var(--font-baslik);
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--krem);
 }
 
 /* Marka kolonunun iki paragrafı <p>: tarayıcı varsayılanı 1em alt ve üst

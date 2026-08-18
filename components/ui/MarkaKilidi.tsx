@@ -10,11 +10,17 @@ import stil from './MarkaKilidi.module.css'
  * "Ciğerci", altta büyük "Bozo". Çubuk kelime bloğunun ortasından geçer, işaret
  * büyük harf yüksekliğine çıkmaz. Ana sayfaya döner; üst bar ve 404 aynı kilidi basar.
  */
-export function MarkaKilidi({ dil }: { dil: Dil }) {
+type Props = {
+  dil: Dil
+  /** Kararın "sadece kelime" varyantı: alt bilgi. İşaret basılmaz, blok bir kademe küçük. */
+  sadeceKelime?: boolean
+}
+
+export function MarkaKilidi({ dil, sadeceKelime = false }: Props) {
   const s = sozluk(dil)
   return (
-    <Link href={yol('ana', dil)} className={stil.kilit}>
-      <SisIsareti />
+    <Link href={yol('ana', dil)} className={sadeceKelime ? `${stil.kilit} ${stil.kelime}` : stil.kilit}>
+      {!sadeceKelime && <SisIsareti />}
       <span className={stil.ad}>
         <span className={stil.kategori}>{s.ortak.marka.kategori}</span>{' '}
         <span className={stil.isim}>{s.ortak.marka.kisa}</span>

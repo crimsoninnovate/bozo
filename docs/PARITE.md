@@ -344,7 +344,7 @@ işletmenin kendi bilgi dosyasına karşı sınandı. Bu turda değişen yok.
 | 7.10 | İçecek listesi | Ayran, Şalgam, Çay + "liste tamamlanacak" |
 | 7.11 | 16 fotoğraf | hiçbirinin `dosya` alanı yok, `<img>` sayısı 26 rota-genişlikte **0**, `out/_next/static/media` içinde tek görsel yok. **Galeri sayfası da boş plaka basıyor**, uydurulmuş görsel yok |
 | 7.15 | **Fotoğraf yolu, veri gelmeden sınandı** | geçti. Dört kadraja geçici bir görsel bağlanıp derlendi ve ölçüldü, sonra geri alındı. `images.unoptimized: true` sayesinde statik export derliyor; `<Image fill>` `.kap`'ın `position: relative`'i üzerinde oturuyor, `object-fit: cover`, taşma yok, `loading="lazy"`, `alt` manifest etiketinden geliyor, 6 rota-genişlikte 0 konsol hatası ve 0 4xx. Karışık durum da doğru: dört fotoğraf basıldı, kalan on iki plaka yer tutucu kaldı. **Açık karar:** fotoğraf gelince köşe işaretleri ve vinyet düşüyor (`IYILESTIRMELER.md`) |
-| 7.12 | Logo | şiş kilidi çizildi ve üst barda (`MarkaKilidi`, `SisIsareti`, `lib/sis.ts`), sahibinin onayı bekleniyor; `app/icon.svg`, apple-icon, sosyal kart ve alt bilgi kilidi hâlâ eski dört taneli yer tutucu |
+| 7.12 | Logo | şiş kilidi onaylandı (18 Ağustos 2026, F1) ve her yerde aynı geometriden: üst bar ve 404 tam kilit, alt bilgi sadece kelime, `app/icon.svg` iki tane, `app/apple-icon.png` üç tane, `public/sosyal-kart.png` tam kilit |
 | 7.13 | Bina numarası `No:4` | doğrulanmış (sahibi 12 Ağu 2026) |
 | 7.14 | Yapısal veri ile görünen adres aynı | geçti |
 

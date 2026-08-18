@@ -233,6 +233,10 @@ türesin · (b) tek satır ad + şiş işareti · (c) eski yer tutucuya dön
 **Önerim: (a).** Kararın kendi kilidi; işaret markanın iddiasını (tane ölçüsü, 4+2)
 taşıyor ve bar 197px ile eskisinden dar.
 
+**Karar verildi 18 Ağustos 2026: (a).** `app/icon.svg` (16px basamağı, iki ciğer tanesi),
+`app/apple-icon.png` (40px basamağı, üç tane), `public/sosyal-kart.png` (tam kilit) ve
+alt bilgi (kararın "sadece kelime" varyantı, işaretsiz iki satır) aynı geometriden türetildi.
+
 ### F2. Kategori satırı "Ciğerci" hangi renk?
 
 Uygulanan krem .74. Cilt 2 taslağının renk tablosu kategori satırını tangerine sayıyor.

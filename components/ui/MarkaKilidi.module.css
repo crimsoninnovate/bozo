@@ -57,6 +57,16 @@
   letter-spacing: -0.03em;
 }
 
+/* Sadece kelime (alt bilgi, 01-Logo-Final-Karar "Kilit sistemi"): blok 11/24. */
+.kelime .kategori {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.kelime .isim {
+  font-size: 24px;
+}
+
 /* Mobil bar 58px: işaret 10px tane, blok 10/21. Eşik sitenin 960'ı. */
 @media (max-width: 960px) {
   .kilit {

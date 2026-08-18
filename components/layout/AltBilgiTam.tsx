@@ -1,7 +1,7 @@
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
-import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
+import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
 import { TelifSeridi } from './TelifSeridi'
 import stil from './AltBilgi.module.css'
@@ -24,9 +24,9 @@ export function AltBilgiTam({ dil }: Props) {
     <footer className={`${stil.zemin} ${stil.tam}`}>
       <div className={stil.kolonlar}>
         <div className={stil.kolon}>
+          {/* Kararın "sadece kelime" kilidi: alt bilgi işaret taşımaz (sahibi, 18 Ağustos 2026, F1). */}
           <div className={stil.markaUst}>
-            <TaneDizilimi buyuk={9} kucuk={5} bosluk={6} ton="krem75" />
-            <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
+            <MarkaKilidi dil={dil} sadeceKelime />
           </div>
           <p className={stil.tanim}>{s.ortak.footer.tanim}</p>
           {/* Marka gereği: İngilizce sayfalarda Bozo'nun bir insan adı olduğunu açıklar. */}

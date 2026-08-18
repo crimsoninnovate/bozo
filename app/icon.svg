@@ -1,16 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!--
-    Sekme ikonu: wordmark'ın zar rayından damıtılmış dört tane, dış çift krem,
-    iç çift tangerine. Altılı ray 16px'te lapa oluyordu. Renkler palet
-    listesinden: zemin #0A0807, krem #F2E9DC, tangerine #FAAA1F.
+    Sekme ikonu: şiş kilidinin indirgeme merdiveni, 16px basamağı (01-Logo-Final-Karar):
+    yağ tanesi düşer, iki ciğer tanesi kalır. Ölçüler lib/sis.ts ile aynı oranlar
+    (tane 1x, aralık .43x, köşe .15x). Zemin #0A0807, krem #F2E9DC.
   -->
   <rect width="32" height="32" fill="#0A0807"/>
   <g fill="#F2E9DC">
-    <rect x="4" y="13" width="6" height="6" rx="1"/>
-    <rect x="21" y="13" width="6" height="6" rx="1"/>
-  </g>
-  <g fill="#FAAA1F">
-    <rect x="12" y="14.5" width="3" height="3"/>
-    <rect x="17" y="14.5" width="3" height="3"/>
+    <rect x="3.85" y="11" width="10" height="10" rx="1.5"/>
+    <rect x="18.15" y="11" width="10" height="10" rx="1.5"/>
   </g>
 </svg>

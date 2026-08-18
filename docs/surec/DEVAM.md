@@ -19,11 +19,12 @@ defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürs
   canlı izler.
 - **Mobil eşik 960px**, yirmi üç media query artı `FotoYuvasi`'nın `sizes` ipucu.
   Aşağıda geçen 780 ve 800 değerleri tarihtir, bugünkü kod değil.
-- **Şiş kilidi üst barda** (18 Ağustos akşamı): `lib/sis.ts` + `SisIsareti` +
-  `MarkaKilidi`, üst bar ve 404. Sahibinin onayı bekleniyor (`KARAR-FORMU.md` F1);
-  onaylanınca `app/icon.svg`, apple-icon, sosyal kart ve alt bilgi kilidi aynı
-  geometriden türetilir. Aşağıdaki "onaylı logo yok / işaret sözle tarif" satırları
-  o günün kaydı.
+- **Şiş kilidi onaylandı ve her yerde** (18 Ağustos akşamı, F1): `lib/sis.ts` +
+  `SisIsareti` + `MarkaKilidi`; üst bar ve 404 tam kilit, alt bilgi "sadece kelime",
+  `app/icon.svg` / `app/apple-icon.png` / `public/sosyal-kart.png` aynı geometriden
+  (üretici: sohbetteki scratchpad `ikon/uret.mjs`, tekrar gerekirse `lib/sis.ts`
+  oranlarından yeniden yazılır). Aşağıdaki "onaylı logo yok / işaret sözle tarif"
+  satırları o günün kaydı.
 - **Fiyatlar geldi** (13 Ağustos): menü sayfası gerçek fiyat basıyor, `000 TL` yalnız
   fiyatı olmayan kalem için yer tutucu. Bekleyen veri: e-posta, koordinat, posta kodu,
   içecek fiyatları, 17 fotoğraf.

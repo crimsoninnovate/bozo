@@ -599,3 +599,14 @@ gözlemi çelişiyor); Gece ufuk korunun gücü; kor yoğunluğunun bölüm merk
 merkez arasında rampa mı olacağı; gün merdiveninin imleç ölçeği (.3, notun değeri; kurgu
 merceği yatağın .78'ini öneriyor); mobilde kor eğrisi (prototipin U eğrisi mi, masaüstü
 merdiveni mi).
+
+## 18 Ağustos 2026 gecesi: F1 verildi, kilit her yerde
+
+Sahibi şiş kilidini onayladı ve ikon ile alt bilginin aynı çizimden türemesini istedi.
+
+| Nerede | Değişiklik | Ölçüm |
+|---|---|---|
+| `app/icon.svg` | Merdivenin 16px basamağı: iki ciğer tanesi, krem, zemin `#0A0807`; oranlar `lib/sis.ts` (tane 1x, aralık .43x, köşe .15x) | Eski dört tane yanlış dizilimdeydi (ciğer-yağ-yağ-ciğer). 32 viewBox, 200 |
+| `app/apple-icon.png` | 40px basamağı: ciğer-yağ-ciğer, uç ve sap yok, 180x180 | Headless ekran görüntüsü, PNG 1.4K |
+| `public/sosyal-kart.png` | Tam kilit (işaret + iki satır kelime) kor parıltılı zeminde, 1200x630 | `lib/metadata.ts` aynı yolu bildiriyor, 200 |
+| `AltBilgiTam.tsx`, `MarkaKilidi` | Kararın "sadece kelime" varyantı (`sadeceKelime`, 11/24, işaretsiz); footer'ın 9/5/6 rayı ve 20px tek satır adı kalktı | 01-Logo-Final-Karar "Kilit sistemi: sadece kelime ... alt bilgi". Alt bilgi kilidi 55x35, ana sayfaya bağlantı |
