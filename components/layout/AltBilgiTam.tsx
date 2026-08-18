@@ -29,8 +29,6 @@ export function AltBilgiTam({ dil }: Props) {
             <MarkaKilidi dil={dil} sadeceKelime />
           </div>
           <p className={stil.tanim}>{s.ortak.footer.tanim}</p>
-          {/* Marka gereği: İngilizce sayfalarda Bozo'nun bir insan adı olduğunu açıklar. */}
-          <p className={stil.isimNotu}>{s.ortak.footer.isimNotu}</p>
         </div>
 
         <div className={stil.kolon}>

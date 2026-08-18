@@ -86,10 +86,6 @@ export const ortak = {
   telif: '© 2026 Ciğerci Bozo',
   footer: {
     tanim: 'Urfa usulü ciğer, meşe korunda.',
-    // Eskisi ("Bozo bir marka ismi değil, bir insandır.") ana sayfanın kendi bölüm
-    // başlığıyla birebir aynıydı; footer'da aynı iddiayı gerekçesiz tekrar ediyordu.
-    // Yenisi İngilizce satırın işini yapar: iddiayı değil kişiyi söyler.
-    isimNotu: "Bozo, Urfalı Engin Çağlar'a çocukluğundan beri verilen lakap.",
     adresBaslik: 'Adres',
     saatlerBaslik: 'Saatler',
     iletisimBaslik: 'İletişim',

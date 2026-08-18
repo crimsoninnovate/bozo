@@ -118,8 +118,9 @@ npm run preview    # serve the out/ export locally
   prepositions stay lowercase (`On the House`). Screen-reader-only labels are untouched.
 - **The owner's name, owner's decision 19 August 2026.** The site calls him `Bozo Çağlar`
   (`isletme.sahip`, the hero überlines, the signature under his quote). The registered name
-  `Engin Çağlar` appears in exactly two places, the sentences that explain the nickname:
-  the home and story intro, and the footer note. Do not "correct" one into the other.
+  `Engin Çağlar` appears in one sentence only, the one that explains the nickname (the home
+  and story intro). Do not "correct" one into the other, and do not repeat the explanation
+  in a second surface: the story page tells it in full (owner's decision, 19 August 2026).
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).

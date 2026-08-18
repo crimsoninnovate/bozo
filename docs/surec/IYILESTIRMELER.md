@@ -773,5 +773,5 @@ ona yıllardır Bozo denir" > lakap bölümü > kendi cümlesinin altında imza 
 | `isletme.sahip` | `Bozo Çağlar`; alanın yorumu nüfustaki adın nerede durduğunu yazıyor. JSON-LD bu alanı kullanmıyor, tek tüketici lakap bölümünün imzası |
 | Üstyazılar (ana Bozo bölümü, hikaye hero) | `Engin Çağlar, her gün ocağın başında` > `Bozo Çağlar, her gün ocağın başında` |
 | Ana ve hikaye girişi | "Urfalı Engin Çağlar'a yıllardır böyle seslenilir" > "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir." Cümle artık iki adı da taşıyor ve lakap bölümünü kuruyor |
-| Alt bilgi notu | "yıllardır taşıdığı lakap" > "çocukluğundan beri verilen lakap"; hikayenin kendi ifadesiyle aynı |
+| Alt bilgi notu | **Kaldırıldı** (sahibi, aynı gece: "footer sol altta buna vurgu yapmamız gerekmiyor, devrik duruyor; hikaye bölümünde iyi bir anlatım yeterli"). `footer.isimNotu` iki sözlükten, `AltBilgiTam`'dan ve `.isimNotu` kuralından düştü; marka kolonu kilit + tanım satırında kaldı. Aynı açıklamayı iki yüzeyde tekrar etmek hikayeyi özet gibi gösteriyordu |
 | `CLAUDE.md` | Kural yazıldı: hangi adın nerede geçtiği, "düzeltilmemesi" gerektiğiyle birlikte |

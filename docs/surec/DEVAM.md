@@ -124,6 +124,9 @@ yalnız `UstBar`'da taşımak 781-800 arasında nav'ı ve hamburger'i birden giz
 Hesap henüz açık değil, yayın listesine 5. madde olarak girdi. Bu değişiklikle alt
 bilgide pasif yer tutucu kalmadı.
 
+**Footer'ın `isimNotu` satırı 19 Ağustos 2026'da tümüyle kaldırıldı** (sahibinin kararı,
+hikaye bölümü anlatıyor). Aşağısı o günün kaydı.
+
 **Footer'ın `isimNotu` satırı yenilendi:** eskisi ana sayfanın kendi bölüm başlığını
 tekrar ediyordu, yenisi İngilizce satırın işini yapıyor (iddiayı değil kişiyi söyler).
 

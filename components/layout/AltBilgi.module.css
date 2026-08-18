@@ -38,11 +38,7 @@
   min-width: 0;
 }
 
-/*
- * Marka kolonunun iç ritmi daha sıkı: `tanim` ve `isimNotu` aynı cümlenin
- * devamı, 14px gap artı iki satırın yarım aralığı arada kopuk bir boşluk
- * bırakıyordu. Kolon en geniş olan, o yüzden payı da bir tık fazla.
- */
+/* Kolon en geniş olan, o yüzden payı da bir tık fazla. */
 .kolon:first-child {
   gap: 8px;
   flex-basis: 260px;
@@ -55,29 +51,13 @@
   margin-bottom: 2px;
 }
 
-/* Marka kolonunun iki paragrafı <p>: tarayıcı varsayılanı 1em alt ve üst
-   margin veriyordu ve flex kabında margin'ler birleşmediği için `tanim` ile
-   `isimNotu` arasında 36px kopuk boşluk kalıyordu (ölçüldü). */
-.tanim,
-.isimNotu {
-  margin: 0;
-}
-
 .tanim {
+  margin: 0;
   font-family: var(--font-govde);
   font-weight: 400;
   font-size: 14.5px;
   line-height: 1.65;
   color: var(--krem-66);
-}
-
-/* Tasarımda karşılığı yok, marka gereği: bkz. AltBilgi.tsx yorumu. */
-.isimNotu {
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--krem-58);
 }
 
 .baslik {
