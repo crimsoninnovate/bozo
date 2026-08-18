@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { hareketAzaltilmisMi } from '@/lib/hareket'
+import { useHareketAzaltilmisMi } from '@/lib/hareket'
 import { cerceveyeAboneOl } from '@/lib/cerceve'
 import stil from './Bolum.module.css'
 
@@ -28,12 +28,13 @@ type Props = {
  */
 export function Bolum({ id, yogunluk, className, eritClassName, children }: Props) {
   const eritRef = useRef<HTMLDivElement>(null)
+  const azalt = useHareketAzaltilmisMi()
 
   useEffect(() => {
     const eleman = eritRef.current
     if (!eleman) return
 
-    if (hareketAzaltilmisMi()) {
+    if (azalt) {
       // Erit; salt bir kararma değil, kaydırmaya bağlı bir kayma (translateY)
       // taşıyor, tam da prefers-reduced-motion'ın hedeflediği tür hareket.
       // KorSahnesi'nin aksine burada opaklık ile dönüşüm ayrılmaz, ikisi de
@@ -44,13 +45,15 @@ export function Bolum({ id, yogunluk, className, eritClassName, children }: Prop
       return
     }
 
-    // İlk yazım geçişsiz: SSR'da stil yok, ilk kare kaydırmaya göre değerini
-    // .5s'de "alıyordu", yani yeniden yükleme ve geri dönüşte metin 3-13px kayıp
-    // kararıyordu (ölçüldü). Stil okuması yazımı geçiş kurulmadan işletir;
-    // sonraki kareler CSS geçişiyle akar.
-    let ilk = true
+    // Varış penceresi (250ms) geçişsiz: SSR'da stil yok, ilk kare kaydırmaya
+    // göre değerini .5s'de "alıyordu", yani yeniden yükleme, hash ve geri
+    // dönüşte metin 3-13px kayıp kararıyordu (ölçüldü). Tek kare yetmiyor:
+    // Next geri dönüşte kaydırmayı mount'tan bir kare sonra geri yüklüyor.
+    // Stil okuması yazımı geçiş kurulmadan işletir; sonrası CSS geçişiyle akar.
+    const baslangic = performance.now()
     return cerceveyeAboneOl(({ ekran }) => {
-      if (ilk) eleman.style.transition = 'none'
+      const gecissiz = performance.now() - baslangic < 250
+      if (gecissiz) eleman.style.transition = 'none'
       const kutu = eleman.getBoundingClientRect()
       if (kutu.bottom <= 0 || kutu.top >= ekran) {
         eleman.style.opacity = '1'
@@ -61,13 +64,12 @@ export function Bolum({ id, yogunluk, className, eritClassName, children }: Prop
         eleman.style.opacity = String(0.86 + oran * 0.14)
         eleman.style.transform = `translate3d(0, ${(1 - oran) * 14}px, 0)`
       }
-      if (ilk) {
-        ilk = false
+      if (gecissiz) {
         void getComputedStyle(eleman).opacity
         eleman.style.transition = ''
       }
     })
-  }, [])
+  }, [azalt])
 
   return (
     <section id={id} data-yogunluk={yogunluk} className={className ? `${stil.bolum} ${className}` : stil.bolum}>
