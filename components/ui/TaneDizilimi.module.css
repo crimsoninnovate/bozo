@@ -69,9 +69,13 @@
   box-shadow: 0 0 12px rgba(250, 170, 31, 0.5);
 }
 
+/* Opaklık değil parlaklık: opaklıkla kısılınca ARKADAKİ krem çubuk tanenin
+   içinden okunuyordu (ölçüldü: gövde 159/108/22, çubuk şeridi 247/194/103,
+   döngünün yarısı boyunca). brightness aynı .62-1 aralığını kor lekesiyle
+   birlikte kısar, kare dolu kalır. */
 @keyframes taneKoru {
-  0%, 100% { opacity: 0.62; }
-  50% { opacity: 1; }
+  0%, 100% { filter: brightness(0.62); }
+  50% { filter: brightness(1); }
 }
 
 /* Mobil ölçüler yalnız `mobil` verilen raylarda devreye girer; verilmeyende
