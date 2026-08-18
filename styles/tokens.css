@@ -259,4 +259,6 @@
   --gecis-yerlesim: 0.2s ease-out;
   --gecis-orta: 0.3s ease-out;
   --gecis-erit: 0.5s ease-out;
+  /* Kor yoğunluk kararması (KorSahnesi); iki kullanım, azaltılmış hareket istisnası dahil. */
+  --gecis-yogunluk: 0.9s ease-out;
 }

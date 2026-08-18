@@ -42,13 +42,26 @@
 
 /* Geçiş ve will-change yalnız ana sayfada: yoğunluk takibi orada çalışıyor. */
 .ana .korYogunluk {
-  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+  transition: opacity var(--gecis-yogunluk), transform var(--gecis-yogunluk);
   will-change: opacity, transform;
 }
 
 .ana .cekirdekYogunluk {
-  transition: opacity 0.9s ease-out;
+  transition: opacity var(--gecis-yogunluk);
   will-change: opacity;
+}
+
+/*
+ * Azaltılmış harekette KISITLAR "kararma izler" der; global kural geçişi de
+ * silince izleme, altı bölüm sınırında tam ekran parıltının tek karede %25-45
+ * atlamasına dönüyordu (ölçüldü .86 > .608). Yalnız opaklık geri açılır,
+ * transform sabit kalır. Sitedeki tek geçiş istisnası; KISITLAR'da kayıtlı.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .ana .korYogunluk,
+  .ana .cekirdekYogunluk {
+    transition: opacity var(--gecis-yogunluk) !important;
+  }
 }
 
 .kor {
