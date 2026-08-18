@@ -77,7 +77,7 @@ python3 -m http.server 8392 --directory ~/Desktop/Bozo/design_handoff_bozo_websi
 | # | Madde | Sonuç | Kanıt |
 |---|---|---|---|
 | 1.1 | `npm run build` temiz | geçti | çıkış 0, TypeScript hatasız, 17 rota girdisi (`/icon.svg` dahil), 15 HTML |
-| 1.2 | `npm test` | geçti | 99 test, 0 hata (18 Ağustos 2026) |
+| 1.2 | `npm test` | geçti | 106 test, 0 hata (18 Ağustos 2026 akşamı; 7'si `lib/sis.test.ts`) |
 | 1.3 | `npm run typecheck` | geçti | `tsc --noEmit` çıktısı boş |
 | 1.4 | On iki rota + `robots.txt` + `sitemap.xml` | geçti | `find out -name index.html` 12 içerik rotası + `404/` + `_not-found/` verir |
 | 1.5 | `gecici-` dosyası yok | geçti | `grep -rl gecici- out` boş |
@@ -137,7 +137,7 @@ grep -o '<html[^>]*>' out/404.html
 | 4.2 | `hreflang` çiftleri karşılıklı | geçti | 12 rotanın hepsinde `tr` / `en` / `x-default`; `x-default` Türkçeye işaret eder |
 | 4.3 | Canonical mutlak | geçti | 12 rotada `https://cigercibozo.com...`; `404.html` canonical taşımaz, `noindex` |
 | 4.4 | `out/en/**` içinde Türkçe metin | geçti | yalnız korunan özel adlar: `(kuzu şiş)`, `(terbiyesiz tavuk şiş)`, `(ciğer)`, `(dalak)`, `(yürek)`, `(çay)` |
-| 4.5 | Sözlük anahtarlarının çağıranı | 3 ölü anahtar | `ortak.marka.kisa`, `ortak.cta.whatsapptanYaz`, `ortak.satirlar.saatlerUzun`. Değişmedi, `IYILESTIRMELER.md` satır 109'da kayıtlı |
+| 4.5 | Sözlük anahtarlarının çağıranı | 1 ölü anahtar | `ortak.satirlar.saatlerUzun`. 18 Ağustos 2026'da `whatsapptanYaz` konum satırına, `marka.kisa` şiş kilidine bağlandı; `IYILESTIRMELER.md`'de kayıtlı |
 | 4.6 | Galeri iki dilde de rota, sitemap ve gezinmede | geçti | `/galeri/` + `/en/galeri/`, sitemap çifti, üst bar (menü barı hariç, kayıtlı), alt bilgi kolonu, **mobil çekmece** (bu turda düzeltildi, bkz. 9.1) |
 | 4.7 | `aria-current` bulunulan rotada ve yalnız orada | geçti | 12 rotada ölçüldü: `page` yalnız navda karşılığı olan bulunulan rotada (galeri, hikaye, konum). `/` ve `/menu/`'de yok (nav o rotayı taşımıyor, kayıtlı kural), `/gizlilik/` navda yok. Ayrıca aktif dilde `aria-current="true"` |
 | 4.8 | Yapısal veri (JSON-LD) geçerli ve uydurmasız | geçti | `Restaurant`, ayrıştırılabilir, boş/null alan 0. Taşıdıkları: `name`, `url`, `servesCuisine`, `servesAlcohol: false`, `address` (`streetAddress`, `addressLocality`, `addressCountry: CY`), `openingHoursSpecification` (7 gün, 10:00-05:00). `telephone`, `geo`, `sameAs`, `priceRange` **hiç basılmıyor**, çünkü veri `null` (bkz. 7) |
@@ -220,7 +220,7 @@ sitedeki her gerçek etkileşimli hedef 44px'i karşılıyor.
 | `AltBilgi.gizlilikLink` | **kapandı**, 40 > 44px | `inline-block` + `min-width: 44px`; alt çizgi harflerin altında kaldığı için görünen satır değişmedi |
 | `BeadRay` boncukları | 28 örnek, 10-22px, **açık** | `aria-hidden`, `tabIndex={-1}`, dekoratif. Klavyeye ve ekran okuyucuya kapalı; kayıtlı |
 | `DilAnahtari` TR/EN | geçti, 45-46px | görünmez `::before` |
-| `UstBar.marka` | geçti, 45/44px | görünmez `::before` |
+| `MarkaKilidi` (üst bar ve 404) | geçti, 44px | görünmez `::before`; görünür kutu 40/31px, `elementFromPoint` ile doğrulandı |
 | **Çekmece kapatma düğmesi** | geçti, 44x44 gerçek isabet | Task 15'in düzelttiği ölü hedef; 12 rotada yeniden doğrulandı |
 | Çekmece açıkken arka plan hedefleri | geçti, 12 rotada 0 sızıntı | `aria-modal` sözü davranışta da tutuluyor |
 
@@ -344,7 +344,7 @@ işletmenin kendi bilgi dosyasına karşı sınandı. Bu turda değişen yok.
 | 7.10 | İçecek listesi | Ayran, Şalgam, Çay + "liste tamamlanacak" |
 | 7.11 | 16 fotoğraf | hiçbirinin `dosya` alanı yok, `<img>` sayısı 26 rota-genişlikte **0**, `out/_next/static/media` içinde tek görsel yok. **Galeri sayfası da boş plaka basıyor**, uydurulmuş görsel yok |
 | 7.15 | **Fotoğraf yolu, veri gelmeden sınandı** | geçti. Dört kadraja geçici bir görsel bağlanıp derlendi ve ölçüldü, sonra geri alındı. `images.unoptimized: true` sayesinde statik export derliyor; `<Image fill>` `.kap`'ın `position: relative`'i üzerinde oturuyor, `object-fit: cover`, taşma yok, `loading="lazy"`, `alt` manifest etiketinden geliyor, 6 rota-genişlikte 0 konsol hatası ve 0 4xx. Karışık durum da doğru: dört fotoğraf basıldı, kalan on iki plaka yer tutucu kaldı. **Açık karar:** fotoğraf gelince köşe işaretleri ve vinyet düşüyor (`IYILESTIRMELER.md`) |
-| 7.12 | Logo | çizilmiş logo yok, `TaneDizilimi` geometrik işaret |
+| 7.12 | Logo | şiş kilidi çizildi ve üst barda (`MarkaKilidi`, `SisIsareti`, `lib/sis.ts`), sahibinin onayı bekleniyor; `app/icon.svg`, apple-icon, sosyal kart ve alt bilgi kilidi hâlâ eski dört taneli yer tutucu |
 | 7.13 | Bina numarası `No:4` | doğrulanmış (sahibi 12 Ağu 2026) |
 | 7.14 | Yapısal veri ile görünen adres aynı | geçti |
 

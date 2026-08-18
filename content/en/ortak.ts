@@ -5,7 +5,8 @@
  * never a machine translation of the Turkish.
  */
 export const ortak = {
-  marka: { ad: 'Ciğerci Bozo', kisa: 'Bozo' },
+  /** Two-line lock: category line above, name below (01-Logo-Final-Karar.md). */
+  marka: { ad: 'Ciğerci Bozo', kategori: 'Ciğerci', kisa: 'Bozo' },
   nav: {
     anaSayfa: 'Home',
     menu: 'Menu',

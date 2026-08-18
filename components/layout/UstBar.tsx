@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
-import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
+import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { sozluk, type Dil } from '@/content'
 import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
 import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
@@ -84,10 +84,7 @@ export function UstBar({ dil, aktif }: Props) {
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
         {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
         <div className={stil.satir}>
-          <Link href={yol('ana', dil)} className={stil.marka}>
-            <TaneDizilimi buyuk={8} kucuk={5} bosluk={4} />
-            <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
-          </Link>
+          <MarkaKilidi dil={dil} />
 
           <div className={stil.sagGrup}>
             <nav className={stil.navLinks} aria-label={s.ortak.erisim.anaGezinme}>

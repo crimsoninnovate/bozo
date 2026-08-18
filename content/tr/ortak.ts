@@ -4,7 +4,8 @@
  * hazır bloklardan birebir alınır. Yeni pazarlama metni yazılmaz.
  */
 export const ortak = {
-  marka: { ad: 'Ciğerci Bozo', kisa: 'Bozo' },
+  /** Kilit iki satır: üstte kategori satırı, altta isim (01-Logo-Final-Karar.md). */
+  marka: { ad: 'Ciğerci Bozo', kategori: 'Ciğerci', kisa: 'Bozo' },
   nav: {
     anaSayfa: 'Ana Sayfa',
     menu: 'Menü',

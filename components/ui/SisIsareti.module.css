@@ -1,0 +1,20 @@
+/* Ölçü çağırandan `--sis-boy` ile gelir (büyük tane kenarı); en, viewBox oranından.
+   overflow: halkanın dış kenarı viewBox sınırında, kırpılmasın. */
+.isaret {
+  display: block;
+  flex: none;
+  height: var(--sis-boy);
+  width: auto;
+  overflow: visible;
+  fill: currentColor;
+}
+
+.halka {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Yağ tanesi tangerine: Cilt 2 taslağı tangerine'i "yağ tanesi" için adlandırır. */
+.yag {
+  fill: var(--tangerine);
+}

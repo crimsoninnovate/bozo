@@ -501,3 +501,33 @@ alt cümle taşıdığı için opsiyonel dal çağıransız kalırdı.
 72 / 78 / 78px, TR ve EN birebir aynı. Ölçüm sırasında bir yanlış alarm çıktı ve
 düzeltildi: sayfa 900px kaydırılmışken telefon satırı 16px okunuyordu, satır tek tek
 ortalanınca 72px çıktı; örten bir katman yok, sayı kaydırma konumunun artefaktıydı.
+
+## 18 Ağustos 2026: şiş kilidi üst bara geldi
+
+Sahibi üst bardaki logonun daha stilize ve şık olmasını istedi. Üst bar bugüne kadar
+yer tutucu taşıyordu: zar rayı (8/5/4) artı tek satır "Ciğerci Bozo". Marka
+paketinde 10 Ağustos'ta karara bağlanmış ama çizilmemiş bir kilit vardı
+(`design_handoff_bozo_website/marka/01-Logo-Final-Karar.md`, "Şiş kilidi"); bu tur
+onu çizdi ve üst bara koydu. Ölçüler kararın tablosundan birebir, dizilim sabit.
+
+| Nerede | Değişiklik | Ölçüm |
+|---|---|---|
+| `lib/sis.ts`, `lib/sis.test.ts` | Şiş geometrisi tek yerde: yağ 0.6x, boşluk 0.43x, çubuk 0.13x, uç 1.2x, halka 0.7x, dizilim ciğer-yağ-ciğer-ciğer-yağ-ciğer. Yedi test oranları ve dizilimi kilitler | Canlı DOM'da yeniden hesaplandı: viewBox 101.10 x 10, taneler 10/6/10/10/6/10, aralık her yerde 4.3, çubuk 1.30 = halka çizgisi, taneler ve halka 5.00 eksenine ortalı |
+| `components/ui/SisIsareti.tsx` | İşaret SVG, `currentColor` + yağ tanesi tangerine. Uç tabanı çubuğun iki katı (0.26x) ve 0.3x boğazla çubuğa iner: **çizim kararı**, kararda yok. Sebebi ölçüm: çubuk kalınlığından sivrilen iğne uç DPR 1'de görünmüyordu (ilk 4px'i 35 luminansın altında), bıçak uç okunuyor | 12px tanede çubuk 1.56px, köşeler 1.8 / 0.96px, 0-3px kuralının içinde. Üç motorda (Chromium, WebKit, Firefox) DPR 1 ve 2'de çubuk, uç ve halka görünür; küçük tane 7.2px'te kare kalıyor |
+| `components/ui/MarkaKilidi.tsx` | Yatay kilit: solda işaret 12px tane, sağda iki satır Bricolage: "Ciğerci" 600 11.5px iz .2em krem-74, "Bozo" 800 28px. Üst barın iki varyantı ve 404 aynı bileşeni basar; `.marka::before` dokunma alanı kilidin kendisine taşındı, iki çağırandan silindi | Kilit 197.3 x 39.7 (masaüstü), 159.5 x 30.9 (390), 147.4 x 30.9 (360 ve altı). Eski kilit 206 (ana) / 195 (iç). Dokunma alanı 44px, `elementFromPoint` ile doğrulandı. Erişilebilir ad `link "Ciğerci Bozo"`, üç motorda; iki satır arasındaki boşluk düğümü yük taşımıyor, flex öğeleri bloklaştığı için ad zaten boşluklu |
+| Aynı | İşaret kutu ortasına değil mürekkep ortasına: `translate: 0 -1.5px` (mobil -1px) | "Bozo" satır kutusu altında 3.7px alt boşluk taşıyor; ölçüldü, kutu ortası mürekkep ortasından 1.59px aşağıdaydı (mobil 1.10). Kararın "optik ortasına hizalanır" cümlesi mürekkep okundu |
+| Aynı | İşaret 12px, 14 değil | 14px tane 220px kilit veriyor ve 961px'te TR menü barını 1px taşırıyordu (`.satir` max-content 865/865). 12'de kilit 197px: 961'de pay TR ana 34 > 43, EN ana 0 > 9, TR menü 12 > 10, hikaye/konum/galeri 100-136 |
+| `content/{tr,en}/ortak.ts` | `marka.kategori: 'Ciğerci'` eklendi, `marka.kisa` ("Bozo") ilk okuyucusunu buldu | Parite testi geçiyor. Kategori satırı marka kitabının kendi terimi ("kategori satırındaki ğ ve ç") |
+| `UstBar.module.css`, `HataSayfasi.module.css` | `.markaAd` ve varyant başına wordmark ölçüleri (23/21/17px), 360px altında rayı düşüren kural silindi | Mobil eşik artık YİRMİ ÜÇ media query (`MarkaKilidi.module.css` yirmi üçüncüsü). 320px'te kilit 147px, sağ grup dolgu kenarında biter (302/302) |
+| Kontrast, "Ciğerci" krem-74 | Bulanık bar zemininde ölçüldü | 9.20:1 durağan, en kötü piksel 5.61:1 (menü, kaydırma 300, zemin 67/63/60); mobil en kötü 8.67:1 |
+
+Denenip alınmayanlar: tek satır 23px ad + işaret (işaret süs gibi kalıyor, kilit hissi
+zayıf); iğne uç (DPR 1'de kayboluyor); halka solda uç sağda (işaret yönünü kaybediyor);
+tek renk (baskı hali, barda renkli seçildi). Kategori satırının rengi ve kilidin kendisi
+sahibinin kararı, `KARAR-FORMU.md` F.
+
+**Yan bulgu, logodan bağımsız:** `/en/menu/` barı 961-1039px arasında kendi içeriğine
+sığmıyor ("From the Fire", "On the House", "Get Directions" iki satıra kırılıyor; iPad
+yatay 1024 bu bandın içinde). Eski kilitle -68.6, yenisiyle -70.7px; 13 Ağustos'taki
+eşik ölçümü yalnız TR sayfalarına bakmıştı. Kilidi küçülterek kapanmaz (70px), karar
+sahibinin (F3).

@@ -10,10 +10,15 @@ Son güncelleme: 18 Ağustos 2026, uçtan uca denetim turu sonrası
 **Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
 defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
 
-- Branch `feat/site-kurulumu`, 99 test geçiyor, typecheck ve build temiz, 17 rota
+- Branch `feat/site-kurulumu`, 106 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi, `out/` 3.2 MB. Ağaçta çalışan ajan yok.
-- **Mobil eşik 960px**, yirmi iki media query artı `FotoYuvasi`'nın `sizes` ipucu.
+- **Mobil eşik 960px**, yirmi üç media query artı `FotoYuvasi`'nın `sizes` ipucu.
   Aşağıda geçen 780 ve 800 değerleri tarihtir, bugünkü kod değil.
+- **Şiş kilidi üst barda** (18 Ağustos akşamı): `lib/sis.ts` + `SisIsareti` +
+  `MarkaKilidi`, üst bar ve 404. Sahibinin onayı bekleniyor (`KARAR-FORMU.md` F1);
+  onaylanınca `app/icon.svg`, apple-icon, sosyal kart ve alt bilgi kilidi aynı
+  geometriden türetilir. Aşağıdaki "onaylı logo yok / işaret sözle tarif" satırları
+  o günün kaydı.
 - **Fiyatlar geldi** (13 Ağustos): menü sayfası gerçek fiyat basıyor, `000 TL` yalnız
   fiyatı olmayan kalem için yer tutucu. Bekleyen veri: e-posta, koordinat, posta kodu,
   içecek fiyatları, 17 fotoğraf.
@@ -434,7 +439,7 @@ sağlamıyor. Kayıtlı, düzeltilmedi.
 ## Doğrulama komutları
 
     npm run typecheck
-    npm test              # 18 Ağustos 2026: 99 test
+    npm test              # 18 Ağustos 2026: 106 test
     npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı
 
 `docs/PARITE.md` yeniden koşulabilir kontrol listesidir; ölçüm kuralları

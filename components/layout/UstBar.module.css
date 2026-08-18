@@ -2,11 +2,12 @@
  * Ana Sayfa Alternatif.dc.html: yükseklik 80px, gap:30px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.9),rgba(10,8,7,0)), transition:background .3s ease-out.
  * ANA VARYANT BU DEĞERLERDEN AYRILDI (UYGULAMA-NOTLARI 2): 84px, düz .55 perde,
- * blur(14px), alt saç çizgisi; marka 23px, nav 16px. İç varyant tasarımda kaldı.
+ * blur(14px), alt saç çizgisi; nav 16px. İç varyant tasarımda kaldı. Marka iki
+ * varyantta da aynı şiş kilidi (MarkaKilidi, ölçüleri orada).
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
  * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
- * 960px altı ölçüler Mobil Prototip.dc.html'den (58px, marka 17px, backdrop-filter blur(10px)).
+ * 960px altı ölçüler Mobil Prototip.dc.html'den (58px, backdrop-filter blur(10px)).
  *
  * EŞİK 780 DEĞİL 960, iki kez taşındı ve ikisi de ölçümle.
  *
@@ -24,7 +25,7 @@
  * marka adı hâlâ kırılıyordu. Bedeli kayda geçsin: 800-960 arası pencereler
  * telefon düzeni alır, sahibinin kararı (13 Ağustos 2026).
  *
- * Eşik sitenin YİRMİ İKİ media query'sinde birlikte taşınır; yalnız burada
+ * Eşik sitenin YİRMİ ÜÇ media query'sinde birlikte taşınır; yalnız burada
  * taşımak arada kalan bantta hem nav'ı hem hamburger'i gizler, yani gezinmeyi
  * tamamen düşürür. `KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik
  * değil, taşınmaz.
@@ -71,53 +72,7 @@
   height: 78px;
 }
 
-.marka {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  text-decoration: none;
-  color: var(--krem);
-}
-
-/*
- * Gerçek isabet alanı 390px'te 171x21, 1440px'te 195x26 idi; bardaki diğer altı
- * hedef 44-45px. 390px'te nav gizli olduğu için bu bağlantı ana sayfaya dönmenin
- * tek yolu. AltBilgi'de altı kez kullanılan görünmez ::before tekniği: kutunun
- * kendi boyu (ve barın yerleşimi) değişmez, yalnız dokunma alanı büyür.
- * Yatayda en yakın hedef 50px (390px'te dil anahtarı), dikeyde bar içinde tek
- * satır var; çakışma yok, ölçüldü.
- */
-.marka::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
-.markaAd {
-  font-family: var(--font-baslik);
-  font-weight: 800;
-  font-size: 21px;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--krem);
-}
-
-/*
- * Notun büyüttüğü iki ölçü YALNIZ ana varyantta. Sebebi ölçüm: `.link` ve
- * `.markaAd` varyanttan bağımsız yazılınca menü sayfasının barı 852px'ten
- * 882px'e çıkıyor ve 12 Ağustos'ta kapatılan kırpılma geri geliyordu. Eşik
- * 960'a taşındıktan sonra ikisi de sığar, ama ayrım korunuyor: iç sayfaların
- * barı kendi ölçülmüş tasarımında kalır, ana varyantınki notun değerlerinde.
- */
-.anaVaryant .markaAd {
-  font-size: 23px;
-}
-
+/* Notun büyüttüğü nav ölçüsü yalnız ana varyantta (UYGULAMA-NOTLARI 2). */
 .anaVaryant .link,
 .anaVaryant .aktifLink {
   font-size: 16px;
@@ -235,38 +190,9 @@
     border-bottom: 1px solid rgba(242, 233, 220, 0.09);
   }
 
-  /*
-   * Varyant seçicileriyle aynı özgüllük, `.sagGrup`taki hatanın aynısı: düz
-   * `.markaAd` (0,1,0) `.anaVaryant .markaAd`ın 23px'ini (0,2,0) yenemiyordu ve
-   * mobil ölçü yalnız iç sayfalarda uygulanıyordu. Ölçüldü: ana sayfada 23px,
-   * menüde 17px; 375px'te (iPhone SE, 12/13 mini, 6/7/8) marka adı ana sayfada
-   * iki satıra kırılıyordu. 17px mobil prototipin kendi değeri.
-   */
-  .anaVaryant .markaAd,
-  .icVaryant .markaAd {
-    font-size: 17px;
-    letter-spacing: -0.04em;
-    /* Marka adı bölünmez. 17px'te bile 320px'de esneme onu "Ciğerci / Bozo"
-       diye kırıyordu. Eşiğin üstünde ayrı bir kurala gerek yok: bar 960'tan
-       sonra kendi içeriğine sığıyor ve ad zaten tek satırda kalıyor. */
-    white-space: nowrap;
-  }
-
   .navLinks,
   .ctaSarici {
     display: none;
-  }
-
-  /*
-   * 360px altında markanın dekoratif tane dizisi düşer. Ölçüldü (320px): marka
-   * bölünmez olunca 171px yer kaplıyor ve hamburger 326'ya, yani görünümün 6px
-   * dışına taşıyordu. Kırpılmış bir kontrol, sarmış bir yazıdan kötüdür; dizi
-   * `aria-hidden`, marka adı yerinde kalıyor. Tasarımın bu genişlikte çizimi yok.
-   */
-  @media (max-width: 360px) {
-    .marka > :first-child {
-      display: none;
-    }
   }
 
   /* Varyant seçicileriyle aynı özgüllük: `.anaVaryant .sagGrup{gap:30px}` düz

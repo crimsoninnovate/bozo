@@ -217,3 +217,37 @@ için listede bırakılmıştı.
 Öneri şalgamın ölçüsü olarak eklemekti.
 
 **Karar:** "Shot Şalgam'ı yazma." Menüye girmiyor. Öneri reddedildi, madde kapandı.
+
+---
+
+## F. 18 Ağustos 2026 akşamı: logo
+
+### F1. Şiş kilidi üst barda kalsın mı?
+
+Yer tutucu (zar rayı + tek satır ad) yerine 10 Ağustos'ta karara bağlanan kilit
+çizildi ve koda alındı: solda şiş işareti, sağda iki satır "Ciğerci" / "Bozo". Ölçümler
+`IYILESTIRMELER.md` > "şiş kilidi üst bara geldi", çalışma sayfası sohbette.
+
+**Seçenekler:** (a) kalsın, ikon / apple-icon / sosyal kart / alt bilgi de aynı çizimden
+türesin · (b) tek satır ad + şiş işareti · (c) eski yer tutucuya dön
+**Önerim: (a).** Kararın kendi kilidi; işaret markanın iddiasını (tane ölçüsü, 4+2)
+taşıyor ve bar 197px ile eskisinden dar.
+
+### F2. Kategori satırı "Ciğerci" hangi renk?
+
+Uygulanan krem .74. Cilt 2 taslağının renk tablosu kategori satırını tangerine sayıyor.
+
+**Seçenekler:** (a) krem .74 · (b) tangerine
+**Önerim: (a).** Barda üçüncü bir vurgu olmuyor; iç sayfada tangerine aktif sekmeyle
+yarışıyor. Fark tek satır CSS.
+
+### F3. İngilizce menü barı 961-1039px arasında sarıyor
+
+Logodan bağımsız, canlıda bugün de var: EN menü barının içeriği 961px'te 1032px
+istiyor. Nav etiketleri ve CTA iki satıra kırılıyor; iPad yatay (1024) bandın içinde.
+
+**Seçenekler:** (a) mobil eşiği 1040'a taşı (yirmi üç media query birlikte; 961-1039
+arası telefon düzeni alır) · (b) yalnız EN menü varyantında nav gap'ini daralt (20px
+kazandırır, 50px eksik kalır, yetmez) · (c) EN nav etiketleri kısalsın (sözlük kararı)
+**Önerim: (a).** Ölçülebilir tek tam çözüm; TR'de aynı band zaten 12px payla sığıyor.
+

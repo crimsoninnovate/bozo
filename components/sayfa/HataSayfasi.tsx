@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { KorSahnesi } from '@/components/ember/KorSahnesi'
 import { Buton } from '@/components/ui/Buton'
 import { EtiketSatiri } from '@/components/ui/EtiketSatiri'
-import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
+import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { sozluk, type Dil } from '@/content'
 import { yol, yoldanDil } from '@/lib/site'
 import stil from './HataSayfasi.module.css'
@@ -49,10 +48,7 @@ export function HataSayfasi() {
       <KorSahnesi varyant="ic" />
       <main className={stil.bolum}>
         <div className={stil.blok}>
-          <Link href={yol('ana', dil)} className={stil.marka}>
-            <TaneDizilimi buyuk={8} kucuk={5} bosluk={4} />
-            <span className={stil.markaAd}>{s.ortak.marka.ad}</span>
-          </Link>
+          <MarkaKilidi dil={dil} />
           <EtiketSatiri className={stil.kicker}>{s.hata.kicker}</EtiketSatiri>
           <h1 className={stil.baslik}>{s.hata.baslik}</h1>
           <p className={stil.metin}>{s.hata.metin}</p>
