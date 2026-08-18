@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { cerceveyeAboneOl } from '@/lib/cerceve'
-import { hareketAzaltilmisMi } from '@/lib/hareket'
+import { useHareketAzaltilmisMi } from '@/lib/hareket'
 import stil from './BeadRay.module.css'
 
 type Bolum = { id: string; buyuk: boolean }
@@ -23,9 +23,7 @@ type Props = { bolumler: Bolum[] }
  */
 export function BeadRay({ bolumler }: Props) {
   const [aktifId, setAktifId] = useState<string | null>(null)
-  // Bir kez okunur: canlı bir medya sorgusu dinleyicisi değil, yalnız ilk
-  // render'daki tercihi yakalar. KorSahnesi bunu her abone çağrısında okur.
-  const [azaltilmisMi] = useState(() => hareketAzaltilmisMi())
+  const azaltilmisMi = useHareketAzaltilmisMi()
 
   useEffect(() => cerceveyeAboneOl((durum) => setAktifId(durum.aktifId)), [])
 

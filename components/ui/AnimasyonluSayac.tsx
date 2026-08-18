@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { hareketAzaltilmisMi } from '@/lib/hareket'
+import { useHareketAzaltilmisMi } from '@/lib/hareket'
 
 type Props = {
   hedef: number
@@ -28,10 +28,16 @@ const ESIK = 0.5
 export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
   const [deger, setDeger] = useState(hedef)
   const ref = useRef<HTMLSpanElement>(null)
+  const azalt = useHareketAzaltilmisMi()
 
   useEffect(() => {
     const eleman = ref.current
-    if (!eleman || hareketAzaltilmisMi()) return
+    if (!eleman) return
+    if (azalt) {
+      // Sayım ortasında açıldıysa ara değerde kalmasın.
+      setDeger(hedef)
+      return
+    }
 
     let kare = 0
     let zamanlayici = 0
@@ -81,7 +87,7 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
       if (zamanlayici) clearTimeout(zamanlayici)
       document.removeEventListener('visibilitychange', bitir)
     }
-  }, [hedef, sure])
+  }, [hedef, sure, azalt])
 
   return <span ref={ref}>{deger}</span>
 }

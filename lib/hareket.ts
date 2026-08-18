@@ -1,7 +1,26 @@
+import { useSyncExternalStore } from 'react'
+
+const SORGU = '(prefers-reduced-motion: reduce)'
+
 /** İşletim sisteminin hareket azaltma tercihini okur. SSR'da false döner. */
 export function hareketAzaltilmisMi(): boolean {
   if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return window.matchMedia(SORGU).matches
+}
+
+function tercihiIzle(bildir: () => void): () => void {
+  const sorgu = window.matchMedia(SORGU)
+  sorgu.addEventListener('change', bildir)
+  return () => sorgu.removeEventListener('change', bildir)
+}
+
+/**
+ * Aynı tercih, canlı: oturum içinde değişince bileşen yeniden render olur ve
+ * efektleri yeniden kurulur. Tek seferlik okuma bunu kaçırıyordu (ölçüldü: CSS
+ * duruyor, tuval, imleç ışığı ve erit oynamaya devam ediyordu).
+ */
+export function useHareketAzaltilmisMi(): boolean {
+  return useSyncExternalStore(tercihiIzle, hareketAzaltilmisMi, () => false)
 }
 
 /**
