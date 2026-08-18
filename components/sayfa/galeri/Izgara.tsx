@@ -8,8 +8,8 @@ type Props = { dil: Dil }
 /**
  * Manifestteki kadrajların tamamı, manifest sırasıyla. Elle yazılmış ikinci bir
  * liste yok: bu sayfa `content/fotograflar.ts`'in kendisidir, onun bir seçkisi
- * değil. Menünün `CekimListesi` bölümü aynı manifestten yedi kare seçiyor;
- * seçkinin sahibi orası, bütünün sahibi burası.
+ * değil. (Menünün `CekimListesi` bölümü aynı manifestten yedi kare seçiyordu;
+ * 13 Ağustos 2026'da kaldırıldı, manifestin tek yüzeyi burası kaldı.)
  *
  * `kart` biçimi: ızgaranın karosu (`karo`, 110px) bir kontrol listesi ölçüsü,
  * fotoğrafın okunacağı ölçü değil. `kart` (clamp(240px,30vh,300px)) sitenin

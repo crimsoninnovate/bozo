@@ -62,7 +62,7 @@
 
 /*
  * Şerit görünürken payı 125px'e çıkaran kural kaldırıldı: gece şeridi artık
- * yalnız hikaye ve gizlilikte basılıyor (`geceSeridiGosterilirMi`) ve o iki
+ * yalnız hikaye, gizlilik ve galeride basılıyor (`geceSeridiGosterilirMi`) ve o
  * rotanın `<main>`'inde tek bir çapa hedefi yok. Şeridi taşıyan sayfada çapa,
  * çapası olan sayfada şerit kalmadı; kural hiçbir kutuya değmiyordu.
  */

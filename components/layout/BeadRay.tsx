@@ -23,8 +23,8 @@ type Props = { bolumler: Bolum[] }
  */
 export function BeadRay({ bolumler }: Props) {
   const [aktifId, setAktifId] = useState<string | null>(null)
-  // Bir kez okunur (bkz. KorSahnesi ile aynı desen): canlı bir medya sorgusu
-  // dinleyicisi değil, yalnız ilk render'daki tercihi yakalar.
+  // Bir kez okunur: canlı bir medya sorgusu dinleyicisi değil, yalnız ilk
+  // render'daki tercihi yakalar. KorSahnesi bunu her abone çağrısında okur.
   const [azaltilmisMi] = useState(() => hareketAzaltilmisMi())
 
   useEffect(() => cerceveyeAboneOl((durum) => setAktifId(durum.aktifId)), [])

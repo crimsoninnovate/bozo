@@ -16,11 +16,11 @@ type Props = {
 }
 
 /**
- * On rotanın ortak kabuğu: kor sahnesi, üst bar, sayfa gövdesi, alt bilgi ve
+ * On iki rotanın ortak kabuğu: kor sahnesi, üst bar, sayfa gövdesi, alt bilgi ve
  * mobil eylem barı. Her `app/**\/page.tsx` bunu bir kez sarmalar.
  *
- * `UstBar` (nav listesi, CTA hedefi, bar ölçüsü), `AltBilgi` (üç footer
- * varyantı) ve `KorSahnesi` (yoğunluk takibi) rotaya göre değişir; App Router
+ * `UstBar` (nav listesi, CTA hedefi, bar ölçüsü) ve `KorSahnesi` (yoğunluk
+ * takibi) rotaya göre değişir, alt bilgi değişmez (tek varyant kaldı); App Router
  * layout'ları sayfanın kendi prop'larını almaz, bu yüzden bu bilgi kök
  * `layout.tsx` dosyalarında değil, burada, her sayfanın zaten bildiği `aktif`
  * değerinden geçirilir. Hangi rotanın hangi varyantı aldığı `lib/kabuk.ts`

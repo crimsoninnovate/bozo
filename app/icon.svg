@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!--
-    Sekme ikonu: markanın kendi işareti, wordmark'ın önündeki altılı zar rayı
-    (büyük, küçük, büyük, büyük, küçük, büyük). Renkler palet listesinden:
-    zemin #0A0807, krem #F2E9DC, tangerine #FAAA1F.
+    Sekme ikonu: wordmark'ın zar rayından damıtılmış dört tane, dış çift krem,
+    iç çift tangerine. Altılı ray 16px'te lapa oluyordu. Renkler palet
+    listesinden: zemin #0A0807, krem #F2E9DC, tangerine #FAAA1F.
   -->
   <rect width="32" height="32" fill="#0A0807"/>
   <g fill="#F2E9DC">

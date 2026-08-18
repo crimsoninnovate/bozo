@@ -14,8 +14,8 @@ type Props = { dil: Dil }
  * yalnız kenarlık ve alt notun tipografisi.
  *
  * Erişilebilirlik: dekoratif olan yalnız ızgara, iki dikey ve bir yatay yol,
- * halka ve pin noktası. Cadde etiketi, pin etiketi, üç POI çipi ve alt not
- * okunması gereken metinlerdir, bu yüzden levhanın tamamı `role="img"` ya da
+ * halka ve pin noktası. Cadde etiketi ve pin etiketi okunması gereken
+ * metinlerdir, bu yüzden levhanın tamamı `role="img"` ya da
  * `aria-hidden` yapılmadı.
  */
 export function Harita({ dil }: Props) {

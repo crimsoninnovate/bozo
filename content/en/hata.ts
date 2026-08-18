@@ -1,6 +1,7 @@
 /**
- * 404 copy. The static export produces a single 404.html and cannot branch by
- * language, so the Turkish dictionary is what renders; this module keeps parity.
+ * 404 copy. The static export produces a single 404.html, so the SERVER cannot
+ * branch by language and the first paint is Turkish; `HataSayfasi` switches the
+ * text, `lang` and title to English once mounted under `/en/`.
  */
 export const hata = {
   kicker: '404',
