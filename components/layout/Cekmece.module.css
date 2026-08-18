@@ -19,10 +19,12 @@
   padding: 70px 24px 24px;
 }
 
+/* Prototipin 26x26 kutusu right:22/top:26 idi; kutu 44'e büyüyünce X, onu açan
+   hamburger'in 17.5px altına düşüyordu. 7/18 ile merkezler 1.5px içinde (ölçüldü). */
 .kapat {
   position: absolute;
-  right: 22px;
-  top: 26px;
+  right: 18px;
+  top: 7px;
   width: 44px;
   height: 44px;
   display: flex;
