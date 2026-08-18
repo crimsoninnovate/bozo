@@ -27,6 +27,15 @@
   );
   filter: blur(40px);
   pointer-events: none;
+  /* Yatağın nefesiyle aynı aralık ve periyot: bölüm sayfada ateşin durduğu tek
+     ekrandı (ölçüldü, 8 saniyede sıfır piksel değişimi). Global kural azaltılmış
+     harekette dinlendirir. */
+  animation: ufukNefesi 8s ease-in-out infinite;
+}
+
+@keyframes ufukNefesi {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
 }
 
 /*
