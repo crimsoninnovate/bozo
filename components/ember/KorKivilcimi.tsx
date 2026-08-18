@@ -26,12 +26,16 @@ function adet(en: number, boy: number): number {
 }
 
 function yeniKivilcim(en: number, boy: number, ilk: boolean): Kivilcim {
-  const omur = 4 + Math.random() * 6
+  const omur = 5 + Math.random() * 7
+  // Yol ekran boyuna bağlı, hıza değil: 14-40 px/s x 4-10 s en fazla 400px
+  // ediyordu ve tohum nesli ölünce hiçbir kıvılcım ekranın üst %60'ına
+  // çıkmıyordu (ölçüldü 390 ve 1440, t=8s'den sonra üst üç bantta 0 tane).
+  const mesafe = boy * (0.5 + Math.random() * 0.55)
   return {
     // Kıvılcımlar ocağın ortasından çıkar, kenarlara doğru seyrelir.
     x: en * (0.5 + (Math.random() - 0.5) * (0.55 + Math.random() * 0.6)),
     y: ilk ? boy * Math.random() : boy + 10 + Math.random() * 40,
-    hiz: 14 + Math.random() * 26,
+    hiz: mesafe / omur,
     savrulma: 6 + Math.random() * 16,
     faz: Math.random() * Math.PI * 2,
     kenar: Math.random() < 0.55 ? 1 : Math.random() < 0.85 ? 2 : 3,
