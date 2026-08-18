@@ -14,18 +14,21 @@ type Props = {
   boy: 'dev' | 'kucuk'
 }
 
+/**
+ * `durum === null` (sunucu ve ilk istemci render'ı) üçüncü bir durumdur, kapalı
+ * değil: gri nokta ve saat satırı. Kapalı basmak günün 19 saatinde yanlıştı ve
+ * yavaş hatta saniyelerce görünüyordu (ölçüldü: Fast 3G 2.4s, Slow 3G 9.6s).
+ */
 export function DurumCipi({ dil, boy }: Props) {
   const durum = useGirneSaati()
   const s = sozluk(dil)
-  // durum === null iken kapalı görünümü basar: SSR ile ilk istemci render'ı birebir eşleşir.
   const acik = durum?.acik ?? false
+  const metin = durum === null ? s.ortak.satirlar.saatlerGunluk : acik ? s.ortak.durum.acik : s.ortak.durum.kapali
 
   return (
     <div className={`${stil.kap} ${stil[boy]}`} aria-live="polite">
       <span aria-hidden="true" className={`${stil.nokta} ${acik ? stil.acikNokta : stil.kapaliNokta}`} />
-      <span className={acik ? stil.acikMetin : stil.kapaliMetin}>
-        {acik ? s.ortak.durum.acik : s.ortak.durum.kapali}
-      </span>
+      <span className={acik ? stil.acikMetin : stil.kapaliMetin}>{metin}</span>
     </div>
   )
 }

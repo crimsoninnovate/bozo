@@ -10,15 +10,14 @@ type Props = { dil: Dil }
  * Hero durum satırının üçüncü parçası: açıkken ocağın ne zamana kadar yandığını,
  * kapalıyken kapalı aralığı yazar. Ana Sayfa Alternatif.dc.html:96
  *
- * `DurumCipi` ile aynı desen: `durum === null` iken kapalı görünüm basılır, böylece
- * sunucu çıktısı ile ilk istemci render'ı birebir eşleşir (kisitlar.md, hydration).
- * `aria-live` bilinçli olarak yok: aynı satırdaki `DurumCipi` zaten kibar biçimde
- * duyuruyor, ikinci bir canlı bölge aynı durum değişimini iki kez okuturdu.
+ * `DurumCipi` ile aynı desen: `durum === null` iken boş, çip o sırada saat
+ * satırını taşıyor (kapalı basmak günün 19 saatinde yanlıştı). `aria-live`
+ * bilinçli olarak yok: aynı satırdaki `DurumCipi` zaten kibar biçimde duyuruyor.
  */
 export function DurumAltMetni({ dil }: Props) {
   const durum = useGirneSaati()
   const s = sozluk(dil)
-  const acik = durum?.acik ?? false
+  if (durum === null) return <span className={stil.metin} />
 
-  return <span className={stil.metin}>{acik ? s.ortak.durum.acikAlt : s.ortak.durum.kapaliAlt}</span>
+  return <span className={stil.metin}>{durum.acik ? s.ortak.durum.acikAlt : s.ortak.durum.kapaliAlt}</span>
 }

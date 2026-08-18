@@ -71,8 +71,10 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
 
   if (!acik) return null
 
-  // Hydration güvenliği: mount öncesi/sonrası ilk render kapalı görünümle eşleşir.
+  // İlk render `durum === null`: DurumCipi ile aynı üçüncü durum, kapalı değil.
   const acikMi = durum?.acik ?? false
+  const durumMetni =
+    durum === null ? s.ortak.satirlar.saatlerGunluk : acikMi ? s.ortak.durum.acik : s.ortak.durum.kapali
   const linkler = cekmeceLinkleri()
 
   return (
@@ -110,9 +112,7 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
       <div className={stil.durumBlogu}>
         <div className={stil.durumSatiri}>
           <span aria-hidden="true" className={`${stil.nokta} ${acikMi ? stil.acikNokta : stil.kapaliNokta}`} />
-          <span className={acikMi ? stil.acikMetin : stil.kapaliMetin}>
-            {acikMi ? s.ortak.durum.acik : s.ortak.durum.kapali}
-          </span>
+          <span className={acikMi ? stil.acikMetin : stil.kapaliMetin}>{durumMetni}</span>
         </div>
         <div className={stil.notMetin}>
           {s.ortak.satirlar.saatlerGunluk} · {s.ortak.alkolsuzKisa}
