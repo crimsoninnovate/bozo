@@ -87,6 +87,17 @@ export function vardiyaYuzdesi(simdi: Date): number {
   return Math.min(100, Math.max(0, (gecen / PENCERE_SAATI) * 100))
 }
 
+/**
+ * "HH:MM" biçimindeki bir saat etiketinin penceredeki yüzdesi; çizelgenin tik
+ * etiketleri imleçle aynı ölçeğe otursun diye. 05:00 öncesi ertesi güne taşınır.
+ */
+export function saatYuzdesi(etiket: string): number {
+  const [saat, dakika] = etiket.split(':').map(Number)
+  const kesirli = (saat ?? 0) + (dakika ?? 0) / 60
+  const pencere = kesirli < ACILIS_SAATI ? kesirli + 24 : kesirli
+  return Math.min(100, Math.max(0, ((pencere - ACILIS_SAATI) / PENCERE_SAATI) * 100))
+}
+
 /** Bir sayının yanına gelen birim; tekil ve çoğul biçimi dilden gelir. */
 export type SureBirimi = { tekil: string; cogul: string }
 

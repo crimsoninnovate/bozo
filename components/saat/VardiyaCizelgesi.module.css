@@ -52,15 +52,28 @@
   box-shadow: 0 0 22px 6px rgba(183, 53, 28, 0.55);
 }
 
+/* Her etiket kendi yüzdesinde (JS `left`), imleçle aynı ölçek. İlk etiket rayın
+   başına yaslı, gerisi tikine ortalı; 04:00'dan sonraki %5.3'lük kuyruğu alttaki
+   "05:00 · ocak söner" notu adlandırır. */
 .saatler {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  height: 15px;
   margin: 16px 0 0;
   padding: 0;
   list-style: none;
   font: 400 15px/1 var(--font-govde);
   font-variant-numeric: tabular-nums;
   color: var(--krem-58);
+}
+
+.saatler li {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.saatler li:first-child {
+  transform: none;
 }
 
 .notlar {

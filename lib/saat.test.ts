@@ -9,6 +9,7 @@ import {
   kalanSuresi,
   kapanisaKalan,
   durumAyniMi,
+  saatYuzdesi,
 } from './saat.ts'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
@@ -177,5 +178,19 @@ test('durumAyniMi_kapanisAninda_farklidir', () => {
   const a = durumHesapla(girne('2026-08-12T04:59:30+03:00'))
   const b = durumHesapla(girne('2026-08-12T05:00:00+03:00'))
   assert.equal(durumAyniMi(a, b), false)
+})
+
+test('saatYuzdesi_cizelgeEtiketleri_pencereyeOturur', () => {
+  assert.equal(saatYuzdesi('10:00'), 0)
+  assert.ok(Math.abs(saatYuzdesi('13:00') - 300 / 19) < 1e-9)
+  assert.ok(Math.abs(saatYuzdesi('22:00') - 1200 / 19) < 1e-9)
+  assert.ok(Math.abs(saatYuzdesi('01:00') - 1500 / 19) < 1e-9)
+  assert.ok(Math.abs(saatYuzdesi('04:00') - 1800 / 19) < 1e-9)
+  assert.equal(saatYuzdesi('05:00'), 100)
+})
+
+test('saatYuzdesi_imlecleAyniOlcek', () => {
+  const imlec = vardiyaYuzdesi(girne('2026-08-11T22:00:00+03:00'))
+  assert.ok(Math.abs(saatYuzdesi('22:00') - imlec) < 1e-9)
 })
 
