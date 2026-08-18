@@ -11,14 +11,18 @@
   padding: 28px 0;
   border-bottom: 1px solid rgba(242, 233, 220, 0.07);
   transition:
-    transform 0.15s ease-out,
-    background 0.15s ease-out;
+    transform var(--gecis-hizli),
+    background var(--gecis-hizli);
 }
 
-/* Kayma ve zemin birlikte: ikisi tek geri bildirim. */
-.satir:hover {
-  transform: translateX(20px);
-  background: rgba(250, 170, 31, 0.05);
+/* Kayma ve zemin birlikte: ikisi tek geri bildirim. Yalnız imleçli aygıtta:
+   dokunmada :hover dokunuştan sonra da yapışıyordu (ölçüldü 390 ve 1024, satır
+   .05 zeminle ve 20px kaymış kalıyordu). */
+@media (hover: hover) {
+  .satir:hover {
+    transform: translateX(20px);
+    background: rgba(250, 170, 31, 0.05);
+  }
 }
 
 .sira {

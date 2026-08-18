@@ -69,8 +69,11 @@
   inset: -3px 0;
 }
 
-.hedef:hover {
-  color: var(--krem);
+/* Yalnız imleçli aygıtta; dokunmada hover dokunuştan sonra kalıyordu. */
+@media (hover: hover) {
+  .hedef:hover {
+    color: var(--krem);
+  }
 }
 
 .etiket {
@@ -110,12 +113,14 @@
     box-shadow var(--gecis-hizli);
 }
 
-.sofra:hover .daire {
-  transform: translateY(-2px);
-  box-shadow:
-    0 14px 32px rgba(183, 53, 28, 0.62),
-    0 0 0 6px rgba(10, 8, 7, 0.5),
-    inset 0 1px 0 rgba(250, 170, 31, 0.45);
+@media (hover: hover) {
+  .sofra:hover .daire {
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 32px rgba(183, 53, 28, 0.62),
+      0 0 0 6px rgba(10, 8, 7, 0.5),
+      inset 0 1px 0 rgba(250, 170, 31, 0.45);
+  }
 }
 
 .pasif {

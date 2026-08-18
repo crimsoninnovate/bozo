@@ -31,13 +31,18 @@
     opacity var(--gecis-hizli);
 }
 
-.taban:hover .ok {
-  opacity: 1;
-  transform: translateX(3px);
-}
+/* Hover kuralları yalnız imleçli aygıtta (hover: hover): dokunmada durum
+   dokunuştan sonra da yapışıyordu (ölçüldü 390, ikincil buton kenarlığı ve
+   zemini, orta düğmenin yükselmesi). Klavye odağı global halkada. */
+@media (hover: hover) {
+  .taban:hover .ok {
+    opacity: 1;
+    transform: translateX(3px);
+  }
 
-.taban:hover .okAsagi {
-  transform: translateY(3px);
+  .taban:hover .okAsagi {
+    transform: translateY(3px);
+  }
 }
 
 /* Dört ölçü, dolu türlerin dolgusu. sm 44px'e yetişmiyor (13+13+14.5 = 40.5),
@@ -59,29 +64,33 @@
    normalize edildi; ölçüm ve kalan sapmalar on-gecis-report.md bölüm 6'da. */
 .birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
 .birincil.sm { box-shadow: var(--kor-golge-kucuk); }
-.birincil:hover {
-  background: var(--kor-hover);
-  color: var(--krem);
-  transform: translateY(-1px);
-  box-shadow: var(--kor-golge-hover);
-}
-
 .ikincil { border: 1px solid var(--cizgi-buton); background: var(--panel-buton); color: var(--krem); }
-.ikincil:hover {
-  border-color: var(--tangerine-85);
-  background: var(--tangerine-10);
-  color: var(--krem);
-}
-
 /* pumpkin şerit üstünde: zemin kömür, metin krem.
    Tasarımda koyu buton hover'da zemin DEĞİŞTİRMEZ, yalnız yükselir ve gölge alır. */
 .koyu { background: var(--komur); color: var(--krem); }
-.koyu:hover {
-  color: var(--krem);
-  transform: translateY(-2px);
-  box-shadow: var(--komur-golge);
-}
 .koyuOutline { border: 1px solid var(--komur-55); color: var(--komur); }
-.koyuOutline:hover { background: var(--komur-10); color: var(--komur); }
+
+@media (hover: hover) {
+  .birincil:hover {
+    background: var(--kor-hover);
+    color: var(--krem);
+    transform: translateY(-1px);
+    box-shadow: var(--kor-golge-hover);
+  }
+
+  .ikincil:hover {
+    border-color: var(--tangerine-85);
+    background: var(--tangerine-10);
+    color: var(--krem);
+  }
+
+  .koyu:hover {
+    color: var(--krem);
+    transform: translateY(-2px);
+    box-shadow: var(--komur-golge);
+  }
+
+  .koyuOutline:hover { background: var(--komur-10); color: var(--komur); }
+}
 
 .pasif { opacity: 0.55; cursor: default; pointer-events: none; }
