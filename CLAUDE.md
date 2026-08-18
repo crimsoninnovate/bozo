@@ -163,9 +163,12 @@ names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined f
 
 - Touch targets at least 44px. Contrast target WCAG AA.
 - `prefers-reduced-motion: reduce` turns off every CSS animation and transition through the
-  global rule in `styles/animasyonlar.css`. It does NOT reach canvas loops or SMIL: those read the
-  preference themselves (see `components/ember/KorKivilcimi.tsx`). Any new non-CSS animation must
-  do the same, or the guarantee is silently broken.
+  global rule in `styles/animasyonlar.css`, with ONE recorded exception: the ember density
+  wrappers keep an opacity-only cross-fade (`KorSahnesi.module.css`), because without it the
+  full-viewport glow hard-cuts by up to 45% at every section boundary; measured 18 August 2026.
+  The rule does NOT reach canvas loops or SMIL: those read the preference themselves (see
+  `components/ember/KorKivilcimi.tsx`). Any new non-CSS animation must do the same, or the
+  guarantee is silently broken.
 - The design mockups use `<div>` for buttons and links; the port uses real `<a>` or `<button>`.
 - Decorative layers (ember scene, smoke, grill, tane pattern) get `aria-hidden="true"`.
 

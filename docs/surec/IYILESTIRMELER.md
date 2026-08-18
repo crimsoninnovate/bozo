@@ -531,3 +531,71 @@ sığmıyor ("From the Fire", "On the House", "Get Directions" iki satıra kır�
 yatay 1024 bu bandın içinde). Eski kilitle -68.6, yenisiyle -70.7px; 13 Ağustos'taki
 eşik ölçümü yalnız TR sayfalarına bakmıştı. Kilidi küçülterek kapanmaz (70px), karar
 sahibinin (F3).
+
+## 18 Ağustos 2026 akşamı: animasyon kurgusu ve akışı turu
+
+Sahibi ana sayfanın hareket kurgusunu ve akışını gözden geçirip iyileştirmeleri
+uygulamamızı istedi. Yedi mercek (kurgu, sahne, kaydırma, mikro etkileşim, zamanlama,
+erişim ve performans, mobil) `out/` derlemesini headless Playwright ile ölçtü; her
+merceğin bulguları ayrı bir çürütme turundan geçti (kırk dokuz bulgu, dördü reddedildi,
+sekizi sahibinin kararı). Reddedilenler listesindeki maddeler yeniden önerilmedi.
+Aşağıdakiler ölçülüp uygulananlar; hepsi ayrı commit, sayı ve yöntem commit gövdesinde.
+
+| Nerede | Değişiklik | Ölçüm |
+|---|---|---|
+| `Acilis.tsx`, `UstBar.tsx` | Hero kaydırma ipucu ve bardaki "Gece" çapası `CapaBaglantisi`'nden geçer | Dört sayfa içi çapadan ikisi tek karede zıplıyordu (1 scroll olayı), ikisi 600ms kayıyordu (28-30). 13 Ağustos turu yalnız `Buton` çapalarını bağlamıştı. Şimdi 19-70 olay, hash yazılıyor, azaltılmış harekette dördü de anında |
+| `TaneDizilimi.module.css` | Hero rayının küçük tanesi opaklıkla değil `filter: brightness` ile nefes alır | .62 opaklıkta arkadaki krem çubuk tanenin içinden şerit gibi okunuyordu (gövde 159/108/22, şerit 247/194/103; döngünün yarısı). Parlaklıkla kare dolu kalır, aralık ve faz aynı |
+| `MenuSatiri`, `Buton`, `MobilAksiyonBari`, `reset.css` ve altı modül daha | Bütün `:hover` kuralları `@media (hover: hover)` içinde; `-webkit-tap-highlight-color: transparent`; `Buton`, `IletisimSatiri` ve mobil bar `:active` basma durumu taşır | Dokunmada on dokuz hover kuralı dokunuştan sonra da yapışıyordu (satır .05 zemin, ikincil buton kenarlığı, orta düğme yükselmiş; 390 ve 1024 ölçüldü); basma geri bildirimi Chromium'un mavi parıltısıydı, palet dışı. Şimdi dokunuştan sonra hiçbir stil kalmıyor, basış hover renkleriyle anında, bırakış 0.15s |
+| `KorKivilcimi.tsx` | Kıvılcımın yolu ekran boyuna bağlı (yüksekliğin %50-105'i, 5-12s) | 14-40 px/s x 4-10s en fazla 400px ediyordu; tohum nesli ölünce üst üç bant boştu (390 ve 1440, t=8s'den sonra 0). Şimdi t=20s'de 390'da [2,17,29,19,36], 1440'ta [5,34,92,158,50]; tane sayısı aynı |
+| `Gece.tsx`, `Gece.module.css` | Ufuk koru bölümün kendi `::before`u, erit sarmalayıcısının çocuğu değil; yatağın 8s .62-1 nefesini alır | Erit'in kutusuna çözülünce bölümün dibinden 120px yukarıda bitiyor, erit'in kaydırma opaklığıyla kısılıyor ve dikiş kara kalıyordu (390 ve 1440). Bölümde 8 saniyede sıfır piksel değişiyordu; sayfada ateşin durduğu tek ekrandı |
+| `VardiyaCizelgesi` | "şimdi HH:MM" etiketi mobilde rayın içinde kalır: `container-type: inline-size` + `cqi` ile sürekli kelepçe | 41px yarı etiket 24px yan dolgudan geniş: %5 altı ve %95 üstü ekran dışına taşıyordu (10:05'te 16px, 05:30'da 17.5px kesik; günde ~7 saat). İlk eşikli çözüm 12:39'da 35px atlıyordu; kelepçe 12:39 > 12:40 arası 1px |
+| `AltBilgi.module.css`, `Cekmece.module.css` | Footer "Yol Tarifi Al" hover'da rengini korur; çekmecenin kapatma X'i `top:7px right:18px` | reset.css `a:hover` metni tek karede kreme çekiyordu, tire tangerine kalıyordu; tasarımda yalnız gap açılır. Kapatma kutusu onu açan hamburger'in 17.5px altına düşüyordu, şimdi merkezler 1.5px içinde |
+| `tokens.css`, `BeadRay`, `MenuSatiri`, `KorSahnesi` | Ham 0.3s / 0.15s / 0.9s tokena bağlandı (`--gecis-orta`, `--gecis-hizli`, yeni `--gecis-yogunluk`); `--gecis-yerlesim` yorumu düzeltildi | Yorum on bir kullanım ve silinmiş bir padding-left geçişi sayıyordu; gerçek bir kullanım. Hesaplanan değerler aynı. AltBilgi'nin 0.18s'i handoff'un kendi değeri (Ana:363), tokena alınmadı |
+| `KorSahnesi.module.css` | Azaltılmış harekette yoğunluk sarmalayıcılarının opaklık geçişi geri açık (`!important`, yalnız opacity) | KISITLAR "kararma izler" diyordu ama global kural geçişi de siliyordu: altı bölüm sınırında tam ekran parıltı tek karede %25-45 atlıyordu (.86 > .608). Şimdi kare başına en fazla 0.011. `CLAUDE.md` ve `KISITLAR.md` istisnayı kaydeder |
+| `KorSahnesi.tsx`, `Bolum.tsx`, `AnimasyonluSayac.tsx` | Kor sarmalayıcıları nötr değerlerini inline taşır; erit'in ilk yazımı geçişsiz akıtılır; sayacın gözlemcisi ilk bildirimi varış saymaz | Yatak 80ms 1.0'da yanıp 0.9s'de .86'ya iniyor, azaltılmış harekette ölçek tek karede zıplıyordu; erit yeniden yükleme, hash ve geri dönüşte 3-13px kayıp kararıyordu (26 kare); ekrandaki sayaç 8 > 0 > 8 sayıyordu (134ms görünür, yavaş hatta 3s). Şimdi ilk boyama = hidrasyon sonrası |
+| `DurumCipi`, `DurumAltMetni`, `Cekmece.tsx` | `durum === null` üçüncü durum: gri nokta + sözlüğün "Her gün 10:00 - 05:00" satırı; alt metin boş | Statik HTML ve ilk boyama günün 19 saatinde "Şu an kapalıyız" diyordu (Fast 3G 2.4s, Slow 3G 9.6s). Olgusal doğruluk sert kural. Yeni metin yok, satır her footer'da zaten var |
+| `KapanisNotu` | İkinci satır mount öncesi de yerinde (boş, `min-height`) | Satır mount'ta gelince gün merdiveni 31px aşağı düşüyordu |
+| `IlerlemeCubugu` | `width` yerine `transform: scaleX`, `transform-origin: left` | Sayfadaki tek yerleşim özelliği animasyonu, her kaydırma karesinde: 3.3s kaydırmada 184 > 30 layout. Gradyan kutuyla sıkışır, görüntü aynı |
+| `AnimasyonluSayac` | `rootMargin: 0 0 -15%` | Telefonda sayım ekranın alt %20'sinde, yüzen barın altında başlayıp bitiyordu |
+| `useGirneSaati`, `lib/saat.ts` | Tek modül düzeyi tıklayıcı, saniye başına hizalı, yalnız dakika ya da bayrak değişince yazar (`durumAyniMi`, üç test) | Dokuz bileşen dokuz interval kuruyor, saniyede dokuz render sıfır DOM değişimi üretiyordu |
+| `Cekmece.module.css` | `.link[aria-current='page']` tangerine | Çekmecede bulunulan sayfa diğer üçüyle aynı renkti; masaüstü barı tangerine + alt çizgi basıyor |
+| `VardiyaCizelgesi`, `lib/saat.ts` | Tik etiketleri kendi yüzdesinde (`saatYuzdesi`, iki test), ilk etiket raya yaslı; `space-between` gitti | Yedi etiket 18 saate yayılıyor, imleç 19 saatlik pencerede: "şimdi 22:00" tikinin 21-26px solundaydı. Şimdi imleç merkezi = etiket merkezi (698/698, mobil 240/240). UYGULAMA-NOTLARI 4'ten kayıtlı sapma |
+| `CanliSaat` | Rakam hücresi görünmez "00" sözde öğesiyle iki tabular rakam genişliğinde; ölü `hayalet` boyu silindi | "--" yarım genişlikti: hidrasyonda iki nokta ve dakika 69px (mobil 16px) sağa atlıyor, mobil alt metni itiyordu. Şimdi SSR ve hidrasyon sonrası kolon x'i aynı (1031 / 63) |
+| `Bolum.tsx` | Geçişsiz varış penceresi tek kare değil 250ms | Next geri/ileri dönüşte kaydırmayı mount'tan bir kare sonra geri yüklüyor; tek kare o durumu kaçırıyordu |
+| `KorKivilcimi.tsx` | Sabit `fillStyle` + `globalAlpha` | Kare başına 240 rgba dizesi döngü maliyetinin dörtte üçüydü: 0.21 > 0.06 ms/kare (1440, DPR2). Piksel aynı; maske ve DPR tavanı dokunulmadı (katlanması piksel-birebir değil, GPU yolunda kazanç yok) |
+| `lib/hareket.ts`, beş bileşen | `useHareketAzaltilmisMi()` (`useSyncExternalStore`, medya sorgusu `change`); `Bolum`, `KorKivilcimi`, `ImlecKoru`, `AnimasyonluSayac`, `BeadRay` efektleri tercihe bağlı | Tercih mount'ta bir kez okunuyordu: oturum içinde açılınca CSS duruyor, tuval (53 rAF/s), imleç ışığı ve erit oynamaya devam ediyordu. Ölçüldü, açıldıktan sonra: tuval silinmiş, ışık ve erit sabit, sayaç hedefte. Bedeli: hidrasyonda sunucu anlık görüntüsü `false`, döngü bir kare kurulup sökülüyor |
+
+### Ölçülüp bilinçli uygulanmayanlar
+
+- **Tek tıklayıcı (useGirneSaati) tutuldu, çürütücü "ölçülemez kazanç" dedi:** dokuz interval'in
+  maliyeti 0.7 ms/s'nin altında ve dokuz saat zaten aynı milisaniyede çevriliyordu. Yine de
+  kaldı: dakika değişmeden render üretmeyen `durumAyniMi` kapısı ve tek uyanış, elli satır
+  test edilmiş kod. Görünür kazanç iddia edilmiyor.
+- **Kıvılcım yoğunluk merdiveni (canvas `globalAlpha`)**: bulgunun başlığı düzeltilmiş ağaçta
+  tutmuyor (Konum'da 143 güçlü piksel, hero'da 233); ham yatak formülü hero kıvılcımlarını %14
+  kısardı. Sahibi isterse normalize edilmiş biçim (hero 1, konum .6) hazır.
+- **Kor sahnesinin mobil yatağı %92 > %104**: 2-3 luminans seviyesi, telefonda okunmuyor; masaüstü
+  H1 de aynı zeminde oturuyor, kompozisyon tasarımın kendisi.
+- **Çekmece açılış solması ve `backdrop-filter` silme**: prototip "animasyon yok" diyor; bulanıklık
+  ölçülemez (.96 zemin arkasını örtüyor) ama tasarım değeri, kare maliyeti ölçülemedi.
+- **IlerlemeCubugu'nu cerceve'ye bağlamak**: iki dinleyici de aynı olaydan `rafKisitla` ile
+  akıyor, aynı karede güncelleniyorlar; kazanç ölçülemez.
+
+### Reddedildi (bu tur)
+
+| Öneri | Neden |
+|---|---|
+| Boncuk rayına hover rengi | Tasarım rayı iki durumla çiziyor (aktif/pasif), imleç zaten `pointer`; iki çürütücü de "genel arayüz cilası, marka hikayesi değil" dedi |
+| Çekmeceye 160ms açılış solması | Mobil prototip açık yazıyor: açılış/kapanış animasyonu yok; anlık kaplama bir durum değişimi, takılma değil |
+| Footer gap geçişini 0.18'den 0.2'ye tokena almak | 0.18 handoff'un kendi değeri (Ana:363) |
+| Duman puflarını güçlendirmek ya da silmek | En parlak fazda +8/255 (mobil +4), .30'a çıkarınca +16/255 ve hâlâ duman gibi okunmuyor; Y3 tam güçte gri leke okuduğunu kaydetmişti. Handoff'un kendi değerleri, kare maliyeti ölçülemiyor: olduğu gibi kalıyor, bu satır bir sonraki turun opaklığı artırmasın diye burada |
+
+### Öneri, karar bekliyor (F maddeleri `KARAR-FORMU.md`'de)
+
+Mobil eylem barının 120-240px kapısı (gerekçesi aynı gün silinen hero butonlarıydı, ilk
+ekranda tek eylem yok); mobil bölüm dolguları (`--bolum-dikey` 120, prototip 34-48);
+Ocaktan satırının 20px kayması (UYGULAMA-NOTLARI 3 ile 12 Ağustos'taki sahibinin
+gözlemi çelişiyor); Gece ufuk korunun gücü; kor yoğunluğunun bölüm merkezinde basamak mı, iki
+merkez arasında rampa mı olacağı; gün merdiveninin imleç ölçeği (.3, notun değeri; kurgu
+merceği yatağın .78'ini öneriyor); mobilde kor eğrisi (prototipin U eğrisi mi, masaüstü
+merdiveni mi).

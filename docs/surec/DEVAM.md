@@ -10,8 +10,13 @@ Son güncelleme: 18 Ağustos 2026, uçtan uca denetim turu sonrası
 **Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
 defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
 
-- Branch `feat/site-kurulumu`, 106 test geçiyor, typecheck ve build temiz, 17 rota
-  girdisi, `out/` 3.2 MB. Ağaçta çalışan ajan yok.
+- Branch `feat/site-kurulumu`, 111 test geçiyor, typecheck ve build temiz, 17 rota
+  girdisi. Ağaçta çalışan ajan yok.
+- **Animasyon kurgusu turu kapandı** (18 Ağustos akşamı, `IYILESTIRMELER.md` > "animasyon
+  kurgusu ve akışı turu"): yedi mercek, çürütme turu, yirmi bir commit. Sahibine kalan
+  kararlar `KARAR-FORMU.md` F1-F10. Azaltılmış harekette tek geçiş istisnası var
+  (`KorSahnesi.module.css`, `CLAUDE.md`'de kayıtlı); `useHareketAzaltilmisMi` tercihi
+  canlı izler.
 - **Mobil eşik 960px**, yirmi üç media query artı `FotoYuvasi`'nın `sizes` ipucu.
   Aşağıda geçen 780 ve 800 değerleri tarihtir, bugünkü kod değil.
 - **Şiş kilidi üst barda** (18 Ağustos akşamı): `lib/sis.ts` + `SisIsareti` +
@@ -439,7 +444,7 @@ sağlamıyor. Kayıtlı, düzeltilmedi.
 ## Doğrulama komutları
 
     npm run typecheck
-    npm test              # 18 Ağustos 2026: 106 test
+    npm test              # 18 Ağustos 2026: 111 test
     npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı
 
 `docs/PARITE.md` yeniden koşulabilir kontrol listesidir; ölçüm kuralları

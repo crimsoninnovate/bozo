@@ -166,7 +166,11 @@ touch target, not by the type size.
 
 ## Motion and accessibility
 
-- `prefers-reduced-motion: reduce` disables every animation, transition and smooth scroll.
+- `prefers-reduced-motion: reduce` disables every animation, transition and smooth scroll,
+  with one recorded exception: the ember density wrappers keep an opacity-only cross-fade
+  (`KorSahnesi.module.css`), otherwise the "opacity tracking stays" rule below degrades into
+  a 25-45% single-frame cut of the whole background at each section boundary (measured
+  18 August 2026).
 - Reduced motion is not "no visual change". It targets movement that can cause vestibular
   discomfort: sliding, scaling, parallax, flying. A cross-fade is not that. So under reduced
   motion: opacity tracking stays, every scroll-driven `transform` is pinned, state indicators

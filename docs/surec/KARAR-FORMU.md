@@ -251,3 +251,81 @@ arası telefon düzeni alır) · (b) yalnız EN menü varyantında nav gap'ini d
 kazandırır, 50px eksik kalır, yetmez) · (c) EN nav etiketleri kısalsın (sözlük kararı)
 **Önerim: (a).** Ölçülebilir tek tam çözüm; TR'de aynı band zaten 12px payla sığıyor.
 
+### F4. Mobil eylem barı ilk ekranda görünsün mü?
+
+Bar 120-240px kaydırma arasında içeri giriyor. Gerekçesi 13 Ağustos'ta hero'nun kendi
+"Yol Tarifi Al" butonuydu; aynı gün o butonlar mobilde kaldırıldı. Ölçüldü (390, 360,
+430): kaydırma 0'da ekrandaki tek eylemler marka, EN ve hamburger; bar 857px'te,
+ekranın dışında. Mobil prototip barı hiç gizlemiyor. Azaltılmış harekette bar
+zaten sıfırdan görünüyor.
+
+**Seçenekler:** (a) `@supports` bloğunu sil, bar sıfırdan görünsün (prototip) · (b) kapı
+kalsın, gerekçesi "temiz ilk ekran" diye yeniden yazılsın
+**Önerim: (a).** İlk ekranda eylem olmaması, kaçındığı tekrarın kendisinden pahalı.
+Bedeli hero'nun dibinde 54px'lik pil; hero içeriği 476'da bitiyor, çakışma yok.
+
+### F5. Mobil bölüm dolguları
+
+`--bolum-dikey` 120px mobilde de geçerli; prototipin bölümleri 34-48px. Ölçüldü (390):
+bölümler arası boşluk 168 / 169 / 172 / 240 / 240 / 240px, sayfanın %21.8'i dolgu.
+56px ile (Ocaktan'ın kendi mobil değeri) sayfa %10 kısalıyor, boşluklar 104-112.
+
+**Seçenekler:** (a) 960 altında `--bolum-dikey: 56px` · (b) olduğu gibi kalsın
+**Önerim: (a).** Erit ve yoğunluk geçişleri boş zemin yerine içeriğin üstünde oynar.
+
+### F6. Ocaktan satırının 20px kayması
+
+Satır tıklanabilir değil ama hover'da 20px kayıp zemin alıyor. UYGULAMA-NOTLARI 3 bunu
+açıkça istiyor; 12 Ağustos sabahı sen 12px kaymayı "tıkla demenin daha yüksek sesli
+hali" diye kaldırtmıştın; ikisi çelişiyor. Dokunmadaki yapışma bu turda kapandı
+(hover kapısı), kalan yalnız masaüstü.
+
+**Seçenekler:** (a) kayma kalksın, .05 zemin kalsın (12 Ağustos'taki gözlemin) ·
+(b) not uygulandığı gibi kalsın
+**Önerim: (a).** Satırın gidecek yeri yok; kayma bir vaat.
+
+### F7. Gece ufuk korunun gücü
+
+Notun değeri `.3` alfa (uygulanan, artık 8s nefesli). Kurgu merceği Gece'nin sayfanın en
+karanlık ekranı olduğunu ölçtü: sabit sahnenin 1.25 tepesi opak zeminin arkasında.
+Yatağın `.78`/`.2` duraklarını ve %70 yüksekliği öneriyor.
+
+**Seçenekler:** (a) `.3` kalsın · (b) yatağın gücüne çıksın
+**Önerim: (a), ekran görüntüsünü gördükten sonra karar.** Not "gece hissi ışıktan gelir"
+diyor ama gücü de kendisi seçmiş; nefes tek başına bölümü canlandırıyor.
+
+### F8. Mobilde kor eğrisi
+
+Mobil prototipte `data-yogunluk` yok; kor sayfanın iki ucunda .90, ortasında .55 (U
+eğrisi). Portta masaüstü merdiveni mobilde de geçerli: hero .86'dan Konum .468'e iniyor,
+yani mobil sayfanın CTA ucu en sönük yer.
+
+**Seçenekler:** (a) merdiven kalsın, karar kayda geçsin · (b) 960 altında prototipin
+U eğrisi
+**Önerim: (a).** Tek model, iki ekran; U eğrisi Konum'u yeniden ısıtır ama Gece'nin
+tepe olma fikrini mobilde bozar.
+
+### F9. Kor yoğunluğu: basamak mı, rampa mı?
+
+Kor yatağı `data-yogunluk` değerini görünümün ortasına en yakın bölümden alıyor: altı
+bölüm sınırında tek karede -18 / -8 / +16 / 0 / -29 / -6% ısı adımı, sonra 0.9s'lik
+kuyruk; aralarda 700-850px düz. Tasarımın kendi `cerceve()`si de böyle. Kurgu merceği
+iki komşu merkez arasında ağırlıklı ortalama öneriyor: her bölüm merkezinde tablo değeri
+aynı, aralarda rampa.
+
+**Seçenekler:** (a) basamak kalsın (tasarımın modeli, bölüm okunurken durağan ruh hali) ·
+(b) rampa (`lib/cerceve.ts`'te on satır, boncuk rayı değişmez)
+**Önerim: (b), ama ekranda gördükten sonra.** Rampa ateşi "olay" olmaktan çıkarıp zemine
+alır; azaltılmış harekette de basamak hiç kalmaz.
+
+### F10. Gün merdiveninde imleç ile satırlar
+
+İmleç `top = anlık yüzde` ile hareket ediyor, üç satır eşit aralıklı; 21:00'de imleç
+kendi satırının 7.8px altında, 04:59'da 10.4px altında ve çizginin 4px dışında.
+Sapma satır boyunun altında (12px kare satırla hâlâ çakışıyor); tasarımın kendi merdiveni
+de aynı model.
+
+**Seçenekler:** (a) olduğu gibi kalsın · (b) satırlar gerçek yüzdelerine otursun (69/51px
+eşit olmayan aralık) · (c) satırlar dursun, imleç üç satır merkezine parça parça eşlensin
+**Önerim: (c).** Görünüm değişmez, imleç 21:00'de 21:00 satırının üstünde durur.
+
