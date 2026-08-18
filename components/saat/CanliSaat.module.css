@@ -6,6 +6,22 @@
   line-height: 1;
 }
 
+/* Rakam ve görünmez "00" ölçeği aynı ızgara hücresinde: kutu hep iki rakam
+   genişliğinde; ölçek sözde öğe, metne ve erişilebilirlik ağacına girmez. */
+.rakam {
+  display: inline-grid;
+}
+
+.rakam::before {
+  content: '00';
+  visibility: hidden;
+}
+
+.rakam::before,
+.rakam > span {
+  grid-area: 1 / 1;
+}
+
 /*
  * Hero'daki ayrık saat: krem rakamlar, ayrı ve yanıp sönen tangerine iki nokta.
  *
@@ -60,20 +76,6 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--tangerine);
-}
-
-/* gece bölümü arka planındaki dev hayalet saat; konumlandırma için üst öğe position:relative olmalı */
-.hayalet {
-  position: absolute;
-  z-index: -1;
-  top: -16%;
-  right: -2%;
-  font-size: clamp(120px, 22vw, 320px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: rgba(242, 233, 220, 0.055);
-  pointer-events: none;
-  user-select: none;
 }
 
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global

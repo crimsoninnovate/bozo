@@ -14,35 +14,42 @@ type Props = {
    *   iyilestirmeler.md, Fix round 1). Yer tutucu olarak "hero-tek-kullanim" diye
    *   etiketlenen konum.json girişine güvenmeyin, iki sayfada tekrarlandığı doğrulandı.
    * orta: gece bölümündeki düz tangerine saat, nokta yanıp sönmez.
-   * hayalet: gece bölümü arka planındaki dev, neredeyse görünmez saat.
    * Bkz. docs/tasarim/ana-sayfa.json > paylasilanBilesenler > CanliSaat.
    */
-  boy: 'dev' | 'kucuk' | 'orta' | 'hayalet'
+  boy: 'dev' | 'kucuk' | 'orta'
 }
 
 const YER_TUTUCU = '--'
 // Bu iki boy saat+kolon+dakika olarak ayrık span'lara bölünür ve kolon yanıp söner;
-// orta/hayalet düz metindir (bkz. Ana Sayfa Alternatif.dc.html data-saat-tam/-dev).
+// orta düz metindir (bkz. Ana Sayfa Alternatif.dc.html data-saat-tam/-dev).
 const AYRIK_BOYLAR = new Set(['dev', 'kucuk'])
+
+/* Rakam hücresi görünmez bir "00" (::before) ile iki tabular rakam genişliğinde durur:
+   "--" yarısı kadardı ve hidrasyonda kolonla dakika 69px (mobil 16px) sağa atlıyordu. */
+function Rakam({ deger }: { deger: string }) {
+  return (
+    <span className={stil.rakam}>
+      <span>{deger}</span>
+    </span>
+  )
+}
 
 export function CanliSaat({ boy }: Props) {
   const durum = useGirneSaati()
   const metin = durum ? saatMetni(durum) : null
   const dateTimeDeger = metin ? `${metin.saat}:${metin.dakika}` : undefined
-  // hayalet dekoratif bir arka plan öğesidir, mount durumundan bağımsız her zaman gizlenir.
-  const gizli = boy === 'hayalet' || metin === null
 
   return (
     <time
       className={`${stil.taban} ${stil[boy]}`}
       dateTime={dateTimeDeger}
-      aria-hidden={gizli || undefined}
+      aria-hidden={metin === null || undefined}
     >
       {AYRIK_BOYLAR.has(boy) ? (
         <>
-          <span>{metin ? metin.saat : YER_TUTUCU}</span>
+          <Rakam deger={metin ? metin.saat : YER_TUTUCU} />
           <span className={stil.kolon}>:</span>
-          <span>{metin ? metin.dakika : YER_TUTUCU}</span>
+          <Rakam deger={metin ? metin.dakika : YER_TUTUCU} />
         </>
       ) : metin ? (
         `${metin.saat}:${metin.dakika}`
