@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
+import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { restaurantJsonLd } from './jsonld.ts'
 
 type Adres = { '@type': string; streetAddress: string; addressLocality: string; addressCountry: string }
@@ -35,7 +36,13 @@ test('restaurantJsonLd_temelAlanlariDogruBasar', () => {
   assert.equal(veri['@type'], 'Restaurant')
   assert.equal(veri.name, 'Ciğerci Bozo')
   assert.equal(veri.url, 'https://cigercibozo.com')
-  assert.equal(veri.servesAlcohol, false)
+  assert.deepEqual(veri.amenityFeature, {
+    '@type': 'LocationFeatureSpecification',
+    name: 'Alcohol served',
+    value: false,
+  })
+  assert.equal('servesAlcohol' in veri, false, 'schema.org böyle bir alan tanımlamıyor')
+  assert.equal(veri.hasMenu, 'https://cigercibozo.com/menu/')
 })
 
 test('restaurantJsonLd_geceyiAsanCalismaSaatiniIkiyeBolmeden_yazar', () => {
@@ -44,8 +51,9 @@ test('restaurantJsonLd_geceyiAsanCalismaSaatiniIkiyeBolmeden_yazar', () => {
   assert.equal(saatler.length, 1)
   const saat = saatler[0]
   assert.ok(saat)
-  assert.equal(saat.opens, '10:00')
-  assert.equal(saat.closes, '05:00')
+  // Literal karşılaştırma kendini doğrular; iddia saatin tek kaynağına bağlı.
+  assert.equal(saat.opens, `${String(ACILIS_SAATI).padStart(2, '0')}:00`)
+  assert.equal(saat.closes, `${String(KAPANIS_SAATI).padStart(2, '0')}:00`)
   assert.equal(saat.dayOfWeek.length, 7)
 })
 

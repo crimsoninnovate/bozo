@@ -1,6 +1,12 @@
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
-import { SITE_URL } from './site.ts'
+import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
+import { SITE_URL, yol } from './site.ts'
+
+/** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
+function saatMetni(saat: number): string {
+  return `${String(saat).padStart(2, '0')}:00`
+}
 
 const HAFTA_GUNLERI = [
   'Monday',
@@ -39,7 +45,14 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
     name: isletmeVerisi.ad,
     url: SITE_URL,
     servesCuisine: 'Turkish',
-    servesAlcohol: isletmeVerisi.alkolServisi,
+    hasMenu: `${SITE_URL}${yol('menu', 'tr')}`,
+    // `servesAlcohol` schema.org'da yok, tüketiciler onu yok sayardı. Alkolsüzlük
+    // markanın kayıtlı gerçeği, o yüzden silinmedi, geçerli sözcük dağarcığına taşındı.
+    amenityFeature: {
+      '@type': 'LocationFeatureSpecification',
+      name: 'Alcohol served',
+      value: isletmeVerisi.alkolServisi,
+    },
     address: {
       '@type': 'PostalAddress',
       streetAddress: isletmeVerisi.binaNo
@@ -52,8 +65,8 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: HAFTA_GUNLERI,
-        opens: '10:00',
-        closes: '05:00',
+        opens: saatMetni(ACILIS_SAATI),
+        closes: saatMetni(KAPANIS_SAATI),
       },
     ],
   }
