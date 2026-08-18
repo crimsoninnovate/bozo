@@ -76,8 +76,8 @@ python3 -m http.server 8392 --directory ~/Desktop/Bozo/design_handoff_bozo_websi
 
 | # | Madde | Sonuç | Kanıt |
 |---|---|---|---|
-| 1.1 | `npm run build` temiz | geçti | çıkış 0, TypeScript hatasız, 16 sayfa üretildi |
-| 1.2 | `npm test` | geçti | 76 test, 0 hata |
+| 1.1 | `npm run build` temiz | geçti | çıkış 0, TypeScript hatasız, 17 rota girdisi (`/icon.svg` dahil), 15 HTML |
+| 1.2 | `npm test` | geçti | 99 test, 0 hata (18 Ağustos 2026) |
 | 1.3 | `npm run typecheck` | geçti | `tsc --noEmit` çıktısı boş |
 | 1.4 | On iki rota + `robots.txt` + `sitemap.xml` | geçti | `find out -name index.html` 12 içerik rotası + `404/` + `_not-found/` verir |
 | 1.5 | `gecici-` dosyası yok | geçti | `grep -rl gecici- out` boş |

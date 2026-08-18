@@ -430,3 +430,51 @@ temiz; kanıt olarak kayda geçiyor:
 | `FotoYuvasi` `portre`/`geniş` | Boş plakalara "bekliyor" anlamı veren bir kor katmanı | Bu plakalar bilerek zeminsiz: arkadaki kor sahnesine açılan pencereler (bu dosyanın 42. satırı). Tasarımda karşılığı olmayan bir katman ekler ve zaten `G9`'da sahibine bırakılmış bir karar maddesi; 16 kare yakında geliyorsa doğru hamle hiçbir şey yapmamak. Hareket turu |
 | `VardiyaSeridi` | Altı vardiya çipinden o anki saate denk geleni yakmak | Gecenin geçişini anlatırdı ama bir içerik/durum kararı, hareket değil; ayrıca gündüz saatlerinde hiçbir çip yanmaz ve şerit anlamsızlaşır. Hareket turu |
 | Bölümler | Girişte "fade up" (aşağıdan kayarak açılma) | Brief'in açıkça kaçınılacaklar listesinde. `Bolum` zaten kaydırmaya bağlı sürekli bir erime taşıyor ve o, tek seferlik bir girişin yerini tutuyor. Hareket turu |
+
+## 18 Ağustos 2026: uçtan uca denetim turu
+
+Sekiz boyutta paralel denetim (mimari, metin, erişilebilirlik, stil, performans, kod,
+SEO, belge), her boyutun bulguları ayrı bir çürütme turundan geçirildi: 51 bulgu
+onaylandı, 4 reddedildi. Bulguların hepsi uygulanmadı; aşağıdakiler ölçülüp uygulananlar,
+kalanı "karar bekliyor" başlığında.
+
+### Ölçümle kapatılanlar (tarayıcıda, 12 rota)
+
+| Ölçüm | Sonuç |
+|---|---|
+| Yatay taşma, 12 rota x 390/959/961/1440 | 48 kombinasyonun hepsinde 0 |
+| Başlık yapısı | her rotada tek `h1`, atlanan seviye yok, `lang` doğru |
+| Dokunma hedefleri, 390px, 12 rota | 236 hedefin hepsi >=44px; tek istisna odaksız atlama bağlantısı (ekran dışında, ölçüm artefaktı) |
+| Azaltılmış hareket | normalde 12 animasyon koşuyor (11'i sonsuz), `reduce` altında 0; `KorKivilcimi` tuvali 390x844'ten varsayılan 300x150'ye düşüyor, yani döngü hiç başlamıyor |
+| Metin etkin alfa zinciri, 6 rota / 403 öğe | `.5` tabanının altında hiçbiri yok |
+| Efekt temizliği | listener/observer/interval simetrisi tam, sızıntı yok |
+| TR/EN sözlük | 236'ya 236 yaprak, tek taraflı anahtar yok |
+| Em dash, saat biçimi, kilitli terminoloji | misafire görünen metinde ihlal yok (eşleşenlerin hepsi yorum ya da `ızgara`=grid, `masaüstü`=desktop gibi teknik kullanım) |
+| Mobil eşik | 22 media query + `FotoYuvasi` `sizes`, hepsi 960; 780/800/880 kalıntısı yok |
+
+### Uygulandı
+
+| Nerede | Değişiklik | Ölçüm |
+|---|---|---|
+| `content/{tr,en}/galeri.ts`, `{tr,en}/ortak.ts` | "on altı kare" > "on yedi kare", iki dilde dört dize (meta description dahil) | Manifest 17 slot, ızgara `Object.keys(fotograflar)` ile basıyor: metin bir yıl önceki sayıyı söylüyordu. `galeri_kareSayisi_metindekiSayiylaAyni` testi sayıyı manifeste bağladı |
+| `components/ember/KorKivilcimi.tsx` | `resize` dinleyicisi `rafKisitla` ile sarıldı, `passive: true` oldu, ölçü ve DPR değişmediyse erken dönüyor | Dinleyici kısıtsızdı ve her olayda 120 taneyi yeniden üretip bitmap'i sıfırlıyordu (1440x900 @DPR2'de 19,8 MiB). Repodaki diğer üç dinleyici zaten `rafKisitla` + passive |
+| `lib/jsonld.ts` | `servesAlcohol` > `amenityFeature` (`LocationFeatureSpecification`), `hasMenu` eklendi, saatler `ACILIS_SAATI`/`KAPANIS_SAATI`'ye bağlandı | `servesAlcohol` schema.org'da yok, tüketiciler yok sayıyordu. Saat testi literalleri kendileriyle karşılaştırıyordu, artık tek kaynağa bağlı |
+| `lib/kabuk.ts`, `lib/kabuk.test.ts` | `altBilgiSayfaLinkleri`, `FOOTER_SAYFA_SIRASI`, `NAV_ETIKETI` ve iki testi silindi | Üçü de sahibinin 13 Ağustos'ta sildiği footer varyantlarının artığı; üretimde sıfır çağıran. `NavEtiketi` union'ı ve `ortak.nav.gizlilik` korundu (C4) |
+| `components/layout/AltBilgi.module.css` | 17 ölü kural bloğu silindi, 433 > 280 satır. `TelifSeridi`'nin `sikMi` prop'u da (tek çağrı sitesi hiç geçmiyordu) | Seçicilerin hepsi yalnız ölü sınıf içeriyordu, yani hiç eşleşemezdi. Doğrulandı: footer kutusu 1440x323 ve 390x805, 48 çocuk, dolgu birebir aynı. Piksel farkı %5.85 ölçüldü ama gürültü tabanı %18.65 (aynı derlemenin arka arkaya iki karesi, kor sahnesi nefes alıyor); animasyon dondurulunca aynı derleme %0.0001 |
+| `styles/tokens.css`, `ana/Gece.module.css` | `--gece: #060504` token'ı eklendi ve bağlandı | Ham literaldi ve iki renk listesinde de yoktu; kanonik kaynak onu token olarak adlandırıyor (`UYGULAMA-NOTLARI.md:12`) |
+| Sekiz `.module.css` | 8 ham krem literali mevcut token'a çevrildi (`--krem-76/72/66/62`, `--cizgi`, `--cizgi-hayalet`) | Hesaplanan değer birebir aynı. Yorum içindeki iki eşleşmeye ve rol uyuşmazlığı taşıyan beşine (kor parıltısına `--cizgi-buton` yazmak ham değerden kötü) dokunulmadı |
+| `CLAUDE.md`, `KISITLAR.md` | Renk listesine `#0C0A09`, `#060504`, `#7A1F2B`; mobil eşik 800 > 960; bağımlılık kuralı sahibin 13 Ağustos kararına işaretçiye indi; Node >=22.18; yuvarlak hap istisnası; pumpkin kapsamı | "complete list, do not add others" diyen liste kodda ve tasarımda duran üç rengi saymıyordu, yani sonraki oturum meşru değerleri ihlal sanardı. KISITLAR ise `lucide-react`'i yasaklıyordu |
+| `YAYIN-KONTROL-LISTESI.md` | Duman testi `/favicon.ico` yerine `/icon.svg` probe ediyor; ikon maddesi 2a (kapandı) ve 2b (açık) diye ayrıldı; zemin sayıları 3.2 MB / 99 test | Derleme `favicon.ico` hiç üretmiyor: o probe kalıcı sahte kırmızıydı ve yayın kapısında açık madde gibi duruyordu. `out/icon.svg` var ve 15 HTML'in hepsi bağlıyor |
+| `DEVAM.md` | En üste "18 Ağustos: nerede duruyoruz" bloğu, altındaki her şeyi geçersiz kılıyor | Bağlam sıfırlaması sonrası tek giriş noktası sekiz yanlış olgu taşıyordu: eşik, fiyatlar, ikon, Lucide kararı, test sayısı |
+| `PARITE.md`, `KARAR-FORMU.md` | Sayılar yeniden ölçüldü | PARITE 76 test / 16 sayfa diyordu (99 / 17). KARAR-FORMU D'nin üç maddesi tutmuyordu: `-0.015em` iki bileşen dokuz kullanım değil tek dosya tek kullanım, `.09` dört değil iki, `0 8px 22px` sıfır eşleşme. A8 kapandı: POI çipleri silinmiş |
+| Sekiz yorum | `lib/kabuk.ts` menü barı gerekçesi, `app/icon.svg`, `BeadRay.tsx`, `Kabuk.tsx`, `Kabuk.module.css`, `Bolum.module.css`, `Harita.tsx`, `{tr,en}/hata.ts`, `{tr,en}/galeri.ts`, `Izgara.tsx` | Hepsi var olmayan bir şeyi tarif ediyordu: kaldırılmış bir CSS kuralı, silinmiş bir bölüm, altı taneli bir ikon (dosya dört çiziyor), imkânsız bir kırpılma bandı, "KorSahnesi ile aynı desen" (KorSahnesi tercihi her abone çağrısında okuyor) |
+
+### Uygulanmadı, bilinçli
+
+- **Sekiz çağıransız token silinmedi.** Okuyunca hiçbiri düz bookkeeping değil:
+  `--pumpkin` ve `--mese` marka listesinde, `--tangerine-12` açık bir sahibi
+  kararının (A2, hero hover zemini `.12`) park edilmiş değeri, `--ol-duygusal`
+  bir uyarı yorumunda adı geçen eşin yarısı, `--komur-90` paket şeridiyle
+  birlikte döner. Yalnız `--komur-90`'ın bayat kullanım sayısı düzeltildi.
+- **Token'ı olmayan dokuz krem alfası eklenmedi.** Dokuz yeni ad, rolü okunarak
+  verilmeli ve `.28` iki ayrı rolde geçiyor; KARAR-FORMU D ile aynı turda yapılmalı.

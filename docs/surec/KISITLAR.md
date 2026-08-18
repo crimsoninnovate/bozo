@@ -32,11 +32,12 @@ decision, do not silently fix it and do not silently copy it. Report it.
 
 ## Dependencies
 
-Runtime: only `next`, `react`, `react-dom`. Dev: only `typescript`, `@types/node`,
-`@types/react`, `@types/react-dom`. No CSS framework, no i18n package, no animation
-library, no test framework. Tests use Node's built-in `node:test`.
+The package-count rule was lifted by the owner on 13 August 2026; `CLAUDE.md` > Dependencies
+owns it now and `package.json` carries `lucide-react` under it. What still binds is
+architectural, not budgetary: **no CSS framework, no i18n package, and no test framework
+beyond Node's built-in `node:test`.**
 
-Next 16.3.0, React 19.2.8, Node >=20.9.0 (v25.6.0 installed).
+Next 16.3.0, React 19.2.8, Node >=22.18 (`package.json` > engines; v25.6.0 installed).
 
 ## Colour
 
@@ -49,8 +50,10 @@ Only these hues may appear:
 | Cream | `#F2E9DC` | Text. See the opacity rule below |
 | Ember | `#B7351C`, hover `#C93E22` | Never body text on any ground |
 | Tangerine | `#FAAA1F` | Never adjacent to ember over a large area |
-| Pumpkin | `#E96112` | Takeaway strip only, charcoal text on top |
+| Pumpkin | `#E96112` | No consumer today: the takeaway strip was removed on 13 August 2026. Kept for the day the service starts, charcoal text on top |
 | Oak | `#6B4A2F` | Support tone |
+| Plate ground | `#0C0A09` | Menu product and photo plates only (`--plaka-zemin`). Absent from the brand book, verified from the design, 15 uses |
+| Gece ground | `#060504` | The Gece section only (`--gece`). Named as a token by the canonical source, `export/UYGULAMA-NOTLARI.md:12` |
 | Nar (pomegranate) | `#7A1F2B` | Limited accent, tied to bostana and pomegranate molasses. Brief line 100. Used exactly twice in the design, on the ikram plates. Do not spread it |
 
 ### The cream opacity rule
@@ -85,8 +88,9 @@ design is wrong. Report it.
 - Headings, wordmark and numerals: Bricolage Grotesque 600-800
 - Body and UI: Inter 400/500/600
 - Numerals carry `font-variant-numeric: tabular-nums` wherever they render
-- Corner radius 0-3px. Body text has a 16px floor, but it binds only one of three
-  tiers; see below.
+- Corner radius 0-3px, with one recorded exception: `MobilAksiyonBari` is a fully rounded
+  glass pill (owner's decision, 13 August 2026, taken after seeing the 3px version). Body
+  text has a 16px floor, but it binds only one of three tiers; see below.
 - Both fonts declare `subsets: ['latin', 'latin-ext']`. Turkish `ğ Ğ ş Ş İ` live in
   latin-ext; `ı ç ö ü` live in latin. Omitting latin-ext silently breaks Turkish text.
 

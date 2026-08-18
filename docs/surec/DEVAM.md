@@ -3,7 +3,28 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 12 Ağustos 2026 17:50, ana sayfa yeniden tasarım turu sonrası
+Son güncelleme: 18 Ağustos 2026, uçtan uca denetim turu sonrası
+
+## 18 Ağustos 2026: nerede duruyoruz
+
+**Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
+defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
+
+- Branch `feat/site-kurulumu`, 99 test geçiyor, typecheck ve build temiz, 17 rota
+  girdisi, `out/` 3.2 MB. Ağaçta çalışan ajan yok.
+- **Mobil eşik 960px**, yirmi iki media query artı `FotoYuvasi`'nın `sizes` ipucu.
+  Aşağıda geçen 780 ve 800 değerleri tarihtir, bugünkü kod değil.
+- **Fiyatlar geldi** (13 Ağustos): menü sayfası gerçek fiyat basıyor, `000 TL` yalnız
+  fiyatı olmayan kalem için yer tutucu. Bekleyen veri: e-posta, koordinat, posta kodu,
+  içecek fiyatları, 17 fotoğraf.
+- **Site ikonu geldi** (13 Ağustos): `app/icon.svg` var ve her sayfa bağlıyor. Konsolda
+  favicon 404'ü yok. Hâlâ eksik olan `apple-icon.png` ve `opengraph-image.png`.
+- **İkon kararı tersine döndü** (13 Ağustos): `lucide-react` bağımlılık olarak eklendi,
+  CTA butonları iki katmanlı işaret dili taşıyor. Aşağıdaki 12 Ağustos "ikon
+  eklenmeyecek" kaydı artık geçerli değil (`IYILESTIRMELER.md` > 13 Ağustos).
+- **Yasal metinler ve `/gizlilik` bağlantısı backlogda**, sahibinin kararı
+  (`KARAR-FORMU.md` C4). Yeniden önerme.
+- Bekleyen kararlar tek yerde: `KARAR-FORMU.md` ve `IYILESTIRMELER.md` > "karar bekliyor".
 
 ## Ana sayfa yeniden tasarlandı (12 Ağustos akşamı)
 
@@ -34,7 +55,7 @@ konacağı sahibin kararı) ve gerçek koyu harita (koordinat hâlâ `null`). Bi
 madde de bilinçli atlandı: not paket bandının kalkmasını istiyor, sahibi aynı gün
 rozetli düzeni seçmişti.
 
-**Menü sayfası hâlâ `000 TL` basıyor.** Notun kapsamı ana sayfaydı; menü
+**Menü sayfası hâlâ `000 TL` basıyor.** (13 Ağustos'ta kapandı: gerçek fiyatlar geldi.) Notun kapsamı ana sayfaydı; menü
 sayfasında fiyatın nasıl görüneceği ayrı bir karar.
 
 ## En son ne oldu (12 Ağustos öğleden sonra)
@@ -66,7 +87,8 @@ geçti: Caddy systemd'de değil Docker'da, ve konteynerin `/srv/enliq`'i host'un
 `/var/www/enliq`'i. Ayrıntı `YAYIN-KONTROL-LISTESI.md` ve `README.md`'de.
 
 **Üst barın kırpılması kapandı** (`d50f16c`). Masaüstü barı 780px'te kendi
-içeriğine sığmıyordu. Mobil eşiği on yedi media query'de birlikte 800px'e taşındı;
+içeriğine sığmıyordu. Mobil eşiği on yedi media query'de birlikte 800px'e taşındı
+(13 Ağustos'ta yirmi iki media query ile 960px'e çıktı, en üstteki bloğa bak);
 yalnız `UstBar`'da taşımak 781-800 arasında nav'ı ve hamburger'i birden gizlerdi.
 `KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik değil, dokunulmadı.
 
@@ -170,7 +192,7 @@ yalnız `aria-disabled` yer tutucular). Bir bulgu uygulandı: **404'te marka
 görünmüyordu** (`8094109`), başlığın üstüne wordmark kondu. Üçü sahibin
 kararına bırakıldı, aşağıda.
 
-**Ağaçta çalışan ajan yok.** 76 test geçiyor, typecheck ve build temiz.
+**Ağaçta çalışan ajan yok.** (12 Ağustos'taki hal: 76 test. Bugünkü sayı için en üste bak.)
 
 ## SIRADAKİ GÖREV: sahibi seçecek
 
@@ -412,7 +434,7 @@ sağlamıyor. Kayıtlı, düzeltilmedi.
 ## Doğrulama komutları
 
     npm run typecheck
-    npm test              # şu an 76 test
+    npm test              # 18 Ağustos 2026: 99 test
     npm run build         # rota tablosunda `gecici-` ile başlayan rota olmamalı
 
 `docs/PARITE.md` yeniden koşulabilir kontrol listesidir; ölçüm kuralları

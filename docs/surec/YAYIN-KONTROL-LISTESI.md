@@ -8,8 +8,8 @@ Son güncelleme: 12 Ağustos 2026.
 
 ## Bugünkü zemin
 
-`npm run build` temiz, 15 HTML dosyası, `out/` 3.1 MB. 84 test geçiyor, typecheck
-temiz. On iki gezilebilir rota (altı Türkçe, altı İngilizce) artı `sitemap.xml`,
+`npm run build` temiz, 15 HTML dosyası, `out/` 3.2 MB. 99 test geçiyor, typecheck
+temiz. (18 Ağustos 2026'da yeniden ölçüldü.) On iki gezilebilir rota (altı Türkçe, altı İngilizce) artı `sitemap.xml`,
 `robots.txt` ve 404.
 
 ## Yayından önce kapanması gerekenler
@@ -17,15 +17,17 @@ temiz. On iki gezilebilir rota (altı Türkçe, altı İngilizce) artı `sitemap
 | # | Madde | Nerede | Durum |
 |---|---|---|---|
 | 1 | Alan adı alınmış ve DNS sunucuya bakıyor | `lib/site.ts` > `SITE_URL` | `cigercibozo.com` **varsayılıyor**, alınmadı |
-| 2 | Site ikonu | `app/icon.svg` + `app/apple-icon.png` | **Dosya yok.** Her sayfada konsola favicon 404'ü düşüyor; yerelde doğrulandı |
+| 2a | Tarayıcı sekmesi ikonu | `app/icon.svg` | **Kapandı 13 Ağu 2026:** dosya var (617 B), `out/icon.svg` üretiliyor ve 15 HTML'in hepsi `<link rel="icon" ... type="image/svg+xml">` taşıyor. 18 Ağustos'ta yeniden ölçüldü, konsolda favicon 404'ü yok |
+| 2b | Dokunmatik ve sosyal kart görseli | `app/apple-icon.png`, `app/opengraph-image.png` | **Açık.** İkisi de yok: iOS "ana ekrana ekle" ekran görüntüsü kullanıyor, paylaşılan her bağlantı görselsiz kart açıyor. Engel karar, bkz. aşağıdaki not |
 | 3 | Caddy `handle_errors` bloğu sunucuda | `README.md` > Publishing | **Kapandı 12 Ağu 2026:** demo kurulumunda canlıda doğrulandı |
-| 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: fiyat, e-posta ve koordinat hâlâ `null`, arayüz yer tutucu basıyor. Telefon, WhatsApp ve Instagram 12 Ağustos'ta geldi |
+| 4 | Uydurulmuş veri yok | `content/` | Sağlanıyor: e-posta, koordinat ve posta kodu hâlâ `null`, arayüz yer tutucu basıyor. Telefon, WhatsApp ve Instagram 12 Ağustos'ta, ocak fiyatları 13 Ağustos'ta geldi; içecek kalemleri fiyat alanı taşımıyor |
 | 5 | Instagram hesabı gerçekten açık | instagram.com/cigercibozo | **Açık değil.** Adres `content/isletme.ts`'te ve alt bilgi ona bağlanıyor; hesap açılmadan yayına çıkarsa misafir ölü bağlantıya gider |
 
-**2. maddenin engeli veri değil karar.** Marka paketinde (`design_handoff_bozo_website/marka/`)
+**2b'nin engeli veri değil karar.** Marka paketinde (`design_handoff_bozo_website/marka/`)
 çizilmiş logo dosyası yok, yalnız iki markdown ve işaretin sözle tarifi var
-("şiş kilidi"). Geçici emoji ya da jenerik ikon konmadı; onaylı işaret gelince
-Next iki dosyayı kendisi bağlar.
+("şiş kilidi"). `app/icon.svg` 13 Ağustos'ta çizildi ve sekme için onaylandı; aynı
+çizimin 180x180 ve 1200x630 rasterleri sahibinin onayını bekliyor. Dosyalar gelince
+Next ikisini de kendisi bağlar, kod değişmez.
 
 **3. maddenin sebebi:** `file_server` bilinmeyen bir yolda `out/404.html`'i değil
 kendi boş 404'ünü döndürür. Blok olmadan tasarlanmış 404 sayfası yayında hiç
@@ -59,7 +61,7 @@ curl -s -o /dev/null -w "$RSC : %{http_code}\n" "$ALAN/menu/$RSC"
 # 5. Arama motoru dosyaları ve ikon
 curl -s -o /dev/null -w 'sitemap:%{http_code} ' "$ALAN/sitemap.xml"
 curl -s -o /dev/null -w 'robots:%{http_code} '  "$ALAN/robots.txt"
-curl -s -o /dev/null -w 'favicon:%{http_code}\n' "$ALAN/favicon.ico"
+curl -s -o /dev/null -w 'ikon:%{http_code}\n' "$ALAN/icon.svg"
 ```
 
 Beklenen çıktı ve okuması:
@@ -70,11 +72,12 @@ Beklenen çıktı ve okuması:
 | 2 | `durum: 404` ve ardından `1` | `1` yerine `0`: `handle_errors` bloğu yok, misafir boş 404 görüyor |
 | 3 | `301 -> .../menu/` ya da `200` | `404`: `trailingSlash` ile sunucunun dizin davranışı çakışıyor |
 | 4 | `200` | `403`/`404`: sunucuda olağandışı dosya adlarını eleyen bir kural var; **sayfalar tek tek açılır ama sayfa içi gezinme kırılır**, iyi saklanan bir arıza |
-| 5 | `sitemap:200 robots:200 favicon:200` | `favicon:404`: 2. madde hâlâ açık |
+| 5 | `sitemap:200 robots:200 ikon:200` | `ikon:404`: `out/icon.svg` sunucuya kopyalanmamış. **Not:** eski liste `/favicon.ico` probe ediyordu; bu derleme öyle bir dosya hiç üretmez, yani o satır kalıcı sahte kırmızıydı |
 
 Bu probe'ların beşi de 12 Ağustos 2026'da yerel export üstünde (`npm run preview`)
-koşuldu ve beklenen değerleri verdi; tek istisna `favicon:404`, o da yukarıdaki
-açık madde. Yani liste canlıda ilk kez koşarken kendi doğruluğu sorun değil.
+koşuldu ve beklenen değerleri verdi; tek istisna `favicon:404` idi, ve 18 Ağustos'ta
+anlaşıldı ki o bir bulgu değil yanlış yol: derleme `favicon.ico` üretmiyor, `icon.svg`
+üretiyor. Probe düzeltildi.
 
 ## Demo yayını: bozo.crimsoninnovate.com, CANLI
 
@@ -89,7 +92,8 @@ adresle çakışırdı.
 `/menu` 308 ile `/menu/`'ye gidiyor, ve adında `!` olan RSC yükü 200 dönüyor
 (sayfalar tek tek açılırken sayfa içi gezinmeyi kıran, iyi saklanan arıza yok).
 `handle_errors` de doğrulandı: bilinmeyen yol 404 **ve** tasarlanmış gövdeyi
-döndürüyor. Tek kırmızı `favicon:404`, o da yukarıdaki 2. madde.
+döndürüyor. O turdaki tek kırmızı `favicon:404` idi; 18 Ağustos'ta probe'un yanlış
+yolu sorduğu anlaşıldı, madde 2a kapandı.
 
 ### Sunucunun gerçek yapısı, iki tuzak
 

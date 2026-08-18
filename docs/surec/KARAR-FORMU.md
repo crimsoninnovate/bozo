@@ -81,8 +81,8 @@ sarılmış kolondan kısa bir imza daha iyi okunuyor.
 etiketsiz, ama o levha ana sayfanınki, Konum sayfasının değil.
 
 **Seçenekler:** (a) etiketler kalsın · (b) sade levhaya düş
-**Önerim: (a).** Üç POI çipi ve alt not sitede başka hiçbir yerde geçmiyor;
-gizlemek bugün bilgi siler.
+**KAPANDI 18 Ağustos 2026:** ortada karar verilecek içerik kalmadı. Üç POI çipi ve alt
+not levhadan silinmiş; bugün levhada yalnız cadde etiketi ile pin etiketi var.
 
 ### A9. Butona beşinci bir boy adımı açılsın mı?
 
@@ -167,10 +167,18 @@ tek satır CSS, başka hiçbir genişliği etkilemez. Onay ver, yapayım.
 Üçü de "aynı değer birden çok yerde ham duruyor, token olmalı" maddesi. Tek onayla
 hepsini bir turda kapatabilirim; görsel çıktı değişmez.
 
-- `letter-spacing:-0.015em` (iki bileşen, dokuz kullanım) token'ı yok
-- `rgba(242,233,220,.09)` (dört kullanım, beş tasarım dosyası) token'ı yok
-- `--kor-golge` ailesinin mobil geometrisi (`0 8px 22px`) ham duruyor
-- `Cip` ortak boyut maddesi kısmen çözülmüştü, artık kapanabilir
+18 Ağustos 2026'da yeniden ölçüldü, üçünün de sayısı değişmişti:
+
+- `letter-spacing:-0.015em`: **tek dosya, tek kullanım** (`hikaye/Usul.module.css:47`),
+  eskiden "iki bileşen, dokuz kullanım" yazıyordu. Token'ı hâlâ yok.
+- `rgba(242,233,220,.09)`: **iki kullanım** (`UstBar.module.css:235`,
+  `AltBilgi.module.css:247`), dört değil. Token'ı hâlâ yok.
+- `--kor-golge` mobil geometrisi (`0 8px 22px`): **repoda sıfır eşleşme**, madde düştü.
+- `Cip` ortak boyut maddesi kısmen çözülmüştü, artık kapanabilir.
+
+Bunlara 18 Ağustos denetiminde bir madde eklendi: token'ı olmayan dokuz krem alfası
+(.015 .055 .07 .13 .17 .26 .28 .35 .42, 13 kullanım). Ölçüm ve dosya listesi
+`IYILESTIRMELER.md` > 18 Ağustos.
 
 ## E. Kapandı, listede bayat duruyordu
 

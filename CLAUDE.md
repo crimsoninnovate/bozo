@@ -68,6 +68,10 @@ npm run preview    # serve the out/ export locally
 ## Colors (complete list, do not add others)
 
 - Page ground `#0A0807`, charcoal surface `#1A1614`
+- Plate ground `#0C0A09` (menu product and photo plates only), Gece section ground `#060504`
+  (`--gece`, that section only). Neither is in the brand book's list; both are real design values,
+  see `styles/tokens.css` and `KISITLAR.md` > Colour.
+- Nar (pomegranate) `#7A1F2B`, limited accent, only where bostana or pomegranate molasses is meant.
 - Cream text `#F2E9DC`, opacity scale `.5 .58 .62 .66 .7 .74 .78 .86`
 - Ember (kor) `#B7351C`, hover `#C93E22`. Tangerine `#FAAA1F`. Pumpkin `#E96112` (no consumer
   since the packaging strip was removed; the token stays for when it returns). Oak (meşe) `#6B4A2F`.
@@ -116,7 +120,7 @@ the handoff will see them as missing. They are not. Measurements and reasoning a
 - The menu page's "Gece Menüsü" card and its "Çekim Listesi" section. The first announced that its
   own contents were undecided; the second was a note addressed to the photographer, not a guest.
 - Two of the three footer variants. Every page now carries the home page's four-column footer.
-- The mobile hero's two CTA buttons, below 800px. The mobile prototype has none either: actions
+- The mobile hero's two CTA buttons, below 960px. The mobile prototype has none either: actions
   belong to the floating bar, and the hero was repeating it.
 - `html { scroll-behavior: smooth }`. It turned Next's route-change scroll correction into a visible
   slide in from the bottom of the target page. Measured: 82 scroll events from y=3356 down to 0,
