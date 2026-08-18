@@ -105,7 +105,7 @@ export const ortak = {
     /** Built from the page's own two lines; see the Turkish file for the sources. */
     galeri: {
       baslik: 'Gallery · Ciğerci Bozo',
-      aciklama: 'Sixteen frames the site is waiting for: the place and the dishes.',
+      aciklama: 'Seventeen frames the site is waiting for: the place and the dishes.',
     },
     hikaye: {
       baslik: 'Story · Ciğerci Bozo',

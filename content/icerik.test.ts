@@ -279,3 +279,34 @@ test('fotograflar_hicbiriHenuzDosyaTasimaz', () => {
     assert.ok(foto.etiketEn.length > 0, `${id} için İngilizce kadraj etiketi boş`)
   }
 })
+
+/**
+ * Galeri metni kare sayısını harfle yazar ve aynı sayı iki dilde dört yerde geçer
+ * (spot ve meta description). Manifest 16'dan 17'ye çıktığında dördü de "on altı"
+ * kaldı ve misafire yanlış sayı gösterildi; bu test o kaymayı bir daha bırakmaz.
+ */
+test('galeri_kareSayisi_metindekiSayiylaAyni', () => {
+  const sayiSozcugu: Record<number, { tr: string; en: string }> = {
+    16: { tr: 'on altı', en: 'Sixteen' },
+    17: { tr: 'on yedi', en: 'Seventeen' },
+    18: { tr: 'on sekiz', en: 'Eighteen' },
+  }
+  const adet = Object.keys(fotograflar).length
+  const sozcuk = sayiSozcugu[adet]
+  assert.ok(sozcuk, `${adet} kare için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
+
+  for (const [dil, s, beklenen] of [
+    ['tr', tr, sozcuk.tr],
+    ['en', en, sozcuk.en],
+  ] as const) {
+    for (const [ad, metin] of [
+      ['galeri.altMetin', s.galeri.altMetin],
+      ['sayfaMeta.galeri.aciklama', s.ortak.sayfaMeta.galeri.aciklama],
+    ] as const) {
+      assert.ok(
+        metin.toLowerCase().includes(beklenen.toLowerCase()),
+        `${dil}.${ad} "${beklenen}" demiyor, manifestte ${adet} kare var: ${metin}`,
+      )
+    }
+  }
+})

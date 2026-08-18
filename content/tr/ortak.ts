@@ -114,7 +114,7 @@ export const ortak = {
      */
     galeri: {
       baslik: 'Galeri · Ciğerci Bozo',
-      aciklama: 'Sitenin beklediği on altı kare: mekan ve ürün fotoğrafları.',
+      aciklama: 'Sitenin beklediği on yedi kare: mekan ve ürün fotoğrafları.',
     },
     hikaye: { baslik: 'Hikaye · Ciğerci Bozo', aciklama: "Urfa'da ustayı tanesinden anlarsınız." },
     konum: {
