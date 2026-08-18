@@ -12,7 +12,7 @@
    Zemin, kenarlık ve dolgu CamPanel'in (opaklik .74, dolgu "dar"). */
 .kart {
   flex: 1 1 440px;
-  min-width: 300px;
+  min-width: min(300px, 100%);
   display: flex;
   flex-direction: column;
   gap: 22px;

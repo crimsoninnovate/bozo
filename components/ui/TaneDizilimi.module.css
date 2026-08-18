@@ -92,7 +92,8 @@
     height: var(--tane-kucuk-m, var(--tane-kucuk));
     border-radius: var(--tane-kucuk-r-m, var(--tane-kucuk-r));
   }
-  .cizgiliKap { min-width: 0; padding: 10px 0; }
+  /* min-content: ray tanelerinin altına küçülemez, sığmazsa alt satıra sarar (EN 320: 342px taşıyordu). */
+  .cizgiliKap { min-width: min-content; padding: 10px 0; }
   .cizgi {
     height: 2px;
     margin-top: -1px;
