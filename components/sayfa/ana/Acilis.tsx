@@ -5,6 +5,7 @@ import { GunMerdiveni } from '@/components/saat/GunMerdiveni'
 import { KapanisNotu } from '@/components/saat/KapanisNotu'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
+import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
 import { PinIkon } from '@/components/ui/Ikonlar'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
@@ -102,11 +103,13 @@ export function Acilis({ dil }: Props) {
         </div>
       </div>
 
-      <a className={stil.ipucu} href="#iddia">
+      {/* Yumuşak kaydırma: sayfadaki dört çapadan ikisi (bu ipucu ve bardaki "Gece")
+          düz <a> ile tek karede zıplıyordu, ikisi 600ms kayıyordu. Ölçüldü, 18 Ağustos 2026. */}
+      <CapaBaglantisi className={stil.ipucu} href="#iddia">
         <span aria-hidden="true" className={stil.ipucuKare} />
         <span aria-hidden="true" className={stil.ipucuCizgi} />
         <span className={stil.ipucuMetin}>{s.ana.hero.scrollIpucu}</span>
-      </a>
+      </CapaBaglantisi>
     </Bolum>
   )
 }

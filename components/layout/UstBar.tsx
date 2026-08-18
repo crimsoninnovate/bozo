@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
+import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
 import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { sozluk, type Dil } from '@/content'
 import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
@@ -37,9 +38,9 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
         const etiket = s.ortak.nav[oge.etiket]
         if (oge.tur === 'capa') {
           return (
-            <a key={`#${oge.hedef}`} href={`#${oge.hedef}`} className={stil.link}>
+            <CapaBaglantisi key={`#${oge.hedef}`} href={`#${oge.hedef}`} className={stil.link}>
               {etiket}
-            </a>
+            </CapaBaglantisi>
           )
         }
         if (oge.rota === aktif) {

@@ -4,7 +4,7 @@ import { hareketAzaltilmisMi } from '@/lib/hareket'
 
 type Props = {
   href: string
-  className: string
+  className?: string
   children: React.ReactNode
 }
 
