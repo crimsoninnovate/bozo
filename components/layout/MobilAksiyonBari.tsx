@@ -15,7 +15,7 @@ type Props = { dil: Dil }
  * hap, cam zemin, ortada yükselen ana eylem.
  *
  * 960px üstünde gizlenir, 120px kaydırmadan önce görünmez
- * (bkz. MobilAksiyonBari.module.css).
+ * (bkz. MobilAksiyonBari.module.css; kapının kalkması KARAR-FORMU F4).
  */
 export function MobilAksiyonBari({ dil }: Props) {
   const s = sozluk(dil)

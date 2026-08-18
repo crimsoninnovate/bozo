@@ -146,9 +146,11 @@
   }
 
   /*
-   * Bar sayfanın tepesinde durmaz: hero'nun kendi "Yol Tarifi Al" butonu
-   * ekranda dururken bar aynı eylemi ikinci kez basıyor ve üst üste biniyordu
-   * (sahibi, 13 Ağustos 2026). 120px'ten sonra kayarak girer.
+   * Bar sayfanın tepesinde durmaz, 120px'ten sonra kayarak girer (sahibi,
+   * 13 Ağustos 2026). Gerekçesi hero'nun kendi "Yol Tarifi Al" butonuyla
+   * çakışmasıydı; o butonlar aynı gün mobilden kalktı, yani ilk ekranda artık
+   * hiç eylem yok (ölçüldü 390/360/430). Kapının kalkması sahibinin kararı,
+   * KARAR-FORMU F4; mobil prototip barı hiç gizlemiyor.
    *
    * Kaydırma zaman çizelgesi JS'siz çalışır ve hidrasyon gerektirmez, yani
    * ilk boyamada bir kare bile görünüp kaybolmaz. Desteklenmeyen tarayıcıda
