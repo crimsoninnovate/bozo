@@ -117,6 +117,8 @@ to guess whether a given text qualifies:
 | Text | Size | Design source |
 |---|---|---|
 | Menu product-card descriptions | 14.5px/1.55 | `Menu:135, 153, 171, 189` |
+| Menu rows below 1040px: descriptions 13px/1.5, signature 13.5px, special 14px | 13px/1.5 | mobile prototype `MenuSatiri` (18 August 2026, owner's 1A/2A) |
+| Hikaye lakap pair notes | 13px/1.4 | owner's own account, 19 August 2026 |
 | Menu night-menu note body | 13px/1.6 | `Menu:81` |
 | Menu photo-list "no AI imagery" note | 13px/1.6 | `Menu:279` |
 | Hikaye usul row bodies | 15.5px/1.65 | `Hikaye:101, 115` |

@@ -1,8 +1,8 @@
 import { CanliSaat } from '@/components/saat/CanliSaat'
 import { DurumCipi } from '@/components/saat/DurumCipi'
-import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
+import { BolumCipi } from '@/components/ui/BolumCipi'
 import { sozluk, type Dil } from '@/content'
-import { ustBarVaryanti } from '@/lib/kabuk'
+import { barCapalari } from '@/lib/kabuk'
 import stil from './Acilis.module.css'
 
 type Props = { dil: Dil }
@@ -11,15 +11,14 @@ type Props = { dil: Dil }
  * Menü sayfasının açılışı. Menu Sayfasi.dc.html:65-83
  *
  * Durum çipi + canlı saat, H1 ve spot metni. Tasarımın çipi ve saati Konum hero'sunun
- * ölçüsünde, yani `boy="kucuk"`. Sağdaki gece menüsü not kartı 13 Ağustos 2026'da kalktı.
+ * ölçüsünde, yani `boy="kucuk"`.
  *
- * Atlama çipleri yalnız 1040 altında: masaüstü barın üç çapası (Ocaktan, İkramlar,
- * İçecekler) telefonda hiçbir yerde yoktu, İçecekler 6,6 ekran aşağıdaydı (ölçüldü 390).
- * Liste menü barının kendi çapalarından türer, burada yazılmaz.
+ * Atlama çipleri yalnız 1040 altında: barın üç çapası (Ocaktan, İkramlar, İçecekler)
+ * telefonda hiçbir yerde yoktu, İçecekler 6,6 ekran aşağıdaydı (ölçüldü 390).
  */
 export function Acilis({ dil }: Props) {
   const s = sozluk(dil)
-  const capalar = ustBarVaryanti('menu').nav.flatMap((o) => (o.tur === 'capa' ? [o] : []))
+  const capalar = barCapalari('menu')
 
   return (
     <section className={stil.bolum}>
@@ -33,9 +32,7 @@ export function Acilis({ dil }: Props) {
         <ul className={stil.atlama}>
           {capalar.map((capa) => (
             <li key={capa.hedef}>
-              <CapaBaglantisi href={`#${capa.hedef}`} className={stil.atlamaCipi}>
-                {s.ortak.nav[capa.etiket]}
-              </CapaBaglantisi>
+              <BolumCipi href={`#${capa.hedef}`}>{s.ortak.nav[capa.etiket]}</BolumCipi>
             </li>
           ))}
         </ul>

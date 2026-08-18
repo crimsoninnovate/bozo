@@ -716,7 +716,7 @@ ve 1440: 9 plaka görünür, hero 172, çip yok).
 | `Ikramlar` | İki kart yan yana, plakasız (fotoğraf varsa 90px şerit üstte), 15px ad, 13px açıklama; kümeler sıkı | Kart 355 > ~120px; bölüm 1407 > 678px |
 | `Icecekler` | Plaka fotoğraf varsa 160px, satırlar 13px dolgu; iki sütun denendi, sığmıyor | 1307 > 911px |
 | 320px taşması | `FotoYuvasi .spread/.icecek`, `Icecekler .kolon`, `Ocaktan .imzaPaneli` `min-width: min(Xpx, 100%)` | `scrollWidth` 324 > 320 |
-| Toplam | Sayfa 7815 > 3784px (9,3 > 4,5 ekran); ilk fiyat 392px aşağıda ve ilk ekranın dışındaydı, şimdi 452'de ilk ekranda; EN 3868 | |
+| Toplam | Sayfa 7815 > 3784px (9,3 > 4,5 ekran); ilk fiyat 392px aşağıda ve ilk ekranın dışındaydı, şimdi 452'de ilk ekranda; EN 3926 | |
 
 `FotoYuvasi.bosMobildeGizli` çağıranın kararıdır, biçimin değil: galeri ızgarası aynı `kart`
 biçimini boş kareleri saymak için kullanır ve gizlemez.

@@ -20,12 +20,12 @@
   }
 }
 
-/* Plakanın sağ üstündeki indeks rozeti; kartın köşesine göre konumlu (plaka kartın
-   tepesinde, kenarlık 1px). Menu:131 */
+/* Plakanın sağ üstündeki indeks rozeti; kartın dolgu kenarına göre, plaka o kenarla
+   hizalı. Menu:131 */
 .indeks {
   position: absolute;
-  right: 17px;
-  top: 15px;
+  right: 16px;
+  top: 14px;
   font: 600 12px/1 var(--font-govde);
   font-variant-numeric: tabular-nums;
   color: var(--krem-55);
@@ -107,8 +107,10 @@
     grid-row: 1;
     padding-top: 4px;
     font: 600 11.5px/1.5 var(--font-baslik);
+    /* `font` kısayolu bu özelliği sıfırlar, sonra gelmek zorunda. */
+    font-variant-numeric: tabular-nums;
     letter-spacing: 0.06em;
-    color: var(--krem-50);
+    color: var(--krem-55);
   }
 
   .govde {
@@ -120,7 +122,7 @@
   .ad {
     font-size: 19px;
     line-height: 1.2;
-    letter-spacing: -0.025em;
+    letter-spacing: var(--iz-baslik);
   }
 
   .anaFiyat {

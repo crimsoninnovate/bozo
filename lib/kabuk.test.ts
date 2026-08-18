@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
 import {
-    cekmeceLinkleri,
+  barCapalari,
+  cekmeceLinkleri,
   geceSeridiGosterilirMi,
   ustBarVaryanti,
 } from './kabuk.ts'
@@ -146,4 +147,29 @@ test('cekmece_altCapaEtiketleri_sozlukteKarsiligiVar', () => {
       }
     }
   }
+})
+
+/**
+ * Bir rotanın bar çapaları iki yerde tüketiliyor: çekmecenin alt satırı ve menü
+ * sayfasının atlama çipleri. Tek isim, tek türetme.
+ */
+test('barCapalari_menuRotasi_ucBolumCapasiDoner', () => {
+  assert.deepEqual(
+    barCapalari('menu').map((c) => c.hedef),
+    ['ocaktan', 'ikramlar', 'icecekler'],
+  )
+})
+
+test('barCapalari_capasizRotalar_bosDoner', () => {
+  for (const rota of ROTALAR) {
+    if (rota === 'menu' || rota === 'ana') continue
+    assert.deepEqual(barCapalari(rota), [], rota)
+  }
+})
+
+test('barCapalari_anaRotasi_geceCapasiniTasir', () => {
+  assert.deepEqual(
+    barCapalari('ana').map((c) => c.hedef),
+    ['gece'],
+  )
 })

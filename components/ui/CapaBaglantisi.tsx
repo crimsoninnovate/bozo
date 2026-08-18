@@ -36,6 +36,9 @@ export function CapaBaglantisi({ href, className, children }: Props) {
       block: 'start',
     })
     history.pushState(null, '', href)
+    // `preventDefault` tarayıcının fragman odağını da düşürüyor: hedef odaklanabilirse
+    // (menü bölümleri `tabIndex={-1}`) odak oraya taşınır, yoksa sonraki Tab başa dönüyordu.
+    if (hedef instanceof HTMLElement) hedef.focus({ preventScroll: true })
   }
 
   return (

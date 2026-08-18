@@ -17,22 +17,31 @@ type Props = {
 }
 
 /**
- * Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141. 1040 altında aynı DOM
- * prototipin satırı olur (Mobil "kart değil satır"): plaka yalnız fotoğraf varsa ve
- * 72px, indeks sol sütunda, tam fiyat adın hizasında (`anaFiyat`, masaüstünde gizli),
- * ölçü listesi ince ikinci satır. Sahibinin 1A/2A kararı, 18 Ağustos 2026.
+ * Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141; 1040 altında aynı DOM
+ * prototipin satırına döner (sahibinin 1A/2A kararı, ölçüler UrunKarti.module.css).
  *
  * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini.
  */
 export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }: Props) {
   return (
     <article className={stil.kart}>
-      <FotoYuvasi id={fotoId} dil={dil} bicim="kart" korNefesi={korNefesi} bosMobildeGizli />
-      <span className={stil.indeks}>{indeks}</span>
+      <FotoYuvasi
+        id={fotoId}
+        dil={dil}
+        bicim="kart"
+        korNefesi={korNefesi}
+        bosMobildeGizli
+        sizes="(max-width: 1040px) 72px, 33vw"
+      />
+      <span aria-hidden="true" className={stil.indeks}>
+        {indeks}
+      </span>
       <div className={stil.govde}>
         <div className={stil.adSatiri}>
           <h3 className={stil.ad}>{ad}</h3>
-          <span className={stil.anaFiyat}>{fiyatMetni(urun.tam)}</span>
+          <span aria-hidden="true" className={stil.anaFiyat}>
+            {fiyatMetni(urun.tam)}
+          </span>
         </div>
         <p className={stil.aciklama}>{aciklama}</p>
         <div className={stil.altSatir}>

@@ -59,12 +59,16 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
   return (
     <div className={stil.imzaPaneli}>
       <div className={stil.imzaUst}>
-        <span className={stil.indeks}>{indeksMetni(0)}</span>
+        <span aria-hidden="true" className={stil.indeks}>
+          {indeksMetni(0)}
+        </span>
         <Cip tur="outline">{s.menu.ocaktan.imzaRozeti}</Cip>
       </div>
       <div className={stil.imzaAdSatiri}>
         <h3 className={stil.imzaAd}>{metin.ad}</h3>
-        <span className={stil.anaFiyat}>{fiyatMetni(urun.tam)}</span>
+        <span aria-hidden="true" className={stil.anaFiyat}>
+          {fiyatMetni(urun.tam)}
+        </span>
       </div>
       <p className={stil.imzaAciklama}>{metin.aciklama}</p>
       <div className={stil.specSatiri}>

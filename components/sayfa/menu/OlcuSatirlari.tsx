@@ -16,7 +16,9 @@ export function OlcuSatirlari({ dil, urun }: Props) {
 
   return (
     <dl className={stil.liste}>
-      <div className={stil.satir}>
+      {/* Telefonda bu satır adın hizasında basılıyor (`anaFiyat`); burada görünmez kalır
+          ama ekran okuyucu "Tam" terimini yine duyar. */}
+      <div className={`${stil.satir} ${stil.tamSatiri}`}>
         <dt className={stil.olcu}>{olculer.tam}</dt>
         <dd className={stil.fiyat}>{fiyatMetni(urun.tam)}</dd>
       </div>

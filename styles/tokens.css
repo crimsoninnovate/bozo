@@ -27,9 +27,6 @@
      mobil üst barın gradyan ucu (Mobil:50, 240). Ana Sayfa'nın harita levhası
      bu değeri DEĞİL --panel-yari'yi (.55, Ana:323) kullanıyor. */
   --panel-60: rgba(10, 8, 7, 0.6);
-  /* gece menüsü not kartının zemini. Tek kullanım: Menu:79. Aynı alfa
-     --golge-baslik'in içinde 8 kez daha geçer, ama orada gölge rengi olarak. */
-  --panel-not: rgba(10, 8, 7, 0.7);
   /* menü imza panelinin zemini. Tek kullanım: Menu:104 */
   --panel-imza: rgba(10, 8, 7, 0.78);
 

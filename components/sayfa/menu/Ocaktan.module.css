@@ -187,6 +187,7 @@
     grid-column: 1;
     padding-top: 6px;
     font: 600 11.5px/1.5 var(--font-baslik);
+    font-variant-numeric: tabular-nums;
     letter-spacing: 0.06em;
   }
 
@@ -205,7 +206,7 @@
   .imzaAd {
     font-size: 22px;
     line-height: 1.15;
-    letter-spacing: -0.025em;
+    letter-spacing: var(--iz-baslik);
   }
 
   .anaFiyat {

@@ -39,8 +39,8 @@
   color: var(--krem-78);
 }
 
-/* Atlama çipleri: çekmecenin bölüm çipleriyle aynı çizim (Cekmece.module.css .alt);
-   masaüstünde barın çapaları var, liste basılmaz. */
+/* Çipin kendisi `BolumCipi`; burada yalnız listenin yerleşimi var. Masaüstünde barın
+   çapaları duruyor, liste basılmaz. */
 .atlama {
   display: none;
   list-style: none;
@@ -48,37 +48,6 @@
   padding: 0;
   flex-wrap: wrap;
   gap: 12px 6px;
-}
-
-.atlamaCipi {
-  position: relative;
-  display: inline-block;
-  padding: 9px 12px;
-  border: 1px solid var(--cizgi-guclu);
-  border-radius: 2px;
-  font: 600 13.5px/1 var(--font-govde);
-  color: var(--krem-70);
-  transition: color var(--gecis-hizli), border-color var(--gecis-hizli);
-}
-
-/* Görünür 33.5px, dokunma ::after ile 45.5px; pay 12px satır aralığında kalır. */
-.atlamaCipi::after {
-  content: '';
-  position: absolute;
-  inset: -6px 0;
-}
-
-.atlamaCipi:active {
-  transition-duration: 0s;
-  color: var(--krem);
-  border-color: var(--cizgi-buton);
-}
-
-@media (hover: hover) {
-  .atlamaCipi:hover {
-    color: var(--krem);
-    border-color: var(--cizgi-buton);
-  }
 }
 
 /* Telefon: prototipin hero'su 58px barın altında 52px (mobil-prototip-davranis-referansi.json
@@ -96,12 +65,5 @@
   .atlama {
     display: flex;
     margin-top: 6px;
-  }
-}
-
-@media (max-width: 400px) {
-  .atlamaCipi {
-    padding: 9px 10px;
-    font-size: 13px;
   }
 }

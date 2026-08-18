@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { CanliSaat } from '@/components/saat/CanliSaat'
 import { DurumAltMetni } from '@/components/saat/DurumAltMetni'
 import { DurumCipi } from '@/components/saat/DurumCipi'
+import { BolumCipi } from '@/components/ui/BolumCipi'
 import { Buton } from '@/components/ui/Buton'
-import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
 import { InstagramIkon, PinIkon, SaatIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { sozluk, type Dil } from '@/content'
@@ -134,15 +134,9 @@ function GezinmeSatiri({ link, sira, dil, aktif, ilkLinkRef }: SatirProps) {
         <ul className={stil.altlar}>
           {link.altlar.map((alt) => (
             <li key={alt.hedef}>
-              {buradaMi ? (
-                <CapaBaglantisi href={`#${alt.hedef}`} className={stil.alt}>
-                  {s.ortak.nav[alt.etiket]}
-                </CapaBaglantisi>
-              ) : (
-                <Link href={`${yol(link.rota, dil)}#${alt.hedef}`} className={stil.alt}>
-                  {s.ortak.nav[alt.etiket]}
-                </Link>
-              )}
+              <BolumCipi href={buradaMi ? `#${alt.hedef}` : `${yol(link.rota, dil)}#${alt.hedef}`}>
+                {s.ortak.nav[alt.etiket]}
+              </BolumCipi>
             </li>
           ))}
         </ul>

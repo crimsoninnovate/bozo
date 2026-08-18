@@ -76,8 +76,15 @@ type Props = {
    * Fotoğraf dosyası yokken 1040 altında plaka basılmaz (sahibi, 18 Ağustos 2026:
    * menü sayfasının boş plakaları telefonda sayfanın üçte biriydi). Dosya gelince
    * kendiliğinden döner. Galeri geçmez: orada boş kare içeriğin kendisi.
+   * Çağıranlar plakayı `> div:first-child` ile boyutluyor; kök div ilk çocuk kalmalı.
    */
   bosMobildeGizli?: boolean
+  /**
+   * `srcset` seçimi için kutu genişliği ipucu. Varsayılan telefonda tam genişlik varsayar;
+   * mobil geometriyi çağıran bildiği için dar yuvalar (72px kare, yarım satır) kendi
+   * değerini geçer, yoksa 780px'lik aday indiriliyor.
+   */
+  sizes?: string
   children?: React.ReactNode
 }
 
@@ -94,6 +101,7 @@ export function FotoYuvasi({
   korNefesi,
   etiketGoster = false,
   bosMobildeGizli = false,
+  sizes = '(max-width: 1040px) 100vw, 50vw',
   children,
 }: Props) {
   const foto = fotograflar[id]
@@ -103,7 +111,7 @@ export function FotoYuvasi({
   if (foto.dosya) {
     return (
       <div className={`${stil.kap} ${stil[bicim]}`}>
-        <Image src={foto.dosya} alt={etiket} fill className={stil.gorsel} sizes="(max-width: 1040px) 100vw, 50vw" />
+        <Image src={foto.dosya} alt={etiket} fill className={stil.gorsel} sizes={sizes} />
         {children}
       </div>
     )

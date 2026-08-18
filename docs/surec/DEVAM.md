@@ -27,7 +27,7 @@ defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürs
   kararlar `KARAR-FORMU.md` F1-F10. Azaltılmış harekette tek geçiş istisnası var
   (`KorSahnesi.module.css`, `CLAUDE.md`'de kayıtlı); `useHareketAzaltilmisMi` tercihi
   canlı izler.
-- **Mobil eşik 1040px** (18 Ağustos, F3; 961-1039 EN menü barı sarıyordu), yirmi dört
+- **Mobil eşik 1040px** (18 Ağustos, F3; 961-1039 EN menü barı sarıyordu), otuz beş
   media query artı `FotoYuvasi`'nın `sizes` ipucu.
   Aşağıda geçen 780 ve 800 değerleri tarihtir, bugünkü kod değil.
 - **Şiş kilidi onaylandı ve her yerde** (18 Ağustos akşamı, F1): `lib/sis.ts` +

@@ -40,8 +40,9 @@
   color: var(--tangerine);
 }
 
-/* Telefon: Tam fiyat adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), ilk satır
-   gizlenir; Yarım ve Dürüm tek ince satırda (sahibinin 2A kararı, 18 Ağustos 2026). */
+/* Telefon: Tam fiyat adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), bu satır
+   görünmez olur; Yarım ve Dürüm tek ince satırda (sahibinin 2A kararı, 18 Ağustos 2026).
+   Rakamlar başlık fontunda ve tabular kalır (CLAUDE.md > Typography), etiket gövde fontunda. */
 @media (max-width: 1040px) {
   .liste {
     flex-direction: row;
@@ -56,22 +57,31 @@
     border-top: 0;
   }
 
-  .satir:first-child {
-    display: none;
+  /* `display:none` değil: fiyat adın satırında görünüyor ama terimi ("Tam") yalnız burada. */
+  .tamSatiri {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .olcu {
-    font: 600 13px/1.3 var(--font-baslik);
-    color: var(--krem-78);
+    font: 500 13px/1.3 var(--font-govde);
+    color: var(--krem-70);
   }
 
+  /* Kor lekesinin üstünde .5 alfa AA'nın altına düşüyordu (ölçüldü 4.20:1). */
   .not {
     font-size: 12px;
-    color: var(--krem-50);
+    color: var(--krem-58);
   }
 
   .fiyat {
-    font: 500 13px/1.3 var(--font-govde);
-    color: var(--krem-62);
+    font: 600 13px/1.3 var(--font-baslik);
+    font-variant-numeric: tabular-nums;
+    color: var(--krem-80);
   }
 }

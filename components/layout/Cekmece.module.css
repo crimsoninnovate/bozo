@@ -166,42 +166,9 @@
   padding: 2px 0 18px 36px;
 }
 
-/* Çip görünür kutusu 33.5px; ::after ile dokunma 45.5px. Pay satırın kendi dolgusunda kalır. */
-.alt {
-  position: relative;
-  display: inline-block;
-  padding: 9px 12px;
-  border: 1px solid var(--cizgi-guclu);
-  border-radius: 2px;
-  font-family: var(--font-govde);
-  font-weight: 600;
-  font-size: 13.5px;
-  line-height: 1;
-  color: var(--krem-70);
-  text-decoration: none;
-  transition: color var(--gecis-hizli), border-color var(--gecis-hizli);
-}
-
-.alt::after {
-  content: '';
-  position: absolute;
-  inset: -6px 0;
-}
-
-.alt:active {
-  transition-duration: 0s;
-  color: var(--krem);
-  border-color: var(--cizgi-buton);
-}
-
 @media (hover: hover) {
   .link:hover {
     color: var(--tangerine);
-  }
-
-  .alt:hover {
-    color: var(--krem);
-    border-color: var(--cizgi-buton);
   }
 }
 
@@ -408,25 +375,11 @@
   }
 }
 
-/* 400px altı: EN çip satırı ("From the Fire / On the House / Drinks") 375'te 306px istiyordu,
-   291 vardı; 13px ve 10px dolguyla 284. Dokunma 45px'te kalır. */
-@media (max-width: 400px) {
-  .alt {
-    padding: 9px 10px;
-    font-size: 13px;
-  }
-}
-
 /* 320-360: satır 30px, aralıklar sıkışır (360x740'ta gövde 12px kayıyordu). Alt blok
    akışa yaklaşınca son satırın çizgisi kalır ki durum çipi beşinci satır gibi okunmasın. */
 @media (max-width: 360px) {
   .link {
     font-size: 30px;
-  }
-
-  /* EN çipleri 360'ta tam sınırdaydı (284 = 284) ve yuvarlamayla sarıyordu. */
-  .alt {
-    padding: 9px 9px;
   }
 
   .satir:last-child {

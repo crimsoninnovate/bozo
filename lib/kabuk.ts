@@ -115,6 +115,16 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
   }
 }
 
+/**
+ * O rotanın üst barındaki sayfa içi çapalar. İki tüketici var: çekmecenin alt satırı
+ * ve menü sayfasının atlama çipleri; ikisi de barın kendi listesinden türer.
+ */
+export function barCapalari(rota: RotaAnahtari): { hedef: string; etiket: NavEtiketi }[] {
+  return ustBarVaryanti(rota).nav.flatMap((o) =>
+    o.tur === 'capa' ? [{ hedef: o.hedef, etiket: o.etiket }] : [],
+  )
+}
+
 export type CekmeceLinki = {
   rota: RotaAnahtari
   etiket: NavEtiketi
@@ -135,13 +145,9 @@ export type CekmeceLinki = {
  * İkramlar, İçecekler) 1040 altında hiçbir yerde yoktu (18 Ağustos 2026).
  */
 export function cekmeceLinkleri(): CekmeceLinki[] {
-  return IC_NAV.flatMap((o) => {
-    if (o.tur !== 'rota') return []
-    const altlar = ustBarVaryanti(o.rota).nav.flatMap((n) =>
-      n.tur === 'capa' ? [{ hedef: n.hedef, etiket: n.etiket }] : [],
-    )
-    return [{ rota: o.rota, etiket: o.etiket, altlar }]
-  })
+  return IC_NAV.flatMap((o) =>
+    o.tur === 'rota' ? [{ rota: o.rota, etiket: o.etiket, altlar: barCapalari(o.rota) }] : [],
+  )
 }
 
 /**
