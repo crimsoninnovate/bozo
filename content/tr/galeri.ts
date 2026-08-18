@@ -18,7 +18,7 @@
  */
 export const galeri = {
   baslik: 'Galeri',
-  altMetin: 'Sitenin beklediği on yedi kare',
+  altMetin: 'Sitenin beklediği on altı kare',
   aiNotu:
     'Yapay zeka ile üretilmiş yemek görseli kullanılmıyor. ' +
     'Yuvalar çekim gelene kadar karanlık kalır.',

@@ -15,7 +15,6 @@ export const konum = {
   },
   iletisim: {
     baslik: 'İletişim',
-    whatsappAlt: 'Paket sipariş de buradan alınır',
     instagramAlt: 'Ocak, tane ve saatler',
   },
 }

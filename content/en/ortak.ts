@@ -49,7 +49,6 @@ export const ortak = {
     yolTarifiKisa: 'Directions',
     menuyuGor: 'See the Menu',
     whatsapptanYaz: 'Message on WhatsApp',
-    ara: 'Call',
     whatsapp: 'WhatsApp',
     bozoSofrasi: "Bozo's Table",
     telefon: 'Phone',
@@ -69,7 +68,6 @@ export const ortak = {
     adresBina: 'No:4',
     adresSehirUlke: 'Kyrenia / TRNC',
     adresTamSatir: 'Naci Talat Street No:4',
-    adresVeSaat: 'Kyrenia, Naci Talat Street No:4 · Every day 10:00 - 05:00',
     saatlerGunluk: 'Every day 10:00 - 05:00',
     saatlerUzun: 'Every day from 10:00 until 05:00 the next morning',
     saatAraligi: '10:00 - 05:00',
@@ -87,10 +85,8 @@ export const ortak = {
     tanim: 'Urfa style liver over oak embers.',
     isimNotu: 'Bozo is the lifelong nickname of our founder, Engin Çağlar from Urfa.',
     adresBaslik: 'Address',
-    sayfalarBaslik: 'Pages',
     saatlerBaslik: 'Hours',
     iletisimBaslik: 'Contact',
-    sosyal: 'WhatsApp · Instagram',
   },
   sayfaMeta: {
     ana: {
@@ -105,7 +101,7 @@ export const ortak = {
     /** Built from the page's own two lines; see the Turkish file for the sources. */
     galeri: {
       baslik: 'Gallery · Ciğerci Bozo',
-      aciklama: 'Seventeen frames the site is waiting for: the place and the dishes.',
+      aciklama: 'Sixteen frames the site is waiting for: the place and the dishes.',
     },
     hikaye: {
       baslik: 'Story · Ciğerci Bozo',

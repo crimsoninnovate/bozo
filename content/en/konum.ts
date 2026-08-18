@@ -16,7 +16,6 @@ export const konum = {
   },
   iletisim: {
     baslik: 'Contact',
-    whatsappAlt: 'Takeaway orders are also taken here',
     instagramAlt: 'The fire, the cut and the hours',
   },
 }

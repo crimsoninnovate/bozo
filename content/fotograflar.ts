@@ -17,7 +17,6 @@ export const fotograflar: Record<FotoId, Foto> = {
   'ustanin-eli': { etiket: 'ustanın eli', etiketEn: "the master's hand" },
   'kurulu-sofra': { etiket: 'kurulu sofra, üstten', etiketEn: 'the table, from above' },
   'gece-cephesi': { etiket: 'gece cephesi', etiketEn: 'the front at night' },
-  'paket-ve-gel-al': { etiket: 'paket ve gel al', etiketEn: 'takeaway' },
   'bes-urun': { etiket: 'ürünler ayrı ayrı', etiketEn: 'each dish, one by one' },
   dalak: { etiket: 'dalak karesi', etiketEn: 'spleen' },
   yurek: { etiket: 'yürek karesi', etiketEn: 'heart' },

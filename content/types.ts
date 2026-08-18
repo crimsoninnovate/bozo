@@ -55,7 +55,6 @@ export type FotoId =
   | 'ustanin-eli'
   | 'kurulu-sofra'
   | 'gece-cephesi'
-  | 'paket-ve-gel-al'
   | 'bes-urun'
   | 'dalak'
   | 'yurek'

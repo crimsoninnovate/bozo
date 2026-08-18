@@ -48,7 +48,6 @@ export const ortak = {
     yolTarifiKisa: 'Yol Tarifi',
     menuyuGor: 'Menüyü Gör',
     whatsapptanYaz: "WhatsApp'tan Yaz",
-    ara: 'Ara',
     whatsapp: 'WhatsApp',
     /* Mobil barın orta düğmesi. "Menü" yerine sahibinin seçimi, 13 Ağustos 2026;
        "sofra" zaten kilitli terim. Hedef menü sayfası. */
@@ -71,7 +70,6 @@ export const ortak = {
     adresBina: 'No:4',
     adresSehirUlke: 'Girne / KKTC',
     adresTamSatir: 'Naci Talat Caddesi No:4',
-    adresVeSaat: 'Girne, Naci Talat Caddesi No:4 · Her gün 10:00 - 05:00',
     saatlerGunluk: 'Her gün 10:00 - 05:00',
     saatlerUzun: "Her gün 10:00'dan ertesi sabah 05:00'e kadar",
     saatAraligi: '10:00 - 05:00',
@@ -92,10 +90,8 @@ export const ortak = {
     // Yenisi İngilizce satırın işini yapar: iddiayı değil kişiyi söyler.
     isimNotu: "Bozo, Urfalı Engin Çağlar'ın yıllardır taşıdığı lakap.",
     adresBaslik: 'Adres',
-    sayfalarBaslik: 'Sayfalar',
     saatlerBaslik: 'Saatler',
     iletisimBaslik: 'İletişim',
-    sosyal: 'WhatsApp · Instagram',
   },
   /** Rota başına sayfa başlığı ve açıklaması. Anahtarlar RotaAnahtari ile birebir eşleşir. */
   sayfaMeta: {
@@ -114,7 +110,7 @@ export const ortak = {
      */
     galeri: {
       baslik: 'Galeri · Ciğerci Bozo',
-      aciklama: 'Sitenin beklediği on yedi kare: mekan ve ürün fotoğrafları.',
+      aciklama: 'Sitenin beklediği on altı kare: mekan ve ürün fotoğrafları.',
     },
     hikaye: { baslik: 'Hikaye · Ciğerci Bozo', aciklama: "Urfa'da ustayı tanesinden anlarsınız." },
     konum: {
