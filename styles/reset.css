@@ -23,7 +23,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--tangerine); text-decoration: none; }
-a:hover { color: var(--krem); }
+/* Hover yalnız imleçli aygıtta: dokunmada :hover dokunuştan sonra da yapışıyordu
+   (ölçüldü 390, on dokuz kural, sıfır kapı). Dokunma parıltısı tarayıcının mavisi
+   değil; basma geri bildirimini bileşenlerin :active kuralları verir. */
+@media (hover: hover) {
+  a:hover { color: var(--krem); }
+}
+a, button { -webkit-tap-highlight-color: transparent; }
 
 /*
  * Odak halkası, site genelinde tek kural. Öncesinde hiç yoktu: on rota tarayıcı

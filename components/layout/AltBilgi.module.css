@@ -144,9 +144,11 @@
 
 /* Renk yeniden yazılır: reset.css `a:hover`ı kreme çekiyor, tasarımda hover'da
    yalnız gap açılır; tire tangerine kalırken metin bir karede kreme atlıyordu. */
-.yolTarifi:hover {
-  gap: 16px;
-  color: var(--tangerine);
+@media (hover: hover) {
+  .yolTarifi:hover {
+    gap: 16px;
+    color: var(--tangerine);
+  }
 }
 
 .yolTarifi::before {
@@ -228,8 +230,10 @@
   flex: none;
 }
 
-a.iletisimSatiri:hover {
-  color: var(--tangerine);
+@media (hover: hover) {
+  a.iletisimSatiri:hover {
+    color: var(--tangerine);
+  }
 }
 
 .tabular {

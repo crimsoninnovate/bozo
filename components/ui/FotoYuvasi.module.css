@@ -52,7 +52,9 @@
   min-height: clamp(340px, 46vh, 480px);
   transition: box-shadow var(--gecis-orta);
 }
-.spread:hover { box-shadow: inset 0 0 120px var(--kor-leke-hover); }
+@media (hover: hover) {
+  .spread:hover { box-shadow: inset 0 0 120px var(--kor-leke-hover); }
+}
 /* ürün kartının üst plakası. Menu:126 */
 .kart { height: clamp(240px, 30vh, 300px); }
 /* ikram kartının sol plakası. Menu:207 */

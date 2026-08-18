@@ -19,10 +19,19 @@
   transition: border-color var(--gecis-hizli), background var(--gecis-hizli);
 }
 
-.baglanti:hover {
+@media (hover: hover) {
+  .baglanti:hover {
+    border-color: var(--tangerine-70);
+    background: var(--tangerine-07);
+    color: var(--krem);
+  }
+}
+
+/* Dokunmada basma: hover renkleri anında, bırakınca 0.15s'te söner. */
+.baglanti:active {
+  transition-duration: 0s;
   border-color: var(--tangerine-70);
   background: var(--tangerine-07);
-  color: var(--krem);
 }
 
 /* Konum:129 */

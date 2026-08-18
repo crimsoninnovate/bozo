@@ -124,8 +124,10 @@
   transition: color var(--gecis-hizli);
 }
 
-.link:hover {
-  color: var(--tangerine);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--tangerine);
+  }
 }
 
 /*

@@ -13,10 +13,12 @@
     box-shadow 0.22s ease-out;
 }
 
-.kart:hover {
-  transform: translateY(-6px);
-  border-color: var(--kor-kenar-hover);
-  box-shadow: var(--golge-kart-hover);
+@media (hover: hover) {
+  .kart:hover {
+    transform: translateY(-6px);
+    border-color: var(--kor-kenar-hover);
+    box-shadow: var(--golge-kart-hover);
+  }
 }
 
 /* Plakanın sağ üstündeki indeks rozeti. Gövdede değil, FotoYuvasi'nin children

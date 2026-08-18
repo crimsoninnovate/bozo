@@ -130,9 +130,11 @@
   transition: gap var(--gecis-yerlesim);
 }
 
-.ipucu:hover {
-  gap: 22px;
-  color: var(--krem-62);
+@media (hover: hover) {
+  .ipucu:hover {
+    gap: 22px;
+    color: var(--krem-62);
+  }
 }
 
 .ipucu::after {

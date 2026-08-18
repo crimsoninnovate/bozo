@@ -49,8 +49,10 @@
   transform: translateY(-50%);
 }
 
-.pasif:hover {
-  color: var(--krem);
+@media (hover: hover) {
+  .pasif:hover {
+    color: var(--krem);
+  }
 }
 
 /*

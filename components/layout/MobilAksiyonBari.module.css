@@ -76,6 +76,12 @@
   }
 }
 
+/* Basma: dokunmadaki tek geri bildirim, tarayıcı parıltısı kapalı (reset.css). */
+.hedef:active {
+  transition-duration: 0s;
+  color: var(--krem);
+}
+
 .etiket {
   font-family: var(--font-govde);
   font-weight: 600;
@@ -121,6 +127,11 @@
       0 0 0 6px rgba(10, 8, 7, 0.5),
       inset 0 1px 0 rgba(250, 170, 31, 0.45);
   }
+}
+
+.sofra:active .daire {
+  transition-duration: 0s;
+  transform: scale(0.96);
 }
 
 .pasif {
