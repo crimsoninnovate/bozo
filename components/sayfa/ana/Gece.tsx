@@ -12,16 +12,14 @@ type Props = { dil: Dil }
  *
  * Arka plandaki hayalet saat KALKTI: "ocak" kelimesinin üstüne biniyor ve
  * sağdan kırpılıyordu. Başlık artık kendi genişliğinde, çakışacak dekoratif
- * eleman yok.
+ * eleman yok. Ufuk koru bölümün kendi ::before'u (Gece.module.css), erit
+ * sarmalayıcısının içinde değil.
  */
 export function Gece({ dil }: Props) {
   const s = sozluk(dil)
 
   return (
     <Bolum id="gece" yogunluk={1.25} className={stil.bolum} eritClassName={stil.erit}>
-      {/* Ufuk koru: gece hissi ışıktan gelir, tipografiden değil. */}
-      <span aria-hidden="true" className={stil.ufuk} />
-
       <div className={stil.saatSatiri}>
         <span className={stil.vardiyaEtiketi}>{s.ana.gece.vardiyaEtiketi}</span>
         <span aria-hidden="true" className={stil.cizgi} />
