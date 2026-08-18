@@ -113,3 +113,37 @@ test('geceSeridi_yalnizCanliGostergesizRotalarda', () => {
   }
 })
 
+
+/**
+ * Menü sayfasının üç bölüm çapası masaüstünde menü barında durur, dar ekranda
+ * hiçbir yerde yoktu. Çekmecede Menü satırının altına iner; liste elle yazılmaz,
+ * menü barının kendi çapalarından türer ki ikisi ayrışamasın.
+ */
+test('cekmece_menuAltCapalari_menuBarininCapalariylaAyni', () => {
+  const menu = cekmeceLinkleri().find((l) => l.rota === 'menu')
+  assert.ok(menu)
+  assert.deepEqual(
+    menu.altlar.map((a) => `#${a.hedef}`),
+    ustBarVaryanti('menu').nav.flatMap((o) => (o.tur === 'capa' ? [`#${o.hedef}`] : [])),
+  )
+  assert.deepEqual(menu.altlar.map((a) => a.hedef), ['ocaktan', 'ikramlar', 'icecekler'])
+})
+
+/** Öteki üç sayfanın barında çapa yok; çekmecede de alt satır açılmaz. */
+test('cekmece_digerLinklerde_altCapaYok', () => {
+  for (const link of cekmeceLinkleri()) {
+    if (link.rota === 'menu') continue
+    assert.deepEqual(link.altlar, [], link.rota)
+  }
+})
+
+/** Alt çapa etiketleri de iki sözlükte var. */
+test('cekmece_altCapaEtiketleri_sozlukteKarsiligiVar', () => {
+  for (const link of cekmeceLinkleri()) {
+    for (const alt of link.altlar) {
+      for (const s of [tr, en]) {
+        assert.equal(typeof s.ortak.nav[alt.etiket], 'string', alt.hedef)
+      }
+    }
+  }
+})

@@ -49,6 +49,10 @@ npm run preview    # serve the out/ export locally
   supersedes the handoff. It is a section-by-section audit of the live page and it
   changes the hero, Ocaktan, Gece, İddia, Hikaye, Konum, the ember scene and the
   home variant of the top bar. Inner pages still follow the handoff.
+- **Mobile drawer (`Cekmece`), from 18 August 2026:** the owner's decision A supersedes
+  the prototype's drawer; source is `docs/surec/IYILESTIRMELER.md` > "çekmece
+  zenginleştirme turu". A parity round reading `Mobil Prototip.dc.html` will see extra
+  content (top row, numbers, anchors, status block, CTAs, foot, motion). It is intended.
 - Canonical visual and behavioral source: `/Users/mk/Desktop/Bozo/design_handoff_bozo_website/*.dc.html`
 - Cheaper structural extract of the same handoff, read this first: `docs/tasarim/*.json`
 - Copy, terminology and forbidden phrases: `docs/tasarim/metin-envanteri.json`

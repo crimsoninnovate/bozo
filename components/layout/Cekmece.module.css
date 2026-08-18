@@ -1,35 +1,48 @@
 /*
- * Mobil Prototip.dc.html [data-cekmece]. Zemin rgba(8,6,5,.96) tasarımda 8 haneli
- * palette dışı (yalnızca #0A0807 zemin onaylı); yakın-yanlış olarak değerlendirildi,
- * --zemin'in rgb'si aynı alfayla kullanıldı, bkz. task-6-report.md.
- * Durum noktası tasarımda hep yanık kalıyordu (data-nokta yok); tasarımın kendi
- * notu bunu tutarsızlık işaretliyor, kapalıyken söner (DurumCipi ile aynı davranış).
+ * Mobil Prototip.dc.html [data-cekmece] tabandır: tam ekran, .96 zemin, 6px bulanıklık,
+ * 700 34px/1.3 Bricolage satırlar, .12 saç çizgisi. Üstüne 18 Ağustos 2026'da sahibinin
+ * seçtiği A karesi geldi (üst satır, numara, alt çapalar, durum bloğu, CTA'lar, ayak);
+ * ölçüler ve gerekçe IYILESTIRMELER.md > çekmece zenginleştirme turu.
  */
 .kap {
   position: fixed;
   inset: 0;
-  /* Tasarımda çekmece en üst katman (bar 20, eylem barı 30, çekmece 40). Portun
-   * ölçeğinde üst bar 60 ve eylem barı 70; 40 kalınca kapatma hedefi hamburgerin
-   * altında kalıyor ve tıklanamıyordu. */
+  /* Bar 60, eylem barı 70; çekmece ikisinin üstünde (40'ta kapatma hamburgerin altında kalıyordu). */
   z-index: 80;
-  background: rgba(10, 8, 7, 0.96);
-  backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
-  padding: 70px 24px 24px;
+  background: var(--panel-96);
+  backdrop-filter: blur(6px);
+  overscroll-behavior: contain;
+  animation: kapAcilis 220ms ease-out both;
 }
 
-/* Prototipin 26x26 kutusu right:22/top:26 idi; kutu 44'e büyüyünce X, onu açan
-   hamburger'in 17.5px altına düşüyordu. 7/18 ile merkezler 1.5px içinde (ölçüldü). */
+/* Üst satır barın mobil satırının ikizi (UstBar 58px, 0 18px, .09 çizgi, sağ grup 14px):
+   kilit ve dil çekmece açıkken de yerinde, X hamburgerin tam yerinde. */
+.ust {
+  flex: none;
+  height: 58px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(242, 233, 220, 0.09);
+}
+
+.sagGrup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .kapat {
-  position: absolute;
-  right: 18px;
-  top: 7px;
+  position: relative;
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
@@ -42,21 +55,46 @@
   background: var(--krem);
 }
 
+/* Hamburgerin iki çizgisi (4px aralık) X'e döner: yerinden merkeze gelip 45 derece kırılır. */
 .kapat span:first-child {
   transform: rotate(45deg);
+  animation: xUst 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 .kapat span:last-child {
   transform: rotate(-45deg);
+  animation: xAlt 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.govde {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 10px 24px calc(22px + env(safe-area-inset-bottom, 0px));
 }
 
 .linkler {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+}
+
+.satir {
+  border-bottom: 1px solid var(--cizgi-kart);
+  animation: satirGiris 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(60ms + var(--sira) * 45ms);
+}
+
+.satir:last-child {
+  border-bottom: none;
 }
 
 .link {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
   font-family: var(--font-baslik);
   font-weight: 700;
   font-size: 34px;
@@ -65,76 +103,282 @@
   color: var(--krem);
   text-decoration: none;
   padding: 10px 0;
-  border-bottom: 1px solid var(--cizgi-kart);
+  transition: color var(--gecis-hizli);
 }
 
-.link:last-child {
-  border-bottom: none;
-}
-
-/* Bulunulan sayfa masaüstü barındaki gibi tangerine (UstBar .aktifLink); çekmecede
-   dört bağlantı aynı renkti, ölçüldü /menu/ 390. Prototip yalnız ana sayfayı çizer. */
+/* Bulunulan sayfa masaüstü barındaki gibi tangerine (UstBar .aktifLink). */
 .link[aria-current='page'] {
   color: var(--tangerine);
 }
 
-.durumBlogu {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.durumSatiri {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.nokta {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.acikNokta {
-  background: var(--tangerine);
-  box-shadow: 0 0 12px rgba(250, 170, 31, 0.9);
-  animation: dotPulse 2.4s ease-in-out infinite;
-}
-
-.kapaliNokta {
-  background: rgba(242, 233, 220, 0.35);
-}
-
-.acikMetin,
-.kapaliMetin {
-  font-family: var(--font-govde);
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1;
-}
-
-.acikMetin {
+.link:active {
+  transition-duration: 0s;
   color: var(--tangerine);
 }
 
-.kapaliMetin {
+/* Sıra numarası: tabular Bricolage, ekran okuyucuya kapalı. Genişlik 22, aralık 14: alt
+   çapalar 36px içeriden başlar ve sayfa adıyla aynı hizaya oturur. */
+.no {
+  min-width: 22px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-50);
+}
+
+.link[aria-current='page'] .no {
+  color: var(--tangerine);
+}
+
+.altlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 6px;
+  padding: 8px 0 14px 36px;
+}
+
+/* Çip görünür kutusu 32px; ::after ile dokunma 44px'e çıkar (bar ile aynı teknik). Pay
+   satırın kendi 8/14 dolgusunun içinde kalır, komşu satırın kutusuna taşmaz. */
+.alt {
+  position: relative;
+  padding: 9px 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 2px;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 13.5px;
+  line-height: 1;
+  color: var(--krem-70);
+  text-decoration: none;
+  transition: color var(--gecis-hizli), border-color var(--gecis-hizli);
+}
+
+.alt::after {
+  content: '';
+  position: absolute;
+  inset: -6px 0;
+}
+
+.alt:active {
+  transition-duration: 0s;
+  color: var(--krem);
+  border-color: var(--cizgi-buton);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--tangerine);
+  }
+
+  .alt:hover {
+    color: var(--krem);
+    border-color: var(--cizgi-buton);
+  }
+}
+
+/* Alt blok gövdenin sonuna yaslanır; içerik gövdeden uzunsa (320x568, yatay telefon)
+   akışta kalır ve gövdeyle kayar. */
+.altBlok {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: satirGiris 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 260ms;
+}
+
+.durum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px 12px;
+}
+
+.durumSol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--font-govde);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--krem-70);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metaSatir {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
   color: var(--krem-78);
 }
 
-.notMetin {
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 1.6;
-  font-variant-numeric: tabular-nums;
-  color: var(--krem-60);
+.metaSatir svg {
+  flex: none;
+  opacity: 0.7;
 }
 
-/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
-   bir sayfada duran düz ad tutmaz. Ana:21 ve Menu/Hikaye/Konum:21. */
-@keyframes dotPulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 1; }
+/* Adres bağlantısı: 20px metin, ::after ile 44px dokunma. */
+.metaBaglanti {
+  position: relative;
+  text-decoration: underline;
+  text-decoration-color: var(--cizgi-tire);
+  text-underline-offset: 3px;
+  transition: color var(--gecis-hizli);
+}
+
+.metaBaglanti::after {
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+}
+
+.metaBaglanti:active {
+  transition-duration: 0s;
+  color: var(--krem);
+}
+
+@media (hover: hover) {
+  .metaBaglanti:hover {
+    color: var(--krem);
+  }
+}
+
+.ctalar {
+  display: grid;
+  gap: 8px;
+}
+
+/* Buton satır içi kutudur; çekmecede iki CTA tam genişlik. Seçici Buton'un kök
+   öğesi (a ya da pasif span) içindir, sınıf adı modülün dışında olduğu için etiketle. */
+.ctalar > a,
+.ctalar > span {
+  display: flex;
+  width: 100%;
+}
+
+.ayak {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+  font-family: var(--font-govde);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--krem-62);
+}
+
+.iletisim {
+  display: flex;
+  gap: 18px;
+}
+
+.iletisimLinki {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--krem-62);
+  text-decoration: none;
+  transition: color var(--gecis-hizli);
+}
+
+.iletisimLinki:active {
+  transition-duration: 0s;
+  color: var(--krem);
+}
+
+@media (hover: hover) {
+  .iletisimLinki:hover {
+    color: var(--krem);
+  }
+}
+
+.not {
+  font-weight: 400;
+}
+
+/* Uzun telefon (390x844 ve üstü): satırlar bir kademe büyür, gezinme ile durum bloğu
+   arasındaki boşluk daralır (ölçüldü: 390x844 130 > 81px, 430x932 218 > 169px). */
+@media (min-height: 800px) {
+  .link {
+    font-size: 38px;
+    padding: 12px 0;
+  }
+}
+
+/* Yatay telefon ve yatay tablet (700-1040px): tek kolon 364px kaydırıyordu (844x390);
+   gezinme sola, durum ve eylemler sağa. */
+@media (min-width: 700px) and (orientation: landscape) {
+  .govde {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 48px;
+    padding-top: 18px;
+  }
+
+  .linkler {
+    flex: 1 1 0;
+  }
+
+  .altBlok {
+    flex: 1 1 0;
+    max-width: 420px;
+    margin-top: 0;
+  }
+}
+
+/* 320px: 34px "İçecekler" çipiyle satır sarıyor, ölçü bir kademe iner. Aralıklar da
+   sıkışır: 360x740'ta gövde 12px kayıyordu, sıfır olsun. */
+@media (max-width: 360px) {
+  .link {
+    font-size: 30px;
+  }
+
+  .govde {
+    gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .altBlok {
+    gap: 16px;
+  }
+}
+
+/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler. Azaltılmış harekette
+   styles/animasyonlar.css hepsini kapatır; `both` dolgusu sayesinde son kare her durumda basılır. */
+@keyframes kapAcilis {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes satirGiris {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes xUst {
+  from { transform: translateY(-3px) rotate(0deg); }
+  to { transform: translateY(0) rotate(45deg); }
+}
+
+@keyframes xAlt {
+  from { transform: translateY(3px) rotate(0deg); }
+  to { transform: translateY(0) rotate(-45deg); }
 }

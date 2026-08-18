@@ -10,8 +10,13 @@ Son güncelleme: 18 Ağustos 2026, uçtan uca denetim turu sonrası
 **Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
 defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
 
-- Branch `feat/site-kurulumu`, 111 test geçiyor, typecheck ve build temiz, 17 rota
+- Branch `feat/site-kurulumu`, 114 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
+- **Mobil çekmece zenginleşti** (18 Ağustos gecesi, sahibinin A kararı, `IYILESTIRMELER.md`
+  > "çekmece zenginleştirme turu"): kendi üst satırı (kilit + dil + X), 01-04 numaralı
+  bağlantılar, Menü altında üç bölüm çapası (`cekmeceLinkleri().altlar`), durum bloğu
+  (çip + 40px saat + alt metin), adres ve saat satırları, iki CTA, iletişim ayağı, açılış
+  hareketi, yatayda iki kolon. Çekmecenin kaynağı artık prototip değil bu kayıt.
 - **Animasyon kurgusu turu kapandı** (18 Ağustos akşamı, `IYILESTIRMELER.md` > "animasyon
   kurgusu ve akışı turu"): yedi mercek, çürütme turu, yirmi üç commit. Sahibine kalan
   kararlar `KARAR-FORMU.md` F1-F10. Azaltılmış harekette tek geçiş istisnası var

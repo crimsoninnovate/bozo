@@ -60,11 +60,11 @@ function kullanilanlar(css: string): Set<string> {
   }
 
   for (const [, deger] of govde.matchAll(/(?<![-\w])animation\s*:\s*([^;}]+)/g)) {
-    for (const katman of (deger ?? '').split(',')) {
-      // fonksiyonların (cubic-bezier, steps) içindeki virgüller ayrıştırmayı
-      // bozmasın diye önce fonksiyon çağrıları düşürülür
-      const sade = katman.replace(/[\w-]+\([^)]*\)/g, ' ')
-      for (const jeton of sade.trim().split(/\s+/)) {
+    // fonksiyonların (cubic-bezier, steps) içindeki virgüller katman ayrımını
+    // bozmasın diye önce fonksiyon çağrıları düşürülür, sonra katmanlara bölünür
+    const fonksiyonsuz = (deger ?? '').replace(/[\w-]+\([^)]*\)/g, ' ')
+    for (const katman of fonksiyonsuz.split(',')) {
+      for (const jeton of katman.trim().split(/\s+/)) {
         if (!jeton) continue
         if (/^-?[\d.]+m?s$/.test(jeton)) continue // süre / gecikme
         if (/^-?[\d.]+$/.test(jeton)) continue // yineleme sayısı

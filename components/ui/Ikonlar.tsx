@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react'
+import { ArrowDown, ArrowRight, Clock, MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react'
 
 type Props = {
   boy?: number
@@ -26,6 +26,11 @@ export function TelefonIkon({ boy = 16 }: Props) {
 
 export function WhatsAppIkon({ boy = 16 }: Props) {
   return <MessageCircle size={boy} aria-hidden="true" />
+}
+
+/** Saat satırlarının ikonu; çekmecede "Her gün 10:00 - 05:00" satırının başında. */
+export function SaatIkon({ boy = 16 }: Props) {
+  return <Clock size={boy} aria-hidden="true" />
 }
 
 /**

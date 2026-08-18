@@ -70,6 +70,16 @@
   color: var(--krem);
 }
 
+/* Mobil çekmecenin durum bloğu: prototipin çekmecesinde saat yok, hero'nun mobil
+   30px'i çipin yanında küçük kaldı; 40px sahibinin seçtiği A karesinin ölçüsü. */
+.cekmece {
+  gap: 3px;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--krem);
+}
+
 /* gece bölümündeki düz saat: tek renk tangerine, nokta sabit (tasarımda ayrı span yok) */
 .orta {
   font-size: clamp(28px, 3.4vw, 44px);

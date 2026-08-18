@@ -622,3 +622,33 @@ Sahibi şiş kilidini onayladı ve ikon ile alt bilginin aynı çizimden türeme
 | F9 (b) rampa | `lib/cerceve.ts` yoğunluk iki komşu merkez arasında ağırlıklı ortalama; aktif bölüm en yakın kalır | 1440, 0-800px kaydırma: .86 / .795 / .731 / .666 / .606; önce 390'da tek basamak .86 > .608 |
 | F10 (c) merdiven | `GunMerdiveni` üç satır merkezini ölçer, imleci aralarında parça parça çevirir | 21:00'de imleç merkezi 443.3 = satır merkezi 443.3 (önce 7.8px altta) |
 | F2, F7, F8 (a) | Değişiklik yok, karar kayda geçti | |
+
+## 18 Ağustos 2026 gecesi: çekmece zenginleştirme turu (sahibinin A kararı)
+
+Sahibi hamburger çekmecesinin "içeriğinin zenginleşmesini, uçtan uca ele alınmasını"
+istedi. Üç yön gerçek font ve renklerle 390x844'te gösterildi: A tam sayfa editoryal,
+B kor paneli (iki zemin, kare karolar), C üst perde (alt bar görünür kalır). Sahibi A'yı
+seçti ve uygulama tasarımını onayladı. **Çekmecenin kaynağı artık `Mobil Prototip.dc.html`
+195-213 değil, bu kayıt;** prototipten kalan değerler (.96 zemin, 6px bulanıklık, 700
+34px/1.3, .12 çizgi, sağ üst kapatma) aynen duruyor. Bütün metinler `ortak.*`'tan, yeni
+metin yok. Ölçümler `out/` üstünde headless (390/430/360/320/768/1024, yatay 844x390).
+
+| Nerede | Değişiklik | Ölçüm, gerekçe |
+|---|---|---|
+| Üst satır | Çekmecenin kendi satırı: `MarkaKilidi` + `DilAnahtari` + X, barın mobil satırının ikizi (58px, 0 18px, .09 çizgi, sağ grup 14) | Önce açıkken marka ve dil çekmecenin altında kalıyordu (z 80 > 60), 390'da 15 hedefin ikisi ancak kapatınca erişilirdi. X hamburgerin tam yerinde, çizgileri oradan X'e döner |
+| Sıra numarası | 01-04, tabular Bricolage 12px `--krem-50`, `aria-hidden`; aktif satırda tangerine | Bağlantı adı ekran okuyucuda yalnız sayfa adı. Numara + 14px aralık = 36px, alt çapalar bu hizada başlar |
+| Alt çapalar | Menü'nün altında Ocaktan / İkramlar / İçecekler; `cekmeceLinkleri()` artık `altlar` taşır, menü barının çapalarından türer (`kabuk.test`: 3 test). Bulunulan sayfada `CapaBaglantisi` (`#ikramlar`), başka sayfadan `/menu/#ikramlar` | 1040 altında üç çapa hiçbir yerde yoktu. Ölçüldü: /menu'de #ikramlar 4132px'e kaydırdı ve çekmece kapandı; ana sayfadan #icecekler `/menu/#icecekler` 5592'ye indi. Çip 32px görünür, `::after` ile 44px, pay satırın kendi 8/14 dolgusunda |
+| Durum bloğu | `DurumCipi` (kucuk) + `DurumAltMetni` + `CanliSaat` yeni `cekmece` boyu (40px/800) | Çekmecenin kendi durum satırı ve saat/alkolsüz notu kalktı, üç bileşen paylaşılıyor; `durum === null` dalı çipin içinde korunuyor (kapalı basmıyor). 320'de saat çipin altına sarar |
+| Adres ve saat | Pin + `adresKisa` yol tarifi bağlantısı (metin 20px, `::after` 44px), yeni `SaatIkon` + `saatlerGunluk` | Konum bilgisi barın "Yol Tarifi" ikonunun ötesinde okunur oldu |
+| CTA'lar | `Buton` md, tam genişlik: birincil "Yol Tarifi Al", ikincil "WhatsApp'tan Yaz" (`whatsapptanYaz` ilk gerçek yüzeyini buldu, A10) | Barın üç eylemi çekmece açıkken örtülüyor (z 80 > 70, `elementFromPoint` barı görmüyor); eylemler içeride |
+| Ayak | Instagram, Telefon, sağda `alkolsuzKisa` | Alt bilginin iletişim üçlüsüyle aynı; barın "telefon çıktı" kararı bara özeldi (13 Ağustos), alt bilgi telefonu taşımaya devam ediyordu |
+| Kapanma | Kapsayıcıda tıklama delegasyonu: her `a[href]` çekmeceyi kapatır | Ölçüldü: /menu'de "Menü" ve ana sayfada kilit aynı rotaya gidiyor, sayfa yeniden mount olmuyor ve çekmece açık kalıyordu; şimdi kapanıyor, `body.overflow` geri geliyor |
+| Hareket | 220ms solma, satırlar 60 + 45n ms basamaklı yükseliş (10px), alt blok 260ms, X 260ms | Animasyon turunun "160ms açılış solması reddedildi" satırı sahibinin bu kararıyla tersine döndü: sahibi hareketi tasarımın parçası olarak gördü ve onayladı. Azaltılmış harekette `getAnimations` 0, ilk satır opaklığı 1 |
+| Ölçek | `min-height: 800px` satır 38px/12; `max-width: 360px` 30px, gövde 20 / blok 16 aralık | 390x844 gezinme-durum boşluğu 130 > 81px, 430x932 218 > 169; 360x740 kayma 12 > 0; 320x568 276px kayar (kabul, gövde `overflow-y: auto`) |
+| Yatay | 700px+ ve yatay: iki kolon (gezinme sol, durum + eylemler sağ, sağ en çok 420) | 844x390 tek kolon 364px kaydırıyordu, şimdi 29; 1024x768 sıfır |
+| Token | `--panel-96` (çekmece zemini) | Ham .96 tek yerdeydi; KISITLAR "yeni alfa = yeni token" |
+| `styles/animasyon.test.ts` | Katmanlara bölmeden önce fonksiyon çağrıları düşürülür | `cubic-bezier(.2,.7,.2,1)` virgülleri sahte ad üretiyordu; testin kendi yorumu zaten bu sırayı yazıyordu |
+
+Açık kalan: "Ana Sayfa" satırı yine yok (kilit ana sayfaya gider; IYILESTIRMELER:57 kaydı
+geçerli); ana sayfanın "Gece" çapası çekmecede yüzey bulmadı (menü çapaları gibi türetmek için
+listede bir "ana" satırı gerekir, o da sahibinin kararı).

@@ -14,15 +14,16 @@ type Props = {
    *   iyilestirmeler.md, Fix round 1). Yer tutucu olarak "hero-tek-kullanim" diye
    *   etiketlenen konum.json girişine güvenmeyin, iki sayfada tekrarlandığı doğrulandı.
    * orta: gece bölümündeki düz tangerine saat, nokta yanıp sönmez.
+   * cekmece: mobil çekmecenin durum bloğundaki ayrık saat, 40px (18 Ağustos 2026, sahibinin A kararı).
    * Bkz. docs/tasarim/ana-sayfa.json > paylasilanBilesenler > CanliSaat.
    */
-  boy: 'dev' | 'kucuk' | 'orta'
+  boy: 'dev' | 'kucuk' | 'orta' | 'cekmece'
 }
 
 const YER_TUTUCU = '--'
-// Bu iki boy saat+kolon+dakika olarak ayrık span'lara bölünür ve kolon yanıp söner;
+// Bu boylar saat+kolon+dakika olarak ayrık span'lara bölünür ve kolon yanıp söner;
 // orta düz metindir (bkz. Ana Sayfa Alternatif.dc.html data-saat-tam/-dev).
-const AYRIK_BOYLAR = new Set(['dev', 'kucuk'])
+const AYRIK_BOYLAR = new Set(['dev', 'kucuk', 'cekmece'])
 
 /* Rakam hücresi görünmez bir "00" (::before) ile iki tabular rakam genişliğinde durur:
    "--" yarısı kadardı ve hidrasyonda kolonla dakika 69px (mobil 16px) sağa atlıyordu. */

@@ -9,6 +9,8 @@
   /* Yalnız Gece bölümünün zemini, sayfadan bir kademe koyu. Marka kitabında yok;
      kanonik kaynak onu token olarak adlandırıyor (UYGULAMA-NOTLARI.md:12). */
   --gece: #060504;
+  /* Mobil çekmecenin zemini (Mobil:195 .96; prototipin 8,6,5'i palet dışı, --zemin'in rgb'si). */
+  --panel-96: rgba(10, 8, 7, 0.96);
   --panel-koyu: rgba(10, 8, 7, 0.9);
   /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
   --panel-86: rgba(10, 8, 7, 0.86);

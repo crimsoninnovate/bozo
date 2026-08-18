@@ -115,6 +115,13 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
   }
 }
 
+export type CekmeceLinki = {
+  rota: RotaAnahtari
+  etiket: NavEtiketi
+  /** O sayfanın masaüstü barındaki bölüm çapaları; çekmecede satırın altına iner. */
+  altlar: { hedef: string; etiket: NavEtiketi }[]
+}
+
 /**
  * Mobil çekmecenin link listesi. `Mobil Prototip.dc.html:201-205` beş satır
  * yazıyor: Menü / Hikaye / Konum / Galeri / Rezervasyon. Rezervasyon rotası yok
@@ -123,9 +130,18 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
  * Liste burada, `Cekmece.tsx`'te değil: elle yazılmış ikinci bir liste rota
  * tablosundan sessizce ayrılır. Galeri rotası açıldığında tam bu oldu, çekmece
  * üç linkte kaldı ve dar ekranda Galeri'ye üst gezinmeden hiç girilemedi.
+ *
+ * Alt çapalar aynı gerekçeyle türetilir: menü barının üç çapası (Ocaktan,
+ * İkramlar, İçecekler) 1040 altında hiçbir yerde yoktu (18 Ağustos 2026).
  */
-export function cekmeceLinkleri(): { rota: RotaAnahtari; etiket: NavEtiketi }[] {
-  return IC_NAV.filter((o) => o.tur === 'rota').map((o) => ({ rota: o.rota, etiket: o.etiket }))
+export function cekmeceLinkleri(): CekmeceLinki[] {
+  return IC_NAV.flatMap((o) => {
+    if (o.tur !== 'rota') return []
+    const altlar = ustBarVaryanti(o.rota).nav.flatMap((n) =>
+      n.tur === 'capa' ? [{ hedef: n.hedef, etiket: n.etiket }] : [],
+    )
+    return [{ rota: o.rota, etiket: o.etiket, altlar }]
+  })
 }
 
 /**
