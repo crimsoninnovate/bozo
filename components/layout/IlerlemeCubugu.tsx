@@ -17,7 +17,7 @@ export function IlerlemeCubugu() {
     const guncelle = rafKisitla(() => {
       const toplam = document.documentElement.scrollHeight - window.innerHeight
       const oran = toplam > 0 ? Math.min(1, Math.max(0, window.scrollY / toplam)) : 0
-      dolum.style.width = `${oran * 100}%`
+      dolum.style.transform = `scaleX(${oran})`
     })
 
     guncelle()

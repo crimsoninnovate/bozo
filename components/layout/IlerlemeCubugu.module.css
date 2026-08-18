@@ -4,9 +4,14 @@
   background: var(--cizgi-hayalet);
 }
 
+/* Genişlik değil ölçek: `width` her kaydırma karesinde yerleşim ve boyama
+   çalıştırıyordu (ölçüldü 3.3s kaydırmada 184 > 30 layout). Gradyan kutuyla
+   birlikte sıkışır, görüntü aynı; tasarımın .12s linear'ı duruyor. */
 .dolum {
   height: 2px;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   background: linear-gradient(to right, var(--kor), var(--tangerine));
-  transition: width 0.12s linear;
+  transition: transform 0.12s linear;
 }
