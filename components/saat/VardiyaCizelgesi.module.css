@@ -97,4 +97,18 @@
   .simdi {
     font-size: 14.5px;
   }
+
+  /* Etiketin yarısı (41px) 24px yan dolgudan geniş: %5'in altında ve %95'in
+     üstünde ekran dışına taşıyordu (ölçüldü 390: 10:05'te 16px, 05:30'da
+     17.5px kesik; günde yaklaşık yedi saat). Uçlarda imlecin kenarından sarkar. */
+  .imlecKap[data-kenar='sol'] .simdi {
+    left: 0;
+    transform: none;
+  }
+
+  .imlecKap[data-kenar='sag'] .simdi {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
 }
