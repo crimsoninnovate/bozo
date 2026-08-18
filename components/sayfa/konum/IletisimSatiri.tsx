@@ -5,17 +5,16 @@ import stil from './IletisimSatiri.module.css'
  * - `deger`: işletme verisi, `400 14px/1` + tabular-nums (Konum:131). Bugün yalnız
  *   telefon satırı; numara bilinmediği için yer tutucu basar.
  * - `aciklama`: sabit açıklama cümlesi, `400 14px/1.4`, tabular YOK (Konum:138, 145).
- *   Bugün yalnız Instagram satırı. WhatsApp'ınki tasarımda paket siparişi
- *   duyuruyordu; sahibi 18 Ağustos 2026'da paket alınmadığını söyledi ve satır
- *   düştü, çünkü olgusal doğruluk tasarım sadakatini yener (KISITLAR).
+ *   WhatsApp ve Instagram satırları. WhatsApp'ınki tasarımda paket siparişi
+ *   duyuruyordu; paket alınmadığı için (sahibi, 18 Ağustos 2026) yerini sözlüğün
+ *   kendi onaylı CTA'sı aldı, satır zaten WhatsApp'a açılan bir bağlantı.
  */
 export type AltSatirTuru = 'deger' | 'aciklama'
 
 type Props = {
   ikon: React.ReactNode
   etiket: string
-  /** Verilmezse satır yalnız etiketini taşır. */
-  alt?: string
+  alt: string
   tur: AltSatirTuru
   href: string | null
   hariciMi?: boolean
@@ -36,9 +35,7 @@ export function IletisimSatiri({ ikon, etiket, alt, tur, href, hariciMi = false 
       {ikon}
       <span className={stil.yigin}>
         <span className={stil.etiket}>{etiket}</span>
-        {alt !== undefined && (
-          <span className={tur === 'deger' ? stil.deger : stil.aciklama}>{alt}</span>
-        )}
+        <span className={tur === 'deger' ? stil.deger : stil.aciklama}>{alt}</span>
       </span>
     </>
   )

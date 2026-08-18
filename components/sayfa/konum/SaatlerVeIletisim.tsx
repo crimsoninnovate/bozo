@@ -51,6 +51,7 @@ export function SaatlerVeIletisim({ dil }: Props) {
           <IletisimSatiri
             ikon={<WhatsAppIkon boy={17} />}
             etiket={s.ortak.cta.whatsapp}
+            alt={s.ortak.cta.whatsapptanYaz}
             tur="aciklama"
             href={whatsappUrl(isletme.whatsapp)}
             hariciMi

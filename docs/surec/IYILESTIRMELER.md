@@ -488,10 +488,16 @@ kalanı "karar bekliyor" başlığında.
 | **Dört yetim anahtar silinsin, `nav.gizlilik` dursun** | `ortak.cta.ara`, `ortak.satirlar.adresVeSaat`, `ortak.footer.sayfalarBaslik`, `ortak.footer.sosyal`, `ana.gece.sonNot` iki dilde silindi | Beşinin de okuyucusu yoktu ve her ziyaretçiye JS yükünde iniyorlardı. `ortak.nav.gizlilik` C4'e kadar duruyor. Parite testi geçiyor: 231'e 231 yaprak |
 | **Krem token turu ertelendi** | Dokuz alfa ham bırakıldı | Sahibinin kararı: ayrı bir token turunda, KARAR-FORMU D'nin kalan iki maddesiyle birlikte |
 
-### Açık kalan tek küçük madde
+### WhatsApp satırının alt cümlesi, aynı gün kapandı
 
-`IletisimSatiri`: WhatsApp satırı artık alt cümlesiz, kardeşleri cümleli (72 / 55 / 77px).
-Ekranda kırık durmuyor ama ritim eşit değil. Alternatif, uydurma gerektirmeyen tek
-seçenek: sözlükte duran ve bugün çağıranı olmayan `ortak.cta.whatsapptanYaz`
-("WhatsApp'tan Yaz") satırın alt cümlesi yapılır; hem ritim döner hem de KARAR-FORMU
-A10'daki o anahtar bir yüzeye kavuşur. Sahibine bırakıldı.
+Paket cümlesi kalkınca satır alt cümlesiz kalmıştı ve ritim bozuluyordu (72 / 55 / 77px).
+**Sahibinin kararı, 18 Ağustos 2026:** yerine sözlüğün kendi onaylı CTA'sı
+`ortak.cta.whatsapptanYaz` geldi ("WhatsApp'tan Yaz" / "Message on WhatsApp"). Yeni metin
+yazılmadı ve KARAR-FORMU A10'da "çağıranı yok ama kalsın" diye duran anahtar bir yüzeye
+kavuştu. `IletisimSatiri`'nin `alt` prop'u zorunluya geri döndü: üç satır da yeniden
+alt cümle taşıdığı için opsiyonel dal çağıransız kalırdı.
+
+Ölçüldü, 390px ve 1440px, iki dil: satırlar 72 / 77 / 77px, isabet yükseklikleri
+72 / 78 / 78px, TR ve EN birebir aynı. Ölçüm sırasında bir yanlış alarm çıktı ve
+düzeltildi: sayfa 900px kaydırılmışken telefon satırı 16px okunuyordu, satır tek tek
+ortalanınca 72px çıktı; örten bir katman yok, sayı kaydırma konumunun artefaktıydı.
