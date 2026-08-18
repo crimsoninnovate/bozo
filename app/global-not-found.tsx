@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { HataSayfasi } from '@/components/sayfa/HataSayfasi'
 import { sozluk } from '@/content'
 import { fontSiniflari } from '@/lib/fontlar'
+import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
 /*
@@ -32,6 +33,7 @@ const s = sozluk('tr')
 // Başlık sözlükten bileştirilir, yeni metin yazılmaz: ayırıcı, ortak.sayfaMeta'nın
 // kendi kalıbıdır ("Menü · Ciğerci Bozo").
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: `${s.hata.kicker} · ${s.ortak.marka.ad}`,
   description: s.hata.metin,
 }
