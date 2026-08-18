@@ -52,6 +52,17 @@ export function durumHesapla(simdi: Date): Durum {
   }
 }
 
+/** İki durum aynı dakikayı ve aynı bayrakları taşıyorsa eşittir; abonelere yalnız değişince yazılır. */
+export function durumAyniMi(a: Durum, b: Durum): boolean {
+  return (
+    a.acik === b.acik &&
+    a.gece === b.gece &&
+    a.saat === b.saat &&
+    a.dakika === b.dakika &&
+    a.gunIndeksi === b.gunIndeksi
+  )
+}
+
 /** Vardiya penceresinin uzunluğu: 10:00'dan ertesi sabah 05:00'e, on dokuz saat. */
 const PENCERE_SAATI = 24 - ACILIS_SAATI + KAPANIS_SAATI
 

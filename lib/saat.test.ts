@@ -8,6 +8,7 @@ import {
   vardiyaYuzdesi,
   kalanSuresi,
   kapanisaKalan,
+  durumAyniMi,
 } from './saat.ts'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
@@ -159,3 +160,22 @@ test('kalanSuresi_birSaat_turkceCoguldanAyrilmaz', () => {
 test('kalanSuresi_sifirSaat_yalnizDakikayiYazar', () => {
   assert.equal(kalanSuresi({ saat: 0, dakika: 18 }, trBirim), '18 dakika')
 })
+
+test('durumAyniMi_ayniDakika_esittir', () => {
+  const a = durumHesapla(girne('2026-08-11T12:00:10+03:00'))
+  const b = durumHesapla(girne('2026-08-11T12:00:50+03:00'))
+  assert.equal(durumAyniMi(a, b), true)
+})
+
+test('durumAyniMi_dakikaDegisince_farklidir', () => {
+  const a = durumHesapla(girne('2026-08-11T12:00:59+03:00'))
+  const b = durumHesapla(girne('2026-08-11T12:01:00+03:00'))
+  assert.equal(durumAyniMi(a, b), false)
+})
+
+test('durumAyniMi_kapanisAninda_farklidir', () => {
+  const a = durumHesapla(girne('2026-08-12T04:59:30+03:00'))
+  const b = durumHesapla(girne('2026-08-12T05:00:00+03:00'))
+  assert.equal(durumAyniMi(a, b), false)
+})
+
