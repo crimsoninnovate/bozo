@@ -76,11 +76,12 @@ export const ana = {
     cizelgeNotlari: ['The fire is lit', 'Night shift after 21:00', '05:00 · the fire goes out'],
   },
   bozo: {
-    kicker: 'Engin Çağlar, at the fire every day',
+    kicker: 'Bozo Çağlar, at the fire every day',
     baslik: 'Bozo is not a brand name, it is a person',
     metin:
-      'Engin Çağlar from Urfa has been called Bozo for years. He gave this place no name other ' +
-      'than his own nickname, because he is at the fire, at the door and beside your table.',
+      'The registry says Engin Çağlar; in Urfa and here he has been Bozo for years. He gave ' +
+      'this place no name other than his own nickname, because he is at the fire, at the ' +
+      'door and beside your table.',
     hikayeLinki: 'Read the Full Story',
   },
   konum: {

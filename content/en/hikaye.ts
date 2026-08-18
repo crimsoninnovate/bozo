@@ -1,11 +1,12 @@
 /** Story page copy. Source: the data-en attributes of "Hikaye Sayfasi.dc.html". */
 export const hikaye = {
   acilis: {
-    ustyazi: 'Engin Çağlar, at the fire every day',
+    ustyazi: 'Bozo Çağlar, at the fire every day',
     baslik: 'Bozo is not a brand name, it is a person',
     giris:
-      'Engin Çağlar from Urfa has been called Bozo for years. He gave this place no name other ' +
-      'than his own nickname, because he is at the fire, at the door and beside your table.',
+      'The registry says Engin Çağlar; in Urfa and here he has been Bozo for years. He gave ' +
+      'this place no name other than his own nickname, because he is at the fire, at the ' +
+      'door and beside your table.',
   },
   portre: {
     kartBasligi: 'The name',

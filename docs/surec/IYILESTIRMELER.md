@@ -754,3 +754,24 @@ karşılığı ("yakışıklıya" > "for the handsome one") sözlükten gelir.
 | `components/sayfa/hikaye/Lakap.tsx` | Kural, iki kutu (menü sayfasının ikram kümeleriyle aynı çizim), tanım satırı, imzalı alıntı | Bölüm 390'da 1066px, 1440'ta 689px; sayfa 3554 > 4498px (390) |
 | Çiftler | `dt` sabit 76px sütun: tireler alt alta, lakaplar aynı hizada başlar. Çift satırı `nowrap`, sarma karşılığın içinde | 320 EN dahil her genişlikte ad sağ ucu 125, lakap sol ucu 137 |
 | Kontrast | Ad ve sıfat notu 5.89:1, imza 8.24:1 | AA üstü |
+
+## 19 Ağustos 2026: sahibinin adı sitede "Bozo Çağlar"
+
+Sahibi imzanın "Engin Çağlar" değil "Bozo Çağlar" olmasını istedi: çocukluğundan beri
+öyle seslenildiği için ad da o olsun. Uygulandı, tek bir yer korunarak.
+
+**Korunan yer ve gerekçesi.** Lakabın lakap olduğunu gösteren tek şey nüfustaki addır;
+o cümle de silinirse "Bozo" yeniden bir marka adına döner ve sayfanın kendi başlığı
+("Bozo bir marka ismi değil, bir insan") dayanaksız kalır. Bu yüzden nüfustaki ad iki
+açıklama cümlesinde duruyor, kalan her yerde sesleniş kullanılıyor. Sayfa artık şu sırayla
+okunuyor: üstyazı "Bozo Çağlar" > başlık "marka ismi değil" > "Nüfusta Engin Çağlar yazar,
+ona yıllardır Bozo denir" > lakap bölümü > kendi cümlesinin altında imza "Bozo Çağlar".
+İmza böylece sayfanın kazandığı bir şey oluyor.
+
+| Nerede | Ne oldu |
+|---|---|
+| `isletme.sahip` | `Bozo Çağlar`; alanın yorumu nüfustaki adın nerede durduğunu yazıyor. JSON-LD bu alanı kullanmıyor, tek tüketici lakap bölümünün imzası |
+| Üstyazılar (ana Bozo bölümü, hikaye hero) | `Engin Çağlar, her gün ocağın başında` > `Bozo Çağlar, her gün ocağın başında` |
+| Ana ve hikaye girişi | "Urfalı Engin Çağlar'a yıllardır böyle seslenilir" > "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir." Cümle artık iki adı da taşıyor ve lakap bölümünü kuruyor |
+| Alt bilgi notu | "yıllardır taşıdığı lakap" > "çocukluğundan beri verilen lakap"; hikayenin kendi ifadesiyle aynı |
+| `CLAUDE.md` | Kural yazıldı: hangi adın nerede geçtiği, "düzeltilmemesi" gerektiğiyle birlikte |

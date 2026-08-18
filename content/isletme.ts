@@ -27,7 +27,9 @@ export const isletme: Isletme = {
   // Sahibi 12 Ağustos 2026'da verdi; hesap henüz açılmadı, yayından önce açılmalı.
   instagram: 'cigercibozo',
   alkolServisi: false,
-  sahip: 'Engin Çağlar',
+  // Sitenin ona seslendiği ad. Nüfustaki ad (Engin Çağlar) yalnız lakabı açıklayan iki
+  // cümlede geçer: hikaye/ana girişi ve alt bilgi notu.
+  sahip: 'Bozo Çağlar',
 }
 
 export const TELEFON_YER_TUTUCU = '000 000 00 00'

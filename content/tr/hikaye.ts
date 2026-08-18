@@ -1,11 +1,12 @@
 /** Hikaye sayfası metinleri. Kaynak: "Hikaye Sayfasi.dc.html". */
 export const hikaye = {
   acilis: {
-    ustyazi: 'Engin Çağlar, her gün ocağın başında',
+    ustyazi: 'Bozo Çağlar, her gün ocağın başında',
     baslik: 'Bozo bir marka ismi değil, bir insan',
     giris:
-      "Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Bu mekana kendi lakabından başka isim " +
-      'düşünmedi; çünkü ocağın başında da, kapıda da, sofranızın yanında da o var.',
+      "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir. Bu mekana " +
+      'kendi lakabından başka isim düşünmedi; çünkü ocağın başında da, kapıda da, ' +
+      'sofranızın yanında da o var.',
   },
   portre: {
     kartBasligi: 'İsim',

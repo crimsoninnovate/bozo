@@ -144,7 +144,7 @@ test('isletme_dogrulanmisAlanlarDoludur', () => {
   assert.equal(isletme.cadde, 'Naci Talat Caddesi')
   assert.equal(isletme.sehir, 'Girne')
   assert.equal(isletme.ulke, 'KKTC')
-  assert.equal(isletme.sahip, 'Engin Çağlar')
+  assert.equal(isletme.sahip, 'Bozo Çağlar')
   assert.equal(isletme.alkolServisi, false)
 })
 

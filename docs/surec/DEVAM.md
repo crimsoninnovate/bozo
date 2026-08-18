@@ -12,6 +12,8 @@ defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürs
 
 - Branch `feat/site-kurulumu`, 122 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
+- **Sahibinin adı sitede "Bozo Çağlar"** (19 Ağustos, sahibinin kararı): imza ve üstyazılar
+  sesleniş, nüfustaki ad yalnız lakabı açıklayan iki cümlede. Kural `CLAUDE.md` > Copy rules.
 - **Bozo adının hikayesi yayında** (19 Ağustos, `IYILESTIRMELER.md` > "lakap bölümü"):
   Hikaye sayfasında `Lakap` bölümü, sahibinin kendi anlatımından derlendi. Envanterden
   gelmeyen ilk metin bloğu; istisna `CLAUDE.md` > Copy rules'ta kayıtlı. Anlatımın dokuz

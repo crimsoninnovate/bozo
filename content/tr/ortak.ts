@@ -89,7 +89,7 @@ export const ortak = {
     // Eskisi ("Bozo bir marka ismi değil, bir insandır.") ana sayfanın kendi bölüm
     // başlığıyla birebir aynıydı; footer'da aynı iddiayı gerekçesiz tekrar ediyordu.
     // Yenisi İngilizce satırın işini yapar: iddiayı değil kişiyi söyler.
-    isimNotu: "Bozo, Urfalı Engin Çağlar'ın yıllardır taşıdığı lakap.",
+    isimNotu: "Bozo, Urfalı Engin Çağlar'a çocukluğundan beri verilen lakap.",
     adresBaslik: 'Adres',
     saatlerBaslik: 'Saatler',
     iletisimBaslik: 'İletişim',

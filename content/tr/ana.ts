@@ -88,11 +88,12 @@ export const ana = {
     cizelgeNotlari: ['Ocak yanar', "Gece vardiyası 21:00'den sonra", '05:00 · ocak söner'],
   },
   bozo: {
-    kicker: 'Engin Çağlar, her gün ocağın başında',
+    kicker: 'Bozo Çağlar, her gün ocağın başında',
     baslik: 'Bozo bir marka ismi değil, bir insan',
     metin:
-      "Urfalı Engin Çağlar'a yıllardır böyle seslenilir. Bu mekana kendi lakabından başka isim " +
-      'düşünmedi; çünkü ocağın başında da, kapıda da, sofranızın yanında da o var.',
+      "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir. Bu mekana " +
+      'kendi lakabından başka isim düşünmedi; çünkü ocağın başında da, kapıda da, ' +
+      'sofranızın yanında da o var.',
     hikayeLinki: 'Hikayenin Tamamı',
   },
   konum: {

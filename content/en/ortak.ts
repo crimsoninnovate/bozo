@@ -84,7 +84,7 @@ export const ortak = {
   telif: '© 2026 Ciğerci Bozo',
   footer: {
     tanim: 'Urfa style liver over oak embers.',
-    isimNotu: 'Bozo is the lifelong nickname of our founder, Engin Çağlar from Urfa.',
+    isimNotu: 'Bozo is what Engin Çağlar from Urfa has been called since childhood.',
     adresBaslik: 'Address',
     saatlerBaslik: 'Hours',
     iletisimBaslik: 'Contact',

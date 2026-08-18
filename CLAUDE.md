@@ -116,6 +116,10 @@ npm run preview    # serve the out/ export locally
   Page headings and body copy stay sentence case: `Girne uyurken ocak yanıyor` is a
   sentence, not a label. English follows English title case, so short articles and
   prepositions stay lowercase (`On the House`). Screen-reader-only labels are untouched.
+- **The owner's name, owner's decision 19 August 2026.** The site calls him `Bozo Çağlar`
+  (`isletme.sahip`, the hero überlines, the signature under his quote). The registered name
+  `Engin Çağlar` appears in exactly two places, the sentences that explain the nickname:
+  the home and story intro, and the footer note. Do not "correct" one into the other.
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).
