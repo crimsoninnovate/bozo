@@ -3,7 +3,6 @@ import assert from 'node:assert/strict'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
 import {
-  altBilgiSayfaLinkleri,
     cekmeceLinkleri,
   geceSeridiGosterilirMi,
   ustBarVaryanti,
@@ -85,18 +84,6 @@ test('ustBar_navEtiketleri_sozlukteKarsiligiVar', () => {
   }
 })
 
-/** Hikaye:142-144 ile birebir; Konum'da kural uygulanır, bkz. kabuk.ts notu. */
-test('altBilgi_sayfaLinkleri_bulunulanSayfayiIcermez', () => {
-  assert.deepEqual(
-    altBilgiSayfaLinkleri('hikaye').map((l) => l.rota),
-    ['ana', 'menu', 'konum', 'galeri'],
-  )
-  assert.deepEqual(
-    altBilgiSayfaLinkleri('konum').map((l) => l.rota),
-    ['ana', 'menu', 'hikaye', 'galeri'],
-  )
-})
-
 /**
  * Çekmece dar ekranda üst gezinmenin TEK hali: masaüstü nav 780px altında düşer.
  * Bir rota buradan eksikse o sayfaya üst gezinmeden hiç girilemez. Galeri rotası
@@ -126,11 +113,3 @@ test('geceSeridi_yalnizCanliGostergesizRotalarda', () => {
   }
 })
 
-test('altBilgi_sayfaLinkleri_etiketleriSozluktenGelir', () => {
-  for (const link of altBilgiSayfaLinkleri('hikaye')) {
-    for (const s of [tr, en]) {
-      assert.equal(typeof s.ortak.nav[link.etiket], 'string', link.rota)
-    }
-  }
-  assert.equal(altBilgiSayfaLinkleri('hikaye')[0]?.etiket, 'anaSayfa')
-})

@@ -3,8 +3,6 @@ import stil from './AltBilgi.module.css'
 
 type Props = {
   dil: Dil
-  /** Hikaye/Konum varyantı üst boşluğu bir tık sıkar (40/18 yerine 46/20). */
-  sikMi?: boolean
 }
 
 /**
@@ -12,11 +10,11 @@ type Props = {
  * rayı. Üç footer varyantından ikisinde aynı, menü şeridinde hiç yok
  * (`Menu:283-292` telif satırı taşımaz).
  */
-export function TelifSeridi({ dil, sikMi = false }: Props) {
+export function TelifSeridi({ dil }: Props) {
   const s = sozluk(dil)
 
   return (
-    <div className={`${stil.telifSeridi}${sikMi ? ` ${stil.telifSeridiSik}` : ''}`}>
+    <div className={stil.telifSeridi}>
       <div className={stil.telifMetin}>
         {/*
          * Gizlilik bağlantısı KALDIRILDI (sahibi, 13 Ağustos 2026, "şimdilik").

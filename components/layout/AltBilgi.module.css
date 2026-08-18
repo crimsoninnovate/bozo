@@ -18,22 +18,11 @@
   padding: 64px var(--sayfa-yatay) 32px;
 }
 
-/* Hikaye/Konum footer'ı ana sayfanınkinden bir tık daha alçak. */
-.sayfalar {
-  padding: 56px var(--sayfa-yatay) 30px;
-}
-
 .kolonlar {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 38px 56px;
-}
-
-/* Hikaye:135, Konum:167: satır boşluğu 30px ve kolonlar üstten hizalı. */
-.kolonlarSik {
-  align-items: flex-start;
-  gap: 30px 56px;
 }
 
 /*
@@ -58,15 +47,6 @@
   gap: 8px;
   flex-basis: 260px;
   max-width: 320px;
-}
-
-/* Hikaye/Konum'da dört kolonun dördü de 12px, marka kolonu dahil. */
-.kolonSik {
-  gap: 12px;
-}
-
-.kolonSik:first-child {
-  gap: 12px;
 }
 
 .markaUst {
@@ -137,84 +117,8 @@
   line-height: 1.7;
 }
 
-/*
- * Hikaye:138, Konum:170: aynı üç satırlık adres, ama ikonsuz ve kendi rengiyle
- * (.66). Ana sayfada renk .adresSatiri'nden miras alınır (.7), burada kolonun
- * kendi değeri var.
- */
-.adresBloku {
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: 14.5px;
-  line-height: 1.7;
-  color: var(--krem-66);
-}
-
-/*
- * "Sayfalar" kolonunun bağlantıları (Hikaye:142-144, Konum:174-175).
- *
- * Dokunma alanı iki eksende ayrı ayrı sınırlı.
- *
- * Yatay: kutu 38.7-68px arasıydı, kolonlar arası boşluk 56px. min-width kolonun
- * kendi genişliğini (en uzun satır 68px) değiştirmez, metin sola yaslı kaldığı
- * için görünen hiçbir şey kımıldamaz; hedef 44px'e çıkar.
- *
- * Dikey: hedef artık öğenin KENDİ kutusu, görünmez bir ::before değil. Satır
- * 14.5px + 2x14.75px dolgu = tam 44px, kolonun gap'i 0 olduğu için hedefler
- * bitişik ama üst üste binmiyor. Önceki hal 26.5px'te kilitliydi (12px gap +
- * 14.5px satır) çünkü adımdan yüksek bir hedef komşusuna biner ve sessizce
- * yanlış sayfaya götürür. Adımı büyütmek footer'ın görünen ritmini değiştiriyor,
- * o yüzden sahibine bırakılmıştı; 12 Ağustos'ta tasarımın tavan olmadığı
- * söylenince açıldı. Yalnız bu kolon büyüdü, diğer üçünün ritmi aynı kaldı.
- */
-.sayfaLinki {
-  display: block;
-  width: fit-content;
-  min-width: 44px;
-  padding: 14.75px 0;
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: 14.5px;
-  line-height: 1;
-  color: var(--krem-70);
-  text-decoration: none;
-  transition: color var(--gecis-hizli);
-}
-
-.sayfaLinki:hover {
-  color: var(--tangerine);
-}
-
-/* Dolgu satır adımını kendi taşıdığı için kolonun gap'i sıfırlanır; başlık
-   altındaki boşluk elle korunur, yoksa ilk bağlantı başlığa yapışır. */
-.baglantiKolonu {
-  gap: 0;
-}
-
 .baglantiKolonu .baslik {
   margin-bottom: 12px;
-}
-
-/* Satır metnini bağlantıya çeviren ince katman: renk .satirTabular'dan gelir. */
-.metinLinki {
-  position: relative;
-  width: fit-content;
-  text-decoration: none;
-  transition: color var(--gecis-hizli);
-}
-
-.metinLinki:hover {
-  color: var(--tangerine);
-}
-
-.metinLinki::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 26px;
-  transform: translateY(-50%);
 }
 
 /*
@@ -348,12 +252,6 @@ a.iletisimSatiri:hover {
   gap: 14px;
 }
 
-/* Hikaye:157, Konum:188: aynı şerit, bir tık daha sıkı bağlanmış. */
-.telifSeridiSik {
-  margin-top: 40px;
-  padding-top: 18px;
-}
-
 /* krem-74, tasarımın krem-50'si değil. İki tur: krem-50 390px'te 4.48 ölçüyordu
    (eşik 4.5), krem-58'e çıkarıldı ve 4.81 oldu. 13 Ağustos 2026'da sahibi hala
    okunmadığını söyledi: eşiği kıl payı geçmek 12.5px'lik bir satır için yetmiyor,
@@ -364,57 +262,6 @@ a.iletisimSatiri:hover {
   font-size: 12.5px;
   line-height: 1;
   color: var(--krem-74);
-}
-
-/*
- * Akan metin içinde tek kelimelik bağlantı: min-height+flex burada anlamsız
- * (satır içi metnin parçası), görünmez ::before dokunma alanını büyütür
- * (fix round 1, "privacy page is still unreachable").
- */
-/* --- Menü şeridi (Menu Sayfasi.dc.html:283-292) --- */
-
-.serit {
-  padding: 60px var(--sayfa-yatay);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 26px;
-}
-
-.seritSol {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-/*
- * Menu:285 marka kelimesi -.04em; iki footer varyantının wordmark'ı (Ana:357,
- * Hikaye:137, Konum:169) -.03em. Aynı 800 20px kelime, iki farklı iz; tasarımın
- * kendi tutarsızlığı, ikisi de birebir uygulandı ve raporlandı.
- */
-.seritMarka {
-  font-family: var(--font-baslik);
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: var(--iz-sayfa-baslik);
-  color: var(--krem);
-}
-
-.seritSatir {
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: 14.5px;
-  line-height: 1.6;
-  font-variant-numeric: tabular-nums;
-  color: var(--krem-68);
-}
-
-.seritButonlar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
 }
 
 /*

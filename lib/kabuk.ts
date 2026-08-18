@@ -48,16 +48,6 @@ export type UstBarVaryanti = {
 }
 
 
-/** Rota anahtarının `ortak.nav` içindeki etiket anahtarı. Yalnız `ana` ayrışır. */
-const NAV_ETIKETI: Record<RotaAnahtari, NavEtiketi> = {
-  ana: 'anaSayfa',
-  menu: 'menu',
-  galeri: 'galeri',
-  hikaye: 'hikaye',
-  konum: 'konum',
-  gizlilik: 'gizlilik',
-}
-
 /**
  * Hikaye, Konum, Galeri ve tasarımda karşılığı olmayan rotaların ortak nav'ı.
  *
@@ -96,11 +86,10 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
         cta: { tur: 'harici' },
       }
     case 'menu':
-      // Galeri bu barda YOK, diğer üçünde var. Ölçüldü: menü barı tasarımın en
-      // kalabalığı (üç sayfa içi çapa + iki rota) ve altıncı öğe satırı 731px'ten
-      // 803px'e çıkarıyor; 781-802px bandında "Yol tarifi al" butonu ekranın
-      // dışına taşıyor. Nav 780px altında zaten çekmeceye düşer, yani kırılan
-      // bant dar ama gerçek. Kırık bir CTA eksik bir nav öğesinden kötü.
+      // Galeri bu barda YOK, diğer üçünde var. Gerekçe tasarımın kendisi:
+      // `Menu Sayfasi.dc.html:50-54` beş öğe listeler, altıncısı yok.
+      // (Eski gerekçe 781-802px bandında kırpılmaydı; eşik 13 Ağustos 2026'da
+      // 960px'e çıkınca o bant tümüyle çekmece bölgesinde kaldı, bkz. UstBar.)
       return {
         anaVaryantMi: false,
         nav: [
@@ -149,20 +138,4 @@ export function cekmeceLinkleri(): { rota: RotaAnahtari; etiket: NavEtiketi }[] 
  */
 export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
   return aktif === 'hikaye' || aktif === 'gizlilik' || aktif === 'galeri'
-}
-
-const FOOTER_SAYFA_SIRASI: RotaAnahtari[] = ['ana', 'menu', 'hikaye', 'konum', 'galeri']
-
-/**
- * "Sayfalar" kolonunun bağlantıları: beş içerik rotası eksi bulunulan sayfa.
- * Hikaye'nin listesi tasarımla birebir (`Ana sayfa / Menü / Konum`, `Hikaye:142-144`).
- * Konum'un tasarımı Hikaye'yi de düşürüyor (`Konum:174-175`, yalnız iki bağlantı);
- * bu kuralın kendisiyle çelişen tek örnek ve gözden kaçmış görünüyor, bilinçli
- * sapma olarak kural uygulanır. Bkz. docs/surec/IYILESTIRMELER.md.
- */
-export function altBilgiSayfaLinkleri(aktif: RotaAnahtari): { rota: RotaAnahtari; etiket: NavEtiketi }[] {
-  return FOOTER_SAYFA_SIRASI.filter((rota) => rota !== aktif).map((rota) => ({
-    rota,
-    etiket: NAV_ETIKETI[rota],
-  }))
 }
