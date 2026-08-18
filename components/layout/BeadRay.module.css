@@ -41,9 +41,9 @@
   background: rgba(242, 233, 220, 0.26);
   cursor: pointer;
   transition:
-    background-color 0.3s ease-out,
-    box-shadow 0.3s ease-out,
-    transform 0.3s ease-out;
+    background-color var(--gecis-orta),
+    box-shadow var(--gecis-orta),
+    transform var(--gecis-orta);
 }
 
 /*

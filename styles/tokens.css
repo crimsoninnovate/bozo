@@ -253,10 +253,9 @@
 
   /* hareket */
   --gecis-hizli: 0.15s ease-out;
-  /* Yerleşim değiştiren hover geçişleri: kaydırma ipucunun gap'i (Ana:120) ve
-     menü satırının padding-left'i ile ona eşlik eden zemini (Ana:176-208).
-     11 kullanım. Butonların salt boya geçişi --gecis-hizli'de kalır; tasarım
-     kutunun kendisini kımıldatan geçişi bir adım yavaş sürüyor. */
+  /* Yerleşim değiştiren hover geçişi: kaydırma ipucunun gap'i (Ana:120), tek
+     kullanım. Menü satırının padding-left kayması 12 Ağustos'ta transform'a
+     döndü ve --gecis-hizli'ye geçti; footer'ın 0.18s'i tasarımın kendi değeri. */
   --gecis-yerlesim: 0.2s ease-out;
   --gecis-orta: 0.3s ease-out;
   --gecis-erit: 0.5s ease-out;
