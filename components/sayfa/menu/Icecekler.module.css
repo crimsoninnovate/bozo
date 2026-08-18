@@ -15,7 +15,7 @@
 
 .kolon {
   flex: 1 1 420px;
-  min-width: 300px;
+  min-width: min(300px, 100%);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -110,4 +110,33 @@
   max-width: 260px;
   font: 400 13.5px/1.5 var(--font-govde);
   color: var(--krem-62);
+}
+
+/* Telefon: plaka yalnız fotoğraf varsa, satırlar bir kademe sıkı; iki sütun sığmıyor
+   (ölçüldü: "Fuse Tea Çeşitleri" 146px, kola ölçüleri 163px). */
+@media (max-width: 1040px) {
+  .bolum {
+    padding-top: 44px;
+    padding-bottom: 50px;
+  }
+
+  .satir {
+    margin-top: 16px;
+  }
+
+  /* Fotoğraf varsa plaka 160px'lik yatay kadraj (masaüstü 260). */
+  .satir > div:first-child {
+    flex-basis: 100%;
+    min-height: 0;
+    height: 160px;
+  }
+
+  .kalem {
+    padding: 13px 16px;
+  }
+
+  .dipnot {
+    margin-top: 22px;
+    padding-top: 18px;
+  }
 }

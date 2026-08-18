@@ -1,6 +1,11 @@
 .kap { position: relative; }
 .gorsel { object-fit: cover; }
 
+/* Boş plaka telefonda basılmaz (bkz. FotoYuvasi.tsx `bosMobildeGizli`). */
+@media (max-width: 1040px) {
+  .bosMobil { display: none; }
+}
+
 /* ---- pencere ailesi ------------------------------------------------------
    Zemin taşımaz: plaka, arkasındaki kor sahnesine açılan bir pencere.
    Kenarlık ve iç gölge çerçeveyi karartır, ortası sahneden gelen parıltıyla
@@ -48,7 +53,7 @@
 /* menü açılışının büyük yayılımı. Menu Sayfasi.dc.html:94 */
 .spread {
   flex: 1 1 520px;
-  min-width: 300px;
+  min-width: min(300px, 100%);
   min-height: clamp(340px, 46vh, 480px);
   transition: box-shadow var(--gecis-orta);
 }
@@ -60,7 +65,7 @@
 /* ikram kartının sol plakası. Menu:207 */
 .ikram { flex: 1 1 180px; min-width: 160px; min-height: 200px; }
 /* içecek bölümünün plakası. Menu:239 */
-.icecek { flex: 1 1 340px; min-width: 280px; min-height: 260px; }
+.icecek { flex: 1 1 340px; min-width: min(280px, 100%); min-height: 260px; }
 /* çekim listesi ızgarasının karosu. Menu:271 */
 .karo { height: 110px; }
 

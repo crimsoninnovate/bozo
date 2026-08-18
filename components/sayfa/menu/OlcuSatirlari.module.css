@@ -39,3 +39,39 @@
   font-variant-numeric: tabular-nums;
   color: var(--tangerine);
 }
+
+/* Telefon: Tam fiyat adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), ilk satır
+   gizlenir; Yarım ve Dürüm tek ince satırda (sahibinin 2A kararı, 18 Ağustos 2026). */
+@media (max-width: 1040px) {
+  .liste {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin-top: 4px;
+  }
+
+  .satir {
+    gap: 5px;
+    padding: 0;
+    border-top: 0;
+  }
+
+  .satir:first-child {
+    display: none;
+  }
+
+  .olcu {
+    font: 600 13px/1.3 var(--font-baslik);
+    color: var(--krem-78);
+  }
+
+  .not {
+    font-size: 12px;
+    color: var(--krem-50);
+  }
+
+  .fiyat {
+    font: 500 13px/1.3 var(--font-govde);
+    color: var(--krem-62);
+  }
+}

@@ -53,7 +53,7 @@ export function Icecekler({ dil }: Props) {
       />
 
       <div className={stil.satir}>
-        <FotoYuvasi id="ayran" dil={dil} bicim="icecek" />
+        <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosMobildeGizli />
         <div className={stil.kolon}>
           {/* Fiyat sütunu yok: içecek fiyatı işletmeden gelmedi ve on satır
               "000 TL" basmaktansa sunum ölçüsü basılıyor. */}

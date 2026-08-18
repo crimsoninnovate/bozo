@@ -39,29 +39,69 @@
   color: var(--krem-78);
 }
 
-/* gece menüsü not kartı. Menu:79-82 */
-.notKarti {
-  max-width: 300px;
-  padding: 20px 22px;
-  background: var(--panel-not);
-  border: 1px solid var(--cizgi);
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
+/* Atlama çipleri: çekmecenin bölüm çipleriyle aynı çizim (Cekmece.module.css .alt);
+   masaüstünde barın çapaları var, liste basılmaz. */
+.atlama {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: 12px 6px;
 }
 
-.notBasligi {
-  margin: 0;
-  font: 700 16px/1.2 var(--font-baslik);
-  letter-spacing: var(--iz-bolum);
+.atlamaCipi {
+  position: relative;
+  display: inline-block;
+  padding: 9px 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 2px;
+  font: 600 13.5px/1 var(--font-govde);
+  color: var(--krem-70);
+  transition: color var(--gecis-hizli), border-color var(--gecis-hizli);
+}
+
+/* Görünür 33.5px, dokunma ::after ile 45.5px; pay 12px satır aralığında kalır. */
+.atlamaCipi::after {
+  content: '';
+  position: absolute;
+  inset: -6px 0;
+}
+
+.atlamaCipi:active {
+  transition-duration: 0s;
   color: var(--krem);
+  border-color: var(--cizgi-buton);
 }
 
-/* `font` kısayolu font-variant-numeric'i sıfırlar, tabular kural ondan sonra
-   gelmek zorunda; gövde "01:00" taşıyor. Menu:81 */
-.notGovde {
-  margin: 0;
-  font: 400 13px/1.6 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--krem-68);
+@media (hover: hover) {
+  .atlamaCipi:hover {
+    color: var(--krem);
+    border-color: var(--cizgi-buton);
+  }
+}
+
+/* Telefon: prototipin hero'su 58px barın altında 52px (mobil-prototip-davranis-referansi.json
+   > hero), yani 110; 172 masaüstü barının (78) payıydı ve 114px boşluk bırakıyordu (ölçüldü). */
+@media (max-width: 1040px) {
+  .bolum {
+    padding-top: 110px;
+    padding-bottom: 8px;
+  }
+
+  .kolon {
+    gap: 16px;
+  }
+
+  .atlama {
+    display: flex;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .atlamaCipi {
+    padding: 9px 10px;
+    font-size: 13px;
+  }
 }

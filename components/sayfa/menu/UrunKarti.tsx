@@ -1,5 +1,6 @@
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
+import { fiyatMetni } from '@/content/isletme'
 import type { Dil, FotoId, Urun } from '@/content/types'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import stil from './UrunKarti.module.css'
@@ -16,21 +17,23 @@ type Props = {
 }
 
 /**
- * Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141
+ * Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141. 1040 altında aynı DOM
+ * prototipin satırı olur (Mobil "kart değil satır"): plaka yalnız fotoğraf varsa ve
+ * 72px, indeks sol sütunda, tam fiyat adın hizasında (`anaFiyat`, masaüstünde gizli),
+ * ölçü listesi ince ikinci satır. Sahibinin 1A/2A kararı, 18 Ağustos 2026.
  *
- * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini:
- * ana sayfanın ocaktan listesi satır tabanlıdır (`MenuSatiri`), Hikaye ve Konum
- * ürün kartı taşımaz. Paylaşılan primitife çıkarılırsa tek çağıranı olan bir
- * API donar.
+ * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini.
  */
 export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }: Props) {
   return (
     <article className={stil.kart}>
-      <FotoYuvasi id={fotoId} dil={dil} bicim="kart" korNefesi={korNefesi}>
-        <span className={stil.indeks}>{indeks}</span>
-      </FotoYuvasi>
+      <FotoYuvasi id={fotoId} dil={dil} bicim="kart" korNefesi={korNefesi} bosMobildeGizli />
+      <span className={stil.indeks}>{indeks}</span>
       <div className={stil.govde}>
-        <h3 className={stil.ad}>{ad}</h3>
+        <div className={stil.adSatiri}>
+          <h3 className={stil.ad}>{ad}</h3>
+          <span className={stil.anaFiyat}>{fiyatMetni(urun.tam)}</span>
+        </div>
         <p className={stil.aciklama}>{aciklama}</p>
         <div className={stil.altSatir}>
           <TaneDizilimi adet={3} buyuk={9} kucuk={5} bosluk={4} ton="krem50" />

@@ -99,3 +99,60 @@
 .govde > :last-child {
   margin-top: 4px;
 }
+
+/* Telefon: prototipin IkramKarti'si, iki kart yan yana ve plakasız (fotoğraf gelirse üstte
+   90px'lik şerit). Kartlar 355px'ten ~120'ye, bölüm 1407 > ~600px (ölçüldü 390). */
+@media (max-width: 1040px) {
+  .bolum {
+    padding-top: 44px;
+    padding-bottom: 24px;
+  }
+
+  .satir {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .kart {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .kart > div:first-child {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: 90px;
+  }
+
+  .govde {
+    flex: 1 1 auto;
+    padding: 14px 12px;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .ad {
+    font-size: 15px;
+  }
+
+  .aciklama {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .gruplar {
+    margin-top: 12px;
+    gap: 10px;
+  }
+
+  .grup {
+    padding: 14px 16px;
+    gap: 6px;
+  }
+}

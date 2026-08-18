@@ -59,7 +59,7 @@ function IkramKarti(props: {
 
   return (
     <article className={stil.kart}>
-      <FotoYuvasi id={fotoId} dil={dil} bicim="ikram" korNefesi={korNefesi} />
+      <FotoYuvasi id={fotoId} dil={dil} bicim="ikram" korNefesi={korNefesi} bosMobildeGizli />
       <div className={stil.govde}>
         <h3 className={stil.ad}>{ad}</h3>
         <p className={stil.aciklama}>{aciklama}</p>

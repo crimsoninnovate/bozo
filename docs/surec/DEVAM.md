@@ -10,8 +10,13 @@ Son güncelleme: 18 Ağustos 2026 gecesi, çekmece zenginleştirme ve çürütme
 **Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
 defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
 
-- Branch `feat/site-kurulumu`, 114 test geçiyor, typecheck ve build temiz, 17 rota
+- Branch `feat/site-kurulumu`, 116 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
+- **Menü sayfası telefonda satır düzeninde** (18 Ağustos gecesi, sahibinin 1A/2A kararı,
+  `IYILESTIRMELER.md` > "menü sayfası telefonda satır düzenine geçti"): 1040 altında kart
+  yerine satır, boş plaka basılmaz (`FotoYuvasi bosMobildeGizli`, dosya gelince döner), hero
+  110px, atlama çipleri. Sayfa 390'da 7815 > 3784px. Masaüstü değişmedi.
+- **Marka renkleri**: WhatsApp glifi yeşil, Instagram gradyan (`--marka-*`, yalnız `Ikonlar.tsx`).
 - **Mobil çekmece zenginleşti** (18 Ağustos gecesi, sahibinin A kararı, `IYILESTIRMELER.md`
   > "çekmece zenginleştirme turu"): kendi üst satırı (kilit + dil + X), 01-04 numaralı
   bağlantılar, Menü altında üç bölüm çapası (`cekmeceLinkleri().altlar`), durum bloğu

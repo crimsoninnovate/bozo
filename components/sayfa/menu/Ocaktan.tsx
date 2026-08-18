@@ -49,7 +49,8 @@ function indeksMetni(sira: number): string {
   return String(sira + 1).padStart(2, '0')
 }
 
-/** İmza ürün paneli: ızgaradaki kart değil, spread plakasının yanındaki panel. Menu:104-120 */
+/** İmza ürün paneli: ızgaradaki kart değil, spread plakasının yanındaki panel. Menu:104-120.
+    Telefonda listenin ilk satırı: tam fiyat adın hizasında (`anaFiyat`, masaüstünde gizli). */
 function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
   const s = sozluk(dil)
   const metin = urunMetni(s, urun.id)
@@ -61,7 +62,10 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
         <span className={stil.indeks}>{indeksMetni(0)}</span>
         <Cip tur="outline">{s.menu.ocaktan.imzaRozeti}</Cip>
       </div>
-      <h3 className={stil.imzaAd}>{metin.ad}</h3>
+      <div className={stil.imzaAdSatiri}>
+        <h3 className={stil.imzaAd}>{metin.ad}</h3>
+        <span className={stil.anaFiyat}>{fiyatMetni(urun.tam)}</span>
+      </div>
       <p className={stil.imzaAciklama}>{metin.aciklama}</p>
       <div className={stil.specSatiri}>
         <Cip tur="dolu">{spec.sis}</Cip>
@@ -121,7 +125,7 @@ export function Ocaktan({ dil }: Props) {
       />
 
       <div className={stil.imzaSatiri}>
-        <FotoYuvasi id="tane-yakin-cekim-yatay" dil={dil} bicim="spread" />
+        <FotoYuvasi id="tane-yakin-cekim-yatay" dil={dil} bicim="spread" bosMobildeGizli />
         <ImzaPaneli dil={dil} urun={imza} />
       </div>
 

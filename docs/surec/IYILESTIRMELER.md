@@ -695,3 +695,31 @@ Uygulanmayan, sahibine: `.96` zeminin bulanıklığı 6 > 12-16px (arkadaki baş
 telefon boşluklarında +5/255 hayalet veriyor; prototipin değeri, ölçülebilir ama tat kararı);
 "Menüyü aç/kapat" etiketlerini "Gezinmeyi aç/kapat" yapmak (arayüz metni; düşürüldü);
 1040 eşiğinden geçince çekmeceyi kapatmak (zararsız).
+
+## 18 Ağustos 2026 gecesi: menü sayfası telefonda satır düzenine geçti
+
+Sahibi menü sayfasının mobil görünümünü istedi. Menü sayfasının mobil tasarımı yok
+(prototip: "Sırada menü sayfası var"); tek kural prototipin "Menü listesi kart değil
+satır" notu. Bugün ve öneri 390x844'te yan yana gösterildi, sahibi iki kararı verdi:
+**1A** fotoğraf gelene kadar telefonda boş plaka basılmaz (dosya tanımlanınca kendiliğinden
+döner; fotoğraflar açılışla geliyor), **2A** tam fiyat adın hizasında, Yarım ve Dürüm ikinci
+satırda. Yalnız 1040 altı değişti; masaüstü kartları ve plakaları birebir aynı (ölçüldü 1441
+ve 1440: 9 plaka görünür, hero 172, çip yok).
+
+| Nerede | Değişiklik | Ölçüm (390x844, TR) |
+|---|---|---|
+| `Acilis` | Üst dolgu 172 > 110 (58 bar + prototipin 52'si); H1'in altında Ocaktan / İkramlar / İçecekler atlama çipleri (`ustBarVaryanti('menu')` çapaları, çekmece çipiyle aynı çizim, 45.5px dokunma). Ölü `.notKarti` CSS'i silindi | Bar ile çip arası 114 > 52px; İçecekler'e 6,6 > 2,4 ekran |
+| `UrunKarti` | Aynı DOM, 1040 altında satır: indeks 20px sol sütun, ad 19px + tam fiyat (`anaFiyat`, masaüstünde `display:none`) aynı hizada, açıklama 13px, ölçü listesi ince ikinci satır; üçlü ray gizli; fotoğraf varsa 72px kare sağda, yoksa plaka yok (`FotoYuvasi bosMobildeGizli`) | Kart 520 > satır ~120px; Ocaktan 3885 > 1032px |
+| `ImzaPaneli` | Panel değil listenin ilk satırı: indeks + "imza ürün", ad 22px + fiyat, spec çipleri, ölçü satırı; spread plakası fotoğraf varsa 200px yatay kadraj | Panel 24-38px dolgulu kutuydu |
+| `OlcuSatirlari` | 1040 altında ilk satır (Tam) gizli, Yarım ve Dürüm yan yana 13px | 3 satır 94px > 1 satır 20px |
+| `OzelSerit` | Fiyat adın taban çizgisinde sağda (`nowrap` + `baseline`) | Fiyat 468px altında sola düşüyordu |
+| `Ikramlar` | İki kart yan yana, plakasız (fotoğraf varsa 90px şerit üstte), 15px ad, 13px açıklama; kümeler sıkı | Kart 355 > ~120px; bölüm 1407 > 678px |
+| `Icecekler` | Plaka fotoğraf varsa 160px, satırlar 13px dolgu; iki sütun denendi, sığmıyor | 1307 > 911px |
+| 320px taşması | `FotoYuvasi .spread/.icecek`, `Icecekler .kolon`, `Ocaktan .imzaPaneli` `min-width: min(Xpx, 100%)` | `scrollWidth` 324 > 320 |
+| Toplam | Sayfa 7815 > 3784px (9,3 > 4,5 ekran); ilk fiyat 392px aşağıda ve ilk ekranın dışındaydı, şimdi 452'de ilk ekranda; EN 3868 | |
+
+`FotoYuvasi.bosMobildeGizli` çağıranın kararıdır, biçimin değil: galeri ızgarası aynı `kart`
+biçimini boş kareleri saymak için kullanır ve gizlemez.
+
+Fotoğraflarla ölçüldü (geçici dosya, commit'lenmedi): satırda 72px kare, imza satırında 200px
+spread, ikramda 90px şerit, içeceklerde 160px plaka; hepsi yerine oturuyor.

@@ -1,5 +1,6 @@
 /* Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125, 133-139 */
 .kart {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--panel-orta);
@@ -19,15 +20,27 @@
   }
 }
 
-/* Plakanın sağ üstündeki indeks rozeti. Gövdede değil, FotoYuvasi'nin children
-   yuvasında; konumlandırmayı çağıran verir. Menu:131 */
+/* Plakanın sağ üstündeki indeks rozeti; kartın köşesine göre konumlu (plaka kartın
+   tepesinde, kenarlık 1px). Menu:131 */
 .indeks {
   position: absolute;
-  right: 16px;
-  top: 14px;
+  right: 17px;
+  top: 15px;
   font: 600 12px/1 var(--font-govde);
   font-variant-numeric: tabular-nums;
   color: var(--krem-55);
+}
+
+.adSatiri {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Tam fiyat adın hizasında yalnız telefonda; masaüstünde dl'nin ilk satırı taşır. */
+.anaFiyat {
+  display: none;
 }
 
 .govde {
@@ -61,4 +74,79 @@
   padding-top: 14px;
   display: flex;
   align-items: center;
+}
+
+/* Telefon: prototipin satırı (mobil-prototip-davranis-referansi.json > MenuSatiri: 15px 0,
+   .1 çizgi, indeks 11.5px/20px sütun, ad 19px/1.2, açıklama 13px/1.5, fiyat adın hizasında).
+   Kart 520px'ti, satır yaklaşık 120; altı ürün 3885 > ~1000px (ölçüldü 390). */
+@media (max-width: 1040px) {
+  .kart {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    column-gap: 10px;
+    padding: 15px 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--cizgi-soluk);
+    transition: none;
+  }
+
+  /* Fotoğraf varsa 72px kare, sağda; yoksa plaka hiç yok (FotoYuvasi bosMobildeGizli). */
+  .kart > div:first-child {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    width: 72px;
+    height: 72px;
+    margin-left: 12px;
+    align-self: start;
+  }
+
+  .indeks {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: 4px;
+    font: 600 11.5px/1.5 var(--font-baslik);
+    letter-spacing: 0.06em;
+    color: var(--krem-50);
+  }
+
+  .govde {
+    grid-column: 2;
+    padding: 0;
+    gap: 4px;
+  }
+
+  .ad {
+    font-size: 19px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .anaFiyat {
+    display: inline;
+    flex: none;
+    font: 600 16px/1.2 var(--font-baslik);
+    font-variant-numeric: tabular-nums;
+    color: var(--tangerine);
+  }
+
+  .aciklama {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--krem-68);
+  }
+
+  /* Üçlü ray beş satırda aynıydı, bilgi taşımıyor (ana sayfanın listesi de kaldırdı). */
+  .altSatir {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (max-width: 1040px) {
+  .kart:hover {
+    transform: none;
+    border-color: var(--cizgi-soluk);
+    box-shadow: none;
+  }
 }

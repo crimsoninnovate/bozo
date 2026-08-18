@@ -53,6 +53,11 @@ npm run preview    # serve the out/ export locally
   the prototype's drawer; source is `docs/surec/IYILESTIRMELER.md` > "çekmece
   zenginleştirme turu". A parity round reading `Mobil Prototip.dc.html` will see extra
   content (top row, numbers, anchors, status block, CTAs, foot, motion). It is intended.
+- **Menu page below 1040px, from 18 August 2026:** rows, not the desktop cards; empty photo
+  plates are not rendered on phones until a `dosya` exists (`FotoYuvasi bosMobildeGizli`);
+  the price of the full portion sits on the name's line. Owner's decisions 1A/2A, source
+  `docs/surec/IYILESTIRMELER.md` > "menü sayfası telefonda satır düzenine geçti". Desktop is
+  still `Menu Sayfasi.dc.html`.
 - Canonical visual and behavioral source: `/Users/mk/Desktop/Bozo/design_handoff_bozo_website/*.dc.html`
 - Cheaper structural extract of the same handoff, read this first: `docs/tasarim/*.json`
 - Copy, terminology and forbidden phrases: `docs/tasarim/metin-envanteri.json`

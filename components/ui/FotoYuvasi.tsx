@@ -72,6 +72,12 @@ type Props = {
    * düşünce geriye anonim koyu kutular kalıyor.
    */
   etiketGoster?: boolean
+  /**
+   * Fotoğraf dosyası yokken 1040 altında plaka basılmaz (sahibi, 18 Ağustos 2026:
+   * menü sayfasının boş plakaları telefonda sayfanın üçte biriydi). Dosya gelince
+   * kendiliğinden döner. Galeri geçmez: orada boş kare içeriğin kendisi.
+   */
+  bosMobildeGizli?: boolean
   children?: React.ReactNode
 }
 
@@ -87,6 +93,7 @@ export function FotoYuvasi({
   koseIsaretleri,
   korNefesi,
   etiketGoster = false,
+  bosMobildeGizli = false,
   children,
 }: Props) {
   const foto = fotograflar[id]
@@ -109,8 +116,9 @@ export function FotoYuvasi({
   // sağ-altı kullanır, bitişik ikisini değil.
   const koseSiniflari = [stil.solUst, stil.sagAlt, stil.sagUst, stil.solAlt]
 
+  const sinif = `${stil.kap} ${stil[bicim]}${bosMobildeGizli ? ` ${stil.bosMobil}` : ''}`
   return (
-    <div className={`${stil.kap} ${stil[bicim]}`}>
+    <div className={sinif}>
       {OCAK_AILESI.has(bicim) && (
         <>
           {/* Satır içi zamanlama yalnız süre ve gecikmeyi ezer; animasyon adı,
