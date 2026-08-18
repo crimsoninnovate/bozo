@@ -81,6 +81,10 @@ npm run preview    # serve the out/ export locally
   since the packaging strip was removed; the token stays for when it returns). Oak (meşe) `#6B4A2F`.
 - Ember is never body text on any surface. Tangerine and ember never sit side by side in a large
   area.
+- **Third-party marks are the one exception to the closed list** (owner's decision, 18 August
+  2026, for recognition): the WhatsApp glyph is WhatsApp green and the Instagram glyph carries
+  Instagram's gradient, tokens `--marka-*` in `styles/tokens.css`, applied only inside
+  `components/ui/Ikonlar.tsx`. Nothing else on the site uses those colours.
 
 ## Typography
 
@@ -162,7 +166,8 @@ framework beyond `node:test`. Those three were architecture decisions, not budge
 
 Icons come from `lucide-react`, wrapped in `components/ui/Ikonlar.tsx` so call sites keep Turkish
 names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined from
-`lucide-static` to keep one drawing language.
+`lucide-static` and WhatsApp from `simple-icons` (CC0), both in their own brand colours (see
+Colors).
 
 ## Accessibility
 

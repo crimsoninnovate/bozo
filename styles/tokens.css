@@ -166,6 +166,15 @@
   --komur-10: rgba(26, 22, 20, 0.1);
   --komur-golge: 0 14px 34px rgba(26, 22, 20, 0.4);
 
+  /* Üçüncü taraf markaları kendi renginde (sahibi, 18 Ağustos 2026: tanınırlık).
+     Sitenin paletine ait değil, yalnız o markanın işaretinde kullanılır. */
+  --marka-whatsapp: #25D366;
+  --marka-instagram-1: #FEDA75;
+  --marka-instagram-2: #FA7E1E;
+  --marka-instagram-3: #D62976;
+  --marka-instagram-4: #962FBF;
+  --marka-instagram-5: #4F5BD5;
+
   /* tipografi */
   --font-baslik: var(--font-bricolage), system-ui, sans-serif;
   --font-govde: var(--font-inter), system-ui, sans-serif;

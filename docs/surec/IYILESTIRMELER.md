@@ -652,3 +652,13 @@ metin yok. Ölçümler `out/` üstünde headless (390/430/360/320/768/1024, yata
 Açık kalan: "Ana Sayfa" satırı yine yok (kilit ana sayfaya gider; IYILESTIRMELER:57 kaydı
 geçerli); ana sayfanın "Gece" çapası çekmecede yüzey bulmadı (menü çapaları gibi türetmek için
 listede bir "ana" satırı gerekir, o da sahibinin kararı).
+
+## 18 Ağustos 2026 gecesi: WhatsApp ve Instagram işaretleri kendi renginde
+
+Sahibi tanınırlık için sordu ("algıyı yakalamak"); değerlendirme ve karar aynı gece.
+
+| Nerede | Değişiklik | Gerekçe, ölçüm |
+|---|---|---|
+| `Ikonlar.tsx` WhatsAppIkon | Lucide `MessageCircle` yerine gerçek WhatsApp glifi (simple-icons, CC0), dolgu `--marka-whatsapp` #25D366 | Genel balonu yeşile boyamak WhatsApp yapmaz; tanınırlık işaretin şeklinden gelir. 13 Ağustos kaydı "marka işareti şart görülürse geri alınabilir" diyordu, alındı. Yeşil #0A0807 üstünde 10.4:1 |
+| `Ikonlar.tsx` InstagramIkon | Aynı lucide-static çizgi geometrisi, çizgi Instagram gradyanı (`--marka-instagram-1..5`, `userSpaceOnUse`, `useId`) | Kutuya bağlı gradyan sıfır genişlikteki nokta çizgisinde boyamıyor; sayfada birden çok işaret olduğu için kimlik `useId` |
+| Palet kuralı | "Başka renk ekleme" listesine tek istisna: üçüncü taraf markaları kendi renginde, yalnız `Ikonlar.tsx` içinde | Yerler: yüzen bar, çekmece (CTA + ayak), alt bilgi, konum iletişim satırları. Kor zemin üstünde WhatsApp yok, yeşil hep koyu zeminde |

@@ -1,0 +1,10 @@
+/* Üçüncü taraf markaları kendi renginde (tokens.css --marka-*); sitenin paleti değil. */
+.whatsapp {
+  fill: var(--marka-whatsapp);
+}
+
+.instagram1 { stop-color: var(--marka-instagram-1); }
+.instagram2 { stop-color: var(--marka-instagram-2); }
+.instagram3 { stop-color: var(--marka-instagram-3); }
+.instagram4 { stop-color: var(--marka-instagram-4); }
+.instagram5 { stop-color: var(--marka-instagram-5); }
