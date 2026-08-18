@@ -14,6 +14,12 @@ type Props = {
   varyant: SahneVaryanti
 }
 
+/* Yoğunluk 1'in (hero) değerleri, ilk boyamada da bunlar: aksi halde yatak 1.0'da
+   yanıp 0.9s'de .86'ya iniyordu (ölçüldü, 55 ara kare) ve azaltılmış harekette
+   ölçek tek karede 1 > 1.06 zıplıyordu. Formüller aşağıdaki abonelikle aynı. */
+const NOTR_KOR = { opacity: 0.86, transform: 'scale(1.06)' }
+const NOTR_CEKIRDEK = { opacity: 0.84 }
+
 export function KorSahnesi({ varyant }: Props) {
   const korRef = useRef<HTMLSpanElement>(null)
   const cekirdekRef = useRef<HTMLSpanElement>(null)
@@ -52,12 +58,12 @@ export function KorSahnesi({ varyant }: Props) {
           aynı elemanda inline style'ı ezer, tek elemanda toplanırsa merdiven
           ölür. Dıştan içe yoğunluk (nerede olduğun), titreme (ateşin
           düzensizliği), nefes (yavaş salınım); opaklıklar çarpılır. */}
-      <span ref={korRef} className={stil.korYogunluk}>
+      <span ref={korRef} className={stil.korYogunluk} style={anaMi ? NOTR_KOR : undefined}>
         <span className={stil.korTitreme}>
           <span className={stil.kor} />
         </span>
       </span>
-      <span ref={cekirdekRef} className={stil.cekirdekYogunluk}>
+      <span ref={cekirdekRef} className={stil.cekirdekYogunluk} style={anaMi ? NOTR_CEKIRDEK : undefined}>
         <span className={stil.cekirdekTitreme}>
           <span className={stil.cekirdek} />
         </span>

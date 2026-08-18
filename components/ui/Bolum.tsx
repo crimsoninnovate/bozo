@@ -44,17 +44,28 @@ export function Bolum({ id, yogunluk, className, eritClassName, children }: Prop
       return
     }
 
+    // İlk yazım geçişsiz: SSR'da stil yok, ilk kare kaydırmaya göre değerini
+    // .5s'de "alıyordu", yani yeniden yükleme ve geri dönüşte metin 3-13px kayıp
+    // kararıyordu (ölçüldü). Stil okuması yazımı geçiş kurulmadan işletir;
+    // sonraki kareler CSS geçişiyle akar.
+    let ilk = true
     return cerceveyeAboneOl(({ ekran }) => {
+      if (ilk) eleman.style.transition = 'none'
       const kutu = eleman.getBoundingClientRect()
       if (kutu.bottom <= 0 || kutu.top >= ekran) {
         eleman.style.opacity = '1'
         eleman.style.transform = 'none'
-        return
+      } else {
+        const gorunen = Math.min(kutu.bottom, ekran) - Math.max(kutu.top, 0)
+        const oran = Math.max(0, Math.min(1, gorunen / Math.min(kutu.height, ekran * 0.62)))
+        eleman.style.opacity = String(0.86 + oran * 0.14)
+        eleman.style.transform = `translate3d(0, ${(1 - oran) * 14}px, 0)`
       }
-      const gorunen = Math.min(kutu.bottom, ekran) - Math.max(kutu.top, 0)
-      const oran = Math.max(0, Math.min(1, gorunen / Math.min(kutu.height, ekran * 0.62)))
-      eleman.style.opacity = String(0.86 + oran * 0.14)
-      eleman.style.transform = `translate3d(0, ${(1 - oran) * 14}px, 0)`
+      if (ilk) {
+        ilk = false
+        void getComputedStyle(eleman).opacity
+        eleman.style.transition = ''
+      }
     })
   }, [])
 

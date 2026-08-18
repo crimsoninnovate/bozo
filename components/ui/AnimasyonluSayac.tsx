@@ -35,11 +35,23 @@ export function AnimasyonluSayac({ hedef, sure = VARSAYILAN_SURE }: Props) {
 
     let kare = 0
     let zamanlayici = 0
+    let ilkBildirim = true
     const bitir = (): void => setDeger(hedef)
 
     const gozlemci = new IntersectionObserver(
       (girisler) => {
-        if (!girisler.some((giris) => giris.isIntersecting)) return
+        const kesisiyor = girisler.some((giris) => giris.isIntersecting)
+        // Gözlemcinin ilk bildirimi mevcut durumdur, bir varış değil: bölüm
+        // hidrasyonda zaten ekrandaysa (hash, yeniden yükleme, geri) rakam
+        // hedefte kalır. Ölçüldü: "8" 134ms görünüp 0'a düşüp yeniden sayıyordu.
+        if (ilkBildirim) {
+          ilkBildirim = false
+          if (kesisiyor) {
+            gozlemci.unobserve(eleman)
+            return
+          }
+        }
+        if (!kesisiyor) return
         // Bir kez: kesişir kesişmez gözlemi bırakır, geri kaydırmada tekrar saymaz.
         gozlemci.unobserve(eleman)
         const baslangic = performance.now()
