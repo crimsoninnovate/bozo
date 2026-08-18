@@ -66,16 +66,30 @@ function olc(): CerceveDurumu {
   const merkez = ekran / 2
   const bolumler = Array.from(document.querySelectorAll<HTMLElement>('[data-yogunluk]'))
   let aktifBolum: HTMLElement | null = null
+  let ikinci: HTMLElement | null = null
   let enKisa = Number.POSITIVE_INFINITY
+  let ikinciUzaklik = Number.POSITIVE_INFINITY
   for (const bolum of bolumler) {
     const kutu = bolum.getBoundingClientRect()
     const uzaklik = Math.abs(kutu.top + kutu.height / 2 - merkez)
     if (uzaklik < enKisa) {
+      ikinci = aktifBolum
+      ikinciUzaklik = enKisa
       enKisa = uzaklik
       aktifBolum = bolum
+    } else if (uzaklik < ikinciUzaklik) {
+      ikinci = bolum
+      ikinciUzaklik = uzaklik
     }
   }
-  const yogunluk = Number(aktifBolum?.dataset.yogunluk ?? 1)
+  // Yoğunluk basamak değil rampa (F9, 18 Ağustos 2026): iki komşu merkez arasında
+  // ağırlıklı ortalama. Her bölüm kendi merkezinde tablo değerini alır; aktif
+  // bölüm (boncuk rayı) en yakın olan kalır. Tasarımın "en küçük d kazanır"ından
+  // kayıtlı sapma: altı sınırda -18/-8/+16/0/-29/-6% tek kare basamak ölçülmüştü.
+  const y1 = Number(aktifBolum?.dataset.yogunluk ?? 1)
+  const y2 = ikinci ? Number(ikinci.dataset.yogunluk ?? y1) : y1
+  const w = ikinci ? enKisa / (enKisa + ikinciUzaklik) : 0
+  const yogunluk = y1 * (1 - w) + y2 * w
   return { merkez, ekran, aktifBolum, aktifId: aktifBolum?.id ?? null, yogunluk }
 }
 

@@ -245,6 +245,9 @@ Uygulanan krem .74. Cilt 2 taslağının renk tablosu kategori satırını tange
 **Önerim: (a).** Barda üçüncü bir vurgu olmuyor; iç sayfada tangerine aktif sekmeyle
 yarışıyor. Fark tek satır CSS.
 
+**Karar verildi 18 Ağustos 2026: (a) krem .74, değişiklik yok.**
+
+
 ### F3. İngilizce menü barı 961-1039px arasında sarıyor
 
 Logodan bağımsız, canlıda bugün de var: EN menü barının içeriği 961px'te 1032px
@@ -254,6 +257,9 @@ istiyor. Nav etiketleri ve CTA iki satıra kırılıyor; iPad yatay (1024) band�
 arası telefon düzeni alır) · (b) yalnız EN menü varyantında nav gap'ini daralt (20px
 kazandırır, 50px eksik kalır, yetmez) · (c) EN nav etiketleri kısalsın (sözlük kararı)
 **Önerim: (a).** Ölçülebilir tek tam çözüm; TR'de aynı band zaten 12px payla sığıyor.
+
+**Karar verildi 18 Ağustos 2026: (a).** Yirmi dört media query ve `sizes` birlikte 1040'a
+taşındı; 1041'de EN menü barı 1px, TR menü 82px, EN ana 81px payla sığıyor; 1040'ta hamburger.
 
 ### F4. Mobil eylem barı ilk ekranda görünsün mü?
 
@@ -268,6 +274,9 @@ kalsın, gerekçesi "temiz ilk ekran" diye yeniden yazılsın
 **Önerim: (a).** İlk ekranda eylem olmaması, kaçındığı tekrarın kendisinden pahalı.
 Bedeli hero'nun dibinde 54px'lik pil; hero içeriği 476'da bitiyor, çakışma yok.
 
+**Karar verildi 18 Ağustos 2026: (a).** `@supports` bloğu ve `barGirisi` silindi; bar 390'da y=0'da 776'da, opaklık 1.
+
+
 ### F5. Mobil bölüm dolguları
 
 `--bolum-dikey` 120px mobilde de geçerli; prototipin bölümleri 34-48px. Ölçüldü (390):
@@ -276,6 +285,9 @@ bölümler arası boşluk 168 / 169 / 172 / 240 / 240 / 240px, sayfanın %21.8'i
 
 **Seçenekler:** (a) 960 altında `--bolum-dikey: 56px` · (b) olduğu gibi kalsın
 **Önerim: (a).** Erit ve yoğunluk geçişleri boş zemin yerine içeriğin üstünde oynar.
+
+**Karar verildi 18 Ağustos 2026: (a).** `tokens.css` 1040 altında `--bolum-dikey: 56px`; boşluklar 102-112px, sayfa 6701 > 6076.
+
 
 ### F6. Ocaktan satırının 20px kayması
 
@@ -288,6 +300,9 @@ hali" diye kaldırtmıştın; ikisi çelişiyor. Dokunmadaki yapışma bu turda 
 (b) not uygulandığı gibi kalsın
 **Önerim: (a).** Satırın gidecek yeri yok; kayma bir vaat.
 
+**Karar verildi 18 Ağustos 2026: (a).** Kayma kalktı, .05 zemin duruyor; ölçüldü hover'da transform none.
+
+
 ### F7. Gece ufuk korunun gücü
 
 Notun değeri `.3` alfa (uygulanan, artık 8s nefesli). Kurgu merceği Gece'nin sayfanın en
@@ -297,6 +312,9 @@ Yatağın `.78`/`.2` duraklarını ve %70 yüksekliği öneriyor.
 **Seçenekler:** (a) `.3` kalsın · (b) yatağın gücüne çıksın
 **Önerim: (a), ekran görüntüsünü gördükten sonra karar.** Not "gece hissi ışıktan gelir"
 diyor ama gücü de kendisi seçmiş; nefes tek başına bölümü canlandırıyor.
+
+**Karar verildi 18 Ağustos 2026: (a) .3 kalır.**
+
 
 ### F8. Mobilde kor eğrisi
 
@@ -308,6 +326,9 @@ yani mobil sayfanın CTA ucu en sönük yer.
 U eğrisi
 **Önerim: (a).** Tek model, iki ekran; U eğrisi Konum'u yeniden ısıtır ama Gece'nin
 tepe olma fikrini mobilde bozar.
+
+**Karar verildi 18 Ağustos 2026: (a) merdiven kalır, kayıt bu.**
+
 
 ### F9. Kor yoğunluğu: basamak mı, rampa mı?
 
@@ -322,6 +343,9 @@ aynı, aralarda rampa.
 **Önerim: (b), ama ekranda gördükten sonra.** Rampa ateşi "olay" olmaktan çıkarıp zemine
 alır; azaltılmış harekette de basamak hiç kalmaz.
 
+**Karar verildi 18 Ağustos 2026: (b).** `lib/cerceve.ts` iki komşu merkez arasında ağırlıklı ortalama; ölçüldü 0-800px: .86 / .795 / .731 / .666 / .606, basamak yok.
+
+
 ### F10. Gün merdiveninde imleç ile satırlar
 
 İmleç `top = anlık yüzde` ile hareket ediyor, üç satır eşit aralıklı; 21:00'de imleç
@@ -333,3 +357,4 @@ de aynı model.
 eşit olmayan aralık) · (c) satırlar dursun, imleç üç satır merkezine parça parça eşlensin
 **Önerim: (c).** Görünüm değişmez, imleç 21:00'de 21:00 satırının üstünde durur.
 
+**Karar verildi 18 Ağustos 2026: (c).** İmleç üç satır merkezine parça parça eşlenir; 21:00'de imleç merkezi = satır merkezi (443.3 / 443.3).

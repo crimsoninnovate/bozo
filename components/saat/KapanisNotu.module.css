@@ -20,7 +20,7 @@
  * kolonuna ait ve tek kolona inince hero'yu dokuz bloğa çıkarıyordu.
  * Sahibi 13 Ağustos 2026: "mobilde çok dağınık".
  */
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .not {
     display: none;
   }

@@ -140,40 +140,12 @@
   pointer-events: none;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .bar {
     display: flex;
   }
 
-  /*
-   * Bar sayfanın tepesinde durmaz, 120px'ten sonra kayarak girer (sahibi,
-   * 13 Ağustos 2026). Gerekçesi hero'nun kendi "Yol Tarifi Al" butonuyla
-   * çakışmasıydı; o butonlar aynı gün mobilden kalktı, yani ilk ekranda artık
-   * hiç eylem yok (ölçüldü 390/360/430). Kapının kalkması sahibinin kararı,
-   * KARAR-FORMU F4; mobil prototip barı hiç gizlemiyor.
-   *
-   * Kaydırma zaman çizelgesi JS'siz çalışır ve hidrasyon gerektirmez, yani
-   * ilk boyamada bir kare bile görünüp kaybolmaz. Desteklenmeyen tarayıcıda
-   * (bugün Firefox stable) ve `prefers-reduced-motion` altında animasyon hiç
-   * kurulmaz: bar bugünkü gibi hep görünür kalır, yani başarısızlık yönü
-   * güvenli, düğmeler asla kaybolmaz.
-   */
-  @supports (animation-timeline: scroll()) {
-    .bar {
-      animation: barGirisi linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 120px 240px;
-    }
-
-    @keyframes barGirisi {
-      from {
-        transform: translateY(150%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  }
+  /* Bar sıfırdan görünür (sahibi, 18 Ağustos 2026, F4). 13 Ağustos'un 120-240px
+     kapısı hero'nun kendi butonuyla çakışmayı önlüyordu; o butonlar aynı gün
+     mobilden kalkınca ilk ekranda hiç eylem kalmamıştı. Mobil prototip de gizlemez. */
 }

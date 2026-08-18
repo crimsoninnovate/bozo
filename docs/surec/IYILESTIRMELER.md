@@ -610,3 +610,15 @@ Sahibi şiş kilidini onayladı ve ikon ile alt bilginin aynı çizimden türeme
 | `app/apple-icon.png` | 40px basamağı: ciğer-yağ-ciğer, uç ve sap yok, 180x180 | Headless ekran görüntüsü, PNG 1.4K |
 | `public/sosyal-kart.png` | Tam kilit (işaret + iki satır kelime) kor parıltılı zeminde, 1200x630 | `lib/metadata.ts` aynı yolu bildiriyor, 200 |
 | `AltBilgiTam.tsx`, `MarkaKilidi` | Kararın "sadece kelime" varyantı (`sadeceKelime`, 11/24, işaretsiz); footer'ın 9/5/6 rayı ve 20px tek satır adı kalktı | 01-Logo-Final-Karar "Kilit sistemi: sadece kelime ... alt bilgi". Alt bilgi kilidi 55x35, ana sayfaya bağlantı |
+
+## 18 Ağustos 2026 gecesi: F2-F10 kararları uygulandı
+
+| Karar | Uygulama | Ölçüm |
+|---|---|---|
+| F3 (a) eşik 1040 | Yirmi dört `max-width` sorgusu ve `FotoYuvasi` `sizes` birlikte 960 > 1040 | 1041'de barlar sığıyor: TR ana 115, EN ana 81, TR menü 82, EN menü 1, EN konum 172px pay; 1040'ta hamburger. 961-1039 telefon düzeni alır. EN menünün 1px payı ince: nav etiketleri kısalırsa açılır |
+| F4 (a) bar sıfırdan | `MobilAksiyonBari.module.css` `@supports` bloğu ve `barGirisi` silindi | 390'da y=0: bar 776'da, opaklık 1, hero içeriği 476'da bitiyor, çakışma yok |
+| F5 (a) mobil dolgu | `tokens.css` 1040 altında `--bolum-dikey: 56px` | 390: bölüm boşlukları 168/169/172/240/240/240 > 102/106/108/112/112/112, sayfa 6701 > 6076px |
+| F6 (a) kayma yok | `MenuSatiri` hover yalnız .05 zemin; transform ve mobil `transform:none` kalktı | Hover'da transform none; UYGULAMA-NOTLARI 3'ten kayıtlı sapma, 12 Ağustos gözlemiyle uyumlu |
+| F9 (b) rampa | `lib/cerceve.ts` yoğunluk iki komşu merkez arasında ağırlıklı ortalama; aktif bölüm en yakın kalır | 1440, 0-800px kaydırma: .86 / .795 / .731 / .666 / .606; önce 390'da tek basamak .86 > .608 |
+| F10 (c) merdiven | `GunMerdiveni` üç satır merkezini ölçer, imleci aralarında parça parça çevirir | 21:00'de imleç merkezi 443.3 = satır merkezi 443.3 (önce 7.8px altta) |
+| F2, F7, F8 (a) | Değişiklik yok, karar kayda geçti | |

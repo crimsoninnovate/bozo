@@ -244,6 +244,8 @@
    * hiçbir şey kıpırdamaz. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
    */
   --sayfa-yatay: max(clamp(24px, 5vw, 64px), (100vw - var(--panel-en)) / 2);
+  /* Mobilde 56px (Ocaktan'ın kendi mobil değeri; prototip 34-48): 120 telefonda
+     bölümler arası 168-240px boşluk bırakıyordu, sayfanın %21.8'i (F5, 18 Ağustos 2026). */
   --bolum-dikey: 120px;
   /* cam panel dolgusunun üç adımı, tasarımdan birebir */
   --kart-ic: clamp(28px, 3vw, 48px);
@@ -261,4 +263,10 @@
   --gecis-erit: 0.5s ease-out;
   /* Kor yoğunluk kararması (KorSahnesi); iki kullanım, azaltılmış hareket istisnası dahil. */
   --gecis-yogunluk: 0.9s ease-out;
+}
+
+@media (max-width: 1040px) {
+  :root {
+    --bolum-dikey: 56px;
+  }
 }

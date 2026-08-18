@@ -10,17 +10,14 @@
   align-items: baseline;
   padding: 28px 0;
   border-bottom: 1px solid rgba(242, 233, 220, 0.07);
-  transition:
-    transform var(--gecis-hizli),
-    background var(--gecis-hizli);
+  transition: background var(--gecis-hizli);
 }
 
-/* Kayma ve zemin birlikte: ikisi tek geri bildirim. Yalnız imleçli aygıtta:
-   dokunmada :hover dokunuştan sonra da yapışıyordu (ölçüldü 390 ve 1024, satır
-   .05 zeminle ve 20px kaymış kalıyordu). */
+/* Yalnız zemin, kayma yok (sahibi 12 Ağustos ve F6, 18 Ağustos 2026): satırın
+   gidecek yeri yok, 20px kayma bir vaatti; UYGULAMA-NOTLARI 3'ten kayıtlı sapma.
+   Yalnız imleçli aygıtta: dokunmada :hover dokunuştan sonra da yapışıyordu. */
 @media (hover: hover) {
   .satir:hover {
-    transform: translateX(20px);
     background: rgba(250, 170, 31, 0.05);
   }
 }
@@ -53,18 +50,14 @@
 }
 
 /*
- * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 960px altında
+ * Dar ekranda üç kolon tek kolona iner: 340px ad sütunu 1040px altında
  * açıklamaya yer bırakmıyor. Sıra numarası adın üstünde kalır.
  */
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .satir {
     grid-template-columns: 1fr;
     gap: 8px;
     padding: 22px 0;
-  }
-
-  .satir:hover {
-    transform: none;
   }
 
   .ad {

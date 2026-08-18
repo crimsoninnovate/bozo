@@ -26,7 +26,7 @@ export type TaneOlculeri = {
 type Props = TaneOlculeri & {
   /** Kaç tane basılacağı. Tasarımda 6 ve 3 dışında bir ray yok. */
   adet?: 3 | 6
-  /** 960px altındaki ölçüler; verilmezse masaüstü ölçüsü mobilde de geçerli. */
+  /** 1040px altındaki ölçüler; verilmezse masaüstü ölçüsü mobilde de geçerli. */
   mobil?: TaneOlculeri
   ton?: TaneTonu
   /** Hero rayı: karelerin arkasından geçen sönen çizgi. */

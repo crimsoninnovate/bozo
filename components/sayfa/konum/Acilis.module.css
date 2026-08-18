@@ -64,13 +64,13 @@
 }
 
 /*
- * 960px altında saat etiketi kendi satırına iner. Ölçüldü: tek satırlık hal
+ * 1040px altında saat etiketi kendi satırına iner. Ölçüldü: tek satırlık hal
  * yalnız Türkçe ve >=390px'te tutuyordu (390px'te sağda 1px pay kalıyor),
  * 360px'te Türkçe de, 390px'te İngilizce de ("Kyrenia time, live")
  * kendiliğinden sarıyordu. Sahibinin kararı 13 Ağustos 2026: sarma tesadüfe
  * kalmasın, iki dil aynı görünsün.
  */
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .saatEtiketi {
     flex-basis: 100%;
   }

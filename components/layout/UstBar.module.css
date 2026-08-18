@@ -7,9 +7,14 @@
  * Hikaye/Konum/Menu Sayfasi.dc.html (iç sayfa varyantı): yükseklik 78px, gap:28px, zemin
  * linear-gradient(to bottom,rgba(10,8,7,.94),rgba(10,8,7,.55)), aktif sekme alt çizgili.
  * Hangi sayfanın hangi nav'ı ve hangi CTA'yı bastığı lib/kabuk.ts'te.
- * 960px altı ölçüler Mobil Prototip.dc.html'den (58px, backdrop-filter blur(10px)).
+ * 1040px altı ölçüler Mobil Prototip.dc.html'den (58px, backdrop-filter blur(10px)).
  *
- * EŞİK 780 DEĞİL 960, iki kez taşındı ve ikisi de ölçümle.
+ * EŞİK 780 DEĞİL 1040, üç kez taşındı ve üçü de ölçümle.
+ *
+ * 3) 960 > 1040 (18 Ağustos 2026, sahibi F3): 13 Ağustos ölçümü yalnız TR
+ *    sayfalarına bakmıştı; EN menü barı ("From the Fire", "On the House") 961'de
+ *    1032px içerik istiyor, 961-1039 arası nav ve CTA iki satıra kırılıyordu (iPad
+ *    yatay 1024 bandın içinde). 1040 EN menüyü 8px payla karşılar.
  *
  * 1) 780 > 800 (12 Ağustos 2026): mobil prototip 780 diyor ama masaüstü barı o
  *    genişlikte sığmıyordu, 781px'te en sağdaki CTA 11px kırpılıyordu.
@@ -25,7 +30,7 @@
  * marka adı hâlâ kırılıyordu. Bedeli kayda geçsin: 800-960 arası pencereler
  * telefon düzeni alır, sahibinin kararı (13 Ağustos 2026).
  *
- * Eşik sitenin YİRMİ ÜÇ media query'sinde birlikte taşınır; yalnız burada
+ * Eşik sitenin YİRMİ DÖRT media query'sinde artı FotoYuvasi `sizes`'ta birlikte taşınır; yalnız burada
  * taşımak arada kalan bantta hem nav'ı hem hamburger'i gizler, yani gezinmeyi
  * tamamen düşürür. `KorSahnesi`'nin `min(780px, 110%)`'i bir genişlik, eşik
  * değil, taşınmaz.
@@ -173,7 +178,7 @@
   background: var(--krem);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .anaVaryant,
   .icVaryant {
     background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));

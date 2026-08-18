@@ -96,7 +96,7 @@
   color: var(--tangerine);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .kap {
     margin-top: 34px;
   }

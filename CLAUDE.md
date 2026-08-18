@@ -120,7 +120,8 @@ the handoff will see them as missing. They are not. Measurements and reasoning a
 - The menu page's "Gece Menüsü" card and its "Çekim Listesi" section. The first announced that its
   own contents were undecided; the second was a note addressed to the photographer, not a guest.
 - Two of the three footer variants. Every page now carries the home page's four-column footer.
-- The mobile hero's two CTA buttons, below 960px. The mobile prototype has none either: actions
+- The mobile hero's two CTA buttons, below the mobile threshold (1040px since 18 August 2026,
+  owner's F3). The mobile prototype has none either: actions
   belong to the floating bar, and the hero was repeating it.
 - `html { scroll-behavior: smooth }`. It turned Next's route-change scroll correction into a visible
   slide in from the bottom of the target page. Measured: 82 scroll events from y=3356 down to 0,

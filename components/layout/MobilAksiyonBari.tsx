@@ -14,8 +14,7 @@ type Props = { dil: Dil }
  * düğme. Kalıp sahibinin verdiği referanstan (elaves.com mobil barı): yüzen
  * hap, cam zemin, ortada yükselen ana eylem.
  *
- * 960px üstünde gizlenir, 120px kaydırmadan önce görünmez
- * (bkz. MobilAksiyonBari.module.css; kapının kalkması KARAR-FORMU F4).
+ * 1040px üstünde gizlenir; sıfırdan görünür (F4, 18 Ağustos 2026).
  */
 export function MobilAksiyonBari({ dil }: Props) {
   const s = sozluk(dil)

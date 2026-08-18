@@ -48,7 +48,7 @@
 }
 
 /* Mobil ölçüler: başlık Mobil:168, levha yüksekliği Mobil:169. */
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .baslik {
     line-height: 1.1;
     letter-spacing: -0.035em;

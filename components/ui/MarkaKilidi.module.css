@@ -1,7 +1,7 @@
 /*
  * Kilit ölçüleri: işaret 12px tane (çubuk 1.56px), kelime bloğu 11.5/28, toplam
- * 197px. 961px'te bar kendi içeriğine sığmalı; ölçüldü, EN ana sayfada 9px, TR
- * menüde 10px pay kalıyor (IYILESTIRMELER.md, 18 Ağustos 2026).
+ * 197px. Eşiğin hemen üstünde (1041px) bar kendi içeriğine sığmalı; ölçüldü,
+ * en dar olan EN menüde bile pay var (IYILESTIRMELER.md, 18 Ağustos 2026).
  */
 .kilit {
   --sis-boy: 12px;
@@ -68,7 +68,7 @@
 }
 
 /* Mobil bar 58px: işaret 10px tane, blok 10/21. Eşik sitenin 960'ı. */
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .kilit {
     --sis-boy: 10px;
     gap: 10px;
