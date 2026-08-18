@@ -44,7 +44,7 @@ export function Icecekler({ dil }: Props) {
   const s = sozluk(dil)
 
   return (
-    <section id="icecekler" className={stil.bolum}>
+    <section id="icecekler" tabIndex={-1} className={stil.bolum}>
       <BolumBasligi
         olcek="sayfa"
         baslik={s.menu.icecekler.baslik}

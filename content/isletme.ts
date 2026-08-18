@@ -23,7 +23,7 @@ export const isletme: Isletme = {
   telefon: '+90 533 888 74 24',
   whatsapp: '+90 533 888 74 24',
   eposta: null,
-  // Kullanıcı adı, tam URL değil: AltBilgi `https://instagram.com/${instagram}` kurar.
+  // Kullanıcı adı, tam URL değil: adresi `lib/site.ts` > `instagramUrl` kurar.
   // Sahibi 12 Ağustos 2026'da verdi; hesap henüz açılmadı, yayından önce açılmalı.
   instagram: 'cigercibozo',
   alkolServisi: false,

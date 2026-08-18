@@ -10,6 +10,7 @@ import {
   yolTarifiUrl,
   whatsappUrl,
   telefonUrl,
+  instagramUrl,
   SITE_URL,
   type RotaAnahtari,
 } from './site.ts'
@@ -128,4 +129,12 @@ test('yoldanDil_enHarfleriyleBaslayanTurkceYol_trDoner', () => {
 
 test('yoldanDil_bosDize_trDoner', () => {
   assert.equal(yoldanDil(''), 'tr')
+})
+
+test('instagramUrl_kullaniciNullIken_nullDoner', () => {
+  assert.equal(instagramUrl(null), null)
+})
+
+test('instagramUrl_kullaniciVarken_profilAdresiUretir', () => {
+  assert.equal(instagramUrl('cigercibozo'), 'https://instagram.com/cigercibozo')
 })

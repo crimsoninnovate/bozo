@@ -48,9 +48,11 @@ a, button { -webkit-tap-highlight-color: transparent; }
  * Atlanan blok bağlantısının hedefi. <main tabindex="-1"> odağı içeriğe taşımak
  * için var (Safari fragman bağlantısında sıralı odak başlangıcını taşımaz);
  * bir kontrol değil, halkası bilgi taşımaz ve tam genişlikteki kutunun etrafında
- * barın altında kalırdı. Sinyal, sonraki Tab'ın içeriğe inmesi.
+ * barın altında kalırdı. Sinyal, sonraki Tab'ın içeriğe inmesi. Menü bölümleri de
+ * aynı: çekmecenin çapası kapanınca odağı bölüme taşır (odak eylemi izler).
  */
-main:focus-visible { outline: none; }
+main:focus-visible,
+section[tabindex='-1']:focus-visible { outline: none; }
 ::selection { background: var(--kor); color: var(--krem); }
 button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
 img { max-width: 100%; display: block; }

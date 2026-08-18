@@ -3,7 +3,7 @@ import { CamPanel } from '@/components/ui/CamPanel'
 import { InstagramIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
-import { telefonUrl, whatsappUrl } from '@/lib/site'
+import { instagramUrl, telefonUrl, whatsappUrl } from '@/lib/site'
 import { AlkolsuzRozeti } from './AlkolsuzRozeti'
 import { IletisimSatiri } from './IletisimSatiri'
 import stil from './SaatlerVeIletisim.module.css'
@@ -28,7 +28,7 @@ type Props = { dil: Dil }
  */
 export function SaatlerVeIletisim({ dil }: Props) {
   const s = sozluk(dil)
-  const instagram = isletme.instagram ? `https://instagram.com/${isletme.instagram}` : null
+  const instagram = instagramUrl(isletme.instagram)
 
   return (
     <section className={stil.bolum}>

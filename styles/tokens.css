@@ -83,6 +83,8 @@
      altındaki zemin olarak, yani yine hairline olarak kullanılır (Ana:133). */
   --cizgi-kart: rgba(242, 233, 220, 0.12);
   --cizgi-soluk: rgba(242, 233, 220, 0.1);
+  /* Mobil barın alt saç çizgisi (Mobil:55), telif şeridi ve çekmecenin üst satırı. */
+  --cizgi-sac: rgba(242, 233, 220, 0.09);
   --cizgi-hayalet: rgba(242, 233, 220, 0.08);
   /* çip dolgusu: ölçü ve spec çipleri (Menu:112-114, Hikaye:107-109) */
   --krem-dolgu: rgba(242, 233, 220, 0.06);
@@ -266,6 +268,8 @@
 
   /* hareket */
   --gecis-hizli: 0.15s ease-out;
+  /* Sitenin tek özel eğrisi: menü kartı (Menu:125), imleç koru, çekmece girişi. */
+  --gecis-egri: cubic-bezier(0.2, 0.7, 0.2, 1);
   /* Yerleşim değiştiren hover geçişi: kaydırma ipucunun gap'i (Ana:120), tek
      kullanım. Menü satırının padding-left kayması 12 Ağustos'ta transform'a
      döndü ve --gecis-hizli'ye geçti; footer'ın 0.18s'i tasarımın kendi değeri. */

@@ -74,7 +74,7 @@ export function Ikramlar({ dil }: Props) {
   const s = sozluk(dil)
 
   return (
-    <section id="ikramlar" className={stil.bolum}>
+    <section id="ikramlar" tabIndex={-1} className={stil.bolum}>
       <BolumBasligi
         olcek="sayfa"
         vurguCizgi

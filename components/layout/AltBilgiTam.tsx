@@ -2,7 +2,7 @@ import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
 import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
-import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
+import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
 import { TelifSeridi } from './TelifSeridi'
 import stil from './AltBilgi.module.css'
 
@@ -18,7 +18,7 @@ export function AltBilgiTam({ dil }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
   const whatsapp = whatsappUrl(isletme.whatsapp)
-  const instagram = isletme.instagram ? `https://instagram.com/${isletme.instagram}` : null
+  const instagram = instagramUrl(isletme.instagram)
 
   return (
     <footer className={`${stil.zemin} ${stil.tam}`}>

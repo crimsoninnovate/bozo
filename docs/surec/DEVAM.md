@@ -3,7 +3,7 @@
 Bu dosya, bağlam sıfırlandıktan sonra işe kaldığı yerden devam etmek için tek giriş
 noktasıdır. Önce bunu oku, sonra buradan dallan.
 
-Son güncelleme: 18 Ağustos 2026, uçtan uca denetim turu sonrası
+Son güncelleme: 18 Ağustos 2026 gecesi, çekmece zenginleştirme ve çürütme turu sonrası
 
 ## 18 Ağustos 2026: nerede duruyoruz
 

@@ -188,13 +188,12 @@
     border-bottom: none;
   }
 
-  /* Mobil:55 barın altına saç çizgisi veriyor. Aynı .09 üç footer'ın telif
-     şeridinde de ham duruyor; token'ı yok (tokens.css paralel turun elinde). */
+  /* Mobil:55 barın altına saç çizgisi veriyor. */
   .anaVaryant .satir,
   .icVaryant .satir {
     height: 58px;
     padding: 0 18px;
-    border-bottom: 1px solid rgba(242, 233, 220, 0.09);
+    border-bottom: 1px solid var(--cizgi-sac);
   }
 
   .navLinks,

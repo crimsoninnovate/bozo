@@ -113,7 +113,7 @@ export function Ocaktan({ dil }: Props) {
   if (!imza) throw new Error('Ocaktan ürün listesi boş')
 
   return (
-    <section id="ocaktan" className={stil.bolum}>
+    <section id="ocaktan" tabIndex={-1} className={stil.bolum}>
       <BolumBasligi
         olcek="sayfa"
         baslik={s.menu.ocaktan.baslik}

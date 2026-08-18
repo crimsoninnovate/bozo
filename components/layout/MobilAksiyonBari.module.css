@@ -145,6 +145,11 @@
     display: flex;
   }
 
+  /* Çekmece açıkken bar örtülü değil gizli: .96 zeminden kor düğme sızıyordu (ölçüldü +7/255). */
+  :global(body[data-cekmece]) .bar {
+    visibility: hidden;
+  }
+
   /* Bar sıfırdan görünür (sahibi, 18 Ağustos 2026, F4). 13 Ağustos'un 120-240px
      kapısı hero'nun kendi butonuyla çakışmayı önlüyordu; o butonlar aynı gün
      mobilden kalkınca ilk ekranda hiç eylem kalmamıştı. Mobil prototip de gizlemez. */

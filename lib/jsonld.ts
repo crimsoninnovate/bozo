@@ -1,7 +1,7 @@
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
-import { SITE_URL, yol } from './site.ts'
+import { SITE_URL, yol, instagramUrl } from './site.ts'
 
 /** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
 function saatMetni(saat: number): string {
@@ -80,7 +80,8 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
   }
   if (isletmeVerisi.telefon) veri.telephone = isletmeVerisi.telefon
   if (isletmeVerisi.eposta) veri.email = isletmeVerisi.eposta
-  if (isletmeVerisi.instagram) veri.sameAs = [`https://instagram.com/${isletmeVerisi.instagram}`]
+  const instagram = instagramUrl(isletmeVerisi.instagram)
+  if (instagram) veri.sameAs = [instagram]
 
   return veri
 }

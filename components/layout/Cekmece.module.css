@@ -1,10 +1,12 @@
 /*
  * Mobil Prototip.dc.html [data-cekmece] tabandır: tam ekran, .96 zemin, 6px bulanıklık,
  * 700 34px/1.3 Bricolage satırlar, .12 saç çizgisi. Üstüne 18 Ağustos 2026'da sahibinin
- * seçtiği A karesi geldi (üst satır, numara, alt çapalar, durum bloğu, CTA'lar, ayak);
- * ölçüler ve gerekçe IYILESTIRMELER.md > çekmece zenginleştirme turu.
+ * seçtiği A karesi geldi; ölçüler ve gerekçe IYILESTIRMELER.md > çekmece kayıtları.
  */
 .kap {
+  --cekmece-solma: 220ms;
+  --cekmece-satir: 420ms;
+  --cekmece-x: 260ms;
   position: fixed;
   inset: 0;
   /* Bar 60, eylem barı 70; çekmece ikisinin üstünde (40'ta kapatma hamburgerin altında kalıyordu). */
@@ -13,12 +15,22 @@
   flex-direction: column;
   background: var(--panel-96);
   backdrop-filter: blur(6px);
-  overscroll-behavior: contain;
-  animation: kapAcilis 220ms ease-out both;
+  animation: kapAcilis var(--cekmece-solma) ease-out both;
+}
+
+.kapaniyor {
+  animation: kapKapanis 150ms ease-out both;
+  pointer-events: none;
+}
+
+/* Ana sayfanın 2px ilerleme rayı: bar satırı 60'ta başlar, çekmecenin satırı da. */
+.rayPayi {
+  flex: none;
+  height: 2px;
 }
 
 /* Üst satır barın mobil satırının ikizi (UstBar 58px, 0 18px, .09 çizgi, sağ grup 14px):
-   kilit ve dil çekmece açıkken de yerinde, X hamburgerin tam yerinde. */
+   kilit ve dil çekmece açıkken de yerinde, X hamburgerin yerinde. Ölçüldü: ana 0px, gece şeridi 0px. */
 .ust {
   flex: none;
   height: 58px;
@@ -26,7 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(242, 233, 220, 0.09);
+  border-bottom: 1px solid var(--cizgi-sac);
 }
 
 .sagGrup {
@@ -48,32 +60,45 @@
   cursor: pointer;
 }
 
+/* Hamburgerin çizgileriyle aynı ölçü (UstBar 20x2, 4px aralık); yerinden merkeze gelip
+   45 derece kırılır. Gecikme 120ms: perde .6 opaklığa gelmeden dönüş görünmüyordu (ölçüldü). */
 .kapat span {
   position: absolute;
-  width: 22px;
+  width: 20px;
   height: 2px;
   background: var(--krem);
 }
 
-/* Hamburgerin iki çizgisi (4px aralık) X'e döner: yerinden merkeze gelip 45 derece kırılır. */
 .kapat span:first-child {
   transform: rotate(45deg);
-  animation: xUst 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: xUst var(--cekmece-x) var(--gecis-egri) 120ms both;
 }
 
 .kapat span:last-child {
   transform: rotate(-45deg);
-  animation: xAlt 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: xAlt var(--cekmece-x) var(--gecis-egri) 120ms both;
+}
+
+.kapat:active span {
+  background: var(--krem-70);
 }
 
 .govde {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 28px;
   padding: 10px 24px calc(22px + env(safe-area-inset-bottom, 0px));
+}
+
+.linkler,
+.altlar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .linkler {
@@ -83,7 +108,7 @@
 
 .satir {
   border-bottom: 1px solid var(--cizgi-kart);
-  animation: satirGiris 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: satirGiris var(--cekmece-satir) var(--gecis-egri) both;
   animation-delay: calc(60ms + var(--sira) * 45ms);
 }
 
@@ -117,7 +142,7 @@
 }
 
 /* Sıra numarası: tabular Bricolage, ekran okuyucuya kapalı. Genişlik 22, aralık 14: alt
-   çapalar 36px içeriden başlar ve sayfa adıyla aynı hizaya oturur. */
+   çapalar ve meta satırları 36px içeriden başlar, sayfa adıyla aynı hizada. */
 .no {
   min-width: 22px;
   font-weight: 600;
@@ -132,17 +157,19 @@
   color: var(--tangerine);
 }
 
+/* Çipler sayfa adına yakın, alttaki çizgiden uzak (yakınlık). Satır aralığı 12: iki çipin
+   44px dokunma payları üst üste binmez (8'de 4px biniyordu, alttaki kazanıyordu). */
 .altlar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 6px;
-  padding: 8px 0 14px 36px;
+  gap: 12px 6px;
+  padding: 2px 0 18px 36px;
 }
 
-/* Çip görünür kutusu 32px; ::after ile dokunma 44px'e çıkar (bar ile aynı teknik). Pay
-   satırın kendi 8/14 dolgusunun içinde kalır, komşu satırın kutusuna taşmaz. */
+/* Çip görünür kutusu 33.5px; ::after ile dokunma 45.5px. Pay satırın kendi dolgusunda kalır. */
 .alt {
   position: relative;
+  display: inline-block;
   padding: 9px 12px;
   border: 1px solid var(--cizgi-guclu);
   border-radius: 2px;
@@ -178,21 +205,23 @@
   }
 }
 
-/* Alt blok gövdenin sonuna yaslanır; içerik gövdeden uzunsa (320x568, yatay telefon)
-   akışta kalır ve gövdeyle kayar. */
+/* Alt blok gövdenin sonuna yaslanır; içerik gövdeden uzunsa akışta kalır ve gövdeyle kayar. */
 .altBlok {
   margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  animation: satirGiris 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: satirGiris var(--cekmece-satir) var(--gecis-egri) both;
   animation-delay: 260ms;
 }
 
+/* Saat rakamları yanındaki cümlenin taban çizgisine oturur (hero da öyle); flex-end eski
+   motorlar için yedek. Ölçüldü: 4.5px yukarıda asılıydı. */
 .durum {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  align-items: last baseline;
   justify-content: space-between;
   gap: 10px 12px;
 }
@@ -202,10 +231,6 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  font-family: var(--font-govde);
-  font-size: 14.5px;
-  line-height: 1.5;
-  color: var(--krem-70);
 }
 
 .meta {
@@ -214,10 +239,11 @@
   gap: 10px;
 }
 
+/* İkon 16 + aralık 20 = 36: metin sayfa adları ve çiplerle aynı sütunda (x=60). */
 .metaSatir {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   font-family: var(--font-govde);
   font-weight: 400;
   font-size: 14.5px;
@@ -287,15 +313,20 @@
   gap: 18px;
 }
 
+/* İkon + etiket tek çift; meta satırlarının 20px sütun aralığı burada geçmez. */
 .iletisimLinki {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   min-height: 44px;
   font-weight: 500;
   color: var(--krem-62);
   text-decoration: none;
   transition: color var(--gecis-hizli);
+}
+
+.iletisimLinki[aria-disabled='true'] {
+  opacity: 0.55;
 }
 
 .iletisimLinki:active {
@@ -309,22 +340,56 @@
   }
 }
 
-.not {
-  font-weight: 400;
-}
-
 /* Uzun telefon (390x844 ve üstü): satırlar bir kademe büyür, gezinme ile durum bloğu
-   arasındaki boşluk daralır (ölçüldü: 390x844 130 > 81px, 430x932 218 > 169px). */
-@media (min-height: 800px) {
+   arasındaki boşluk daralır (ölçüldü: 390x844 130 > 81px, 430x932 218 > 169px).
+   Eşik 820: 375x812'de 38px satır gövdeyi 2px kaydırıyordu. */
+@media (min-height: 820px) {
   .link {
     font-size: 38px;
     padding: 12px 0;
   }
 }
 
-/* Yatay telefon ve yatay tablet (700-1040px): tek kolon 364px kaydırıyordu (844x390);
-   gezinme sola, durum ve eylemler sağa. */
-@media (min-width: 700px) and (orientation: landscape) {
+/* Kısa gövde (iPhone SE sınıfı, 375x667 ve 360x640): ikinci CTA katın altında kalıyordu
+   (ölçüldü 106-147px kayma); satırlar ve aralıklar bir kademe iner. */
+@media (max-height: 700px) {
+  .link {
+    font-size: 30px;
+    padding: 7px 0;
+  }
+
+  .govde {
+    gap: 14px;
+    padding-top: 6px;
+  }
+
+  .altBlok {
+    gap: 10px;
+  }
+
+  .durumSol,
+  .meta {
+    gap: 8px;
+  }
+
+  .altlar {
+    padding-bottom: 10px;
+  }
+
+  .ctalar {
+    gap: 6px;
+  }
+
+  .ctalar > a,
+  .ctalar > span {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* Tablet ve yatay telefon (700-1040px): tek kolon 720px'lik buton ve 364px kaydırma
+   (844x390) veriyordu; gezinme sola, durum ve eylemler sağa. */
+@media (min-width: 700px) {
   .govde {
     flex-direction: row;
     align-items: flex-start;
@@ -343,11 +408,29 @@
   }
 }
 
-/* 320px: 34px "İçecekler" çipiyle satır sarıyor, ölçü bir kademe iner. Aralıklar da
-   sıkışır: 360x740'ta gövde 12px kayıyordu, sıfır olsun. */
+/* 400px altı: EN çip satırı ("From the Fire / On the House / Drinks") 375'te 306px istiyordu,
+   291 vardı; 13px ve 10px dolguyla 284. Dokunma 45px'te kalır. */
+@media (max-width: 400px) {
+  .alt {
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+}
+
+/* 320-360: satır 30px, aralıklar sıkışır (360x740'ta gövde 12px kayıyordu). Alt blok
+   akışa yaklaşınca son satırın çizgisi kalır ki durum çipi beşinci satır gibi okunmasın. */
 @media (max-width: 360px) {
   .link {
     font-size: 30px;
+  }
+
+  /* EN çipleri 360'ta tam sınırdaydı (284 = 284) ve yuvarlamayla sarıyordu. */
+  .alt {
+    padding: 9px 9px;
+  }
+
+  .satir:last-child {
+    border-bottom: 1px solid var(--cizgi-kart);
   }
 
   .govde {
@@ -357,15 +440,20 @@
   }
 
   .altBlok {
-    gap: 16px;
+    gap: 15px;
   }
 }
 
-/* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler. Azaltılmış harekette
-   styles/animasyonlar.css hepsini kapatır; `both` dolgusu sayesinde son kare her durumda basılır. */
+/* Modül-yerel: CSS Modules `animation-name`i hash'ler. Azaltılmış harekette animasyonlar.css
+   `animation: none` basar; son kare temel kurallarda durur, `both` yalnız gecikmeli satırları başta gizler. */
 @keyframes kapAcilis {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes kapKapanis {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes satirGiris {

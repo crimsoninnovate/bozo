@@ -236,12 +236,10 @@
   pointer-events: none;
 }
 
-/* rgba(242,233,220,.09): üç dosyada da bu tek yerde geçer, --cizgi* ailesinde
-   karşılığı yok. Token eklenmedi (tokens.css bu turda dokunulmaz), raporlandı. */
 .telifSeridi {
   margin-top: 46px;
   padding-top: 20px;
-  border-top: 1px solid rgba(242, 233, 220, 0.09);
+  border-top: 1px solid var(--cizgi-sac);
   display: flex;
   flex-wrap: wrap;
   align-items: center;

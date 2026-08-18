@@ -637,10 +637,10 @@ metin yok. Ölçümler `out/` üstünde headless (390/430/360/320/768/1024, yata
 |---|---|---|
 | Üst satır | Çekmecenin kendi satırı: `MarkaKilidi` + `DilAnahtari` + X, barın mobil satırının ikizi (58px, 0 18px, .09 çizgi, sağ grup 14) | Önce açıkken marka ve dil çekmecenin altında kalıyordu (z 80 > 60), 390'da 15 hedefin ikisi ancak kapatınca erişilirdi. X hamburgerin tam yerinde, çizgileri oradan X'e döner |
 | Sıra numarası | 01-04, tabular Bricolage 12px `--krem-50`, `aria-hidden`; aktif satırda tangerine | Bağlantı adı ekran okuyucuda yalnız sayfa adı. Numara + 14px aralık = 36px, alt çapalar bu hizada başlar |
-| Alt çapalar | Menü'nün altında Ocaktan / İkramlar / İçecekler; `cekmeceLinkleri()` artık `altlar` taşır, menü barının çapalarından türer (`kabuk.test`: 3 test). Bulunulan sayfada `CapaBaglantisi` (`#ikramlar`), başka sayfadan `/menu/#ikramlar` | 1040 altında üç çapa hiçbir yerde yoktu. Ölçüldü: /menu'de #ikramlar 4132px'e kaydırdı ve çekmece kapandı; ana sayfadan #icecekler `/menu/#icecekler` 5592'ye indi. Çip 32px görünür, `::after` ile 44px, pay satırın kendi 8/14 dolgusunda |
+| Alt çapalar | Menü'nün altında Ocaktan / İkramlar / İçecekler; `cekmeceLinkleri()` artık `altlar` taşır, menü barının çapalarından türer (`kabuk.test`: 3 test). Bulunulan sayfada `CapaBaglantisi` (`#ikramlar`), başka sayfadan `/menu/#ikramlar` | 1040 altında üç çapa hiçbir yerde yoktu. Ölçüldü: /menu'de #ikramlar 4132px'e kaydırdı ve çekmece kapandı; ana sayfadan #icecekler `/menu/#icecekler` 5592'ye indi. Çip 33.5px görünür, `::after` ile 45.5px, pay satırın kendi dolgusunda |
 | Durum bloğu | `DurumCipi` (kucuk) + `DurumAltMetni` + `CanliSaat` yeni `cekmece` boyu (40px/800) | Çekmecenin kendi durum satırı ve saat/alkolsüz notu kalktı, üç bileşen paylaşılıyor; `durum === null` dalı çipin içinde korunuyor (kapalı basmıyor). 320'de saat çipin altına sarar |
 | Adres ve saat | Pin + `adresKisa` yol tarifi bağlantısı (metin 20px, `::after` 44px), yeni `SaatIkon` + `saatlerGunluk` | Konum bilgisi barın "Yol Tarifi" ikonunun ötesinde okunur oldu |
-| CTA'lar | `Buton` md, tam genişlik: birincil "Yol Tarifi Al", ikincil "WhatsApp'tan Yaz" (`whatsapptanYaz` ilk gerçek yüzeyini buldu, A10) | Barın üç eylemi çekmece açıkken örtülüyor (z 80 > 70, `elementFromPoint` barı görmüyor); eylemler içeride |
+| CTA'lar | `Buton` md, tam genişlik: birincil "Yol Tarifi Al", ikincil "WhatsApp'tan Yaz" (`whatsapptanYaz` ilk buton yüzeyi; Konum satırının alt cümlesinden sonra ikinci kullanım) | Barın üç eylemi çekmece açıkken örtülüyor (z 80 > 70, `elementFromPoint` barı görmüyor); eylemler içeride |
 | Ayak | Instagram, Telefon, sağda `alkolsuzKisa` | Alt bilginin iletişim üçlüsüyle aynı; barın "telefon çıktı" kararı bara özeldi (13 Ağustos), alt bilgi telefonu taşımaya devam ediyordu |
 | Kapanma | Kapsayıcıda tıklama delegasyonu: her `a[href]` çekmeceyi kapatır | Ölçüldü: /menu'de "Menü" ve ana sayfada kilit aynı rotaya gidiyor, sayfa yeniden mount olmuyor ve çekmece açık kalıyordu; şimdi kapanıyor, `body.overflow` geri geliyor |
 | Hareket | 220ms solma, satırlar 60 + 45n ms basamaklı yükseliş (10px), alt blok 260ms, X 260ms | Animasyon turunun "160ms açılış solması reddedildi" satırı sahibinin bu kararıyla tersine döndü: sahibi hareketi tasarımın parçası olarak gördü ve onayladı. Azaltılmış harekette `getAnimations` 0, ilk satır opaklığı 1 |
@@ -662,3 +662,36 @@ Sahibi tanınırlık için sordu ("algıyı yakalamak"); değerlendirme ve karar
 | `Ikonlar.tsx` WhatsAppIkon | Lucide `MessageCircle` yerine gerçek WhatsApp glifi (simple-icons, CC0), dolgu `--marka-whatsapp` #25D366 | Genel balonu yeşile boyamak WhatsApp yapmaz; tanınırlık işaretin şeklinden gelir. 13 Ağustos kaydı "marka işareti şart görülürse geri alınabilir" diyordu, alındı. Yeşil #0A0807 üstünde 10.4:1 |
 | `Ikonlar.tsx` InstagramIkon | Aynı lucide-static çizgi geometrisi, çizgi Instagram gradyanı (`--marka-instagram-1..5`, `userSpaceOnUse`, `useId`) | Kutuya bağlı gradyan sıfır genişlikteki nokta çizgisinde boyamıyor; sayfada birden çok işaret olduğu için kimlik `useId` |
 | Palet kuralı | "Başka renk ekleme" listesine tek istisna: üçüncü taraf markaları kendi renginde, yalnız `Ikonlar.tsx` içinde | Yerler: yüzen bar, çekmece (CTA + ayak), alt bilgi, konum iletişim satırları. Kor zemin üstünde WhatsApp yok, yeşil hep koyu zeminde |
+
+## 18 Ağustos 2026 gecesi: çekmece çürütme turu
+
+Altı mercek (görsel, erişilebilirlik, kod, metin, hareket, davranış) artı altı çürütücü;
+41 bulgunun 33'ü doğrulandı, 7'si düşürüldü, 1'i çürütüldü. Uygulananlar:
+
+| Bulgu | Uygulama | Ölçüm |
+|---|---|---|
+| Üst satır ikiz değildi | Ana sayfada rayın 2px payı (`.rayPayi`), gece şeridi olan rotalarda `GeceSeridi` çekmecenin içinde de basılır | Önce: ana sayfada kilit 15 > 13 (2px), 01:00-05:00 arası hikaye/galeri/gizlilikte 25.5px sıçrama; şimdi 0 |
+| Saat 4.5px yukarıda asılı | `.durum { align-items: last baseline }`, flex-end yedek | Saat taban çizgisi alt cümlenin taban çizgisinde |
+| İki kolon yalnız yatayda | `min-width: 700px` (yön şartı kalktı) | 768x1024: 720px'lik CTA ve 261px boşluk yerine iki kolon |
+| iPhone SE sınıfı kaydırıyordu | `max-height: 700px` basamağı: satır 30/8, aralıklar 18/12, CTA dolgusu 12 | 375x667 TR/EN ve 360x640 ölçümü aşağıda |
+| EN çip satırı 375'te sarıyordu | `max-width: 400px`: çip 13px, 9px 10px dolgu | 306px istek > 284px, 291 var |
+| Çip dokunma payları biniyordu | `.altlar` satır aralığı 8 > 12 | İki 45.5px alan artık kesişmiyor |
+| Çipler alttaki çizgiye yakındı | `.altlar` dolgusu 8/14 > 2/18 | Yakınlık: sayfa adına 16, çizgiye 19 |
+| Sekme sızıntısı | Odak kapsayıcının dışındayken Tab ilk/son öğeye çekilir | Metne dokunup Tab: önce arkadaki footer'a gidiyor ve kilitli sayfayı kaydırıyordu |
+| Çapadan kapanınca odak | Hedef bölüm `tabIndex={-1}`, kapanışta `focus({preventScroll})`; ötekilerde odak hamburgere | Odak eylemi izler (WCAG 2.4.3); `section[tabindex]` halkası main gibi kapalı |
+| Aynı rota bağlantısı | Bulunulan sayfanın bağlantısı (Menü'de Menü, ana sayfada kilit) başa kaydırıp kapatır | Önce yalnız kapanıyordu, tangerine bağlantı ölü dokunuş gibi okunuyordu |
+| Kapanış anlıktı | 150ms solma (`useKapanisSolmasi`, `.kapaniyor` + `inert`), azaltılmış harekette 0 | Giriş 680ms basamaklıyken kapanış tek karede kesiyordu |
+| X dönüşü görünmüyordu | X animasyonu 120ms gecikmeli, çizgiler 22 > 20px (hamburgerle aynı) | Dönüşün %85'i perde .6 opaklığın altındayken oluyordu |
+| Bar örtülüyordu | `body[data-cekmece]` iken bar `visibility: hidden` | Kor düğme .96 zeminden +7/255 sızıyordu |
+| Kaydırma zinciri | `overscroll-behavior: contain` `.kap`tan gerçek kaydırıcı `.govde`ye | `.kap` kaydırmıyor, bildirim etkisizdi |
+| Kapalıyken çip uzundu | `DurumCipi` `kisaKapali` ("Şu an kapalıyız"), `canli={false}` (aria-live yok) | 390'da uzun cümle saati alt satıra itiyor, açılışta çift duyuru çıkıyordu |
+| Nav listesi | `ul > li`, Menü'nün altında iç `ul` | Ekran okuyucu "liste, 4 öğe" ve "liste, 3 öğe" duyurur |
+| Ayakta boş davranış | Instagram/Telefon yoksa alt bilgideki gibi bağlantısız etiket | Aynı üç iletişimin iki kabukta farklı boş davranışı vardı |
+| Meta hizası | İkon 16 + aralık 20 = 36: adres ve saat metni sayfa adlarıyla aynı sütunda | |
+| Tokenlar | `--cizgi-sac` (.09, bar + telif şeridi + çekmece), `--gecis-egri` (menü kartı, imleç koru, çekmece), `instagramUrl()` (dört çağıran) | Ham değer ve tekrar eden kurulum tek yere indi |
+| Kod | `AltBlok` 55 > 40 satır (`Ayak`, `IletisimOgesi` ayrıldı), ölü `.not`/`.durumSol` bildirimleri silindi, yorumlar kısaldı | |
+
+Uygulanmayan, sahibine: `.96` zeminin bulanıklığı 6 > 12-16px (arkadaki başlık metni tam
+telefon boşluklarında +5/255 hayalet veriyor; prototipin değeri, ölçülebilir ama tat kararı);
+"Menüyü aç/kapat" etiketlerini "Gezinmeyi aç/kapat" yapmak (arayüz metni; düşürüldü);
+1040 eşiğinden geçince çekmeceyi kapatmak (zararsız).

@@ -7,7 +7,7 @@
   margin: -310px 0 0 -310px;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(250, 170, 31, 0.16), transparent 74%);
-  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.7s var(--gecis-egri);
   will-change: transform;
 }
 

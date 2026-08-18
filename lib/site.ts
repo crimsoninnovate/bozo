@@ -71,3 +71,8 @@ export function whatsappUrl(numara: string | null): string | null {
 export function telefonUrl(numara: string | null): string | null {
   return numara ? `tel:${numara.replace(/\s/g, '')}` : null
 }
+
+/** `isletme.instagram` kullanıcı adıdır, tam URL değil; adres yalnız burada kurulur. */
+export function instagramUrl(kullanici: string | null): string | null {
+  return kullanici ? `https://instagram.com/${kullanici}` : null
+}

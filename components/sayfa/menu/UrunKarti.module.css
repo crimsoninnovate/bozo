@@ -4,11 +4,9 @@
   flex-direction: column;
   background: var(--panel-orta);
   border: 1px solid var(--cizgi-kart);
-  /* Süre ve yumuşama tasarımdan birebir (Menu:125) ve --gecis-* ailesinin
-     hiçbir adımıyla eşleşmiyor: 0.22s ve cubic-bezier(.2,.7,.2,1) yalnız bu
-     kartta geçiyor. Token turuna raporlandı, ham yazıldı. */
+  /* Süre tasarımdan (Menu:125), 0.22s hiçbir --gecis-* adımıyla eşleşmiyor. */
   transition:
-    transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.22s var(--gecis-egri),
     border-color 0.22s ease-out,
     box-shadow 0.22s ease-out;
 }
