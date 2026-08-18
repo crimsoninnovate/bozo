@@ -74,7 +74,6 @@ export const ana = {
     simdi: 'now',
     cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
     cizelgeNotlari: ['The fire is lit', 'Night shift after 21:00', '05:00 · the fire goes out'],
-    sonNot: 'the fire goes out at 05:00',
   },
   bozo: {
     kicker: 'Engin Çağlar, at the fire every day',

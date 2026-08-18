@@ -86,7 +86,6 @@ export const ana = {
     simdi: 'şimdi',
     cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
     cizelgeNotlari: ['Ocak yanar', "Gece vardiyası 21:00'den sonra", '05:00 · ocak söner'],
-    sonNot: "ocak 05:00'te söner",
   },
   bozo: {
     kicker: 'Engin Çağlar, her gün ocağın başında',
