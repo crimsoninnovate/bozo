@@ -1,5 +1,6 @@
 import type { Dil } from '@/content'
 import { Acilis } from './hikaye/Acilis'
+import { Lakap } from './hikaye/Lakap'
 import { Portre } from './hikaye/Portre'
 import { Sofra } from './hikaye/Sofra'
 import { Usul } from './hikaye/Usul'
@@ -7,7 +8,7 @@ import { Usul } from './hikaye/Usul'
 type Props = { dil: Dil }
 
 /**
- * Hikaye sayfasının gövdesi: dört bölüm, düz akış.
+ * Hikaye sayfasının gövdesi: beş bölüm, düz akış.
  *
  * `Bolum` bilinçli olarak kullanılmıyor: `data-erit` ve `data-yogunluk` bu
  * tasarım dosyasında sıfır kez geçiyor, yani ne erime hesabı ne kor sahnesi
@@ -22,6 +23,7 @@ export function HikayeSayfasi({ dil }: Props) {
     <>
       <Acilis dil={dil} />
       <Portre dil={dil} />
+      <Lakap dil={dil} />
       <Usul dil={dil} />
       <Sofra dil={dil} />
     </>

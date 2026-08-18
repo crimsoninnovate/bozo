@@ -10,8 +10,12 @@ Son güncelleme: 18 Ağustos 2026 gecesi, çekmece zenginleştirme ve çürütme
 **Bu blok altındaki her şeyi geçersiz kılar.** Aşağısı tarih sırasıyla duran kayıt
 defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürsen burası kazanır.
 
-- Branch `feat/site-kurulumu`, 116 test geçiyor, typecheck ve build temiz, 17 rota
+- Branch `feat/site-kurulumu`, 122 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
+- **Bozo adının hikayesi yayında** (19 Ağustos, `IYILESTIRMELER.md` > "lakap bölümü"):
+  Hikaye sayfasında `Lakap` bölümü, sahibinin kendi anlatımından derlendi. Envanterden
+  gelmeyen ilk metin bloğu; istisna `CLAUDE.md` > Copy rules'ta kayıtlı. Anlatımın dokuz
+  örneğinden beşi basıldı, kişiyi küçülten dördü basılmadı.
 - **Menü sayfası telefonda satır düzeninde** (18 Ağustos gecesi, sahibinin 1A/2A kararı,
   `IYILESTIRMELER.md` > "menü sayfası telefonda satır düzenine geçti"): 1040 altında kart
   yerine satır, boş plaka basılmaz (`FotoYuvasi bosMobildeGizli`, dosya gelince döner), hero

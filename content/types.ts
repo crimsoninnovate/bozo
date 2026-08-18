@@ -2,6 +2,12 @@ export type Dil = 'tr' | 'en'
 
 export type Koordinat = { enlem: number; boylam: number }
 
+/**
+ * Urfa'da hitap örneği: ad ve karşılığı. `tur` iki mekanizmayı ayırır, adın kısalması
+ * ve ada bir sıfatın yapışması. Sıfatın açıklaması sözlükte (`hikaye.lakap.notlar`).
+ */
+export type Lakap = { id: string; ad: string; lakap: string; tur: 'kisaltma' | 'lakap' }
+
 export type Isletme = {
   ad: string
   kisaAd: string

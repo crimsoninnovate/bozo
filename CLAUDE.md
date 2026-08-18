@@ -120,7 +120,10 @@ npm run preview    # serve the out/ export locally
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).
 - **Never invent new marketing copy.** All text comes verbatim from `docs/tasarim/metin-envanteri.json`
-  or the `.dc.html` handoff files.
+  or the `.dc.html` handoff files. One recorded exception: copy the owner supplies himself.
+  `hikaye.lakap` (19 August 2026) was compiled from his own written account of the nickname;
+  the source, what was edited and what was deliberately left out are in
+  `docs/surec/IYILESTIRMELER.md` > "lakap bölümü". A new owner-sourced block needs the same record.
 
 ## Owner deletions, do not restore
 

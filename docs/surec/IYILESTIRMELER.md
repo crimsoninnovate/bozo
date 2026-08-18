@@ -723,3 +723,34 @@ biçimini boş kareleri saymak için kullanır ve gizlemez.
 
 Fotoğraflarla ölçüldü (geçici dosya, commit'lenmedi): satırda 72px kare, imza satırında 200px
 spread, ikramda 90px şerit, içeceklerde 160px plaka; hepsi yerine oturuyor.
+
+## 19 Ağustos 2026: lakap bölümü, Bozo adının hikayesi
+
+Sahibi adın nereden geldiğini kendi yazdığı bir anlatımla gönderdi. Hikaye sayfasının
+portre kartı zaten "hikayenin tamamı burada kendi ağzından anlatılacak" diye söz veriyordu;
+bölüm o sözü karşılıyor ve kart notu artık aşağıyı işaret ediyor. Bu, envanterden gelmeyen
+ilk metin bloğu: kaynak sahibin kendisi, kayıt burada (CLAUDE.md > Copy rules'a istisna yazıldı).
+
+**Yayımlanan örnekler ve gerekçesi.** Anlatım dokuz örnek taşıyordu; beşi basıldı
+(Ahmet > Ahmo, Mustafa > Mıço, Ali > Alo, Kemal > artist Kemo, İsmail > culuk İsmo), dördü
+basılmadı: kişiyi bedeniyle ya da zekasıyla etiketleyenler (biri kadının zayıflığı, biri
+kilosu, biri zeka, biri korkaklık üstüne). Gerekçe tek cümleyle: bir lokantanın hikaye
+sayfası ağırlama jestidir, kimseyi küçülten bir örnek o jesti bozar; kuralın kendisi
+(yakınlık adı kısaltır) kalan beş örnekle eksiksiz anlatılıyor ve bölüm zaten tek kişiyi
+adlandırıyor, o da sahibinin kendisi. Bu bir kültür kaydı değil, marka metnidir.
+
+**Metin.** Cümleler sahibinin kendi ifadeleriyle kuruldu, yalnız noktalama ve akış
+düzenlendi; iki bağlayıcı cümle eklendi ("Adı tam söylemek mesafe koymaktır", "Ya da ada bir
+sıfat yapışır: kişi nasılsa öyle çağrılır"), ikisi de anlatımın kendi mantığının kısaltması.
+Kapanış birinci tekilde ve gerçek bir alıntı olduğu için `<blockquote>` + `<footer>` imza
+(`NotBlogu` alıntı değildir, o yüzden kullanılmadı); imza `isletme.sahip`ten gelir.
+İngilizcesi çeviri değil aynı ses: adlar Türkçe kalır, kural İngilizce anlatılır, sıfatın
+karşılığı ("yakışıklıya" > "for the handsome one") sözlükten gelir.
+
+| Nerede | Ne | Ölçüm |
+|---|---|---|
+| `content/lakaplar.ts` | Beş çift tek veri dosyasında (`ad`, `lakap`, `tur`); adlar dile göre değişmediği için sözlükte değil, `urunler.ts` deseni | Üç test: kimlikler benzersiz, sıfatlı olanların notu iki dilde var, kısaltmaların notu yok |
+| `content/*/hikaye.ts` | `lakap` bloğu (başlık, giriş, iki etiket ve notu, tanım, kapanış, `notlar`); `portre.kartNotu` yer tutucu sözden aşağıyı işaret eden satıra döndü | 119 > 122 test |
+| `components/sayfa/hikaye/Lakap.tsx` | Kural, iki kutu (menü sayfasının ikram kümeleriyle aynı çizim), tanım satırı, imzalı alıntı | Bölüm 390'da 1066px, 1440'ta 689px; sayfa 3554 > 4498px (390) |
+| Çiftler | `dt` sabit 76px sütun: tireler alt alta, lakaplar aynı hizada başlar. Çift satırı `nowrap`, sarma karşılığın içinde | 320 EN dahil her genişlikte ad sağ ucu 125, lakap sol ucu 137 |
+| Kontrast | Ad ve sıfat notu 5.89:1, imza 8.24:1 | AA üstü |

@@ -12,7 +12,28 @@ export const hikaye = {
     kartMetni:
       "Lakap seçilmez, verilir. Bozo, Urfa'nın ona yıllardır seslendiği isim; " +
       'tabela sadece herkesin zaten söylediğini yazıyor.',
-    kartNotu: "Urfa'dan Girne'ye uzanan hikayenin tamamı, burada kendi ağzından anlatılacak.",
+    kartNotu: 'Adın hikayesi hemen aşağıda, kendi ağzından.',
+  },
+  /**
+   * İşletme sahibinin 19 Ağustos 2026'da yazdığı anlatımdan derlendi; envanterden
+   * gelmeyen tek blok, gerekçesi CLAUDE.md > Copy rules.
+   */
+  lakap: {
+    baslik: "Urfa'da yakınlık adı kısaltır",
+    giris:
+      "Urfa'da kardeşler ve arkadaşlar birbirine adıyla seslenmez; ad, ağızdan çıkarken " +
+      'kısalır. Anne ve baba bunun dışındadır, küçük de büyüğüne böyle seslenmez: lakap ' +
+      'yan yana duranlar arasında ve büyükten küçüğe doğru gider.',
+    kisaltmaEtiketi: 'Kısaltma',
+    kisaltmaNotu: 'Adı tam söylemek mesafe koymaktır.',
+    lakapEtiketi: 'Lakap',
+    lakapNotu: 'Ya da ada bir sıfat yapışır: kişi nasılsa öyle çağrılır.',
+    /** Anahtarlar `content/lakaplar.ts` içindeki `tur: 'lakap'` kayıtlarının kimlikleri. */
+    notlar: { kemal: 'yakışıklıya', ismail: 'boyu uzuna' },
+    tanim: 'Sarışın, muzip, yerinde duramayan çocuğa Bozo derler.',
+    kapanis:
+      'Ben küçükken hem sarışındım hem yerimde duramazdım; abilerim ve arkadaşlarım bana ' +
+      'Bozo, kimi zaman Bozani diye seslendi.',
   },
   usul: {
     // Tasarım "Usül" yazıyor; işletme sahibi bunun yazım hatası olduğunu onayladı.

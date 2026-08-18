@@ -4,6 +4,7 @@ import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
+import { lakaplar } from './lakaplar.ts'
 import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun } from './urunler.ts'
 import { yarimFiyat } from './isletme.ts'
 
@@ -307,6 +308,34 @@ test('galeri_kareSayisi_metindekiSayiylaAyni', () => {
         metin.toLowerCase().includes(beklenen.toLowerCase()),
         `${dil}.${ad} "${beklenen}" demiyor, manifestte ${adet} kare var: ${metin}`,
       )
+    }
+  }
+})
+
+/**
+ * Lakap örnekleri tek dosyada (adlar çevrilmez); yalnız sıfatın açıklaması sözlükte.
+ * Bir kayıt eklenip notu unutulursa çift, açıklamasız basılır.
+ */
+test('lakaplar_kimlikler_benzersizdir', () => {
+  const kimlikler = lakaplar.map((l) => l.id)
+  assert.equal(new Set(kimlikler).size, kimlikler.length)
+})
+
+test('lakaplar_sifatliOlanlarin_notuIkiDildeVar', () => {
+  for (const kayit of lakaplar.filter((l) => l.tur === 'lakap')) {
+    for (const s of [tr, en]) {
+      const notlar: Record<string, string | undefined> = s.hikaye.lakap.notlar
+      assert.equal(typeof notlar[kayit.id], 'string', kayit.id)
+    }
+  }
+})
+
+/** Kısaltmanın açıklaması yok: sıfat taşımıyor, kural giriş paragrafında anlatılıyor. */
+test('lakaplar_kisaltmalarin_notuYoktur', () => {
+  const kisaltmalar = new Set(lakaplar.filter((l) => l.tur === 'kisaltma').map((l) => l.id))
+  for (const s of [tr, en]) {
+    for (const kimlik of Object.keys(s.hikaye.lakap.notlar)) {
+      assert.equal(kisaltmalar.has(kimlik), false, kimlik)
     }
   }
 })

@@ -1,0 +1,136 @@
+/*
+ * Tasarımda karşılığı yok; ölçüler sayfanın kendi ailesinden alındı: kutular menü
+ * sayfasının ikram kümeleriyle (Ikramlar.module.css `.grup`), kapanışın tangerine
+ * çizgisi `NotBlogu` ile, başlık `BolumBasligi olcek="orta"` ile aynı.
+ */
+.bolum {
+  position: relative;
+  padding: 0 var(--sayfa-yatay) 70px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.4vw, 30px);
+}
+
+.giris {
+  margin: 0;
+  max-width: 720px;
+  font: 400 var(--ol-govde)/1.7 var(--font-govde);
+  color: var(--krem-78);
+}
+
+.kutular {
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.kutu {
+  padding: 22px 24px;
+  background: var(--panel-acik);
+  border: 1px solid var(--cizgi-kart);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.etiket {
+  margin: 0;
+  font: 700 16px/1.1 var(--font-baslik);
+  letter-spacing: var(--iz-duygusal);
+  color: var(--krem-86);
+}
+
+.etiketNotu {
+  margin: 0 0 6px;
+  font: 400 14px/1.5 var(--font-govde);
+  color: var(--krem-62);
+}
+
+.ciftler {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* `nowrap`: sarma kararı çiftte değil karşılığın içinde verilir, yoksa flex kutuyu
+   küçültmek yerine tireyi satır başına atıyordu (ölçüldü 320 EN). */
+.cift {
+  display: flex;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+/* Sabit sütun: tireler alt alta dizilir, lakaplar aynı hizada başlar ("Mustafa" 62px). */
+.ad {
+  min-width: 76px;
+  font: 400 15px/1.4 var(--font-govde);
+  color: var(--krem-58);
+}
+
+/* `dd`nin varsayılan 40px girintisi kalkar; adla lakabı tangerine bir tire bağlar. */
+.lakapAdi {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  font: 700 20px/1.2 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+.lakapAdi::before {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 14px;
+  height: 1px;
+  background: var(--tangerine-50);
+}
+
+.not {
+  font: 400 13px/1.4 var(--font-govde);
+  color: var(--krem-58);
+}
+
+/* 400px altı: açıklama kendi satırına iner, yoksa çift ikiye bölünüyor ve tire
+   satır başına düşüyordu (ölçüldü 320 EN). */
+@media (max-width: 400px) {
+  .not {
+    flex-basis: 100%;
+  }
+}
+
+/* Kuralın markaya bağlandığı satır: gövdeden bir kademe büyük, başlık fontunda. */
+.tanim {
+  margin: 0;
+  max-width: 720px;
+  font: 600 var(--ol-govde-buyuk)/1.5 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem-86);
+}
+
+.kapanis {
+  margin: 0;
+  max-width: 720px;
+  padding-left: 20px;
+  border-left: 2px solid var(--tangerine-50);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kapanisMetni {
+  margin: 0;
+  font: 400 var(--ol-govde)/1.7 var(--font-govde);
+  color: var(--krem-86);
+}
+
+.imza {
+  font: 600 15px/1 var(--font-baslik);
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem-70);
+}

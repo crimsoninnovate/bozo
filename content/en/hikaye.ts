@@ -12,7 +12,24 @@ export const hikaye = {
     kartMetni:
       'A nickname is not chosen, it is given. Bozo is what Urfa has called him for years; ' +
       'the sign simply says what everyone already says.',
-    kartNotu: 'The full story, from Urfa to Kyrenia, will be told here in his own words.',
+    kartNotu: 'The story of the name is just below, in his own words.',
+  },
+  lakap: {
+    baslik: 'In Urfa, closeness shortens the name',
+    giris:
+      "In Urfa brothers and friends never use each other's given names; the name gets " +
+      'shorter on its way out. Mothers and fathers are outside this, and a younger brother ' +
+      'does not address an elder this way: the nickname travels between equals, and ' +
+      'downward from the elder.',
+    kisaltmaEtiketi: 'The short form',
+    kisaltmaNotu: 'Saying the whole name is keeping your distance.',
+    lakapEtiketi: 'The nickname',
+    lakapNotu: 'Or a word attaches itself to the name: you are called what you are.',
+    notlar: { kemal: 'for the handsome one', ismail: 'for the tall one' },
+    tanim: 'A blond, mischievous boy who cannot sit still is called Bozo.',
+    kapanis:
+      'As a child I was both blond and unable to sit still; my elder brothers and my ' +
+      'friends called me Bozo, and sometimes Bozani.',
   },
   usul: {
     baslik: 'The method is from Urfa',
