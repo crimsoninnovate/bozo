@@ -13,7 +13,7 @@ defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürs
 - Branch `feat/site-kurulumu`, 111 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
 - **Animasyon kurgusu turu kapandı** (18 Ağustos akşamı, `IYILESTIRMELER.md` > "animasyon
-  kurgusu ve akışı turu"): yedi mercek, çürütme turu, yirmi bir commit. Sahibine kalan
+  kurgusu ve akışı turu"): yedi mercek, çürütme turu, yirmi üç commit. Sahibine kalan
   kararlar `KARAR-FORMU.md` F1-F10. Azaltılmış harekette tek geçiş istisnası var
   (`KorSahnesi.module.css`, `CLAUDE.md`'de kayıtlı); `useHareketAzaltilmisMi` tercihi
   canlı izler.
