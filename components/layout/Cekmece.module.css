@@ -72,6 +72,12 @@
   border-bottom: none;
 }
 
+/* Bulunulan sayfa masaüstü barındaki gibi tangerine (UstBar .aktifLink); çekmecede
+   dört bağlantı aynı renkti, ölçüldü /menu/ 390. Prototip yalnız ana sayfayı çizer. */
+.link[aria-current='page'] {
+  color: var(--tangerine);
+}
+
 .durumBlogu {
   margin-top: auto;
   display: flex;
