@@ -83,7 +83,7 @@
   gap: 10px 20px;
   font: 400 16px/1.5 var(--font-govde);
   font-variant-numeric: tabular-nums;
-  color: rgba(242, 233, 220, 0.62);
+  color: var(--krem-62);
 }
 
 .metaAyirici {
@@ -215,7 +215,7 @@
   .baslikUcuncu {
     font-size: 26px;
     letter-spacing: -0.04em;
-    color: rgba(242, 233, 220, 0.72);
+    color: var(--krem-72);
   }
 
   /*

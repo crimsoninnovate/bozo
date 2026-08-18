@@ -45,7 +45,7 @@
   align-items: baseline;
   gap: 8px 14px;
   font: 400 18px/1.5 var(--font-govde);
-  color: rgba(242, 233, 220, 0.76);
+  color: var(--krem-76);
 }
 
 /*

@@ -6,6 +6,9 @@
      Marka kitabının sekiz renkli listesinde yok; tasarımdan (Menu Sayfasi.dc.html,
      15 kullanım, yalnız o sayfada) doğrulandı. */
   --plaka-zemin: #0C0A09;
+  /* Yalnız Gece bölümünün zemini, sayfadan bir kademe koyu. Marka kitabında yok;
+     kanonik kaynak onu token olarak adlandırıyor (UYGULAMA-NOTLARI.md:12). */
+  --gece: #060504;
   --panel-koyu: rgba(10, 8, 7, 0.9);
   /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
   --panel-86: rgba(10, 8, 7, 0.86);
@@ -154,7 +157,8 @@
   /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
   --pumpkin: #E96112;
   --mese: #6B4A2F;
-  /* paket şeridinin paragraf rengi, pumpkin üstünde. 2 kullanım: Ana:342, Konum:158 */
+  /* Paket şeridinin paragraf rengi, pumpkin üstünde. Şerit 13 Ağustos 2026'da
+     kaldırıldı; --pumpkin gibi hizmet başlarsa geri döner. */
   --komur-90: rgba(26, 22, 20, 0.9);
   --komur-55: rgba(26, 22, 20, 0.55);
   --komur-10: rgba(26, 22, 20, 0.1);

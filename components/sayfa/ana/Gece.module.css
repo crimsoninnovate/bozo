@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   padding: var(--bolum-dikey) var(--sayfa-yatay);
-  background: #060504;
+  background: var(--gece);
   overflow: hidden;
 }
 

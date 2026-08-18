@@ -19,7 +19,7 @@
   justify-content: space-between;
   gap: 12px 40px;
   padding-bottom: 34px;
-  border-bottom: 1px solid rgba(242, 233, 220, 0.14);
+  border-bottom: 1px solid var(--cizgi);
 }
 
 .baslik {
@@ -32,7 +32,7 @@
 .altNot {
   margin: 0;
   font: 400 17px/1.5 var(--font-govde);
-  color: rgba(242, 233, 220, 0.62);
+  color: var(--krem-62);
 }
 
 .liste {
@@ -60,7 +60,7 @@
   margin: 10px 0 0;
   max-width: 620px;
   font: 400 17px/1.6 var(--font-govde);
-  color: rgba(242, 233, 220, 0.76);
+  color: var(--krem-76);
 }
 
 .fiyatButonlari {
