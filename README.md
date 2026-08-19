@@ -16,6 +16,20 @@ Six routes per language: `/`, `/menu`, `/hikaye`, `/konum`, `/galeri`, `/gizlili
 English set under `/en/`. `app/` holds the two root layouts and thin page files, `components/`
 the bodies, `content/` every string and price, `lib/` the shared logic, `styles/` the tokens.
 
+## Project docs
+
+Nothing here is decided twice. Each question has one home:
+
+| Question | File |
+|---|---|
+| Where do I pick up after a break? | `docs/surec/DEVAM.md` (short by design) |
+| Architecture, design source of truth, binding copy rules | `CLAUDE.md` |
+| Why does this deviate from the handoff? | `docs/surec/IYILESTIRMELER.md` (every round, with its measurement) |
+| What must never be changed? | `docs/surec/KISITLAR.md` |
+| What is waiting on the owner? | `docs/surec/KARAR-FORMU.md` |
+| Is it ready to publish? | `docs/surec/YAYIN-KONTROL-LISTESI.md`, `docs/PARITE.md` |
+| What happened on which day? | `docs/surec/DEVAM-ARSIV.md` |
+
 ## Setup
 
 ```bash
@@ -114,8 +128,9 @@ cigercibozo.com {
 }
 ```
 
-Two things that used to be listed here as unverified assumptions are now **measured against the
-live demo** (12 August 2026, full probe list in `docs/surec/YAYIN-KONTROL-LISTESI.md`):
+Two things that used to be listed here as unverified assumptions are now **measured live**
+(12 August 2026 on the demo, re-checked on the apex 19 August 2026; full probe list in
+`docs/surec/YAYIN-KONTROL-LISTESI.md`):
 
 - `/menu` without a trailing slash returns `308` to `/menu/`. `trailingSlash: true` holds.
 - RSC payload files whose names contain `!`, for example `menu/__next.!KHRyKQ.menu.__PAGE__.txt`,
@@ -124,3 +139,7 @@ live demo** (12 August 2026, full probe list in `docs/surec/YAYIN-KONTROL-LISTES
 
 The `handle_errors` block itself is also verified live: an unknown path returns `404` **and** the
 designed page body, not Caddy's empty default.
+
+Checked on `https://cigercibozo.com` the day it went up: twelve routes plus `robots.txt`,
+`sitemap.xml` and `icon.svg` answer `200`, `http` redirects with `308`, `www` with `301`,
+and the `noindex` header is present on the apex.

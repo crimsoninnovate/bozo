@@ -26,38 +26,33 @@ npm run preview    # serve the out/ export locally
   nests English routes under `en/`. A root `app/layout.tsx` breaks this: do not add one.
 - `experimental.globalNotFound: true` in `next.config.ts` pairs with `app/global-not-found.tsx`.
   Without that file the flag is inert; do not remove it.
-- Fonts are defined once in `lib/fontlar.ts` and shared by both root layouts and
-  `global-not-found.tsx` so every `<html>` tag gets the same font classes.
-- Design tokens live in `styles/tokens.css` as CSS custom properties, imported through
-  `app/globals.css` alongside `styles/reset.css` and `styles/animasyonlar.css`. Component styling
-  uses CSS Modules on top of these tokens, no CSS framework.
-- Copy, prices, hours and contact data live under `content/`, not hardcoded in JSX. The only
-  business rule, the overnight opening hours window, is pure functions in `lib/saat.ts` with
-  unit tests.
+- Fonts are defined once in `lib/fontlar.ts`, shared by both root layouts and
+  `global-not-found.tsx`, so every `<html>` gets the same font classes.
+- Design tokens are CSS custom properties in `styles/tokens.css`, imported through
+  `app/globals.css` with `styles/reset.css` and `styles/animasyonlar.css`. Styling is CSS Modules
+  on top of those tokens, no CSS framework.
+- Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
+  business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
-- `components/` has five buckets: `ui/` primitives, `sayfa/` page bodies with a subfolder per
-  page, `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is
-  `X.tsx` next to `X.module.css`.
-- Imports go through the `@/*` alias from `tsconfig.json`, not relative paths.
+- `components/` has five buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
+  `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is `X.tsx`
+  next to `X.module.css`. Imports go through the `@/*` alias, not relative paths.
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
   keyframe sitting in a global file never resolves and the animation silently never runs. Measured
   once at 42 declarations and 0 running; `styles/animasyon.test.ts` guards it now.
 
 ## Design source of truth
 
-- **Home page only, from 12 August 2026:** `/Users/mk/Desktop/Bozo/export/UYGULAMA-NOTLARI.md`
-  supersedes the handoff. It is a section-by-section audit of the live page and it
-  changes the hero, Ocaktan, Gece, İddia, Hikaye, Konum, the ember scene and the
-  home variant of the top bar. Inner pages still follow the handoff.
-- **Mobile drawer (`Cekmece`), from 18 August 2026:** the owner's decision A supersedes
-  the prototype's drawer; source is `docs/surec/IYILESTIRMELER.md` > "çekmece
-  zenginleştirme turu". A parity round reading `Mobil Prototip.dc.html` will see extra
-  content (top row, numbers, anchors, status block, CTAs, foot, motion). It is intended.
-- **Menu page below 1040px, from 18 August 2026:** rows, not the desktop cards; empty photo
-  plates are not rendered on phones until a `dosya` exists (`FotoYuvasi bosMobildeGizli`);
-  the price of the full portion sits on the name's line. Owner's decisions 1A/2A, source
-  `docs/surec/IYILESTIRMELER.md` > "menü sayfası telefonda satır düzenine geçti". Desktop is
-  still `Menu Sayfasi.dc.html`.
+The handoff is the base. Three surfaces have been superseded by owner decisions, so a parity
+round reading the `.dc.html` files will see the difference as a defect. It is intended; each
+one's measurements are in `docs/surec/IYILESTIRMELER.md`.
+
+| Surface | Source since | What it changed |
+|---|---|---|
+| Home page | `Bozo/export/UYGULAMA-NOTLARI.md`, 12 Aug 2026 | hero, Ocakbaşı, Gece, İddia, Hikaye, Konum, ember scene, home top bar |
+| Mobile drawer (`Cekmece`) | owner's decision A, 18 Aug 2026 | own top row, numbered links, section anchors, status block, two CTAs, signed foot, entrance motion |
+| Menu page below 1040px | owner's 1A/2A, 18 Aug 2026 | rows not cards, no empty photo plates on phones, full price on the name line |
+
 - Canonical visual and behavioral source: `/Users/mk/Desktop/Bozo/design_handoff_bozo_website/*.dc.html`
 - Cheaper structural extract of the same handoff, read this first: `docs/tasarim/*.json`
 - Copy, terminology and forbidden phrases: `docs/tasarim/metin-envanteri.json`
@@ -68,11 +63,12 @@ npm run preview    # serve the out/ export locally
 
 ## Process files
 
-- `docs/surec/DEVAM.md` is the entry point after a context reset. Read it before branching out.
+- `docs/surec/DEVAM.md` is the entry point after a context reset: current state and pointers
+  only, kept short. The dated log lives in `DEVAM-ARSIV.md`. `README.md` > Project docs maps
+  every question to its one home.
 - `docs/surec/KISITLAR.md` splits constraints into hard (never deviate) and soft. Anything
   traceable to the handoff gets reported in `docs/surec/IYILESTIRMELER.md` with its measurement,
   not silently fixed.
-- Pre-release checks: `docs/PARITE.md`, `docs/surec/YAYIN-KONTROL-LISTESI.md`.
 
 ## Colors (complete list, do not add others)
 
@@ -110,25 +106,22 @@ npm run preview    # serve the out/ export locally
 - No em dash (U+2014) as punctuation; use a colon, comma, or period. No circumflex accents. No
   all-caps sentences. Exclamation marks are rare.
 - Hours are written `10:00 - 05:00`.
-- **Case, owner's decision 12 August 2026.** Title case (word-initial capitals) on three
-  things only: product names (`Terbiyesiz Tavuk Şiş`), section and menu labels
-  (`Gece Menüsü`, `From the Fire`), and CTA/nav labels (`Yol Tarifi Al`, `See the Menu`).
-  Page headings and body copy stay sentence case: `Girne uyurken ocak yanıyor` is a
-  sentence, not a label. English follows English title case, so short articles and
-  prepositions stay lowercase (`On the House`). Screen-reader-only labels are untouched.
-- **The owner's name, owner's decision 19 August 2026.** The site calls him `Bozo Çağlar`
-  (`isletme.sahip`, the hero überlines, the signature under his quote). The registered name
-  `Engin Çağlar` appears in one sentence only, the one that explains the nickname (the home
-  and story intro). Do not "correct" one into the other, and do not repeat the explanation
-  in a second surface: the story page tells it in full (owner's decision, 19 August 2026).
+- **Case, owner's decision 12 August 2026.** Title case on three things only: product names
+  (`Terbiyesiz Tavuk Şiş`), section and menu labels (`Ocakbaşı`, `From the Fire`), CTA and nav
+  labels (`Yol Tarifi Al`, `See the Menu`). Page headings and body copy stay sentence case:
+  `Girne uyurken ocak yanıyor` is a sentence, not a label. English keeps its own title case, so
+  short words stay lowercase (`On the House`). Screen-reader-only labels are untouched.
+- **The owner's name, owner's decision 19 August 2026.** The site says `Bozo Çağlar`
+  (`isletme.sahip`, the überlines, his signature). `Engin Çağlar` survives in one sentence, the
+  one explaining the nickname (home and story intro). Do not equalise them, and do not repeat
+  the explanation on a second surface: the story page tells it in full.
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).
-- **Never invent new marketing copy.** All text comes verbatim from `docs/tasarim/metin-envanteri.json`
-  or the `.dc.html` handoff files. One recorded exception: copy the owner supplies himself.
-  `hikaye.lakap` (19 August 2026) was compiled from his own written account of the nickname;
-  the source, what was edited and what was deliberately left out are in
-  `docs/surec/IYILESTIRMELER.md` > "lakap bölümü". A new owner-sourced block needs the same record.
+- **Never invent new marketing copy.** Text comes verbatim from `docs/tasarim/metin-envanteri.json`
+  or the `.dc.html` files. One exception: copy the owner writes himself (`hikaye.lakap`, 19 August
+  2026). Such a block needs the record `IYILESTIRMELER.md` > "lakap bölümü" has: source, what was
+  edited, what was deliberately left out.
 
 ## Owner deletions, do not restore
 
