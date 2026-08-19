@@ -17,7 +17,7 @@ type Props = {
 }
 
 /**
- * Ocaktan ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141; 1040 altında aynı DOM
+ * Ocakbasi ızgarasının ürün kartı. Menu Sayfasi.dc.html:125-141; 1040 altında aynı DOM
  * prototipin satırına döner (sahibinin 1A/2A kararı, ölçüler UrunKarti.module.css).
  *
  * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini.

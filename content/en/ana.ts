@@ -27,9 +27,9 @@ export const ana = {
     sayac2: { deger: '4+2', etiket: 'liver and tail fat per skewer' },
     sayac3: { deger: '3', etiket: 'minutes over high oak embers' },
   },
-  ocaktan: {
+  ocakbasi: {
     baslik: 'From the Fire',
-    altNot: 'Five dishes, two on the house: all from one fire',
+    altNot: 'Five dishes, eight on the house: the table comes set',
     urunler: {
       // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
       // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).
@@ -39,11 +39,11 @@ export const ana = {
       },
       dalak: {
         ad: 'Spleen (Dalak)',
-        aciklama: 'Beside the liver, cut coarse: kept short over a high fire.',
+        aciklama: 'A classic of the Urfa offal line; cut coarse, kept short over a high fire.',
       },
       yurek: {
         ad: 'Heart (Yürek)',
-        aciklama: 'Firm textured; the cut that stays longest over the embers.',
+        aciklama: 'Firm textured; the cut that holds its bite.',
       },
       'terbiyeli-kusbasi': {
         ad: 'Marinated Cubes (Terbiyeli Kuşbaşı)',

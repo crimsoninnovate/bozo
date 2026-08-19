@@ -6,7 +6,7 @@ import { Gece } from './ana/Gece'
 import { Iddia } from './ana/Iddia'
 import { Ikram } from './ana/Ikram'
 import { Konum } from './ana/Konum'
-import { Ocaktan } from './ana/Ocaktan'
+import { Ocakbasi } from './ana/Ocakbasi'
 
 type Props = { dil: Dil }
 
@@ -18,7 +18,7 @@ type Props = { dil: Dil }
 const BOLUMLER = [
   { id: 'acilis', buyuk: true },
   { id: 'iddia', buyuk: false },
-  { id: 'ocaktan', buyuk: true },
+  { id: 'ocakbasi', buyuk: true },
   { id: 'ikram', buyuk: true },
   { id: 'gece', buyuk: false },
   { id: 'bozo', buyuk: true },
@@ -31,7 +31,7 @@ export function AnaSayfa({ dil }: Props) {
     <>
       <Acilis dil={dil} />
       <Iddia dil={dil} />
-      <Ocaktan dil={dil} />
+      <Ocakbasi dil={dil} />
       <Ikram dil={dil} />
       <Gece dil={dil} />
       <Bozo dil={dil} />

@@ -13,7 +13,7 @@ type Props = { dil: Dil }
  * Durum çipi + canlı saat, H1 ve spot metni. Tasarımın çipi ve saati Konum hero'sunun
  * ölçüsünde, yani `boy="kucuk"`.
  *
- * Atlama çipleri yalnız 1040 altında: barın üç çapası (Ocaktan, İkramlar, İçecekler)
+ * Atlama çipleri yalnız 1040 altında: barın üç çapası (Ocakbasi, İkramlar, İçecekler)
  * telefonda hiçbir yerde yoktu, İçecekler 6,6 ekran aşağıdaydı (ölçüldü 390).
  */
 export function Acilis({ dil }: Props) {

@@ -14,7 +14,7 @@ export const ortak = {
     gece: 'Gece',
     hikaye: 'Hikaye',
     konum: 'Konum',
-    ocaktan: 'Ocaktan',
+    ocakbasi: 'Ocakbaşı',
     ikramlar: 'İkramlar',
     icecekler: 'İçecekler',
     gizlilik: 'Gizlilik',
@@ -98,7 +98,7 @@ export const ortak = {
     },
     menu: {
       baslik: 'Menü · Ciğerci Bozo',
-      aciklama: 'Ocaktan altı porsiyon, dürümler, sekiz ikram ve içecekler.',
+      aciklama: 'Altı porsiyon, dürümler, sekiz ikram ve içecekler.',
     },
     /**
      * Açıklama sayfanın kendi iki satırından kuruldu: kare sayısı (galeri.altMetin)

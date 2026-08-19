@@ -240,10 +240,10 @@ test('icecekler_fiyatAlaniTasimaz', () => {
 test('kimlikler_ikiDildeDeSozluktedir', () => {
   for (const s of [tr, en]) {
     for (const urun of menuUrunler) {
-      assert.ok(urun.id in s.menu.ocaktan.urunler, `${urun.id} menü sözlüğünde yok`)
+      assert.ok(urun.id in s.menu.ocakbasi.urunler, `${urun.id} menü sözlüğünde yok`)
     }
     for (const urun of anaUrunler) {
-      assert.ok(urun.id in s.ana.ocaktan.urunler, `${urun.id} ana sayfa sözlüğünde yok`)
+      assert.ok(urun.id in s.ana.ocakbasi.urunler, `${urun.id} ana sayfa sözlüğünde yok`)
     }
     for (const icecek of icecekler) {
       assert.ok(icecek.id in s.menu.icecekler.urunler, `${icecek.id} içecek sözlüğünde yok`)
@@ -336,6 +336,35 @@ test('lakaplar_kisaltmalarin_notuYoktur', () => {
   for (const s of [tr, en]) {
     for (const kimlik of Object.keys(s.hikaye.lakap.notlar)) {
       assert.equal(kisaltmalar.has(kimlik), false, kimlik)
+    }
+  }
+})
+
+/**
+ * İkram sayısı iki dilde üç yerde harfle yazılı (ana sayfa alt notu, menü spotu, menü
+ * meta açıklaması). Ana sayfa "iki ikram" diyordu, veri sekiz taşıyordu: iki plakalı ikram
+ * sayılmış, üç kümenin altı kalemi sayılmamıştı (sahibinin geri bildirimi, 19 Ağustos 2026).
+ */
+test('ikram_sayisi_metindekiSayiylaAyni', () => {
+  const sayiSozcugu: Record<number, { tr: string; en: string }> = {
+    8: { tr: 'sekiz', en: 'eight' },
+    9: { tr: 'dokuz', en: 'nine' },
+    10: { tr: 'on', en: 'ten' },
+  }
+  const adet = ikramlar.length + ikramGruplari.reduce((t, g) => t + g.ogeler.length, 0)
+  const sozcuk = sayiSozcugu[adet]
+  assert.ok(sozcuk, `${adet} ikram için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
+
+  for (const [dil, s, beklenen] of [
+    ['tr', tr, sozcuk.tr],
+    ['en', en, sozcuk.en],
+  ] as const) {
+    for (const [ad, metin] of [
+      ['ana.ocakbasi.altNot', s.ana.ocakbasi.altNot],
+      ['menu.acilis.spot', s.menu.acilis.spot],
+      ['sayfaMeta.menu.aciklama', s.ortak.sayfaMeta.menu.aciklama],
+    ] as const) {
+      assert.ok(metin.toLowerCase().includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor`)
     }
   }
 })

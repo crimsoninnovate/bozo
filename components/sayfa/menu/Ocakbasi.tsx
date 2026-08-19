@@ -8,7 +8,7 @@ import type { FotoId, Urun } from '@/content/types'
 import { menuUrunler, ozelUrun } from '@/content/urunler'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import { UrunKarti } from './UrunKarti'
-import stil from './Ocaktan.module.css'
+import stil from './Ocakbasi.module.css'
 
 type Props = { dil: Dil }
 
@@ -33,7 +33,7 @@ const KART_NEFESLERI: KorNefesi[] = [
  * bir kimlik sessizce boş kart basmasın diye burada patlar.
  */
 function urunMetni(s: Sozluk, id: string): UrunMetni {
-  const kayit: Record<string, UrunMetni | undefined> = s.menu.ocaktan.urunler
+  const kayit: Record<string, UrunMetni | undefined> = s.menu.ocakbasi.urunler
   const metin = kayit[id]
   if (!metin) throw new Error(`Menü ürünü sözlükte yok: ${id}`)
   return metin
@@ -54,7 +54,7 @@ function indeksMetni(sira: number): string {
 function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
   const s = sozluk(dil)
   const metin = urunMetni(s, urun.id)
-  const spec = s.menu.ocaktan.cigerSpec
+  const spec = s.menu.ocakbasi.cigerSpec
 
   return (
     <div className={stil.imzaPaneli}>
@@ -62,7 +62,7 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
         <span aria-hidden="true" className={stil.indeks}>
           {indeksMetni(0)}
         </span>
-        <Cip tur="outline">{s.menu.ocaktan.imzaRozeti}</Cip>
+        <Cip tur="outline">{s.menu.ocakbasi.imzaRozeti}</Cip>
       </div>
       <div className={stil.imzaAdSatiri}>
         <h3 className={stil.imzaAd}>{metin.ad}</h3>
@@ -88,7 +88,7 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
  * altında kendi şeridinde. Yarım ve dürüm satırı basılmaz, taşımıyor.
  */
 function OzelSerit({ dil }: { dil: Dil }) {
-  const { ozel } = sozluk(dil).menu.ocaktan
+  const { ozel } = sozluk(dil).menu.ocakbasi
 
   return (
     <article className={stil.ozel}>
@@ -105,7 +105,7 @@ function OzelSerit({ dil }: { dil: Dil }) {
 }
 
 /**
- * Menü sayfasının ocaktan bölümü. Menu Sayfasi.dc.html:85-198
+ * Menü sayfasının ocakbasi bölümü. Menu Sayfasi.dc.html:85-198
  *
  * `Bolum` kullanılmaz (bkz. MenuSayfasi.tsx). Çapa payını `Kabuk` veriyor,
  * burada yalnız id duruyor.
@@ -115,16 +115,16 @@ function OzelSerit({ dil }: { dil: Dil }) {
  * kaydındaki `fotoId` (dikey `tane-yakin-cekim`) çekim listesinin ilk karosuna
  * ait; iki kadraj tek anahtarla anlatılamıyor, o yüzden manifestte iki kayıt var.
  */
-export function Ocaktan({ dil }: Props) {
+export function Ocakbasi({ dil }: Props) {
   const s = sozluk(dil)
   const [imza, ...kartlar] = menuUrunler
-  if (!imza) throw new Error('Ocaktan ürün listesi boş')
+  if (!imza) throw new Error('Ocakbasi ürün listesi boş')
 
   return (
-    <section id="ocaktan" tabIndex={-1} className={stil.bolum}>
+    <section id="ocakbasi" tabIndex={-1} className={stil.bolum}>
       <BolumBasligi
         olcek="sayfa"
-        baslik={s.menu.ocaktan.baslik}
+        baslik={s.menu.ocakbasi.baslik}
         sag={<TaneDizilimi adet={6} buyuk={13} kucuk={8} bosluk={10} ton="krem80" />}
       />
 
@@ -155,7 +155,7 @@ export function Ocaktan({ dil }: Props) {
 
       {/* Kuralı bir kez söyleyen dipnot. `BolumBasligi`nin not yuvası tane rayına
           ait (sag ?? not), o yüzden başlıkta değil fiyatların altında. */}
-      <p className={stil.olcuNotu}>{s.menu.ocaktan.yarimNotu}</p>
+      <p className={stil.olcuNotu}>{s.menu.ocakbasi.yarimNotu}</p>
     </section>
   )
 }

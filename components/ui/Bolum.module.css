@@ -1,5 +1,5 @@
 /*
- * scroll-margin-top: sayfa içi çapalar (hero'nun "Menüyü gör" butonu #ocaktan'a,
+ * scroll-margin-top: sayfa içi çapalar (hero'nun "Menüyü gör" butonu #ocakbasi'a,
  * kaydırma ipucu #iddia'ya gider) sabit üst barın altına gitmesin diye. Tasarım
  * aynı işi JS ile ve aynı 70px sabitiyle yapıyor (BeadRay.tsx:35 de o sabiti
  * kullanır). Yumuşak kaydırmayı `CapaBaglantisi` kendi JS yardımcısıyla yapar;

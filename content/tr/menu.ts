@@ -2,10 +2,10 @@
 export const menu = {
   acilis: {
     baslik: 'Menü',
-    spot: 'Hepsi ocaktan çıkar. Altı porsiyon, bir özel, sekiz ikram.',
+    spot: 'Hepsi tek ocakta pişer. Altı porsiyon, bir özel, sekiz ikram.',
   },
-  ocaktan: {
-    baslik: 'Ocaktan',
+  ocakbasi: {
+    baslik: 'Ocakbaşı',
     imzaRozeti: 'imza ürün',
     cigerSpec: { sis: '8 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
     /** Üç ölçü her üründe aynı sırayla basılır; sahibinin Tam / Yarım / Dürüm mantığı. */
@@ -22,18 +22,16 @@ export const menu = {
       dalak: {
         ad: 'Dalak',
         aciklama:
-          'Urfa sakatat hattının klasiği. Ciğerin yanına, iri doğranmış: ' +
-          'yüksek ateşte kısa tutulur.',
+          'Urfa sakatat hattının klasiği. İri doğranır, yüksek ateşte kısa tutulur.',
       },
       yurek: {
         ad: 'Yürek',
         aciklama:
-          'Urfa sakatat hattının klasiği. Sıkı dokulu; korun üstünde en uzun ' +
-          'kalan tane.',
+          'Urfa sakatat hattının klasiği. Sıkı dokulu; ısırınca dağılmayan tane.',
       },
       'terbiyesiz-tavuk-sis': {
         ad: 'Terbiyesiz Tavuk Şiş',
-        aciklama: "Kalçadan, Urfa'ya özgü marineyle. Aralara kuyruk yağı konur.",
+        aciklama: "Buttan, Urfa'ya özgü marineyle. Aralara kuyruk yağı konur.",
       },
       'terbiyeli-kusbasi': {
         ad: 'Terbiyeli Kuşbaşı',
@@ -54,7 +52,7 @@ export const menu = {
     baslik: 'İkramlar',
     altMetin: 'Sofra kurulu gelir, istemenize gerek yok',
     urunler: {
-      lebeni: { ad: 'Lebeni Çorbası', aciklama: 'Yoğurt ve kekik, nohutsuz. Ocaktan önce gelir.' },
+      lebeni: { ad: 'Lebeni Çorbası', aciklama: 'Yoğurt ve kekik, nohutsuz. Şişlerden önce gelir.' },
       bostana: { ad: 'Bostana', aciklama: 'İnce doğranmış, sulu. Vişne suyu ve nar ekşisiyle.' },
     },
     gruplar: { yesillik: 'Yeşillik', sogan: 'Soğan', kozde: 'Közde' },

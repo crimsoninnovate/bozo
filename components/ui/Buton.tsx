@@ -66,7 +66,7 @@ export function Buton({
       </span>
     )
   }
-  // Sayfa içi çapa (#ocaktan gibi) yönlendirme değil, aynı belgede kaydırmadır;
+  // Sayfa içi çapa (#ocakbasi gibi) yönlendirme değil, aynı belgede kaydırmadır;
   // Link'in ön yükleme ve yönlendirme mantığına sokulmaz. Yumuşak kaydırmayı
   // `CapaBaglantisi` taşır, o yüzden yalnız çapa butonları istemciye iner.
   if (capaMi) {

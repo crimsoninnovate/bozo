@@ -12,7 +12,7 @@ type Props = { dil: Dil; urun: Urun }
  * `dl` seçildi: ölçü ile fiyat terim/tanım çiftidir, iki bağımsız metin değil.
  */
 export function OlcuSatirlari({ dil, urun }: Props) {
-  const { olculer, durumNotu } = sozluk(dil).menu.ocaktan
+  const { olculer, durumNotu } = sozluk(dil).menu.ocakbasi
 
   return (
     <dl className={stil.liste}>

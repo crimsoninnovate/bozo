@@ -51,7 +51,7 @@ function yeniKivilcim(en: number, boy: number, ilk: boolean): Kivilcim {
 }
 
 /**
- * Ocaktan yükselen kor kıvılcımları.
+ * Ocakbasi yükselen kor kıvılcımları.
  *
  * Sahnenin diğer üç katmanı (kor yatağı, duman, ısı bandı) ekranın dibine yaslı;
  * masaüstünde hero geniş olduğu için okunuyorlar ama dikey mobil ekranda hepsi

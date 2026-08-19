@@ -775,3 +775,13 @@ ona yıllardır Bozo denir" > lakap bölümü > kendi cümlesinin altında imza 
 | Ana ve hikaye girişi | "Urfalı Engin Çağlar'a yıllardır böyle seslenilir" > "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir." Cümle artık iki adı da taşıyor ve lakap bölümünü kuruyor |
 | Alt bilgi notu | **Kaldırıldı** (sahibi, aynı gece: "footer sol altta buna vurgu yapmamız gerekmiyor, devrik duruyor; hikaye bölümünde iyi bir anlatım yeterli"). `footer.isimNotu` iki sözlükten, `AltBilgiTam`'dan ve `.isimNotu` kuralından düştü; marka kolonu kilit + tanım satırında kaldı. Aynı açıklamayı iki yüzeyde tekrar etmek hikayeyi özet gibi gösteriyordu |
 | `CLAUDE.md` | Kural yazıldı: hangi adın nerede geçtiği, "düzeltilmemesi" gerektiğiyle birlikte |
+
+## 19 Ağustos 2026: sahibinin beş geri bildirimi (WhatsApp notları)
+
+| Not | Uygulama | Gerekçe |
+|---|---|---|
+| "Ocaktan değil de Ocakbaşı; ocaktan yazınca Ülkü Ocakları aklıma geliyor" | Bölüm etiketi iki sayfada `Ocakbaşı`, çapa `#ocakbasi`, sözlük anahtarı `ocakbasi`, bileşenler `Ocakbasi.tsx` | Marka güvenliği: "Ocaktan" ayrılma hali olarak siyasi bir çağrışım taşıyor. `Ocakbaşı` zaten misafirin kullandığı kategori sözcüğü, "ocak" da yerinde kalıyor. İngilizce `From the Fire` değişmedi: çağrışım Türkçeye özgü. Menü spotu da düzeltildi: "Hepsi ocaktan çıkar" > "Hepsi tek ocakta pişer" |
+| "8 ikram" (ana sayfa "iki ikram" diyordu) | `Beş ürün, sekiz ikram: sofra kurulu gelir` / `Five dishes, eight on the house: the table comes set` | Veri sekiz taşıyor (iki plakalı ikram + üç kümede altı kalem); metin yalnız plakalıları sayıyordu. "hepsi tek ocakta" iddiası da kalktı: ikramların çoğu ocaktan çıkmıyor. `ikram_sayisi_metindekiSayiylaAyni` testi sayıyı üç metinde veriye bağladı |
+| Dalak: "ikram gibi anlaşılıyor" | "Ciğerin yanına, iri doğranmış" > "Urfa sakatat hattının klasiği; iri doğranır" (ana ve menü, iki dil) | Açıklama ürünü ciğerin yanındaki bir eklenti gibi tanıtıyordu; artık kendi başına bir kalem |
+| Yürek: "geç pişecek izlenimi veriyor" | "korun üstünde en uzun kalan tane" > "ısırınca dağılmayan tane" (`the cut that holds its bite`) | Aynı gerçeğin (sıkı doku) bekleme değil doku vaadi olarak söylenmesi |
+| Tavuk: "kalçadan belki misafirleri itebilir, but'tan yazsak" | "Kalçadan" > "Buttan" (Türkçe; İngilizcesi zaten `From the thigh` idi) | Kasap dilinde doğru olan sözcük ve iştah açıcı olan da o |

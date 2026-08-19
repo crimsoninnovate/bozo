@@ -36,19 +36,22 @@ export const ana = {
    * notun önerdiği müşteri metniyle değişti. Em dash kural gereği iki nokta
    * veya noktalı virgüle çevrildi.
    */
-  ocaktan: {
-    baslik: 'Ocaktan',
-    altNot: 'Beş ürün, iki ikram: hepsi tek ocakta',
+  ocakbasi: {
+    baslik: 'Ocakbaşı',
+    altNot: 'Beş ürün, sekiz ikram: sofra kurulu gelir',
     urunler: {
       ciger: {
         ad: 'Ciğer',
         aciklama: 'Urfa usulü, tavla zarı büyüklüğünde doğranır; arasına kuyruk yağı girer.',
       },
-      dalak: { ad: 'Dalak', aciklama: 'Ciğerin yanına, iri doğranmış: yüksek ateşte kısa tutulur.' },
-      yurek: { ad: 'Yürek', aciklama: 'Sıkı dokulu; korun üstünde en uzun kalan tane.' },
+      dalak: {
+        ad: 'Dalak',
+        aciklama: 'Urfa sakatat hattının klasiği; iri doğranır, yüksek ateşte kısa tutulur.',
+      },
+      yurek: { ad: 'Yürek', aciklama: 'Sıkı dokulu; ısırınca dağılmayan tane.' },
       'terbiyesiz-tavuk-sis': {
         ad: 'Terbiyesiz Tavuk Şiş',
-        aciklama: "Kalçadan, Urfa'ya özgü marineyle.",
+        aciklama: "Buttan, Urfa'ya özgü marineyle.",
       },
       'terbiyeli-kusbasi': {
         ad: 'Terbiyeli Kuşbaşı',

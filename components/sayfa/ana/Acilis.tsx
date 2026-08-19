@@ -79,9 +79,9 @@ export function Acilis({ dil }: Props) {
             >
               {s.ortak.cta.yolTarifiAl}
             </Buton>
-            {/* Tasarımda data-git="ocaktan": menü SAYFASINA değil, sayfa içinde
-                "Ocaktan" bölümüne kaydırır (Ana:113). */}
-            <Buton tur="ikincil" boy="xl" href="#ocaktan" ok>
+            {/* Tasarımda data-git="ocakbasi": menü SAYFASINA değil, sayfa içinde
+                "Ocakbasi" bölümüne kaydırır (Ana:113). */}
+            <Buton tur="ikincil" boy="xl" href="#ocakbasi" ok>
               {s.ortak.cta.menuyuGor}
             </Buton>
           </div>

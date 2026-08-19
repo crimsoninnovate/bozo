@@ -26,7 +26,7 @@ test('ustBar_menuNavi_ucCapaVeIkiRotaTasir', () => {
   const nav = ustBarVaryanti('menu').nav
   assert.deepEqual(
     nav.map((o) => (o.tur === 'capa' ? `#${o.hedef}` : o.rota)),
-    ['#ocaktan', '#ikramlar', '#icecekler', 'hikaye', 'konum'],
+    ['#ocakbasi', '#ikramlar', '#icecekler', 'hikaye', 'konum'],
   )
 })
 
@@ -127,7 +127,7 @@ test('cekmece_menuAltCapalari_menuBarininCapalariylaAyni', () => {
     menu.altlar.map((a) => `#${a.hedef}`),
     ustBarVaryanti('menu').nav.flatMap((o) => (o.tur === 'capa' ? [`#${o.hedef}`] : [])),
   )
-  assert.deepEqual(menu.altlar.map((a) => a.hedef), ['ocaktan', 'ikramlar', 'icecekler'])
+  assert.deepEqual(menu.altlar.map((a) => a.hedef), ['ocakbasi', 'ikramlar', 'icecekler'])
 })
 
 /** Öteki üç sayfanın barında çapa yok; çekmecede de alt satır açılmaz. */
@@ -156,7 +156,7 @@ test('cekmece_altCapaEtiketleri_sozlukteKarsiligiVar', () => {
 test('barCapalari_menuRotasi_ucBolumCapasiDoner', () => {
   assert.deepEqual(
     barCapalari('menu').map((c) => c.hedef),
-    ['ocaktan', 'ikramlar', 'icecekler'],
+    ['ocakbasi', 'ikramlar', 'icecekler'],
   )
 })
 

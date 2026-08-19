@@ -4,7 +4,7 @@
   padding: 70px var(--sayfa-yatay) 40px;
 }
 
-/* Başlık satırının margin-bottom'u (Menu:201, 30px); bkz. Ocaktan.module.css'teki
+/* Başlık satırının margin-bottom'u (Menu:201, 30px); bkz. Ocakbasi.module.css'teki
    aynı gerekçe. */
 .satir {
   margin-top: 30px;

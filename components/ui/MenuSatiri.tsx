@@ -7,7 +7,7 @@ type Props = {
 }
 
 /**
- * Ana sayfanın "Ocaktan" listesindeki tek satır. UYGULAMA-NOTLARI 3.
+ * Ana sayfanın "Ocakbasi" listesindeki tek satır. UYGULAMA-NOTLARI 3.
  *
  * Tasarımın (Ana:176-214) fiyat sütunu ve üçlü tane rayı KALKTI:
  * - fiyat sütunu yayında beş kez `000 TL` basıyordu, yer tutucu bir rakam

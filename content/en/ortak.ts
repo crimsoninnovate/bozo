@@ -15,7 +15,7 @@ export const ortak = {
     gece: 'Night',
     hikaye: 'Story',
     konum: 'Location',
-    ocaktan: 'From the Fire',
+    ocakbasi: 'From the Fire',
     ikramlar: 'On the House',
     icecekler: 'Drinks',
     gizlilik: 'Privacy',

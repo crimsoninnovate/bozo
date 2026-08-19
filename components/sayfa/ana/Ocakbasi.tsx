@@ -6,7 +6,7 @@ import { sozluk, type Dil, type Sozluk } from '@/content'
 import { isletme } from '@/content/isletme'
 import { anaUrunler } from '@/content/urunler'
 import { telefonUrl, yol } from '@/lib/site'
-import stil from './Ocaktan.module.css'
+import stil from './Ocakbasi.module.css'
 
 type Props = { dil: Dil }
 
@@ -24,28 +24,28 @@ type UrunMetni = { ad: string; aciklama: string }
  * kimlik sessizce boş satır basmasın diye derleme sırasında patlar.
  */
 function urunMetni(s: Sozluk, id: string): UrunMetni {
-  const kayit: Record<string, UrunMetni | undefined> = s.ana.ocaktan.urunler
+  const kayit: Record<string, UrunMetni | undefined> = s.ana.ocakbasi.urunler
   const metin = kayit[id]
-  if (!metin) throw new Error(`Ocaktan ürünü sözlükte yok: ${id}`)
+  if (!metin) throw new Error(`Ocakbasi ürünü sözlükte yok: ${id}`)
   return metin
 }
 
 /**
- * Ana sayfanın ocaktan bölümü. Kaynak UYGULAMA-NOTLARI 3.
+ * Ana sayfanın ocakbasi bölümü. Kaynak UYGULAMA-NOTLARI 3.
  *
  * Cam panel çerçevesi KALKTI: aynı çerçeveli dikdörtgen sayfada dört kez
  * tekrarlanıyordu ve ritmi kıran ilk şey oydu. Bölüm artık tam genişlik.
  */
-export function Ocaktan({ dil }: Props) {
+export function Ocakbasi({ dil }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
-  const { fiyat } = s.ana.ocaktan
+  const { fiyat } = s.ana.ocakbasi
 
   return (
-    <Bolum id="ocaktan" yogunluk={0.4} className={stil.bolum} eritClassName={stil.erit}>
+    <Bolum id="ocakbasi" yogunluk={0.4} className={stil.bolum} eritClassName={stil.erit}>
       <div className={stil.baslikSatiri}>
-        <h2 className={stil.baslik}>{s.ana.ocaktan.baslik}</h2>
-        <p className={stil.altNot}>{s.ana.ocaktan.altNot}</p>
+        <h2 className={stil.baslik}>{s.ana.ocakbasi.baslik}</h2>
+        <p className={stil.altNot}>{s.ana.ocakbasi.altNot}</p>
       </div>
 
       <ol className={stil.liste}>

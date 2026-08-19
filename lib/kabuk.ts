@@ -24,7 +24,7 @@ export type NavEtiketi =
   | 'gece'
   | 'hikaye'
   | 'konum'
-  | 'ocaktan'
+  | 'ocakbasi'
   | 'ikramlar'
   | 'icecekler'
   | 'gizlilik'
@@ -93,7 +93,7 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
       return {
         anaVaryantMi: false,
         nav: [
-          { tur: 'capa', hedef: 'ocaktan', etiket: 'ocaktan' },
+          { tur: 'capa', hedef: 'ocakbasi', etiket: 'ocakbasi' },
           { tur: 'capa', hedef: 'ikramlar', etiket: 'ikramlar' },
           { tur: 'capa', hedef: 'icecekler', etiket: 'icecekler' },
           { tur: 'rota', rota: 'hikaye', etiket: 'hikaye' },
@@ -141,7 +141,7 @@ export type CekmeceLinki = {
  * tablosundan sessizce ayrılır. Galeri rotası açıldığında tam bu oldu, çekmece
  * üç linkte kaldı ve dar ekranda Galeri'ye üst gezinmeden hiç girilemedi.
  *
- * Alt çapalar aynı gerekçeyle türetilir: menü barının üç çapası (Ocaktan,
+ * Alt çapalar aynı gerekçeyle türetilir: menü barının üç çapası (Ocakbaşı,
  * İkramlar, İçecekler) 1040 altında hiçbir yerde yoktu (18 Ağustos 2026).
  */
 export function cekmeceLinkleri(): CekmeceLinki[] {

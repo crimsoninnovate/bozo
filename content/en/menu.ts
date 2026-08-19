@@ -4,7 +4,7 @@ export const menu = {
     baslik: 'Menu',
     spot: 'Everything comes off the fire. Six portions, one special, eight on the house.',
   },
-  ocaktan: {
+  ocakbasi: {
     baslik: 'From the Fire',
     imzaRozeti: 'signature',
     cigerSpec: { sis: '8 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
@@ -21,14 +21,12 @@ export const menu = {
       dalak: {
         ad: 'Spleen (Dalak)',
         aciklama:
-          'A classic of the Urfa offal line. Beside the liver, cut coarse: ' +
-          'kept short over a high fire.',
+          'A classic of the Urfa offal line. Cut coarse, kept short over a high fire.',
       },
       yurek: {
         ad: 'Heart (Yürek)',
         aciklama:
-          'A classic of the Urfa offal line. Firm textured; the cut that stays ' +
-          'longest over the embers.',
+          'A classic of the Urfa offal line. Firm textured; the cut that holds its bite.',
       },
       'terbiyesiz-tavuk-sis': {
         ad: 'Chicken Skewer (Terbiyesiz Tavuk Şiş)',

@@ -9,7 +9,7 @@ export type BaslikOlcegi = 'genis' | 'orta' | 'sayfa'
 
 /**
  * Notun tipografisi her yerde 400 15px/1.5, yalnız krem alfası değişiyor:
- * Ana Sayfa Ocaktan .66 (Ana:173), Menü İkramlar .72 (Menu:203), Menü
+ * Ana Sayfa Ocakbasi .66 (Ana:173), Menü İkramlar .72 (Menu:203), Menü
  * İçecekler .64 (Menu:236).
  */
 export type NotTonu = 'krem64' | 'krem66' | 'krem72'

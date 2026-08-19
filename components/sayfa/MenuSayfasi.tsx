@@ -1,7 +1,7 @@
 import { Acilis } from './menu/Acilis'
 import { Icecekler } from './menu/Icecekler'
 import { Ikramlar } from './menu/Ikramlar'
-import { Ocaktan } from './menu/Ocaktan'
+import { Ocakbasi } from './menu/Ocakbasi'
 import type { Dil } from '@/content'
 
 type Props = { dil: Dil }
@@ -17,7 +17,7 @@ type Props = { dil: Dil }
  * Çapa payı da bölümlerde değil: `Kabuk`, ana sayfa dışındaki rotalarda
  * `<main>`'e `.icSayfa` sınıfını basıyor ve o sınıf id taşıyan her torununa
  * `scroll-margin-top: 96px` veriyor (Menu:347'nin `- 96` değeri). Bölümlerin
- * tek görevi doğru id'yi taşımak: `#ocaktan`, `#ikramlar`, `#icecekler`, üçü de
+ * tek görevi doğru id'yi taşımak: `#ocakbasi`, `#ikramlar`, `#icecekler`, üçü de
  * üst barın bu sayfadaki nav hedefleri.
  *
  * Footer bu ağaçta değil: menü sayfasının kompakt şeridi `Kabuk` > `AltBilgi`
@@ -27,7 +27,7 @@ export function MenuSayfasi({ dil }: Props) {
   return (
     <>
       <Acilis dil={dil} />
-      <Ocaktan dil={dil} />
+      <Ocakbasi dil={dil} />
       <Ikramlar dil={dil} />
       <Icecekler dil={dil} />
     </>

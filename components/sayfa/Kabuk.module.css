@@ -47,8 +47,8 @@
  *   ortalanmış bir bölüm (Ana:86,128,169,219,244,269,296). Kutunun tepesinde
  *   görünür hiçbir şey yok, 70px barın 12px altına düşse de kimse görmez.
  * - Menü ve Konum'da hedefler düz akış bölümleri ve içerik kutunun tepesinde
- *   başlıyor: `#ocaktan` padding-top 0 (Menu:85), `#harita` 10px (Konum:88).
- *   70px pay orada "Ocaktan" başlığını 78px'lik barın 8px altına sokardı.
+ *   başlıyor: `#ocakbasi` padding-top 0 (Menu:85), `#harita` 10px (Konum:88).
+ *   70px pay orada "Ocakbaşı" başlığını 78px'lik barın 8px altına sokardı.
  *   96px, en dar durumda 18px'lik görünür bir nefes payı bırakır.
  *
  * Yani çeşitlilik açıklanabilir, normalize edilmez. İki payı da koruyoruz:
