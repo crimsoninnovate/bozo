@@ -12,6 +12,11 @@ defteri ve 12 Ağustos'ta yazıldığı haliyle bırakıldı; çelişki görürs
 
 - Branch `feat/site-kurulumu`, 122 test geçiyor, typecheck ve build temiz, 17 rota
   girdisi. Ağaçta çalışan ajan yok.
+- **Site kendi alan adında** (19 Ağustos, sahibinin isteği): `https://cigercibozo.com` test
+  yayınında, `www` 301 ile apex'e gidiyor, Let's Encrypt sertifikası alındı. Açılışa kadar
+  `X-Robots-Tag: noindex, nofollow` (Caddy bloğunda tek satır, açılışta silinir). `robots.txt`
+  bilerek taramaya açık: tarayıcı sayfaya ulaşıp başlığı okuyabilsin diye. Demo adresi duruyor,
+  iki alan adı da aynı dizini okuyor, tek rsync ikisini birden günceller.
 - **Sahibinin adı sitede "Bozo Çağlar"** (19 Ağustos, sahibinin kararı): imza ve üstyazılar
   sesleniş, nüfustaki ad yalnız lakabı açıklayan iki cümlede. Kural `CLAUDE.md` > Copy rules.
 - **Bozo adının hikayesi yayında** (19 Ağustos, `IYILESTIRMELER.md` > "lakap bölümü"):

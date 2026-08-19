@@ -63,8 +63,14 @@ The build output in `out/` is a plain static site with no server runtime, served
 `trailingSlash: true` in `next.config.ts` is required for this: it makes `/menu` resolve to
 `menu/index.html` instead of a bare file the server cannot find.
 
-Production domain: `https://cigercibozo.com` (not live yet). A demo of the current build runs at
-`https://bozo.crimsoninnovate.com`, deployed 12 August 2026.
+Production domain: `https://cigercibozo.com`, serving the same build since 19 August 2026 as a
+test publication. `www` redirects to the apex with a 301, and the apex answers `noindex, nofollow`
+through an `X-Robots-Tag` header until launch: `robots.txt` deliberately still allows crawling, so
+a crawler can reach the page and read the header. **Opening day is one line:** delete the
+`X-Robots-Tag` line from the `cigercibozo.com` block in `/opt/docker/caddy/Caddyfile` and reload.
+
+The demo at `https://bozo.crimsoninnovate.com` (12 August 2026) stays as it is; both hosts serve
+the same directory, so one rsync publishes both.
 
 ### Where the server actually keeps things
 
@@ -79,7 +85,12 @@ Two traps cost time the first time round, so they are written down rather than r
   own `/srv/enliq` are invisible to Caddy. Deploy target is `/var/www/enliq/bozo/out` on the
   host, written as `root * /srv/enliq/bozo/out` in the Caddyfile.
 
-Deploy is an rsync: `rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/`.
+Deploy is an rsync: `rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/`. Both
+`cigercibozo.com` and `bozo.crimsoninnovate.com` read that directory, so a single run updates both.
+
+HSTS on the apex is `max-age=31536000` **without** `includeSubDomains`: the apex is live but no
+subdomain is set up yet, and `includeSubDomains` is a one-year commitment for every future one.
+Add it (and `preload`, if wanted) when the subdomains are decided.
 
 ### The 404 page needs server config
 
