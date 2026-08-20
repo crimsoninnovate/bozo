@@ -11,13 +11,6 @@
   padding: var(--bolum-dikey) var(--sayfa-yatay) 0;
 }
 
-/* Bar rozetle 84 > 104px'e çıktı; hero'nun barla arasındaki 36px'lik payı
-   korumak için üst dolgu aynı 20px kadar büyür. Mobil bar değişmedi. */
-@media (min-width: 1041px) {
-  .bolum {
-    padding-top: 140px;
-  }
-}
 
 .erit {
   max-width: var(--panel-en);

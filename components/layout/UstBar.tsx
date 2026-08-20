@@ -4,7 +4,6 @@ import { useCallback, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
 import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
-import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
 import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
@@ -72,9 +71,9 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
  * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada).
  * Gece şeridi de rotaya bağlı (`geceSeridiGosterilirMi`).
  *
- * 20 Ağustos 2026: marka rozete geçti, bar ortalanmış üç kolona döndü. Rozet
- * 84px altında bozuluyor, o yüzden 1040px altında (bar 58px) markanın sadece
- * kelime varyantı basılır; mobil ölçüler değişmedi. Bkz. Rozet.tsx.
+ * 20 Ağustos 2026: marka rozete geçti, bar ortalanmış üç kolona döndü ve rozet
+ * satırın altına sarkıyor (sahibinin kararı). Bar ölçüleri değişmedi: sarkma
+ * `height:0` bir sarıcıyla yapılıyor. Bkz. Rozet.tsx.
  */
 export function UstBar({ dil, aktif }: Props) {
   const [cekmeceAcik, setCekmeceAcik] = useState(false)
@@ -105,12 +104,7 @@ export function UstBar({ dil, aktif }: Props) {
           </div>
 
           <span className={stil.markaOrta}>
-            <span className={stil.rozetSarici}>
-              <Rozet dil={dil} boy={varyant.anaVaryantMi ? 'bar' : 'ic'} />
-            </span>
-            <span className={stil.kelimeSarici}>
-              <MarkaKilidi dil={dil} sadeceKelime />
-            </span>
+            <Rozet dil={dil} boy={varyant.anaVaryantMi ? 'bar' : 'ic'} />
           </span>
 
           <div className={stil.sag}>

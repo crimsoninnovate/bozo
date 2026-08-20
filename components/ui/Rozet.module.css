@@ -1,8 +1,14 @@
-/* Kaynak 291x320 (mürekkep kutusuna kırpılmış), en/boy 0.909. Yükseklik
-   burada, genişlik ondan türer; intrinsic ölçü img'de duruyor, CLS yok. */
+/*
+ * SARKAN ROZET (sahibinin kararı, 20 Ağustos 2026: "logo büyük, biraz aşağı
+ * sarkabilir"). Bar satırı ince kalır, rozet satırın altına taşar: asma tabela
+ * kurgusu. Sarıcı `height:0` olduğu için satır yüksekliğini BÜYÜTMEZ, yoksa
+ * 84px'lik bar rozetin boyuna çıkardı.
+ *
+ * Ölçü tabanı vektörle düştü: raster 76px altında "Ciğerci"yi kaybediyordu,
+ * vektör 40px'te bile okunuyor. Bardaki boy artık okunurluk değil duruş kararı.
+ */
 .rozet {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
   min-height: 44px;
   min-width: 44px;
@@ -11,19 +17,31 @@
 
 @media (hover: hover) {
   .rozet:hover {
-    opacity: 0.88;
+    opacity: 0.9;
   }
 }
 
 .rozet img {
   display: block;
   width: auto;
+  /* Sarkan kısım hero'nun üstüne düşüyor; zeminden ayrılsın. */
+  filter: drop-shadow(0 10px 30px rgba(10, 8, 7, 0.75));
 }
 
 .bar img {
-  height: 80px;
+  height: 148px;
 }
 
 .ic img {
-  height: 72px;
+  height: 132px;
+}
+
+/* Telefonda bar 58px ve sarkma yeri yok: rozet satırın içinde kalır.
+   Vektör bu boyda hâlâ "Ciğerci Bozo"yu ve "Girne"yi okutuyor. */
+@media (max-width: 1040px) {
+  .bar img,
+  .ic img {
+    height: 44px;
+    filter: none;
+  }
 }

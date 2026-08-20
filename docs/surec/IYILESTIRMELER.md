@@ -851,10 +851,44 @@ aynı kaldı.
 | Üst dolgu 120 > 140px (yalnız 1041px üstü) | Bar 20px büyüdü; hero'nun barla arasındaki 36px'lik pay korunsun diye |
 | Überline mobilde 13px/0.18em > 11px/0.14em | 390px'te satır 354px istiyordu, kolon 342px: `Girne` alt satıra düşüyordu |
 
-### Varlık
+### Varlık: aynı gün raster'dan vektöre
 
-`public/marka/rozet.webp`, 304x320, **28 KB**. Kaynak 1100px PNG'nin mürekkep kutusuna
-kırpılıp 320px'e indirilmiş hali; WebP seçildi çünkü aynı görüntü PNG olarak 187 KB.
-Site ilk kez raster bir marka işareti taşıyor: şiş kilidi `lib/sis.ts`'ten satır içi SVG
-olarak çiziliyordu, yani ağ isteği yoktu ve `currentColor` ile temalanabiliyordu. Takas
-bilerek yapıldı, tasarımcıdan vektör kaynak gelirse geri alınabilir.
+Önce `rozet.webp` (304x320, 28 KB) kullanıldı. Aynı akşam sahibi vektörü gönderdi
+(`BozoLogo.svg`), varlık ona geçti ve raster silindi. Vektör her ölçüde kazanıyor:
+
+| | WebP 320px | SVG |
+|---|---|---|
+| Hat üstünde | 28 KB | **17 KB** (brotli; ham 52 KB, gzip 20 KB) |
+| Okunurluk tabanı | 76px | **40px** |
+| DPR 3 | yeniden örnekleme bulanıklığı | keskin |
+
+Okunurluk tabanının 76 > 40px'e inmesi kurgu kararını değiştirdi: bardaki boy artık
+okunurluk değil duruş meselesi.
+
+Vektörün bir kusuru kayda geçsin: **244 fill kullanımına karşılık 190 farklı renk**
+(82 farklı krem tonu, 20 farklı kırmızı). Bu otomatik vektörleştirme izi, tasarımcı
+kaynak dosyada temizleyebilir. Görüntüde fark edilmiyor ve 17 KB kabul edilebilir
+olduğu için sanat eserine dokunulmadı.
+
+### Sarkan rozet (sahibinin kararı, aynı gün)
+
+Sahibi: "logo büyük, biraz aşağı sarkabilir sorun yok". Bar satırı **eski ölçüsüne
+döndü** (84px ana, 78px iç); rozet satırın altına taşıyor, asma tabela kurgusu.
+
+| | Ölçüldü |
+|---|---|
+| Ana varyant | rozet 148px, bar 84px, sarkma **70px** |
+| İç varyant | rozet 132px, bar 78px, sarkma **60px** |
+| Merkez sapması | **0px**, iki varyantta da |
+
+Sarkma `height:0` bir sarıcıyla yapılıyor (`.markaOrta`): satır yüksekliğini büyütmez,
+yoksa bar rozetin boyuna çıkardı. Bar 104px'e çıktığı ara turda eklenen hero üst dolgu
+telafisi bu yüzden geri alındı.
+
+Vektör 40px'te okunduğu için **mobildeki taviz de kalktı**: 1040px altında sadece kelime
+varyantına düşmek gerekmiyor, rozet 58px bara 44px olarak giriyor. `Cekmece`'nin üst
+satırı barın ikizi olduğu için oradaki marka da rozete geçti; kilitte bırakılsaydı çekmece
+açılırken marka gözle görülür şekilde değişiyordu.
+
+Şiş kilidi artık yalnız alt bilgide ve `global-not-found`'da. `lib/sis.ts`, `SisIsareti` ve
+`MarkaKilidi` duruyor.

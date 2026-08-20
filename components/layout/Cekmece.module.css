@@ -30,7 +30,9 @@
 }
 
 /* Üst satır barın mobil satırının ikizi (UstBar 58px, 0 18px, .09 çizgi, sağ grup 14px):
-   kilit ve dil çekmece açıkken de yerinde, X hamburgerin yerinde. Ölçüldü: ana 0px, gece şeridi 0px. */
+   marka ve dil çekmece açıkken de yerinde, X hamburgerin yerinde. Ölçüldü: ana 0px, gece şeridi 0px.
+   Marka barla AYNI olmak zorunda: bar rozete geçince burası kilitte kalırsa çekmece
+   açılırken marka gözle görülür şekilde değişiyordu (20 Ağustos 2026). */
 .ust {
   flex: none;
   height: 58px;

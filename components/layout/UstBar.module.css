@@ -76,11 +76,11 @@
 }
 
 .anaVaryant .satir {
-  height: 104px;
+  height: 84px;
 }
 
 .icVaryant .satir {
-  height: 96px;
+  height: 78px;
 }
 
 .sol,
@@ -97,16 +97,19 @@
   justify-self: end;
 }
 
+/*
+ * Sarkma buradan: `height:0` sarıcı satırın yüksekliğini büyütmez, rozet
+ * kendi boyunda aşağı taşar. `align-self:start` onu satırın tepesine
+ * yapıştırır, `padding-top` sarkmanın nereden başladığını verir.
+ */
 .markaOrta {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  justify-content: center;
   justify-self: center;
-}
-
-/* Rozet 58px'lik mobil bara sığmıyor (76px altında "Ciğerci" dağılıyor), o yüzden
-   1040 altında kilidin sadece kelime varyantına düşülür. Bar ölçüsü değişmedi. */
-.kelimeSarici {
-  display: none;
+  align-self: start;
+  height: 0;
+  padding-top: 6px;
+  overflow: visible;
 }
 
 /* Notun büyüttüğü nav ölçüsü yalnız ana varyantta (UYGULAMA-NOTLARI 2). */
@@ -244,12 +247,11 @@
     order: 3;
   }
 
-  .rozetSarici {
-    display: none;
-  }
-
-  .kelimeSarici {
-    display: inline-flex;
+  /* Telefonda sarkma yok: sarıcı normal akışa döner, rozet satırın içinde. */
+  .markaOrta {
+    align-self: center;
+    height: auto;
+    padding-top: 0;
   }
 
   .navLinks,
