@@ -4,18 +4,20 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 19 Ağustos 2026
+Son güncelleme: 20 Ağustos 2026
 
 ## Durum
 
 - Branch `feat/site-kurulumu`. 123 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
   Ağaç temiz, çalışan ajan yok.
 - **Site kendi alan adında yayında:** `https://cigercibozo.com`, test yayını. `www` 301 ile
-  apex'e gidiyor, sertifika Let's Encrypt. Demo adresi (`bozo.crimsoninnovate.com`) duruyor;
-  iki alan adı aynı dizini okur, tek `rsync` ikisini birden günceller (yordam `README.md`).
-- **Açılış günü tek iş:** sunucudaki `/opt/docker/caddy/Caddyfile` içinde `cigercibozo.com`
-  bloğundaki `X-Robots-Tag` satırını silip Caddy'yi reload etmek. O satır durdukça site
-  arama motorlarına kapalı; `robots.txt` bilerek taramaya açık ki tarayıcı başlığı okuyabilsin.
+  apex'e gidiyor, sertifika Let's Encrypt.
+- **Yayın hedefi 20 Ağustos'ta arc sunucusuna taşındı** (`arc.megaonline.net`, Plesk,
+  `/var/www/vhosts/cigercibozo.com/httpdocs`). Researchos artık deploy almıyor; oradaki demo
+  (`bozo.crimsoninnovate.com`) eski sürümde donmuş durumda. Yordam `README.md` > Publishing.
+- **Açılış günü tek iş:** `public/.htaccess` içindeki `X-Robots-Tag` satırını silip build alıp
+  deploy etmek. O satır durdukça site arama motorlarına kapalı; `robots.txt` bilerek taramaya
+  açık ki tarayıcı başlığı okuyabilsin.
 - On iki rota (altı sayfa, iki dil) 200 dönüyor, yatay taşma yok, konsol temiz.
 
 ## Bekleyen iş

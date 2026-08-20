@@ -20,7 +20,8 @@ npm run preview    # serve the out/ export locally
 ## Architecture
 
 - App Router, `output: 'export'`. No server runtime after build; the site is plain static files
-  served by Caddy `file_server`.
+  served from a Plesk document root on the arc server. Server behaviour that the site needs
+  (designed 404, `noindex` header) is in `public/.htaccess`, which the build copies into `out/`.
 - **Two root layouts, no root `app/layout.tsx`.** `app/(tr)/layout.tsx` renders `<html lang="tr">`
   and keeps Turkish routes at the site root. `app/(en)/layout.tsx` renders `<html lang="en">` and
   nests English routes under `en/`. A root `app/layout.tsx` breaks this: do not add one.

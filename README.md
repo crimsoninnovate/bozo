@@ -72,74 +72,84 @@ npm run preview
 
 ## Publishing
 
-The build output in `out/` is a plain static site with no server runtime, served by Caddy
-`file_server` on researchos-server, the same pattern as the Regulus and oykualemdar sites.
-`trailingSlash: true` in `next.config.ts` is required for this: it makes `/menu` resolve to
-`menu/index.html` instead of a bare file the server cannot find.
+The build output in `out/` is a plain static site with no server runtime. It is served from the
+Plesk subscription for `cigercibozo.com` on **arc** (`arc.megaonline.net`, `185.210.92.206`),
+document root `/var/www/vhosts/cigercibozo.com/httpdocs`. `trailingSlash: true` in
+`next.config.ts` is required for this: it makes `/menu` resolve to `menu/index.html` instead of
+a bare file the server cannot find.
 
-Production domain: `https://cigercibozo.com`, serving the same build since 19 August 2026 as a
-test publication. `www` redirects to the apex with a 301, and the apex answers `noindex, nofollow`
-through an `X-Robots-Tag` header until launch: `robots.txt` deliberately still allows crawling, so
-a crawler can reach the page and read the header. **Opening day is one line:** delete the
-`X-Robots-Tag` line from the `cigercibozo.com` block in `/opt/docker/caddy/Caddyfile` and reload.
+Production domain: `https://cigercibozo.com`, still a test publication. DNS is at Cloudflare,
+unproxied; apex and `www` both point at the arc IP. The certificate is Let's Encrypt.
 
-The demo at `https://bozo.crimsoninnovate.com` (12 August 2026) stays as it is; both hosts serve
-the same directory, so one rsync publishes both.
+### Deploy
 
-### Where the server actually keeps things
-
-Two traps cost time the first time round, so they are written down rather than rediscovered:
-
-- **Caddy runs in Docker, not systemd.** `systemctl is-active caddy` reports `inactive` and
-  `/etc/caddy/Caddyfile` on the host is a stale decoy that nothing reads. The live config is
-  `/opt/docker/caddy/Caddyfile`, mounted into the `caddy:2-alpine` container. Reload with
-  `docker exec caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile`, and
-  validate with the same path before reloading: one Caddyfile fronts every site on the box.
-- **The container's `/srv/enliq` is the host's `/var/www/enliq`.** Files uploaded to the host's
-  own `/srv/enliq` are invisible to Caddy. Deploy target is `/var/www/enliq/bozo/out` on the
-  host, written as `root * /srv/enliq/bozo/out` in the Caddyfile.
-
-Deploy is an rsync: `rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/`. Both
-`cigercibozo.com` and `bozo.crimsoninnovate.com` read that directory, so a single run updates both.
-
-HSTS on the apex is `max-age=31536000` **without** `includeSubDomains`: the apex is live but no
-subdomain is set up yet, and `includeSubDomains` is a one-year commitment for every future one.
-Add it (and `preload`, if wanted) when the subdomains are decided.
-
-### The 404 page needs server config
-
-`file_server` answers a missing path with its own empty 404, not with `out/404.html`. The site
-ships a designed 404 page (`app/global-not-found.tsx`), so without a `handle_errors` block that
-page never reaches a visitor:
-
-```caddyfile
-cigercibozo.com {
-    root * /srv/enliq/bozo/out
-    encode zstd gzip
-    file_server
-
-    handle_errors {
-        @notfound expression {err.status_code} == 404
-        handle @notfound {
-            rewrite * /404.html
-            file_server
-        }
-    }
-}
+```bash
+npm run build
+rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
+ssh plesk-206 'chown -R engincaglar:psacln /var/www/vhosts/cigercibozo.com/httpdocs'
 ```
 
-Two things that used to be listed here as unverified assumptions are now **measured live**
-(12 August 2026 on the demo, re-checked on the apex 19 August 2026; full probe list in
-`docs/surec/YAYIN-KONTROL-LISTESI.md`):
+The `chown` is not optional. `rsync -a` copies the numeric owner and the connection is `root`,
+so without it every file lands owned by the local uid and Plesk's `repair fs` flags the
+subscription. Deploying as the subscription's own user is not an option either: `engincaglar`
+has `/bin/false` for a shell.
 
-- `/menu` without a trailing slash returns `308` to `/menu/`. `trailingSlash: true` holds.
-- RSC payload files whose names contain `!`, for example `menu/__next.!KHRyKQ.menu.__PAGE__.txt`,
-  are served with `200`. A rule filtering unusual filenames would break in-page navigation while
+### Server behaviour lives in `public/.htaccess`
+
+Next copies `public/.htaccess` to `out/.htaccess` on every build, so the two things the server
+has to do are versioned with the site instead of living only on the box:
+
+- `ErrorDocument 404 /404.html`, so the designed 404 page (`app/global-not-found.tsx`) reaches a
+  visitor. Without it Plesk answers with its own `error_docs/not_found.html`.
+- `X-Robots-Tag: noindex, nofollow` while this is a test publication. `robots.txt` deliberately
+  still allows crawling, so a crawler can reach the page and read the header.
+
+**Opening day is one line:** delete the `Header always set X-Robots-Tag` line from
+`public/.htaccess`, then build and deploy.
+
+### Two settings that live in Plesk, not in the repo
+
+Both were made with Plesk's own commands, which is what the panel does. Plesk regenerates
+`nginx.conf` and `httpd.conf` on its own schedule and both files say so at the top: editing them
+by hand does not survive.
+
+- **Node.js is off for this domain.** Plesk creates a Node.js subscription with
+  `PassengerEnabled on` and `PassengerAppRoot .../httpdocs` in the Apache vhost. An
+  `output: 'export'` build has no server to start, so Passenger was sitting in front of static
+  files for nothing. Turned off with `plesk ext nodejs --disable -domain cigercibozo.com`.
+  Do not re-enable it.
+- **`www` redirects to the apex** through Plesk's preferred-domain setting,
+  `plesk bin site --update cigercibozo.com -seo-redirect non-www`, which shows up in the panel as
+  Hosting Settings > Preferred domain.
+
+After changing either, apply with `plesk sbin httpdmng --reconfigure-domain cigercibozo.com`,
+then check `nginx -t` and `plesk repair web -n` (the `-n` is a dry run).
+
+### Measured live on arc, 20 August 2026
+
+Seventeen URLs answer `200`: six pages in two languages, plus `robots.txt`, `sitemap.xml`,
+`icon.svg`, `apple-icon.png` and `sosyal-kart.png`. Beyond that:
+
+- `/menu` without a trailing slash returns `301` to `/menu/`. `trailingSlash: true` holds.
+  (Caddy used to answer `308` here; both are permanent, Apache's `mod_dir` just picks `301`.)
+- `www` and plain `http` both return `301` onto `https://cigercibozo.com`.
+- An unknown path returns `404` **and** the designed page body, not Plesk's default.
+- RSC payload files whose names contain `!`, for example `__next.!KHRyKQ.__PAGE__.txt`, are
+  served with `200`. A rule filtering unusual filenames would break in-page navigation while
   leaving every page individually reachable, a failure mode that hides well; it is not present.
+- `/.htaccess` returns `403`.
+- Responses are Brotli-compressed.
 
-The `handle_errors` block itself is also verified live: an unknown path returns `404` **and** the
-designed page body, not Caddy's empty default.
+Two things are not set and are worth knowing. `_next/static` assets carry no `Cache-Control`
+header even though their filenames are content-hashed, so every asset costs a revalidation round
+trip. And the certificate is a wildcard obtained through DNS-01, which needs an `_acme-challenge`
+TXT record written at renewal time; the zone is on Cloudflare, where Plesk cannot write unless
+the Cloudflare DNS extension is given an API token.
 
-Checked on `https://cigercibozo.com` the day it went up: twelve routes plus `robots.txt`,
-`sitemap.xml` and `icon.svg` answer `200`, `http` redirects with `308`, `www` with `301`,
-and the `noindex` header is present on the apex.
+### Previous host
+
+Until 20 August 2026 the site was served by Caddy `file_server` on researchos-server from
+`/var/www/enliq/bozo/out`, configured in `/opt/docker/caddy/Caddyfile` inside a `caddy:2-alpine`
+container. That box still serves the demo at `https://bozo.crimsoninnovate.com` from the same
+directory, which no longer receives deploys and will drift. The Caddy-era traps are recorded in
+`docs/surec/DEVAM-ARSIV.md`.

@@ -159,7 +159,7 @@ touch target, not by the type size.
   multiple-root-layout setup.
 - `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { unoptimized: true }`,
   `experimental: { globalNotFound: true }`. `trailingSlash` is load-bearing for static
-  hosting under Caddy `file_server`.
+  hosting under a plain file server; on Plesk it makes `/menu` land on `menu/index.html`.
 - No middleware, no Server Actions, no server-side data fetching. Static export forbids them.
 - Route names are Turkish in both languages: `/menu`, `/en/menu`.
 - All copy, prices, hours and contact details live in `content/`. No hardcoded strings in JSX.

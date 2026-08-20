@@ -117,10 +117,15 @@ kurulumunda beş komşu site reload öncesi ve sonrası birebir aynı durumu dö
 
 ### Güncelleme
 
-    npm run build
-    rsync -az --delete out/ researchos-server:/var/www/enliq/bozo/out/
+Yayın hedefi 20 Ağustos 2026'da arc sunucusuna (Plesk) taşındı. Yukarıdaki iki Caddy tuzağı
+artık tarihsel kayıt; researchos deploy almıyor.
 
-Caddy reload gerekmez, `file_server` dosyaları diskten okur.
+    npm run build
+    rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
+    ssh plesk-206 'chown -R engincaglar:psacln /var/www/vhosts/cigercibozo.com/httpdocs'
+
+Sunucu reload gerekmez, dosyalar diskten okunuyor. `chown` atlanamaz: `rsync -a` sayısal
+sahipliği taşır, bağlantı `root` olduğu için dosyalar yerel uid ile düşer.
 
 ## Yayınla birlikte açılacak kararlar
 
