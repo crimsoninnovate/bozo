@@ -1126,3 +1126,66 @@ sayfa başlığını değil.
 bilerek verildi: 4:2:0 bordo ve bakır kenarları bulandırıyor, kartta hem `BOZO` hem başlığın
 ikinci satırı o renklerde. WebP daha da küçüktü ama eski paylaşım kazıyıcıları OG görselinde
 WebP'yi çözmüyor; JPEG en güvenlisi.
+
+## 21 Ağustos 2026: bordo palet, yeni rozet, kartlar ve ikonlar
+
+Sahibi siyah zeminden rahatsız olduğunu iletti. Ölçüm **iki ayrı ve bağımsız** neden
+buldu: zemin soğuktu (R−B −4; dört koyu yüzeyin dördünde de kırmızı en zayıf kanal, bir
+ateş markasında ters yön) ve krem metin kontrastı 16.20:1 idi, yani AAA'nın 2.3 katı ve
+hâle eşiğinin (~12:1) üstünde. Kolların bağımsızlığı önemliydi: yalnız ısıtmak şiddeti
+düşürmüyor, hatta biraz artırıyor (belgedeki sıcak palet 16.62:1 ölçüyor).
+
+Beş varyant sitenin kendisinden üretilip yan yana sunuldu, sahibi **D**'yi seçti.
+
+| | Zemin | Krem metin | R−B | Buton ayrışması |
+|---|---|---|---|---|
+| A mevcut | `#0B0F0F` | 16.20:1 | −4 | 2.83:1 |
+| B sıcak kömür | `#241E1A` | 13.83:1 | +10 | 2.41:1 |
+| C sıcak oda | `#332B25` | 11.66:1 | +14 | 2.04:1 |
+| **D derin bordo** | **`#2E110F`** | **14.66:1** | **+31** | **3.09:1** |
+| E tam güç kor | `#AD2624` | 5.73:1 | +137 | 2.56:1 |
+
+**E elendi, gerekçe aritmetik.** Tam güçte kırmızı zeminde hem zeminden 3:1 ayrışan hem
+üstünde krem metni 4.5:1 taşıyan buton rengi yok; altı aday denendi, hepsi bir taraftan
+düşüyor. Ayrıca rozetin dış halkası o zeminde birleşiyor ve logo kenarını kaybediyor.
+
+**Kor bir kademe parlatıldı.** `#AD2624` bordo zeminde 2.56:1'e düşüyor, yani buton
+sayfadan ayrışmayı bırakıyordu. `#C13029` 3.09:1 ölçüyor: 1.4.11'in eşiğini geçen tek
+palet bu. Yan bulgu, mevcut sitede de değer 2.83:1 ile eşiğin altındaydı ve `tokens.css`
+bunu kendi yorumunda zaten not etmişti.
+
+**İki palet, tek satır.** Zemine bağlı her renk `styles/palet/{bordo,siyah}.css` içinde;
+`app/globals.css` birini aktarıyor. Siyah palet çalışır halde korunuyor (sahibinin isteği).
+`styles/palet.test.ts` paletlerin aynı token setini tanımlamasını ve palet renginin palet
+dışında literal geçmemesini zorunlu tutuyor.
+
+**Yirmi dört literal token'a çevrildi.** Dokuzu zemin, on beşi kor. Kor olanları ilk tarama
+kaçırdı çünkü yalnız zemin rgb'si aranmıştı; derlenmiş CSS'teki renkleri saymak ortaya
+çıkardı. Kaynağı grep'lemek yerine derleme çıktısını saymak bu iş için daha güvenilir.
+`KorKivilcimi.tsx` de renklerini sabitlemişti: canvas CSS okumaz, artık mount'ta `--kor`
+ve `--bakir` çözülüyor.
+
+### Rozet (BozoLogo-2.svg)
+
+En/boy **0.8844**, öncekinden dar (0.9606). Aynı genişlikte 12px uzuyor ve mobil rozetin
+tepesi viewport'tan 1px taşıyordu (öncekinde 6.6px pay vardı). Dört genişlik de **boy sabit
+kalacak** şekilde yeniden ölçüldü: 134>123, 62>57, 100>92, mobil 84>77. Hiçbir yerleşim
+kaymadı.
+
+Zeminden ayrılmayı en dış **bakır halka** sağlıyor, kırmızı değil: `#D5862E` bordoda
+6.05:1. Logonun kırmızısı `#8b1314` bordoda 1.83:1 ölçüyor ve tek başına yetmezdi.
+
+### Kartlar ve ikonlar
+
+Kartlar yine sitenin kendi sayfa bağlamında üretildi. **Bu turda bir hata yakalandı:**
+İngilizce kart Türkçe sayfada üretilince "FROM THE FİRE" ve "KYRENİA" yazıyordu.
+`text-transform: uppercase` `<html lang>` okur ve Türkçe dökümünde `i` > `İ` olur. Her kart
+artık kendi dilinin sayfasında üretiliyor. JPEG 108 KB'a çıktı (önce 91): bordo gradyanın
+ton çeşitliliği siyahtan fazla.
+
+Favicon seti vektörden yeniden üretildi (1024px master > PNG8 > zopfli); hepsi öncekinden
+küçük. İki manifest ikonu `purpose: "maskable"` diyordu ama zeminleri şeffaftı: maskable
+ikon dolu zemin ve merkezi %80'lik güvenli alan ister, şeffaf olanın kenarları kırpılırdı.
+Artık bordo levha üstünde %78'de duruyorlar. `apple-touch-icon` de bordo levha aldı, çünkü
+iOS şeffaflığı siyaha bindirir. `site.webmanifest`'in `theme_color` ve `background_color`
+alanları eski zemini taşıyordu.
