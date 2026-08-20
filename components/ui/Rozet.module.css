@@ -31,31 +31,33 @@
     margin-bottom var(--gecis-bar);
 }
 
-/* Spec ölçüyü GENİŞLİKTEN veriyor; en/boy 0.9409, yani 134px genişlik 142px boy. */
+/* Ölçü genişlikten veriliyor ama BOY sabit tutuldu: 21 Ağustos 2026 logosu
+   öncekinden dar (en/boy 0.8844, önceki 0.9606), aynı genişlikte 12px uzuyordu.
+   Dört değer de eski boyu korur, yani hiçbir yerleşim kaymadı. */
 .bar img {
-  width: 134px;
+  width: 123px;
   margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
 /* Daralmış barda sarkma yok: hero'nun üstünde duracak yer kalmıyor. */
 .daralmis img {
-  width: 62px;
+  width: 57px;
   margin-bottom: 0;
 }
 
 /* Çekmecenin üst satırı barın mobil satırının ikizi. */
 .cekmece img {
-  width: 100px;
+  width: 92px;
   margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
 /* 82px'lik mobil barda spec'in 100px/-20px ölçüsü rozetin tepesini viewport'un
    üstünde bırakıyordu (ölçüldü: üst kenar 1px, şiş uçları kırpılıyordu).
-   84px/-12px 5px pay bırakır: 40px'lik okunurluk tabanının iki katı, sarkma duruyor. */
+   77px/-12px eski 84px'in boyunu (87px) korur, yani aynı 5px payı bırakır. */
 @media (max-width: 1040px) {
   .bar img,
   .daralmis img {
-    width: 84px;
+    width: 77px;
   }
 
   .cekmece img,
