@@ -78,8 +78,20 @@ document root `/var/www/vhosts/cigercibozo.com/httpdocs`. `trailingSlash: true` 
 `next.config.ts` is required for this: it makes `/menu` resolve to `menu/index.html` instead of
 a bare file the server cannot find.
 
-Production domain: `https://cigercibozo.com`, still a test publication. DNS is at Cloudflare,
-unproxied; apex and `www` both point at the arc IP. The certificate is Let's Encrypt.
+Production domain: `https://cigercibozo.com`, still a test publication. DNS is at Cloudflare and
+the apex is **proxied** (measured 20 August 2026: `server: cloudflare`, `cf-ray`,
+`cf-cache-status`). `www` and apex both resolve onto the arc IP. The certificate is Let's Encrypt.
+
+**What the proxy means for a deploy.** HTML is not cached (`cf-cache-status: DYNAMIC`), so pages
+go live the moment rsync finishes. Static assets are: `cache-control: max-age=14400`, four hours
+at the edge. Two consequences:
+
+- Changing an asset **in place** (same filename) can serve the old bytes for up to four hours.
+  Verify with `curl -sI ... | grep cf-cache-status` and compare byte sizes against `out/`; purge
+  from the Cloudflare dashboard if it matters.
+- Deleting an asset does not delete it from the edge. `sosyal-kart.png` kept answering `200`
+  after `rsync --delete` removed it; `?x=1` on the same URL returned `404` from the origin.
+  Harmless when nothing references the file any more, otherwise purge.
 
 ### Deploy
 
