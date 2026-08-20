@@ -22,8 +22,8 @@ type Kivilcim = {
  * okunmuyordu. 9000 aynı ekrana 37, 1440x900'e tavan olan 120 tane koyuyor.
  */
 // Palet: tangerine sıcak nokta, kor gövde.
-const SICAK = 'rgb(250, 170, 31)'
-const KOR = 'rgb(183, 53, 28)'
+const SICAK = 'rgb(209, 158, 102)'
+const KOR = 'rgb(173, 38, 36)'
 
 function adet(en: number, boy: number): number {
   return Math.round(Math.min(120, Math.max(30, (en * boy) / 9000)))

@@ -26,7 +26,7 @@
 
 .baslik {
   margin: 0;
-  font: 800 var(--ol-hero-menu)/0.9 var(--font-baslik);
+  font: 400 var(--ol-hero-menu)/0.9 var(--font-baslik);
   letter-spacing: var(--iz-hero-menu);
   color: var(--krem);
   text-shadow: var(--golge-baslik);

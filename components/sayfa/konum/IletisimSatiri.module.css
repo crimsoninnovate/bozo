@@ -10,7 +10,7 @@
 
 .satir svg {
   flex: none;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 /* Hover yalnız gerçek bağlantıda: hedefi olmayan satır tıklanabilir görünmez. */
@@ -21,8 +21,8 @@
 
 @media (hover: hover) {
   .baglanti:hover {
-    border-color: var(--tangerine-70);
-    background: var(--tangerine-07);
+    border-color: var(--bakir-70);
+    background: var(--bakir-07);
     color: var(--krem);
   }
 }
@@ -30,8 +30,8 @@
 /* Dokunmada basma: hover renkleri anında, bırakınca 0.15s'te söner. */
 .baglanti:active {
   transition-duration: 0s;
-  border-color: var(--tangerine-70);
-  background: var(--tangerine-07);
+  border-color: var(--bakir-70);
+  background: var(--bakir-07);
 }
 
 /* Konum:129 */

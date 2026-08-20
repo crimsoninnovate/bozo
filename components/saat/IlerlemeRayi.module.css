@@ -1,0 +1,49 @@
+.kap {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.ray {
+  position: relative;
+  height: 4px;
+  background: var(--krem-13);
+}
+
+.dolgu {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--kor), var(--bakir));
+}
+
+/* İmleç rayın dışına taşar: 12px boy, 4px'lik rayın 4px üstünden başlar. */
+.imlec {
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 12px;
+  margin-left: -1px;
+  background: var(--bakir-acik);
+}
+
+.etiketler {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-govde);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.uc {
+  color: var(--krem-60);
+}
+
+.orta {
+  color: var(--bakir-acik);
+}

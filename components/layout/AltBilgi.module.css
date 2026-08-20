@@ -108,7 +108,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 1;
-  color: var(--tangerine);
+  color: var(--bakir);
   transition: gap 0.18s ease-out;
 }
 
@@ -117,7 +117,7 @@
 @media (hover: hover) {
   .yolTarifi:hover {
     gap: 16px;
-    color: var(--tangerine);
+    color: var(--bakir);
   }
 }
 
@@ -134,7 +134,7 @@
 .yolTarifiCizgi {
   width: 22px;
   height: 1px;
-  background: var(--tangerine);
+  background: var(--bakir);
 }
 
 .satirTabular {
@@ -202,7 +202,7 @@
 
 @media (hover: hover) {
   a.iletisimSatiri:hover {
-    color: var(--tangerine);
+    color: var(--bakir);
   }
 }
 
@@ -231,12 +231,16 @@
    (eşik 4.5), krem-58'e çıkarıldı ve 4.81 oldu. 13 Ağustos 2026'da sahibi hala
    okunmadığını söyledi: eşiği kıl payı geçmek 12.5px'lik bir satır için yetmiyor,
    üstelik şeridin arkasındaki kor parıltısı sonradan güçlendi. */
+/* Üçüncü tur (20 Ağustos 2026, sahibi: "okunmuyor"). Kontrast ölçümü geçiyordu
+   (8.9:1) ama satır sayfanın en sönüğüydü: 12.5px VE .74, ikisi birden. Punto
+   13.5'e, opaklık .82'ye çıktı; hiyerarşi korunuyor, hâlâ footer'ın en sessiz
+   satırı. */
 .telifMetin {
   font-family: var(--font-govde);
   font-weight: 400;
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1;
-  color: var(--krem-74);
+  color: var(--krem-82);
 }
 
 /*

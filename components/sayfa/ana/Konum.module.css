@@ -25,7 +25,7 @@
 
 .baslik {
   margin: 0;
-  font: 700 var(--ol-bolum-baslik-orta)/1.14 var(--font-baslik);
+  font: 400 var(--ol-bolum-baslik-orta)/1.14 var(--font-baslik);
   letter-spacing: var(--iz-bolum);
   color: var(--krem);
 }

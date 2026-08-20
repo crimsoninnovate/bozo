@@ -42,7 +42,7 @@
 /* Kategori satırı: küçük, aralığı açık, bir kademe sönük. Kilidin tek yerinde iz açılır.
    Sol dolgu C'nin yuvarlağını B'nin sırtına optik hizalar. */
 .kategori {
-  font-weight: 600;
+  font-weight: 400;
   font-size: 11.5px;
   line-height: 1;
   letter-spacing: 0.2em;
@@ -51,7 +51,7 @@
 }
 
 .isim {
-  font-weight: 800;
+  font-weight: 400;
   font-size: 28px;
   line-height: 0.9;
   letter-spacing: -0.03em;

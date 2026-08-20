@@ -35,9 +35,9 @@
 
 .fiyat {
   margin: 0;
-  font: 600 16px/1.2 var(--font-baslik);
+  font: 400 16px/1.2 var(--font-baslik);
   font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 /* Telefon: Tam fiyat adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), bu satır
@@ -80,7 +80,7 @@
   }
 
   .fiyat {
-    font: 600 13px/1.3 var(--font-baslik);
+    font: 400 13px/1.3 var(--font-baslik);
     font-variant-numeric: tabular-nums;
     color: var(--krem-80);
   }

@@ -32,10 +32,10 @@
 .alinti {
   margin: 0;
   max-width: 980px;
-  font: 800 clamp(34px, 5vw, 72px)/1.1 var(--font-baslik);
+  font: 400 clamp(34px, 5vw, 72px)/1.1 var(--font-baslik);
   letter-spacing: -0.025em;
   color: var(--krem);
-  text-shadow: 0 10px 60px rgba(10, 8, 7, 0.7);
+  text-shadow: 0 10px 60px rgba(11, 15, 15, 0.7);
 }
 
 /* Satır yüksekliği 1.7, iddia paragrafının 1.65'i değil (Ana:277). */

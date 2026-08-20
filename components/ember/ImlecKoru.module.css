@@ -6,7 +6,7 @@
   height: 620px;
   margin: -310px 0 0 -310px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(250, 170, 31, 0.16), transparent 74%);
+  background: radial-gradient(closest-side, rgba(209, 158, 102, 0.16), transparent 74%);
   transition: transform 0.7s var(--gecis-egri);
   will-change: transform;
 }

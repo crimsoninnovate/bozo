@@ -14,7 +14,7 @@
  *   not tabular      yok (Ana:311)         var (Konum:117)
  *
  * Ortak kalan her şey: üç satırlık yapı, "Bugün" satırının --cizgi-kart alt
- * çizgisi ve --tangerine-07 zemini, haftalık satırın --cizgi-soluk çizgisi ve
+ * çizgisi ve --bakir-07 zemini, haftalık satırın --cizgi-soluk çizgisi ve
  * --krem-76 rengi, iki satırın 600/400 ağırlıkları ve 16px ölçüsü, notun alt
  * çizgisiz oluşu, gün adının canlı hesabı. Ayrışan dördü ortak olanın yanında
  * azınlıkta kaldığı için tablo ikiye bölünmedi (bkz. task-13-report.md).
@@ -37,7 +37,7 @@
 
 .bugun {
   border-bottom: 1px solid var(--cizgi-kart);
-  background: var(--tangerine-07);
+  background: var(--bakir-07);
 }
 
 .haftalik {
@@ -53,7 +53,7 @@
 
 .saatBugun {
   font-weight: 600;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 /* Alt çizgi YOK: tablonun kapanış satırı (Ana:311). */

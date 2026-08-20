@@ -19,7 +19,7 @@
   display: flex;
   flex-wrap: wrap;
   background: var(--panel-orta);
-  border: 1px solid var(--tangerine-28);
+  border: 1px solid var(--bakir-28);
 }
 
 .govde {
@@ -33,7 +33,7 @@
 
 .ad {
   margin: 0;
-  font: 700 var(--ol-ikram-ad)/1.1 var(--font-baslik);
+  font: 400 var(--ol-ikram-ad)/1.1 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
 }
@@ -64,7 +64,7 @@
 
 .grupBaslik {
   margin: 0;
-  font: 700 16px/1.1 var(--font-baslik);
+  font: 400 16px/1.1 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem-86);
 }

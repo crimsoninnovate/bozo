@@ -25,15 +25,21 @@
 /*
  * Hero'daki ayrık saat: krem rakamlar, ayrı ve yanıp sönen tangerine iki nokta.
  *
- * Ölçü 44px tavanından 130px'e çıktı (UYGULAMA-NOTLARI 2): saat markanın ana
- * fikri ama hero'da 28px'e düşüp meta satırı gibi okunuyordu. Alt uç 64px,
- * sağ kolon 1100px altında tek kolona indiğinde başlıkla yarışmasın diye.
- * Tek çağıranı ana sayfa hero'su.
+ * Ölçü iki kez değişti: 44 > 130px (UYGULAMA-NOTLARI 2, saat markanın ana fikri),
+ * sonra 130 > 74px (20 Ağustos 2026, sahibi: "puntoyu küçültmek gerek"). 130px
+ * Bricolage için ayarlanmıştı; Bevan aynı puntoda belirgin daha iri basıyor ve
+ * saat kartın içinde başlıkla yarışıyordu. Sonra 74 > 82px: 74px'te sahibi
+ * "çok küçülmüş" dedi. TAVAN KARTIN GENİŞLİĞİ: 74px'te saat 318px, kartın iç
+ * genişliği 320px idi, yani 2px pay. Kart 372 > 410px'e çıkarıldı ve başlık
+ * 86 > 80px'e indi (sol kolon tek satırı ancak taşıyordu). 5.7vw 1440'ta 82px.
+ *
+ * AĞIRLIK 400: Bevan'ın tek ağırlığı bu. 800 yazılınca tarayıcı sentetik kalın
+ * üretiyor ve slab formu kalınlaşıp bulanıyordu (ölçüldü 20 Ağustos 2026).
  */
 .dev {
   gap: 4px;
-  font-size: clamp(64px, 9vw, 130px);
-  font-weight: 800;
+  font-size: clamp(42px, 5.7vw, 82px);
+  font-weight: 400;
   line-height: 0.86;
   letter-spacing: -0.05em;
   color: var(--krem);
@@ -43,15 +49,15 @@
    yanında değil altında ve 64px'te yanındaki durum metnini iki satıra kırıyor. */
 @media (max-width: 1040px) {
   .dev {
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 34px;
+    font-weight: 400;
     line-height: 1;
     letter-spacing: -0.03em;
   }
 }
 
 .kolon {
-  color: var(--tangerine);
+  color: var(--bakir);
   animation: colonBlink 2s step-end infinite;
 }
 
@@ -65,7 +71,7 @@
 .kucuk {
   gap: 2px;
   font-size: clamp(24px, 2.6vw, 34px);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--krem);
 }
@@ -75,7 +81,7 @@
 .cekmece {
   gap: 3px;
   font-size: 40px;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: -0.03em;
   color: var(--krem);
 }
@@ -83,9 +89,9 @@
 /* gece bölümündeki düz saat: tek renk tangerine, nokta sabit (tasarımda ayrı span yok) */
 .orta {
   font-size: clamp(28px, 3.4vw, 44px);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global

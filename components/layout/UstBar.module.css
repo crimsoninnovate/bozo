@@ -56,31 +56,64 @@
   z-index: 60;
   display: flex;
   flex-direction: column;
-  background: var(--panel-yari);
+  background-color: var(--panel-bar);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--cizgi-hayalet);
+  /*
+   * Saç çizgisi ROZETİN OLDUĞU YERDE KESİLİR (sahibinin kararı, 20 Ağustos 2026).
+   * `border-bottom` olarak çizilince sarkan rozetin ortasından geçiyor ve onu
+   * kesiyormuş gibi duruyordu. Çizgi kaldırılmadı: barın nerede bittiğini
+   * söyleyen tek işaret o. Boşluk orta kolonun 276px'lik dokunulmaz alanı.
+   */
+  background-image: linear-gradient(
+    to right,
+    var(--cizgi-hayalet) 0 calc(50% - 138px),
+    transparent calc(50% - 138px) calc(50% + 138px),
+    var(--cizgi-hayalet) calc(50% + 138px) 100%
+  );
+  background-size: 100% 1px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+/* Daralınca sarkma yok, rozet çizginin üstünde kalıyor: çizgi kesintisiz. */
+.daralmis {
+  background-image: linear-gradient(to right, var(--cizgi-hayalet) 0 100%);
 }
 
 /*
- * ORTALANMIŞ ÜÇ KOLON (20 Ağustos 2026, rozet kararı). `1fr auto 1fr`: rozet
- * yan grupların genişliğinden bağımsız olarak SAYFAYA ortalanır; `space-between`
- * onu iki grubun ortasına koyardı ve CTA butonu sağı ağırlaştırdığı için kayardı.
- * Bar boyu rozetten türer: 80px + 12px üst/alt pay.
+ * ORTALANMIŞ ÜÇ KOLON (header-hero-v2/SPEC.md §4). Orta kolon 276px'lik
+ * DOKUNULMAZ alan: menü kalemleri buraya taşamaz. `1fr` yerine sabit orta kolon,
+ * çünkü rozet sayfaya ortalanmalı ve sağ grup CTA butonuyla sol gruptan ağır;
+ * `space-between` rozeti iki grubun ortasına koyup sayfa merkezinden kaydırırdı.
+ *
+ * YATAY DOLGU SPEC'TEN AYRILDI: spec 44px diyor, burada `--sayfa-yatay` kalıyor.
+ * Gerekçe kapsam: bu tur yalnız header ve hero'yu taşıyor, altındaki bölümler
+ * hâlâ 1180px'lik kolonda. 44px'e inseydik hero ile altındaki her bölüm arasında
+ * görünür bir hiza kayması olurdu.
  */
 .satir {
   padding: 0 var(--sayfa-yatay);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 276px 1fr;
   align-items: center;
   gap: 20px;
+  transition:
+    height var(--gecis-bar),
+    background var(--gecis-bar);
 }
 
-.anaVaryant .satir {
-  height: 84px;
-}
-
+.anaVaryant .satir,
 .icVaryant .satir {
-  height: 78px;
+  height: var(--bar-boy);
+}
+
+/* Daralmış hâl: eşik 120px, UstBar.tsx > useDaralmis. */
+.daralmis .satir {
+  height: var(--bar-boy-daralmis);
+}
+
+.daralmis {
+  background: var(--panel-daralmis);
 }
 
 .sol,
@@ -97,50 +130,33 @@
   justify-self: end;
 }
 
-/*
- * Sarkma buradan: `height:0` sarıcı satırın yüksekliğini büyütmez, rozet
- * kendi boyunda aşağı taşar. `align-self:start` onu satırın tepesine
- * yapıştırır, `padding-top` sarkmanın nereden başladığını verir.
- */
+/* Rozet orta kolonun ortasında; sarkmayı Rozet.module.css'teki negatif
+   alt boşluk yapıyor, satır yüksekliği ondan etkilenmiyor. */
 .markaOrta {
   display: flex;
   justify-content: center;
   justify-self: center;
-  align-self: start;
-  height: 0;
-  padding-top: 6px;
-  overflow: visible;
+  align-items: center;
 }
 
-/* Notun büyüttüğü nav ölçüsü yalnız ana varyantta (UYGULAMA-NOTLARI 2). */
-.anaVaryant .link,
-.anaVaryant .aktifLink {
-  font-size: 16px;
+.durumSarici {
+  display: inline-flex;
 }
 
 
 
-.anaVaryant .sol,
-.anaVaryant .sag {
+.sol,
+.sag {
   gap: 30px;
 }
 
-.icVaryant .sol,
-.icVaryant .sag {
-  gap: 28px;
+.navLinks {
+  gap: 26px;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
-}
-
-.anaVaryant .navLinks {
-  gap: 30px;
-}
-
-.icVaryant .navLinks {
-  gap: 28px;
 }
 
 /* min-height:44px + flex ortalama: metin satır içi konumunu değiştirmeden dokunma
@@ -155,17 +171,27 @@
   min-height: 44px;
   min-width: 44px;
   font-family: var(--font-govde);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   line-height: 1;
-  color: var(--krem-86);
+  color: var(--krem-84);
   text-decoration: none;
-  transition: color var(--gecis-hizli);
+  /* Şeffaf kenarlık yer tutar: hover'da 2px eklenirse metin yukarı zıplar. */
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--gecis-hizli),
+    border-color var(--gecis-hizli);
+}
+
+.daralmis .link,
+.daralmis .aktifLink {
+  font-size: 14.5px;
 }
 
 @media (hover: hover) {
   .link:hover {
-    color: var(--tangerine);
+    color: var(--krem);
+    border-bottom-color: var(--bakir);
   }
 }
 
@@ -183,9 +209,8 @@
   font-weight: 600;
   font-size: 15px;
   line-height: 1;
-  color: var(--tangerine);
-  padding-bottom: 2px;
-  border-bottom: 2px solid var(--tangerine);
+  color: var(--krem);
+  border-bottom: 2px solid var(--bakir);
 }
 
 .ctaSarici {
@@ -215,22 +240,27 @@
 @media (max-width: 1040px) {
   .anaVaryant,
   .icVaryant {
-    background: linear-gradient(to bottom, rgba(10, 8, 7, 0.94), var(--panel-60));
+    background-color: var(--panel-bar);
+    /* Mobilde rozet solda: boşluk da solda, 18px dolgu + 100px rozet. */
+    background-image: linear-gradient(
+      to right,
+      transparent 0 122px,
+      var(--cizgi-sac) 122px 100%
+    );
+    background-size: 100% 1px;
+    background-position: bottom;
+    background-repeat: no-repeat;
     backdrop-filter: blur(10px);
-    /* Mobilde saç çizgisi `.satir`da; masaüstünün bar üstündeki çizgisi
-       kalırsa iki çizgi üst üste biner. */
-    border-bottom: none;
   }
 
-  /* Mobil:55 barın altına saç çizgisi veriyor. */
+  /* SPEC.md §4 mobil header: 82px. Eskiden 58px'ti; 100px'lik rozet o satıra
+     sığmıyordu. Cekmece'nin üst satırı bu ölçünün ikizi, birlikte taşındı. */
   .anaVaryant .satir,
   .icVaryant .satir {
-    height: 58px;
     padding: 0 18px;
     display: flex;
     justify-content: flex-end;
     gap: 14px;
-    border-bottom: 1px solid var(--cizgi-sac);
   }
 
   /* Mobilde marka yine solda, dil ve hamburger sağda: bugünkü düzenin aynısı. */
@@ -261,10 +291,8 @@
 
   /* Varyant seçicileriyle aynı özgüllük: `.anaVaryant .sagGrup{gap:30px}` düz
      `.sagGrup` kuralını yeniyordu, 390px'te 30/28px ölçüldü. Mobil:56 14px. */
-  .anaVaryant .sol,
-  .icVaryant .sol,
-  .anaVaryant .sag,
-  .icVaryant .sag {
+  .sol,
+  .sag {
     gap: 14px;
   }
 

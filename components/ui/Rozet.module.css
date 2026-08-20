@@ -1,8 +1,8 @@
 /*
- * SARKAN ROZET (sahibinin kararı, 20 Ağustos 2026: "logo büyük, biraz aşağı
- * sarkabilir"). Bar satırı ince kalır, rozet satırın altına taşar: asma tabela
- * kurgusu. Sarıcı `height:0` olduğu için satır yüksekliğini BÜYÜTMEZ, yoksa
- * 84px'lik bar rozetin boyuna çıkardı.
+ * SARKAN ROZET (SPEC.md §4). Sarkma negatif alt boşlukla yapılıyor: satırın
+ * yüksekliğini büyütmez, rozet barın sınırının altına taşar. `position:absolute`
+ * denenmedi çünkü orta kolonun genişliğini kaybettirir ve `1fr 276px 1fr`
+ * dengesi çöker.
  *
  * Ölçü tabanı vektörle düştü: raster 76px altında "Ciğerci"yi kaybediyordu,
  * vektör 40px'te bile okunuyor. Bardaki boy artık okunurluk değil duruş kararı.
@@ -23,25 +23,35 @@
 
 .rozet img {
   display: block;
-  width: auto;
+  height: auto;
   /* Sarkan kısım hero'nun üstüne düşüyor; zeminden ayrılsın. */
-  filter: drop-shadow(0 10px 30px rgba(10, 8, 7, 0.75));
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.62));
+  transition:
+    width var(--gecis-bar),
+    margin-bottom var(--gecis-bar);
 }
 
+/* Spec ölçüyü GENİŞLİKTEN veriyor; en/boy 0.9409, yani 134px genişlik 142px boy. */
 .bar img {
-  height: 148px;
+  width: 134px;
+  margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
-.ic img {
-  height: 132px;
+/* Daralmış barda sarkma yok: hero'nun üstünde duracak yer kalmıyor. */
+.daralmis img {
+  width: 62px;
+  margin-bottom: 0;
 }
 
-/* Telefonda bar 58px ve sarkma yeri yok: rozet satırın içinde kalır.
-   Vektör bu boyda hâlâ "Ciğerci Bozo"yu ve "Girne"yi okutuyor. */
+/* Çekmecenin üst satırı barın mobil satırının ikizi. */
+.cekmece img {
+  width: 100px;
+  margin-bottom: calc(-1 * var(--rozet-sarkma));
+}
+
 @media (max-width: 1040px) {
   .bar img,
-  .ic img {
-    height: 44px;
-    filter: none;
+  .daralmis img {
+    width: 100px;
   }
 }

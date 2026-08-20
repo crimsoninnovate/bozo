@@ -254,7 +254,7 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
       {ustBarVaryanti(aktif).anaVaryantMi && <div className={stil.rayPayi} aria-hidden="true" />}
       {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
       <div className={stil.ust}>
-        <Rozet dil={dil} />
+        <Rozet dil={dil} boy="cekmece" />
         <div className={stil.sagGrup}>
           <DilAnahtari dil={dil} aktif={aktif} />
           <button type="button" className={stil.kapat} onClick={kapat} aria-label={s.ortak.erisim.menuyuKapat}>

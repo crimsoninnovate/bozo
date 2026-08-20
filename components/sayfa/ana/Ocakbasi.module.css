@@ -24,7 +24,7 @@
 
 .baslik {
   margin: 0;
-  font: 800 clamp(38px, 4.4vw, 64px)/1.05 var(--font-baslik);
+  font: 400 clamp(38px, 4.4vw, 64px)/1.05 var(--font-baslik);
   letter-spacing: -0.03em;
   color: var(--krem);
 }
@@ -46,8 +46,8 @@
 .fiyatBloku {
   margin-top: 34px;
   padding: 26px 30px;
-  border: 1px solid rgba(250, 170, 31, 0.26);
-  background: rgba(250, 170, 31, 0.05);
+  border: 1px solid rgba(209, 158, 102, 0.26);
+  background: rgba(209, 158, 102, 0.05);
 }
 
 .fiyatBaslik {

@@ -89,7 +89,7 @@
    nar ekşisi taşır, Nar da markada tam o bağlantının rengi. Menu:208, 220
    Zamanlama ilk örneğin (lebeni); bostana 12s/1.5s'i korNefesi ile geçer. */
 .ikram .kor {
-  background: radial-gradient(closest-side, var(--nar), transparent);
+  background: radial-gradient(closest-side, var(--ikram-leke), transparent);
   animation: emberSoft 11s ease-in-out infinite;
 }
 .icecek .kor {
@@ -108,25 +108,25 @@
 
 /* ---- köşe işaretleri ----------------------------------------------------- */
 
-.kose { position: absolute; width: 24px; height: 24px; border: 0 solid var(--tangerine-60); }
+.kose { position: absolute; width: 24px; height: 24px; border: 0 solid var(--bakir-60); }
 .solUst { top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px; }
 .sagAlt { bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px; }
 .sagUst { top: 18px; right: 18px; border-top-width: 1px; border-right-width: 1px; }
 .solAlt { bottom: 18px; left: 18px; border-bottom-width: 1px; border-left-width: 1px; }
 
-.genis .kose { width: 20px; height: 20px; border-color: var(--tangerine-55); }
+.genis .kose { width: 20px; height: 20px; border-color: var(--bakir-55); }
 .genis .solUst, .genis .sagUst { top: 16px; }
 .genis .sagAlt, .genis .solAlt { bottom: 16px; }
 .genis .solUst, .genis .solAlt { left: 16px; }
 .genis .sagUst, .genis .sagAlt { right: 16px; }
 
-.spread .kose { width: 26px; height: 26px; border-color: var(--tangerine-55); }
+.spread .kose { width: 26px; height: 26px; border-color: var(--bakir-55); }
 .spread .solUst, .spread .sagUst { top: 20px; }
 .spread .sagAlt, .spread .solAlt { bottom: 20px; }
 .spread .solUst, .spread .solAlt { left: 20px; }
 .spread .sagUst, .spread .sagAlt { right: 20px; }
 
-.kart .kose { width: 20px; height: 20px; border-color: var(--tangerine-50); }
+.kart .kose { width: 20px; height: 20px; border-color: var(--bakir-50); }
 .kart .solUst { top: 16px; left: 16px; }
 
 /* ---- kadraj etiketi ------------------------------------------------------

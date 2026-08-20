@@ -6,7 +6,7 @@
 .ray {
   position: relative;
   height: 3px;
-  background: rgba(242, 233, 220, 0.13);
+  background: rgba(249, 233, 213, 0.13);
   /* Etiketin mobil kelepçesi rayın genişliğini cqi ile okur. */
   container-type: inline-size;
 }
@@ -15,7 +15,7 @@
 .dolgu {
   position: absolute;
   inset: 0 auto 0 0;
-  background: linear-gradient(90deg, var(--kor), var(--tangerine));
+  background: linear-gradient(90deg, var(--kor), var(--bakir));
 }
 
 /*
@@ -40,7 +40,7 @@
   white-space: nowrap;
   font: 600 16px/1 var(--font-govde);
   font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 .imlec {
@@ -49,7 +49,7 @@
   height: 100%;
   border-radius: 2px;
   background: var(--kor);
-  box-shadow: 0 0 22px 6px rgba(183, 53, 28, 0.55);
+  box-shadow: 0 0 22px 6px rgba(173, 38, 36, 0.55);
 }
 
 /* Her etiket kendi yüzdesinde (JS `left`), imleçle aynı ölçek. İlk etiket rayın
@@ -93,7 +93,7 @@
 .notSon {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 @media (max-width: 1040px) {

@@ -9,7 +9,7 @@
 .kap {
   display: flex;
   align-items: center;
-  border: 1px solid var(--tangerine-30);
+  border: 1px solid var(--bakir-30);
 }
 
 .dev {
@@ -21,7 +21,7 @@
 .kucuk {
   gap: 10px;
   padding: 9px 15px;
-  background: rgba(10, 8, 7, 0.62);
+  background: rgba(11, 15, 15, 0.62);
 }
 
 .nokta {
@@ -39,20 +39,20 @@
 }
 
 .acikNokta {
-  background: var(--tangerine);
+  background: var(--bakir);
   animation: dotPulse 2.4s ease-in-out infinite;
 }
 
 .dev .acikNokta {
-  box-shadow: 0 0 14px rgba(250, 170, 31, 0.9);
+  box-shadow: 0 0 14px rgba(209, 158, 102, 0.9);
 }
 
 .kucuk .acikNokta {
-  box-shadow: 0 0 12px rgba(250, 170, 31, 0.9);
+  box-shadow: 0 0 12px rgba(209, 158, 102, 0.9);
 }
 
 .kapaliNokta {
-  background: rgba(242, 233, 220, 0.35);
+  background: rgba(249, 233, 213, 0.35);
 }
 
 .acikMetin,
@@ -73,7 +73,7 @@
 }
 
 .acikMetin {
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 .kapaliMetin {

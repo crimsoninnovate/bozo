@@ -9,7 +9,7 @@
   gap: 28px;
   align-items: baseline;
   padding: 28px 0;
-  border-bottom: 1px solid rgba(242, 233, 220, 0.07);
+  border-bottom: 1px solid rgba(249, 233, 213, 0.07);
   transition: background var(--gecis-hizli);
 }
 
@@ -18,7 +18,7 @@
    Yalnız imleçli aygıtta: dokunmada :hover dokunuştan sonra da yapışıyordu. */
 @media (hover: hover) {
   .satir:hover {
-    background: rgba(250, 170, 31, 0.05);
+    background: rgba(209, 158, 102, 0.05);
   }
 }
 
@@ -28,12 +28,12 @@
   font-size: 15px;
   line-height: 1.4;
   font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 .ad {
   font-family: var(--font-baslik);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 34px;
   line-height: 1.1;
   letter-spacing: -0.02em;

@@ -21,7 +21,7 @@
 /* Konum:107, 125. Alt çizgi yok, o yüzden BolumBasligi değil düz h2. */
 .baslik {
   margin: 0;
-  font: 700 var(--ol-kart-baslik)/1.14 var(--font-baslik);
+  font: 400 var(--ol-kart-baslik)/1.14 var(--font-baslik);
   letter-spacing: var(--iz-bolum);
   color: var(--krem);
 }

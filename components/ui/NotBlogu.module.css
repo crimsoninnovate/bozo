@@ -2,7 +2,7 @@
 .not {
   margin: 0;
   padding-left: 16px;
-  border-left: 2px solid var(--tangerine-50);
+  border-left: 2px solid var(--bakir-50);
   font: 400 14.5px/1.65 var(--font-govde);
   color: var(--krem-58);
 }

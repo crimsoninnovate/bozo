@@ -12,6 +12,6 @@
   width: 100%;
   transform: scaleX(0);
   transform-origin: left;
-  background: linear-gradient(to right, var(--kor), var(--tangerine));
+  background: linear-gradient(to right, var(--kor), var(--bakir));
   transition: transform 0.12s linear;
 }

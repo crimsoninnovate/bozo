@@ -3,9 +3,14 @@ export const ana = {
   hero: {
     /* The badge's three words. Both halves are existing site terminology. */
     uberSatir: 'Urfa Style · From the Fire · Kyrenia',
-    baslikSatir1: 'Dice-sized',
-    baslikSatir2: 'liver',
-    altBaslik: 'over oak embers',
+    /* v2: the heading is two lines now, the second one in copper. */
+    baslikSatir1: 'Dice-sized liver',
+    baslikSatir2: 'over oak embers',
+    govde:
+      'Four of liver, two of tail fat. Bozo threads every skewer himself, cuts each ' +
+      'piece to the size of a backgammon die, and the fire is refreshed every fifteen minutes.',
+    taneOlcusuEtiketi: 'Bead measure: four of liver, two of tail fat',
+    servisEtiketi: '{yuzde}% served',
     scrollIpucu: 'The proof is in the cut',
     saatEtiketi: 'Kyrenia · right now',
     ocakSoner: 'The fire goes out at 05:00.',

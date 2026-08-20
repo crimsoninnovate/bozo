@@ -3,9 +3,16 @@ export const ana = {
   hero: {
     /* Rozetin üstündeki üç söz, logodan birebir (20 Ağustos 2026). */
     uberSatir: 'Urfa Usulü · Ocak ve Sofra · Girne',
-    baslikSatir1: 'Tavla zarı',
-    baslikSatir2: 'ciğer',
-    altBaslik: 'meşe korunda',
+    /* v2: başlık üç satırdan ikiye indi, ikinci satır bakır tonda.
+       Kaynak: header-hero-v2/SPEC.md §5. */
+    baslikSatir1: 'Tavla zarı ciğer',
+    baslikSatir2: 'meşe korunda',
+    /* Sahibinin v2 tasarımıyla gelen metni. Tek olgusal iddia "on beşte bir". */
+    govde:
+      'Dört ciğer, iki kuyruk yağı. Şişi Bozo kendi diziyor, taneyi tavla zarı ' +
+      'büyüklüğünde kesiyor, ocak on beşte bir tazeleniyor.',
+    taneOlcusuEtiketi: 'Tane ölçüsü: dört ciğer, iki kuyruk yağı',
+    servisEtiketi: 'servis %{yuzde}',
     scrollIpucu: 'İddianın kanıtı tanede',
     /* Sağ kolonun saat bloğu. UYGULAMA-NOTLARI 2, em dash ve şapkalı harf
        kurallara göre düzeltilerek alındı. */

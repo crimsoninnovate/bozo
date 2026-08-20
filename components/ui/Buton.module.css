@@ -79,8 +79,8 @@
   }
 
   .ikincil:hover {
-    border-color: var(--tangerine-85);
-    background: var(--tangerine-10);
+    border-color: var(--bakir-85);
+    background: var(--bakir-10);
     color: var(--krem);
   }
 
@@ -97,7 +97,7 @@
    Hover'ın renkleri, kaldırma yok; basış anında, bırakış 0.15s'te. */
 .taban:active { transition-duration: 0s; }
 .birincil:active { background: var(--kor-hover); box-shadow: var(--kor-golge-kucuk); }
-.ikincil:active { border-color: var(--tangerine-85); background: var(--tangerine-10); }
+.ikincil:active { border-color: var(--bakir-85); background: var(--bakir-10); }
 .koyu:active { box-shadow: var(--komur-golge); }
 .koyuOutline:active { background: var(--komur-10); }
 

@@ -1,169 +1,180 @@
 :root {
   /* zemin */
-  --zemin: #0A0807;
-  --komur: #1A1614;
+  --zemin: #0B0F0F;
+  --komur: #131817;
   /* Menü sayfasının çekim listesi ve ürün plakalarının zemini, --zemin'den ayrı.
      Marka kitabının sekiz renkli listesinde yok; tasarımdan (Menu Sayfasi.dc.html,
      15 kullanım, yalnız o sayfada) doğrulandı. */
-  --plaka-zemin: #0C0A09;
+  --plaka-zemin: #0F1413;
   /* Yalnız Gece bölümünün zemini, sayfadan bir kademe koyu. Marka kitabında yok;
      kanonik kaynak onu token olarak adlandırıyor (UYGULAMA-NOTLARI.md:12). */
-  --gece: #060504;
+  --gece: #070A0A;
   /* Mobil çekmecenin zemini (Mobil:195 .96; prototipin 8,6,5'i palet dışı, --zemin'in rgb'si). */
-  --panel-96: rgba(10, 8, 7, 0.96);
-  --panel-koyu: rgba(10, 8, 7, 0.9);
+  --panel-96: rgba(11, 15, 15, 0.96);
+  --panel-koyu: rgba(11, 15, 15, 0.9);
   /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
-  --panel-86: rgba(10, 8, 7, 0.86);
-  --panel-orta: rgba(10, 8, 7, 0.74);
-  --panel-acik: rgba(10, 8, 7, 0.72);
+  --panel-86: rgba(11, 15, 15, 0.86);
+  --panel-orta: rgba(11, 15, 15, 0.74);
+  --panel-acik: rgba(11, 15, 15, 0.72);
   /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */
-  --panel-yari: rgba(10, 8, 7, 0.55);
+  --panel-yari: rgba(11, 15, 15, 0.55);
+  /* Üst barın iki hâli (SPEC.md §4): normal .9, daralmış .94. */
+  --panel-bar: rgba(11, 15, 15, 0.9);
+  --panel-daralmis: rgba(11, 15, 15, 0.94);
   /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
-  --panel-poi: rgba(10, 8, 7, 0.85);
+  --panel-poi: rgba(11, 15, 15, 0.85);
   /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
-  --panel-buton: rgba(10, 8, 7, 0.4);
+  --panel-buton: rgba(11, 15, 15, 0.4);
   /* Üç rolün paylaştığı yarı saydam zemin, o yüzden rol değil alfa adı taşıyor:
      durum çipi (Ana:89, Mobil:73, 263), Konum'un harita levhası (Konum:89) ve
      mobil üst barın gradyan ucu (Mobil:50, 240). Ana Sayfa'nın harita levhası
      bu değeri DEĞİL --panel-yari'yi (.55, Ana:323) kullanıyor. */
-  --panel-60: rgba(10, 8, 7, 0.6);
+  --panel-60: rgba(11, 15, 15, 0.6);
   /* menü imza panelinin zemini. Tek kullanım: Menu:104 */
-  --panel-imza: rgba(10, 8, 7, 0.78);
+  --panel-imza: rgba(11, 15, 15, 0.78);
 
-  /* metin: krem #F2E9DC, kömür üstünde 14.94:1 */
-  --krem: #F2E9DC;
-  --krem-86: rgba(242, 233, 220, 0.86);
-  --krem-78: rgba(242, 233, 220, 0.78);
-  --krem-74: rgba(242, 233, 220, 0.74);
-  --krem-70: rgba(242, 233, 220, 0.7);
-  --krem-66: rgba(242, 233, 220, 0.66);
-  --krem-62: rgba(242, 233, 220, 0.62);
-  --krem-58: rgba(242, 233, 220, 0.58);
-  --krem-50: rgba(242, 233, 220, 0.5);
+  /* metin: krem #F9E9D5, kömür üstünde 14.94:1 */
+  --krem: #F9E9D5;
+  --krem-86: rgba(249, 233, 213, 0.86);
+  --krem-78: rgba(249, 233, 213, 0.78);
+  --krem-74: rgba(249, 233, 213, 0.74);
+  --krem-70: rgba(249, 233, 213, 0.7);
+  --krem-66: rgba(249, 233, 213, 0.66);
+  --krem-62: rgba(249, 233, 213, 0.62);
+  --krem-58: rgba(249, 233, 213, 0.58);
+  --krem-50: rgba(249, 233, 213, 0.5);
+  /* SPEC.md §2 opaklık merdiveninin ayraç kademesi. Dekoratif glifler için. */
+  --krem-32: rgba(249, 233, 213, 0.32);
   /* Beş tasarım dosyasının tam taraması 40 farklı krem alfa değeri buldu, sekiz değil;
      üstteki sekizli README özetiydi. Buradakiler o taramada görülüp henüz token'ı
      olmayan, .5 üstü metin değerleri. .5 altı yapısal (grid/hairline/border) olanlar
      bu merdivene değil --cizgi* ailesine ait. */
-  --krem-82: rgba(242, 233, 220, 0.82);
-  --krem-80: rgba(242, 233, 220, 0.8);
-  --krem-76: rgba(242, 233, 220, 0.76);
-  --krem-75: rgba(242, 233, 220, 0.75);
-  --krem-72: rgba(242, 233, 220, 0.72);
-  --krem-68: rgba(242, 233, 220, 0.68);
-  --krem-64: rgba(242, 233, 220, 0.64);
-  --krem-60: rgba(242, 233, 220, 0.6);
-  --krem-55: rgba(242, 233, 220, 0.55);
+  --krem-82: rgba(249, 233, 213, 0.82);
+  --krem-80: rgba(249, 233, 213, 0.8);
+  --krem-76: rgba(249, 233, 213, 0.76);
+  --krem-75: rgba(249, 233, 213, 0.75);
+  --krem-72: rgba(249, 233, 213, 0.72);
+  --krem-68: rgba(249, 233, 213, 0.68);
+  --krem-64: rgba(249, 233, 213, 0.64);
+  --krem-60: rgba(249, 233, 213, 0.6);
+  --krem-55: rgba(249, 233, 213, 0.55);
+  /* SPEC.md §2 merdiveninin eyebrow kademesi. */
+  --krem-56: rgba(249, 233, 213, 0.56);
 
   /* çizgi ve kenarlık: .5 altı yapısal krem alfaları bu ailede toplanır */
-  --cizgi-buton: rgba(242, 233, 220, 0.36);
+  --cizgi-buton: rgba(249, 233, 213, 0.36);
   /* gece bölümünde canlı saatin yanındaki yatay kural, clamp(30px,5vw,70px) x 1px.
      Tek kullanım: Ana:249 */
-  --cizgi-saat: rgba(242, 233, 220, 0.34);
+  --cizgi-saat: rgba(249, 233, 213, 0.34);
   /* Metnin yanına konan 1px'lik kısa çizgi. 7 kullanım, beş dosyanın dördü:
      kaydırma ipucu (Ana:122), gece vardiya şeridi (Ana:262), mobil ayraçlar
      (Mobil:155, 345) ve üç dosyanın duman tüyü gradyanı (Hikaye/Konum/Menu:31).
      Ad çizgi rolünü taşır; duman Ana Sayfa'nın kendi .32 değerinde kaldığı için
      (KorSahnesi.module.css:74) bu token kodda yalnız çizgi olarak kullanılır. */
-  --cizgi-tire: rgba(242, 233, 220, 0.3);
+  --cizgi-tire: rgba(249, 233, 213, 0.3);
   /* QR glifinin 34x34 çerçevesi. Tek kullanım: Menu:254. Glifin dolu hücreleri
      --krem-70 ile basılır (Menu:255-257). */
-  --cizgi-qr: rgba(242, 233, 220, 0.25);
+  --cizgi-qr: rgba(249, 233, 213, 0.25);
   /* hero meta satırının dikey ayırıcısı, 1x14px. Tek kullanım: Ana:116 */
-  --cizgi-meta: rgba(242, 233, 220, 0.24);
-  --cizgi-guclu: rgba(242, 233, 220, 0.22);
-  --cizgi-plaka: rgba(242, 233, 220, 0.2);
-  --cizgi-bolum: rgba(242, 233, 220, 0.16);
-  --cizgi: rgba(242, 233, 220, 0.14);
+  --cizgi-meta: rgba(249, 233, 213, 0.24);
+  --cizgi-guclu: rgba(249, 233, 213, 0.22);
+  --cizgi-plaka: rgba(249, 233, 213, 0.2);
+  --cizgi-bolum: rgba(249, 233, 213, 0.16);
+  --cizgi: rgba(249, 233, 213, 0.14);
+  /* İlerleme rayının boş kısmı (SPEC.md §5). */
+  --krem-13: rgba(249, 233, 213, 0.13);
   /* Kart ve liste satırı kenarlığı. 25 kullanım, dört dosya: menü ürün kartları
      ve içecek kutuları (Menu:125-265), çekmece satırları (Mobil:176, 201-204),
      konum satırı (Konum:109). İddia sayaç ızgarasında aynı değer 1px'lik gap'in
      altındaki zemin olarak, yani yine hairline olarak kullanılır (Ana:133). */
-  --cizgi-kart: rgba(242, 233, 220, 0.12);
-  --cizgi-soluk: rgba(242, 233, 220, 0.1);
+  --cizgi-kart: rgba(249, 233, 213, 0.12);
+  --cizgi-soluk: rgba(249, 233, 213, 0.1);
   /* Mobil barın alt saç çizgisi (Mobil:55), telif şeridi ve çekmecenin üst satırı. */
-  --cizgi-sac: rgba(242, 233, 220, 0.09);
-  --cizgi-hayalet: rgba(242, 233, 220, 0.08);
+  --cizgi-sac: rgba(249, 233, 213, 0.09);
+  --cizgi-hayalet: rgba(249, 233, 213, 0.08);
   /* çip dolgusu: ölçü ve spec çipleri (Menu:112-114, Hikaye:107-109) */
-  --krem-dolgu: rgba(242, 233, 220, 0.06);
+  --krem-dolgu: rgba(249, 233, 213, 0.06);
   /* Ana Sayfa harita levhasının dikey yolu, 9px genişliğinde blok (Ana:326).
      Değer --krem-dolgu ile aynı ama rol farklı (çip dolgusu değil, harita
      çizimi); --kor-leke-hover / --kor-kenar ayrımıyla aynı gerekçe. */
-  --cizgi-harita-yol: rgba(242, 233, 220, 0.06);
+  --cizgi-harita-yol: rgba(249, 233, 213, 0.06);
   /* Harita ızgarası ve ince yolları. 5 kullanım, üç dosya: Ana:324 (adım 50px),
      Konum:90 (adım 52px), Konum:92 (dikey yol 9px), Mobil:170, 360 (adım 40px). */
-  --cizgi-harita: rgba(242, 233, 220, 0.05);
+  --cizgi-harita: rgba(249, 233, 213, 0.05);
   /* Konum haritasının ikinci dikey yolu, 7px. Tek kullanım: Konum:93 */
-  --cizgi-harita-ince: rgba(242, 233, 220, 0.045);
+  --cizgi-harita-ince: rgba(249, 233, 213, 0.045);
 
-  /* eylem: kor kömür üstünde 3.03:1, gövde metni olarak KULLANILMAZ */
-  --kor: #B7351C;
-  --kor-hover: #C93E22;
-  --kor-golge: 0 12px 34px rgba(183, 53, 28, 0.4);
-  --kor-golge-kucuk: 0 8px 26px rgba(183, 53, 28, 0.34);
-  --kor-golge-hover: 0 16px 46px rgba(183, 53, 28, 0.6), 0 0 0 1px rgba(250, 170, 31, 0.6);
+  /* Eylem rengi (spec: ciğer bordosu). Ölçüldü 20 Ağustos 2026: zemin üstünde 2.83:1,
+     kömür üstünde 2.63:1. GÖVDE METNİ OLARAK KULLANILMAZ, ve artık 3:1'in de altında
+     olduğu için tek başına grafik öğe (ikon, ince kenarlık) olarak da taşımaz.
+     Buton olarak geçerli: üstündeki krem metin 5.73:1, hover'da 7.53:1. */
+  --kor: #AD2624;
+  --kor-hover: #8E1D1C;
+  --kor-golge: 0 12px 34px rgba(173, 38, 36, 0.4);
+  --kor-golge-kucuk: 0 8px 26px rgba(173, 38, 36, 0.34);
+  --kor-golge-hover: 0 16px 46px rgba(173, 38, 36, 0.6), 0 0 0 1px rgba(209, 158, 102, 0.6);
 
   /* plaka kor lekeleri: menü sayfasının yuvalarında kadraj arkasındaki parıltı */
-  --kor-leke-guclu: rgba(183, 53, 28, 0.5);
-  --kor-leke: rgba(183, 53, 28, 0.36);
-  --kor-leke-solgun: rgba(183, 53, 28, 0.34);
-  --kor-leke-karo: rgba(183, 53, 28, 0.3);
-  --kor-leke-hover: rgba(183, 53, 28, 0.4);
+  --kor-leke-guclu: rgba(173, 38, 36, 0.5);
+  --kor-leke: rgba(173, 38, 36, 0.36);
+  --kor-leke-solgun: rgba(173, 38, 36, 0.34);
+  --kor-leke-karo: rgba(173, 38, 36, 0.3);
+  --kor-leke-hover: rgba(173, 38, 36, 0.4);
 
   /* kor kenarlıkları: üstteki leke ailesinden ayrı, çünkü rol kenarlık.
      --kor-kenar, --kor-leke-hover ile aynı değeri taşır ve --kor-golge'nin
      alfasıyla da eşittir; üçü ayrı rol olduğu için ayrı adları var. */
-  --kor-kenar-hover: rgba(183, 53, 28, 0.65); /* menü ürün kartı hover (Menu:125, 143, 161, 179) */
-  --kor-kenar: rgba(183, 53, 28, 0.4); /* menü imza paneli (Menu:104) */
+  --kor-kenar-hover: rgba(173, 38, 36, 0.65); /* menü ürün kartı hover (Menu:125, 143, 161, 179) */
+  --kor-kenar: rgba(173, 38, 36, 0.4); /* menü imza paneli (Menu:104) */
 
   /* harita levhasının halkası ve pini. İki levha aynı değerleri paylaşmıyor:
      Ana Sayfa'nın halkası 80px/.5 (Ana:327), Konum'unki 110px/.45 (Konum:95).
      Pin renkleri ise iki levhada aynı, yalnız yayılma yarıçapı ayrışıyor
      (Ana:328 6px/30px, Konum:96 7px/32px, Mobil:173, 363 5px/24px). */
-  --kor-halka: rgba(183, 53, 28, 0.5);
-  --kor-halka-konum: rgba(183, 53, 28, 0.45);
-  --kor-pin-halka: rgba(183, 53, 28, 0.22);
-  --kor-pin-parilti: rgba(183, 53, 28, 0.85);
-  /* Nar #7A1F2B, markanın yedinci rengi.
-     Kaynak: Cigerci-Bozo-Claude-Design-Brief.md:100
-       | Nar | #7A1F2B | Sınırlı aksan: bostana ve nar ekşisi bağlantısı | Meşe ile birlikte |
-     KAPSAM: sınırlı aksan. Yalnız bostana ve nar ekşisi bağlantısının olduğu yerde
-     kullanılır; tasarımda tek kullanım alanı ikram yuvalarının koru (Menu:208, 220)
-     ve ikramların biri bostanadır. Siteye yayılmaz, kor (#B7351C) yerine geçmez. */
-  --nar: rgba(122, 31, 43, 0.5);
+  --kor-halka: rgba(173, 38, 36, 0.5);
+  --kor-halka-konum: rgba(173, 38, 36, 0.45);
+  --kor-pin-halka: rgba(173, 38, 36, 0.22);
+  --kor-pin-parilti: rgba(173, 38, 36, 0.85);
+  /* İkram yuvalarının koru (FotoYuvasi, tek tüketici). Eskiden nar #7A1F2B idi;
+     markanın yedinci rengiydi ama yeni palet logonun dışına çıkmıyor, o yüzden
+     bordo koyuya taşındı. Rolü değişmedi: ikramı ana kordan ayırmak. */
+  --ikram-leke: rgba(142, 29, 28, 0.5);
 
-  /* vurgu: tangerine kömür üstünde 9.27:1 */
-  --tangerine: #FAAA1F;
-  --tangerine-85: rgba(250, 170, 31, 0.85);
-  --tangerine-80: rgba(250, 170, 31, 0.8);
+  /* Vurgu rengi (spec: bakır altın). Turuncu #FAAA1F 20 Ağustos 2026'da kaldırıldı:
+     logoda saf turuncu yok. Ölçüldü: zemin üstünde 8.07:1, kömür üstünde 7.51:1. */
+  --bakir: #D19E66;
+  --bakir-85: rgba(209, 158, 102, 0.85);
+  --bakir-80: rgba(209, 158, 102, 0.8);
   /* iletişim satırının hover kenarlığı. 3 kullanım: Konum:127, 134, 141 */
-  --tangerine-70: rgba(250, 170, 31, 0.7);
-  --tangerine-60: rgba(250, 170, 31, 0.6);
-  --tangerine-55: rgba(250, 170, 31, 0.55);
-  --tangerine-50: rgba(250, 170, 31, 0.5);
-  --tangerine-45: rgba(250, 170, 31, 0.45);
+  --bakir-70: rgba(209, 158, 102, 0.7);
+  --bakir-60: rgba(209, 158, 102, 0.6);
+  --bakir-55: rgba(209, 158, 102, 0.55);
+  --bakir-50: rgba(209, 158, 102, 0.5);
+  --bakir-45: rgba(209, 158, 102, 0.45);
   /* harita pin etiketinin kenarlığı (Konum:97); aynı değer mobil kor
      çekirdeğinin gradyanında da geçiyor (Mobil:33). */
-  --tangerine-40: rgba(250, 170, 31, 0.4);
-  --tangerine-32: rgba(250, 170, 31, 0.32);
-  --tangerine-30: rgba(250, 170, 31, 0.3);
+  --bakir-40: rgba(209, 158, 102, 0.4);
+  --bakir-32: rgba(209, 158, 102, 0.32);
+  --bakir-30: rgba(209, 158, 102, 0.3);
   /* ikram kartının kenarlığı (Menu:206, 218); aynı değer menü sayfasının kor
      çekirdek gradyanında da geçiyor (Menu:30). */
-  --tangerine-28: rgba(250, 170, 31, 0.28);
-  --tangerine-12: rgba(250, 170, 31, 0.12);
-  --tangerine-10: rgba(250, 170, 31, 0.1);
-  --tangerine-08: rgba(250, 170, 31, 0.08);
+  --bakir-28: rgba(209, 158, 102, 0.28);
+  /* Canlı veri vurgusu (aktif saat satırı, ilerleme imleci). Zemin üstünde 11.32:1. */
+  --bakir-acik: #E8C08A;
+  /* Hero başlığının ikinci satırı. Zemin üstünde 6.44:1: büyük başlıkta AA geçer. */
+  --bakir-koyu: #C08A57;
+  --bakir-12: rgba(209, 158, 102, 0.12);
+  --bakir-10: rgba(209, 158, 102, 0.1);
+  --bakir-08: rgba(209, 158, 102, 0.08);
   /* satır hover zemini. 12 kullanım, üç dosya: Ana:176-208, Konum, Mobil */
-  --tangerine-07: rgba(250, 170, 31, 0.07);
+  --bakir-07: rgba(209, 158, 102, 0.07);
 
-  /* paket hattı: pumpkin, üstünde kömür metin 5.29:1 */
-  --pumpkin: #E96112;
-  --mese: #6B4A2F;
-  /* Paket şeridinin paragraf rengi, pumpkin üstünde. Şerit 13 Ağustos 2026'da
-     kaldırıldı; --pumpkin gibi hizmet başlarsa geri döner. */
-  --komur-90: rgba(26, 22, 20, 0.9);
-  --komur-55: rgba(26, 22, 20, 0.55);
-  --komur-10: rgba(26, 22, 20, 0.1);
-  --komur-golge: 0 14px 34px rgba(26, 22, 20, 0.4);
+  /* Paket şeridinin paragraf rengi. Şerit 13 Ağustos 2026'da kaldırıldı; --pumpkin
+     ve --mese 20 Ağustos 2026'da silindi (tüketicisi yoktu ve yeni palet kapalı). */
+  --komur-90: rgba(19, 24, 23, 0.9);
+  --komur-55: rgba(19, 24, 23, 0.55);
+  --komur-10: rgba(19, 24, 23, 0.1);
+  --komur-golge: 0 14px 34px rgba(19, 24, 23, 0.4);
 
   /* Üçüncü taraf markaları kendi renginde (sahibi, 18 Ağustos 2026: tanınırlık).
      Sitenin paletine ait değil, yalnız o markanın işaretinde kullanılır. */
@@ -175,13 +186,18 @@
   --marka-instagram-5: #4F5BD5;
 
   /* tipografi */
-  --font-baslik: var(--font-bricolage), system-ui, sans-serif;
-  --font-govde: var(--font-inter), system-ui, sans-serif;
+  /* Bevan slab; yedeği de serif olmalı, sans yedek başlıkları tanınmaz hale getirir.
+     TEK AĞIRLIK 400. --font-baslik kullanan hiçbir kural 500+ yazmaz; yazarsa
+     tarayıcı sentetik kalın üretir. 20 Ağustos 2026'da 23 kaçak bu şekilde
+     bulundu (tarama: computed fontFamily Bevan + fontWeight != 400). */
+  --font-baslik: var(--font-bevan), Georgia, 'Times New Roman', serif;
+  --font-govde: var(--font-archivo), system-ui, sans-serif;
 
-  /* Hero başlığı iki satırdan üçe çıktı (UYGULAMA-NOTLARI 2) ve tavan 168px'ten
-     116px'e indi: üç satır eski ölçüde tek ekrana sığmıyordu, CTA'lar katlanın
-     altına düşüyordu. 8.05vw 1440px'te tam 116px verir, notun ölçüsü orada. */
-  --ol-hero: clamp(52px, 8.05vw, 116px);
+  /* v2 (SPEC.md §3): masaüstü 86px, mobil 40px. Bevan Bricolage'dan belirgin
+     geniş; eski 116px tavanı üç satır yapıp CTA'ları katlanın altına atıyordu.
+     Sonra 86 > 80px: saat kartı 410px'e çıkınca sol kolon daraldı ve "Tavla zarı
+     ciğer" iki satıra kırılıyordu. 5.6vw 1440px'te 80.6px verir. */
+  --ol-hero: clamp(40px, 5.6vw, 80px);
   --ol-hero-alt: clamp(34px, 4.6vw, 76px);
   /* İç sayfaların H1'leri. Üçü de tek kullanımlık ve birbirinden farklı;
      Ana Sayfa'nın --ol-hero'su hiçbirini karşılamıyor. */
@@ -238,7 +254,7 @@
 
   /* Zemin üstünde tek başına duran başlığın gölgesi. 5 kullanım, dört dosya:
      Ana:224, Hikaye:68, Hikaye:125, Konum:74, Menu:76 */
-  --golge-baslik: 0 8px 50px rgba(10, 8, 7, 0.7);
+  --golge-baslik: 0 8px 50px rgba(11, 15, 15, 0.7);
   /* menü ürün kartının hover gölgesi. 4 kullanım: Menu:125, 143, 161, 179 */
   --golge-kart-hover: 0 26px 60px rgba(0, 0, 0, 0.5);
 
@@ -265,6 +281,17 @@
 
   /* hareket */
   --gecis-hizli: 0.15s ease-out;
+  /* Barın daralması (SPEC.md §4). Nav'ın .15s'inden ayrı: yükseklik değişimi
+     daha büyük bir hareket ve aynı sürede sert duruyordu. */
+  --gecis-bar: 0.2s ease-out;
+
+  /* ÜST BARIN KAPLADIĞI YER. Bar `position:fixed`, yani akış dışında: altındaki
+     her şey boşluğu kendisi açmak zorunda. Spec `sticky` varsaydığı için 88px
+     yeterli sanılmıştı; ölçüldü, überline barın altında kalıyordu.
+     Kaplanan yer = bar yüksekliği + rozetin sarkması. */
+  --bar-boy: 104px;
+  --bar-boy-daralmis: 70px;
+  --rozet-sarkma: 28px;
   /* Sitenin tek özel eğrisi: menü kartı (Menu:125), imleç koru, çekmece girişi. */
   --gecis-egri: cubic-bezier(0.2, 0.7, 0.2, 1);
   /* Yerleşim değiştiren hover geçişi: kaydırma ipucunun gap'i (Ana:120), tek
@@ -278,6 +305,11 @@
 }
 
 @media (max-width: 1040px) {
+  :root {
+    --bar-boy: 82px;
+    --rozet-sarkma: 20px;
+  }
+
   :root {
     --bolum-dikey: 56px;
   }

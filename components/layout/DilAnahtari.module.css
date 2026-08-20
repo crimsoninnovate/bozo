@@ -1,6 +1,6 @@
 /*
  * Ana Sayfa Alternatif.dc.html, Hikaye Sayfasi.dc.html, Konum Sayfasi.dc.html:
- * gap:8px;font:600 14px/1 Inter. Aktif #F2E9DC, pasif rgba(242,233,220,.58)
+ * gap:8px;font:600 14px/1 Inter. Aktif #F9E9D5, pasif rgba(242,233,220,.58)
  * (task-6-brief.md .5 diyordu, tasarımın üç sayfası da tutarlı biçimde .58
  * veriyor; tasarım izlendi, bkz. task-6-report.md).
  */
@@ -62,5 +62,5 @@
  * bozardı. Sayfa taramasında tek "başarısız" öğe budur (12 Ağustos 2026).
  */
 .ayirici {
-  color: rgba(242, 233, 220, 0.28);
+  color: rgba(249, 233, 213, 0.28);
 }

@@ -1,0 +1,54 @@
+.kume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nokta {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bakir);
+}
+
+.acik .nokta {
+  animation: barNokta 2.4s ease-in-out infinite;
+}
+
+.kapali .nokta {
+  background: var(--krem-50);
+}
+
+.saat {
+  color: var(--krem);
+  font-variant-numeric: tabular-nums;
+}
+
+.ayirici {
+  color: var(--krem-32);
+}
+
+.metin {
+  color: var(--krem-66);
+}
+
+.kapali .metin {
+  color: var(--krem-55);
+}
+
+/* Keyframe bu dosyada: CSS Modules animation-name'i hash'liyor, global
+   dosyadaki bir keyframe hiç çözülmez (CLAUDE.md > Keyframes). */
+@keyframes barNokta {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}

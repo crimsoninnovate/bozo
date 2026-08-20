@@ -22,8 +22,8 @@
   height: 46%;
   background: radial-gradient(
     60% 100% at 50% 100%,
-    rgba(183, 53, 28, 0.3),
-    rgba(183, 53, 28, 0) 70%
+    rgba(173, 38, 36, 0.3),
+    rgba(173, 38, 36, 0) 70%
   );
   filter: blur(40px);
   pointer-events: none;
@@ -83,10 +83,10 @@
 .baslik {
   margin: 0;
   max-width: 900px;
-  font: 800 clamp(40px, 6.4vw, 92px)/1.04 var(--font-baslik);
+  font: 400 clamp(40px, 6.4vw, 92px)/1.04 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
-  text-shadow: 0 10px 60px rgba(10, 8, 7, 0.7);
+  text-shadow: 0 10px 60px rgba(11, 15, 15, 0.7);
 }
 
 .metin {

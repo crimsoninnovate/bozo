@@ -31,8 +31,14 @@ type Props = TaneOlculeri & {
   ton?: TaneTonu
   /** Hero rayı: karelerin arkasından geçen sönen çizgi. */
   cizgi?: boolean
-  /** Küçük (tangerine) taneler kor gibi nefes alır. Yalnız hero rayında. */
+  /** Küçük (bakır) taneler kor gibi nefes alır. Yalnız hero rayında. */
   kor?: boolean
+  /**
+   * Verilirse ray dekoratif olmaktan çıkar ve `role="img"` ile bu adı duyurur.
+   * Yalnız hero'nun tane ölçüsü grafiğinde: orada ray bilgi taşıyor (dört ciğer,
+   * iki kuyruk yağı), diğer dokuz rayda yalnız ritim tekrarı.
+   */
+  etiket?: string
 }
 
 /**
@@ -66,6 +72,7 @@ export function TaneDizilimi({
   ton = 'krem',
   cizgi = false,
   kor = false,
+  etiket,
 }: Props) {
   const kapSinif =
     `${stil.kap} ${stil[ton]}${cizgi ? ` ${stil.cizgiliKap}` : ''}${kor ? ` ${stil.korlu}` : ''}`
@@ -75,7 +82,13 @@ export function TaneDizilimi({
   } as React.CSSProperties
 
   return (
-    <span className={kapSinif} style={degiskenler} aria-hidden="true">
+    <span
+      className={kapSinif}
+      style={degiskenler}
+      role={etiket ? 'img' : undefined}
+      aria-label={etiket}
+      aria-hidden={etiket ? undefined : true}
+    >
       {cizgi && <span className={stil.cizgi} />}
       {RITIMLER[adet].map((buyukMu, sira) => (
         <span key={sira} className={`${stil.tane} ${buyukMu ? stil.buyukTane : stil.kucukTane}`} />

@@ -26,7 +26,7 @@
 .baslik {
   margin: 0;
   font-family: var(--font-baslik);
-  font-weight: 700;
+  font-weight: 400;
   font-size: var(--ol-portre-baslik);
   line-height: 1.12;
   letter-spacing: var(--iz-bolum);

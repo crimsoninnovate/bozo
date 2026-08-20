@@ -1,8 +1,3 @@
-import { CanliSaat } from '@/components/saat/CanliSaat'
-import { DurumAltMetni } from '@/components/saat/DurumAltMetni'
-import { DurumCipi } from '@/components/saat/DurumCipi'
-import { GunMerdiveni } from '@/components/saat/GunMerdiveni'
-import { KapanisNotu } from '@/components/saat/KapanisNotu'
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
@@ -11,16 +6,22 @@ import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import { yolTarifiUrl } from '@/lib/site'
 import stil from './Acilis.module.css'
+import { OcakKarti } from './OcakKarti'
 
 type Props = { dil: Dil }
 
 /**
- * Ana sayfanın açılış bölümü.
+ * Ana sayfanın açılış bölümü. Kaynak: `header-hero-v2/SPEC.md` §5
+ * (20 Ağustos 2026), önceki kaynak UYGULAMA-NOTLARI 2 idi.
  *
- * Tasarım kaynağı DEĞİŞTİ: Ana Sayfa Alternatif.dc.html:86-126 tek kolonluk bir
- * hero çiziyordu ve 1440px'te sağ yarısı ölü kalıyordu. UYGULAMA-NOTLARI 2 onu
- * iki kolona böler ve boş yarıyı markanın ana fikriyle, canlı saatle doldurur.
- * Daha önce oraya konan tane alanı bu yüzden kalktı.
+ * v2'nin getirdikleri: iki satırlık başlık (ikincisi bakır tonda), rozetin üç
+ * sözünün überline olması, gövde paragrafı, tane ölçüsü grafiği, sağdaki canlı
+ * bloğun kartlanması ve alt meta şeridi.
+ *
+ * SPEC'İN OCAK FOTOĞRAF BANDI UYGULANMADI (sahibinin kararı, 20 Ağustos 2026).
+ * Handoff kor sahnesini bilmiyordu ve hero'nun altına tam genişlik bir görsel
+ * öneriyordu; o band `KorSahnesi`'nin üstüne opak bir şerit koyup zemin
+ * animasyonunu kesiyordu. Hero o boşluk olmadan nefes alıyor.
  */
 export function Acilis({ dil }: Props) {
   const s = sozluk(dil)
@@ -29,49 +30,31 @@ export function Acilis({ dil }: Props) {
     <Bolum id="acilis" yogunluk={1} className={stil.bolum} eritClassName={stil.erit}>
       <div className={stil.izgara}>
         <div className={stil.sol}>
-          {/* Rozetin üç sözü. Bardaki rozette bu yay metni 110px altında
-              okunmuyor; hero onu okunur boyda tekrarlar. */}
           <p className={stil.uberSatir}>{s.ana.hero.uberSatir}</p>
 
-          <div className={stil.durumSatiri}>
-            <DurumCipi dil={dil} boy="dev" />
-            <DurumAltMetni dil={dil} />
-          </div>
-
+          {/* Tek H1, iki satır. İkinci satır gri değil bakır: kırık değil kasıtlı okusun. */}
           <h1 className={stil.baslik}>
-            {s.ana.hero.baslikSatir1}
-            <br />
-            {s.ana.hero.baslikSatir2}
+            <span className={stil.satir1}>{s.ana.hero.baslikSatir1}</span>
+            <span className={stil.satir2}>{s.ana.hero.baslikSatir2}</span>
           </h1>
 
           {/*
-            Şiş grafiği. UYGULAMA-NOTLARI 2 bunu altı eşit 17px kareye ve üç
-            renge düşürmüştü, çubuk da karelerin sağında duruyordu; sahibi
-            13 Ağustos 2026'da beğenmedi. Handoff'un rayına dönüldü:
-            20/12/20/20/12/20, gap 12, çubuk karelerin ARKASINDAN geçiyor
-            (Ana Sayfa Alternatif.dc.html:101-103, docs/tasarim/ana-sayfa.json).
-            Mobil ölçüler Mobil Prototip.dc.html:80-81'in ray varyantı.
+            Tane ölçüsü grafiği, markanın imza öğesi. Dizilim `lib/sis.ts`'in
+            kilitli ritminden (ciğer, yağ, ciğer, ciğer, yağ, ciğer); spec'in
+            x koordinatları farklı bir sıra veriyordu, marka kararı kazanır.
           */}
-          {/*
-            "meşe korunda" H1'den çıkıp rayın yanına geldi. İki tasarım kaynağı
-            da bunu istiyor: handoff "alt-baslik satiri: 'meşe korunda' + yanina
-            flex:1 zar rayi", mobil prototip "iki kolonlu satir: solda 'mese
-            korunda', saginda flex:1 ZarRay". Masaüstünde punto büyük olduğu
-            için ray alt satıra sarıyor, yani bugünkü görünüm korunuyor; mobilde
-            26px'e inince yan yana oturuyorlar.
-          */}
-          <div className={stil.altBaslikSatiri}>
-            <span className={stil.baslikUcuncu}>{s.ana.hero.altBaslik}</span>
-            <TaneDizilimi
-              adet={6}
-              buyuk={20}
-              kucuk={12}
-              bosluk={12}
-              mobil={{ buyuk: 13, kucuk: 8, bosluk: 8 }}
-              cizgi
-              kor
-            />
-          </div>
+          <TaneDizilimi
+            adet={6}
+            buyuk={20}
+            kucuk={12}
+            bosluk={12}
+            mobil={{ buyuk: 13, kucuk: 8, bosluk: 8 }}
+            cizgi
+            kor
+            etiket={s.ana.hero.taneOlcusuEtiketi}
+          />
+
+          <p className={stil.govde}>{s.ana.hero.govde}</p>
 
           <div className={stil.ctaSatiri}>
             <Buton
@@ -79,7 +62,7 @@ export function Acilis({ dil }: Props) {
               boy="xl"
               href={yolTarifiUrl()}
               hariciMi
-              ikon={<PinIkon boy={18} />}
+              ikon={<PinIkon boy={15} />}
             >
               {s.ortak.cta.yolTarifiAl}
             </Buton>
@@ -89,31 +72,30 @@ export function Acilis({ dil }: Props) {
               {s.ortak.cta.menuyuGor}
             </Buton>
           </div>
-
-          <p className={stil.meta}>
-            <span>{s.ortak.satirlar.adresKisa}</span>
-            <span aria-hidden="true" className={stil.metaAyirici} />
-            <span>{s.ortak.satirlar.saatlerGunluk}</span>
-            <span aria-hidden="true" className={stil.metaAyirici} />
-            <span>{s.ortak.alkolsuzKisa}</span>
-          </p>
         </div>
 
         <div className={stil.sag}>
-          <span className={stil.saatEtiketi}>{s.ana.hero.saatEtiketi}</span>
-          <CanliSaat boy="dev" />
-          <KapanisNotu dil={dil} />
-          <GunMerdiveni dil={dil} />
+          <OcakKarti dil={dil} />
         </div>
       </div>
 
-      {/* Yumuşak kaydırma: sayfadaki dört çapadan ikisi (bu ipucu ve bardaki "Gece")
-          düz <a> ile tek karede zıplıyordu, ikisi 600ms kayıyordu. Ölçüldü, 18 Ağustos 2026. */}
-      <CapaBaglantisi className={stil.ipucu} href="#iddia">
-        <span aria-hidden="true" className={stil.ipucuKare} />
-        <span aria-hidden="true" className={stil.ipucuCizgi} />
-        <span className={stil.ipucuMetin}>{s.ana.hero.scrollIpucu}</span>
-      </CapaBaglantisi>
+      <div className={stil.metaSerit}>
+        <p className={stil.meta}>
+          <span>{s.ortak.satirlar.adresKisa}</span>
+          <span aria-hidden="true" className={stil.metaAyirici} />
+          <span>{s.ortak.satirlar.saatlerGunluk}</span>
+          <span aria-hidden="true" className={stil.metaAyirici} />
+          <span>{s.ortak.alkolsuzKisa}</span>
+        </p>
+        {/* Yumuşak kaydırma: sayfadaki dört çapadan ikisi (bu ipucu ve bardaki "Gece")
+            düz <a> ile tek karede zıplıyordu, ikisi 600ms kayıyordu. Ölçüldü, 18 Ağustos 2026. */}
+        <CapaBaglantisi className={stil.ipucu} href="#iddia">
+          <span className={stil.ipucuMetin}>{s.ana.hero.scrollIpucu}</span>
+          <span aria-hidden="true" className={stil.ipucuOk}>
+            ↓
+          </span>
+        </CapaBaglantisi>
+      </div>
     </Bolum>
   )
 }

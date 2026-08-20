@@ -29,7 +29,7 @@
 /* Konum:74. İki satır, arada <br>. */
 .baslik {
   margin: 0;
-  font: 800 var(--ol-hero-konum)/1.02 var(--font-baslik);
+  font: 400 var(--ol-hero-konum)/1.02 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
   text-shadow: var(--golge-baslik);
@@ -48,7 +48,7 @@
 .adres svg {
   flex: none;
   margin-top: 4px;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 .adresMetin {

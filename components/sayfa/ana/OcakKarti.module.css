@@ -1,0 +1,34 @@
+/*
+ * SPEC.md §5 sağ kolon. İki yerde spec'ten ayrıldı:
+ *
+ * 1) ZEMİN YOK (sahibinin kararı, 20 Ağustos 2026). Spec karta rgba(19,24,23,.72)
+ *    veriyor; o dolgu `KorSahnesi`'nin üstünde opak bir dikdörtgen oluşturuyor ve
+ *    zemin animasyonunu kartın altında kesiyordu. Kart artık yalnız çerçevesiyle
+ *    var, kor altından geçiyor.
+ * 2) Köşe yarıçapı 5px değil 3px: marka kuralı 0-3px (CLAUDE.md > Typography).
+ */
+.kart {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px 26px 24px;
+  border: 1px solid var(--cizgi-plaka);
+  border-radius: 3px;
+}
+
+.baslikSatiri {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.etiket {
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--krem-56);
+}

@@ -1,13 +1,15 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
 import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
+import { PinIkon } from '@/components/ui/Ikonlar'
 import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
 import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
+import { BarDurumu } from './BarDurumu'
 import { Cekmece } from './Cekmece'
 import { DilAnahtari } from './DilAnahtari'
 import { GeceSeridi } from './GeceSeridi'
@@ -28,6 +30,30 @@ function ctaHedefi(cta: UstBarCta, dil: Dil): { href: string; hariciMi: boolean 
     case 'capa':
       return { href: `#${cta.hedef}`, hariciMi: false }
   }
+}
+
+/**
+ * Barın daralması (SPEC.md §4): eşik 120px. Dinleyici passive ve rAF ile
+ * kısılıyor; ham `scroll` her karede state yazmaya kalkıyordu.
+ */
+function useDaralmis(esik = 120): boolean {
+  const [daralmis, setDaralmis] = useState(false)
+  useEffect(() => {
+    let bekleyen = false
+    const oku = () => {
+      bekleyen = false
+      setDaralmis(window.scrollY > esik)
+    }
+    const dinle = () => {
+      if (bekleyen) return
+      bekleyen = true
+      requestAnimationFrame(oku)
+    }
+    oku()
+    window.addEventListener('scroll', dinle, { passive: true })
+    return () => window.removeEventListener('scroll', dinle)
+  }, [esik])
+  return daralmis
 }
 
 /** Rozet ortada durduğu için nav ikiye bölünür; tek sayıda öğede fazlalık sola gider. */
@@ -82,6 +108,7 @@ export function UstBar({ dil, aktif }: Props) {
   const varyant = ustBarVaryanti(aktif)
   const cta = ctaHedefi(varyant.cta, dil)
   const [solNav, sagNav] = navBol(varyant.nav)
+  const daralmis = useDaralmis()
   // Cekmece'nin efekti buna bağımlı; her render'da taze bir closure geçmek
   // (setCekmeceAcik'in kendisi kararlı olsa da) efekti gereksiz yere söküp
   // yeniden kurar. Gerçek sayfalarda dil/aktif değiştiğinde UstBar yeniden
@@ -90,7 +117,11 @@ export function UstBar({ dil, aktif }: Props) {
 
   return (
     <>
-      <header className={`${stil.bar} ${varyant.anaVaryantMi ? stil.anaVaryant : stil.icVaryant}`}>
+      <header
+        className={`${stil.bar} ${varyant.anaVaryantMi ? stil.anaVaryant : stil.icVaryant}${
+          daralmis ? ` ${stil.daralmis}` : ''
+        }`}
+      >
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
         {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
         {/* Tek landmark: dil anahtarı, iki nav yarısı ve CTA aynı bölgeye ait.
@@ -104,7 +135,7 @@ export function UstBar({ dil, aktif }: Props) {
           </div>
 
           <span className={stil.markaOrta}>
-            <Rozet dil={dil} boy={varyant.anaVaryantMi ? 'bar' : 'ic'} />
+            <Rozet dil={dil} boy={daralmis ? 'daralmis' : 'bar'} />
           </span>
 
           <div className={stil.sag}>
@@ -112,8 +143,25 @@ export function UstBar({ dil, aktif }: Props) {
               <NavOgeleri nav={sagNav} dil={dil} aktif={aktif} />
             </span>
 
+            {/* Daralınca canlı durum girer: hero'daki saat artık ekranda değil. */}
+            {daralmis && (
+              <span className={stil.durumSarici}>
+                <BarDurumu dil={dil} />
+              </span>
+            )}
+
+            {/*
+              Normalde dış çizgili: sayfadaki tek birincil eylem hero'da kalsın.
+              Daralınca solid bordoya döner, çünkü hero'nun butonu kaydırılıp geçildi.
+            */}
             <span className={stil.ctaSarici}>
-              <Buton tur="birincil" boy="sm" href={cta.href} hariciMi={cta.hariciMi}>
+              <Buton
+                tur={daralmis ? 'birincil' : 'ikincil'}
+                boy="sm"
+                href={cta.href}
+                hariciMi={cta.hariciMi}
+                ikon={<PinIkon boy={13} />}
+              >
                 {s.ortak.cta.yolTarifiAl}
               </Buton>
             </span>

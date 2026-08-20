@@ -23,7 +23,7 @@
  */
 .baslik {
   margin: 0;
-  font: 700 clamp(38px, 5.4vw, 78px)/1.1 var(--font-baslik);
+  font: 400 clamp(38px, 5.4vw, 78px)/1.1 var(--font-baslik);
   letter-spacing: var(--iz-baslik);
   color: var(--krem);
   text-shadow: var(--golge-baslik);

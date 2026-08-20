@@ -39,7 +39,7 @@
   flex: none;
   margin: 0;
   font-family: var(--font-baslik);
-  font-weight: 700;
+  font-weight: 400;
   font-size: var(--ol-menu-kalem);
   line-height: 1.14;
   /* Aynı iz `MenuSatiri.module.css`'te de ham yazılı; ikisi birlikte

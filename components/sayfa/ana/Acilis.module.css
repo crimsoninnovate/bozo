@@ -1,356 +1,181 @@
 /*
- * Hero. Kaynak UYGULAMA-NOTLARI 2 (12 Ağustos 2026); Ana Sayfa
- * Alternatif.dc.html:86-126 tek kolonluk önceki hali.
+ * Hero. Kaynak: header-hero-v2/SPEC.md §5 (20 Ağustos 2026).
+ * Önceki kaynak UYGULAMA-NOTLARI 2 idi; ondan önce Ana Sayfa Alternatif.dc.html.
+ *
+ * Yatay dolgu spec'in 44px'i değil `--sayfa-yatay`: bu tur yalnız header ve
+ * hero'yu taşıyor, altındaki bölümler hâlâ 1180px'lik kolonda. 44px hero ile
+ * altındaki her bölüm arasında görünür bir hiza kayması bırakırdı.
  */
 .bolum {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* alt dolgu 0: hero bir sonraki bölüme yaslanır (Ana:86) */
-  padding: var(--bolum-dikey) var(--sayfa-yatay) 0;
+  /* Barın kapladığı yer + nefes payı. Sabit sayı YAZILMAZ: bar `fixed` ve
+     ölçüsü token'da; 88px'lik spec değeri `sticky` varsayımıyla yazılmıştı ve
+     überline'ı barın altında bırakıyordu. */
+  padding: calc(var(--bar-boy) + var(--rozet-sarkma) + 56px) var(--sayfa-yatay) 0;
 }
-
 
 .erit {
   max-width: var(--panel-en);
 }
 
-/* Notun ızgarası: 1fr 420px, gap 64px. Sağ kolon sabit, saat orada yaşıyor. */
 .izgara {
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 410px;
   gap: 64px;
   align-items: start;
 }
 
 .sol {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
-/* Rozetin üç sözü, marka damgası olarak. UI mikro metni: 16px tabanı okuma
-   metnini bağlar, bunu değil (KISITLAR.md > üç kademe). */
+/* Rozetin üç sözü. Spec'in sağa uzanan tükenen çizgisi UYGULANMADI
+   (sahibinin kararı, 20 Ağustos 2026): çizgisiz daha iyi duruyor. */
 .uberSatir {
-  margin: 0 0 22px;
+  margin: 0;
   font-family: var(--font-govde);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--krem-58);
-}
-
-/* 390px'te 13px/0.18em tracking 354px istiyor, kolon 342px: "Girne" alt satıra
-   düşüyordu. Ölçü küçülür, satır tek kalır. */
-@media (max-width: 1040px) {
-  .uberSatir {
-    margin-bottom: 18px;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-  }
-}
-
-.durumSatiri {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 20px;
+  color: var(--krem-56);
 }
 
 .baslik {
-  margin: 38px 0 0;
-  font: 800 var(--ol-hero)/1 var(--font-baslik);
-  letter-spacing: -0.035em;
-  color: var(--krem);
-  /* Ana:98, tasarımdaki tek kullanım; --golge-baslik'ten ayrı bir değer */
-  text-shadow: 0 8px 60px rgba(10, 8, 7, 0.6);
-}
-
-/* Sesi başlığın bir kademe altında. H1'den çıktığı için tipografi artık
-   miras değil, burada yazılı; masaüstü görünümü birebir aynı kalıyor. */
-.baslikUcuncu {
-  font: 800 var(--ol-hero)/1 var(--font-baslik);
-  letter-spacing: -0.035em;
-  color: rgba(242, 233, 220, 0.42);
-}
-
-/* Alt başlık ve ray aynı satırda. Masaüstünde "meşe korunda" punto olarak
-   geniş, ray `min-width:260px` isteyince satır sarıyor ve ray alta düşüyor:
-   bugünkü görünüm bu. Mobilde punto 26px'e, rayın min-width'i 0'a inince
-   (TaneDizilimi `.cizgiliKap` mobil kuralı) yan yana oturuyorlar. */
-.altBaslikSatiri {
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 14px;
-  margin-top: 28px;
+  flex-direction: column;
+  gap: 2px;
+  font: 400 var(--ol-hero) / 1 var(--font-baslik);
+  letter-spacing: -0.008em;
+}
+
+.satir1 {
+  color: var(--krem);
+}
+
+/* Bakır ton, gri değil: satır kırık görünmesin, kasıtlı okusun (spec §5). */
+.satir2 {
+  color: var(--bakir-koyu);
+}
+
+.govde {
+  margin: 0;
+  max-width: 560px;
+  font: 400 16.5px/1.6 var(--font-govde);
+  color: var(--krem-76);
+  text-wrap: pretty;
 }
 
 .ctaSatiri {
+  margin-top: 4px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
-  margin-top: 46px;
+  gap: 12px;
 }
 
-/*
- * Meta satırı artık butonların yanında değil kendi satırında: butonların
- * baseline'ına sıkışıp okunmuyordu (UYGULAMA-NOTLARI 2).
- */
-.meta {
-  margin: 30px 0 0;
+.sag {
+  min-width: 0;
+}
+
+/* Ölçüldü 20 Ağustos 2026: ızgaranın altı 663, şeridin üstü 663, yani çizgi
+   kartın dibine yapışıktı. */
+.metaSerit {
+  margin-top: 48px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px 20px;
-  font: 400 16px/1.5 var(--font-govde);
-  font-variant-numeric: tabular-nums;
-  color: var(--krem-62);
+  justify-content: space-between;
+  gap: 20px 28px;
+  padding: 20px 0 22px;
+  border-top: 1px solid var(--cizgi);
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  font: 400 14px/1 var(--font-govde);
+  color: var(--krem-60);
 }
 
 .metaAyirici {
   width: 1px;
   height: 14px;
-  flex: none;
   background: var(--cizgi-meta);
 }
 
-/* ---- sağ kolon: saat ------------------------------------------------------ */
-
-.sag {
-  min-width: 0;
-  padding-top: 6px;
-}
-
-.saatEtiketi {
-  display: block;
-  margin-bottom: 14px;
-  font: 500 13px/1 var(--font-govde);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--krem-50);
-}
-
-/* ---- kaydırma ipucu ------------------------------------------------------- */
-
-/*
- * Rengi açıkça yazılır: reset.css her <a>'ya var(--tangerine), hover'da
- * var(--krem) veriyor, tasarımda ise ipucu krem-66 ve hover'da RENK
- * değiştirmiyor, yalnız gap açılıyor.
- *
- * Görünür kutu 15px yüksekliğinde; dokunma hedefi görünmez ::after ile 44px'e
- * çıkarılır (AltBilgi'de kurulan teknik).
- */
 .ipucu {
-  position: relative;
-  margin-top: clamp(40px, 6vh, 72px);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  width: fit-content;
-  color: var(--krem-62);
-  transition: gap var(--gecis-yerlesim);
+  gap: 10px;
+  min-height: 44px;
+  font: 400 14px/1 var(--font-govde);
+  color: var(--krem-60);
+  text-decoration: none;
+  transition: color var(--gecis-hizli);
+}
+
+.ipucuOk {
+  color: var(--bakir);
 }
 
 @media (hover: hover) {
   .ipucu:hover {
-    gap: 22px;
-    color: var(--krem-62);
+    color: var(--krem);
   }
 }
 
-.ipucu::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
-.ipucuKare {
-  width: 15px;
-  height: 15px;
-  flex: none;
-  border-radius: 2px;
-  background: var(--krem-55);
-}
-
-/* Notun ölçüsü: 74px (eski 52px). */
-.ipucuCizgi {
-  width: 74px;
-  height: 1px;
-  flex: none;
-  background: var(--cizgi-tire);
-}
-
-.ipucuMetin {
-  font: 400 15px/1 var(--font-govde);
-  color: var(--krem-62);
-}
-
 /*
- * Sağ kolon 420px sabit; 1100px altında ızgara tek kolona iner ve saat bloğu
- * başlığın altına geçer. Saat orada da kalır, çünkü sayfanın ana fikri o.
+ * Tek kolon eşiği 1200px (spec §5): saat kartı 372px sabit, sol kolon 560px'lik
+ * gövdeyi taşıyor; 1200'ün altında ikisi yan yana sıkışıyor ve başlık kırılıyor.
+ * Sitenin 1040px'lik mobil eşiğinden AYRI bir sayı: o eşik nav'ın ne zaman
+ * çekmeceye indiğini söyler, bu hero'nun ne zaman tek kolona indiğini.
  */
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .izgara {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 34px;
   }
 
   .sag {
-    padding-top: 0;
+    max-width: 410px;
   }
 }
 
-/*
- * 1040px altında ipucu basılmaz. Gerekçe ölçümle bulundu: sabit MobilAksiyonBari
- * aynı eşikte görünür oluyor (MobilAksiyonBari.module.css:55) ve 390x844'te
- * hero'nun dibindeki ipucunun 44px'lik hedefinin yalnız 8px'i erişilebilir
- * kalıyor, kalanı barın altında. Yanlış hedef "Yol tarifi"ye, yani haritaya
- * gider: çakışan hedef kısa hedeften kötüdür.
- *
- * Kaldırma keyfi değil, tasarımın kendi kararı: "Mobil Prototip.dc.html"in
- * hero'sunda bu ipucu yok, mobil düzen onu zaten düşürüyor.
- */
 @media (max-width: 1040px) {
-  .ipucu {
-    display: none;
-  }
-
-  /* Mobil hero ölçüleri: Mobil Prototip.dc.html:77-79. Bloklar arası boşluğu
-     ızgaranın gap'i veriyor, tek tek margin değil. */
-  .baslik {
-    margin-top: 0;
-    font-size: 52px;
-    line-height: 0.92;
-    letter-spacing: -0.05em;
-    text-shadow: 0 8px 40px rgba(10, 8, 7, 0.7);
-  }
-
-  .altBaslikSatiri {
-    margin-top: 0;
-    gap: 14px;
-  }
-
-  /* Mobil prototip: 'mese korunda' 800 26px/1, -.04em, .72 */
-  .baslikUcuncu {
-    font-size: 26px;
-    letter-spacing: -0.04em;
-    color: var(--krem-72);
-  }
-
-  /*
-   * Hero'da eylem butonu YOK. Mobil prototipin hero'su beş öğe sayıyor
-   * (durum rozeti, başlık, alt başlık satırı, saat satırı, adres) ve buton
-   * içermiyor: eylemler yüzen alt bara ait. Portta masaüstünün iki `xl`
-   * butonu mobile olduğu gibi düşüyor ve alt barı tekrar ediyordu.
-   */
-  .ctaSatiri {
-    display: none;
-  }
-
-  /*
-   * Meta alt alta, ayırıcısız. Yatay dizilimde üç öğe üç satıra sarıyor ve
-   * satır sonlarında sarkan dikey çizgiler kalıyordu.
-   */
-  .meta {
-    margin-top: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    font-size: 15px;
-  }
-
-  /* Prototipin hero'sunda adres iki satır. Üçüncüsü ("Mekanımız alkolsüzdür")
-     alt bilgide, çekmecede, menüde ve konum sayfasında zaten duruyor. */
-  .meta > span:last-child {
-    display: none;
-  }
-
-  .metaAyirici {
-    display: none;
-  }
-
-  /*
-   * Mobil hero 100vh değil: prototipte yukarıdan başlayan bir blok, dolgusu
-   * 52/20/40 ve beş bölüm arası sabit 20px. Ölçüldü (390x844): 100vh artı
-   * dikey ortalama, 462px'lik içeriği üstünde 191px ve altında 131px boşlukla
-   * ortada asılı bırakıyordu. Sahibi 13 Ağustos 2026'da hero'dan memnun olmadı.
-   */
   .bolum {
-    min-height: auto;
-    justify-content: flex-start;
-    /* 60px sabit üst bar (390px'te ölçüldü) + prototipin 52px'lik dolgusu:
-       bar hero'nun üstüne biniyor, prototipin barı ise akışın içinde. */
-    padding-top: 112px;
-    padding-bottom: 40px;
+    padding-top: calc(var(--bar-boy) + var(--rozet-sarkma) + 36px);
   }
 
-  /*
-   * Prototipin sırası: rozet, başlık, alt başlık satırı, SAAT + durum alt
-   * metni aynı satırda, adres. Portta bu altı öğe üç ayrı sarmalayıcının
-   * içinde; `display: contents` sarmalayıcıların kutusunu kaldırır, çocuklar
-   * doğrudan ızgaranın hücrelerine girer. DOM sırası ve masaüstü değişmez.
-   */
-  .izgara {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 20px 12px;
-    align-items: baseline;
+  .sol {
+    gap: 20px;
   }
 
-  .sol,
-  .sag,
-  .durumSatiri {
-    display: contents;
-  }
-
-  .durumSatiri > :first-child,
-  .baslik,
-  .altBaslikSatiri,
-  .meta {
-    grid-column: 1 / -1;
-  }
-
-  /* Rozet kendi genişliğinde kalır; ızgara hücresi onu yoksa satır boyu gerer. */
-  .durumSatiri > :first-child {
-    order: 1;
-    justify-self: start;
+  .uberSatir {
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
   }
 
   .baslik {
-    order: 2;
+    line-height: 1.04;
   }
 
-  .altBaslikSatiri {
-    order: 3;
-  }
-
-  /* Saat kolon 1; `.sag`ın diğer çocukları (etiket, kapanış notu, gün
-     merdiveni) bu genişlikte zaten basılmıyor. */
-  .sag > * {
-    order: 4;
-    grid-column: 1;
-  }
-
-  /* "Ocak 05:00'e kadar yanıyor" saatin sağında, aynı satırda: prototipin
-     `display:flex; align-items:baseline; gap:12px` satırı. */
-  .durumSatiri > :last-child {
-    order: 5;
-    grid-column: 2;
+  .govde {
+    font-size: 15.5px;
   }
 
   .meta {
-    order: 6;
+    gap: 16px;
   }
 
-  /* Saatin üstündeki "GİRNE · ŞU AN" etiketi mobil prototipte yok. */
-  .saatEtiketi {
-    display: none;
+  .metaSerit {
+    gap: 14px 20px;
   }
 }

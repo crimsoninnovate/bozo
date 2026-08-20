@@ -892,3 +892,108 @@ açılırken marka gözle görülür şekilde değişiyordu.
 
 Şiş kilidi artık yalnız alt bilgide ve `global-not-found`'da. `lib/sis.ts`, `SisIsareti` ve
 `MarkaKilidi` duruyor.
+
+## 20 Ağustos 2026: header + hero v2, palet ve tipografi göçü
+
+Kaynak: `Desktop/design_handoff_bozo_website/header-hero-v2/SPEC.md`. Sahibinin kararı:
+**token'lar (renk + font) siteye global, YAPI yalnız header ve hero.** Menü, hikaye, konum
+ve galeri sayfaları yeni renk ve tipografiyle açılıyor ama düzenleri bu turda taşınmadı.
+
+### Palet göçü (spec §8)
+
+| Eski | Yeni | Dokunulan |
+|---|---|---|
+| `#F2E9DC` / `rgba(242,233,220,x)` | `#F9E9D5` / `rgba(249,233,213,x)` | 55 |
+| `#FAAA1F` + `--tangerine` ailesi | `#D19E66` + `--bakir` ailesi | 37 değer, 82 token adı |
+| `#B7351C` / `#C93E22` | `#AD2624` / `#8E1D1C` | 33 |
+| `#0A0807` / `rgba(10,8,7,x)` | `#0B0F0F` / `rgba(11,15,15,x)` | 26 |
+| `#1A1614` / `rgba(26,22,20,x)` | `#131817` / `rgba(19,24,23,x)` | 7 |
+| `#0C0A09`, `#060504` | `#0F1413`, `#070A0A` | 2 |
+
+Silinenler: `--pumpkin` ve `--mese` (ikisinin de tüketicisi yoktu). `--nar` `--ikram-leke`
+oldu ve nar `#7A1F2B`'den bordo koyuya taşındı: yeni palet logonun dışına çıkmıyor, rolü
+(ikramı ana kordan ayırmak) değişmedi. Tek tüketicisi `FotoYuvasi`.
+
+Yeni ölçülen kontrastlar (20 Ağustos 2026), yorumlardaki eski sayılar bunlarla değişti:
+
+| | zemin | kömür |
+|---|---|---|
+| krem `#F9E9D5` | 16.20:1 | 15.07:1 |
+| bakır `#D19E66` | 8.07:1 | 7.51:1 |
+| bakır açık `#E8C08A` | 11.32:1 | 10.54:1 |
+| bakır koyu `#C08A57` | 6.44:1 | 5.99:1 |
+| kor `#AD2624` | **2.83:1** | 2.63:1 |
+
+**Kor 3:1'in altına indi.** Eskiden 3.03:1 idi ve kural "gövde metni olmaz" diyordu; artık
+tek başına grafik öğe (ikon, ince kenarlık) olarak da taşımıyor. Buton olarak geçerli:
+üstündeki krem metin 5.73:1, hover'da 7.53:1.
+
+Yayın kontrolü (spec §8) üretim CSS'inde çalıştırıldı: `FAAA1F`, `B7351C`, `Bricolage`,
+`Inter` aramalarının dördü de **0 dosya**.
+
+### Tipografi göçü ve sentetik kalın kaçağı
+
+Bricolage Grotesque > **Bevan**, Inter > **Archivo**. İkisi de `latin` + `latin-ext`
+sunuyor (Google CSS API'sinden doğrulandı): `ı` latin'de, `ğ Ğ ş Ş İ` latin-ext'te.
+
+**Bevan'ın tek ağırlığı var: 400.** Kod tabanı başlıklarda 600/700/800 yazıyordu, yani
+tarayıcı sentetik kalın üretiyordu. İki turda toplandı:
+
+1. `--font-baslik` geçen satırlarda `font: NNN` > `400` (33 satır) ve ayrı `font-weight`
+   bildirimleri (8 satır).
+2. Bu yetmedi. Gerçek tarama tarayıcıda yapıldı (computed `fontFamily` Bevan **ve**
+   `fontWeight != 400`): dokuz rotada **23 kaçak** daha çıktı, `CanliSaat`'in üç ölçüsü ve
+   `MarkaKilidi`'nin kelime bloğu. Satır yakınlığına bakan metin taraması bunları
+   kaçırıyordu, çünkü `font-family` ile `font-weight` arasında 30+ satır vardı.
+
+Kural artık `styles/tokens.css`'te yazılı.
+
+### Header (spec §4)
+
+Bar 84 > **104px**, daralmış hâl **70px** (eşik 120px, `useDaralmis`, rAF ile kısılmış
+passive dinleyici). Rozet **134px** ve barın 28px altına sarkıyor; daralınca 62px ve sarkma
+yok. Nav hover'ı bakır 2px alt çizgi. Header butonu dış çizgili, daralınca solid bordo
+(sayfadaki tek birincil eylem hero'da kalsın diye). Daralmış barın sağına canlı durum
+kümesi giriyor (`BarDurumu`, ayrı bileşen: dakikada bir render'ı bütün bara yaymamak için).
+
+Mobil bar 58 > **82px**; `Cekmece`'nin üst satırı barın ikizi olduğu için birlikte taşındı.
+
+Spec'ten üç ayrılma, üçü de kayıtlı:
+- **Yatay dolgu 44px değil `--sayfa-yatay`.** Bu tur yalnız header ve hero'yu taşıyor;
+  44px, hero ile altındaki her bölüm arasında görünür bir hiza kayması bırakırdı.
+- **Saç çizgisi rozetin olduğu yerde kesiliyor** (sahibi): `border-bottom` sarkan rozetin
+  ortasından geçip onu kesiyormuş gibi duruyordu. Çizgi kaldırılmadı, orta kolonun
+  276px'lik dokunulmaz alanında boşluk bırakan bir gradyana çevrildi.
+- **Mobil eşik 768 değil 1040.** Bizimki üç kez ölçümle taşındı, spec'in sayısı kendi
+  kanvasının.
+
+### Hero (spec §5)
+
+Başlık üç satırdan ikiye indi, ikinci satır bakır (`--bakir-koyu`). Rozetin üç sözü
+überline oldu. Gövde paragrafı, tane ölçüsü grafiği (`TaneDizilimi`, artık `etiket` propu
+ile `role="img"` taşıyabiliyor), eylem çifti, alt meta şeridi.
+
+**Üst boşluk sabit sayı DEĞİL.** Spec 88px diyor ama `position:sticky` varsayıyor; bizim
+bar `fixed`, yani akış dışında. 88px'te überline barın altında kalıyordu. Boşluk artık
+`calc(var(--bar-boy) + var(--rozet-sarkma) + 56px)`: bar ölçüsü değişirse hero kendiliğinden
+takip eder.
+
+Sahibinin aynı gün verdiği beş düzeltme:
+
+| Not | Uygulama |
+|---|---|
+| "zemin animasyonunu bozuyor" | Ocak kartının `rgba(19,24,23,.72)` dolgusu kalktı, kart yalnız çerçevesiyle var, kor altından geçiyor |
+| Ocak fotoğraf bandı | **Uygulanmadı.** Handoff `KorSahnesi`'ni bilmiyordu; band zeminin üstüne opak bir şerit koyup animasyonu kesiyordu |
+| Eyebrow'un sağındaki çizgi | Kaldırıldı |
+| "saatin puntosunu küçültmek gerek", sonra "çok küçülmüş" | 130 > 74 > **82px**. Tavan kartın genişliği: 74px'te saat 318px, kartın içi 320px idi. Kart 372 > 410px, başlık 86 > 80px (sol kolon tek satırı ancak taşıyordu). Şimdi saat 356px, iç 358px |
+| "bölme çizgisi o bölüme yapışmış" | Ölçüldü: ızgaranın altı 663, şeridin üstü 663, yani 0px. Meta şeridine 48px üst boşluk |
+
+### Genel kontrol
+
+- **Kontrast taraması** (7 rota, her metin düğümü, efektif zemin yığınla hesaplanarak):
+  tek bulgu dil anahtarının dekoratif `/` glifi, 2.24:1. `aria-hidden` ve WCAG 1.4.3 saf
+  dekorasyonu muaf tutuyor; zaten kayıtlı.
+- **Footer telifi** (sahibi: "okunmuyor"): kontrast ölçümü geçiyordu (8.9:1) ama satır
+  sayfanın en sönüğüydü, 12.5px **ve** .74 opaklık birlikte. Punto 13.5'e, opaklık .82'ye
+  çıktı. Üçüncü tur; öncekiler .5 > .58 > .74 idi.
+- Tipler, 123 test ve derleme temiz.

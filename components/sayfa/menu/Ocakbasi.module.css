@@ -61,7 +61,7 @@
 
 .imzaAd {
   margin: 0;
-  font: 700 var(--ol-imza-ad)/1.02 var(--font-baslik);
+  font: 400 var(--ol-imza-ad)/1.02 var(--font-baslik);
   letter-spacing: var(--iz-sayfa-baslik);
   color: var(--krem);
 }
@@ -121,7 +121,7 @@
 
 .ozelAd {
   margin: 0;
-  font: 700 var(--ol-urun-ad)/1.1 var(--font-baslik);
+  font: 400 var(--ol-urun-ad)/1.1 var(--font-baslik);
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
 }
@@ -139,9 +139,9 @@
 }
 
 .ozelFiyat {
-  font: 600 var(--ol-imza-fiyat)/1 var(--font-baslik);
+  font: 400 var(--ol-imza-fiyat)/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
-  color: var(--tangerine);
+  color: var(--bakir);
 }
 
 /* Telefon: imza paneli ve Special şeridi de listenin satırları olur (Mobil "kart değil satır",
@@ -186,7 +186,7 @@
   .indeks {
     grid-column: 1;
     padding-top: 6px;
-    font: 600 11.5px/1.5 var(--font-baslik);
+    font: 400 11.5px/1.5 var(--font-baslik);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.06em;
   }
@@ -212,9 +212,9 @@
   .anaFiyat {
     display: inline;
     flex: none;
-    font: 600 17px/1.2 var(--font-baslik);
+    font: 400 17px/1.2 var(--font-baslik);
     font-variant-numeric: tabular-nums;
-    color: var(--tangerine);
+    color: var(--bakir);
   }
 
   .imzaAciklama {
