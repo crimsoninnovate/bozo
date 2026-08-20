@@ -1,39 +1,9 @@
 :root {
-  /* zemin */
-  --zemin: #0B0F0F;
-  --komur: #131817;
-  /* Menü sayfasının çekim listesi ve ürün plakalarının zemini, --zemin'den ayrı.
-     Marka kitabının sekiz renkli listesinde yok; tasarımdan (Menu Sayfasi.dc.html,
-     15 kullanım, yalnız o sayfada) doğrulandı. */
-  --plaka-zemin: #0F1413;
-  /* Yalnız Gece bölümünün zemini, sayfadan bir kademe koyu. Marka kitabında yok;
-     kanonik kaynak onu token olarak adlandırıyor (UYGULAMA-NOTLARI.md:12). */
-  --gece: #070A0A;
-  /* Mobil çekmecenin zemini (Mobil:195 .96; prototipin 8,6,5'i palet dışı, --zemin'in rgb'si). */
-  --panel-96: rgba(11, 15, 15, 0.96);
-  --panel-koyu: rgba(11, 15, 15, 0.9);
-  /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
-  --panel-86: rgba(11, 15, 15, 0.86);
-  --panel-orta: rgba(11, 15, 15, 0.74);
-  --panel-acik: rgba(11, 15, 15, 0.72);
-  /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */
-  --panel-yari: rgba(11, 15, 15, 0.55);
-  /* Üst barın iki hâli (SPEC.md §4): normal .9, daralmış .94. */
-  --panel-bar: rgba(11, 15, 15, 0.9);
-  --panel-daralmis: rgba(11, 15, 15, 0.94);
-  /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
-  --panel-poi: rgba(11, 15, 15, 0.85);
-  /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
-  --panel-buton: rgba(11, 15, 15, 0.4);
-  /* Üç rolün paylaştığı yarı saydam zemin, o yüzden rol değil alfa adı taşıyor:
-     durum çipi (Ana:89, Mobil:73, 263), Konum'un harita levhası (Konum:89) ve
-     mobil üst barın gradyan ucu (Mobil:50, 240). Ana Sayfa'nın harita levhası
-     bu değeri DEĞİL --panel-yari'yi (.55, Ana:323) kullanıyor. */
-  --panel-60: rgba(11, 15, 15, 0.6);
-  /* menü imza panelinin zemini. Tek kullanım: Menu:104 */
-  --panel-imza: rgba(11, 15, 15, 0.78);
+  /* Zemin, kor ve kömür aileleri bu dosyada DEĞİL: değerleri zemine bağlı olduğu
+     için `styles/palet/bordo.css` ve `styles/palet/siyah.css` arasında bölündüler.
+     Buradakiler iki palette de aynıdır. */
 
-  /* metin: krem #F9E9D5, kömür üstünde 14.94:1 */
+  /* metin: krem #F9E9D5. Kömür üstünde bordo palette 13.35:1, siyahta 15.07:1. */
   --krem: #F9E9D5;
   --krem-86: rgba(249, 233, 213, 0.86);
   --krem-78: rgba(249, 233, 213, 0.78);
@@ -104,44 +74,8 @@
   /* Konum haritasının ikinci dikey yolu, 7px. Tek kullanım: Konum:93 */
   --cizgi-harita-ince: rgba(249, 233, 213, 0.045);
 
-  /* Eylem rengi (spec: ciğer bordosu). Ölçüldü 20 Ağustos 2026: zemin üstünde 2.83:1,
-     kömür üstünde 2.63:1. GÖVDE METNİ OLARAK KULLANILMAZ, ve artık 3:1'in de altında
-     olduğu için tek başına grafik öğe (ikon, ince kenarlık) olarak da taşımaz.
-     Buton olarak geçerli: üstündeki krem metin 5.73:1, hover'da 7.53:1. */
-  --kor: #AD2624;
-  --kor-hover: #8E1D1C;
-  --kor-golge: 0 12px 34px rgba(173, 38, 36, 0.4);
-  --kor-golge-kucuk: 0 8px 26px rgba(173, 38, 36, 0.34);
-  --kor-golge-hover: 0 16px 46px rgba(173, 38, 36, 0.6), 0 0 0 1px rgba(209, 158, 102, 0.6);
-
-  /* plaka kor lekeleri: menü sayfasının yuvalarında kadraj arkasındaki parıltı */
-  --kor-leke-guclu: rgba(173, 38, 36, 0.5);
-  --kor-leke: rgba(173, 38, 36, 0.36);
-  --kor-leke-solgun: rgba(173, 38, 36, 0.34);
-  --kor-leke-karo: rgba(173, 38, 36, 0.3);
-  --kor-leke-hover: rgba(173, 38, 36, 0.4);
-
-  /* kor kenarlıkları: üstteki leke ailesinden ayrı, çünkü rol kenarlık.
-     --kor-kenar, --kor-leke-hover ile aynı değeri taşır ve --kor-golge'nin
-     alfasıyla da eşittir; üçü ayrı rol olduğu için ayrı adları var. */
-  --kor-kenar-hover: rgba(173, 38, 36, 0.65); /* menü ürün kartı hover (Menu:125, 143, 161, 179) */
-  --kor-kenar: rgba(173, 38, 36, 0.4); /* menü imza paneli (Menu:104) */
-
-  /* harita levhasının halkası ve pini. İki levha aynı değerleri paylaşmıyor:
-     Ana Sayfa'nın halkası 80px/.5 (Ana:327), Konum'unki 110px/.45 (Konum:95).
-     Pin renkleri ise iki levhada aynı, yalnız yayılma yarıçapı ayrışıyor
-     (Ana:328 6px/30px, Konum:96 7px/32px, Mobil:173, 363 5px/24px). */
-  --kor-halka: rgba(173, 38, 36, 0.5);
-  --kor-halka-konum: rgba(173, 38, 36, 0.45);
-  --kor-pin-halka: rgba(173, 38, 36, 0.22);
-  --kor-pin-parilti: rgba(173, 38, 36, 0.85);
-  /* İkram yuvalarının koru (FotoYuvasi, tek tüketici). Eskiden nar #7A1F2B idi;
-     markanın yedinci rengiydi ama yeni palet logonun dışına çıkmıyor, o yüzden
-     bordo koyuya taşındı. Rolü değişmedi: ikramı ana kordan ayırmak. */
-  --ikram-leke: rgba(142, 29, 28, 0.5);
-
   /* Vurgu rengi (spec: bakır altın). Turuncu #FAAA1F 20 Ağustos 2026'da kaldırıldı:
-     logoda saf turuncu yok. Ölçüldü: zemin üstünde 8.07:1, kömür üstünde 7.51:1. */
+     logoda saf turuncu yok. Zemin üstünde bordo palette 7.31:1, siyahta 8.07:1. */
   --bakir: #D19E66;
   --bakir-85: rgba(209, 158, 102, 0.85);
   --bakir-80: rgba(209, 158, 102, 0.8);
@@ -159,22 +93,15 @@
   /* ikram kartının kenarlığı (Menu:206, 218); aynı değer menü sayfasının kor
      çekirdek gradyanında da geçiyor (Menu:30). */
   --bakir-28: rgba(209, 158, 102, 0.28);
-  /* Canlı veri vurgusu (aktif saat satırı, ilerleme imleci). Zemin üstünde 11.32:1. */
+  /* Canlı veri vurgusu (aktif saat satırı, ilerleme imleci). Zemin: bordo 10.25:1, siyah 11.32:1. */
   --bakir-acik: #E8C08A;
-  /* Hero başlığının ikinci satırı. Zemin üstünde 6.44:1: büyük başlıkta AA geçer. */
+  /* Hero başlığının ikinci satırı. Zemin: bordo 5.83:1, siyah 6.44:1; büyük başlıkta AA geçer. */
   --bakir-koyu: #C08A57;
   --bakir-12: rgba(209, 158, 102, 0.12);
   --bakir-10: rgba(209, 158, 102, 0.1);
   --bakir-08: rgba(209, 158, 102, 0.08);
   /* satır hover zemini. 12 kullanım, üç dosya: Ana:176-208, Konum, Mobil */
   --bakir-07: rgba(209, 158, 102, 0.07);
-
-  /* Paket şeridinin paragraf rengi. Şerit 13 Ağustos 2026'da kaldırıldı; --pumpkin
-     ve --mese 20 Ağustos 2026'da silindi (tüketicisi yoktu ve yeni palet kapalı). */
-  --komur-90: rgba(19, 24, 23, 0.9);
-  --komur-55: rgba(19, 24, 23, 0.55);
-  --komur-10: rgba(19, 24, 23, 0.1);
-  --komur-golge: 0 14px 34px rgba(19, 24, 23, 0.4);
 
   /* Üçüncü taraf markaları kendi renginde (sahibi, 18 Ağustos 2026: tanınırlık).
      Sitenin paletine ait değil, yalnız o markanın işaretinde kullanılır. */
@@ -252,9 +179,6 @@
   /* Menü H1'inin izi, dosyanın en sıkı değeri. Tek kullanım: Menu:76 */
   --iz-hero-menu: -0.055em;
 
-  /* Zemin üstünde tek başına duran başlığın gölgesi. 5 kullanım, dört dosya:
-     Ana:224, Hikaye:68, Hikaye:125, Konum:74, Menu:76 */
-  --golge-baslik: 0 8px 50px rgba(11, 15, 15, 0.7);
   /* menü ürün kartının hover gölgesi. 4 kullanım: Menu:125, 143, 161, 179 */
   --golge-kart-hover: 0 26px 60px rgba(0, 0, 0, 0.5);
 

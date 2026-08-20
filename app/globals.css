@@ -1,3 +1,6 @@
+/* Palet satırı: zemin ailesini bu belirler. `siyah.css`'e çevirmek eski koyu
+   zemine döndürür, başka değişiklik gerekmez. Bkz. styles/palet/bordo.css. */
+@import '../styles/palet/bordo.css';
 @import '../styles/tokens.css';
 @import '../styles/reset.css';
 @import '../styles/animasyonlar.css';

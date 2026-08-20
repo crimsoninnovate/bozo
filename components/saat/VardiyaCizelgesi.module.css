@@ -49,7 +49,7 @@
   height: 100%;
   border-radius: 2px;
   background: var(--kor);
-  box-shadow: 0 0 22px 6px rgba(173, 38, 36, 0.55);
+  box-shadow: 0 0 22px 6px var(--kor-55);
 }
 
 /* Her etiket kendi yüzdesinde (JS `left`), imleçle aynı ölçek. İlk etiket rayın

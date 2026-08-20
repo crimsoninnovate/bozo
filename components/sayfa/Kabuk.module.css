@@ -5,7 +5,7 @@
  * Görünen tasarıma dokunmaz: kutu `position:fixed`, akışta yer kaplamaz ve odak
  * dışında viewport'un üstünde bekler. z-index üç sabit katmanın üstünde (üst bar
  * 60, mobil eylem barı 70, çekmece 80). Geçiş yok, yani azaltılmış harekette de
- * aynı anda belirir. Krem #F9E9D5 kömür #131817 üstünde 14.94:1.
+ * aynı anda belirir. Krem #F9E9D5, kömür üstünde bordo palette 13.35:1.
  */
 .atla {
   position: fixed;

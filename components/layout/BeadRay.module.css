@@ -77,7 +77,7 @@
 /* Kararma: rengi ve parlamayı taşır, hareket tercihinden bağımsız her zaman uygulanır. */
 .aktif {
   background: var(--kor);
-  box-shadow: 0 0 16px rgba(173, 38, 36, 0.9);
+  box-shadow: 0 0 16px var(--kor-90);
 }
 
 /*

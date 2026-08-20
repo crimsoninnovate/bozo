@@ -21,9 +21,18 @@ type Kivilcim = {
  * seçildi; 26000 ile 390x844'te yalnız 18 tane düşüyordu ve ekranda hiç
  * okunmuyordu. 9000 aynı ekrana 37, 1440x900'e tavan olan 120 tane koyuyor.
  */
-// Palet: tangerine sıcak nokta, kor gövde.
-const SICAK = 'rgb(209, 158, 102)'
-const KOR = 'rgb(173, 38, 36)'
+// Palet: bakır sıcak nokta, kor gövde. Canvas CSS'i okumaz, o yüzden token'lar
+// mount'ta bir kez çözülür; yedekler siyah paletin değerleri. Sabit bırakılamaz:
+// kor palete göre değişiyor (siyahta #AD2624, bordoda #C13029) ve literal kalsaydı
+// kıvılcımlar palet takasını duymazdı.
+const SICAK_YEDEK = 'rgb(209, 158, 102)'
+const KOR_YEDEK = 'rgb(173, 38, 36)'
+
+function tokenRengi(ad: string, yedek: string): string {
+  if (typeof window === 'undefined') return yedek
+  const deger = getComputedStyle(document.documentElement).getPropertyValue(ad).trim()
+  return deger || yedek
+}
 
 function adet(en: number, boy: number): number {
   return Math.round(Math.min(120, Math.max(30, (en * boy) / 9000)))
@@ -79,6 +88,9 @@ export function KorKivilcimi() {
       return
     }
 
+    const sicakRenk = tokenRengi('--bakir', SICAK_YEDEK)
+    const korRenk = tokenRengi('--kor', KOR_YEDEK)
+
     let en = 0
     let boy = 0
     let sonOran = 0
@@ -126,7 +138,7 @@ export function KorKivilcimi() {
         const x = t.x + Math.sin(t.faz + t.yas * 1.6) * t.savrulma
         // Sabit renk + globalAlpha: kare başına 240 rgba dizesi kurmak döngünün
         // maliyetinin dörtte üçüydü (ölçüldü 0.21 > 0.06 ms/kare); görüntü aynı.
-        ctx.fillStyle = t.sicak ? SICAK : KOR
+        ctx.fillStyle = t.sicak ? sicakRenk : korRenk
         // Hale: çekirdeğin üç katı, çok soluk. `lighter` ile üst üste binince
         // tek tek taneler yerine közün toplam parıltısı okunuyor.
         ctx.globalAlpha = 0.16 * parlaklik

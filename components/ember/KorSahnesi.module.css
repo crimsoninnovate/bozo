@@ -75,8 +75,8 @@
   height: 96%;
   background: radial-gradient(
     72% 96% at 50% 100%,
-    rgba(173, 38, 36, 0.78),
-    rgba(173, 38, 36, 0.2) 44%,
+    var(--kor-78),
+    var(--kor-20) 44%,
     transparent 70%
   );
   animation: emberBreathAna 8s ease-in-out infinite;
@@ -87,8 +87,8 @@
   height: 92%;
   background: radial-gradient(
     76% 90% at 50% 100%,
-    rgba(173, 38, 36, 0.55),
-    rgba(173, 38, 36, 0.14) 44%,
+    var(--kor-55),
+    var(--kor-14) 44%,
     transparent 70%
   );
   animation: emberBreath 9s ease-in-out infinite;
@@ -199,7 +199,7 @@
   position: absolute;
   inset: auto 0 0 0;
   height: 180px;
-  background: linear-gradient(180deg, rgba(11, 15, 15, 0), rgba(11, 15, 15, 0.92));
+  background: linear-gradient(180deg, var(--panel-sahne-tepe), var(--panel-sahne-dip));
 }
 
 /*
@@ -213,8 +213,8 @@
     height: 92%;
     background: radial-gradient(
       78% 92% at 50% 100%,
-      rgba(173, 38, 36, 0.78),
-      rgba(173, 38, 36, 0.2) 44%,
+      var(--kor-78),
+      var(--kor-20) 44%,
       transparent 70%
     );
   }

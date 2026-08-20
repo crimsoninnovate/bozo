@@ -22,7 +22,7 @@
   background: linear-gradient(
     180deg,
     rgba(209, 158, 102, 0.55),
-    rgba(173, 38, 36, 0.5) 55%,
+    var(--kor-50) 55%,
     rgba(249, 233, 213, 0.12)
   );
 }
@@ -36,7 +36,7 @@
   margin-top: -6px;
   border-radius: 2px;
   background: var(--kor);
-  box-shadow: 0 0 20px 5px rgba(173, 38, 36, 0.6);
+  box-shadow: 0 0 20px 5px var(--kor-60);
 }
 
 .taslar {

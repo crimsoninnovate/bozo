@@ -9,7 +9,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px var(--sayfa-yatay);
-  background: rgba(173, 38, 36, 0.2);
+  background: var(--kor-20);
 }
 
 .nokta {
