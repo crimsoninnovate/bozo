@@ -150,6 +150,36 @@ the Cloudflare DNS extension is given an API token.
 
 Until 20 August 2026 the site was served by Caddy `file_server` on researchos-server from
 `/var/www/enliq/bozo/out`, configured in `/opt/docker/caddy/Caddyfile` inside a `caddy:2-alpine`
-container. That box still serves the demo at `https://bozo.crimsoninnovate.com` from the same
-directory, which no longer receives deploys and will drift. The Caddy-era traps are recorded in
-`docs/surec/DEVAM-ARSIV.md`.
+container. The `cigercibozo.com` and `www.cigercibozo.com` blocks were removed from that
+Caddyfile the same day; the backup is `Caddyfile.bak-20260820-arc` next to it. The box still
+serves the demo at `https://bozo.crimsoninnovate.com` from the same directory, which no longer
+receives deploys and will drift.
+
+**A third Caddy trap, found while removing those blocks.** The Caddyfile is bind-mounted into
+the container as a *single file*, and Docker binds the inode, not the path. `sed -i` does not
+edit in place: it writes a new file and renames it over the old one, so the inode changes, the
+host sees the edit and the container does not. `caddy reload` then reports success while reading
+the old config. Confirmed by counting the same string on both sides: 0 on the host, 2 inside the
+container. The fix without downtime is to write through the container,
+`docker exec -i caddy sh -c 'cat > /etc/caddy/Caddyfile' < /opt/docker/caddy/Caddyfile`, and
+reload again. The two files stay separate inodes until the container is restarted, so verify
+inside the container after any edit, never on the host alone.
+
+### Measured against the old host, 20 August 2026
+
+Both boxes sit in the same `185.210.92.0/24`, so the network leg is identical (~235 ms TLS and
+transit from the measuring machine either way). Twenty-five interleaved rounds against the same
+build, alternating hosts to cancel connection drift, time to first byte with TLS excluded:
+
+| Host | Stack | TTFB | Same request measured on the box itself |
+|---|---|---|---|
+| researchos | Caddy `file_server` | 116 ms | 2 ms |
+| arc | Plesk, nginx | 173 ms | 12 ms |
+
+arc is the bigger machine (8 cores against 4, 11 GB RAM against 7, 30 GB free disk against 11)
+and both sit near idle, so this is the software stack, not the hardware. Plesk's nginx serves
+static files itself; going through Apache instead costs 66 ms on the same box, which is what the
+`X-Accel-Internal` line in the generated vhost avoids.
+
+The gap matters less than it looks: Cloudflare now proxies the domain and caches `_next/static`
+at the edge (`cf-cache-status: HIT`), so only the HTML document reaches the origin at all.
