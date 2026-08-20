@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { HataSayfasi } from '@/components/sayfa/HataSayfasi'
 import { sozluk } from '@/content'
 import { fontSiniflari } from '@/lib/fontlar'
+import { IKONLAR } from '@/lib/metadata'
 import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
@@ -36,6 +37,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `${s.hata.kicker} · ${s.ortak.marka.ad}`,
   description: s.hata.metin,
+  // Kök layout atlandığı için ikonlar buraya da açıkça yazılır.
+  icons: IKONLAR,
+  manifest: '/site.webmanifest',
 }
 
 export default function GlobalNotFound() {

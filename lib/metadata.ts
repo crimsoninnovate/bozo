@@ -17,6 +17,25 @@ const SOSYAL_KART = {
 }
 
 /**
+ * Favicon seti (RealFaviconGenerator, 20 Ağustos 2026), dosyalar `public/` altında.
+ * `app/icon.svg` + `app/apple-icon.png` konvansiyonu KALDIRILDI: iki sistem yan yana
+ * durunca Next ikisini de basıyor ve sekmede hangisinin kazandığı tarayıcıya kalıyordu.
+ * `favicon.svg` üreticinin 478 KB'lık sürümü değil, gerçek vektörün (`marka/rozet.svg`)
+ * kopyası; üreticininki SVG'ye sarılmış bir rasterdı (0 path, 1 base64).
+ *
+ * Dışa açık, çünkü `app/global-not-found.tsx` kök layout'u atlar ve kendi
+ * `metadata`'sını yazar; ikon seti iki yerde ayrı ayrı tanımlanmaz.
+ */
+export const IKONLAR = {
+  icon: [
+    { url: '/favicon.ico', sizes: '48x48' },
+    { url: '/favicon.svg', type: 'image/svg+xml' },
+    { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+  ],
+  apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+}
+
+/**
  * Rota ve dil başına `Metadata` üretir: sözlükten başlık/açıklama, `SITE_URL`
  * üzerinden canonical ve üç dilli (`tr`, `en`, `x-default`) hreflang alternatifleri.
  * `x-default` Türkçeye işaret eder; site kökü Türkçe barındığı için varsayılan budur.
@@ -31,6 +50,9 @@ export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil): Metadata {
     metadataBase: new URL(SITE_URL),
     title: meta.baslik,
     description: meta.aciklama,
+    icons: IKONLAR,
+    manifest: '/site.webmanifest',
+    appleWebApp: { title: s.ortak.marka.ad },
     alternates: {
       canonical: `${SITE_URL}${yol(anahtar, dil)}`,
       languages: {
