@@ -1,5 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { existsSync } from 'node:fs'
 import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
@@ -273,11 +274,24 @@ test('fotograflar_herKadrajBenzersizEtiketTasir', () => {
   assert.equal(new Set(etiketlerEn).size, etiketlerEn.length, 'İki kare aynı İngilizce etiketi taşıyamaz')
 })
 
-test('fotograflar_hicbiriHenuzDosyaTasimaz', () => {
+/**
+ * 20 Ağustos 2026'ya kadar bu test "hiçbiri dosya taşımaz" diyordu; ilk iki kare
+ * gelince amacı değişti. Artık iki şeyi birden tutuyor: kadraj etiketleri hep
+ * dolu (dosya gelince `alt` olarak ağaçta kalıyorlar) ve `dosya` yazılmışsa o
+ * dosya `public/` altında GERÇEKTEN var. İkincisi olmasaydı bir yazım hatası
+ * sessizce kırık görsel basardı; statik export'ta bunu yakalayan başka bir şey yok.
+ */
+test('fotograflar_etiketDolu_veYazilanDosyaDiskteVar', () => {
+  const kok = new URL('../public', import.meta.url)
   for (const [id, foto] of Object.entries(fotograflar)) {
-    assert.equal(foto.dosya, undefined, `${id} için fotoğraf henüz çekilmedi`)
     assert.ok(foto.etiket.length > 0, `${id} için kadraj etiketi boş`)
     assert.ok(foto.etiketEn.length > 0, `${id} için İngilizce kadraj etiketi boş`)
+    if (foto.dosya === undefined) continue
+    assert.ok(foto.dosya.startsWith('/foto/'), `${id} dosyası /foto/ altında değil: ${foto.dosya}`)
+    assert.ok(
+      existsSync(new URL(`.${foto.dosya}`, `${kok.href}/`)),
+      `${id} için ${foto.dosya} public/ altında yok`,
+    )
   }
 })
 

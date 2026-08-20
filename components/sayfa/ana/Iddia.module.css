@@ -109,11 +109,3 @@
   }
 }
 
-/* Plakanın ortasındaki içi boş ray; konumu çağıran verir (Ana:149). */
-.ortaRay {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.5;
-}

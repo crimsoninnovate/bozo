@@ -6,7 +6,11 @@ import type { Foto, FotoId } from './types.ts'
  * Yapay zeka ile üretilmiş yemek görseli kullanılmaz.
  */
 export const fotograflar: Record<FotoId, Foto> = {
-  'tane-yakin-cekim': { etiket: 'tane yakın çekimi', etiketEn: 'the cut, close up' },
+  'tane-yakin-cekim': {
+    etiket: 'tane yakın çekimi',
+    etiketEn: 'the cut, close up',
+    dosya: '/foto/tane-yakin-cekim.webp',
+  },
   // Menü imza panosu geniş ve alçaktır; ana sayfadaki dikey pano ile aynı dosya
   // ikisini birden kadrajlayamaz. Tasarım bu yuvada kadrajı açıkça yazar.
   'tane-yakin-cekim-yatay': {
@@ -26,5 +30,12 @@ export const fotograflar: Record<FotoId, Foto> = {
   lebeni: { etiket: 'lebeni karesi', etiketEn: 'lebeni soup' },
   bostana: { etiket: 'bostana karesi', etiketEn: 'bostana salad' },
   ayran: { etiket: 'bakır maşrapada ayran', etiketEn: 'ayran in a copper cup' },
-  'bozo-portre': { etiket: 'portre, ocak başında', etiketEn: 'portrait, at the fire' },
+  /* Etiket gelen kareye göre düzeltildi (20 Ağustos 2026): çekim listesi
+     "ocak başında" diyordu, eldeki kare koyu zeminde stüdyo portresi. Bu metin
+     fotoğraf gelince `alt` olarak ağaçta kaldığı için gerçeği anlatmak zorunda. */
+  'bozo-portre': {
+    etiket: 'Bozo Çağlar, portre',
+    etiketEn: 'Bozo Çağlar, portrait',
+    dosya: '/foto/bozo-portre.webp',
+  },
 }

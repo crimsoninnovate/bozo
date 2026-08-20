@@ -52,6 +52,12 @@ type Props = {
   id: FotoId
   dil: Dil
   bicim: YuvaBicimi
+  /**
+   * `object-position`. Portre bir kare yatay bir yuvaya `cover` ile oturunca
+   * merkez kırpımı başın tepesini kesiyor; odak yukarı alınır. Yalnız kırpımın
+   * yanlış yeri seçtiği yuvalarda verilir.
+   */
+  odak?: string
   /** Biçimin varsayılanını ezmek gerekirse. Tasarımda 0, 1, 2 ve 4 köşe var. */
   koseIsaretleri?: 0 | 1 | 2 | 4
   /**
@@ -97,6 +103,7 @@ export function FotoYuvasi({
   id,
   dil,
   bicim,
+  odak,
   koseIsaretleri,
   korNefesi,
   etiketGoster = false,
@@ -111,7 +118,14 @@ export function FotoYuvasi({
   if (foto.dosya) {
     return (
       <div className={`${stil.kap} ${stil[bicim]}`}>
-        <Image src={foto.dosya} alt={etiket} fill className={stil.gorsel} sizes={sizes} />
+        <Image
+          src={foto.dosya}
+          alt={etiket}
+          fill
+          className={stil.gorsel}
+          sizes={sizes}
+          style={odak ? { objectPosition: odak } : undefined}
+        />
         {children}
       </div>
     )

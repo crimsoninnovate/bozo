@@ -997,3 +997,29 @@ Sahibinin aynı gün verdiği beş düzeltme:
   sayfanın en sönüğüydü, 12.5px **ve** .74 opaklık birlikte. Punto 13.5'e, opaklık .82'ye
   çıktı. Üçüncü tur; öncekiler .5 > .58 > .74 idi.
 - Tipler, 123 test ve derleme temiz.
+
+## 20 Ağustos 2026: ilk iki gerçek fotoğraf
+
+`tane-yakin-cekim` ve `bozo-portre` yuvaları doldu; kalan 14 kare hâlâ kadraj etiketiyle
+duruyor. Varlıklar `public/foto/` altında WebP: 800x993 (164 KB) ve 1120x1456 (109 KB).
+Ölçüler yuvaların gerçek boyundan seçildi (DPR 2 dahil): `portre` 340x420, `portreUzun`
+528x468, mobilde 342x300 ve 342x468.
+
+**Portre etiketi düzeltildi.** Çekim listesi `portre, ocak başında` diyordu, eldeki kare
+koyu zeminde stüdyo portresi. Bu metin fotoğraf gelince `alt` olarak ağaçta kaldığı için
+gerçeği anlatmak zorunda: `Bozo Çağlar, portre`.
+
+**`odak` propu eklendi** (`FotoYuvasi`). Portre kare 528x468'lik YATAY yuvaya `cover` ile
+oturunca merkez kırpımı başın tepesini kesiyordu; `odak="50% 28%"` ile düzeldi. Kalan 14
+kare geldiğinde aynı sorun tekrarlanacak, prop onun için genel bırakıldı.
+
+**İddia plakasının anahat tane rayı KALDIRILDI** (`Ana:149`). Boş koyu plakada bir süs
+olarak çalışıyordu; gerçek kare gelince açık gri zeminin üstünde okunmaz bir çizgi yığınına
+döndü. Rayın anlattığı şeyi (tane ritmi) artık fotoğrafın kendisi gösteriyor. Bir parite
+turu bunu eksik görecek: değil.
+
+**Test amaç değiştirdi.** `fotograflar_hicbiriHenuzDosyaTasimaz` >
+`fotograflar_etiketDolu_veYazilanDosyaDiskteVar`. Artık iki şeyi birden tutuyor: etiketler
+hep dolu, ve `dosya` yazılmışsa o dosya `public/` altında gerçekten var. İkincisi olmasaydı
+bir yazım hatası sessizce kırık görsel basardı; statik export'ta bunu yakalayan başka bir
+şey yok.

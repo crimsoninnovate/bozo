@@ -1,7 +1,6 @@
 import { AnimasyonluSayac } from '@/components/ui/AnimasyonluSayac'
 import { Bolum } from '@/components/ui/Bolum'
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
-import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
 import stil from './Iddia.module.css'
 
@@ -49,11 +48,13 @@ export function Iddia({ dil }: Props) {
         </div>
       </div>
 
-      <FotoYuvasi id="tane-yakin-cekim" dil={dil} bicim="portre">
-        <span aria-hidden="true" className={stil.ortaRay}>
-          <TaneDizilimi adet={6} buyuk={22} kucuk={13} bosluk={11} ton="anahat" />
-        </span>
-      </FotoYuvasi>
+      {/*
+        Plakanın ortasındaki anahat tane rayı (Ana:149) KALDIRILDI, 20 Ağustos 2026.
+        Boş koyu plakada bir süs olarak çalışıyordu; gerçek kare gelince açık gri
+        zeminin üstünde okunmaz bir çizgi yığınına döndü. Rayın anlattığı şeyi
+        (tane ritmi) artık fotoğrafın kendisi gösteriyor.
+      */}
+      <FotoYuvasi id="tane-yakin-cekim" dil={dil} bicim="portre" />
     </Bolum>
   )
 }
