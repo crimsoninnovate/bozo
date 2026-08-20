@@ -1,6 +1,8 @@
 /** Home page copy. Source: the data-en attributes of "Ana Sayfa Alternatif.dc.html". */
 export const ana = {
   hero: {
+    /* The badge's three words. Both halves are existing site terminology. */
+    uberSatir: 'Urfa Style · From the Fire · Kyrenia',
     baslikSatir1: 'Dice-sized',
     baslikSatir2: 'liver',
     altBaslik: 'over oak embers',

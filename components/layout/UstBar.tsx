@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Buton } from '@/components/ui/Buton'
 import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
 import { MarkaKilidi } from '@/components/ui/MarkaKilidi'
+import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
 import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
@@ -28,6 +29,12 @@ function ctaHedefi(cta: UstBarCta, dil: Dil): { href: string; hariciMi: boolean 
     case 'capa':
       return { href: `#${cta.hedef}`, hariciMi: false }
   }
+}
+
+/** Rozet ortada durduğu için nav ikiye bölünür; tek sayıda öğede fazlalık sola gider. */
+function navBol(nav: NavOgesi[]): [NavOgesi[], NavOgesi[]] {
+  const orta = Math.ceil(nav.length / 2)
+  return [nav.slice(0, orta), nav.slice(orta)]
 }
 
 function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: RotaAnahtari }) {
@@ -62,10 +69,12 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
 
 /**
  * Sabit üst bar. Nav listesi, CTA hedefi ve bar ölçüsü rotaya göre değişir;
- * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada). Ana
- * sayfa 80px satır + ilerleme rayı, iç sayfalar 78px ve raysız. Gece şeridi de
- * rotaya bağlı (`geceSeridiGosterilirMi`). 1040px altında
- * nav ve CTA gizlenir, hamburger görünür ve tam ekran Cekmece'yi açar.
+ * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada).
+ * Gece şeridi de rotaya bağlı (`geceSeridiGosterilirMi`).
+ *
+ * 20 Ağustos 2026: marka rozete geçti, bar ortalanmış üç kolona döndü. Rozet
+ * 84px altında bozuluyor, o yüzden 1040px altında (bar 58px) markanın sadece
+ * kelime varyantı basılır; mobil ölçüler değişmedi. Bkz. Rozet.tsx.
  */
 export function UstBar({ dil, aktif }: Props) {
   const [cekmeceAcik, setCekmeceAcik] = useState(false)
@@ -73,6 +82,7 @@ export function UstBar({ dil, aktif }: Props) {
   const s = sozluk(dil)
   const varyant = ustBarVaryanti(aktif)
   const cta = ctaHedefi(varyant.cta, dil)
+  const [solNav, sagNav] = navBol(varyant.nav)
   // Cekmece'nin efekti buna bağımlı; her render'da taze bir closure geçmek
   // (setCekmeceAcik'in kendisi kararlı olsa da) efekti gereksiz yere söküp
   // yeniden kurar. Gerçek sayfalarda dil/aktif değiştiğinde UstBar yeniden
@@ -84,15 +94,29 @@ export function UstBar({ dil, aktif }: Props) {
       <header className={`${stil.bar} ${varyant.anaVaryantMi ? stil.anaVaryant : stil.icVaryant}`}>
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
         {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
-        <div className={stil.satir}>
-          <MarkaKilidi dil={dil} />
-
-          <div className={stil.sagGrup}>
-            <nav className={stil.navLinks} aria-label={s.ortak.erisim.anaGezinme}>
-              <NavOgeleri nav={varyant.nav} dil={dil} aktif={aktif} />
-            </nav>
-
+        {/* Tek landmark: dil anahtarı, iki nav yarısı ve CTA aynı bölgeye ait.
+            İki ayrı <nav> aynı adı taşıyamazdı (icerik.test.ts). */}
+        <nav className={stil.satir} aria-label={s.ortak.erisim.anaGezinme}>
+          <div className={stil.sol}>
             <DilAnahtari dil={dil} aktif={aktif} />
+            <span className={stil.navLinks}>
+              <NavOgeleri nav={solNav} dil={dil} aktif={aktif} />
+            </span>
+          </div>
+
+          <span className={stil.markaOrta}>
+            <span className={stil.rozetSarici}>
+              <Rozet dil={dil} boy={varyant.anaVaryantMi ? 'bar' : 'ic'} />
+            </span>
+            <span className={stil.kelimeSarici}>
+              <MarkaKilidi dil={dil} sadeceKelime />
+            </span>
+          </span>
+
+          <div className={stil.sag}>
+            <span className={stil.navLinks}>
+              <NavOgeleri nav={sagNav} dil={dil} aktif={aktif} />
+            </span>
 
             <span className={stil.ctaSarici}>
               <Buton tur="birincil" boy="sm" href={cta.href} hariciMi={cta.hariciMi}>
@@ -113,7 +137,7 @@ export function UstBar({ dil, aktif }: Props) {
               <span aria-hidden="true" />
             </button>
           </div>
-        </div>
+        </nav>
       </header>
 
       <Cekmece dil={dil} aktif={aktif} acik={cekmeceAcik} kapat={kapat} tetikleyiciRef={hamburgerRef} />

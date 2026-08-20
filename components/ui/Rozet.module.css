@@ -1,0 +1,29 @@
+/* Kaynak 291x320 (mürekkep kutusuna kırpılmış), en/boy 0.909. Yükseklik
+   burada, genişlik ondan türer; intrinsic ölçü img'de duruyor, CLS yok. */
+.rozet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  transition: opacity var(--gecis-hizli);
+}
+
+@media (hover: hover) {
+  .rozet:hover {
+    opacity: 0.88;
+  }
+}
+
+.rozet img {
+  display: block;
+  width: auto;
+}
+
+.bar img {
+  height: 80px;
+}
+
+.ic img {
+  height: 72px;
+}

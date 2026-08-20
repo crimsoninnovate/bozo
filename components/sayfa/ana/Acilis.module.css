@@ -11,6 +11,14 @@
   padding: var(--bolum-dikey) var(--sayfa-yatay) 0;
 }
 
+/* Bar rozetle 84 > 104px'e çıktı; hero'nun barla arasındaki 36px'lik payı
+   korumak için üst dolgu aynı 20px kadar büyür. Mobil bar değişmedi. */
+@media (min-width: 1041px) {
+  .bolum {
+    padding-top: 140px;
+  }
+}
+
 .erit {
   max-width: var(--panel-en);
 }
@@ -25,6 +33,29 @@
 
 .sol {
   min-width: 0;
+}
+
+/* Rozetin üç sözü, marka damgası olarak. UI mikro metni: 16px tabanı okuma
+   metnini bağlar, bunu değil (KISITLAR.md > üç kademe). */
+.uberSatir {
+  margin: 0 0 22px;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--krem-58);
+}
+
+/* 390px'te 13px/0.18em tracking 354px istiyor, kolon 342px: "Girne" alt satıra
+   düşüyordu. Ölçü küçülür, satır tek kalır. */
+@media (max-width: 1040px) {
+  .uberSatir {
+    margin-bottom: 18px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
 }
 
 .durumSatiri {

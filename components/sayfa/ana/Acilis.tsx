@@ -29,6 +29,10 @@ export function Acilis({ dil }: Props) {
     <Bolum id="acilis" yogunluk={1} className={stil.bolum} eritClassName={stil.erit}>
       <div className={stil.izgara}>
         <div className={stil.sol}>
+          {/* Rozetin üç sözü. Bardaki rozette bu yay metni 110px altında
+              okunmuyor; hero onu okunur boyda tekrarlar. */}
+          <p className={stil.uberSatir}>{s.ana.hero.uberSatir}</p>
+
           <div className={stil.durumSatiri}>
             <DurumCipi dil={dil} boy="dev" />
             <DurumAltMetni dil={dil} />

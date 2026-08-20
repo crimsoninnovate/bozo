@@ -1,6 +1,8 @@
 /** Ana sayfa metinleri. Kaynak: "Ana Sayfa Alternatif.dc.html". */
 export const ana = {
   hero: {
+    /* Rozetin üstündeki üç söz, logodan birebir (20 Ağustos 2026). */
+    uberSatir: 'Urfa Usulü · Ocak ve Sofra · Girne',
     baslikSatir1: 'Tavla zarı',
     baslikSatir2: 'ciğer',
     altBaslik: 'meşe korunda',

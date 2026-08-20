@@ -785,3 +785,76 @@ ona yıllardır Bozo denir" > lakap bölümü > kendi cümlesinin altında imza 
 | Dalak: "ikram gibi anlaşılıyor" | "Ciğerin yanına, iri doğranmış" > "Urfa sakatat hattının klasiği; iri doğranır" (ana ve menü, iki dil) | Açıklama ürünü ciğerin yanındaki bir eklenti gibi tanıtıyordu; artık kendi başına bir kalem |
 | Yürek: "geç pişecek izlenimi veriyor" | "korun üstünde en uzun kalan tane" > "ısırınca dağılmayan tane" (`the cut that holds its bite`) | Aynı gerçeğin (sıkı doku) bekleme değil doku vaadi olarak söylenmesi |
 | Tavuk: "kalçadan belki misafirleri itebilir, but'tan yazsak" | "Kalçadan" > "Buttan" (Türkçe; İngilizcesi zaten `From the thigh` idi) | Kasap dilinde doğru olan sözcük ve iştah açıcı olan da o |
+
+## 20 Ağustos 2026: rozet logo denemesi, üst bar ortalandı
+
+Sahibinin kararı: rozet logo (`CigerciBozo-Logo-6`) şiş kilidinin yerine birincil marka
+olur, site koyu kalır. Kapsam bilerek dar tutuldu: **yalnız üst bar ve ana sayfa hero'su**,
+geri dönüş tek komut olsun diye ayrı dalda (`deneme/rozet-logo`). Şiş kilidi silinmedi;
+`lib/sis.ts`, `SisIsareti` ve `MarkaKilidi` yerinde duruyor ve mobilde hâlâ basılıyor.
+
+### Pozitif dosya koyu zeminde kullanılamaz, ölçüldü
+
+Gelen `Logo-6`'da kelime markası diskin DIŞINA taşıyor ve `Ciğerci` lacivert (`#001020`).
+O yüzden sayfanın zemininin (`#0A0807`) doğrudan üstüne biniyor: kontrast **1.04:1**, yani
+markanın ilk kelimesi görünmüyor. `Bozo`'nun kırmızısı (`#901010`) da **2.16:1**, grafik
+öğe için gereken 3:1'in altında. Sorun bardaki her ölçüde var, çünkü ölçüyle değil renkle
+ilgili. Sahibi aynı gün dişi versiyonu (`CigerciBozo-Logo-6-Koyu-2`) gönderdi: `Ciğerci`
+krem, halkalarda altın kontur. Varlık ondan üretildi. Öncesinde denenen otomatik renk
+değişimi bırakıldı: daireyi yanlış merkeze oturttuğu için `Ciğerci`'nin ortası lacivert,
+uçları krem kalıyordu.
+
+| Ölçü | Değer |
+|---|---|
+| `Ciğerci` (#001020) / `--zemin` | 1.04:1 |
+| `Bozo` (#901010) / `--zemin` | 2.16:1 |
+| Dişi versiyonun diski (#000000) / `--zemin` | 1.05:1, yani disk kenarı görünmüyor: istenen |
+
+### Rozetin indirgeme merdiveni
+
+Kilitli kararın (`01-Logo-Final-Karar.md`) merdiveni şiş kilidine ait; rozetin böyle bir
+merdiveni yok, bu yüzden ölçüldü (48-220px, sayfanın kendi zemininde):
+
+- **76px altı:** `Ciğerci` son harfini kaybediyor, portre lekeye dönüyor
+- **110px altı:** yay metni (`Urfa Usulü`, `Ocak ve Sofra`) hiç okunmuyor, doku olarak kalıyor
+- **150px ve üstü:** yay metni dahil her şey okunuyor
+
+Bardaki ölçü buradan seçildi: ana varyant 80px, iç varyant 72px. Bar boyu buna göre
+**84 > 104px** (ana) ve **78 > 96px** (iç). Yay metni barda bilerek doku: rozetin üç sözü
+hero'da okunur boyda tekrarlanıyor.
+
+### Ortalanmış üç kolon
+
+`.satir` flex `space-between`'ten `grid-template-columns: 1fr auto 1fr`'e geçti. Gerekçe
+ölçülebilir: sağ grup CTA butonunu taşıdığı için sol gruptan ağır, `space-between` rozeti
+iki grubun ortasına koyar ve rozet sayfanın ortasından kayardı. `1fr auto 1fr` rozeti yan
+grupların genişliğinden bağımsız olarak sayfaya ortalar. Dil anahtarı dengeyi kurmak için
+sağ gruptan sol gruba taşındı; nav ikiye bölünüyor, tek sayıda öğede fazlalık sola gidiyor.
+
+En dar masaüstü bandı ve en uzun nav ile sınandı (**1041px, EN menü barı**, yani F3'te
+kırılan bant): bar taşması **0**, rozet merkezi **520**, sayfa merkezi **521**.
+
+### Mobil dokunulmadı
+
+Rozet 58px'lik mobil bara sığmıyor. Barı büyütmek `Cekmece.module.css:36`'yı da açardı
+(çekmecenin üst satırı barın ikizi) ve o düzen 18 Ağustos'ta onaylanmıştı. Bunun yerine
+1040px altında kilidin **sadece kelime** varyantına düşülüyor: kilit sisteminde zaten
+tanımlı ("dar tabela, alt bilgi") ve kodda zaten vardı. Mobil bar 58px, düzeni ve boşlukları
+aynı kaldı.
+
+### Hero
+
+| Ne | Ölçü / gerekçe |
+|---|---|
+| Überline `Urfa Usulü · Ocak ve Sofra · Girne` | Rozetin kendi üç sözü, logodan birebir. Barda 110px altında okunmadığı için hero okunur boyda tekrarlıyor |
+| İngilizcesi `Urfa Style · From the Fire · Kyrenia` | Üç parça da sitenin mevcut terminolojisi (`content/en/ortak.ts`, `nav.ocakbasi`, `saatEtiketi`). Yeni pazarlama metni uydurulmadı |
+| Üst dolgu 120 > 140px (yalnız 1041px üstü) | Bar 20px büyüdü; hero'nun barla arasındaki 36px'lik pay korunsun diye |
+| Überline mobilde 13px/0.18em > 11px/0.14em | 390px'te satır 354px istiyordu, kolon 342px: `Girne` alt satıra düşüyordu |
+
+### Varlık
+
+`public/marka/rozet.webp`, 304x320, **28 KB**. Kaynak 1100px PNG'nin mürekkep kutusuna
+kırpılıp 320px'e indirilmiş hali; WebP seçildi çünkü aynı görüntü PNG olarak 187 KB.
+Site ilk kez raster bir marka işareti taşıyor: şiş kilidi `lib/sis.ts`'ten satır içi SVG
+olarak çiziliyordu, yani ağ isteği yoktu ve `currentColor` ile temalanabiliyordu. Takas
+bilerek yapıldı, tasarımcıdan vektör kaynak gelirse geri alınabilir.
