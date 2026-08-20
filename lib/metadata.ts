@@ -8,12 +8,20 @@ import { SITE_URL, yol, type RotaAnahtari } from './site.ts'
  * ÇALIŞMAZ: iki kök layout var, `app/layout.tsx` yok, ve `app/` kökündeki dosya
  * `(tr)`/`(en)` gruplarına iliştirilmiyor; ölçüldü, on iki rotanın hiçbirine
  * `og:image` düşmedi. Bu yüzden görsel `public/` altından açıkça bildirilir.
+ *
+ * DİL BAŞINA AYRI KART (20 Ağustos 2026): kartın üstünde başlık metni var,
+ * tek kart İngilizce sayfaları Türkçe bir görselle paylaştırıyordu.
+ *
+ * JPEG, PNG değil: aynı görsel PNG olarak 281 KB, JPEG kalite 88'de 89 KB.
+ * `subsampling=0` bilerek, 4:2:0 bordo ve bakır kenarları bulandırıyor.
  */
-const SOSYAL_KART = {
-  url: `${SITE_URL}/sosyal-kart.png`,
-  width: 1200,
-  height: 630,
-  alt: 'Ciğerci Bozo',
+function sosyalKart(dil: Dil, alt: string) {
+  return {
+    url: `${SITE_URL}/sosyal-kart${dil === 'en' ? '-en' : ''}.jpg`,
+    width: 1200,
+    height: 630,
+    alt,
+  }
 }
 
 /**
@@ -43,6 +51,8 @@ export const IKONLAR = {
 export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil): Metadata {
   const s = sozluk(dil)
   const meta = s.ortak.sayfaMeta[anahtar]
+  // Kartın alt metni kartın ÜSTÜNDEKİ metni anlatır, sayfa başlığını değil.
+  const kart = sosyalKart(dil, `${s.ortak.marka.ad}: ${s.ana.hero.baslikSatir1} ${s.ana.hero.baslikSatir2}`)
 
   return {
     // Sosyal görselin mutlak URL'i buradan kurulur; ayarlı değilse Next uyarı
@@ -68,8 +78,8 @@ export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil): Metadata {
       locale: dil === 'en' ? 'en_GB' : 'tr_TR',
       type: 'website',
       url: `${SITE_URL}${yol(anahtar, dil)}`,
-      images: [SOSYAL_KART],
+      images: [kart],
     },
-    twitter: { card: 'summary_large_image', images: [SOSYAL_KART.url] },
+    twitter: { card: 'summary_large_image', images: [kart.url] },
   }
 }

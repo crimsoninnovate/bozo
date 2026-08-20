@@ -1104,3 +1104,25 @@ devam ediyor; çözüm jeneratörde değil, jeneratöre verilecek sade kaynakta.
 üretici `#000000` yazıyor, sitenin zemini `--ocak-siyah` `#0B0F0F`. Android'in tarayıcı
 çubuğu bu değeri boyadığı için aradaki fark sayfayla çubuk arasında görünür bir dikiş
 bırakıyor. Set her yenilendiğinde bu iki alanın düzeltilmesi gerekiyor.
+
+## 20 Ağustos 2026: sosyal kart yenilendi, dil başına ayrıldı
+
+Mekanizma zaten doğru çalışıyordu (on iki rotada `og:image`, `twitter:image`, mutlak URL,
+boyut ve `alt`); yenilenen görselin kendisiydi. Eski kart 18 Ağustos'ta şiş kilidiyle,
+Bricolage wordmark'ıyla ve turuncu tanelerle üretilmişti: rozet, Bevan ve bakır geçince
+sitedeki hiçbir şeye benzemiyordu.
+
+Yeni kart sitenin KENDİ sayfa bağlamında üretildi (Playwright ile `localhost:3000`
+üstünde), yani fontlar ve token'lar birebir aynı örnekten geliyor. Google Fonts'tan ayrı
+yüklemek denendi ve başarısız oldu: `next/font` alt kümeleri ayrı dosyalara böldüğü için
+`ğ` yedeğe düşüyordu.
+
+**Dil başına ayrı kart.** Kartın üstünde başlık metni var; tek kart İngilizce sayfaları
+Türkçe bir görselle paylaştırıyordu. `sosyal-kart.jpg` ve `sosyal-kart-en.jpg`,
+`sayfaMetadata` dile göre seçiyor. `og:image:alt` de artık kartın üstündeki metni anlatıyor,
+sayfa başlığını değil.
+
+**PNG değil JPEG.** Aynı görsel PNG olarak 281 KB, JPEG kalite 88'de 89 KB. `subsampling=0`
+bilerek verildi: 4:2:0 bordo ve bakır kenarları bulandırıyor, kartta hem `BOZO` hem başlığın
+ikinci satırı o renklerde. WebP daha da küçüktü ama eski paylaşım kazıyıcıları OG görselinde
+WebP'yi çözmüyor; JPEG en güvenlisi.

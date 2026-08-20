@@ -142,8 +142,12 @@ then check `nginx -t` and `plesk repair web -n` (the `-n` is a dry run).
 
 ### Measured live on arc, 20 August 2026
 
-Seventeen URLs answer `200`: six pages in two languages, plus `robots.txt`, `sitemap.xml`,
-`icon.svg`, `apple-icon.png` and `sosyal-kart.png`. Beyond that:
+Twelve routes answer `200` (six pages in two languages), plus `robots.txt`, `sitemap.xml`,
+the favicon set (`favicon.svg`, `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png`,
+`web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`, `site.webmanifest`), the badge
+`marka/rozet.svg`, the two social cards `sosyal-kart.jpg` / `sosyal-kart-en.jpg` and the photos
+under `foto/`. `app/icon.svg` and `app/apple-icon.png` were removed on 20 August 2026: the
+favicon set replaced them and two icon systems side by side let the browser pick. Beyond that:
 
 - `/menu` without a trailing slash returns `301` to `/menu/`. `trailingSlash: true` holds.
   (Caddy used to answer `308` here; both are permanent, Apache's `mod_dir` just picks `301`.)
