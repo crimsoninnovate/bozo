@@ -143,6 +143,15 @@
   display: inline-flex;
 }
 
+/* Canlı durum kümesi masaüstüne kilitli: 390px'te bar zaten rozet + dil +
+   hamburger taşıyor, küme 82px'lik satırı tıkıyordu (ölçüldü 20 Ağustos 2026).
+   Telefonda aynı bilgi hero'nun durum çipinde ve çekmecede zaten var. */
+@media (max-width: 1040px) {
+  .durumSarici {
+    display: none;
+  }
+}
+
 
 
 .sol,

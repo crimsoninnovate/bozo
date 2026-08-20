@@ -307,6 +307,9 @@
 @media (max-width: 1040px) {
   :root {
     --bar-boy: 82px;
+    /* Telefonda bar DARALMAZ: 70px'e inince 100px'lik rozetin sarkması artıyor
+       ve satır rozetin altında kalıyordu. Daralma masaüstünün jesti. */
+    --bar-boy-daralmis: 82px;
     --rozet-sarkma: 20px;
   }
 

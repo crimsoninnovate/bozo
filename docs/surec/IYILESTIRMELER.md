@@ -1023,3 +1023,30 @@ turu bunu eksik görecek: değil.
 hep dolu, ve `dosya` yazılmışsa o dosya `public/` altında gerçekten var. İkincisi olmasaydı
 bir yazım hatası sessizce kırık görsel basardı; statik export'ta bunu yakalayan başka bir
 şey yok.
+
+## 20 Ağustos 2026: Ocakbaşı listesinin sıra numarası kalktı
+
+Sahibi: "ürünlerin soluna numara yazdığımızda mobilde sanki hepsini sıralı almak gerekiyor
+gibi gözüküyor". Sebep ölçülebilir: `MenuSatiri`'nin ızgarası masaüstünde `56px 340px 1fr`,
+1040px altında tek kolona iniyor. Numara o zaman adın SOLUNA değil ÜSTÜNE, kendi satırına
+düşüyor ve liste numaralı bir prosedür gibi okunuyor.
+
+`01`-`05` kaldırıldı, ızgara `340px 1fr` oldu, `<ol>` da `<ul>` oldu (sıra anlamlı değil,
+işaretleme de bunu söylememeli).
+
+**Yerine başka bir süs KONMADI, bilerek.** Beş satırın beşinde de aynı olan bir işaret bilgi
+taşımaz; bu satırdan üçlü tane rayı tam bu gerekçeyle kaldırılmıştı (`MenuSatiri.tsx`,
+UYGULAMA-NOTLARI 3). Aynı hatayı yeni bir biçimde tekrarlamamak için yer boş bırakıldı ve
+ad sütunu genişledi: bölümün zaten yaptığı şey (fotoğraf yokken iştahı tipografiyle kurmak)
+güçlendi.
+
+### Aynı turda çıkan iki mobil hata
+
+| Ne | Ölçüm | Düzeltme |
+|---|---|---|
+| Daralmış barın canlı durum kümesi telefonda da basılıyordu | 390px'te bar rozet + dil + hamburger + küme taşıyor, satır tıkanıyordu | `.durumSarici` 1040px altında gizli. Aynı bilgi hero'nun durum çipinde ve çekmecede zaten var |
+| Mobil bar kaydırınca 70px'e iniyordu | Rozet 100px, sarkma artıyor ve satır rozetin altında kalıyordu | `--bar-boy-daralmis` mobilde `--bar-boy`'a eşit: telefonda bar daralmaz, daralma masaüstünün jesti |
+
+Rozetin mobil ölçüsü de düzeltildi: spec'in 100px/-20px değeri 82px'lik barda rozetin üst
+kenarını 1px'e itiyordu ve şiş uçları kırpılıyordu. 84px/-12px, üst pay 4px, sarkma 10px.
+84px okunurluk tabanının (40px) iki katı.

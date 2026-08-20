@@ -5,7 +5,7 @@
  */
 .satir {
   display: grid;
-  grid-template-columns: 56px 340px 1fr;
+  grid-template-columns: 340px 1fr;
   gap: 28px;
   align-items: baseline;
   padding: 28px 0;
@@ -20,15 +20,6 @@
   .satir:hover {
     background: rgba(209, 158, 102, 0.05);
   }
-}
-
-.sira {
-  font-family: var(--font-govde);
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1.4;
-  font-variant-numeric: tabular-nums;
-  color: var(--bakir);
 }
 
 .ad {

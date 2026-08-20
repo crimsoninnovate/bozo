@@ -49,9 +49,18 @@
   margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
+/* 82px'lik mobil barda spec'in 100px/-20px ölçüsü rozetin tepesini viewport'un
+   üstünde bırakıyordu (ölçüldü: üst kenar 1px, şiş uçları kırpılıyordu).
+   84px/-12px 5px pay bırakır: 40px'lik okunurluk tabanının iki katı, sarkma duruyor. */
 @media (max-width: 1040px) {
   .bar img,
   .daralmis img {
-    width: 100px;
+    width: 84px;
+  }
+
+  .cekmece img,
+  .bar img,
+  .daralmis img {
+    margin-bottom: -12px;
   }
 }

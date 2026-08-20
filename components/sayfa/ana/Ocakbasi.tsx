@@ -48,19 +48,15 @@ export function Ocakbasi({ dil }: Props) {
         <p className={stil.altNot}>{s.ana.ocakbasi.altNot}</p>
       </div>
 
-      <ol className={stil.liste}>
-        {anaUrunler.map((urun, sira) => {
+      {/* `ul`, `ol` değil: beş ürünün sırası anlamlı değil (20 Ağustos 2026). */}
+      <ul className={stil.liste}>
+        {anaUrunler.map((urun) => {
           const metin = urunMetni(s, urun.id)
           return (
-            <MenuSatiri
-              key={urun.id}
-              sira={sira + 1}
-              ad={metin.ad}
-              aciklama={metin.aciklama}
-            />
+            <MenuSatiri key={urun.id} ad={metin.ad} aciklama={metin.aciklama} />
           )
         })}
-      </ol>
+      </ul>
 
       {/* Fiyat sütununun yerine geçen tek blok. Kalıcı: fiyatlar 13 Ağustos
           2026'da geldi ama sahibi ana sayfanın beş ad artı tek CTA olarak

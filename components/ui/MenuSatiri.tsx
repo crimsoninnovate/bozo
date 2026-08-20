@@ -1,7 +1,6 @@
 import stil from './MenuSatiri.module.css'
 
 type Props = {
-  sira: number
   ad: string
   aciklama: string
 }
@@ -19,14 +18,20 @@ type Props = {
  * 1.1'in "fiyatlar kesinleşince rakamlar satırların sağına döner" planı bu kararla
  * kapandı. Satırlara fiyat eklemeyin.
  *
+ * SIRA NUMARASI KALKTI (sahibi, 20 Ağustos 2026). Masaüstünde sessiz bir indeksti
+ * ama telefonda ızgara tek kolona indiği için numara adın ÜSTÜNE, kendi satırına
+ * düşüyordu ve liste "hepsini sırayla almak gerekiyor" gibi okunuyordu. Yerine
+ * başka bir süs konmadı: beş satırda tekrar eden bir işaret bilgi taşımaz, aynı
+ * gerekçeyle üçlü tane rayı da bu satırdan kaldırılmıştı. `<ol>` da `<ul>` oldu,
+ * çünkü sıra anlamlı değil.
+ *
  * Satır interaktif DEĞİL: tasarım `cursor:pointer` veriyor ama hiçbir hedef
  * vermiyor. Sahte tıklanabilirlik izlenimi vermemek için imleç değişmez;
  * hover'ın kayma ve zemin geri bildirimi korunur.
  */
-export function MenuSatiri({ sira, ad, aciklama }: Props) {
+export function MenuSatiri({ ad, aciklama }: Props) {
   return (
     <li className={stil.satir}>
-      <span className={stil.sira}>{String(sira).padStart(2, '0')}</span>
       <span className={stil.ad}>{ad}</span>
       <span className={stil.aciklama}>{aciklama}</span>
     </li>
