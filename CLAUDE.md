@@ -29,9 +29,11 @@ npm run preview    # serve the out/ export locally
   Without that file the flag is inert; do not remove it.
 - Fonts are defined once in `lib/fontlar.ts`, shared by both root layouts and
   `global-not-found.tsx`, so every `<html>` gets the same font classes.
-- Design tokens are CSS custom properties in `styles/tokens.css`, imported through
-  `app/globals.css` with `styles/reset.css` and `styles/animasyonlar.css`. Styling is CSS Modules
-  on top of those tokens, no CSS framework.
+- Design tokens are CSS custom properties, imported through `app/globals.css`: one palette from
+  `styles/palet/` (the ground-dependent colours), then `styles/tokens.css` (everything else),
+  `styles/reset.css` and `styles/animasyonlar.css`. Styling is CSS Modules on top of those
+  tokens, no CSS framework. A palette colour written as a literal in a module does not follow
+  the palette, so `styles/palet.test.ts` rejects it.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
   business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
@@ -73,16 +75,34 @@ one's measurements are in `docs/surec/IYILESTIRMELER.md`.
 
 ## Colors (complete list, do not add others)
 
-- Page ground `#0A0807`, charcoal surface `#1A1614`
-- Plate ground `#0C0A09` (menu product and photo plates only), Gece section ground `#060504`
-  (`--gece`, that section only). Neither is in the brand book's list; both are real design values,
-  see `styles/tokens.css` and `KISITLAR.md` > Colour.
-- Nar (pomegranate) `#7A1F2B`, limited accent, only where bostana or pomegranate molasses is meant.
-- Cream text `#F2E9DC`, opacity scale `.5 .58 .62 .66 .7 .74 .78 .86`
-- Ember (kor) `#B7351C`, hover `#C93E22`. Tangerine `#FAAA1F`. Pumpkin `#E96112` (no consumer
-  since the packaging strip was removed; the token stays for when it returns). Oak (meşe) `#6B4A2F`.
-- Ember is never body text on any surface. Tangerine and ember never sit side by side in a large
-  area.
+**Two palettes, one active.** Every colour whose correct value depends on the ground lives in
+`styles/palet/*.css`; `app/globals.css` imports exactly one. Switching is that one line and
+nothing else. `styles/palet.test.ts` fails if the two files drift apart, or if a palette colour
+is hardcoded anywhere outside them.
+
+| Token | Bordo (active, owner's decision 21 Aug 2026) | Siyah (kept, switchable) |
+|---|---|---|
+| `--zemin` page ground | `#2E110F` | `#0B0F0F` |
+| `--komur` charcoal | `#3A1815` | `#131817` |
+| `--plaka-zemin` menu plates | `#351512` | `#0F1413` |
+| `--gece` Gece section only | `#240C0A` | `#070A0A` |
+| `--kor` ember | `#C13029` | `#AD2624` |
+| `--kor-hover` | `#A82822` | `#8E1D1C` |
+
+The bordo ground replaced the black one because the black measured cold (R−B −4, the wrong
+direction for a fire brand) and its contrast was 16.20:1, over twice AAA and past the halation
+threshold. Ember was brightened one step with it: `#AD2624` fell to 2.56:1 on bordo, so the
+button stopped separating from the page.
+
+- Ground-independent, identical in both palettes, in `styles/tokens.css`: cream text `#F9E9D5`
+  with its alpha ladder, the `--cizgi*` line family, copper (bakır) `#D19E66` with light
+  `#E8C08A` and dark `#C08A57`.
+- Nar, pumpkin and oak were deleted on 20 August 2026: no consumers, and the palette no longer
+  goes outside the logo. Do not reintroduce them.
+- Ember is never body text on any surface, and under 3:1 it cannot carry a graphic element on
+  its own either. As a button fill it is valid: cream on it measures 4.74:1 on bordo (AA), and
+  the fill separates from the ground at 3.09:1. Copper and ember never sit side by side in a
+  large area.
 - **Third-party marks are the one exception to the closed list** (owner's decision, 18 August
   2026, for recognition): the WhatsApp glyph is WhatsApp green and the Instagram glyph carries
   Instagram's gradient, tokens `--marka-*` in `styles/tokens.css`, applied only inside
@@ -90,8 +110,12 @@ one's measurements are in `docs/surec/IYILESTIRMELER.md`.
 
 ## Typography
 
-- Headings, wordmark and numerals: Bricolage Grotesque 600-800, `font-variant-numeric: tabular-nums`.
-- Body and UI: Inter 400/500/600.
+- Headings, wordmark and numerals: Bevan, `font-variant-numeric: tabular-nums`. **Bevan ships
+  one weight, 400.** Writing 500+ on a `--font-baslik` rule makes the browser synthesise bold;
+  23 such escapes were found and removed on 20 August 2026.
+- Body and UI: Archivo 400/500/600/700.
+- Bricolage Grotesque and Inter were the previous pair, dropped 20 August 2026 with the header
+  and hero v2. Do not reintroduce them; see `lib/fontlar.ts`.
 - Corner radius 0-3px, with one recorded exception: the mobile action bar
   (`MobilAksiyonBari`) is a fully rounded floating glass pill with a raised circular
   centre button. Owner's decision 13 August 2026, taken after seeing the 3px version
