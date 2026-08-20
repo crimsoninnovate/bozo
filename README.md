@@ -86,13 +86,28 @@ unproxied; apex and `www` both point at the arc IP. The certificate is Let's Enc
 ```bash
 npm run build
 rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
-ssh plesk-206 'chown -R engincaglar:psacln /var/www/vhosts/cigercibozo.com/httpdocs'
+ssh plesk-206 'D=/var/www/vhosts/cigercibozo.com/httpdocs;
+  chown -R engincaglar:psacln "$D" && chown engincaglar:psaserv "$D" && chmod 750 "$D"'
 ```
 
 The `chown` is not optional. `rsync -a` copies the numeric owner and the connection is `root`,
 so without it every file lands owned by the local uid and Plesk's `repair fs` flags the
 subscription. Deploying as the subscription's own user is not an option either: `engincaglar`
 has `/bin/false` for a shell.
+
+**The second `chown` is not optional either.** `httpdocs` itself is not one of its own
+contents: Plesk wants the directory `engincaglar:psaserv 750` and everything inside it
+`engincaglar:psacln`. A plain `chown -R` sweeps the directory in too and `plesk repair fs`
+then reports `Incorrect group of .../httpdocs/.: expected is psaserv (1002), actual is
+psacln (1003)`. Measured on the 20 August 2026 deploy; `rsync -a` also carried `out/`'s
+own `755` onto it, hence the `chmod`.
+
+Verify after every deploy:
+
+```bash
+ssh plesk-206 'plesk repair fs cigercibozo.com -n'   # expect: [OK], 0 errors
+curl -sI https://cigercibozo.com/ | grep -i x-robots-tag   # expect: noindex while in test
+```
 
 ### Server behaviour lives in `public/.htaccess`
 
