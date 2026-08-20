@@ -1088,3 +1088,19 @@ token'ın kendi değerine (`#0B0F0F`) çekildi.
 zor, 16px'te leke. Eski `app/icon.svg` bunun için indirgenmişti (16px basamağında iki ciğer
 tanesi, 18 Ağustos F1). Rozetin böyle bir basamağı yok; sekme boyu için sadeleştirilmiş bir
 varyant üretilmesi gerekiyor.
+
+### Favicon seti yenilendi (aynı gece)
+
+Sahibi seti RealFaviconGenerator'da yeniden üretti; yedi dosya da onunkiyle değiştirildi.
+Bu kez `favicon.svg` GERÇEK vektör geldi (393 path, base64 yok), ilk turdaki 478 KB'lık
+raster sarmalayıcı sorunu yok.
+
+Kaynak yine tam rozet, sadeleştirilmiş bir işaret değil. Üretilen rasterlar bir önceki
+turda vektörden kendi ürettiklerimle karşılaştırıldı: mürekkep kutuları birebir aynı
+(2,0,94,96), 16/24/32/48px'te görünür fark yok. Yani sekmedeki okunurluk açık kalmaya
+devam ediyor; çözüm jeneratörde değil, jeneratöre verilecek sade kaynakta.
+
+`site.webmanifest`'in `theme_color` ve `background_color` değerleri yine token'a çekildi:
+üretici `#000000` yazıyor, sitenin zemini `--ocak-siyah` `#0B0F0F`. Android'in tarayıcı
+çubuğu bu değeri boyadığı için aradaki fark sayfayla çubuk arasında görünür bir dikiş
+bırakıyor. Set her yenilendiğinde bu iki alanın düzeltilmesi gerekiyor.
