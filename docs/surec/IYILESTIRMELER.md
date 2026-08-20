@@ -1050,3 +1050,41 @@ güçlendi.
 Rozetin mobil ölçüsü de düzeltildi: spec'in 100px/-20px değeri 82px'lik barda rozetin üst
 kenarını 1px'e itiyordu ve şiş uçları kırpılıyordu. 84px/-12px, üst pay 4px, sarkma 10px.
 84px okunurluk tabanının (40px) iki katı.
+
+## 20 Ağustos 2026 gecesi: rozet revizyonu (BozoLogo-Final.svg)
+
+Logonun dördüncü sürümü geldi ve varlık onunla değiştirildi. Kelime markası artık kendi
+koyu plakasının üstünde duruyor (öncekinde diskin dışında yüzüyordu), yay metni kalınlaştı,
+çizim sadeleşti. Küçülme davranışı da düzeldi: 60px'te önceki sürümden okunaklı.
+
+| | Önceki | Final |
+|---|---|---|
+| Path | 227 | 393 |
+| Farklı fill | 190 | 366 |
+| Ham / brotli | 52 / 17 KB | 94 / 32 KB |
+| En/boy | 0.9409 | 0.9606 |
+
+Otomatik vektörleştirme izi (aynı rengin onlarca tonu) bu sürümde arttı. Görüntüde fark
+edilmiyor, 32 KB kabul edilebilir; sanat eserine yine dokunulmadı.
+
+Oran değişince rozetin barda kapladığı yer de değişti, ölçüldü: masaüstünde 134x139
+(öncekinde 134x142), sarkma 35px, überline payı 47px. Telefonda 84x87, sarkma 9px,
+überline payı 45px. Kırpılma yok.
+
+**Raster ikonlar da yeniden üretildi.** `favicon.svg`'yi değiştirip PNG/ICO'yu bırakmak
+sekmede eski logoyu, adres çubuğunda yenisini gösterirdi. Beşi de aynı vektörden:
+
+| Dosya | Nasıl |
+|---|---|
+| `favicon-96x96.png` | şeffaf, dolgusuz |
+| `favicon.ico` | 16/32/48 üç boy tek dosyada |
+| `apple-touch-icon.png` | `--ocak-siyah` zeminli; iOS şeffaflığı siyaha çeviriyor, zemini biz veriyoruz |
+| `web-app-manifest-192/512.png` | `purpose: maskable`, kenardan %10 pay: güvenli alan merkezdeki %80 |
+
+`site.webmanifest`'in `theme_color` ve `background_color` değerleri üreticinin `#0a0e0e`'sinden
+token'ın kendi değerine (`#0B0F0F`) çekildi.
+
+**Açık kalan:** favicon rozetin tamamı, küçültülmüş bir işaret değil. 96px'te iyi, 32px'te
+zor, 16px'te leke. Eski `app/icon.svg` bunun için indirgenmişti (16px basamağında iki ciğer
+tanesi, 18 Ağustos F1). Rozetin böyle bir basamağı yok; sekme boyu için sadeleştirilmiş bir
+varyant üretilmesi gerekiyor.
