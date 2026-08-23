@@ -1,4 +1,5 @@
 import { sozluk, type Dil } from '@/content'
+import { ANA_YOL, ARA_YOL, SERVIS_YOLU, KUTU } from './haritaYollari'
 import stil from './Harita.module.css'
 
 type Props = { dil: Dil }
@@ -9,14 +10,15 @@ type Props = { dil: Dil }
  * `id="harita"` zorunlu: hem üst barın CTA'sı hem hero'nun birincil butonu buraya
  * kaydırıyor. Çapa payını (96px) `Kabuk` `<main>` üzerinden veriyor.
  *
- * Levha Ana Sayfa'nın `HaritaPlakasi`'sı DEĞİL, ayrı bir çizim: iki levhanın
- * karşılaştırılabilir on iki değerinin onu ayrışıyor (ölçüm raporda). Ortak kalan
- * yalnız kenarlık ve alt notun tipografisi.
+ * Yollar 24 Ağustos 2026'da gerçek OpenStreetMap geometrisiyle değişti; levhanın
+ * çizilmiş ızgarası ve üç sahte yolu kalktı (bkz. `haritaYollari.ts`). Renk
+ * sözleşmesi aynı kaldı, yani palet takası levhayı da götürmeye devam ediyor.
  *
- * Erişilebilirlik: dekoratif olan yalnız ızgara, iki dikey ve bir yatay yol,
- * halka ve pin noktası. Cadde etiketi ve pin etiketi okunması gereken
- * metinlerdir, bu yüzden levhanın tamamı `role="img"` ya da
- * `aria-hidden` yapılmadı.
+ * `slice` merkezi sabit tutar: pin ve halkası bu yüzden levhanın tam ortasında ve
+ * hangi en-boy oranında olursa olsun geometriden kayamaz.
+ *
+ * Erişilebilirlik: yol katmanı dekoratif. Okunması gereken üç metin (cadde adı,
+ * pin etiketi, kaynak) levhanın kenarlarına demirli, SVG'nin içinde değil.
  */
 export function Harita({ dil }: Props) {
   const s = sozluk(dil)
@@ -25,14 +27,19 @@ export function Harita({ dil }: Props) {
   return (
     <section id="harita" className={stil.bolum}>
       <div className={stil.levha}>
-        <span aria-hidden="true" className={stil.izgara} />
-        <span aria-hidden="true" className={stil.yatayYol} />
-        <span aria-hidden="true" className={stil.dikeyYolGenis} />
-        <span aria-hidden="true" className={stil.dikeyYolDar} />
+        <svg
+          aria-hidden="true"
+          className={stil.yollar}
+          viewBox={`0 0 ${KUTU} ${KUTU}`}
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <path className={stil.servis} d={SERVIS_YOLU} />
+          <path className={stil.ara} d={ARA_YOL} />
+          <path className={stil.ana} d={ANA_YOL} />
+        </svg>
+
         <span aria-hidden="true" className={stil.halka} />
         <span aria-hidden="true" className={stil.pin} />
-
-        <span className={stil.sokak}>{harita.caddeEtiketi}</span>
 
         {/* Ayırıcı nokta JSX'te: iki ayrı sözlük değerinin arasındaki noktalama
             sözlüğe girmez (TelifSeridi.tsx:25 ile aynı desen). */}
@@ -41,6 +48,8 @@ export function Harita({ dil }: Props) {
           <span className={stil.kapiNo}> · {harita.pinKapiNo}</span>
         </span>
 
+        <span className={stil.sokak}>{harita.caddeEtiketi}</span>
+        <span className={stil.kaynak}>{harita.kaynak}</span>
       </div>
     </section>
   )

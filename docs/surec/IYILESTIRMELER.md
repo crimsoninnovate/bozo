@@ -1788,3 +1788,89 @@ ortadan kalktı.
 üstteki kayıtta.
 
 Sayfa 393 kelimeye indi (İngilizce 563).
+
+## 24 Ağustos 2026: koordinat geldi, harita levhası gerçek oldu
+
+### Koordinat üç bağımsız kaynakla doğrulandı
+
+Sahibi verdi: `35.3370065, 33.3057253`, posta kodu `99300`. Nokta Google Maps'te kapıya
+yakınlaşılmış (20.62z), yani sokak orta noktası değil. Üç kontrol:
+
+| Kontrol | Sonuç |
+|---|---|
+| Nominatim'in Naci Talat Caddesi kaydı | Nokta caddenin sınır kutusu içinde, geocode'un merkezinden 32 m |
+| OSM POI `Simple Cafe` | 48 m ötede, `housenumber=2, street=Naci Talat Caddesi, postcode=99300` → No:4 komşusu, posta kodu ikinci kez teyit |
+| Tasarımın kendi `poiMacroMarket` çipi (bu dosya, "üçüncü POI çipi") | OSM'de `Macro` 59 m ötede. Ağustos'taki handoff ile bugünkü koordinat aynı noktayı gösteriyor |
+
+Nokta 19 Mayıs Caddesi'ne 16 m, Naci Talat'a 32 m. Çelişki değil: bina iki caddenin
+köşesinde, adresi Naci Talat'a kayıtlı. Tek bir geocoder'a güvenilmedi çünkü cadde + kapı
+numarası çoğu serviste interpolasyonla gelir ve Girne'de 20-40 m sapabilir.
+
+### `postalCode` JSON-LD'de hiç yokmuş
+
+`lib/jsonld.ts` `PostalAddress` bloğu `streetAddress`, `addressLocality` ve `addressCountry`
+yazıyordu; `postalCode` alanı yoktu. Yani posta kodunu `content/isletme.ts`'te doldurmak tek
+başına arama motoruna ulaşmıyordu. Alan koşullu spread ile eklendi, null iken satır yine hiç
+görünmüyor.
+
+### `yolTarifiUrl()` beş yüzeyde birden davranış değiştirdi
+
+Kod değişmedi, yalnız veri doldu: fonksiyon artık adres araması yerine
+`dir/?api=1&destination=35.3370065,33.3057253` üretiyor. Mobil aksiyon barı, hero butonu,
+footer, iletişim satırı ve çekmece hepsi gerçek yol tarifine bağlandı. İki test yer değiştirdi:
+null dalı artık sahte nesneyle, koordinat dalı gerçek veriyle kapsanıyor.
+
+### Levhanın çizilmiş yolları gerçek geometriyle değişti
+
+Bu dosyanın "Konum hero'sunun sağ yarısı" kaydı 12 Ağustos'ta ertelenmişti, gerekçesi
+"harita levhası hâlâ 'canlı harita entegrasyonla gelir' yazan bir yer tutucu" idi. Yer tutucu
+kalktı.
+
+Kaynak: OpenStreetMap, Overpass ile `way["highway"](around:320,...)`, 108 yol.
+`components/sayfa/konum/haritaYollari.ts` (6.4 KB) üç katman taşıyor. Yaya yolu, patika ve
+merdiven dışarıda: bu ölçekte doku değil gürültü ekliyorlardı.
+
+Google Maps **alınmadı**. Gerekçe tek başına maliyet değil: hem ücretsiz `<iframe>` embed hem
+JS API, sayfa açılır açılmaz ziyaretçinin IP'sini Google'a gönderir ve çerez yazar, yani GA4
+ile teknik olarak aynı yurt dışı transferi. Bu sitede o transfer 89/2007 Madde 11(2)(A)
+gereği `CerezOnayi`'nin arkasında; onaysız yüklenen bir harita o mimariyi en çok açılan
+sayfada delerdi. SVG geometrisi çalışma anında hiçbir üçüncü taraf isteği yapmıyor, dolayısıyla
+onay kapısı gerekmiyor. Ücretsiz embed ayrıca renklendirilemez, custom stil ise Google Cloud
+projesi ve bundle içinde açık API anahtarı ister.
+
+Renk sözleşmesi korundu, yeni token gelmedi: ana yol `--cizgi-hayalet`, ara yol
+`--cizgi-harita`, servis `--cizgi-harita-ince`. Tarayıcıda doğrulandı, üçü de
+`rgba(249,233,213,α)` olarak çözülüyor, yani palet takası haritayı da götürüyor. Bir raster
+görsel bu vaadi bozardı; SVG tercihinin asıl sebebi bu, dosya boyutu değil.
+
+`vector-effect: non-scaling-stroke` şart: `slice` ölçeği 320px ile 1440px arasında üç kattan
+fazla değişiyor, ölçeklenen çizgi mobilde 3px'in altına iniyordu.
+
+### İki bilinçli sapma
+
+| Sapma | Ölçüm ve gerekçe |
+|---|---|
+| Pin 42%/47% yerine levhanın tam ortasında | `preserveAspectRatio="xMidYMid slice"` yalnız **merkezi** sabit tutar. Yüzdeyle konumlanan bir pin geometriden kayar, çünkü kırpma ekseni en-boy oranıyla değişiyor: 1440px'te levha 1180x522 (genişlik sürücü), 390px'te 342x490 (yükseklik sürücü). Ortada duran pin her oranda aynı sokağın üstünde kalıyor |
+| Cadde etiketi yolun üstünde yüzen etiket değil, köşe alt yazısı | Aynı sebep. Ayrıca SVG `<text>` denendi ve elendi: viewBox birimiyle yazılan metin masaüstünde 12px iken mobilde 3.9px'e iniyor, iki ayrı font boyutu ise iki ayrı viewBox gerektiriyordu |
+
+### ODbL atıf satırı
+
+`© OpenStreetMap katkıcıları` / `contributors` eklendi (`konum.harita.kaynak`). Lisans
+zorunluluğu, "yeni pazarlama metni yazma" kuralının kapsamında değil. Renk `--krem-50`:
+bordo zeminde 4.53:1, AA'yı geçen en sönük adım. `--krem-32` 2.61:1 kalıyordu ve yasal bir
+satır için okunamazdı.
+
+### Yan bulgu: pin etiketi 320px'te kırpılıyordu
+
+Ölçüldü: 320px'te levha 272px, etiket 142px. Tasarımın `left:42% + 18px` konumu etiketi 2px
+taşırıyordu; pini ortalamak bunu 24px'e çıkardı, yani `overflow:hidden` marka adını kesiyordu.
+480px altında etiket pinin sağına değil üstüne ortalanıyor: 320px'te iki yanda 65px, 390px'te
+100px boşluk kaldı. Aynı kuralda kaynak satırı da cadde etiketinin altına iniyor, yoksa ikisi
+aynı satırda çakışıyordu.
+
+### Açık kalan
+
+- Bu dosyanın "Yol Tarifi Al butonunun etiketi" kaydı duruyor. Hedef hâlâ sayfa içi `#harita`,
+  ama artık oraya kaydırmak gerçek bir haritaya götürüyor, yani çelişki yumuşadı. Metin sahibin.
+- Konum hero'sunun sağ yarısındaki boşluk kararı artık açılabilir: erteleme gerekçesi olan
+  yer tutucu kalktı.

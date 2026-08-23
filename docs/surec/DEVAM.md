@@ -21,8 +21,9 @@ Son güncelleme: 24 Ağustos 2026
 
 ## Bekleyen iş
 
-1. **İşletme verisi hâlâ eksik** (`content/isletme.ts`): e-posta, harita koordinatı, posta kodu.
-   İçecek fiyatları da gelmedi (`content/urunler.ts`, arayüz fiyat yerine sunum ölçüsü basıyor).
+1. **İşletme verisinde tek eksik içecek fiyatları** (`content/urunler.ts`, arayüz fiyat yerine
+   sunum ölçüsü basıyor). E-posta, koordinat ve posta kodu 24 Ağustos 2026'da geldi, yani
+   `content/isletme.ts`'te artık null alan yok.
 2. **On altı fotoğraf** (`content/fotograflar.ts`). Dosya yokken telefonda plaka hiç basılmıyor,
    dosya tanımlanınca kendiliğinden geri geliyor. İlk gerçek fotoğraf geldiğinde
    `fotograflar_hicbiriHenuzDosyaTasimaz` testi bilerek kırılacak, o gün güncellenmeli.

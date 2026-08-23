@@ -18,59 +18,48 @@
   overflow: hidden;
 }
 
-/* Konum:90. 52px adımlı iki eksenli ızgara. */
-.izgara {
+/* Gerçek OSM geometrisi (haritaYollari.ts). `slice` levhayı kaplar ve viewBox'ın
+   merkezini levhanın merkezine kilitler, yani pin geometriden kayamaz. */
+.yollar {
   position: absolute;
   inset: 0;
-  background-image:
-    repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 52px),
-    repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 52px);
+  width: 100%;
+  height: 100%;
 }
 
-/* Konum:91 */
-.yatayYol {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 54%;
-  height: 16px;
-  background: var(--cizgi-hayalet);
+/* Üç katman da levhanın var olan çizgi merdiveninden; palet takasını takip eder.
+   `non-scaling-stroke` şart: `slice` ölçeği 390px ile 1440px arasında üç kattan
+   fazla değişiyor, ölçeklenen bir çizgi mobilde 3px'in altına iniyordu. */
+.ana,
+.ara,
+.servis {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
-/* Konum:92 */
-.dikeyYolGenis {
-  position: absolute;
-  left: 20%;
-  top: 0;
-  bottom: 0;
-  width: 9px;
-  background: var(--cizgi-harita);
+.ana {
+  stroke: var(--cizgi-hayalet);
+  stroke-width: 10;
 }
 
-/* Konum:93. İkinci yol hem daha dar hem daha sönük. */
-.dikeyYolDar {
-  position: absolute;
-  left: 64%;
-  top: 0;
-  bottom: 0;
-  width: 7px;
-  background: var(--cizgi-harita-ince);
+.ara {
+  stroke: var(--cizgi-harita);
+  stroke-width: 5;
 }
 
-/* Konum:94. KISITLAR 2. katman: levha etiketi, 12px. */
-.sokak {
-  position: absolute;
-  left: 10%;
-  top: 57.5%;
-  font: 400 12px/1 var(--font-govde);
-  color: var(--krem-55);
+.servis {
+  stroke: var(--cizgi-harita-ince);
+  stroke-width: 2.5;
 }
 
-/* Konum:95 */
+/* Konum:95. Pin ve halkası levhanın tam ortasında: `slice` yalnız merkezi sabit
+   tutuyor, tasarımın 42%/47% konumu geometriden kayardı. */
 .halka {
   position: absolute;
-  left: 42%;
-  top: 47%;
+  left: 50%;
+  top: 50%;
   width: 110px;
   height: 110px;
   margin: -55px 0 0 -55px;
@@ -82,8 +71,8 @@
    animasyonlar.css'in `animation: none !important` kuralı onu tümüyle durdurur. */
 .pin {
   position: absolute;
-  left: 42%;
-  top: 47%;
+  left: 50%;
+  top: 50%;
   width: 18px;
   height: 18px;
   margin: -9px 0 0 -9px;
@@ -96,8 +85,8 @@
 /* Konum:97. Pinle aynı koordinat, oradan yukarı sağa kayar. */
 .pinEtiketi {
   position: absolute;
-  left: 42%;
-  top: 47%;
+  left: 50%;
+  top: 50%;
   margin: -46px 0 0 18px;
   padding: 8px 13px;
   background: var(--zemin);
@@ -112,6 +101,45 @@
   color: var(--krem-55);
 }
 
+/* Konum:94. KISITLAR 2. katman: levha etiketi, 12px. Yolun üstünde yüzen etiket
+   değil köşe alt yazısı: kenara demirli olan tek şey ölçekten bağımsız durur. */
+.sokak,
+.kaynak {
+  position: absolute;
+  bottom: 14px;
+  font: 400 12px/1 var(--font-govde);
+  color: var(--krem-55);
+}
+
+.sokak {
+  left: 16px;
+}
+
+/* ODbL 1.0 atfı. Cadde etiketinden bir kademe sönük: 4.53:1 ile AA’yı geçen en sönük adım (--krem-32 2.61:1 kalıyordu). */
+.kaynak {
+  right: 16px;
+  font-size: 11px;
+  color: var(--krem-50);
+}
+
+/* 480px altında iki alt yazı aynı satırda çakışıyor; kaynak alta iner. */
+@media (max-width: 480px) {
+  .sokak {
+    bottom: 32px;
+  }
+
+  .kaynak {
+    left: 16px;
+    right: auto;
+  }
+
+  /* Pin etiketi sağa kaymak yerine pinin üstüne ortalanır: 320px'te levha 272px
+     kalıyor ve sağa kayan 142px'lik etiket 24px taşıp kırpılıyordu. */
+  .pinEtiketi {
+    margin-left: 0;
+    transform: translateX(-50%);
+  }
+}
 
 /* Modül-yerel olmak zorunda: CSS Modules `animation-name`i hash'ler, global
    bir sayfada duran düz ad tutmaz. Ana:21 ve Menu/Hikaye/Konum:21. */

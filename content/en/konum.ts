@@ -8,6 +8,8 @@ export const konum = {
   harita: {
     caddeEtiketi: 'Naci Talat Street',
     pinKapiNo: 'No:4',
+    // Attribution required by ODbL 1.0; a licence obligation, not marketing copy.
+    kaynak: '© OpenStreetMap contributors',
     // The design's "· 80 m" is unverified; the owner removed it. The name stays.
   },
   saatler: {
