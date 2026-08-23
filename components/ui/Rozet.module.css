@@ -31,23 +31,23 @@
     margin-bottom var(--gecis-bar);
 }
 
-/* Ölçü genişlikten veriliyor ama BOY sabit tutuldu: 21 Ağustos 2026 logosu
-   öncekinden dar (en/boy 0.8844, önceki 0.9606), aynı genişlikte 12px uzuyordu.
-   Dört değer de eski boyu korur, yani hiçbir yerleşim kaymadı. */
+/* Ölçü genişlikten veriliyor ama BOY sabit tutuldu: her logo revizyonu en/boy
+   oranını değiştiriyor (Aug23 0.8747, önceki 0.8844, ondan önceki 0.9606) ve aynı
+   genişlikte uzuyor. Dört değer de ilk boyu korur, yani hiçbir yerleşim kaymadı. */
 .bar img {
-  width: 123px;
+  width: 122px;
   margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
 /* Daralmış barda sarkma yok: hero'nun üstünde duracak yer kalmıyor. */
 .daralmis img {
-  width: 57px;
+  width: 56px;
   margin-bottom: 0;
 }
 
 /* Çekmecenin üst satırı barın mobil satırının ikizi. */
 .cekmece img {
-  width: 92px;
+  width: 91px;
   margin-bottom: calc(-1 * var(--rozet-sarkma));
 }
 
@@ -57,7 +57,7 @@
 @media (max-width: 1040px) {
   .bar img,
   .daralmis img {
-    width: 77px;
+    width: 76px;
   }
 
   .cekmece img,

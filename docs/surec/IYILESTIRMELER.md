@@ -1297,3 +1297,80 @@ oldu, noktası düştü.
 
 **İngilizcesi çeviri**, sahibinin metni değil. Girne "Kyrenia", işletme adı "Ciğerci Bozo
 of Urfa". 393px ve 1440px'te iki dilde de yatay taşma yok.
+
+## 23 Ağustos 2026: final rozet (BozoLogo-Final-Aug23.svg) ve favicon seti
+
+Sahibi hem yeni logoyu hem RealFaviconGenerator'da ürettiği yedi dosyalık seti verdi.
+
+### Rozetin kendisi
+
+Öncekinden (`BozoLogo-2.svg`) farkları: kol kıvrımları azaldı (revize listesi madde 6),
+şişler sola açıldı, dış halka bakır `#D5872D` yerine turuncu `#EC8817`, kırmızı alan
+`#8B1314` yerine `#7C040A`. Path sayısı 211'den 455'e çıktı.
+
+**"GİRNE" ibaresi rozetten kalktı.** Site şehri hâlâ söylüyor (überline, adres, alt bilgi,
+sosyal kart), ama marka işaretinin kendisi artık söylemiyor.
+
+**Kontrast.** Zeminden ayrılmayı yine en dış halka sağlıyor: `#EC8817` bordo üstünde
+**6.73:1**, öncekinin 6.05:1'inden iyi. Dosyada zemin plakası yok, varlık dişi.
+
+**Ölçüler yeniden hizalandı.** En/boy 0.8844'ten 0.8747'ye indi, yani aynı genişlikte
+uzuyor. `Rozet.module.css`'in dört değeri BOYU korumak için düşürüldü: 123>122, 92>91,
+77>76, 57>56. Ölçüldü, hiçbir yerleşim kaymadı:
+
+| Yer | Eski boy | Yeni boy |
+|---|---|---|
+| bar (masaüstü) | 139.07 | 139.5 |
+| daralmış bar | 64.45 | 64.0 |
+| çekmece | 104.02 | 104.0 |
+| mobil bar | 87.06 | 86.9 |
+
+**Ödenen bedel:** vektör 22 KB'tan **39 KB'a** çıktı (gzip), ve üst bar onu her sayfada
+yüklüyor. 455 path'in koordinat verisi; boşluk kırpmak gzip sonrası kazanç vermiyor.
+404 sayfası etkilenmedi, o rozeti değil `lib/sis.ts`'in şiş kilidini basıyor.
+
+### Favicon seti
+
+`favicon.svg` bu kez **gerçek vektör** geldi (455 path, base64 yok), ilk turdaki 478 KB'lık
+raster sarmalayıcı sorunu tekrarlamadı. `favicon.svg` yine `marka/rozet.svg` ile birebir
+aynı dosya: jeneratörünki aynı çizimi (path verisi bayt bayt eşit) 3 KB daha büyük
+serileştiriyordu, sahibinin özgün dosyası kanonik tutuldu.
+
+**Jeneratörün iki tuzağı yine çıktı, ikisi de düzeltildi.**
+
+1. `site.webmanifest` `theme_color` ve `background_color` alanlarına `#000000` yazmıştı.
+   Android tarayıcı çubuğunu bu değerle boyar; sitenin zemini `#2E110F`. Bu alan set her
+   yenilendiğinde düzeltilmek zorunda.
+2. `apple-touch-icon` ve iki `purpose: "maskable"` ikonu **şeffaf** geldi ve rozet
+   kenardan kenara doluydu. Ölçüldü, en uzak mürekkep pikseli yarıçapın **1.242**'sinde;
+   maskable güvenli daire 0.800. Yani Android'in dairesel maskesi şiş uçlarını ve kelime
+   levhasının köşelerini kesecekti, iOS de şeffaflığı siyaha bindirecekti.
+
+Üçü bordo levha üstünde yeniden kuruldu, rozet mürekkep merkezinden hizalanıp güvenli
+dairenin içine ölçeklendi:
+
+| Dosya | Zemin | Güvenli oran | Sınır |
+|---|---|---|---|
+| `web-app-manifest-512x512.png` | `#2E110F` opak | 0.800 | 0.800 |
+| `web-app-manifest-192x192.png` | `#2E110F` opak | 0.800 | 0.800 |
+| `apple-touch-icon.png` | `#2E110F` opak | 0.981 | ~1.05 (yuvarlak dikdörtgen maske) |
+
+`favicon-96x96.png` ve `favicon.ico` şeffaf bırakıldı, sekme ikonunda doğrusu bu.
+Üçü PNG8'e indirilip zopfli ile sıkıştırıldı: 108>27 KB, 25>7.3 KB, 30>8.8 KB, gözle
+görülür bant yok (MAE %0.13'ün altında).
+
+**HTML'e etiket EKLENMEDİ.** Jeneratörün istediği altı etiketin altısını da Next zaten
+`lib/metadata.ts`'ten basıyor; elle eklemek onları çiftlerdi ve `app/icon.svg`
+konvansiyonu tam bu yüzden 20 Ağustos'ta kaldırılmıştı. İki dil kökünde de tek tek
+sayıldı. Jeneratörün `rel="shortcut icon"` satırı da gereksiz: `rel="icon"` standardı
+bunu zaten karşılıyor.
+
+**Açık kalan.** 16px sekmede tam rozet okunmuyordu, yeni rozet daha ayrıntılı olduğu için
+biraz daha kötü. Çözüm hâlâ jeneratörde değil: favicon'a sade bir işaret verilmeli.
+
+### Sosyal kartlar
+
+İkisi de yeniden üretildi, yine sitenin kendi sayfa bağlamında (fontlar `next/font`'tan) ve
+her biri KENDİ dilinin sayfasında: İngilizce kart "FROM THE FIRE" ve "KYRENIA" yazıyor,
+Türkçe dökümün `İ`'si yok. Metinler sayfanın DOM'undan okunuyor, kartta ikinci bir kopya
+tutulmuyor. JPEG kalite 88, `sampling-factor 1x1`; 108 ve 110 KB.
