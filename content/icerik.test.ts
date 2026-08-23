@@ -141,9 +141,13 @@ test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
 })
 
 test('isletme_bilinmeyenAlanlarNullDur', () => {
-  assert.equal(isletme.eposta, null)
+  // E-posta 24 Ağustos 2026'da geldi ve bu listeden çıktı; kalan ikisi hâlâ yok.
   assert.equal(isletme.koordinat, null)
   assert.equal(isletme.postaKodu, null)
+})
+
+test('isletme_epostaDogrulanmisDegeriTasir', () => {
+  assert.equal(isletme.eposta, 'bozo@cigercibozo.com')
 })
 
 // Kullanıcı adı saklanır, tam URL değil: AltBilgi öneki kendisi kurar.

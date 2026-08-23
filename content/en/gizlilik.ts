@@ -15,7 +15,9 @@ export const gizlilik = {
     'cookies to count your visit; you can block them in your browser settings.',
   veriBaslik: 'Data collected',
   veriMetni:
-    'There is no form on the site; no name, phone number or email address is asked for or stored.',
+    'There is no form on the site; no name, phone number or email address is asked ' +
+    'for. If you write to us yourself, your message and address are kept only so we ' +
+    'can answer you.',
   olcumBaslik: 'Measurement',
   olcumMetni:
     'Measurement runs on Google Analytics 4: aggregate data such as which pages ' +
@@ -24,7 +26,7 @@ export const gizlilik = {
   sorumluBaslik: 'Data controller',
   sorumluMetni:
     'This site is run by Ciğerci Bozo, Naci Talat Street No:4, Kyrenia, Northern ' +
-    'Cyprus. Any request about your data goes directly to the business.',
+    'Cyprus. Any request about your data goes to the business at the address below.',
   aktarimBaslik: 'Transfer abroad',
   aktarimMetni:
     'Because measurement runs on Google Analytics, the data your browser sends is ' +
@@ -40,8 +42,6 @@ export const gizlilik = {
     'data about you is processed, and ask for it to be corrected or deleted. To ' +
     'stay out of the measurement entirely, use your browser cookie settings.',
   soruBaslik: 'Questions',
-  soruMetni:
-    'You can send privacy questions and requests to us directly by phone or on ' +
-    'WhatsApp.',
+  soruMetni: 'You can send privacy questions and requests to this address:',
   guncellemeMetni: 'Last updated: 24 August 2026.',
 }

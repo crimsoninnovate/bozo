@@ -9,14 +9,12 @@ type Adres = { '@type': string; streetAddress: string; addressLocality: string; 
 type Saat = { '@type': string; dayOfWeek: string[]; opens: string; closes: string }
 
 test('restaurantJsonLd_gercekVeriyle_bilinmeyenAlanlariHicYazmaz', () => {
-  // Gerçek işletme verisi: koordinat ve e-posta henüz null. Telefon ve Instagram
-  // 12 Ağustos 2026'da geldi, ikisi de aşağıdaki testlerde kilitli.
+  // Gerçek işletme verisi: koordinat henüz null. Telefon, Instagram (12 Ağustos)
+  // ve e-posta (24 Ağustos 2026) geldi, üçü de aşağıdaki testlerde kilitli.
   assert.equal(isletme.koordinat, null)
-  assert.equal(isletme.eposta, null)
 
   const veri = restaurantJsonLd() as Record<string, unknown>
   assert.equal('geo' in veri, false)
-  assert.equal('email' in veri, false)
   assert.equal('priceRange' in veri, false)
 })
 

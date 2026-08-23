@@ -1622,3 +1622,25 @@ talebi için bir e-posta adresi asıl doğru kanal, sahibine bildirildi.
 `Restaurant` yapısal verisi görsel taşımıyordu; Google'ın restoran zengin sonucu onu
 kullanıyor. Sosyal kartın kendisi verildi (`sosyal-kart.jpg`), zaten 1200x630 ve mutlak
 URL'de. `geo` hâlâ yok, koordinat gelince kendiliğinden düşecek.
+
+### E-posta geldi: `bozo@cigercibozo.com`
+
+Sahibi 24 Ağustos 2026'da verdi. `isletme.eposta` üç yeri birden açtı ve üçü de zaten
+onu bekliyordu:
+
+- **JSON-LD** `email` alanını kendiliğinden yazdı (`lib/jsonld.ts` zaten koşulluydu).
+- **Gizlilik sayfasının "Soru" bölümü** `mailto:` bağlantısı aldı; bileşenin kendi yorumu
+  "`isletme.eposta` geldiğinde bu satır `mailto:` alır" diyordu. Adres metne yazılmadı,
+  `isletme.eposta`dan basılıyor: değişirse tek yerde değişir. Sayfadaki tek bağlantı bu.
+- **"Toplanan veri" bölümü** düzeltildi: form yok ama artık bir yazışma kanalı var, yani
+  "e-posta bilgisi istenmez ve saklanmaz" cümlesi eksikti. Yeni hali, size cevap verebilmek
+  için mesajın ve adresin saklandığını söylüyor.
+
+**İki bekçi testi güncellendi.** `isletme_bilinmeyenAlanlarNullDur` e-postayı listeden
+bıraktı (koordinat ve posta kodu hâlâ orada) ve yerine `isletme_epostaDogrulanmisDegeriTasir`
+geldi. `restaurantJsonLd_gercekVeriyle_bilinmeyenAlanlariHicYazmaz` artık `email`in
+YOKLUĞUNU değil varlığını kabul ediyor; `geo` ve `priceRange` beklentisi durdu.
+
+**Uygulanmadı, sahibinin kararına bırakıldı:** e-posta satırı Konum sayfasının iletişim
+bloğuna ve alt bilgiye eklenmedi. İkisinin de kayıtlı gerekçesi "tasarımda üç satır var"
+(`SaatlerVeIletisim.tsx`), yani eklemek bir tasarım sapması olur.

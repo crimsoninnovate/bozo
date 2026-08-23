@@ -1,5 +1,6 @@
 import { CamPanel } from '@/components/ui/CamPanel'
 import { sozluk, type Dil } from '@/content'
+import { isletme } from '@/content/isletme'
 import stil from './GizlilikSayfasi.module.css'
 
 type Props = { dil: Dil }
@@ -14,9 +15,8 @@ type Props = { dil: Dil }
  * yanlış hale gelmişti. Aynı turda KKTC için dört bölüm eklendi (yurt dışına
  * aktarım, saklama, haklar, veri sorumlusu). METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
  *
- * `soruMetni` bağlantısızdır: iletişim alanlarının hepsi bugün `null`
- * (content/isletme.ts), bu yüzden verilebilecek her hedef yer tutucuya düşerdi.
- * `isletme.eposta` geldiğinde bu satır `mailto:` alır, başka hiçbir şey değişmez.
+ * `soruMetni` 24 Ağustos 2026'da `mailto:` aldı: `isletme.eposta` o gün geldi.
+ * Adres metne yazılmaz, `isletme.eposta`dan basılır; değişirse tek yerde değişir.
  */
 export function GizlilikSayfasi({ dil }: Props) {
   const s = sozluk(dil)
@@ -28,7 +28,7 @@ export function GizlilikSayfasi({ dil }: Props) {
     { baslik: s.gizlilik.saklamaBaslik, metin: s.gizlilik.saklamaMetni },
     { baslik: s.gizlilik.haklarBaslik, metin: s.gizlilik.haklarMetni },
     { baslik: s.gizlilik.sorumluBaslik, metin: s.gizlilik.sorumluMetni },
-    { baslik: s.gizlilik.soruBaslik, metin: s.gizlilik.soruMetni },
+    { baslik: s.gizlilik.soruBaslik, metin: s.gizlilik.soruMetni, eposta: true },
   ]
 
   return (
@@ -43,7 +43,19 @@ export function GizlilikSayfasi({ dil }: Props) {
           {bolumler.map((bolum) => (
             <section key={bolum.baslik} className={stil.bolum}>
               <h2 className={stil.bolumBaslik}>{bolum.baslik}</h2>
-              <p className={stil.bolumMetin}>{bolum.metin}</p>
+              <p className={stil.bolumMetin}>
+                {bolum.metin}
+                {/* Tek bağlantı: veri talebinin gideceği adres. Kaynağı
+                    `isletme.eposta`, metne ikinci kez yazılmaz. */}
+                {bolum.eposta && isletme.eposta && (
+                  <>
+                    {' '}
+                    <a className={stil.eposta} href={`mailto:${isletme.eposta}`}>
+                      {isletme.eposta}
+                    </a>
+                  </>
+                )}
+              </p>
             </section>
           ))}
         </CamPanel>

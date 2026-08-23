@@ -22,7 +22,8 @@ export const isletme: Isletme = {
   // hatları +90 ülke kodunu kullanır, wa.me baştaki sıfırsız uluslararası biçim ister.
   telefon: '+90 533 888 74 24',
   whatsapp: '+90 533 888 74 24',
-  eposta: null,
+  // Sahibi 24 Ağustos 2026'da verdi; gizlilik taleplerinin gittiği kanal da bu.
+  eposta: 'bozo@cigercibozo.com',
   // Kullanıcı adı, tam URL değil: adresi `lib/site.ts` > `instagramUrl` kurar.
   // Sahibi 12 Ağustos 2026'da verdi; hesap henüz açılmadı, yayından önce açılmalı.
   instagram: 'cigercibozo',

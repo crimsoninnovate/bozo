@@ -15,7 +15,9 @@ export const gizlilik = {
     'Sayfalar kendi çerezini yazmaz. Google Analytics ziyaretinizi saymak için ' +
     'tarayıcınıza kendi çerezlerini yazar; tarayıcı ayarlarınızdan engelleyebilirsiniz.',
   veriBaslik: 'Toplanan veri',
-  veriMetni: 'Sitede form yoktur; ad, telefon veya e-posta bilgisi istenmez ve saklanmaz.',
+  veriMetni:
+    'Sitede form yoktur; ad, telefon veya e-posta bilgisi istenmez. Bize kendiniz ' +
+    'yazarsanız mesajınız ve adresiniz yalnız size cevap verebilmek için saklanır.',
   olcumBaslik: 'Ölçüm',
   olcumMetni:
     'Ölçüm Google Analytics 4 ile yapılır: hangi sayfaların açıldığı, ziyaretin ' +
@@ -24,7 +26,7 @@ export const gizlilik = {
   sorumluBaslik: 'Veri sorumlusu',
   sorumluMetni:
     'Bu siteyi Ciğerci Bozo işletir. Adres Naci Talat Caddesi No:4, Girne, KKTC. ' +
-    'Verilerinizle ilgili her talep doğrudan işletmeye iletilir.',
+    'Verilerinizle ilgili her talep doğrudan işletmeye, aşağıdaki adrese iletilir.',
   aktarimBaslik: 'Yurt dışına aktarım',
   aktarimMetni:
     'Ölçüm Google Analytics ile yapıldığı için tarayıcınızın gönderdiği veri ' +
@@ -41,8 +43,6 @@ export const gizlilik = {
     'vardır. Ölçümü tamamen dışarıda bırakmak için tarayıcınızın çerez ayarlarını ' +
     'kullanabilirsiniz.',
   soruBaslik: 'Soru',
-  soruMetni:
-    'Gizlilikle ilgili sorularınızı ve taleplerinizi telefonla ya da WhatsApp ' +
-    'üzerinden doğrudan bize iletebilirsiniz.',
+  soruMetni: 'Gizlilikle ilgili sorularınızı ve taleplerinizi bu adrese yazabilirsiniz:',
   guncellemeMetni: 'Son güncelleme: 24 Ağustos 2026.',
 }
