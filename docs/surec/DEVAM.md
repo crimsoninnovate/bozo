@@ -15,9 +15,8 @@ Son güncelleme: 24 Ağustos 2026
 - **Yayın hedefi 20 Ağustos'ta arc sunucusuna taşındı** (`arc.megaonline.net`, Plesk,
   `/var/www/vhosts/cigercibozo.com/httpdocs`). Researchos artık deploy almıyor; oradaki demo
   (`bozo.crimsoninnovate.com`) eski sürümde donmuş durumda. Yordam `README.md` > Publishing.
-- **Açılış günü tek iş:** `public/.htaccess` içindeki `X-Robots-Tag` satırını silip build alıp
-  deploy etmek. O satır durdukça site arama motorlarına kapalı; `robots.txt` bilerek taramaya
-  açık ki tarayıcı başlığı okuyabilsin.
+- **Site 24 Ağustos 2026'da arama motorlarına AÇILDI:** `X-Robots-Tag` satırı silindi.
+  Aynı gün GA4 (`G-N3893E7B1P`) eklendi ve gizlilik sayfası ona göre yeniden yazıldı.
 - On iki rota (altı sayfa, iki dil) 200 dönüyor, yatay taşma yok, konsol temiz.
 
 ## Bekleyen iş
