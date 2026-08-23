@@ -1420,3 +1420,46 @@ Palet takası CSS'te tek satır, ama zemin rengi CSS'in dışında da dört yerd
   ölçüldü: 0.800 / 0.800 / 0.981, hepsi geçiyor.
 - İki sosyal kart; sayfanın kendi bağlamında üretildikleri için yeni zemini kendiliğinden
   aldılar.
+
+## 24 Ağustos 2026: rozetin sadeleştirilmiş hali (Bozo.svg)
+
+Aynı çizimin sadeleştirilmişi geldi. Yeni dosyanın renk kümesi öncekinin **alt kümesi**
+(198 renk, öncekinde 359; yalnızca yenide olan tek renk yok), yani ton eklenmemiş, 161 ara
+ton atılmış. Görünen fark: **kelime levhasındaki çapraz doku kalktı**, levha düz kaldı ve
+rozet biraz daha derli toplu.
+
+| | Aug23 | Bozo.svg |
+|---|---|---|
+| path | 455 | **230** |
+| ham | 102.902 | **66.933** |
+| gzip | 39.052 | **26.751** |
+| en/boy | 0.874725 | 0.874725 |
+
+**En/boy oranı birebir aynı**, o yüzden `Rozet.module.css`'in dört değeri DEĞİŞMEDİ.
+Ölçüldü, boylar da aynı kaldı: bar 139.5, daralmış 64.0, çekmece 104.0, mobil 86.9.
+Yalnız `Rozet.tsx`'in içsel `width`/`height` nitelikleri yeni viewBox'a çekildi.
+
+Bu tur 23 Ağustos'ta işaretlenen yük artışını da geri veriyor: vektör her sayfada üst barda
+yükleniyor ve gzip ağırlığı 39 KB'tan 27 KB'a indi, yani eski rozetin 22 KB'ına yaklaştı.
+
+**Halka kontrastı** yeni koyu zeminde `#EC8817` / `#230D0B` = **7.14:1** (önceki zeminde
+6.73). Zeminden ayrılma sorunu yok.
+
+### Favicon seti, üçüncü tur
+
+Sahibi seti yine RealFaviconGenerator'da üretti. `favicon.svg` yine gerçek vektör (230
+path, base64 yok). **Jeneratörün iki tuzağı üçüncü kez de çıktı ve üçüncü kez düzeltildi:**
+
+1. `site.webmanifest` yine `#000000` yazmıştı; sitenin zemini artık `#230D0B`.
+2. Dört rasterin dördü de şeffaf ve kenardan kenara geldi (`enUzakOran` 1.242-1.245).
+   `apple-touch-icon` ve iki maskable ikon bordo levha üstünde yeniden kuruldu ve güvenli
+   daireye ölçeklendi: 0.800 / 0.800 / 0.981. `favicon-96x96` ve `favicon.ico` şeffaf
+   bırakıldı, sekme ikonunda doğrusu bu.
+
+HTML'e yine etiket eklenmedi: altısını da Next `lib/metadata.ts`'ten basıyor, sayıldı.
+
+**16px hâlâ okunmuyor.** Sadeleştirme 48px'te gözle görülür bir kazanç veriyor ama 16px'te
+rozet yine bulamaç. Çözüm değişmedi: favicon'a sade bir işaret (şiş, ya da rozetin kelime
+levhasız daire kırpımı).
+
+Sosyal kartlar da yeni rozetle yeniden üretildi (104 ve 106 KB).
