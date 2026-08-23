@@ -1,0 +1,84 @@
+/* Tasarımda karşılığı yok; ölçüler sayfanın kendi merdiveninden (Acilis, Lakap). */
+.bolum {
+  position: relative;
+  padding: 8px var(--sayfa-yatay) 72px;
+}
+
+.kolon {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.baslik {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-bolum-baslik-orta);
+  line-height: 1.12;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+/* Anlatının kime ait olduğunu söyleyen tek satır, gövdenin değil başlığın parçası. */
+.imza {
+  margin: 18px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: var(--ol-govde-buyuk);
+  line-height: 1.4;
+  color: var(--bakir);
+}
+
+.metin {
+  margin: 26px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde);
+  line-height: 1.72;
+  color: var(--krem-78);
+  text-wrap: pretty;
+}
+
+/* "Ben buradayım" anlatının döndüğü yer: bakır dikme onu paragraf akışından çıkarır. */
+.buradayim {
+  margin-top: 40px;
+  padding-left: 26px;
+  border-left: 2px solid var(--bakir-55);
+}
+
+.vurgu {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-portre-baslik);
+  line-height: 1.1;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+}
+
+.yerler {
+  margin: 16px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde-buyuk);
+  line-height: 1.65;
+  color: var(--krem-74);
+}
+
+.yerler span {
+  display: block;
+}
+
+@media (max-width: 1040px) {
+  .bolum {
+    padding-bottom: 56px;
+  }
+
+  .buradayim {
+    margin-top: 32px;
+    padding-left: 20px;
+  }
+}

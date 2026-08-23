@@ -1263,3 +1263,37 @@ nüfustaki adı söylüyordu.
 gezip `\bEngin\b` arıyor. Gerekçe: tasarım dosyaları ve `docs/tasarim/metin-envanteri.json`
 o adı hala altı yerde taşıyor, yani bir parite turu "eksik" sanıp geri ekleyebilir. Test
 ihlalde düştüğü doğrulandı, sonra geri alındı. 128/128.
+
+## 23 Ağustos 2026: "Bozo'nun hikayesi", sahibinin kendi anlatımı
+
+**Kaynak:** `BozoRevizeler.pdf` sayfa 2-3, işletme sahibinin 23 Ağustos 2026'da yazdığı
+metin. Envanterden gelmeyen ikinci blok (birincisi 19 Ağustos'un `lakap` bölümü).
+
+**Yerleşim, sahibinin kararı (aynı gün):** metin ikiye bölündü. Anlatı `Portre` ile `Lakap`
+arasında (yüzü gördükten sonra konuşuyor, lakabın açıklaması da onun sesiyle sürüyor);
+kapanış sayfanın en sonunda, `Sofra`'nın CTA'larından sonra. Tek parça bırakılsaydı "Hoş
+geldiniz" sayfanın ortasında kalır, altında üç bölüm daha devam ederdi. Sayfa beş
+bölümden yedi bölüme çıktı.
+
+**Ne düzenlendi:** yalnız iki kural, ikisi de `CLAUDE.md` > Copy rules.
+
+| Yazılan | Sitedeki | Kural |
+|---|---|---|
+| hikâye, mekâna | hikaye, mekana | şapkalı harf kullanılmaz |
+| BOZO (4 kez) | Bozo | büyük harfli cümle yok; site 40+ yerde "Bozo" yazıyor |
+
+Sahibi ikisini de onayladı. Başka hiçbir kelime değişmedi.
+
+**Ne çıkarıldı:** hiçbir cümle. PDF'teki 23 cümlenin 23'ü sayfada. Tek biçimsel dokunuş,
+PDF'te ayrı satırlarda duran cümlelerin akan paragraflara toplanması; satır kırıkları
+yalnız ritmik olan iki yerde korundu ("Ocağın başında, / kapıda, / sofranızın yanında." ve
+"Ateşimiz hazır. / Şişlerimiz hazır. / Soframız hazır."). "Her gün." kapanışın başlığı
+oldu, noktası düştü.
+
+**Erişilebilirlik.** Üç yer bir `<ul>` değil, tek `<p>` içinde blok `<span>`: ekran okuyucu
+"3 öğeli liste" demesin, tek cümle okusun. Üç "hazır" cümlesi gerçekten ayrı cümle, onlar
+`<p>` kaldı. Bakır `#D19E66` bordo üstünde **7.31:1**, kapanışın imza notu (`--krem-58`)
+**5.63:1**: ikisi de AA.
+
+**İngilizcesi çeviri**, sahibinin metni değil. Girne "Kyrenia", işletme adı "Ciğerci Bozo
+of Urfa". 393px ve 1440px'te iki dilde de yatay taşma yok.

@@ -1,0 +1,96 @@
+/*
+ * Sofra ile aynı ortalanmış kalıp, ama üstünde saç teli bir çizgi var: iki
+ * ortalanmış bölüm arka arkaya gelince ayrım kalmıyordu.
+ */
+.bolum {
+  position: relative;
+  padding: 0 var(--sayfa-yatay) 96px;
+  text-align: center;
+}
+
+.kolon {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 72px;
+  border-top: 1px solid var(--cizgi-bolum);
+}
+
+.baslik {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-bolum-baslik-orta);
+  line-height: 1.1;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.metin {
+  margin: 24px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde);
+  line-height: 1.72;
+  color: var(--krem-76);
+  text-wrap: pretty;
+}
+
+/* Üç kısa cümle sayfanın son nefesi: paragraf ölçüsünden çıkıp başlık ailesine
+   geçiyorlar, aralarındaki boşluk satır boşluğundan dar. */
+.hazir {
+  margin-top: 44px;
+}
+
+.hazirSatiri {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-urun-ad);
+  line-height: 1.5;
+  letter-spacing: var(--iz-baslik);
+  color: var(--bakir);
+}
+
+.selamlama {
+  margin: 36px 0 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-portre-baslik);
+  line-height: 1.1;
+  letter-spacing: var(--iz-baslik);
+  color: var(--krem);
+  text-shadow: var(--golge-baslik);
+}
+
+.imza {
+  margin: 28px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 600;
+  font-size: var(--ol-govde-buyuk);
+  line-height: 1.4;
+  color: var(--krem-86);
+}
+
+.imzaNotu {
+  margin: 8px 0 0;
+  font-family: var(--font-govde);
+  font-weight: 400;
+  font-size: var(--ol-govde-kucuk);
+  line-height: 1.5;
+  color: var(--krem-58);
+}
+
+@media (max-width: 1040px) {
+  .bolum {
+    padding-bottom: 72px;
+  }
+
+  .kolon {
+    padding-top: 56px;
+  }
+
+  .hazir {
+    margin-top: 34px;
+  }
+}

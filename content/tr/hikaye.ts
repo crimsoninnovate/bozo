@@ -15,6 +15,33 @@ export const hikaye = {
       'tabela sadece herkesin zaten söylediğini yazıyor.',
     kartNotu: 'Adın hikayesi hemen aşağıda, kendi ağzından.',
   },
+
+  /**
+   * İşletme sahibinin 23 Ağustos 2026'da yazdığı anlatım (BozoRevizeler.pdf s.2-3).
+   * Envanterden gelmeyen ikinci blok; düzenlemenin dökümü IYILESTIRMELER.md'de.
+   */
+  anlati: {
+    baslik: "Bu hikaye Urfa'da başladı, Girne'de ateşle buluştu",
+    imza: 'Ben Bozo Çağlar.',
+    paragraflar: [
+      'Urfalıyım. Ciğerin yalnızca bir yemek değil; sabahın ilk ışıklarıyla yakılan ' +
+        'ateşin, dostlarla kurulan sofraların ve yıllardır değişmeyen bir geleneğin ' +
+        'parçası olduğu topraklardan geliyorum.',
+      "Çocukluğumdan beri Urfa'da iyi bir ciğerin ne demek olduğunu bilirim. Ateşi nasıl " +
+        'olmalı, ciğer nasıl kesilmeli, şiş nasıl dizilmeli, lavaş ne zaman sofraya ' +
+        'gelmeli... Çünkü bizim oralarda ciğer sadece pişirilmez; bir usulü vardır.',
+      "Yıllar sonra yolum Kıbrıs'a, Girne'ye düştü. Burada kendime yeni bir hayat kurarken, " +
+        'memleketimin en sevdiğim lezzetlerinden birini de yanımda getirmek istedim. Ama ' +
+        'sıradan bir kebapçı açmak istemedim.',
+      "Urfa'da nasıl yeniyorsa, Girne'de de öyle yensin istedim. Böyle doğdu Urfalı " +
+        'Ciğerci Bozo.',
+      'Bozo benim için yalnızca tabelaya yazılmış bir marka değil. Bu mekana kendi ismimi ' +
+        'verdim; çünkü yaptığımız işin arkasında bizzat durmak istedim. Bu yüzden ' +
+        'geldiğinizde beni sadece duvardaki bir fotoğrafta ya da tabelada görmeyeceksiniz.',
+    ],
+    vurgu: 'Ben buradayım.',
+    yerler: ['Ocağın başında,', 'kapıda,', 'sofranızın yanında.'],
+  },
   /**
    * İşletme sahibinin 19 Ağustos 2026'da yazdığı anlatımdan derlendi; envanterden
    * gelmeyen tek blok, gerekçesi CLAUDE.md > Copy rules.
@@ -58,5 +85,21 @@ export const hikaye = {
       'Lebeni ve bostana ikramımızdır, istemenize gerek yok. ' +
       'Mekanımız alkolsüzdür; gösteri ocağın kendisidir.',
     ctaKonum: 'Konum ve Saatler',
+  },
+  /** Anlatının kapanışı; aynı kaynak, sayfanın en sonunda durur. */
+  kapanis: {
+    baslik: 'Her gün',
+    paragraflar: [
+      'Şişlerimiz günlük hazırlanır. Ateşimiz yanar, lavaşımız sofraya gelir, közlenmiş ' +
+        'biberin kokusu ciğerle buluşur. Bizim soframızda gösterişten çok lezzet, ' +
+        'samimiyet ve Urfa usulü misafirperverlik vardır.',
+      "Çünkü Bozo'da mesele yalnızca karnınızı doyurmak değil. Girne'nin ortasında, birkaç " +
+        "lokmalığına da olsa size Urfa'da bir ciğer sofrasına oturmuşsunuz hissini yaşatmak.",
+      "Memleketim Urfa'dan getirdiğim bu kültürü şimdi Girne'de yaşatıyorum.",
+    ],
+    hazir: ['Ateşimiz hazır.', 'Şişlerimiz hazır.', 'Soframız hazır.'],
+    selamlama: 'Hoş geldiniz.',
+    imza: 'Urfalı Ciğerci Bozo',
+    imzaNotu: "Urfa'dan Girne'ye, ateşin başından sofranıza.",
   },
 }
