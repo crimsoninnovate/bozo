@@ -7,8 +7,7 @@ type Props = { dil: Dil }
  * Sahibinin kendi ağzından anlatı. Tasarımda yok, kaynağı 23 Ağustos 2026
  * tarihli metni (docs/surec/IYILESTIRMELER.md).
  *
- * Portre ile Lakap arasında: yüzü gördükten sonra konuşuyor ve lakabın
- * açıklaması da onun sesiyle devam ediyor.
+ * Lakap'tan SONRA: ad açıklandıktan sonra kendi yolculuğunu anlatıyor.
  */
 export function Anlati({ dil }: Props) {
   const a = sozluk(dil).hikaye.anlati
@@ -25,16 +24,6 @@ export function Anlati({ dil }: Props) {
           </p>
         ))}
 
-        <div className={stil.buradayim}>
-          <p className={stil.vurgu}>{a.vurgu}</p>
-          {/* Üç yer tek cümlenin ritmi, liste değil: `<span>` blok olur, ekran
-              okuyucu yine tek cümle okur. */}
-          <p className={stil.yerler}>
-            {a.yerler.map((yer, i) => (
-              <span key={i}>{yer}</span>
-            ))}
-          </p>
-        </div>
       </div>
     </section>
   )

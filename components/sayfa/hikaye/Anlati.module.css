@@ -42,43 +42,9 @@
   text-wrap: pretty;
 }
 
-/* "Ben buradayım" anlatının döndüğü yer: bakır dikme onu paragraf akışından çıkarır. */
-.buradayim {
-  margin-top: 40px;
-  padding-left: 26px;
-  border-left: 2px solid var(--bakir-55);
-}
-
-.vurgu {
-  margin: 0;
-  font-family: var(--font-baslik);
-  font-weight: 400;
-  font-size: var(--ol-portre-baslik);
-  line-height: 1.1;
-  letter-spacing: var(--iz-baslik);
-  color: var(--krem);
-}
-
-.yerler {
-  margin: 16px 0 0;
-  font-family: var(--font-govde);
-  font-weight: 400;
-  font-size: var(--ol-govde-buyuk);
-  line-height: 1.65;
-  color: var(--krem-74);
-}
-
-.yerler span {
-  display: block;
-}
-
 @media (max-width: 1040px) {
   .bolum {
     padding-bottom: 56px;
   }
 
-  .buradayim {
-    margin-top: 32px;
-    padding-left: 20px;
   }
-}

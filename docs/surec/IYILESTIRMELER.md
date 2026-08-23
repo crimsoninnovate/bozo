@@ -1737,3 +1737,54 @@ Ekran görüntüsü üç sütunu düzgün gösteriyor: `Kemal — artist Kemo   
 
 Bildirilen dize yalnız `textContent` okunduğunda çıkıyor: DOM komşu düğümleri boşluksuz
 birleştirir. Ham metin okumak render'ı ölçmez.
+
+## 24 Ağustos 2026: hikaye sayfası yeniden kuruldu
+
+Sahibi bir inceleme iletti ve "sen değerlendir, yaz, düzenle" dedi. `CLAUDE.md` kopya
+uydurmayı yasaklıyor; bu tur sahibinin açık talimatıyla o kuralın istisnası, ama yine de
+**tek yeni iddia eklenmedi**: yapılan kesmek, sıralamak ve mevcut cümleleri marka sesine
+çekmek.
+
+### Sıra değişti
+
+`Portre > Lakap > Anlatı > Usul > Sofra`. Lakap anlatının önüne alındı: adın hikayesi
+sayfanın en özgün malzemesi ve ortada kalıyordu. Yan etki olarak `Portre`nin notu ("Adın
+hikayesi hemen aşağıda") ilk kez DOĞRU oldu; daha önce iki bölüm sonrasını işaret ediyordu.
+
+### `Kapanis` bölümü tamamen silindi
+
+İkinci bir kopyaydı: "Urfalıyım, geleneği getirdim, buradayım" iki kez anlatılıyordu.
+Bileşen, CSS'i ve sözlük anahtarları kaldırıldı.
+
+### Ölçülen temizlik
+
+| Bulgu | Önce | Sonra |
+|---|---|---|
+| `Urfalı Ciğerci Bozo` (marka adı ihlali) | 2 | **0** |
+| `lavaş` (menüde yok) | 2 | **0** |
+| `közlenmiş biber` (menüde yok) | 1 | **0** |
+| `lezzet` (yasaklı kelime) | 1 | **0** |
+| `samimiyet`, `misafirperverlik` (kanıtsız iddia) | 1 | **0** |
+| `sıradan bir kebapçı` (rakip imalı) | 1 | **0** |
+| "ocağın başında, kapıda, sofranızın yanında" | 3 | **1** |
+
+Lavaş ve közlenmiş biber sunuluyor olabilir ama kilitli ürün listesinde yoktu;
+doğrulanmamış bilgi kuralı gereği metinden çıkarıldı, menüye eklenmedi. Sunuluyorlarsa
+karar sahibinindir.
+
+### Başlık ve etiket
+
+H1 `Bozo bir marka ismi değil, ta kendisi` düştü: göndergesi yoktu ve kimse sormadan karşı
+iddiayı gündeme getiriyordu. Yerine sahibinin kendi cümlesi geldi: **`Ben buradayım`**.
+Cümle daha önce anlatının ortasında duruyordu, şimdi sayfanın başı; böylece tekrar da
+ortadan kalktı.
+
+`Usul` bölümünde `02 Ölçü` etiketi **`Porsiyon`** oldu: tane zaten bir ölçüdür, iki başlık
+örtüşüyordu.
+
+### Bir bulgu ölçümle çürütüldü
+
+İncelemenin "öncelikli düzeltme" dediği bozuk tablo iddiası doğru değildi; ayrıntısı bir
+üstteki kayıtta.
+
+Sayfa 393 kelimeye indi (İngilizce 563).
