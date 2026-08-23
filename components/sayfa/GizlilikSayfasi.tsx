@@ -20,14 +20,18 @@ type Props = { dil: Dil }
  */
 export function GizlilikSayfasi({ dil }: Props) {
   const s = sozluk(dil)
+  // Sıra Tüzük Madde 4(2)'nin listesini izler: kimlik, amaç, yöntem, dayanak,
+  // alıcılar, aktarım, saklama, haklar, geri alma, başvuru.
   const bolumler = [
-    { baslik: s.gizlilik.cerezBaslik, metin: s.gizlilik.cerezMetni },
-    { baslik: s.gizlilik.veriBaslik, metin: s.gizlilik.veriMetni },
-    { baslik: s.gizlilik.olcumBaslik, metin: s.gizlilik.olcumMetni },
+    { baslik: s.gizlilik.sorumluBaslik, metin: s.gizlilik.sorumluMetni },
+    { baslik: s.gizlilik.amacBaslik, metin: s.gizlilik.amacMetni },
+    { baslik: s.gizlilik.yontemBaslik, metin: s.gizlilik.yontemMetni },
+    { baslik: s.gizlilik.dayanakBaslik, metin: s.gizlilik.dayanakMetni },
+    { baslik: s.gizlilik.aliciBaslik, metin: s.gizlilik.aliciMetni },
     { baslik: s.gizlilik.aktarimBaslik, metin: s.gizlilik.aktarimMetni },
     { baslik: s.gizlilik.saklamaBaslik, metin: s.gizlilik.saklamaMetni },
     { baslik: s.gizlilik.haklarBaslik, metin: s.gizlilik.haklarMetni },
-    { baslik: s.gizlilik.sorumluBaslik, metin: s.gizlilik.sorumluMetni },
+    { baslik: s.gizlilik.geriAlmaBaslik, metin: s.gizlilik.geriAlmaMetni },
     { baslik: s.gizlilik.soruBaslik, metin: s.gizlilik.soruMetni, eposta: true },
   ]
 

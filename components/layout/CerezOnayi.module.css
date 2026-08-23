@@ -1,0 +1,103 @@
+/*
+ * Onay bandı. Mobil eylem barının ÜSTÜNDE durur (z 80 > 70) ve onu örtmez:
+ * bar `bottom: 14px + safe-area` ile 54px kapladığı için bant o kadar yukarıdan
+ * başlar. Cam dili üst bardan ve eylem barından geliyor.
+ */
+.bant {
+  position: fixed;
+  left: 50%;
+  translate: -50% 0;
+  bottom: 14px;
+  z-index: 80;
+  width: min(680px, calc(100vw - 28px));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  padding: 18px 22px;
+  background:
+    linear-gradient(to bottom, rgba(249, 233, 213, 0.07), rgba(249, 233, 213, 0.012)),
+    var(--panel-86);
+  backdrop-filter: blur(26px) saturate(1.4);
+  border: 1px solid var(--cizgi);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+}
+
+.metin {
+  margin: 0;
+  flex: 1 1 320px;
+  min-width: 0;
+  font: 400 14.5px/1.55 var(--font-govde);
+  color: var(--krem-82);
+  text-wrap: pretty;
+}
+
+.detay {
+  color: var(--bakir);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.dugmeler {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+}
+
+/* İki düğme de gerçek bir seçim: ret ikincil ama gizli değil, aynı ölçüde. */
+.kabul,
+.ret {
+  min-height: 44px;
+  padding: 11px 20px;
+  font: 600 14.5px/1 var(--font-govde);
+  cursor: pointer;
+  transition: background var(--gecis-hizli), border-color var(--gecis-hizli);
+}
+
+.kabul {
+  border: 1px solid transparent;
+  background: var(--kor);
+  color: var(--krem);
+}
+
+.ret {
+  border: 1px solid var(--cizgi-buton);
+  background: transparent;
+  color: var(--krem-82);
+}
+
+@media (hover: hover) {
+  .kabul:hover {
+    background: var(--kor-hover);
+  }
+
+  .ret:hover {
+    border-color: var(--bakir-85);
+    background: var(--bakir-10);
+    color: var(--krem);
+  }
+
+  .detay:hover {
+    color: var(--bakir-acik);
+  }
+}
+
+/* Telefonda eylem barının üstüne çıkar: bar 54px + 14px dip + nefes payı. */
+@media (max-width: 1040px) {
+  .bant {
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+    padding: 16px 18px;
+    gap: 12px;
+  }
+
+  .dugmeler {
+    flex: 1 1 100%;
+  }
+
+  .kabul,
+  .ret {
+    flex: 1 1 0;
+  }
+}

@@ -1,48 +1,84 @@
 /**
- * Gizlilik sayfası. Tasarım paketinde karşılığı yoktur; metin marka sesiyle ve
- * yalnızca doğrulanabilir gerçeklerle yazılır. 24 Ağustos 2026'da Google Analytics
- * eklendi ve bu sayfa aynı gün güncellendi: eski metin "çerez kullanmaz, ziyaretçi
- * izleme aracı barındırmaz" diyordu, ikisi de artık doğru değil. Ölçüm aracı
- * değişirse burası yine güncellenir.
+ * Bilgilendirme metni. KKTC Kişisel Verilerin Korunması Yasası (89/2007) Madde 13
+ * ve onun altında yapılan "Bilgilendirme Yükümlülüğünün Yerine Getirilmesinde
+ * Uyulacak Usul ve Esaslar Tüzüğü" uyarınca yazıldı.
+ *
+ * Tüzük Madde 4(2) zorunlu içeriği sayıyor: (A) kontrolörün kimliği, (B) işleme
+ * amacı, (C) alıcılar veya alıcı kategorileri, (Ç) erişim ve düzeltme hakkı,
+ * (D) veri vermenin zorunlu olup olmadığı, (E) Yasa'nın 14 ve 15'inci
+ * maddelerindeki diğer haklar. Bölümler o listeyi karşılar.
+ *
+ * Tüzük Madde 5 ayrıca: (8) amaç belirli ve açık olmalı, muğlak ifade yok;
+ * (10) aktarımın amacı ve alıcıları belirtilmeli; (11) HANGİ işleme şartına
+ * dayanıldığı açıkça yazılmalı; (12) verinin otomatik yolla mı elde edildiği
+ * belirtilmeli; (9) sade dil; (13) eksik veya yanıltıcı bilgi olmamalı.
+ *
+ * METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
  */
 export const gizlilik = {
   baslik: 'Gizlilik',
   girisMetni:
-    'Bu sitede form yoktur, kişisel bilgi istenmez. Ziyaret sayısını ölçmek için ' +
-    'Google Analytics kullanılır; sitenin yazdığı tek çerez ailesi ona aittir.',
-  cerezBaslik: 'Çerezler',
-  cerezMetni:
-    'Sayfalar kendi çerezini yazmaz. Google Analytics ziyaretinizi saymak için ' +
-    'tarayıcınıza kendi çerezlerini yazar; tarayıcı ayarlarınızdan engelleyebilirsiniz.',
-  veriBaslik: 'Toplanan veri',
-  veriMetni:
-    'Sitede form yoktur; ad, telefon veya e-posta bilgisi istenmez. Bize kendiniz ' +
-    'yazarsanız mesajınız ve adresiniz yalnız size cevap verebilmek için saklanır.',
-  olcumBaslik: 'Ölçüm',
-  olcumMetni:
-    'Ölçüm Google Analytics 4 ile yapılır: hangi sayfaların açıldığı, ziyaretin ' +
-    'süresi ve ülke düzeyinde konum gibi toplu veriler. Adınız, telefonunuz ve ' +
-    'e-postanız bu ölçüme girmez.',
-  sorumluBaslik: 'Veri sorumlusu',
+    'Bu sayfa, Ciğerci Bozo web sitesinde hangi verinin, neden ve hangi hukuki ' +
+    'dayanakla işlendiğini anlatır. Sitede form yoktur; kimlik, adres veya ' +
+    'ödeme bilgisi istenmez.',
+
+  sorumluBaslik: 'Kim işliyor',
   sorumluMetni:
-    'Bu siteyi Ciğerci Bozo işletir. Adres Naci Talat Caddesi No:4, Girne, KKTC. ' +
-    'Verilerinizle ilgili her talep doğrudan işletmeye, aşağıdaki adrese iletilir.',
+    'Kontrolör Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC. Bu metindeki ' +
+    'her talep doğrudan işletmeye, aşağıdaki adrese gider.',
+
+  amacBaslik: 'Ne işleniyor, ne için',
+  amacMetni:
+    'Yalnız ziyaret ölçümü: hangi sayfanın açıldığı, ziyaretin süresi, yönlendiren ' +
+    'adres, cihaz türü ve ülke düzeyinde konum. Amaç tektir ve bununla sınırlıdır: ' +
+    'sitenin hangi sayfalarının işe yaradığını görmek. Reklam yapılmaz, profil ' +
+    'çıkarılmaz, veri satılmaz.',
+
+  yontemBaslik: 'Nasıl toplanıyor',
+  yontemMetni:
+    'Tamamen otomatik yolla, tarayıcınızda çalışan Google Analytics 4 koduyla. ' +
+    'Kod tarayıcınıza çerez yazar. Elle girdiğiniz hiçbir veri yoktur, çünkü ' +
+    'sitede form yoktur.',
+
+  dayanakBaslik: 'Hukuki dayanak',
+  dayanakMetni:
+    'Ölçüm, Yasa\'nın 6\'ncı maddesindeki onaya dayanır: ziyaretinizde çıkan ' +
+    'bantta "Kabul ediyorum" demediğiniz sürece ölçüm hiç başlamaz. Onay ' +
+    'vermezseniz site aynen çalışır.',
+
+  aliciBaslik: 'Kime gidiyor',
+  aliciMetni:
+    'Tek alıcı Google Ireland Limited ve Google LLC\'dir; ölçüm hizmetini onlar ' +
+    'yürütür. Başka hiçbir üçüncü tarafa veri iletilmez.',
+
   aktarimBaslik: 'Yurt dışına aktarım',
   aktarimMetni:
-    'Ölçüm Google Analytics ile yapıldığı için tarayıcınızın gönderdiği veri ' +
-    'Google sunucularında işlenir ve bu sunucular KKTC dışındadır. Aktarılan veri ' +
-    'ziyaretle sınırlıdır; ad, telefon veya adres gönderilmez.',
-  saklamaBaslik: 'Saklama',
+    'Ölçüm verisi KKTC dışındaki Google sunucularında işlenir. Bu aktarım, ' +
+    'Yasa\'nın 11\'inci maddesinin (2)\'nci fıkrasının (A) bendi uyarınca sizin ' +
+    'onayınıza dayanır; onay vermezseniz hiçbir veri yurt dışına gitmez.',
+
+  saklamaBaslik: 'Ne kadar kalıyor',
   saklamaMetni:
-    'Ölçüm verisi Google Analytics hesabında tutulur ve saklama süresi o hesabın ' +
-    'ayarıyla belirlenir. Site kendi sunucusunda ziyaretçi verisi saklamaz.',
+    'Ölçüm verisi Google Analytics hesabında tutulur ve süresi o hesabın ' +
+    'ayarından belirlenir. Site kendi sunucusunda ziyaretçi verisi saklamaz.',
+
   haklarBaslik: 'Haklarınız',
   haklarMetni:
-    'KKTC Kişisel Verilerin Korunması Yasası kapsamında hakkınızdaki verinin ' +
-    'işlenip işlenmediğini öğrenme, düzeltilmesini ve silinmesini isteme hakkınız ' +
-    'vardır. Ölçümü tamamen dışarıda bırakmak için tarayıcınızın çerez ayarlarını ' +
-    'kullanabilirsiniz.',
-  soruBaslik: 'Soru',
-  soruMetni: 'Gizlilikle ilgili sorularınızı ve taleplerinizi bu adrese yazabilirsiniz:',
-  guncellemeMetni: 'Son güncelleme: 24 Ağustos 2026.',
+    'Yasa\'nın 14\'üncü maddesi hakkınızdaki verinin işlenip işlenmediğini ' +
+    'öğrenme ve ona erişme, 15\'inci maddesi ise işlemeye itiraz etme ve verinin ' +
+    'düzeltilmesini, silinmesini veya durdurulmasını isteme hakkı verir. Veri ' +
+    'vermek zorunda değilsiniz: onay vermemenin siteyi kullanmanıza hiçbir etkisi ' +
+    'yoktur.',
+
+  geriAlmaBaslik: 'Onayı geri almak',
+  geriAlmaMetni:
+    'Onayınızı istediğiniz an geri alabilirsiniz: tarayıcınızın bu site için ' +
+    'sakladığı verileri ve çerezleri silin, bant yeniden çıkar ve bu kez ' +
+    '"İstemiyorum" diyebilirsiniz.',
+
+  soruBaslik: 'Başvuru',
+  soruMetni: 'Bu haklara ilişkin taleplerinizi bu adrese yazabilirsiniz:',
+  guncellemeMetni:
+    'Son güncelleme: 24 Ağustos 2026. Dayanak: KKTC Kişisel Verilerin Korunması ' +
+    'Yasası (89/2007) ve Bilgilendirme Yükümlülüğü Tüzüğü.',
 }

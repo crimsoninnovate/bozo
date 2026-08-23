@@ -23,6 +23,24 @@ export const ortak = {
    * Yalnızca ekran okuyucu için; ikondan ibaret kontrollerin adı. Tasarım
    * yardımcı teknoloji için işaretlenmediğinden bu iki metnin kaynağı yoktur.
    */
+  /**
+   * Çerez onayı. KKTC 89/2007 Madde 11(2)(A): yurt dışına aktarım, kişinin
+   * şüpheye yer bırakmayan onayıyla mümkün. GA4 veriyi Google'a aktardığı için
+   * ölçüm onay ALINMADAN başlamaz. Tüzük Madde 5(7): bilgilendirme ve onay
+   * ayrı ayrı yerine getirilir, o yüzden bant metni bilgilendirmenin yerine
+   * geçmez, ona bağlanır.
+   */
+  cerez: {
+    metin:
+      'Ziyaret sayısını ölçmek için Google Analytics kullanmak istiyoruz. Bu ' +
+      'tarayıcınıza çerez yazar ve veriyi yurt dışındaki Google sunucularına ' +
+      'aktarır. Onayınız olmadan başlamaz.',
+    kabul: 'Kabul ediyorum',
+    ret: 'İstemiyorum',
+    detay: 'Ayrıntılar',
+    etiket: 'Çerez onayı',
+  },
+  gizlilikBaglantisi: 'Gizlilik',
   erisim: {
     /** Alt bilgideki yapımcı işaretinin erişilebilir adı; işaretin kendisi aria-hidden. */
     yapimci: 'Siteyi yapan: Crimson Innovate',

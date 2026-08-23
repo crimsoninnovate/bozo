@@ -24,6 +24,17 @@ export const ortak = {
    * Screen readers only; the names of the icon-only controls. The design is not
    * marked up for assistive technology, so these two strings have no source.
    */
+  cerez: {
+    metin:
+      'We would like to use Google Analytics to count visits. It writes a cookie ' +
+      'to your browser and transfers the data to Google servers abroad. It does ' +
+      'not start without your consent.',
+    kabul: 'I accept',
+    ret: 'No thanks',
+    detay: 'Details',
+    etiket: 'Cookie consent',
+  },
+  gizlilikBaglantisi: 'Privacy',
   erisim: {
     /** Accessible name of the maker's mark in the footer; the mark itself is aria-hidden. */
     yapimci: 'Site by Crimson Innovate',

@@ -11,8 +11,9 @@ const BASLATMA = [
 ].join('\n')
 
 /**
- * Google Analytics 4. `<html>` basan ÜÇ yerin hepsine girer (iki kök layout ve
- * `global-not-found`), tıpkı fontlar gibi: biri unutulursa o sayfa ölçülmez.
+ * Google Analytics 4. DOĞRUDAN BASILMAZ: `CerezOnayi` onu yalnız onay "kabul"
+ * iken basar, yani etiket onaysız DOM'a hiç girmez. Gerekçe KKTC 89/2007
+ * Madde 11(2)(A): yurt dışına aktarım kişinin onayına bağlı.
  *
  * `afterInteractive`: etiket ilk boyamayı bekletmez. Statik export'ta
  * `next/script` etiketi istemcide enjekte eder, yani HTML kaynağında değil

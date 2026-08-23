@@ -1644,3 +1644,73 @@ YOKLUĞUNU değil varlığını kabul ediyor; `geo` ve `priceRange` beklentisi d
 **Uygulanmadı, sahibinin kararına bırakıldı:** e-posta satırı Konum sayfasının iletişim
 bloğuna ve alt bilgiye eklenmedi. İkisinin de kayıtlı gerekçesi "tasarımda üç satır var"
 (`SaatlerVeIletisim.tsx`), yani eklemek bir tasarım sapması olur.
+
+## 24 Ağustos 2026: KKTC uyumu, araştırılmış hâliyle
+
+Sahibi "kimse yapmıyor" gözlemiyle başladı ve tam kapsam uyum istedi. Önce piyasa,
+sonra mevzuat okundu.
+
+### Piyasa: gözlem doğru, ama iki farklı durum var
+
+| Site | Analytics | Bildirim | Tutarlı |
+|---|---|---|---|
+| nimacyprus.com | yok | yok | evet, hiçbir şey toplamıyor |
+| themeyhanerestaurant.com | var (`UA-59527972`) | yok | hayır |
+
+Bizim GA4 öncesi konumumuz Nima'nınkiydi ve sayfa da bunu yazıyordu.
+
+### Mevzuat: KKTC Kişisel Verilerin Korunması Yasası, **89/2007**
+
+Kaynak `kvkk.gov.ct.tr`; yasa metni ve tüzük PDF olarak indirilip okundu. Önce
+varsayılan "96/2018" numarası YANLIŞTI, araştırma düzeltti.
+
+Bizi bağlayan dört madde:
+
+- **Madde 6** işleme onaya dayanır, istisnaları sayılıdır (yasal yükümlülük, sözleşme,
+  hayati çıkar, kamu görevi, üstün gelen yasal çıkar).
+- **Madde 8** kontrolör, dosyalama sistemi kurup işlemeye başlamadan önce **Başkana yazılı
+  bildirimde bulunmak zorundadır**; bildirim amaçları, alıcıları ve **üçüncü ülkelere önerilen
+  transferi** de içerir. Madde 8(6)(B)'deki müşteri muafiyeti "verilerin üçüncü taraflara
+  transfer edilmemesi kaydıyla" işliyor; GA4 Google'a aktardığı için **muafiyet düşüyor**.
+- **Madde 11** diğer ülkelere transfer, Kurulun ücret karşılığı verdiği **"Transfer Ruhsatı"**
+  ile mümkündür. Ruhsatsız yol Madde 11(2)(A)'dır: **bilgiye konu kişinin transfere onayı.**
+- **Madde 13** ve altındaki **Bilgilendirme Yükümlülüğü Tüzüğü** metnin içeriğini sayıyor.
+
+### Uygulanan: onay bandı, çünkü ruhsat yok
+
+GA4 veriyi yurt dışına aktarıyor. Transfer Ruhsatı alınmadığı sürece tek hukuki yol
+Madde 11(2)(A), yani onay. Bu yüzden ölçüm **opt-in** yapıldı:
+
+- `lib/onay.ts` kararı `localStorage`da tutar; üç durum var ve varsayılan "karar-yok".
+- `CerezOnayi` bandı basar ve `Olcumleme`yi YALNIZ "kabul" iken render eder: GA4 etiketi
+  onaysız DOM'a hiç girmez. Build çıktısında doğrulandı, `out/index.html` içinde
+  `G-N3893E7B1P` **0 kez** geçiyor.
+- Tarayıcıda beş senaryo ölçüldü: ilk ziyaret ölçüm yok + bant var; kabul sonrası
+  `gtag`+`collect` var + bant kapandı; sonraki sayfada sormadan ölçüyor; ret sonrası hiç
+  istek yok; retli ikinci sayfada da yok.
+- Reddetmek gerçek bir seçim: iki düğme aynı ölçüde, ret gizlenmedi.
+- Mobilde bant eylem barının ÜSTÜNDE duruyor, örtmüyor (ölçüldü).
+
+### Bilgilendirme metni Tüzüğe göre yeniden yazıldı
+
+Tüzük Madde 4(2)'nin zorunlu listesi (kimlik, amaç, alıcılar, erişim ve düzeltme hakkı,
+veri vermenin zorunluluğu, Madde 14-15 hakları) ve Madde 5'in usul kuralları karşılandı:
+(8) amaç belirli ve sınırlı yazıldı, muğlak ifade yok; (10) aktarımın amacı ve alıcıları
+adıyla belirtildi (Google Ireland Limited ve Google LLC); (11) **hangi işleme şartına
+dayanıldığı açıkça yazıldı** (Madde 6, onay); (12) verinin **tamamen otomatik yolla**
+elde edildiği belirtildi; (9) sade dil; (13) eksik veya yanıltıcı ifade yok.
+
+Sayfa 4 bölümden **10 bölüme** çıktı ve **alt bilgiden bağlandı**: 13 Ağustos'ta sahibi
+bağlantıyı "şimdilik" kaldırmıştı, o gün site hiçbir şey toplamıyordu. Tüzük Madde 5(5)
+yükümlülüğün talebe bağlı olmadığını söylüyor, yani görünmeyen bildirim yükümlülüğü
+karşılamaz.
+
+### Kodla çözülemeyen iki madde, sahibine bildirildi
+
+1. **Madde 8 bildirimi.** İşletmenin Başkana yazılı bildirimde bulunması gerekiyor.
+   Form: `kvkk.gov.ct.tr` > Yardım Masası > Başkana Bildirim Formu.
+2. **Madde 11 Transfer Ruhsatı.** Onay yolu şu an bizi taşıyor, ama ruhsat başvurusu
+   ayrı bir seçenek; form yine aynı sitede.
+
+**METİN HUKUKÇU ONAYINDAN GEÇMEDİ.** Madde numaraları yasadan birebir alındı ama
+yorumu bir avukat yapmalı.

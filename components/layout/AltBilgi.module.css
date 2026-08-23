@@ -256,3 +256,17 @@
     padding-bottom: 116px;
   }
 }
+
+/* Telif satırındaki tek bağlantı: gizlilik bildirimi. */
+.telifBaglanti {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--gecis-hizli);
+}
+
+@media (hover: hover) {
+  .telifBaglanti:hover {
+    color: var(--bakir);
+  }
+}

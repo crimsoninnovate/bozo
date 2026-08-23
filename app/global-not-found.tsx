@@ -5,7 +5,7 @@ import { fontSiniflari } from '@/lib/fontlar'
 import { IKONLAR } from '@/lib/metadata'
 import { SITE_URL } from '@/lib/site'
 import './globals.css'
-import { Olcumleme } from '@/components/layout/Olcumleme'
+import { CerezOnayi } from '@/components/layout/CerezOnayi'
 
 /*
  * Eşleşmeyen her URL'nin sayfası.
@@ -48,7 +48,7 @@ export default function GlobalNotFound() {
     <html lang="tr" className={fontSiniflari}>
       <body>
         <HataSayfasi />
-        <Olcumleme />
+        <CerezOnayi dil="tr" />
       </body>
     </html>
   )

@@ -1,47 +1,72 @@
 /**
- * Privacy page. The handoff has no design for it; the copy states only what is
- * verifiable today. Google Analytics was added on 24 August 2026 and this page was
- * updated the same day: the old copy said the site set no cookies and ran no
- * visitor tracking, and neither is true any more.
+ * Information notice, written to KKTC Personal Data Protection Law 89/2007
+ * Article 13 and its regulation on fulfilling the information obligation.
+ * The Turkish file carries the full reasoning; the mandatory content list is
+ * Article 4(2) of that regulation. NOT REVIEWED BY A LAWYER.
  */
 export const gizlilik = {
   baslik: 'Privacy',
   girisMetni:
-    'There is no form on this site and no personal detail is asked for. Google ' +
-    'Analytics is used to count visits; the only cookies this site sets are its.',
-  cerezBaslik: 'Cookies',
-  cerezMetni:
-    'These pages write no cookies of their own. Google Analytics writes its own ' +
-    'cookies to count your visit; you can block them in your browser settings.',
-  veriBaslik: 'Data collected',
-  veriMetni:
-    'There is no form on the site; no name, phone number or email address is asked ' +
-    'for. If you write to us yourself, your message and address are kept only so we ' +
-    'can answer you.',
-  olcumBaslik: 'Measurement',
-  olcumMetni:
-    'Measurement runs on Google Analytics 4: aggregate data such as which pages ' +
-    'were opened, how long the visit lasted and the country it came from. Your ' +
-    'name, phone number and email address are not part of it.',
-  sorumluBaslik: 'Data controller',
+    'This page explains what data the Ciğerci Bozo website processes, why, and on ' +
+    'what legal basis. There is no form on the site; no identity, address or ' +
+    'payment detail is asked for.',
+
+  sorumluBaslik: 'Who processes it',
   sorumluMetni:
-    'This site is run by Ciğerci Bozo, Naci Talat Street No:4, Kyrenia, Northern ' +
-    'Cyprus. Any request about your data goes to the business at the address below.',
+    'The controller is Ciğerci Bozo, Naci Talat Street No:4, Kyrenia, Northern ' +
+    'Cyprus. Every request in this notice goes to the business at the address below.',
+
+  amacBaslik: 'What is processed, and what for',
+  amacMetni:
+    'Visit measurement only: which page was opened, how long the visit lasted, the ' +
+    'referring address, device type and country-level location. The purpose is ' +
+    'single and limited to this: seeing which pages of the site are useful. No ' +
+    'advertising, no profiling, no sale of data.',
+
+  yontemBaslik: 'How it is collected',
+  yontemMetni:
+    'Entirely by automatic means, through Google Analytics 4 running in your ' +
+    'browser. The code writes a cookie to your browser. There is no data you type ' +
+    'in, because there is no form on the site.',
+
+  dayanakBaslik: 'Legal basis',
+  dayanakMetni:
+    'Measurement rests on consent under Article 6 of the Law: unless you press ' +
+    '"I accept" on the banner shown during your visit, measurement never starts. ' +
+    'If you do not consent, the site works exactly the same.',
+
+  aliciBaslik: 'Who receives it',
+  aliciMetni:
+    'The only recipients are Google Ireland Limited and Google LLC, who run the ' +
+    'measurement service. No data is passed to any other third party.',
+
   aktarimBaslik: 'Transfer abroad',
   aktarimMetni:
-    'Because measurement runs on Google Analytics, the data your browser sends is ' +
-    'processed on Google servers outside Northern Cyprus. What is transferred is ' +
-    'limited to the visit; no name, phone number or address is sent.',
-  saklamaBaslik: 'Retention',
+    'Measurement data is processed on Google servers outside Northern Cyprus. That ' +
+    'transfer rests on your consent under Article 11(2)(A) of the Law; without ' +
+    'consent no data leaves the country.',
+
+  saklamaBaslik: 'How long it is kept',
   saklamaMetni:
     'Measurement data is held in the Google Analytics account and its retention ' +
     'period is set there. The site stores no visitor data on its own server.',
+
   haklarBaslik: 'Your rights',
   haklarMetni:
-    'Under the Northern Cyprus personal data protection law you may ask whether ' +
-    'data about you is processed, and ask for it to be corrected or deleted. To ' +
-    'stay out of the measurement entirely, use your browser cookie settings.',
-  soruBaslik: 'Questions',
-  soruMetni: 'You can send privacy questions and requests to this address:',
-  guncellemeMetni: 'Last updated: 24 August 2026.',
+    'Article 14 of the Law gives you the right to learn whether data about you is ' +
+    'processed and to access it; Article 15 gives you the right to object to ' +
+    'processing and to ask for the data to be corrected, deleted or blocked. You ' +
+    'are under no obligation to give data: refusing consent has no effect on your ' +
+    'use of the site.',
+
+  geriAlmaBaslik: 'Withdrawing consent',
+  geriAlmaMetni:
+    'You can withdraw consent at any time: clear the data and cookies your browser ' +
+    'stores for this site, the banner appears again and you can choose "No thanks".',
+
+  soruBaslik: 'Requests',
+  soruMetni: 'You can send requests about these rights to this address:',
+  guncellemeMetni:
+    'Last updated: 24 August 2026. Basis: KKTC Personal Data Protection Law ' +
+    '(89/2007) and the regulation on the information obligation.',
 }
