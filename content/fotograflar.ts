@@ -33,9 +33,10 @@ export const fotograflar: Record<FotoId, Foto> = {
   /* Etiket gelen kareye göre düzeltildi (20 Ağustos 2026): çekim listesi
      "ocak başında" diyordu, eldeki kare koyu zeminde stüdyo portresi. Bu metin
      fotoğraf gelince `alt` olarak ağaçta kaldığı için gerçeği anlatmak zorunda. */
+  /* Gerçek kare 24 Ağustos 2026'da sahibinin isteğiyle çekildi ("şimdilik
+     kaldıralım"). Dosya diskte duruyor; `dosya` satırını geri koymak yeterli. */
   'bozo-portre': {
     etiket: 'Bozo Çağlar, portre',
     etiketEn: 'Bozo Çağlar, portrait',
-    dosya: '/foto/bozo-portre.webp',
   },
 }

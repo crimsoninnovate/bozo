@@ -5,7 +5,6 @@ import { en } from '../content/en/index.ts'
 import {
   barCapalari,
   cekmeceLinkleri,
-  geceSeridiGosterilirMi,
   ustBarVaryanti,
 } from './kabuk.ts'
 import type { RotaAnahtari } from './site.ts'
@@ -106,13 +105,6 @@ test('cekmece_etiketleri_sozlukteKarsiligiVar', () => {
   }
 })
 
-/** Şerit yalnız hero durum çipi ve canlı saati olmayan üç rotada tek kaynaktır. */
-test('geceSeridi_yalnizCanliGostergesizRotalarda', () => {
-  for (const rota of ROTALAR) {
-    const gostergesiz = rota === 'hikaye' || rota === 'gizlilik' || rota === 'galeri'
-    assert.equal(geceSeridiGosterilirMi(rota), gostergesiz, rota)
-  }
-})
 
 
 /**

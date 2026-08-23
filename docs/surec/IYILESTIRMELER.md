@@ -1714,3 +1714,26 @@ karşılamaz.
 
 **METİN HUKUKÇU ONAYINDAN GEÇMEDİ.** Madde numaraları yasadan birebir alındı ama
 yorumu bir avukat yapmalı.
+
+## 24 Ağustos 2026: hikaye portresi ve gece şeridi kalktı
+
+**Portre.** `bozo-portre` kaydından `dosya` satırı düştü (sahibi: "şimdilik kaldıralım").
+Yuva öteki on altı bekleyen kare gibi boş plakaya döndü; dosya diskte duruyor, satırı geri
+koymak yeterli.
+
+**Gece şeridi.** "Gece açığız, ocak yanıyor" bandı üç alt sayfada (hikaye, gizlilik,
+galeri) tek canlı gösterge olduğu için basılıyordu. Sahibi 24 Ağustos'ta kaldırdı.
+`geceSeridiGosterilirMi` kuralı, iki çağrı yeri, bileşen ve testi tamamen silindi: kural
+ölü koda dönüşmesin.
+
+### Bir inceleme bulgusu ölçümle çürütüldü
+
+İnceleme, lakap tablosunun canlıda bozuk olduğunu ve bunun öncelikli düzeltme olduğunu
+söylüyordu: *"artist Kemoyakışıklıya"*, *"culuk İsmoboyu uzuna"*.
+
+**Tablo doğru render ediliyor.** İki genişlikte ölçüldü: masaüstünde not `dd`nin içinde ama
+157px sağında ayrı duruyor (x 679 > 836), telefonda `display:block` ile alt satıra iniyor.
+Ekran görüntüsü üç sütunu düzgün gösteriyor: `Kemal — artist Kemo   yakışıklıya`.
+
+Bildirilen dize yalnız `textContent` okunduğunda çıkıyor: DOM komşu düğümleri boşluksuz
+birleştirir. Ham metin okumak render'ı ölçmez.

@@ -7,12 +7,11 @@ import { CapaBaglantisi } from '@/components/ui/CapaBaglantisi'
 import { PinIkon } from '@/components/ui/Ikonlar'
 import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
-import { geceSeridiGosterilirMi, ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
+import { ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
 import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
 import { BarDurumu } from './BarDurumu'
 import { Cekmece } from './Cekmece'
 import { DilAnahtari } from './DilAnahtari'
-import { GeceSeridi } from './GeceSeridi'
 import { IlerlemeCubugu } from './IlerlemeCubugu'
 import stil from './UstBar.module.css'
 
@@ -95,7 +94,6 @@ function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: Rot
 /**
  * Sabit üst bar. Nav listesi, CTA hedefi ve bar ölçüsü rotaya göre değişir;
  * varyant tablosu `lib/kabuk.ts` içinde durur (kaynak satırları orada).
- * Gece şeridi de rotaya bağlı (`geceSeridiGosterilirMi`).
  *
  * 20 Ağustos 2026: marka rozete geçti, bar ortalanmış üç kolona döndü ve rozet
  * satırın altına sarkıyor (sahibinin kararı). Bar ölçüleri değişmedi: sarkma
@@ -126,7 +124,6 @@ export function UstBar({ dil, aktif }: Props) {
         }${daralmis ? ` ${stil.daralmis}` : ''}`}
       >
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
-        {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
         {/* Tek landmark: dil anahtarı, iki nav yarısı ve CTA aynı bölgeye ait.
             İki ayrı <nav> aynı adı taşıyamazdı (icerik.test.ts). */}
         <nav className={stil.satir} aria-label={s.ortak.erisim.anaGezinme}>

@@ -149,15 +149,3 @@ export function cekmeceLinkleri(): CekmeceLinki[] {
     o.tur === 'rota' ? [{ rota: o.rota, etiket: o.etiket, altlar: barCapalari(o.rota) }] : [],
   )
 }
-
-/**
- * Gece şeridi yalnız sayfanın başka canlı durum göstergesi olmadığı rotalarda.
- *
- * Ölçüm (Girne 03:36-03:47): ana, menü ve konum aynı olguyu üç dört kez söylüyor
- * (şerit + hero durum çipi + canlı saat / saat tablosu); hikaye, gizlilik ve
- * galeride şerit tek kaynak. Ölçüt sayfa kimliği değil, o rotada başka bir canlı
- * gösterge olup olmadığı. Kayıtlı sapma, bkz. docs/surec/IYILESTIRMELER.md.
- */
-export function geceSeridiGosterilirMi(aktif: RotaAnahtari): boolean {
-  return aktif === 'hikaye' || aktif === 'gizlilik' || aktif === 'galeri'
-}

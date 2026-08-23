@@ -12,10 +12,9 @@ import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
 import { hareketAzaltilmisMi, useHareketAzaltilmisMi } from '@/lib/hareket'
-import { cekmeceLinkleri, geceSeridiGosterilirMi, ustBarVaryanti, type CekmeceLinki } from '@/lib/kabuk'
+import { cekmeceLinkleri, ustBarVaryanti, type CekmeceLinki } from '@/lib/kabuk'
 import { instagramUrl, telefonUrl, whatsappUrl, yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
 import { DilAnahtari } from './DilAnahtari'
-import { GeceSeridi } from './GeceSeridi'
 import stil from './Cekmece.module.css'
 
 type Props = {
@@ -252,7 +251,6 @@ export function Cekmece({ dil, aktif, acik, kapat, tetikleyiciRef }: Props) {
       onClick={baglantiyaTiklandiysaKapat}
     >
       {ustBarVaryanti(aktif).anaVaryantMi && <div className={stil.rayPayi} aria-hidden="true" />}
-      {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}
       <div className={stil.ust}>
         <Rozet dil={dil} boy="cekmece" />
         <div className={stil.sagGrup}>
