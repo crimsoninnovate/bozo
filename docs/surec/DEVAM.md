@@ -4,13 +4,12 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 23 Ağustos 2026
+Son güncelleme: 24 Ağustos 2026
 
 ## Durum
 
-- Branch `feat/site-kurulumu`. 128 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
-  Ağaç temiz, çalışan ajan yok. Son commit `151f777`, arc'a gönderildi ve doğrulandı
-  (`plesk repair fs` 0 hata).
+- Branch `feat/site-kurulumu`. 133 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
+  Ağaç temiz, çalışan ajan yok. Son commit `43d4da5`, arc'a gönderildi ve doğrulandı (`plesk repair fs` 0 hata).
 - **Site kendi alan adında yayında:** `https://cigercibozo.com`, test yayını. `www` 301 ile
   apex'e gidiyor, sertifika Let's Encrypt.
 - **Yayın hedefi 20 Ağustos'ta arc sunucusuna taşındı** (`arc.megaonline.net`, Plesk,
