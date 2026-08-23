@@ -5,6 +5,7 @@ import { fontSiniflari } from '@/lib/fontlar'
 import { IKONLAR } from '@/lib/metadata'
 import { SITE_URL } from '@/lib/site'
 import './globals.css'
+import { Olcumleme } from '@/components/layout/Olcumleme'
 
 /*
  * Eşleşmeyen her URL'nin sayfası.
@@ -47,6 +48,7 @@ export default function GlobalNotFound() {
     <html lang="tr" className={fontSiniflari}>
       <body>
         <HataSayfasi />
+        <Olcumleme />
       </body>
     </html>
   )

@@ -45,6 +45,9 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
     name: isletmeVerisi.ad,
     url: SITE_URL,
     servesCuisine: 'Turkish',
+    // Google'ın restoran zengin sonucu görsel bekler. Sosyal kartın kendisi
+    // veriliyor: zaten 1200x630 ve mutlak URL'de duruyor, ikinci bir varlık yok.
+    image: `${SITE_URL}/sosyal-kart.jpg`,
     hasMenu: `${SITE_URL}${yol('menu', 'tr')}`,
     // `servesAlcohol` schema.org'da yok, tüketiciler onu yok sayardı. Alkolsüzlük
     // markanın kayıtlı gerçeği, o yüzden silinmedi, geçerli sözcük dağarcığına taşındı.

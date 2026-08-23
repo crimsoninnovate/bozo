@@ -95,3 +95,10 @@
   font: 400 var(--ol-govde)/1.6 var(--font-govde);
   color: var(--krem-78);
 }
+
+/* Yürürlük tarihi panelin dışında: bir bölüm değil, sayfanın dipnotu. */
+.guncelleme {
+  margin: 22px 0 0;
+  font: 400 13.5px/1.5 var(--font-govde);
+  color: var(--krem-58);
+}

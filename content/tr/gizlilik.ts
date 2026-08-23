@@ -1,17 +1,48 @@
 /**
  * Gizlilik sayfası. Tasarım paketinde karşılığı yoktur; metin marka sesiyle ve
- * yalnızca doğrulanabilir gerçeklerle yazılır. Site bugün çerez yazmaz, form
- * toplamaz ve ölçüm aracı barındırmaz. Analiz aracı eklenirse bu sayfa güncellenir.
+ * yalnızca doğrulanabilir gerçeklerle yazılır. 24 Ağustos 2026'da Google Analytics
+ * eklendi ve bu sayfa aynı gün güncellendi: eski metin "çerez kullanmaz, ziyaretçi
+ * izleme aracı barındırmaz" diyordu, ikisi de artık doğru değil. Ölçüm aracı
+ * değişirse burası yine güncellenir.
  */
 export const gizlilik = {
   baslik: 'Gizlilik',
-  girisMetni: 'Bu site çerez kullanmaz, form toplamaz ve ziyaretçi izleme aracı barındırmaz.',
+  girisMetni:
+    'Bu sitede form yoktur, kişisel bilgi istenmez. Ziyaret sayısını ölçmek için ' +
+    'Google Analytics kullanılır; sitenin yazdığı tek çerez ailesi ona aittir.',
   cerezBaslik: 'Çerezler',
-  cerezMetni: 'Sayfalar tarayıcınıza çerez yazmaz.',
+  cerezMetni:
+    'Sayfalar kendi çerezini yazmaz. Google Analytics ziyaretinizi saymak için ' +
+    'tarayıcınıza kendi çerezlerini yazar; tarayıcı ayarlarınızdan engelleyebilirsiniz.',
   veriBaslik: 'Toplanan veri',
   veriMetni: 'Sitede form yoktur; ad, telefon veya e-posta bilgisi istenmez ve saklanmaz.',
   olcumBaslik: 'Ölçüm',
-  olcumMetni: 'Sitede analiz veya ölçüm aracı kurulu değildir. İleride eklenirse bu sayfa güncellenir.',
+  olcumMetni:
+    'Ölçüm Google Analytics 4 ile yapılır: hangi sayfaların açıldığı, ziyaretin ' +
+    'süresi ve ülke düzeyinde konum gibi toplu veriler. Adınız, telefonunuz ve ' +
+    'e-postanız bu ölçüme girmez.',
+  sorumluBaslik: 'Veri sorumlusu',
+  sorumluMetni:
+    'Bu siteyi Ciğerci Bozo işletir. Adres Naci Talat Caddesi No:4, Girne, KKTC. ' +
+    'Verilerinizle ilgili her talep doğrudan işletmeye iletilir.',
+  aktarimBaslik: 'Yurt dışına aktarım',
+  aktarimMetni:
+    'Ölçüm Google Analytics ile yapıldığı için tarayıcınızın gönderdiği veri ' +
+    'Google sunucularında işlenir ve bu sunucular KKTC dışındadır. Aktarılan veri ' +
+    'ziyaretle sınırlıdır; ad, telefon veya adres gönderilmez.',
+  saklamaBaslik: 'Saklama',
+  saklamaMetni:
+    'Ölçüm verisi Google Analytics hesabında tutulur ve saklama süresi o hesabın ' +
+    'ayarıyla belirlenir. Site kendi sunucusunda ziyaretçi verisi saklamaz.',
+  haklarBaslik: 'Haklarınız',
+  haklarMetni:
+    'KKTC Kişisel Verilerin Korunması Yasası kapsamında hakkınızdaki verinin ' +
+    'işlenip işlenmediğini öğrenme, düzeltilmesini ve silinmesini isteme hakkınız ' +
+    'vardır. Ölçümü tamamen dışarıda bırakmak için tarayıcınızın çerez ayarlarını ' +
+    'kullanabilirsiniz.',
   soruBaslik: 'Soru',
-  soruMetni: 'Gizlilikle ilgili sorularınızı doğrudan bize iletebilirsiniz.',
+  soruMetni:
+    'Gizlilikle ilgili sorularınızı ve taleplerinizi telefonla ya da WhatsApp ' +
+    'üzerinden doğrudan bize iletebilirsiniz.',
+  guncellemeMetni: 'Son güncelleme: 24 Ağustos 2026.',
 }

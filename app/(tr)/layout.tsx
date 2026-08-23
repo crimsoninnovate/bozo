@@ -1,6 +1,7 @@
 import { fontSiniflari } from '@/lib/fontlar'
 import { restaurantJsonLd } from '@/lib/jsonld'
 import '../globals.css'
+import { Olcumleme } from '@/components/layout/Olcumleme'
 
 export default function TrKokLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function TrKokLayout({ children }: { children: React.ReactNode })
           dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd()) }}
         />
         {children}
+        <Olcumleme />
       </body>
     </html>
   )

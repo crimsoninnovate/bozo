@@ -1569,3 +1569,56 @@ yerde tek satırda kalıyor.
    metni perdeden okunuyor göründü ve bu bir gerileme sanıldı. Aynı sayfa
    `--use-angle=swiftshader` ile açılınca bulanıklık çalışıyor. Cam ölçülecekse tarayıcı
    GPU bayraklarıyla açılmalı, yoksa yanlış alarm verir.
+
+## 24 Ağustos 2026: yayın, ölçüm ve gizlilik
+
+### `X-Robots-Tag` kaldırıldı
+
+`public/.htaccess`'teki `noindex, nofollow` satırı silindi; site arama motorlarına açıldı
+(sahibinin kararı). `robots.txt` zaten `Allow: /` diyordu ve `sitemap.xml` on iki rotayı
+listeliyor. Canlıda dört rotada doğrulandı: başlık artık hiç yok.
+
+Yayın kontrol listesinin iki maddesi açık kaldı ve sahibine bildirildi: Instagram hesabının
+gerçekten açık olduğu dışarıdan doğrulanamıyor (`302` Instagram'ın giriş yönlendirmesi), ve
+e-posta, koordinat, posta kodu hâlâ `null`.
+
+### GA4
+
+Ölçüm kimliği `G-N3893E7B1P`, akış "BozoWeb". `components/layout/Olcumleme.tsx`,
+`next/script` ile `afterInteractive`. **`<html>` basan ÜÇ yerin hepsine girdi** (iki kök
+layout ve `global-not-found`), fontlarla aynı gerekçe: biri unutulursa o sayfa ölçülmez.
+
+İlk yazımda etiketin gövdesi JSX çocuğu olarak şablon dizesiyle verilmişti ve tsc onu
+ayrıştıramadı; gövde ayrı bir sabite alınıp `dangerouslySetInnerHTML` ile verildi.
+
+Tarayıcıda uçtan uca doğrulandı: `gtag.js` yüklendi, `/g/collect` isteği `tid=G-N3893E7B1P`
+ile gitti, `dataLayer` dört kayıt taşıyor.
+
+### Gizlilik sayfası yeniden yazıldı
+
+**GA4 eklemek sayfayı yanlış hale getiriyordu.** Eski metin birebir şunu diyordu: "Bu site
+çerez kullanmaz, form toplamaz ve ziyaretçi izleme aracı barındırmaz" ve "Sitede analiz
+veya ölçüm aracı kurulu değildir". GA4 çerez yazar ve tam olarak bir ziyaretçi izleme
+aracıdır; iki cümle de doğru olmaktan çıktı. Dosyanın kendi başlık yorumu zaten "Analiz
+aracı eklenirse bu sayfa güncellenir" diyordu.
+
+Üç bölüm gerçeğe çekildi (giriş, çerezler, ölçüm) ve KKTC için **dört bölüm eklendi**:
+
+| Bölüm | Neden |
+|---|---|
+| Yurt dışına aktarım | GA4 verisi Google sunucularında, KKTC dışında işleniyor |
+| Saklama | Süre Google Analytics hesabının ayarında; site kendi sunucusunda tutmuyor |
+| Haklarınız | KKTC Kişisel Verilerin Korunması Yasası: öğrenme, düzeltme, silme |
+| Veri sorumlusu | İşletmenin adı ve adresi, taleplerin gideceği yer |
+
+Sayfaya bir de yürürlük tarihi satırı eklendi (panelin dışında, bölüm değil dipnot).
+
+**METİN HUKUKÇU ONAYINDAN GEÇMEDİ** ve madde numarası verilmedi; yalnız yasanın adı geçiyor.
+Talepler için kanal telefon ve WhatsApp, çünkü `isletme.eposta` hâlâ `null`; gizlilik
+talebi için bir e-posta adresi asıl doğru kanal, sahibine bildirildi.
+
+### JSON-LD'ye `image`
+
+`Restaurant` yapısal verisi görsel taşımıyordu; Google'ın restoran zengin sonucu onu
+kullanıyor. Sosyal kartın kendisi verildi (`sosyal-kart.jpg`), zaten 1200x630 ve mutlak
+URL'de. `geo` hâlâ yok, koordinat gelince kendiliğinden düşecek.
