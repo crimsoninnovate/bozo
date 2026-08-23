@@ -25,6 +25,8 @@ export const ortak = {
    * marked up for assistive technology, so these two strings have no source.
    */
   erisim: {
+    /** Accessible name of the maker's mark in the footer; the mark itself is aria-hidden. */
+    yapimci: 'Site by Crimson Innovate',
     menuyuAc: 'Open the menu',
     menuyuKapat: 'Close the menu',
     /**

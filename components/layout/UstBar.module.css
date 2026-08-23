@@ -56,28 +56,52 @@
   z-index: 60;
   display: flex;
   flex-direction: column;
-  background-color: var(--panel-bar);
-  backdrop-filter: blur(14px);
-  /*
-   * Saç çizgisi ROZETİN OLDUĞU YERDE KESİLİR (sahibinin kararı, 20 Ağustos 2026).
-   * `border-bottom` olarak çizilince sarkan rozetin ortasından geçiyor ve onu
-   * kesiyormuş gibi duruyordu. Çizgi kaldırılmadı: barın nerede bittiğini
-   * söyleyen tek işaret o. Boşluk orta kolonun 276px'lik dokunulmaz alanı.
-   */
-  background-image: linear-gradient(
-    to right,
-    var(--cizgi-hayalet) 0 calc(50% - 138px),
-    transparent calc(50% - 138px) calc(50% + 138px),
-    var(--cizgi-hayalet) calc(50% + 138px) 100%
-  );
+  /* Tepede perde YOK: bar doğrudan sayfanın zemininin üstünde durur (sahibinin
+     kararı, 24 Ağustos 2026). Perde kaydırmanın işi, aşağıdaki `.perdeli`de.
+     Geçiş `background`u da kapsıyor, o yüzden bant yumuşak giriyor. */
+  background-color: transparent;
+  background-repeat: no-repeat;
   background-size: 100% 1px;
   background-position: bottom;
-  background-repeat: no-repeat;
+  transition:
+    background-color var(--gecis-bar),
+    backdrop-filter var(--gecis-bar);
+}
+
+/*
+ * PERDE, yalnız kaydırıldığında. Gerekçesi 12-13 Ağustos'ta ölçülmüştü: altından
+ * geçen içerik nav bağlantılarının içinden okunuyordu (1440px, menü, kaydırma
+ * 1290: üç ürün adı). Tepede o sorun yok, çünkü hero barın altında yer açıyor
+ * (`--bar-boy` + `--rozet-sarkma` dolgusu) ve altında hiçbir şey yok.
+ *
+ * Saç çizgisi ROZETİN OLDUĞU YERDE KESİLİR (sahibinin kararı, 20 Ağustos 2026).
+ * `border-bottom` olarak çizilince sarkan rozetin ortasından geçiyor ve onu
+ * kesiyormuş gibi duruyordu. Boşluk orta kolonun 276px'lik dokunulmaz alanı.
+ */
+.perdeli {
+  background-color: var(--panel-bar);
+  /* Cam: üstten aşağı sönen ışık tabakası + güçlü bulanıklık + doygunluk.
+     Tek yarı saydam renk cam gibi durmuyor; tarif MobilAksiyonBari'den. */
+  box-shadow: inset 0 1px 0 rgba(249, 233, 213, 0.1);
+  backdrop-filter: blur(26px) saturate(1.4);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
+  background-image:
+    linear-gradient(
+      to right,
+      var(--cizgi-hayalet) 0 calc(50% - 138px),
+      transparent calc(50% - 138px) calc(50% + 138px),
+      var(--cizgi-hayalet) calc(50% + 138px) 100%
+    ),
+    linear-gradient(to bottom, rgba(249, 233, 213, 0.07), rgba(249, 233, 213, 0.012));
+  background-size: 100% 1px, 100% 100%;
+  background-position: bottom, top;
 }
 
 /* Daralınca sarkma yok, rozet çizginin üstünde kalıyor: çizgi kesintisiz. */
-.daralmis {
-  background-image: linear-gradient(to right, var(--cizgi-hayalet) 0 100%);
+.perdeli.daralmis {
+  background-image:
+    linear-gradient(to right, var(--cizgi-hayalet) 0 100%),
+    linear-gradient(to bottom, rgba(249, 233, 213, 0.07), rgba(249, 233, 213, 0.012));
 }
 
 /*
@@ -247,19 +271,17 @@
 }
 
 @media (max-width: 1040px) {
-  .anaVaryant,
-  .icVaryant {
+  .perdeli.anaVaryant,
+  .perdeli.icVaryant {
     background-color: var(--panel-bar);
     /* Mobilde rozet solda: boşluk da solda, 18px dolgu + 100px rozet. */
-    background-image: linear-gradient(
-      to right,
-      transparent 0 122px,
-      var(--cizgi-sac) 122px 100%
-    );
-    background-size: 100% 1px;
-    background-position: bottom;
-    background-repeat: no-repeat;
-    backdrop-filter: blur(10px);
+    background-image:
+      linear-gradient(to right, transparent 0 122px, var(--cizgi-sac) 122px 100%),
+      linear-gradient(to bottom, rgba(249, 233, 213, 0.07), rgba(249, 233, 213, 0.012));
+    background-size: 100% 1px, 100% 100%;
+    background-position: bottom, top;
+    backdrop-filter: blur(22px) saturate(1.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
   }
 
   /* SPEC.md §4 mobil header: 82px. Eskiden 58px'ti; 100px'lik rozet o satıra

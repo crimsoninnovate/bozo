@@ -29,9 +29,11 @@
   --panel-acik: rgba(11, 15, 15, 0.72);
   /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */
   --panel-yari: rgba(11, 15, 15, 0.55);
-  /* Üst barın iki hâli (SPEC.md §4): normal .9, daralmış .94. */
-  --panel-bar: rgba(11, 15, 15, 0.9);
-  --panel-daralmis: rgba(11, 15, 15, 0.94);
+  /* Üst barın perdesi. Alfa .9/.94'ten .72/.78'e indi (24 Ağustos 2026): perde
+     artık yalnız kaydırınca çıkıyor ve .9'da bulanıklık hiç okunmuyordu, düz bir
+     kutu gibi duruyordu. Cam üç katman, tarif MobilAksiyonBari'den. */
+  --panel-bar: rgba(11, 15, 15, 0.72);
+  --panel-daralmis: rgba(11, 15, 15, 0.78);
   /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
   --panel-poi: rgba(11, 15, 15, 0.85);
   /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */

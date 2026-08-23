@@ -1,4 +1,5 @@
 import stil from './MenuSatiri.module.css'
+import { dulOnle } from '@/lib/metin'
 
 type Props = {
   ad: string
@@ -32,7 +33,7 @@ type Props = {
 export function MenuSatiri({ ad, aciklama }: Props) {
   return (
     <li className={stil.satir}>
-      <span className={stil.ad}>{ad}</span>
+      <span className={stil.ad}>{dulOnle(ad)}</span>
       <span className={stil.aciklama}>{aciklama}</span>
     </li>
   )

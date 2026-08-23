@@ -1,5 +1,6 @@
 import { sozluk, type Dil } from '@/content'
 import stil from './AltBilgi.module.css'
+import { YapimciIsareti } from './YapimciIsareti'
 
 type Props = {
   dil: Dil
@@ -24,6 +25,8 @@ export function TelifSeridi({ dil }: Props) {
          */}
         {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke}
       </div>
+
+      <YapimciIsareti dil={dil} />
     </div>
   )
 }

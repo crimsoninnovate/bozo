@@ -23,7 +23,7 @@ type Kivilcim = {
  */
 // Palet: bakır sıcak nokta, kor gövde. Canvas CSS'i okumaz, o yüzden token'lar
 // mount'ta bir kez çözülür; yedekler siyah paletin değerleri. Sabit bırakılamaz:
-// kor palete göre değişiyor (siyahta #AD2624, bordoda #C13029) ve literal kalsaydı
+// kor palete göre değişiyor (siyahta #AD2624, bordoda #B82B27) ve literal kalsaydı
 // kıvılcımlar palet takasını duymazdı.
 const SICAK_YEDEK = 'rgb(209, 158, 102)'
 const KOR_YEDEK = 'rgb(173, 38, 36)'

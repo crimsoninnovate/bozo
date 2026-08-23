@@ -4,6 +4,7 @@ import { fiyatMetni } from '@/content/isletme'
 import type { Dil, FotoId, Urun } from '@/content/types'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import stil from './UrunKarti.module.css'
+import { dulOnle } from '@/lib/metin'
 
 type Props = {
   dil: Dil
@@ -38,7 +39,7 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }
       </span>
       <div className={stil.govde}>
         <div className={stil.adSatiri}>
-          <h3 className={stil.ad}>{ad}</h3>
+          <h3 className={stil.ad}>{dulOnle(ad)}</h3>
           <span aria-hidden="true" className={stil.anaFiyat}>
             {fiyatMetni(urun.tam)}
           </span>

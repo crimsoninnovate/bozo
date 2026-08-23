@@ -24,6 +24,8 @@ export const ortak = {
    * yardımcı teknoloji için işaretlenmediğinden bu iki metnin kaynağı yoktur.
    */
   erisim: {
+    /** Alt bilgideki yapımcı işaretinin erişilebilir adı; işaretin kendisi aria-hidden. */
+    yapimci: 'Siteyi yapan: Crimson Innovate',
     menuyuAc: 'Menüyü aç',
     menuyuKapat: 'Menüyü kapat',
     /**

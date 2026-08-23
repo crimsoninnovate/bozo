@@ -1,0 +1,37 @@
+/*
+ * Görünür işaret 22px, dokunma hedefi ::after ile 44px'e çıkar (AltBilgi'de
+ * kurulan teknik): şeridi kalınlaştırmadan erişilebilirlik tabanı korunur.
+ */
+.baglanti {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  /* Yolun rengi buradan miras alınıyor (stroke: currentColor). */
+  color: var(--krem-82);
+  transition: color var(--gecis-hizli);
+}
+
+.baglanti::after {
+  content: '';
+  position: absolute;
+  inset: -11px;
+}
+
+@media (hover: hover) {
+  .baglanti:hover {
+    color: var(--krem);
+  }
+}
+
+.baglanti:active {
+  transition-duration: 0s;
+  color: var(--krem);
+}
+
+.isaret {
+  display: block;
+  width: 22px;
+  height: 22px;
+  overflow: visible;
+}

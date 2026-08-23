@@ -2,7 +2,7 @@
 export const ana = {
   hero: {
     /* The badge's three words. Both halves are existing site terminology. */
-    uberSatir: 'Urfa Style · From the Fire · Kyrenia',
+    uberSatir: 'Urfa Style',
     /* v2: the heading is two lines now, the second one in copper. */
     baslikSatir1: 'Dice-sized liver',
     baslikSatir2: 'over oak embers',
@@ -91,7 +91,6 @@ export const ana = {
     hikayeLinki: 'Read the Full Story',
   },
   konum: {
-    baslik: 'Naci Talat Street, Kyrenia',
     saatNotu: 'Every day from 10:00 until 05:00 the next morning. Alcohol-free.',
     haritaSokak: 'Naci Talat Street',
   },

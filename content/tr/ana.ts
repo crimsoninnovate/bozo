@@ -2,7 +2,10 @@
 export const ana = {
   hero: {
     /* Rozetin üstündeki üç söz, logodan birebir (20 Ağustos 2026). */
-    uberSatir: 'Urfa Usulü · Ocak ve Sofra · Girne',
+    /* Üç parçalıydı; sahibi 24 Ağustos 2026'da "Ocak ve Sofra · Girne"yi
+       kaldırıp Urfa vurgusunu öne çıkarmak istedi. Metin uydurulmadı, satırın
+       kendi ilk parçası kaldı; öteki iki bilgi hemen altındaki meta şeritte var. */
+    uberSatir: 'Urfa Usulü',
     /* v2: başlık üç satırdan ikiye indi, ikinci satır bakır tonda.
        Kaynak: header-hero-v2/SPEC.md §5. */
     baslikSatir1: 'Tavla zarı ciğer',
@@ -108,7 +111,6 @@ export const ana = {
     hikayeLinki: 'Hikayenin Tamamı',
   },
   konum: {
-    baslik: 'Naci Talat Caddesi, Girne',
     saatNotu: "Her gün 10:00'dan ertesi sabah 05:00'e kadar. Mekanımız alkolsüzdür.",
     haritaSokak: 'Naci Talat Caddesi',
   },

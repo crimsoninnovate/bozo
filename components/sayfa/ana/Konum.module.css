@@ -16,6 +16,8 @@
 }
 
 .panel {
+  /* Başlığın puntosu bu kutunun genişliğinden türüyor; bkz. `.baslik`. */
+  container-type: inline-size;
   flex: 1 1 460px;
   min-width: 0;
   display: flex;
@@ -23,9 +25,19 @@
   gap: 26px;
 }
 
+/*
+ * Başlık artık adresin kendisi ve TEK SATIRDA kalmalı (sahibi, 24 Ağustos 2026).
+ * Ölçüldü: metin, kutu genişliğinin %7.76'sı kadar punto ister ve bu oran her
+ * ekranda aynı; sabit bir clamp tutturamıyor çünkü panelin genişliği viewport'la
+ * doğrusal gitmiyor (1040'ta 428px, 1440'ta 520px). O yüzden ölçü panelin
+ * kendisinden alınıyor: `cqw` panelin içerik kutusunu okur, %7.4 güvenlik payı.
+ */
 .baslik {
   margin: 0;
-  font: 400 var(--ol-bolum-baslik-orta)/1.14 var(--font-baslik);
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: min(var(--ol-bolum-baslik-orta), 7.4cqw);
+  line-height: 1.14;
   letter-spacing: var(--iz-bolum);
   color: var(--krem);
 }

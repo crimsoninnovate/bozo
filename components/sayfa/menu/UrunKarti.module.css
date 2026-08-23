@@ -1,5 +1,7 @@
 /* Ocakbaşı ızgarasının ürün kartı. Menu Sayfasi.dc.html:125, 133-139 */
 .kart {
+  /* Ad puntosu bu kutunun genişliğinden türüyor; bkz. `.ad`. */
+  container-type: inline-size;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -51,9 +53,18 @@
   gap: 10px;
 }
 
+/*
+ * Ad TEK SATIRDA kalır (sahibi, 24 Ağustos 2026). Ölçüldü: "Terbiyesiz Tavuk Şiş"
+ * 1440'ta 30px'te 335px istiyor, kutu 321px. Punto kartın kendi genişliğinden
+ * türetiliyor (`cqw`, kapsayıcı `.kart`); sabit bir clamp tutturamıyor çünkü kart
+ * `auto-fit` ızgarada ve genişliği viewport'la doğrusal gitmiyor.
+ */
 .ad {
   margin: 0;
-  font: 400 var(--ol-urun-ad)/1.1 var(--font-baslik);
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: min(var(--ol-urun-ad), 7.4cqw);
+  line-height: 1.1;
   letter-spacing: var(--iz-duygusal);
   color: var(--krem);
 }
@@ -120,7 +131,7 @@
   }
 
   .ad {
-    font-size: 19px;
+    font-size: min(19px, 7.4cqw);
     line-height: 1.2;
     letter-spacing: var(--iz-baslik);
   }

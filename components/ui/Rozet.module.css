@@ -7,7 +7,12 @@
  * Ölçü tabanı vektörle düştü: raster 76px altında "Ciğerci"yi kaybediyordu,
  * vektör 40px'te bile okunuyor. Bardaki boy artık okunurluk değil duruş kararı.
  */
+/* Tepe payı: rozet barın üst kenarına yapışıyordu (ölçüldü 24 Ağustos 2026,
+   masaüstünde 2px, mobilde 5.6px). Satır `align-items: center` olduğu için
+   margin-top'un yarısı yukarıdan pay olur, yarısı sarkmaya gider; bu yüzden
+   sarkma aynı kalsın diye alt marj da aynı miktarda artırılır. */
 .rozet {
+  --rozet-tepe: 6px;
   display: flex;
   justify-content: center;
   min-height: 44px;
@@ -36,7 +41,8 @@
    genişlikte uzuyor. Dört değer de ilk boyu korur, yani hiçbir yerleşim kaymadı. */
 .bar img {
   width: 122px;
-  margin-bottom: calc(-1 * var(--rozet-sarkma));
+  margin-top: var(--rozet-tepe);
+  margin-bottom: calc(-1 * var(--rozet-sarkma) - var(--rozet-tepe));
 }
 
 /* Daralmış barda sarkma yok: hero'nun üstünde duracak yer kalmıyor. */
@@ -48,7 +54,8 @@
 /* Çekmecenin üst satırı barın mobil satırının ikizi. */
 .cekmece img {
   width: 91px;
-  margin-bottom: calc(-1 * var(--rozet-sarkma));
+  margin-top: var(--rozet-tepe);
+  margin-bottom: calc(-1 * var(--rozet-sarkma) - var(--rozet-tepe));
 }
 
 /* 82px'lik mobil barda spec'in 100px/-20px ölçüsü rozetin tepesini viewport'un
@@ -60,9 +67,13 @@
     width: 76px;
   }
 
+  .rozet {
+    --rozet-tepe: 4px;
+  }
+
   .cekmece img,
   .bar img,
   .daralmis img {
-    margin-bottom: -12px;
+    margin-bottom: calc(-12px - var(--rozet-tepe));
   }
 }

@@ -72,7 +72,7 @@ test('globals.css tam olarak bir palet ice aktarir', () => {
 const PALET_RGB = [
   [11, 15, 15], [35, 13, 11], // zemin
   [19, 24, 23], [44, 18, 16], // kömür
-  [173, 38, 36], [193, 48, 41], // kor
+  [173, 38, 36], [184, 43, 39], // kor
 ] as const
 
 const PALET_LITERALI = new RegExp(

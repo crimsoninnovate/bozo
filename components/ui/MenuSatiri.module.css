@@ -4,8 +4,13 @@
  * şey tipografi, o yüzden ad 34px'e, açıklama 18px'e çıktı.
  */
 .satir {
+  /* Ad puntosu bu satırın genişliğinden türüyor; bkz. `.ad`. */
+  container-type: inline-size;
   display: grid;
-  grid-template-columns: 340px 1fr;
+  /* Ad kolonu 340'tan 400'e (sahibi, 24 Ağustos 2026): en uzun ad
+     ("Terbiyesiz Tavuk Şiş") 34px Bevan'da 387px istiyordu ve tek satıra
+     sığmıyordu. Açıklama kolonu 812'den 752'ye iniyor, orada sıkışma yok. */
+  grid-template-columns: 400px 1fr;
   gap: 28px;
   align-items: baseline;
   padding: 28px 0;
@@ -22,10 +27,12 @@
   }
 }
 
+/* Ad TEK SATIRDA kalır: 320px'te 34px'lik ad satıra sığmıyordu. Punto satırın
+   kendi genişliğinden türüyor, tavan yine tasarımın 34px'i. */
 .ad {
   font-family: var(--font-baslik);
   font-weight: 400;
-  font-size: 34px;
+  font-size: min(34px, 33cqw);
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--krem);
@@ -52,7 +59,7 @@
   }
 
   .ad {
-    font-size: 26px;
+    font-size: min(26px, 33cqw);
   }
 
   .aciklama {

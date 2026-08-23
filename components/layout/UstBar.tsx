@@ -109,6 +109,9 @@ export function UstBar({ dil, aktif }: Props) {
   const cta = ctaHedefi(varyant.cta, dil)
   const [solNav, sagNav] = navBol(varyant.nav)
   const daralmis = useDaralmis()
+  // Perde ayrı ve ÇOK alçak eşikte: daralma bir jest (120px), perde bir
+  // okunurluk önlemi ve altından ilk piksel geçtiği anda gerekiyor.
+  const perdeli = useDaralmis(4)
   // Cekmece'nin efekti buna bağımlı; her render'da taze bir closure geçmek
   // (setCekmeceAcik'in kendisi kararlı olsa da) efekti gereksiz yere söküp
   // yeniden kurar. Gerçek sayfalarda dil/aktif değiştiğinde UstBar yeniden
@@ -119,8 +122,8 @@ export function UstBar({ dil, aktif }: Props) {
     <>
       <header
         className={`${stil.bar} ${varyant.anaVaryantMi ? stil.anaVaryant : stil.icVaryant}${
-          daralmis ? ` ${stil.daralmis}` : ''
-        }`}
+          perdeli ? ` ${stil.perdeli}` : ''
+        }${daralmis ? ` ${stil.daralmis}` : ''}`}
       >
         {varyant.anaVaryantMi && <IlerlemeCubugu />}
         {geceSeridiGosterilirMi(aktif) && <GeceSeridi dil={dil} />}

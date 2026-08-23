@@ -1463,3 +1463,80 @@ rozet yine bulamaç. Çözüm değişmedi: favicon'a sade bir işaret (şiş, ya
 levhasız daire kırpımı).
 
 Sosyal kartlar da yeni rozetle yeniden üretildi (104 ve 106 KB).
+
+## 24 Ağustos 2026: sahibinin sekiz maddelik tur
+
+### Kor bordoya indi
+
+Sahibi "turuncu değil bordo" diyerek `#AD2624` istedi. Ölçüldü: o değer yeni zeminde
+**2.72:1**, yani 1.4.11'in 3:1 eşiğinin altında; zemin 21 Ağustos'ta koyulaştığı için
+2.56'dan 2.72'ye çıkmıştı ama yetmedi. `#B82B27` gözle ondan ayırt edilmiyor (R+10 G+5 B+3)
+ve **3.01:1** tutuyor. Sahibi onu seçti, kapsam da tüm `--kor` token'ı.
+
+**Bağlayıcı yüzeyin hangisi olduğu ölçümle belirlendi.** Palet yorumu dört yüzeye karşı
+3:1 arıyordu (zemin, kömür, plaka, gece) ve o ölçüte göre hiçbir koyu değer geçmiyordu.
+Sayfalar tarandı: **kor dolgulu hiçbir öğe kömür ya da plaka üstünde durmuyor**, hepsi
+zeminin veya zeminin yarı saydam bir katmanının üstünde. Bağlayıcı yüzey `--zemin`.
+
+Üstündeki krem metin 4.74'ten **5.17:1**'e, hover 5.90'dan 6.28'e çıktı: eylem rengi
+koyulaşınca etiket okunurluğu iyileşiyor.
+
+### Üst bar: tepede şeffaf, kaydırınca cam
+
+Bar kaydırma durumundan bağımsız olarak hep perde basıyordu. Tepede altında hiçbir şey
+yok (hero `--bar-boy + --rozet-sarkma` kadar yer açıyor), yani perde orada yalnız kor
+sahnesinin parıltısını düzleştiren bir dikiş bırakıyordu. Perde `.perdeli` sınıfına taşındı
+ve **4px** eşiğine bağlandı; daralma jesti kendi 120px eşiğinde kaldı, ikisi ayrı kaygı.
+
+Perde aynı turda camlaştı (sahibi): alfa `.9/.94` > **`.72/.78`** (`.9`da bulanıklık hiç
+okunmuyordu, düz bir kutuydu), `blur(14px)` > `blur(26px) saturate(1.4)`, üstüne sönen ışık
+tabakası ve inset üst parıltı. Tarif `MobilAksiyonBari`'nin kayıtlı üç katmanlı camından.
+
+### Rozetin tepe payı
+
+Rozet barın üst kenarına yapışıktı (masaüstünde 2px, mobilde 5.6px). `--rozet-tepe`
+eklendi, 6px/4px: yeni ölçüler 8px ve 9.6px. Satır `align-items: center` olduğu için alt
+marj aynı miktarda artırıldı, böylece kutu yüksekliği değişmedi.
+
+### Ürün adları tek satırda
+
+"Terbiyesiz Tavuk Şiş" sekiz genişlikte "Terbiyesiz Tavuk / Şiş" diye kırılıyordu. İki iş:
+
+- Ana sayfanın Ocakbaşı listesinde ad kolonu **340 > 400px** (en uzun ad 34px Bevan'da
+  387px istiyor). Açıklama kolonu 812'den 752'ye indi, orada sıkışma yok.
+- Punto kapsayıcıdan türetildi (`min(tavan, Ncqw)`, `container-type: inline-size`): sabit
+  bir clamp tutturamıyor çünkü kart `auto-fit` ızgarada ve genişliği viewport'la doğrusal
+  gitmiyor (1040'ta 936px kart, 1440'ta 371px).
+
+**Bir hata yapıldı ve geri alındı:** ilk denemede `white-space: nowrap` da eklenmişti.
+Türkçeyi çözüyordu ama İngilizce adlar ("Chicken Skewer (Terbiyesiz Tavuk Şiş)") hiçbir
+puntoda tek satıra sığmadığı için **gerçek yatay sayfa taşması** üretti, sekiz genişlikte
+ölçüldü. `nowrap` kaldırıldı: sığdırmayı punto yapıyor, sarma yasağı değil. Türkçe artık
+393px ve üstünde her yerde tek satır; 320px'te (SE 1. nesil) hâlâ iki satır.
+
+Aynı teknikle `lib/metin.ts` > `dulOnle` eklendi (son iki kelimeyi bölünmez boşlukla
+birleştirir), beş testi var.
+
+### Konum başlığı adres satırının kendisi oldu
+
+`ana.konum.baslik` silindi, bölüm `ortak.satirlar.adresTamSatir`i basıyor: 13 Ağustos'ta
+başlığın altındaki ayrı adres satırı zaten kaldırılmıştı, yani başlık fiilen adresti ve iki
+anahtar aynı bilgiyi iki kopyada tutuyordu. Metin "Naci Talat Caddesi, Girne" yerine artık
+**"Naci Talat Caddesi No:4"**. Tek satıra sığması yine `cqw` ile: metin kutu genişliğinin
+%7.76'sı kadar punto istiyor ve bu oran her ekranda sabit.
+
+### Hero'nun üst satırı tek söz oldu
+
+"Urfa Usulü · Ocak ve Sofra · Girne" > **"Urfa Usulü"** (sahibi). Metin uydurulmadı,
+satırın kendi ilk parçası kaldı; öteki iki bilgi hemen altındaki meta şeritte zaten var.
+Üç sözü aynalama gerekçesi de düşmüştü: yeni rozette o yaylar yok.
+
+Okunurluk için üç ölçü birden: 12 > **14px**, aralık 0.24 > **0.16em** (0.24em bu puntoda
+kelimenin şeklini dağıtıyordu), renk `--krem-56` > `--bakir`. Kontrast **5.48 > 7.76:1**.
+
+### Alt bilgide yapımcı işareti
+
+`YapimciIsareti`, telif şeridinin sağ ucunda, `crimsoninnovate.com`a gider. Yol
+`currentColor` çiziyor, rengi bağlantıdan geliyor: telif metniyle aynı `--krem-82`.
+Görünür işaret 22px, dokunma hedefi `::after` ile 44px (AltBilgi'nin tekniği). Erişilebilir
+ad `content/`de, işaretin kendisi `aria-hidden`.

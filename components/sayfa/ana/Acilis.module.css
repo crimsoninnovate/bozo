@@ -31,17 +31,24 @@
   gap: 26px;
 }
 
-/* Rozetin üç sözü. Spec'in sağa uzanan tükenen çizgisi UYGULANMADI
-   (sahibinin kararı, 20 Ağustos 2026): çizgisiz daha iyi duruyor. */
+/*
+ * Tek söz: "Urfa Usulü" (sahibi, 24 Ağustos 2026). Rozetin üç sözünü aynalıyordu
+ * ama yeni rozette o yaylar yok, yani aynalayacak bir şey de kalmamıştı.
+ *
+ * Okunurluk için üç ölçü birden değişti: 12>14px, aralık 0.24>0.16em (0.24em bu
+ * puntoda kelimenin şeklini dağıtıyordu) ve renk krem-56'dan bakıra. Ölçüldü:
+ * krem-56 zemin üstünde 5.48:1, bakır 7.76:1. Spec'in sağa uzanan tükenen
+ * çizgisi UYGULANMADI (sahibinin kararı, 20 Ağustos 2026).
+ */
 .uberSatir {
   margin: 0;
   font-family: var(--font-govde);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--krem-56);
+  color: var(--bakir);
 }
 
 .baslik {
@@ -159,8 +166,8 @@
   }
 
   .uberSatir {
-    font-size: 10.5px;
-    letter-spacing: 0.2em;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
   }
 
   .baslik {

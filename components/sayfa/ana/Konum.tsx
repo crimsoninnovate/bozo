@@ -18,7 +18,10 @@ export function Konum({ dil }: Props) {
   return (
     <Bolum id="konum" yogunluk={0.3} className={stil.bolum} eritClassName={stil.erit}>
       <CamPanel opaklik={0.74} dolgu="orta" className={stil.panel}>
-        <h2 className={stil.baslik}>{s.ana.konum.baslik}</h2>
+        {/* Başlık adres satırının KENDİSİ (sahibi, 24 Ağustos 2026): altındaki
+            ayrı adres satırı 13 Ağustos'ta zaten kalkmıştı, o yüzden ikinci bir
+            kopya değil `adresTamSatir` basılıyor. */}
+        <h2 className={stil.baslik}>{s.ortak.satirlar.adresTamSatir}</h2>
 
         {/* Adres satırı KALDIRILDI (sahibi, 13 Ağustos 2026): hemen üstündeki
             H2 zaten "Naci Talat Caddesi, Girne" diyor, satır aynı caddeyi ve
