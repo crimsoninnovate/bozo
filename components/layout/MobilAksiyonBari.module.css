@@ -150,7 +150,7 @@
     visibility: hidden;
   }
 
-  /* Bar sıfırdan görünür (sahibi, 18 Ağustos 2026, F4). 13 Ağustos'un 120-240px
-     kapısı hero'nun kendi butonuyla çakışmayı önlüyordu; o butonlar aynı gün
-     mobilden kalkınca ilk ekranda hiç eylem kalmamıştı. Mobil prototip de gizlemez. */
+  /* Bar sıfırdan görünür (sahibi, 18 Ağustos 2026, F4; 23 Ağustos'ta doğrulandı).
+     Telefondaki tek kalıcı eylem yüzeyi ve WhatsApp'ı hero'da hiç yok. 13 Ağustos'un
+     120-240px kapısı geri gelmedi: kaydırmadan görünmeyen kalıcı gezinme standart değil. */
 }

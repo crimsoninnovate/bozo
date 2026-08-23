@@ -1189,3 +1189,50 @@ ikon dolu zemin ve merkezi %80'lik güvenli alan ister, şeffaf olanın kenarlar
 Artık bordo levha üstünde %78'de duruyorlar. `apple-touch-icon` de bordo levha aldı, çünkü
 iOS şeffaflığı siyaha bindirir. `site.webmanifest`'in `theme_color` ve `background_color`
 alanları eski zemini taşıyordu.
+
+## 23 Ağustos 2026: hero'nun iki eylemi telefonda yan yana
+
+Sahibinin ekran görüntüsü (IMG_8300, 390px): hero'nun iki butonu "fazla büyük", yan yana
+gelmeli.
+
+**Ölçüldü, 390x844.** Butonlar alt alta değil, **sarıyorlardı**: `Yol Tarifi Al` 169.4px +
+12px boşluk + `Menüyü Gör` 181px = 362.4px gerekiyordu, kolon 342px. 20.4px yüzünden ikinci
+buton alt satıra düşüyor ve satır 126px kaplıyordu, ekranın %15'i. Sonuç: saat kartı ilk
+ekranın dışında kalıyordu.
+
+İki ayrı karar, iki ayrı dosya:
+
+- **Ölçü `Buton.module.css`'in.** `boy="xl"` sitede yalnız bu iki butonda kullanılıyor, o
+  yüzden mobil adımı orada tanımlamak başka hiçbir yeri etkilemiyor. 1040px altında xl,
+  md'nin gövde ölçüsüne iner (16.5px > 15.5px, dikey 20 > 17). 400px altında yatay dolgu
+  ayrıca 16 > 10px: genişliği artık satır dağıttığı için dolgu yalnız bir taban.
+- **Yerleşim `Acilis.module.css`'in.** 1040px altında satır `nowrap`, çocuklar `flex: 1 1 0`:
+  iki buton eşit genişlikte.
+
+**Sonuç (satır yüksekliği, iki dil, dört genişlik):**
+
+| Genişlik | TR önce | TR sonra | EN sonra |
+|---|---|---|---|
+| 320 | 126 | 51 | 68 (iki satır) |
+| 360 | 126 | 51 | 51 |
+| 375 | 126 | 51 | 51 |
+| 393 | 126 | 51 | 51 |
+| 430 | 126 | 51 | 51 |
+
+Hiçbir genişlikte taşma yok. 320px'te İngilizce etiketler ("Get Directions") iki satıra
+kırılıyor; kırpılmıyor, kutu büyüyor. 320px iPhone SE 1. nesil, düzeltilmedi.
+
+**İki kayıt bayatladı, ikisi de bu turda güncellendi.** `CLAUDE.md` > "Owner deletions"
+hero'nun mobil butonlarının 13 Ağustos'ta silindiğini söylüyordu; hero v2 (20 Ağustos)
+onları geri getirdi ve sahibi 23 Ağustos'ta kalmalarını istedi. `MobilAksiyonBari.module.css`
+de barın sıfırdan görünmesini "hero'da mobilde buton kalmadı" gerekçesine bağlıyordu; o
+gerekçe düştü, karar (F4) durmaya devam ediyor: bar telefondaki tek kalıcı eylem yüzeyi ve
+üçüncü eylemi (WhatsApp) hero'da hiç yok.
+
+### Mobil animasyon denetimi (aynı tur)
+
+393x852'de sayılan: **15 animasyonun 15'i koşuyor**, canvas çiziyor (900ms'de 683 piksel
+değişimi). `prefers-reduced-motion: reduce` ile geriye **2 kalıyor**, ikisi de
+`KorSahnesi`'nin kayıtlı opacity istisnası; canvas kendi tercih okumasıyla duruyor (piksel
+farkı 0). Çekmece açılışında `kapAcilis`, `xUst`, `xAlt` ve beş `satirGiris` kuruluyor.
+Bulgu yok.

@@ -59,6 +59,22 @@
 .cerceveli.lg { --buton-dikey: 17px; --buton-yatay: 29px; }
 .cerceveli.xl { --buton-dikey: 19px; --buton-yatay: 33px; }
 
+/* xl adımı masaüstünün: yalnız hero'nun iki butonu kullanıyor. Telefonda md'ye
+   iner (57px kutu iki butonu yan yana sığdırmıyordu, 390px'te 362.4 gerekip 342
+   vardı); yatay dolgu md'den de dar, çünkü genişliği artık satırın kendisi veriyor. */
+@media (max-width: 1040px) {
+  .xl { --buton-dikey: 17px; --buton-yatay: 16px; font-size: 15.5px; }
+  .cerceveli.xl { --buton-dikey: 16px; --buton-yatay: 15px; }
+}
+
+/* Dar telefonda dolgu daha da iner: 390'da sığan iki etiket 360'ta iki satıra
+   kırılıyordu, İngilizcede ("Get Directions") 375'te de. Ölçü yatayda, dikeyde
+   değil: kutu 51px kalır. */
+@media (max-width: 400px) {
+  .xl { --buton-yatay: 10px; }
+  .cerceveli.xl { --buton-yatay: 9px; }
+}
+
 /* Kenarlık ve gölge boyu boy adımına BAĞLANMADI: tasarım aynı boyda çelişiyor
    (ör. lg gölgesi hem 0 12px 34px .4 hem 0 10px 30px .34). Değerler çoğunluğa
    normalize edildi; ölçüm ve kalan sapmalar on-gecis-report.md bölüm 6'da. */

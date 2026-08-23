@@ -178,4 +178,16 @@
   .metaSerit {
     gap: 14px 20px;
   }
+
+  /* İki eylem yan yana ve eşit genişlikte. Alt alta 126px kaplıyorlardı,
+     844px'lik ekranın %15'i (ölçüldü 390px, 23 Ağustos 2026). */
+  .ctaSatiri {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .ctaSatiri > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 }
