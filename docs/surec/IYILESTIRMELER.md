@@ -1556,3 +1556,16 @@ seyreltirdi.
 Ayrım artık saç çizgisinden geliyor (üst, alt, hücreler arası) ve ilk hücrenin sol dolgusu
 sıfır: "8" üstündeki paragrafla aynı hizada başlıyor. Altı genişlikte ölçüldü, üç hücre her
 yerde tek satırda kalıyor.
+
+### Cam perdenin iki tuzağı (aynı gün, ölçüm turunda)
+
+1. **`-webkit-` ön ekini ELLE yazmak standart özelliği düşürüyor.** `backdrop-filter` ve
+   `-webkit-backdrop-filter` art arda yazılınca lightningcss ikisini birleştirip yalnız
+   ön ekli olanı basıyordu. Chrome ön ekli sürümü onurlandırdığı için efekt çalışıyordu ama
+   `getComputedStyle().backdropFilter` boş dönüyor ve standart özellik hiç yayınlanmıyordu.
+   Tek standart bildirim bırakıldı; ön eki araç kendisi ekliyor, build'de ikisi de var.
+
+2. **GPU'suz headless `backdrop-filter` uygulamıyor.** Ölçüm turunda barın altındaki meta
+   metni perdeden okunuyor göründü ve bu bir gerileme sanıldı. Aynı sayfa
+   `--use-angle=swiftshader` ile açılınca bulanıklık çalışıyor. Cam ölçülecekse tarayıcı
+   GPU bayraklarıyla açılmalı, yoksa yanlış alarm verir.

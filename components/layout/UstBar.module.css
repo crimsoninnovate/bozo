@@ -84,7 +84,6 @@
      Tek yarı saydam renk cam gibi durmuyor; tarif MobilAksiyonBari'den. */
   box-shadow: inset 0 1px 0 rgba(249, 233, 213, 0.1);
   backdrop-filter: blur(26px) saturate(1.4);
-  -webkit-backdrop-filter: blur(26px) saturate(1.4);
   background-image:
     linear-gradient(
       to right,
@@ -281,7 +280,6 @@
     background-size: 100% 1px, 100% 100%;
     background-position: bottom, top;
     backdrop-filter: blur(22px) saturate(1.4);
-    -webkit-backdrop-filter: blur(22px) saturate(1.4);
   }
 
   /* SPEC.md §4 mobil header: 82px. Eskiden 58px'ti; 100px'lik rozet o satıra
