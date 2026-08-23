@@ -37,25 +37,36 @@
 }
 
 /* 1px gap + zemin: hücreler arasındaki hairline ızgara (Ana:133) */
+/*
+ * Sayaçların altındaki koyu levha KALDIRILDI (sahibi, 24 Ağustos 2026). Levha
+ * `--panel-koyu` ile kor sahnesinin parıltısını tam da o üç sayının arkasında
+ * düzleştiriyordu; aynı hata üst barda da vardı ve aynı gün orada da alındı.
+ * Ayrım artık saç çizgilerinden geliyor: üstte, altta ve hücreler arasında.
+ */
 .sayaclar {
   margin-top: 38px;
   display: flex;
   flex-wrap: wrap;
-  gap: 1px;
-  background: var(--cizgi-kart);
+  border-top: 1px solid var(--cizgi-kart);
+  border-bottom: 1px solid var(--cizgi-kart);
 }
 
 /*
  * Taban 190px: 150px'te "ciğer ve kuyruk yağı, her şişte" iki satıra kırılıyor
  * ve üç hücrenin etiketleri farklı yükseklikte oturuyordu (ölçüldü, 1440px).
  */
+/* İlk hücrenin solunda dolgu yok: "8" üstündeki paragrafla aynı hizada başlar. */
 .hucre {
   flex: 1 1 190px;
-  background: var(--panel-koyu);
-  padding: 24px 26px;
+  padding: 24px 26px 24px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.hucre + .hucre {
+  padding-left: 30px;
+  border-left: 1px solid var(--cizgi-kart);
 }
 
 .sayi {
@@ -86,8 +97,8 @@
 @media (max-width: 1040px) {
   .hucre {
     flex-basis: 0;
+    padding: 18px 12px 18px 0;
     min-width: 0;
-    padding: 16px 14px;
     gap: 6px;
     background: var(--panel-86);
   }

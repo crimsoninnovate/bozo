@@ -1540,3 +1540,19 @@ kelimenin şeklini dağıtıyordu), renk `--krem-56` > `--bakir`. Kontrast **5.4
 `currentColor` çiziyor, rengi bağlantıdan geliyor: telif metniyle aynı `--krem-82`.
 Görünür işaret 22px, dokunma hedefi `::after` ile 44px (AltBilgi'nin tekniği). Erişilebilir
 ad `content/`de, işaretin kendisi `aria-hidden`.
+
+### İddia sayaçlarının altındaki levha kalktı
+
+Üç sayaç (`8 / 4+2 / 3`) `--panel-koyu` bir levhanın üstünde duruyordu ve o levha kor
+sahnesinin parıltısını **tam da sayıların arkasında** düzleştiriyordu. Aynı hata aynı gün
+üst barda da bulunup alınmıştı.
+
+Sahibi iki seçenek verdi: levhayı kaldırıp doğrudan zemine yazmak, ya da fiyat bloğundaki
+gibi (bakır %5 dolgu, %26 kenarlık) hafif şeffaf bir kutuya almak. Üçü de gerçek sayfada
+basılıp karşılaştırıldı; **zemin** seçildi. Gerekçe: sayılar bölümün kanıtı, dipnotu değil;
+ve ikinci bir bakır kenarlıklı kutu aynı sayfadaki fiyat bloğunun ayırt ediciliğini
+seyreltirdi.
+
+Ayrım artık saç çizgisinden geliyor (üst, alt, hücreler arası) ve ilk hücrenin sol dolgusu
+sıfır: "8" üstündeki paragrafla aynı hizada başlıyor. Altı genişlikte ölçüldü, üç hücre her
+yerde tek satırda kalıyor.
