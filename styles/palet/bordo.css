@@ -2,7 +2,11 @@
  * BORDO PALET, aktif. Sahibinin kararı, 21 Ağustos 2026: siyah zemin rahatsız
  * ediyordu. Ölçülen iki neden ayrıydı, zemin soğuktu (R−B −4, bir ateş markasında
  * ters yön) ve kontrast 16.20:1 ile AAA'nın 2.3 katındaydı, yani hâle eşiğinin
- * üstünde. Bordo ikisini birden çözer: R−B +31, krem metin 14.66:1.
+ * üstünde. Bordo ikisini birden çözer: R−B +24, krem metin 15.56:1.
+ *
+ * 23 Ağustos 2026'da iki kademe koyulaştı (sahibi: "biraz fazla açık"). Zemin
+ * ailesinin tamamı aynı çarpanla indi, iç oranlar korundu; kor DOKUNULMADI, çünkü
+ * zemin koyulaşınca butonun ayrışması kendiliğinden 3.09'dan 3.28'e çıkıyor.
  *
  * Bu dosyaya giren şeyin kuralı: doğru değeri ZEMİNE BAĞLI olan her renk. Kor da
  * burada, çünkü butonun ayrışması zemine bağlı: siyahta #AD2624, bordoda #C13029.
@@ -11,57 +15,59 @@
  */
 
 :root {
-  /* zemin. Krem metin: zemin 14.66:1, kömür 13.35:1, gece 15.59:1, plaka 13.92:1 */
-  --zemin: #2E110F;
-  --komur: #3A1815;
+  /* zemin. Krem metin: zemin 15.56:1, kömür 14.69:1, gece 16.20:1, plaka 15.07:1.
+     Gece TAM 16.20'da, yani siyahın reddedildiği hâle seviyesinde; tek bölümün
+     zemini ve bilerek sayfanın en koyu yüzeyi. Bir kademe geri almak tek satır. */
+  --zemin: #230D0B;
+  --komur: #2C1210;
   /* Menü sayfasının çekim listesi ve ürün plakalarının zemini, --zemin'den ayrı.
      Marka kitabının sekiz renkli listesinde yok; tasarımdan (Menu Sayfasi.dc.html,
      15 kullanım, yalnız o sayfada) doğrulandı. */
-  --plaka-zemin: #351512;
+  --plaka-zemin: #28100E;
   /* Yalnız Gece bölümünün zemini, sayfadan bir kademe koyu. Marka kitabında yok;
      kanonik kaynak onu token olarak adlandırıyor (UYGULAMA-NOTLARI.md:12). */
-  --gece: #240C0A;
+  --gece: #1B0908;
   /* Mobil çekmecenin zemini (Mobil:195 .96; prototipin 8,6,5'i palet dışı, --zemin'in rgb'si). */
-  --panel-96: rgba(46, 17, 15, 0.96);
-  --panel-koyu: rgba(46, 17, 15, 0.9);
+  --panel-96: rgba(35, 13, 11, 0.96);
+  --panel-koyu: rgba(35, 13, 11, 0.9);
   /* mobil sayaç hücreleri (Mobil:101-103) ve mobil alt bilgi (Mobil:181) */
-  --panel-86: rgba(46, 17, 15, 0.86);
-  --panel-orta: rgba(46, 17, 15, 0.74);
-  --panel-acik: rgba(46, 17, 15, 0.72);
+  --panel-86: rgba(35, 13, 11, 0.86);
+  --panel-orta: rgba(35, 13, 11, 0.74);
+  --panel-acik: rgba(35, 13, 11, 0.72);
   /* ikram çipinin zemini (Ana Sayfa Alternatif.dc.html:227) */
-  --panel-yari: rgba(46, 17, 15, 0.55);
+  --panel-yari: rgba(35, 13, 11, 0.55);
   /* Üst barın iki hâli (SPEC.md §4): normal .9, daralmış .94. */
-  --panel-bar: rgba(46, 17, 15, 0.9);
-  --panel-daralmis: rgba(46, 17, 15, 0.94);
+  --panel-bar: rgba(35, 13, 11, 0.9);
+  --panel-daralmis: rgba(35, 13, 11, 0.94);
   /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
-  --panel-poi: rgba(46, 17, 15, 0.85);
+  --panel-poi: rgba(35, 13, 11, 0.85);
   /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
-  --panel-buton: rgba(46, 17, 15, 0.4);
+  --panel-buton: rgba(35, 13, 11, 0.4);
   /* Üç rolün paylaştığı yarı saydam zemin, o yüzden rol değil alfa adı taşıyor:
      durum çipi (Ana:89, Mobil:73, 263), Konum'un harita levhası (Konum:89) ve
      mobil üst barın gradyan ucu (Mobil:50, 240). Ana Sayfa'nın harita levhası
      bu değeri DEĞİL --panel-yari'yi (.55, Ana:323) kullanıyor. */
-  --panel-60: rgba(46, 17, 15, 0.6);
+  --panel-60: rgba(35, 13, 11, 0.6);
   /* menü imza panelinin zemini. Tek kullanım: Menu:104 */
-  --panel-imza: rgba(46, 17, 15, 0.78);
+  --panel-imza: rgba(35, 13, 11, 0.78);
   /* TaneDizilimi gölgesi; eskiden modülde literaldi, palet takasını duymuyordu. */
-  --panel-tane-golge: rgba(46, 17, 15, 0.6);
+  --panel-tane-golge: rgba(35, 13, 11, 0.6);
   /* Mobil eylem barının cam ucu (MobilAksiyonBari:35). */
-  --panel-bar-uc: rgba(46, 17, 15, 0.44);
+  --panel-bar-uc: rgba(35, 13, 11, 0.44);
   /* Mobil bar merkez butonunun halkası (MobilAksiyonBari:115, 127). */
-  --panel-halka: rgba(46, 17, 15, 0.5);
+  --panel-halka: rgba(35, 13, 11, 0.5);
   /* Bozo ve Gece başlıklarının metin gölgesi (Bozo:38, Gece:89). */
-  --panel-baslik-golge: rgba(46, 17, 15, 0.7);
+  --panel-baslik-golge: rgba(35, 13, 11, 0.7);
   /* Durum çipinin zemini (DurumCipi:24). */
-  --panel-cip: rgba(46, 17, 15, 0.62);
+  --panel-cip: rgba(35, 13, 11, 0.62);
   /* Kor sahnesinin alt kapanışı (KorSahnesi:202). */
-  --panel-sahne-dip: rgba(46, 17, 15, 0.92);
-  --panel-sahne-tepe: rgba(46, 17, 15, 0);
+  --panel-sahne-dip: rgba(35, 13, 11, 0.92);
+  --panel-sahne-tepe: rgba(35, 13, 11, 0);
 
   /* Eylem rengi (spec: ciğer bordosu). Siyah paletin #AD2624'ü bordo zeminde
      2.56:1'e düşüyordu, yani buton sayfadan ayrışmıyordu; bir kademe parlatıldı.
-     Ölçüldü 21 Ağustos 2026: zemin üstünde 3.09:1, yani 1.4.11'in 3:1 eşiğini
-     geçen tek palet bu. GÖVDE METNİ OLARAK KULLANILMAZ. Buton olarak geçerli:
+     Ölçüldü 23 Ağustos 2026: zemin üstünde 3.28:1, kömür üstünde 3.10:1, yani
+     1.4.11'in 3:1 eşiğini geçen tek palet bu. GÖVDE METNİ OLARAK KULLANILMAZ. Buton olarak geçerli:
      üstündeki krem metin 4.74:1 (AA 4.5), hover'da 5.90:1. */
   --kor: #C13029;
   --kor-hover: #A82822;
@@ -110,12 +116,12 @@
 
   /* Paket şeridinin paragraf rengi. Şerit 13 Ağustos 2026'da kaldırıldı; --pumpkin
      ve --mese 20 Ağustos 2026'da silindi (tüketicisi yoktu ve yeni palet kapalı). */
-  --komur-90: rgba(58, 24, 21, 0.9);
-  --komur-55: rgba(58, 24, 21, 0.55);
-  --komur-10: rgba(58, 24, 21, 0.1);
-  --komur-golge: 0 14px 34px rgba(58, 24, 21, 0.4);
+  --komur-90: rgba(44, 18, 16, 0.9);
+  --komur-55: rgba(44, 18, 16, 0.55);
+  --komur-10: rgba(44, 18, 16, 0.1);
+  --komur-golge: 0 14px 34px rgba(44, 18, 16, 0.4);
 
   /* Zemin üstünde tek başına duran başlığın gölgesi. 5 kullanım, dört dosya:
      Ana:224, Hikaye:68, Hikaye:125, Konum:74, Menu:76 */
-  --golge-baslik: 0 8px 50px rgba(46, 17, 15, 0.7);
+  --golge-baslik: 0 8px 50px rgba(35, 13, 11, 0.7);
 }

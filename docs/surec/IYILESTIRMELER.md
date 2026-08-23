@@ -1374,3 +1374,49 @@ biraz daha kötü. Çözüm hâlâ jeneratörde değil: favicon'a sade bir işar
 her biri KENDİ dilinin sayfasında: İngilizce kart "FROM THE FIRE" ve "KYRENIA" yazıyor,
 Türkçe dökümün `İ`'si yok. Metinler sayfanın DOM'undan okunuyor, kartta ikinci bir kopya
 tutulmuyor. JPEG kalite 88, `sampling-factor 1x1`; 108 ve 110 KB.
+
+## 23 Ağustos 2026: bordo iki kademe koyulaştı
+
+Sahibi: "biraz fazla açık renk oldu gibi geldi", hem zemin degradesi hem ona bağlı tonlar
+için. Revize listesinin 8. maddesinin cevabı da bu: bordo kalıyor, koyulaşıyor.
+
+**Tavan ölçülü.** Zemini koyulaştırmak krem metnin kontrastını yükseltiyor, yani siyahın
+reddedildiği 16.20:1'e (hâle eşiği) doğru gidiyor. Beş kademelik merdiven üretildi ve
+gerçek sayfada basıldı:
+
+| | zemin | krem/zemin | kor/zemin | R−B |
+|---|---|---|---|---|
+| A (önceki) | `#2E110F` | 14.66 | 3.09 | +31 |
+| B | `#280F0D` | 15.17 | 3.20 | +27 |
+| **C (seçildi)** | **`#230D0B`** | **15.56** | **3.28** | **+24** |
+| D | `#1D0B0A` | 15.97 | 3.37 | +19 |
+| E | `#190908` | 16.27 | 3.43 | +17 |
+
+**E elendi ölçümle:** 16.27, siyahın reddedildiği 16.20'nin üstünde. D'nin payı 0.23'e
+düşüyordu, C 0.60 pay bırakıyor. Sahibi C'yi seçti.
+
+Zemin ailesinin tamamı aynı çarpanla indi, iç oranlar korundu:
+`--komur` `#3A1815`>`#2C1210`, `--plaka-zemin` `#351512`>`#28100E`, `--gece`
+`#240C0A`>`#1B0908`, ve zemine bağlı yirmi küsur `--panel-*` alfası `rgba(46,17,15)`
+yerine `rgba(35,13,11)`.
+
+**Kor DOKUNULMADI, kasıtlı.** `#C13029` 3:1 eşiğini kıl payı (3.09) geçiyordu ve zemin
+koyulaşınca ayrışması kendiliğinden **3.28**'e çıkıyor. Koru da koyultmak o kazancı geri
+verirdi; sahibine iki seçenek ölçülerek sunuldu, "dokunma"yı seçti. Üstündeki krem metin
+4.74:1 (AA), hover 5.90:1, ikisi de zeminden bağımsız, değişmedi.
+
+**Bir uç değer işaretleniyor:** `--gece` yeni değerinde krem metinle **tam 16.20:1**, yani
+siyahın reddedildiği seviye. Tek bölümün zemini ve bilerek sayfanın en koyu yüzeyi (Gece),
+ama o bölüm de gövde metni taşıyor. Bir kademe geri almak palet dosyasında tek satır.
+
+### Zemine bağlı varlıklar da yenilendi
+
+Palet takası CSS'te tek satır, ama zemin rengi CSS'in dışında da dört yerde duruyor:
+
+- `styles/palet.test.ts`'in literal bekçisi zemin ve kömürün rgb üçlülerini listeliyor;
+  güncellenmeseydi YENİ rengin kaçaklarını yakalamayı bırakırdı.
+- `public/site.webmanifest` `theme_color` ve `background_color` (Android tarayıcı çubuğu).
+- Üç ikonun levhası (`apple-touch-icon`, iki maskable). Güvenli alan oranları yeniden
+  ölçüldü: 0.800 / 0.800 / 0.981, hepsi geçiyor.
+- İki sosyal kart; sayfanın kendi bağlamında üretildikleri için yeni zemini kendiliğinden
+  aldılar.

@@ -70,8 +70,8 @@ test('globals.css tam olarak bir palet ice aktarir', () => {
 
 /** Palete ait rgb üçlüleri: iki paletin zemini, kömürü ve koru. */
 const PALET_RGB = [
-  [11, 15, 15], [46, 17, 15], // zemin
-  [19, 24, 23], [58, 24, 21], // kömür
+  [11, 15, 15], [35, 13, 11], // zemin
+  [19, 24, 23], [44, 18, 16], // kömür
   [173, 38, 36], [193, 48, 41], // kor
 ] as const
 
