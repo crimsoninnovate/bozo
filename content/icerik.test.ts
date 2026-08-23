@@ -140,10 +140,14 @@ test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
   }
 })
 
-test('isletme_bilinmeyenAlanlarNullDur', () => {
-  // E-posta 24 Ağustos 2026'da geldi ve bu listeden çıktı; kalan ikisi hâlâ yok.
-  assert.equal(isletme.koordinat, null)
-  assert.equal(isletme.postaKodu, null)
+/**
+ * Sahibi 24 Ağustos 2026'da verdi: Google Maps'te kapıya yakınlaşılmış nokta
+ * (20.62z), posta kodunu OSM bağımsız teyit ediyor. `Isletme`'de artık null alan
+ * kalmadı; JSON-LD `geo`/`postalCode` ile `yolTarifiUrl()` yön tarifi dalı buna bağlı.
+ */
+test('isletme_koordinatVePostaKodu_dogrulanmisDegerTasir', () => {
+  assert.deepEqual(isletme.koordinat, { enlem: 35.3370065, boylam: 33.3057253 })
+  assert.equal(isletme.postaKodu, '99300')
 })
 
 test('isletme_epostaDogrulanmisDegeriTasir', () => {

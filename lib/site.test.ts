@@ -59,9 +59,10 @@ test('tumYollar_altiRotaIcinTrVeEnUretir', () => {
 })
 
 test('yolTarifiUrl_koordinatBilinmiyorken_adresAramasiUretir', () => {
-  // Gerçek işletme verisi: koordinat henüz doğrulanmadı, null.
-  assert.equal(isletme.koordinat, null)
-  const url = yolTarifiUrl()
+  // Gerçek koordinat 24 Ağustos 2026'da geldi, bu yüzden dal artık sahte nesneyle
+  // kapsanıyor: adres araması yalnız koordinat null iken üretilmeli.
+  const koordinatsiz: Isletme = { ...isletme, koordinat: null }
+  const url = yolTarifiUrl(koordinatsiz)
   assert.match(url, /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/)
   const sorgu = decodeURIComponent(url.split('query=')[1] ?? '')
   assert.match(sorgu, /Ciğerci Bozo/)
@@ -76,10 +77,11 @@ test('yolTarifiUrl_koordinatBilinmiyorken_adresAramasiUretir', () => {
   assert.match(sorgu, /KKTC/)
 })
 
+// Gerçek veri artık bu dala düşüyor: beş çağrı yeri (mobil bar, hero, footer,
+// iletişim satırı, çekmece) adres araması yerine yön tarifi alıyor.
 test('yolTarifiUrl_koordinatBilinirken_yonTarifiRotasiUretir', () => {
-  const bilinen: Isletme = { ...isletme, koordinat: { enlem: 35.3411, boylam: 33.319 } }
-  const url = yolTarifiUrl(bilinen)
-  assert.equal(url, 'https://www.google.com/maps/dir/?api=1&destination=35.3411,33.319')
+  const url = yolTarifiUrl()
+  assert.equal(url, 'https://www.google.com/maps/dir/?api=1&destination=35.3370065,33.3057253')
 })
 
 test('whatsappUrl_numaraNullIken_nullDoner', () => {

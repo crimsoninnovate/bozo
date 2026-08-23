@@ -5,17 +5,37 @@ import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { restaurantJsonLd } from './jsonld.ts'
 
-type Adres = { '@type': string; streetAddress: string; addressLocality: string; addressCountry: string }
+type Adres = {
+  '@type': string
+  streetAddress: string
+  addressLocality: string
+  postalCode?: string
+  addressCountry: string
+}
 type Saat = { '@type': string; dayOfWeek: string[]; opens: string; closes: string }
 
-test('restaurantJsonLd_gercekVeriyle_bilinmeyenAlanlariHicYazmaz', () => {
-  // Gerçek işletme verisi: koordinat henüz null. Telefon, Instagram (12 Ağustos)
-  // ve e-posta (24 Ağustos 2026) geldi, üçü de aşağıdaki testlerde kilitli.
-  assert.equal(isletme.koordinat, null)
-
+// İçecek fiyatı hâlâ gelmedi, yani menünün tamamını kapsayan aralık yok:
+// `priceRange` `Isletme`'de null kalan son gerçeğin yerine geçen tek eksik alan.
+test('restaurantJsonLd_gercekVeriyle_priceRangeYazmaz', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
-  assert.equal('geo' in veri, false)
   assert.equal('priceRange' in veri, false)
+})
+
+test('restaurantJsonLd_gercekVeriyle_koordinatiGeoyaYazar', () => {
+  const veri = restaurantJsonLd() as Record<string, unknown>
+  assert.deepEqual(veri.geo, {
+    '@type': 'GeoCoordinates',
+    latitude: 35.3370065,
+    longitude: 33.3057253,
+  })
+})
+
+// Koordinat dalı gerçek veriyle dolduğundan boş dal yalnız burada kapsanıyor:
+// uydurma bir `geo` yayınlamak eksik veriden kötüdür.
+test('restaurantJsonLd_koordinatNullken_geoyuHicYazmaz', () => {
+  const koordinatsiz: Isletme = { ...isletme, koordinat: null }
+  const veri = restaurantJsonLd(koordinatsiz) as Record<string, unknown>
+  assert.equal('geo' in veri, false)
 })
 
 test('restaurantJsonLd_gercekVeriyle_telefonuYazar', () => {
@@ -60,7 +80,15 @@ test('restaurantJsonLd_adresBinaNoIleBirlesir', () => {
   const adres = veri.address as Adres
   assert.equal(adres.streetAddress, 'Naci Talat Caddesi No:4')
   assert.equal(adres.addressLocality, 'Girne')
+  assert.equal(adres.postalCode, '99300')
   assert.equal(adres.addressCountry, 'CY')
+})
+
+// Posta kodu da null olabilen bir alan: boşken satır hiç görünmemeli.
+test('restaurantJsonLd_postaKoduNullken_postalCodeuHicYazmaz', () => {
+  const kodsuz: Isletme = { ...isletme, postaKodu: null }
+  const adres = (restaurantJsonLd(kodsuz) as Record<string, unknown>).address as Adres
+  assert.equal('postalCode' in adres, false)
 })
 
 test('restaurantJsonLd_bilinenVeriyle_koordinatVeTelefonuYazar', () => {

@@ -16,8 +16,10 @@ export const isletme: Isletme = {
   // Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti. Belge apartman adını da
   // taşıyor ("Şht. Özdemir Apt"), sahibi onu yazmamayı seçti: cadde + numara yeterli.
   binaNo: 'No:4',
-  postaKodu: null,
-  koordinat: null,
+  // Sahibi 24 Ağustos 2026'da Google Maps'ten verdi: kapıya yakınlaşılmış nokta
+  // (20.62z), posta kodunu OpenStreetMap bağımsız teyit etti.
+  postaKodu: '99300',
+  koordinat: { enlem: 35.3370065, boylam: 33.3057253 },
   // Sahibi 12 Ağustos 2026'da verdi. Aynı numara WhatsApp hattı: KKTC mobil
   // hatları +90 ülke kodunu kullanır, wa.me baştaki sıfırsız uluslararası biçim ister.
   telefon: '+90 533 888 74 24',

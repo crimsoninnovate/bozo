@@ -62,6 +62,7 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
         ? `${isletmeVerisi.cadde} ${isletmeVerisi.binaNo}`
         : isletmeVerisi.cadde,
       addressLocality: isletmeVerisi.sehir,
+      ...(isletmeVerisi.postaKodu ? { postalCode: isletmeVerisi.postaKodu } : {}),
       addressCountry: 'CY',
     },
     openingHoursSpecification: [
