@@ -3,8 +3,3 @@
 
 # Tasarlanmış 404 sayfası. Plesk'in kendi error_docs'u yerine bu geçer.
 ErrorDocument 404 /404.html
-
-<IfModule mod_headers.c>
-    # Test yayını: arama motorlarına kapalı. Açılış günü bu satır silinir.
-    Header always set X-Robots-Tag "noindex, nofollow"
-</IfModule>
