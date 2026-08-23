@@ -136,10 +136,10 @@ button stopped separating from the page.
   labels (`Yol Tarifi Al`, `See the Menu`). Page headings and body copy stay sentence case:
   `Girne uyurken ocak yanıyor` is a sentence, not a label. English keeps its own title case, so
   short words stay lowercase (`On the House`). Screen-reader-only labels are untouched.
-- **The owner's name, owner's decision 19 August 2026.** The site says `Bozo Çağlar`
-  (`isletme.sahip`, the überlines, his signature). `Engin Çağlar` survives in one sentence, the
-  one explaining the nickname (home and story intro). Do not equalise them, and do not repeat
-  the explanation on a second surface: the story page tells it in full.
+- **The owner's name, owner's decision 23 August 2026.** The site says `Bozo Çağlar` and
+  nothing else (`isletme.sahip`, the überlines, his signature). `Engin Çağlar` was removed from
+  the last two sentences that carried it; the handoff and `metin-envanteri.json` still contain
+  it, so a parity round will see the difference. `content/icerik.test.ts` fails if it returns.
 - Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
   usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
   açığız" (never 7/24).

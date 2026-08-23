@@ -84,11 +84,10 @@ export const ana = {
   },
   bozo: {
     kicker: 'Bozo Çağlar, at the fire every day',
-    baslik: 'Bozo is not a brand name, it is a person',
+    baslik: 'Bozo is not a brand name, it is the man himself',
     metin:
-      'The registry says Engin Çağlar; in Urfa and here he has been Bozo for years. He gave ' +
-      'this place no name other than his own nickname, because he is at the fire, at the ' +
-      'door and beside your table.',
+      'He gave this place his own name, because he is at the fire, at the door ' +
+      'and beside your table.',
     hikayeLinki: 'Read the Full Story',
   },
   konum: {

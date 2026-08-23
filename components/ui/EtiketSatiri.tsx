@@ -3,8 +3,8 @@ import stil from './EtiketSatiri.module.css'
 /**
  * Küçük tangerine kare + tek satırlık üstyazı.
  *
- * Tasarımda tam iki kullanım var ve ikisi de aynı cümleyi taşıyor
- * ("Engin Çağlar, her gün ocağın başında"), ama ölçüleri ayrışıyor:
+ * Tasarımda tam iki kullanım var ve ikisi de aynı cümleyi taşıyor (tasarım
+ * "Engin", site "Bozo Çağlar" yazar), ama ölçüleri ayrışıyor:
  *
  *   sayfa  Hikaye:64-66   500 15px/1    krem .74   (sayfa/hikaye/Acilis.tsx)
  *   kart   Ana:272-274    500 14.5px/1  krem .72   (sayfa/ana/Bozo.tsx)

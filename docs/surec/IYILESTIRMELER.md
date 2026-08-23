@@ -1236,3 +1236,30 @@ değişimi). `prefers-reduced-motion: reduce` ile geriye **2 kalıyor**, ikisi d
 `KorSahnesi`'nin kayıtlı opacity istisnası; canvas kendi tercih okumasıyla duruyor (piksel
 farkı 0). Çekmece açılışında `kapAcilis`, `xUst`, `xAlt` ve beş `satirGiris` kuruluyor.
 Bulgu yok.
+
+## 23 Ağustos 2026: nüfustaki ad siteden kalktı, Bozo bölümü sahibinin metnini aldı
+
+Sahibinin revize listesi (`BozoRevizeler.pdf`, 3. ve 5. madde): *"Engin ismini
+kullanmayacağız, Bozo Çağlar"* ve ana sayfadaki Bozo bölümü için birebir yeni metin.
+
+19 Ağustos'ta ad iki cümlede yaşıyordu, ikisi de lakabı açıklıyordu (ana sayfa Bozo bölümü
+ve hikaye açılışı). İkisi de gitti:
+
+| Yüzey | Önce | Sonra |
+|---|---|---|
+| Ana, başlık | Bozo bir marka ismi değil, bir insan | Bozo bir marka ismi değil, ta kendisi |
+| Ana, metin | "Nüfusta Engin Çağlar yazar; ..." (3 cümle) | "Bu mekana kendi ismini verdi; çünkü ..." (1 cümle) |
+| Hikaye, giriş | aynı 3 cümle | nüfus cümlesi düştü, kalan ikisi durdu |
+
+Ana sayfa metni sahibinin PDF'te yazdığı hali, kelimesi kelimesine. Üstyazı ("Bozo Çağlar,
+her gün ocağın başında") ve buton ("Hikayenin Tamamı") zaten aynıydı, dokunulmadı.
+İngilizcesi çeviri: `it is the man himself` / `He gave this place his own name`.
+
+Hikaye açılışı kısaltıldı, yeniden yazılmadı: lakabın tam anlatımı zaten aynı sayfanın
+`lakap` bölümünde, sahibinin kendi ağzından duruyor. Giriş onu tekrarlamıyordu, sadece
+nüfustaki adı söylüyordu.
+
+**Test eklendi.** `content/icerik.test.ts` > `sozluk_nufustakiAdiIcermez` iki sözlüğü de
+gezip `\bEngin\b` arıyor. Gerekçe: tasarım dosyaları ve `docs/tasarim/metin-envanteri.json`
+o adı hala altı yerde taşıyor, yani bir parite turu "eksik" sanıp geri ekleyebilir. Test
+ihlalde düştüğü doğrulandı, sonra geri alındı. 128/128.

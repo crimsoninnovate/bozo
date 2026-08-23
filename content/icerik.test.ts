@@ -55,6 +55,27 @@ test('sozluk_emDashIcermez', () => {
 })
 
 /**
+ * Nüfustaki ad siteden tamamen kalktı (sahibinin kararı, 23 Ağustos 2026); 19
+ * Ağustos'tan beri lakabı açıklayan iki cümlede yaşıyordu. Tasarım dosyaları ve
+ * metin envanteri o adı hala taşıyor, yani bir parite turu geri ekleyebilir.
+ */
+test('sozluk_nufustakiAdiIcermez', () => {
+  const kirli: string[] = []
+  const gez = (nesne: unknown, onek = ''): void => {
+    if (typeof nesne === 'string') {
+      if (/\bEngin\b/.test(nesne)) kirli.push(onek)
+      return
+    }
+    if (typeof nesne === 'object' && nesne !== null) {
+      for (const [k, v] of Object.entries(nesne)) gez(v, onek ? `${onek}.${k}` : k)
+    }
+  }
+  gez(tr)
+  gez(en)
+  assert.deepEqual(kirli, [], 'Marka kuralı: sahibinin adı sitede yalnız Bozo Çağlar')
+})
+
+/**
  * Komşu çipleri yön bulma ipucudur, ölçüm değil. "80 m" mesafesi tasarımda
  * geçiyor ama isletmeGercekleri içinde karşılığı yok; işletme sahibi kaldırdı.
  * Tasarım ekran görüntüleri hala eski hali gösterdiği için ileride bir parite

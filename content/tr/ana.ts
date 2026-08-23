@@ -101,10 +101,9 @@ export const ana = {
   },
   bozo: {
     kicker: 'Bozo Çağlar, her gün ocağın başında',
-    baslik: 'Bozo bir marka ismi değil, bir insan',
+    baslik: 'Bozo bir marka ismi değil, ta kendisi',
     metin:
-      "Nüfusta Engin Çağlar yazar; Urfa'da da burada da ona yıllardır Bozo denir. Bu mekana " +
-      'kendi lakabından başka isim düşünmedi; çünkü ocağın başında da, kapıda da, ' +
+      'Bu mekana kendi ismini verdi; çünkü ocağın başında da, kapıda da, ' +
       'sofranızın yanında da o var.',
     hikayeLinki: 'Hikayenin Tamamı',
   },

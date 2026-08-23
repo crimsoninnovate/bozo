@@ -27,8 +27,8 @@ export const isletme: Isletme = {
   // Sahibi 12 Ağustos 2026'da verdi; hesap henüz açılmadı, yayından önce açılmalı.
   instagram: 'cigercibozo',
   alkolServisi: false,
-  // Sitenin ona seslendiği ad. Nüfustaki ad (Engin Çağlar) yalnız lakabı açıklayan iki
-  // cümlede geçer: hikaye/ana girişi ve alt bilgi notu.
+  // Sitenin ona seslendiği tek ad; nüfustaki ad artık hiçbir yüzeyde geçmiyor
+  // (sahibinin kararı, 23 Ağustos 2026).
   sahip: 'Bozo Çağlar',
 }
 
