@@ -101,28 +101,41 @@ export const ortak = {
     saatlerBaslik: 'Hours',
     iletisimBaslik: 'Contact',
   },
+  /**
+   * Title ve description SEO için genişletildi (24 Ağustos 2026, spec:
+   * docs/specs/2026-08-24-seo-aeo-design.md); kaynak `footer.tanim` = "Urfa style liver over
+   * oak embers.", zaten yayında olan birebir metin.
+   */
   sayfaMeta: {
     ana: {
-      baslik: 'Ciğerci Bozo',
+      baslik: 'Ciğerci Bozo · Urfa Style Liver, Kyrenia',
       aciklama:
-        'Urfa style liver over oak embers. Kyrenia, Naci Talat Street. Every day 10:00 - 05:00.',
+        'Urfa style liver over oak embers. Kyrenia, Naci Talat Street. Every day from 10:00 ' +
+        'until 05:00 the next morning. Our place is alcohol-free.',
     },
     menu: {
-      baslik: 'Menu · Ciğerci Bozo',
-      aciklama: 'Six portions from the fire, wraps, eight on the house, and drinks.',
+      baslik: 'Menu · Ciğerci Bozo, Kyrenia',
+      aciklama:
+        'Six portions from the fire, wraps, eight on the house, and drinks. Kyrenia, every ' +
+        'day 10:00 - 05:00.',
     },
-    /** Built from the page's own two lines; see the Turkish file for the sources. */
     galeri: {
-      baslik: 'Gallery · Ciğerci Bozo',
-      aciklama: 'Sixteen frames the site is waiting for: the place and the dishes.',
+      baslik: 'Gallery · Ciğerci Bozo, Kyrenia',
+      aciklama:
+        'Sixteen frames the site is waiting for: the place and the dishes. Kyrenia, Naci ' +
+        'Talat Street, every day 10:00 - 05:00.',
     },
     hikaye: {
-      baslik: 'Story · Ciğerci Bozo',
-      aciklama: 'In Urfa, you can tell a master by the size of the cut.',
+      baslik: 'Story · Ciğerci Bozo, Kyrenia',
+      aciklama:
+        'In Urfa, you can tell a master by the size of the cut. Bozo Çağlar, every day at ' +
+        'the fire. Kyrenia, Naci Talat Street.',
     },
     konum: {
-      baslik: 'Location · Ciğerci Bozo',
-      aciklama: 'Naci Talat Street, Kyrenia. Every day from 10:00 until 05:00 the next morning.',
+      baslik: 'Location · Ciğerci Bozo, Naci Talat Street, Kyrenia',
+      aciklama:
+        'Naci Talat Street, Kyrenia. Every day from 10:00 until 05:00 the next morning. ' +
+        'Closed only between 05:00 and 10:00.',
     },
     gizlilik: { baslik: 'Privacy · Ciğerci Bozo', aciklama: 'How this site handles data.' },
   },

@@ -110,15 +110,24 @@ export const ortak = {
     saatlerBaslik: 'Saatler',
     iletisimBaslik: 'İletişim',
   },
-  /** Rota başına sayfa başlığı ve açıklaması. Anahtarlar RotaAnahtari ile birebir eşleşir. */
+  /**
+   * Rota başına sayfa başlığı ve açıklaması. Anahtarlar RotaAnahtari ile birebir eşleşir.
+   * Title ve description SEO için genişletildi (24 Ağustos 2026, spec:
+   * docs/specs/2026-08-24-seo-aeo-design.md); her cümle sitede zaten onaylı olan parçalardan
+   * yeniden kuruldu, yeni metin yazılmadı.
+   */
   sayfaMeta: {
     ana: {
-      baslik: 'Ciğerci Bozo',
-      aciklama: 'Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00 - 05:00.',
+      baslik: 'Ciğerci Bozo · Urfa Usulü Ciğer, Girne',
+      aciklama:
+        "Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00'dan ertesi " +
+        "sabah 05:00'e kadar açığız. Mekanımız alkolsüzdür.",
     },
     menu: {
-      baslik: 'Menü · Ciğerci Bozo',
-      aciklama: 'Altı porsiyon, dürümler, sekiz ikram ve içecekler.',
+      baslik: 'Menü · Ciğerci Bozo, Girne',
+      aciklama:
+        'Hepsi tek ocakta pişer. Altı porsiyon, dürümler, bir özel, sekiz ikram ve içecekler. ' +
+        'Girne, her gün 10:00 - 05:00.',
     },
     /**
      * Açıklama sayfanın kendi iki satırından kuruldu: kare sayısı (galeri.altMetin)
@@ -126,13 +135,22 @@ export const ortak = {
      * gelmeden var gibi göstermemek için sayı öne alındı.
      */
     galeri: {
-      baslik: 'Galeri · Ciğerci Bozo',
-      aciklama: 'Sitenin beklediği on altı kare: mekan ve ürün fotoğrafları.',
+      baslik: 'Galeri · Ciğerci Bozo, Girne',
+      aciklama:
+        "Sitenin beklediği on altı kare: mekan ve ürün fotoğrafları. Girne, Naci Talat " +
+        "Caddesi'nde, her gün 10:00 - 05:00 açık.",
     },
-    hikaye: { baslik: 'Hikaye · Ciğerci Bozo', aciklama: "Urfa'da ustayı tanesinden anlarsınız." },
+    hikaye: {
+      baslik: 'Hikaye · Ciğerci Bozo, Girne',
+      aciklama:
+        "Urfa'da ustayı tanesinden anlarsınız. Bozo Çağlar, her gün ocağın başında. " +
+        'Girne, Naci Talat Caddesi.',
+    },
     konum: {
-      baslik: 'Konum · Ciğerci Bozo',
-      aciklama: "Naci Talat Caddesi, Girne. Her gün 10:00'dan ertesi sabah 05:00'e kadar.",
+      baslik: 'Konum · Ciğerci Bozo, Naci Talat Caddesi, Girne',
+      aciklama:
+        "Naci Talat Caddesi, Girne. Her gün 10:00'dan ertesi sabah 05:00'e kadar açığız. " +
+        'Kapanış gece yarısını aşar, ertesi sabaha sarkar.',
     },
     gizlilik: { baslik: 'Gizlilik · Ciğerci Bozo', aciklama: 'Bu sitenin veri yaklaşımı.' },
   },
