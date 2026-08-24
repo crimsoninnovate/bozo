@@ -128,8 +128,8 @@ export const ortak = {
     hikaye: {
       baslik: 'Story · Ciğerci Bozo, Kyrenia',
       aciklama:
-        'In Urfa, you can tell a master by the size of the cut. Bozo Çağlar, every day at ' +
-        'the fire. Kyrenia, Naci Talat Street.',
+        'In Urfa, you can tell a master by the size of the cut. Bozo Çağlar, at the fire ' +
+        'every day. Kyrenia, Naci Talat Street.',
     },
     konum: {
       baslik: 'Location · Ciğerci Bozo, Naci Talat Street, Kyrenia',
