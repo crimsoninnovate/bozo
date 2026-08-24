@@ -3,3 +3,7 @@
 
 # Tasarlanmış 404 sayfası. Plesk'in kendi error_docs'u yerine bu geçer.
 ErrorDocument 404 /404.html
+
+# llms.txt Türkçe karakterler taşır (ğ ı ç ö ü); Next route handler'ın Content-Type başlığı
+# statik export'ta hiç gönderilmez (çalışma zamanı yok), o yüzden charset burada tanımlanır.
+AddType 'text/plain; charset=utf-8' .txt
