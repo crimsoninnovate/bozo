@@ -92,3 +92,61 @@ test('palet renkleri palet disinda literal olarak gecmez', () => {
   }
   assert.deepEqual(kacaklar, [], 'Palet rengi yalnız styles/palet/*.css içinde literal olabilir.')
 })
+
+/**
+ * CLAUDE.md'nin renk tablosu ile palet dosyaları.
+ *
+ * Bu testin varlık sebebi ölçülmüş bir kaçak: 23 Ağustos 2026'da zemin ailesi iki
+ * kademe koyulaştı ama CLAUDE.md güncellenmedi ve tablo 24 Ağustos'a kadar tam bir
+ * sürüm geride kaldı, altı değerin altısı da yanlıştı. CLAUDE.md bağlayıcı talimat
+ * olduğu için oradan okuyan biri yanlış literal yazardı. Yukarıdaki testler paletlerin
+ * BİRBİRİNDEN ayrışmasını yakalıyordu, dokümandan ayrışmasını yakalamıyordu.
+ */
+const HEX = /(--[\w-]+)\s*:\s*(#[0-9A-Fa-f]{6})\s*;/g
+const TABLO_SATIRI = /^\|\s*`(--[\w-]+)`[^|]*\|\s*`(#[0-9A-Fa-f]{6})`\s*\|\s*`(#[0-9A-Fa-f]{6})`\s*\|/gm
+
+/** Dosyanın hex değerli token'ları. rgba() olanlar tabloya girmez, kapsam dışı. */
+function hexTokenlari(css: string): Map<string, string> {
+  const m = new Map<string, string>()
+  for (const [, ad, deger] of yorumsuz(css).matchAll(HEX)) m.set(ad!, deger!.toUpperCase())
+  return m
+}
+
+function claudeTablosu(): Map<string, { bordo: string; siyah: string }> {
+  const satirlar = new Map<string, { bordo: string; siyah: string }>()
+  for (const [, ad, bordo, siyah] of oku('CLAUDE.md').matchAll(TABLO_SATIRI)) {
+    satirlar.set(ad!, { bordo: bordo!.toUpperCase(), siyah: siyah!.toUpperCase() })
+  }
+  return satirlar
+}
+
+test('CLAUDEmd_renkTablosu_paletDosyalariylaAyniDegerleriTasir', () => {
+  const tablo = claudeTablosu()
+  const bordo = hexTokenlari(oku('styles/palet/bordo.css'))
+  const siyah = hexTokenlari(oku('styles/palet/siyah.css'))
+
+  assert.ok(tablo.size > 0, 'CLAUDE.md > Colors tablosu okunamadı; biçimi mi değişti?')
+
+  const sapmalar: string[] = []
+  for (const [ad, yazan] of tablo) {
+    const gercek = { bordo: bordo.get(ad), siyah: siyah.get(ad) }
+    if (gercek.bordo !== yazan.bordo) {
+      sapmalar.push(`${ad} bordo: CLAUDE.md ${yazan.bordo}, palet ${gercek.bordo ?? 'YOK'}`)
+    }
+    if (gercek.siyah !== yazan.siyah) {
+      sapmalar.push(`${ad} siyah: CLAUDE.md ${yazan.siyah}, palet ${gercek.siyah ?? 'YOK'}`)
+    }
+  }
+  assert.deepEqual(sapmalar, [], 'CLAUDE.md bağlayıcı talimat; paletle ayrışamaz.')
+})
+
+test('CLAUDEmd_renkTablosu_paletinHerHexTokeniniKapsar', () => {
+  // Ters yön: palete yeni bir hex token girip tabloya yazılmazsa, "complete list,
+  // do not add others" başlığı yalan söylemeye başlar.
+  const tablo = claudeTablosu()
+  const eksikler = [...hexTokenlari(oku('styles/palet/bordo.css')).keys()]
+    .filter((ad) => !tablo.has(ad))
+    .sort()
+
+  assert.deepEqual(eksikler, [], 'Palete giren her hex token CLAUDE.md tablosunda da olmalı.')
+})
