@@ -1,7 +1,7 @@
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
-import { SITE_URL, yol, instagramUrl } from './site.ts'
+import { SITE_URL, yol, instagramUrl, type RotaAnahtari } from './site.ts'
 import { sozluk, type Sozluk } from '../content/index.ts'
 import type { Dil, Urun } from '../content/types.ts'
 import { menuUrunler, ozelUrun } from '../content/urunler.ts'
@@ -161,6 +161,40 @@ export function menuJsonLd(dil: Dil): object {
             offers: [{ '@type': 'Offer', price: String(ozelUrun.fiyat), priceCurrency: 'TRY' }],
           },
         ],
+      },
+    ],
+  }
+}
+
+/**
+ * schema.org `BreadcrumbList`. Ana sayfa için çağrılmaz (`anahtar` argümanı 'ana' olamaz);
+ * çağıran `components/sayfa/Kabuk.tsx` zaten `aktif !== 'ana'` koşuluyla korur.
+ */
+export function breadcrumbJsonLd(anahtar: RotaAnahtari, dil: Dil): object {
+  if (anahtar === 'ana') {
+    throw new Error('breadcrumbJsonLd: ana sayfa için çağrılmaz')
+  }
+
+  const s = sozluk(dil)
+  const nav = s.ortak.nav as Record<string, string>
+  const sayfaAdi = nav[anahtar]
+  if (!sayfaAdi) throw new Error(`breadcrumbJsonLd: "${anahtar}" için nav etiketi yok`)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: s.ortak.nav.anaSayfa,
+        item: `${SITE_URL}${yol('ana', dil)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: sayfaAdi,
+        item: `${SITE_URL}${yol(anahtar, dil)}`,
       },
     ],
   }

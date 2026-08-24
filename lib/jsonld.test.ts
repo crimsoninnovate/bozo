@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
-import { restaurantJsonLd, menuJsonLd } from './jsonld.ts'
+import { restaurantJsonLd, menuJsonLd, breadcrumbJsonLd } from './jsonld.ts'
 
 type Adres = {
   '@type': string
@@ -158,4 +158,42 @@ test('menuJsonLd_temelAlanlar_dogruBasar', () => {
   assert.equal(veri['@context'], 'https://schema.org')
   assert.equal(veri['@type'], 'Menu')
   assert.equal(veri.url, 'https://cigercibozo.com/menu/')
+})
+
+type ListItem = { '@type': string; position: number; name: string; item: string }
+
+test('breadcrumbJsonLd_ikiOgeTasir', () => {
+  const veri = breadcrumbJsonLd('menu', 'tr') as Record<string, unknown>
+  const ogeler = veri.itemListElement as ListItem[]
+  assert.equal(ogeler.length, 2)
+})
+
+test('breadcrumbJsonLd_pozisyonlarBirVeIkidir', () => {
+  const veri = breadcrumbJsonLd('menu', 'tr') as Record<string, unknown>
+  const ogeler = veri.itemListElement as ListItem[]
+  assert.equal(ogeler[0]?.position, 1)
+  assert.equal(ogeler[1]?.position, 2)
+})
+
+test('breadcrumbJsonLd_anaSayfaVeMevcutSayfayaDoğruLinkVerir', () => {
+  const trVeri = breadcrumbJsonLd('menu', 'tr') as Record<string, unknown>
+  const trOgeler = trVeri.itemListElement as ListItem[]
+  assert.equal(trOgeler[0]?.item, 'https://cigercibozo.com/')
+  assert.equal(trOgeler[1]?.item, 'https://cigercibozo.com/menu/')
+
+  const enVeri = breadcrumbJsonLd('konum', 'en') as Record<string, unknown>
+  const enOgeler = enVeri.itemListElement as ListItem[]
+  assert.equal(enOgeler[0]?.item, 'https://cigercibozo.com/en/')
+  assert.equal(enOgeler[1]?.item, 'https://cigercibozo.com/en/konum/')
+})
+
+test('breadcrumbJsonLd_etiketlerSozlukteVar', () => {
+  const veri = breadcrumbJsonLd('hikaye', 'tr') as Record<string, unknown>
+  const ogeler = veri.itemListElement as ListItem[]
+  assert.equal(ogeler[0]?.name, 'Ana Sayfa')
+  assert.equal(ogeler[1]?.name, 'Hikaye')
+})
+
+test('breadcrumbJsonLd_anaRotasiIcinFirlatir', () => {
+  assert.throws(() => breadcrumbJsonLd('ana', 'tr'))
 })
