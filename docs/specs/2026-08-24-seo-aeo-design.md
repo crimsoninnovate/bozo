@@ -223,8 +223,9 @@ belgenin bayatlamasıyla karşılaştı.
 
 ## 10. Test planı
 
-- `content/icerik.test.ts`: güncellenen `sayfaMeta.{anahtar}.baslik`/`aciklama` değerlerine göre
-  ilgili satırlar güncellenir (mevcut desen: sözlük değerini doğrudan karşılaştırma).
+- `content/icerik.test.ts` ve `lib/metadata.test.ts` **değiştirilmez** (bkz. §4); ikisi de
+  sözlük değerini birebir/alt dize olarak karşılaştırdığı için yeni title/description'ları
+  kendiliğinden doğrular.
 - `lib/jsonld.test.ts`: `menuJsonLd()` ve `breadcrumbJsonLd()` için yeni testler — fiyatsız
   kalemlerin (ikram, içecek) hiç yazılmadığını, `dil` başına ürün adının doğru geldiğini,
   `aktif === 'ana'` iken breadcrumb'ın hiç basılmadığını doğrular. Var olan `restaurantJsonLd`
@@ -236,7 +237,7 @@ belgenin bayatlamasıyla karşılaştı.
 
 ## 11. Dokunulacak dosyalar
 
-`content/tr/ortak.ts`, `content/en/ortak.ts`, `content/icerik.test.ts`, `lib/jsonld.ts`,
-`lib/jsonld.test.ts`, `app/(tr)/layout.tsx`, `app/(en)/layout.tsx`, `components/sayfa/Kabuk.tsx`,
-`app/sitemap.ts`, `lib/llmsTxt.ts` (yeni), `lib/llmsTxt.test.ts` (yeni),
-`app/llms.txt/route.ts` (yeni), `docs/surec/IYILESTIRMELER.md`.
+`content/tr/ortak.ts`, `content/en/ortak.ts`, `lib/jsonld.ts`, `lib/jsonld.test.ts`,
+`app/(tr)/layout.tsx`, `app/(en)/layout.tsx`, `components/sayfa/Kabuk.tsx`, `app/sitemap.ts`,
+`lib/llmsTxt.ts` (yeni), `lib/llmsTxt.test.ts` (yeni), `app/llms.txt/route.ts` (yeni),
+`docs/surec/IYILESTIRMELER.md`, `docs/surec/DEVAM.md`.
