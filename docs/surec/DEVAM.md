@@ -9,9 +9,12 @@ Son güncelleme: 24 Ağustos 2026
 ## Durum
 
 - Branch `feat/site-kurulumu`. 154 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
-  Ağaç temiz, çalışan ajan yok. **Son deploy edilen commit hâlâ `8b5ef7a`** (`--checksum` ile
-  birebir doğrulandı, `plesk repair fs` 0 hata); bu SEO/AEO turunun ve final review düzeltme
-  turunun HİÇBİR commit'i henüz arc'a gönderilmedi.
+  Ağaç temiz, çalışan ajan yok. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
+  `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
+  0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
+  kullanıcısı olmadığı için beklenen gürültü, checksum/boyut farkı yok). Canlıda ayrıca
+  doğrulandı: `/llms.txt` 200 ve `content-type: text/plain; charset=utf-8`, `sitemap.xml`'de
+  12 `<priority>`, ana sayfa 1 / `/menu/` 3 JSON-LD `<script>`, title'lar eşleşiyor.
 - **Site kendi alan adında ve arama motorlarına açık:** `https://cigercibozo.com`.
   `X-Robots-Tag` 24 Ağustos'ta silindi. `www` 301 ile apex'e gidiyor, sertifika Let's Encrypt.
 - **Yayın hedefi 20 Ağustos'ta arc sunucusuna taşındı** (`arc.megaonline.net`, Plesk,
