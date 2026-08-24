@@ -37,6 +37,19 @@ npm run preview    # serve the out/ export locally
   the palette, so `styles/palet.test.ts` rejects it.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
   business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
+- `lib/` is eleven small modules, each with a `.test.ts` beside it where behaviour is
+  load-bearing: `saat` (the one business rule), `site` (routes and every outbound URL),
+  `kabuk` (the shell parts that change per route: top-bar variant, anchors, drawer links),
+  `metadata` (page metadata and the social card), `jsonld`, `onay` (consent storage),
+  `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame), `hareket`
+  (reduced-motion preference and rAF throttling), `metin` (widow prevention).
+- **Every third-party runtime request sits behind consent.** `components/layout/CerezOnayi.tsx`
+  is the gate and `Olcumleme` (GA4) is only rendered once the stored answer is `kabul`; KKTC law
+  89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
+  that loads when the page opens is the same cross-border transfer, so it needs the same gate,
+  and behind a gate most visitors never see it. Prefer a build-time equivalent: both map plates
+  are OpenStreetMap geometry baked into SVG (`components/sayfa/haritaYollari.ts`, ODbL
+  attribution required on every surface that shows it) for exactly this reason.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
 - `components/` has five buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
   `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is `X.tsx`

@@ -1,7 +1,7 @@
 import { isletme } from '../content/isletme.ts'
 import type { Dil, Isletme } from '../content/types.ts'
 
-/** Alan adı henüz alınmadı. Satın alındığında yalnızca bu sabit değişir. */
+/** Sitenin tek mutlak adresi; canonical, sitemap ve sosyal kartlar buradan kurulur. */
 export const SITE_URL = 'https://cigercibozo.com'
 
 export type RotaAnahtari = 'ana' | 'menu' | 'galeri' | 'hikaye' | 'konum' | 'gizlilik'
