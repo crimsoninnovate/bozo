@@ -2,6 +2,9 @@ import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { SITE_URL, yol, instagramUrl } from './site.ts'
+import { sozluk, type Sozluk } from '../content/index.ts'
+import type { Dil, Urun } from '../content/types.ts'
+import { menuUrunler, ozelUrun } from '../content/urunler.ts'
 
 /** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
 function saatMetni(saat: number): string {
@@ -88,4 +91,77 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
   if (instagram) veri.sameAs = [instagram]
 
   return veri
+}
+
+function urunAdi(s: Sozluk, id: string): string {
+  const urunler = s.menu.ocakbasi.urunler as Record<string, { ad: string }>
+  const kayit = urunler[id]
+  if (!kayit) throw new Error(`menuJsonLd: "${id}" için ürün adı sözlükte yok`)
+  return kayit.ad
+}
+
+function urunOfferleri(s: Sozluk, urun: Urun): Offer[] {
+  const offers: Offer[] = []
+  if (urun.tam !== null) {
+    offers.push({
+      '@type': 'Offer',
+      name: s.menu.ocakbasi.olculer.tam,
+      price: String(urun.tam),
+      priceCurrency: 'TRY',
+    })
+  }
+  if (urun.durum !== null) {
+    offers.push({
+      '@type': 'Offer',
+      name: s.menu.ocakbasi.olculer.durum,
+      price: String(urun.durum),
+      priceCurrency: 'TRY',
+    })
+  }
+  return offers
+}
+
+type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
+
+/**
+ * schema.org `Menu` yapısal verisi. Yalnız fiyatı olan kalemler yazılır: `menuUrunler`
+ * (altı ana ürün) ve `ozelUrun`. İkramlar ve içecekler fiyat alanı taşımıyor
+ * (`KISITLAR.md`: uydurma fiyat yok), bu yüzden hiç görünmezler. `restaurantJsonLd()`'den
+ * bağımsız, ayrı bir `<script>` olarak basılır (bkz. app/(tr)/layout.tsx, app/(en)/layout.tsx).
+ */
+export function menuJsonLd(dil: Dil): object {
+  const s = sozluk(dil)
+
+  const ocakbasiKalemleri = menuUrunler
+    .map((urun) => ({
+      '@type': 'MenuItem',
+      name: urunAdi(s, urun.id),
+      offers: urunOfferleri(s, urun),
+    }))
+    .filter((kalem) => kalem.offers.length > 0)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Menu',
+    name: s.menu.ocakbasi.baslik,
+    url: `${SITE_URL}${yol('menu', dil)}`,
+    hasMenuSection: [
+      {
+        '@type': 'MenuSection',
+        name: s.menu.ocakbasi.baslik,
+        hasMenuItem: ocakbasiKalemleri,
+      },
+      {
+        '@type': 'MenuSection',
+        name: s.menu.ocakbasi.ozel.ad,
+        hasMenuItem: [
+          {
+            '@type': 'MenuItem',
+            name: s.menu.ocakbasi.ozel.ad,
+            offers: [{ '@type': 'Offer', price: String(ozelUrun.fiyat), priceCurrency: 'TRY' }],
+          },
+        ],
+      },
+    ],
+  }
 }
