@@ -124,10 +124,9 @@ function urunOfferleri(s: Sozluk, urun: Urun): Offer[] {
 type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
 
 /**
- * schema.org `Menu` yapısal verisi. Yalnız fiyatı olan kalemler yazılır: `menuUrunler`
- * (altı ana ürün) ve `ozelUrun`. İkramlar ve içecekler fiyat alanı taşımıyor
- * (`KISITLAR.md`: uydurma fiyat yok), bu yüzden hiç görünmezler. `restaurantJsonLd()`'den
- * bağımsız, ayrı bir `<script>` olarak basılır (bkz. app/(tr)/layout.tsx, app/(en)/layout.tsx).
+ * schema.org `Menu` yapısal verisi: yalnız fiyatı olan kalemler (`menuUrunler`, `ozelUrun`);
+ * ikram/içecek hiç görünmez (`KISITLAR.md`: uydurma fiyat yok). Yalnız `/menu`'de basılır
+ * (`components/sayfa/Kabuk.tsx`), görünmeyen sayfada işaretlenmiş içerik olmasın diye.
  */
 export function menuJsonLd(dil: Dil): object {
   const s = sozluk(dil)
@@ -176,8 +175,7 @@ export function breadcrumbJsonLd(anahtar: RotaAnahtari, dil: Dil): object {
   }
 
   const s = sozluk(dil)
-  const nav = s.ortak.nav as Record<string, string>
-  const sayfaAdi = nav[anahtar]
+  const sayfaAdi = s.ortak.nav[anahtar]
   if (!sayfaAdi) throw new Error(`breadcrumbJsonLd: "${anahtar}" için nav etiketi yok`)
 
   return {

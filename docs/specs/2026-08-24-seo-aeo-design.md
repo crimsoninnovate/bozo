@@ -141,6 +141,13 @@ dosyada zaten `restaurantJsonLd()` bastıkları noktanın hemen yanına. Site ge
 (yalnız `/menu`'de değil) `restaurantJsonLd()`'nin zaten kurduğu örüntüyle tutarlı: tek işletme,
 her sayfada aynı yapısal veri.
 
+**Düzeltme (24 Ağustos 2026, final whole-branch review sonrası):** yukarıdaki 'site genelinde'
+kararı tersine çevrildi. `menuJsonLd` yalnız `/menu` rotasında basılır artık, `breadcrumbJsonLd`
+ile aynı desende — gerekçe: Google'ın yapısal veri kuralı sayfada görünmeyen içeriği
+işaretlemeyi önermiyor, ve bir `Menu` nesnesi (fiyat dahil) `Restaurant`'ın aksine tek bir
+sayfanın içeriğini tanımlıyor, işletmenin kimliğini değil. Enjeksiyon noktası
+`components/sayfa/Kabuk.tsx`, `aktif === 'menu'` koşuluyla; iki kök layout'a artık dokunmuyor.
+
 `dil` parametresi yalnız ürün *adları* için var; işletme kimliği (adres, telefon, saat) hâlâ tek
 gerçek ve dil ayrımı yapmıyor. Bu, `restaurantJsonLd()`'nin "tek işletme tek gerçek" kararıyla
 çelişmiyor: o karar kimlik alanları için, ürün adları zaten `content/{tr,en}/menu.ts`'te ayrı

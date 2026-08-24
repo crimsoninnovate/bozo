@@ -3,7 +3,7 @@ import { AltBilgi } from '@/components/layout/AltBilgi'
 import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
-import { breadcrumbJsonLd } from '@/lib/jsonld'
+import { breadcrumbJsonLd, menuJsonLd } from '@/lib/jsonld'
 import type { RotaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
@@ -47,6 +47,12 @@ export function Kabuk({ dil, aktif, children }: Props) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(aktif, dil)) }}
+        />
+      )}
+      {aktif === 'menu' && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd(dil)) }}
         />
       )}
       <KorSahnesi varyant={anaSayfaMi ? 'ana' : 'ic'} />
