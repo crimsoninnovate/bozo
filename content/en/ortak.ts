@@ -101,9 +101,10 @@ export const ortak = {
     iletisimBaslik: 'Contact',
   },
   /**
-   * Title ve description SEO için genişletildi (24 Ağustos 2026, spec:
-   * docs/specs/2026-08-24-seo-aeo-design.md); kaynak `footer.tanim` = "Urfa style liver over
-   * oak embers.", zaten yayında olan birebir metin.
+   * Titles/descriptions expanded for SEO (24 Aug 2026, spec:
+   * docs/specs/2026-08-24-seo-aeo-design.md), built from text already live on the site
+   * (`footer.tanim` = "Urfa style liver over oak embers." for most fields). `galeri`'s own
+   * source is documented in the Turkish file's comment above its entry.
    */
   sayfaMeta: {
     ana: {

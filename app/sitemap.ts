@@ -3,7 +3,8 @@ import { SITE_URL, tumYollar, type RotaAnahtari } from '@/lib/site'
 
 export const dynamic = 'force-static'
 
-/** Ana sayfa en sık, yasal sayfa en seyrek değişir; sıralama SEO ağırlığını yansıtır. */
+/** Rota başına arama motoru önceliği ve değişim sıklığı; anahtar sırası RotaAnahtari'nin
+ * kendi sırası, önem sırasına göre değil. */
 const ONCELIK: Record<RotaAnahtari, { priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }> = {
   ana: { priority: 1, changeFrequency: 'weekly' },
   menu: { priority: 0.9, changeFrequency: 'monthly' },
