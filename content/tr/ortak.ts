@@ -32,9 +32,8 @@ export const ortak = {
    */
   cerez: {
     metin:
-      'Ziyaret sayısını ölçmek için Google Analytics kullanmak istiyoruz. Bu ' +
-      'tarayıcınıza çerez yazar ve veriyi yurt dışındaki Google sunucularına ' +
-      'aktarır. Onayınız olmadan başlamaz.',
+      'Ziyaret sayısını Google Analytics ile ölçmek istiyoruz; çerez yazar, ' +
+      'veri yurt dışına gider, onayınız olmadan başlamaz.',
     kabul: 'Kabul ediyorum',
     ret: 'İstemiyorum',
     detay: 'Ayrıntılar',

@@ -26,9 +26,8 @@ export const ortak = {
    */
   cerez: {
     metin:
-      'We would like to use Google Analytics to count visits. It writes a cookie ' +
-      'to your browser and transfers the data to Google servers abroad. It does ' +
-      'not start without your consent.',
+      "We'd like to measure visits with Google Analytics; it sets a cookie, " +
+      "sends data abroad, and won't start without your consent.",
     kabul: 'I accept',
     ret: 'No thanks',
     detay: 'Details',
