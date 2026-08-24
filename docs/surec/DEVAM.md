@@ -8,7 +8,7 @@ Son güncelleme: 24 Ağustos 2026
 
 ## Durum
 
-- Branch `feat/site-kurulumu`. 136 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
+- Branch `feat/site-kurulumu`. 154 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
   Ağaç temiz, çalışan ajan yok. Son commit `8b5ef7a`, arc'a gönderildi ve `--checksum` ile
   birebir doğrulandı (`plesk repair fs` 0 hata).
 - **Site kendi alan adında ve arama motorlarına açık:** `https://cigercibozo.com`.
@@ -32,23 +32,27 @@ Son güncelleme: 24 Ağustos 2026
    `#harita` hedefiyle çelişkisi, ve Konum hero'sunun boş sağ yarısı. İkincisinin erteleme
    gerekçesi (yer tutucu levha) artık geçerli değil, karar açılabilir.
 5. Yasal metinler backlogda (sahibinin kararı, C4). Yeniden önerme.
+6. **FAQ/AEO içeriği** (`IYILESTIRMELER.md`, "SSS/answer-block AEO içeriği" ve konumlandırma
+   cümlesi maddeleri, Task 9): yapılandırılmış soru-cevap bloğu (`FAQPage`) ve önerilen meta
+   açıklama cümlesi ikisi de yeni pazarlama metni gerektirdiği için bu turda uygulanmadı. Sahibine:
+   hangi sorular ve cevaplar ([issue #1](https://github.com/crimsoninnovate/bozo/issues/1)),
+   konumlandırma cümlesi onaylanır mı ([issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
 
-## Son turda ne değişti (24 Ağustos, gece)
+## Son turda ne değişti (24 Ağustos, SEO/AEO turu)
 
-- **Koordinat ve posta kodu geldi**, üç bağımsız kaynakla doğrulandı. `yolTarifiUrl()` beş
-  yüzeyde birden adres aramasından gerçek yol tarifine geçti; JSON-LD `geo` ve `postalCode`
-  yayında. `postalCode` alanı `lib/jsonld.ts`'te hiç yokmuş, eklendi.
-- **İki harita levhası da gerçek OpenStreetMap geometrisi çiziyor**
-  (`components/sayfa/haritaYollari.ts`, ODbL atfıyla). Google Maps alınmadı: her embed onay
-  kapısı gerektirirdi. Ana sayfa 256 m yakın plan, Konum sayfası 640 m bağlam.
-- **Alt bilgi sahibinin kelime markasını taşıyor** (`public/kelime-markasi.svg`). 18 Ağustos'un
-  F1 kararı (alt bilgi işaret taşımaz) sahibinin isteğiyle geri alındı; `MarkaKilidi`'nin
-  `sadeceKelime` varyantı ölü kaldığı için silindi.
-- **Rozetin "yanlardan basık" göründüğü iddiası ölçümle çürütüldü**, ayrıntı
-  `IYILESTIRMELER.md`'de.
-- **`CLAUDE.md`'nin renk tablosu bayattı**: altı bordo değerinin hepsi 23 Ağustos
-  koyulaştırmasından önceki sürümü gösteriyordu, düzeltildi. `styles/palet/bordo.css`'in kendi
-  ölçüm notu da (`3.09 → 3.28`) yanlıştı, gerçek değer `2.84 → 3.01`.
+- **On iki rotanın `<title>`/açıklaması genişletildi**, hepsi sitede zaten canlı olan metinden
+  kuruldu (`content/*/ortak.ts` > `sayfaMeta`), yeni pazarlama metni uydurulmadı.
+- **İki yeni JSON-LD üreticisi** `lib/jsonld.ts`'e eklendi: `menuJsonLd(dil)` (`Menu` şeması,
+  iki kök layout'ta `restaurantJsonLd`'nin yanında basılıyor) ve `breadcrumbJsonLd(anahtar, dil)`
+  (`BreadcrumbList`, `Kabuk`'ta ana sayfa dışındaki her rotada). Ana sayfa artık iki, diğer on bir
+  rota üç `<script type="application/ld+json">` taşıyor; hepsi geçerli JSON, ölçüldü.
+- **`app/sitemap.ts` her URL'i `lastModified`/`changeFrequency`/`priority` ile damgalıyor.**
+- **`lib/llmsTxt.ts`**, yapay zeka/cevap motoru tarayıcıları için build zamanında bir olgu özeti
+  üretiyor; `/llms.txt`'te (`app/llms.txt/route.ts`) yayında, okunur metin ve işlevsel linklerle.
+- Test sayısı 138'den 154'e çıktı (6 `menuJsonLd` + 5 `breadcrumbJsonLd` + 5 `llmsTxt` testi).
+  `npm run typecheck`, `npm test`, `npm run build` üçü de temiz; on iki rota 200 dönüyor, konsol
+  temiz (`hikaye` sayfalarındaki font/CSS preload uyarıları bu turun ürünü değil, dokunulan
+  dosyalardan hiçbiri font/preload/CSS parçalama ile ilgili değil).
 
 ## Bir sonraki deploy'da hatırlanacak
 
