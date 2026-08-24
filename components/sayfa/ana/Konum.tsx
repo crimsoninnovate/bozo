@@ -64,6 +64,7 @@ export function Konum({ dil }: Props) {
         className={stil.harita}
         isletmeAdi={s.ortak.marka.ad}
         sokak={s.ana.konum.haritaSokak}
+        kaynak={s.ana.konum.haritaKaynak}
       />
     </Bolum>
   )

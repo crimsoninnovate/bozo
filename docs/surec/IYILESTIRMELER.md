@@ -1868,6 +1868,29 @@ taşırıyordu; pini ortalamak bunu 24px'e çıkardı, yani `overflow:hidden` ma
 100px boşluk kaldı. Aynı kuralda kaynak satırı da cadde etiketinin altına iniyor, yoksa ikisi
 aynı satırda çakışıyordu.
 
+### Ana sayfanın levhası da gerçek oldu, ama dar çerçeveden
+
+Sahibi aynı gün istedi. Ana sayfada iki harita levhası bir gerçek bir şematik kalsaydı asıl
+tutarsızlık o olurdu.
+
+Aynı 640 m'yi 528x420'lik levhaya sıkıştırmak Konum sayfasının küçültülmüş kopyasını
+üretirdi. Bunun yerine aynı veri dar çerçeveden okunuyor: `ANA_PENCERE = '300 300 400 400'`,
+yani 256 m. Ölçüldü, yakın çevre dış mahallelerden sık olduğu için dar çerçeve seyrek
+kalmıyor: yoğunluk 1000 birimde 12.5, 640'ta 14.6, 400'de 17.0. İki levha artık kademe
+oluşturuyor, ana sayfa yakın plan, Konum sayfası bağlam.
+
+`CLAUDE.md`'nin "ortaklaştırma denemesi kapandı" kaydı geçerliliğini koruyor: paylaşılan
+bileşen değil, `components/sayfa/haritaYollari.ts` veri modülü (bu yüzden `konum/` altından
+bir üst dizine taşındı). Zemin, halka, nabız, etiket tipografisi ve ölçüler ayrı kaldı.
+
+Nabız ve halka 46%/53%'ten ortaya alındı, cadde etiketi köşe alt yazısı oldu; gerekçe
+Konum levhasıyla aynı. İşletme adı etiketi nabza bağlı olduğu için dokunulmadı.
+
+Mobilde (1040px altı) çizgiler inceltildi (10/5/2.5 → 7/3.5/1.75): levha 420px'ten 180px'e
+düşerken aynı kalınlık ana yolu levhanın yarısı kadar gösteriyordu. Tasarımın gizlediği iki
+etiket gizli kaldı, atıf satırı kalmak zorunda: ODbL onu veriyi gösteren her yüzeyde istiyor,
+yani ana sayfa artık bir yasal satır taşıyor.
+
 ### Açık kalan
 
 - Bu dosyanın "Yol Tarifi Al butonunun etiketi" kaydı duruyor. Hedef hâlâ sayfa içi `#harita`,

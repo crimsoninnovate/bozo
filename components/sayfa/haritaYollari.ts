@@ -1,5 +1,5 @@
 /**
- * Konum levhasının yol geometrisi. OpenStreetMap'ten Overpass ile çekildi
+ * İki harita levhasının ortak yol geometrisi. OpenStreetMap'ten Overpass ile çekildi
  * (24 Ağustos 2026), ODbL 1.0; levhanın altındaki atıf satırı lisans gereği.
  *
  * Kaynak sorgu: `way["highway"](around:320,35.3370065,33.3057253)`, yani işletmenin
@@ -11,8 +11,18 @@
  * ana yol `--cizgi-hayalet`, ara yol `--cizgi-harita`, servis `--cizgi-harita-ince`.
  */
 
-/** viewBox kenarı. Kare, çünkü levha `slice` ile kırpıyor ve merkez sabit kalmalı. */
+/**
+ * viewBox kenarı. Kare, çünkü levhalar `slice` ile kırpıyor ve merkez sabit kalmalı.
+ *
+ * İki levha aynı veriyi farklı yakınlıkta okur: Konum sayfası kutunun tamamını (640 m,
+ * bağlam), ana sayfa `ANA_PENCERE` ile ortasını (256 m, yakın plan). Ölçüldü, yoğunluk
+ * yakınlaştıkça artıyor: 1000 birimde 12.5, 400 birimde 17.0, yani dar çerçeve seyrek
+ * kalmıyor. Ortaklaşan yalnız bu dosya; iki levha kendi rengini ve ölçüsünü koruyor.
+ */
 export const KUTU = 1000
+
+/** Ana sayfa levhasının çerçevesi: kutunun ortasından 400 birim, yani 256 m. */
+export const ANA_PENCERE = '300 300 400 400'
 
 /** Kutunun kapsadığı gerçek mesafe; ölçek notu ve olası yeniden üretim için. */
 export const KAPSAM_METRE = 640

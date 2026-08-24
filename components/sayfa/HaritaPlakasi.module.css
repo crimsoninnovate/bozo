@@ -1,64 +1,68 @@
 /*
  * Ana Sayfa'nın harita levhası, Ana Sayfa Alternatif.dc.html:323-331.
  *
- * Konum sayfasının levhası (Konum:89-101) AYNI DEĞİL, ve fark halkadan ibaret
- * değil. Ölçülen tam liste (on-gecis-report.md §3):
- *   zemin        .55 (--panel-yari)      -> .6 (--panel-60)
- *   yükseklik    min-height:420px        -> clamp(420px,58vh,600px) + overflow:hidden
- *   ızgara adımı 50px                    -> 52px
- *   yatay yol    top:56%; height:14px    -> top:54%; height:16px
- *   dikey yol    tek: left:44%; 9px; .06 -> iki: left:20% 9px .05 + left:64% 7px .045
- *   halka        80px @46%/53%, .5       -> 110px @42%/47%, .45 (--kor-halka-konum)
- *   nabız        16px, 0 0 0 6px/30px    -> 18px, 0 0 0 7px/32px
- *   cadde        left:8%/top:59%, 11.5px/.62 -> left:10%/top:57.5%, 12px/.55
- *   ek katman    yok                     -> pin etiketi + üç POI çipi
+ * Konum sayfasının levhası (Konum:89-101) AYNI DEĞİL. Ölçülen fark listesi
+ * (on-gecis-report.md §3) zemin, yükseklik, halka, nabız ve etiket tipografisinde
+ * duruyor; 24 Ağustos 2026'da yalnız çizim katmanı değişti. İki levha artık aynı
+ * OSM verisini okuyor (`haritaYollari.ts`) ama farklı yakınlıktan: burası 256 m
+ * yakın plan, orası 640 m bağlam. Ortaklaşan bileşen değil, veri.
  *
- * Task 13 ölçtü: on iki karşılaştırılabilir değerin yalnız ikisi (kenarlık ve
- * alt notun tipografisi) ortak. Buraya bir `varyant` sınıfı eklemek dosyanın
- * tamamını yeniden yazmak olurdu, üstelik oradaki işaret etiketi kutulu ve iki
- * ağırlıklı, buradaki `isletmeAdi: string` düz bir span. Konum kendi levhasını
- * yazdı (`components/sayfa/konum/Harita.*`); bu dosya ana sayfaya özel.
+ *   zemin        .55 (--panel-yari)      -> .6 (--panel-60)
+ *   yükseklik    min-height:420px        -> clamp(420px,58vh,600px)
+ *   çerçeve      400 birim (256 m)       -> 1000 birim (640 m)
+ *   halka        80px, --kor-halka       -> 110px, --kor-halka-konum
+ *   nabız        16px, 0 0 0 6px/30px    -> 18px, 0 0 0 7px/32px
+ *   ad etiketi   düz span, nabza bağlı   -> kutulu, iki ağırlıklı
+ *   cadde        11.5px/.62              -> 12px/.55
  */
 .levha {
   position: relative;
   border: 1px solid var(--cizgi-bolum);
   background: var(--panel-yari);
+  overflow: hidden;
 }
 
-/* 50px adımlı iki eksenli ızgara; iki gradyan da aynı alfayı taşır (Ana:324) */
-.izgara {
+/* Gerçek OSM geometrisi. `slice` levhayı kaplar ve viewBox'ın merkezini levhanın
+   merkezine kilitler, yani nabız geometriden kayamaz. */
+.yollar {
   position: absolute;
   inset: 0;
-  background-image:
-    repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 50px),
-    repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 50px);
+  width: 100%;
+  height: 100%;
 }
 
-/* Ana:325 */
-.yatayYol {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 56%;
-  height: 14px;
-  background: var(--cizgi-hayalet);
+/* Üç katman Konum levhasıyla aynı token ve aynı kalınlıkta: yol hiyerarşisi iki
+   yüzeyde aynı şeyi söylemeli. `non-scaling-stroke` şart, `slice` ölçeği kırılım
+   boyunca değişiyor ve ölçeklenen çizgi mobilde görünmez inceliğe iniyor. */
+.ana,
+.ara,
+.servis {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
-/* Ana:326 */
-.dikeyYol {
-  position: absolute;
-  left: 44%;
-  top: 0;
-  bottom: 0;
-  width: 9px;
-  background: var(--cizgi-harita-yol);
+.ana {
+  stroke: var(--cizgi-hayalet);
+  stroke-width: 10;
 }
 
-/* Ana:327 */
+.ara {
+  stroke: var(--cizgi-harita);
+  stroke-width: 5;
+}
+
+.servis {
+  stroke: var(--cizgi-harita-ince);
+  stroke-width: 2.5;
+}
+
+/* Ana:327. Tasarımın 46%/53% konumu yüzdeydi ve `slice` altında kayardı. */
 .halka {
   position: absolute;
-  left: 46%;
-  top: 53%;
+  left: 50%;
+  top: 50%;
   width: 80px;
   height: 80px;
   margin: -40px 0 0 -40px;
@@ -70,8 +74,8 @@
    animasyonlar.css'in `animation: none !important` kuralı onu tümüyle durdurur. */
 .nabiz {
   position: absolute;
-  left: 46%;
-  top: 53%;
+  left: 50%;
+  top: 50%;
   width: 16px;
   height: 16px;
   margin: -8px 0 0 -8px;
@@ -81,39 +85,55 @@
   animation: dotPulse 2.6s ease-in-out infinite;
 }
 
-/* Ana:329, işaretin sağ altına kayık oturur */
+/* Ana:329, işaretin sağ altına kayık oturur. Nabza bağlı olduğu için onunla
+   birlikte gidiyor, ayrıca demirlenmesi gerekmiyor. */
 .isletmeAdi {
   position: absolute;
-  left: 46%;
-  top: 53%;
+  left: 50%;
+  top: 50%;
   margin: 26px 0 0 14px;
   font: 500 12.5px/1 var(--font-govde);
   color: var(--krem-82);
 }
 
-/* Ana:330 */
+/* Ana:330. Yolun üstünde yüzen etiket değil köşe alt yazısı: kenara demirli olan
+   tek şey kırpma ekseninden bağımsız durur. */
 .sokak {
   position: absolute;
-  left: 8%;
-  top: 59%;
+  left: 14px;
+  bottom: 12px;
   font: 400 11.5px/1 var(--font-govde);
   color: var(--krem-62);
 }
 
+/* ODbL 1.0 atfı. --krem-50 bordo zeminde 4.53:1, AA'yı geçen en sönük adım. */
+.kaynak {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  font: 400 11px/1 var(--font-govde);
+  color: var(--krem-50);
+}
+
 /*
- * Mobil levha: Mobil Prototip.dc.html:169-174. 180px'lik levhada tasarım dört
- * katman çiziyor: ızgara, yatay yol, halka, nabız. Dikey yol ve üç etiket
- * mobilde yok; etiketlerin taşıdığı bilgi bölüm başlığında ve alt bilgide zaten var.
+ * Mobil levha: Mobil Prototip.dc.html:169-174. 180px'lik levhada tasarım etiketsiz
+ * bir doku istiyor; iki etiket gizli kalır, bilgiyi bölüm başlığı ve alt bilgi taşıyor.
+ * Atıf gizlenemez, lisans onu veriyi gösteren her yüzeyde istiyor.
+ *
+ * Çizgiler inceliyor: levha 420px'ten 180px'e düşerken aynı kalınlık yolları
+ * levhanın yarısı kadar gösteriyordu.
  */
 @media (max-width: 1040px) {
-  .izgara {
-    background-image:
-      repeating-linear-gradient(0deg, var(--cizgi-harita) 0 1px, transparent 1px 40px),
-      repeating-linear-gradient(90deg, var(--cizgi-harita) 0 1px, transparent 1px 40px);
+  .ana {
+    stroke-width: 7;
   }
 
-  .yatayYol {
-    height: 11px;
+  .ara {
+    stroke-width: 3.5;
+  }
+
+  .servis {
+    stroke-width: 1.75;
   }
 
   .halka {
@@ -129,7 +149,6 @@
     box-shadow: 0 0 0 5px var(--kor-pin-halka), 0 0 24px var(--kor-pin-parilti);
   }
 
-  .dikeyYol,
   .isletmeAdi,
   .sokak {
     display: none;

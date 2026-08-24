@@ -1,5 +1,5 @@
 import { sozluk, type Dil } from '@/content'
-import { ANA_YOL, ARA_YOL, SERVIS_YOLU, KUTU } from './haritaYollari'
+import { ANA_YOL, ARA_YOL, SERVIS_YOLU, KUTU } from '@/components/sayfa/haritaYollari'
 import stil from './Harita.module.css'
 
 type Props = { dil: Dil }

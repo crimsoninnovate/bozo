@@ -113,5 +113,7 @@ export const ana = {
   konum: {
     saatNotu: "Her gün 10:00'dan ertesi sabah 05:00'e kadar. Mekanımız alkolsüzdür.",
     haritaSokak: 'Naci Talat Caddesi',
+    // ODbL 1.0 lisansının istediği atıf; pazarlama metni değil, yasal zorunluluk.
+    haritaKaynak: '© OpenStreetMap katkıcıları',
   },
 }

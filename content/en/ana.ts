@@ -93,5 +93,7 @@ export const ana = {
   konum: {
     saatNotu: 'Every day from 10:00 until 05:00 the next morning. Alcohol-free.',
     haritaSokak: 'Naci Talat Street',
+    // Attribution required by ODbL 1.0; a licence obligation, not marketing copy.
+    haritaKaynak: '© OpenStreetMap contributors',
   },
 }
