@@ -1,0 +1,35 @@
+/*
+ * Varlığın oranı 1732.19 x 744.51, yani 2.327:1. `aspect-ratio` yazılı: yükseklik
+ * hesaplanmadan önce satır sıçramasın, ve varlık değişirse oran tek yerde dursun.
+ */
+.baglanti {
+  position: relative;
+  display: inline-flex;
+  text-decoration: none;
+}
+
+/* Görünür kutu 82px; görünmez ::before dokunma alanını 44px tabanına çeker.
+   Kilidin kendi kuralıyla aynı desen (MarkaKilidi.module.css). */
+.baglanti::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+  min-height: 44px;
+}
+
+.marka {
+  display: block;
+  width: 190px;
+  aspect-ratio: 1732.19 / 744.51;
+  height: auto;
+}
+
+@media (max-width: 1040px) {
+  .marka {
+    width: 164px;
+  }
+}

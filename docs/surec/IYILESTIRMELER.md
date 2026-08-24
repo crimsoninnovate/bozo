@@ -1897,3 +1897,65 @@ yani ana sayfa artık bir yasal satır taşıyor.
   ama artık oraya kaydırmak gerçek bir haritaya götürüyor, yani çelişki yumuşadı. Metin sahibin.
 - Konum hero'sunun sağ yarısındaki boşluk kararı artık açılabilir: erteleme gerekçesi olan
   yer tutucu kalktı.
+
+## 24 Ağustos 2026: alt bilgiye kelime markası, ve rozet ezilmesi iddiası
+
+### F1 geri alındı, alt bilgi artık işaret taşıyor
+
+18 Ağustos 2026'da sahibi alt bilginin yalnız kelime kilidi taşımasına karar vermişti (F1);
+24 Ağustos'ta kendi kelime markası varlığını verdi ve onun basılmasını istedi. Karar
+sahibinin, kayıt burada duruyor.
+
+`MarkaKilidi`'nin `sadeceKelime` varyantı silindi: tek çağıranı alt bilgiydi. Prop ve
+`.kelime` CSS kuralları da gitti, "no dead code".
+
+### Varlık bir auto-trace çıktısıydı, temizlendi
+
+`Bozo-Typo.svg` Illustrator Image Trace ürünü. İmzası sayılabilir: aynı kremin **16 tonu**
+(#fbd2aa, #fcd1aa, #fdd2ab...), siyahın 8 tonu, kırmızının 3 tonu, artı 4 kahverengi path
+(kenar yumuşatma artefaktı, gerçek bir renk değil). Tek grup, yapı yok.
+
+Yapılan: 16 krem tek renge, 8 siyah tek renge, 3 kırmızı tek renge indirildi, 4 artefakt
+path silindi. 16.9 KB → 14.9 KB, görünüm değişmedi.
+
+### Plakalı varyant seçildi
+
+Üç varyant üretilip bordo zeminde 200/150/110px'te karşılaştırıldı:
+
+| Varyant | Ne | Ölçüm |
+|---|---|---|
+| A, seçilen | Siyah banner plakası korunur | Tasarıma sadık; footer'ın tek opak plakası olur ve arkasındaki kor sahnesini keser |
+| B | Plaka ve kenarlığı çıkar (path 0 ve 1) | Harflerin kendi krem konturu okunabilirliği taşıyor, kor ışığı aralarından geçiyor |
+| C | Plakasız + token renkleri | 110-150px'te en net okunan, ama asset'in koyu vintage kırmızısı gidiyor |
+
+Ölçüm, plakanın dekoratif olmadığını gösterdi: asset'in kırmızısı `#80070F` bordo zeminde
+**1.63:1**. Plakasız varyantlarda kırmızıyı okunur kılan şey banner değil, her harfin kendi
+krem konturu.
+
+Sahibi A'yı seçti. Renkler sabit, palet takasını takip etmiyor; bu kayıtlı bir istisna
+(`CLAUDE.md` > Colors, marka işaretleri kapalı renk listesinin dışında, WhatsApp ve Instagram
+ile aynı gerekçe).
+
+`<img>` tercih edildi, satır içi SVG değil: alt bilgi dört rotada basılıyor, gömmek her
+sayfaya 15 KB eklerdi ve optimize edilecek bir raster yok.
+
+### Rozetin "yanlardan basık" göründüğü iddiası: ölçümle çürütüldü
+
+Sahibi üst bardaki rozetin yatayda ezilmiş göründüğünü bildirdi. Ezilme yok:
+
+| Ölçüm | Değer |
+|---|---|
+| Kaynak `Bozo.svg` viewBox | `0 0 1748.44 1998.84`, oran 0.8747 |
+| Yayındaki `public/marka/rozet.svg` | Aynı viewBox, aynı oran |
+| Tarayıcıda render | 122 x 139.47, oran **0.8747** |
+| `transform` / `object-fit` | `none` / etkisiz (`height: auto`) |
+| Mürekkep sınırları | viewBox'a birebir, dört kenarda 0 boşluk |
+| En dış şeklin merkezi | x = 874.2, viewBox merkezi 874.22 |
+
+Krem katman merkezden %0.16, kırmızı katman %0.8 sapıyor; ikisi de gözle görülmez.
+
+Algının iki gerçek sebebi var, ikisi de kusur değil: rozet gerçekten uzun (0.8747, yani
+eninden %14 uzun) ve yatay bir barda yatay metnin yanında duran uzun bir nesne dar okunur;
+ayrıca `drop-shadow(0 12px 30px)` gölgeyi 12px AŞAĞI atıyor, bu da dikey uzantıyı artırıyor.
+Rozeti daha geniş göstermek istenirse kaldıraç bir hata düzeltmesi değil, ya çizimin kendisi
+ya da bardaki genişliği (`Rozet.module.css` `.bar img { width: 122px }`).
