@@ -2,11 +2,11 @@ import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
 import { KelimeMarkasi } from '@/components/ui/KelimeMarkasi'
-import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
+import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
 import { TelifSeridi } from './TelifSeridi'
 import stil from './AltBilgi.module.css'
 
-type Props = { dil: Dil }
+type Props = { dil: Dil; aktif: RotaAnahtari }
 
 /**
  * `Ana Sayfa Alternatif.dc.html:351-386`: dört kolon (marka, adres, saatler,
@@ -14,7 +14,7 @@ type Props = { dil: Dil }
  * Gizlilik rotasının footer'ı. Telefon, WhatsApp ve Instagram null iken satır
  * görünür ama placeholder basılır, href üretilmez.
  */
-export function AltBilgiTam({ dil }: Props) {
+export function AltBilgiTam({ dil, aktif }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
   const whatsapp = whatsappUrl(isletme.whatsapp)
@@ -100,7 +100,7 @@ export function AltBilgiTam({ dil }: Props) {
         </div>
       </div>
 
-      <TelifSeridi dil={dil} />
+      <TelifSeridi dil={dil} aktif={aktif} />
     </footer>
   )
 }

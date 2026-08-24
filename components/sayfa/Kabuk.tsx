@@ -60,7 +60,7 @@ export function Kabuk({ dil, aktif, children }: Props) {
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>
         {children}
       </main>
-      <AltBilgi dil={dil} />
+      <AltBilgi dil={dil} aktif={aktif} />
       <MobilAksiyonBari dil={dil} />
     </>
   )

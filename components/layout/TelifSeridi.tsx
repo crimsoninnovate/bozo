@@ -1,10 +1,11 @@
 import { sozluk, type Dil } from '@/content'
-import { yol } from '@/lib/site'
+import { yol, type RotaAnahtari } from '@/lib/site'
 import stil from './AltBilgi.module.css'
 import { YapimciIsareti } from './YapimciIsareti'
 
 type Props = {
   dil: Dil
+  aktif: RotaAnahtari
 }
 
 /**
@@ -12,7 +13,7 @@ type Props = {
  * rayı. Üç footer varyantından ikisinde aynı, menü şeridinde hiç yok
  * (`Menu:283-292` telif satırı taşımaz).
  */
-export function TelifSeridi({ dil }: Props) {
+export function TelifSeridi({ dil, aktif }: Props) {
   const s = sozluk(dil)
 
   return (
@@ -23,11 +24,20 @@ export function TelifSeridi({ dil }: Props) {
          * sahibi "şimdilik" kaldırmıştı; o gün site hiçbir şey toplamıyordu.
          * GA4 eklendikten sonra bildirimin erişilebilir olması gerekiyor
          * (KKTC 89/2007 Madde 13, Tüzük Madde 5(5): yükümlülük talebe bağlı değil).
+         * Bulunulan sayfaya giden bağlantı ölü hedeftir, o yüzden gizlilik
+         * rotasında kendisi basılmaz (tasarımın eski "Sayfalar" kolonu da aynı
+         * kuralı uyguluyordu).
          */}
-        {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke} ·{' '}
-        <a className={stil.telifBaglanti} href={yol('gizlilik', dil)}>
-          {s.ortak.gizlilikBaglantisi}
-        </a>
+        {s.ortak.telif} · {s.ortak.satirlar.adresSehirUlke}
+        {aktif !== 'gizlilik' && (
+          <>
+            {' '}
+            ·{' '}
+            <a className={stil.telifBaglanti} href={yol('gizlilik', dil)}>
+              {s.ortak.gizlilikBaglantisi}
+            </a>
+          </>
+        )}
       </div>
 
       <YapimciIsareti dil={dil} />
