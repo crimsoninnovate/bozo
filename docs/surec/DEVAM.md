@@ -41,6 +41,18 @@ Son güncelleme: 24 Ağustos 2026
    açıklama cümlesi ikisi de yeni pazarlama metni gerektirdiği için bu turda uygulanmadı. Sahibine:
    hangi sorular ve cevaplar ([issue #1](https://github.com/crimsoninnovate/bozo/issues/1)),
    konumlandırma cümlesi onaylanır mı ([issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
+7. **Performans incelemesi (spike, ayrı görev).** SEMrush'ın 42/100 raporu büyük ölçüde gürültü
+   çıktı (kanıt: `IYILESTIRMELER.md`, bu maddenin altına eklenecek); ama gerçek PageSpeed
+   Insights verisi mobilde LCP'nin 2.5-3.4s bandında (sınırda, "iyi" eşiği 2.5s) ve CLS'in
+   ara sıra 0.1'i aştığını gösterdi (24 Ağustos, iki ayrı ölçüm: 79/93/92/100 ve 96/100/100/100,
+   masaüstü her ikisinde de 100). Amaç kök nedeni bulmak, kör düzeltme yapmamak:
+   - Chrome DevTools Performance panelinde mobil throttling ile ana sayfa kaydı; LCP adayı
+     hangi eleman (hero başlığı mı, kor sahnesi arka planı mı, sosyal kart görseli mi).
+   - Aynı kayıtta "Layout Shift Regions" ile CLS'e katkı yapan öğeyi teşhis et; ilk şüpheliler
+     `CerezOnayi` bandının hydration sonrası geç montajı, `CanliSaat`'in metin genişliği
+     değişimi (`tabular-nums` dijitleri korur ama kelime sayısı değişebilir), font takası.
+   - Kök neden netleşmeden hiçbir CSS/JS değişikliği yapılmasın; bu madde yalnızca teşhis,
+     düzeltme ayrı bir karar.
 
 ## Son turda ne değişti (24 Ağustos, SEO/AEO turu)
 
