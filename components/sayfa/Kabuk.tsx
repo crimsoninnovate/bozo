@@ -3,6 +3,7 @@ import { AltBilgi } from '@/components/layout/AltBilgi'
 import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
+import { breadcrumbJsonLd } from '@/lib/jsonld'
 import type { RotaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
@@ -42,6 +43,12 @@ export function Kabuk({ dil, aktif, children }: Props) {
       <a href={`#${ICERIK_ID}`} className={stil.atla}>
         {s.ortak.erisim.icerigeAtla}
       </a>
+      {!anaSayfaMi && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(aktif, dil)) }}
+        />
+      )}
       <KorSahnesi varyant={anaSayfaMi ? 'ana' : 'ic'} />
       <UstBar dil={dil} aktif={aktif} />
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>
