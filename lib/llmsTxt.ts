@@ -4,8 +4,7 @@ import type { Dil } from '../content/types.ts'
 import { SITE_URL, tumYollar, type RotaAnahtari } from './site.ts'
 
 function rotaEtiketi(s: Sozluk, anahtar: RotaAnahtari): string {
-  const nav = s.ortak.nav as Record<string, string>
-  const etiket = anahtar === 'ana' ? nav.anaSayfa : nav[anahtar]
+  const etiket = anahtar === 'ana' ? s.ortak.nav.anaSayfa : s.ortak.nav[anahtar]
   if (!etiket) throw new Error(`llmsTxt: "${anahtar}" için nav etiketi yok`)
   return etiket
 }
@@ -20,10 +19,8 @@ function rotaSatirlari(dil: Dil): string[] {
 }
 
 /**
- * LLM/answer-engine'lerin siteyi hızlı taraması için olgusal özet (llms.txt kongre,
- * https://llmstxt.org). Elle yazılmaz: `sozluk()`, `tumYollar()` ve `isletme`'den derlenir,
- * tıpkı `app/sitemap.ts`/`app/robots.ts` gibi; bir rota eklenip burası unutulursa dosya
- * sessizce bayatlamaz.
+ * LLM/answer-engine özet dosyası (llms.txt kongre, https://llmstxt.org). Elle yazılmaz:
+ * `sozluk()`/`tumYollar()`/`isletme`'den derlenir, tıpkı `sitemap.ts`/`robots.ts` gibi.
  */
 export function llmsTxt(): string {
   const s = sozluk('tr')
