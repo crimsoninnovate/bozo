@@ -1,17 +1,28 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL, tumYollar } from '@/lib/site'
+import { SITE_URL, tumYollar, type RotaAnahtari } from '@/lib/site'
 
 export const dynamic = 'force-static'
 
+/** Ana sayfa en sık, yasal sayfa en seyrek değişir; sıralama SEO ağırlığını yansıtır. */
+const ONCELIK: Record<RotaAnahtari, { priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }> = {
+  ana: { priority: 1, changeFrequency: 'weekly' },
+  menu: { priority: 0.9, changeFrequency: 'monthly' },
+  galeri: { priority: 0.6, changeFrequency: 'monthly' },
+  konum: { priority: 0.7, changeFrequency: 'yearly' },
+  hikaye: { priority: 0.5, changeFrequency: 'yearly' },
+  gizlilik: { priority: 0.3, changeFrequency: 'yearly' },
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return tumYollar().flatMap(({ tr, en }) => [
-    {
-      url: `${SITE_URL}${tr}`,
-      alternates: { languages: { tr: `${SITE_URL}${tr}`, en: `${SITE_URL}${en}` } },
-    },
-    {
-      url: `${SITE_URL}${en}`,
-      alternates: { languages: { tr: `${SITE_URL}${tr}`, en: `${SITE_URL}${en}` } },
-    },
-  ])
+  const simdi = new Date()
+
+  return tumYollar().flatMap(({ anahtar, tr, en }) => {
+    const { priority, changeFrequency } = ONCELIK[anahtar]
+    const alternates = { languages: { tr: `${SITE_URL}${tr}`, en: `${SITE_URL}${en}` } }
+
+    return [
+      { url: `${SITE_URL}${tr}`, lastModified: simdi, changeFrequency, priority, alternates },
+      { url: `${SITE_URL}${en}`, lastModified: simdi, changeFrequency, priority, alternates },
+    ]
+  })
 }
