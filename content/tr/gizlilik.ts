@@ -13,6 +13,11 @@
  * dayanıldığı açıkça yazılmalı; (12) verinin otomatik yolla mı elde edildiği
  * belirtilmeli; (9) sade dil; (13) eksik veya yanıltıcı bilgi olmamalı.
  *
+ * 24 Ağustos 2026 (2. tur): Kurul'a başvuru yolu (Madde 34) ve saklama ilkesi
+ * (Madde 5(1)(Ç)) Yasa'nın kvkk.gov.ct.tr'deki resmi metninden eklendi, bkz.
+ * IYILESTIRMELER.md. Madde 8 bildirimi ve Madde 11 Transfer Ruhsatı ayrı, kodla
+ * çözülemeyen iki madde: sahibine bildirildi, aynı dosyada.
+ *
  * METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
  */
 export const gizlilik = {
@@ -59,8 +64,10 @@ export const gizlilik = {
 
   saklamaBaslik: 'Ne kadar kalıyor',
   saklamaMetni:
-    'Ölçüm verisi Google Analytics hesabında tutulur ve süresi o hesabın ' +
-    'ayarından belirlenir. Site kendi sunucusunda ziyaretçi verisi saklamaz.',
+    'Yasa\'nın 5\'inci maddesinin (1)\'inci fıkrasının (Ç) bendi, verinin işlenme ' +
+    'amacının gerektirdiğinden uzun tutulmamasını ister. Ölçüm verisi Google ' +
+    'Analytics hesabında tutulur ve süresi o hesabın ayarından belirlenir. Site ' +
+    'kendi sunucusunda ziyaretçi verisi saklamaz.',
 
   haklarBaslik: 'Haklarınız',
   haklarMetni:
@@ -68,7 +75,9 @@ export const gizlilik = {
     'öğrenme ve ona erişme, 15\'inci maddesi ise işlemeye itiraz etme ve verinin ' +
     'düzeltilmesini, silinmesini veya durdurulmasını isteme hakkı verir. Veri ' +
     'vermek zorunda değilsiniz: onay vermemenin siteyi kullanmanıza hiçbir etkisi ' +
-    'yoktur.',
+    'yoktur. Bu haklara ilişkin talebinize otuz gün içinde yanıt gelmez veya yanıt ' +
+    'tatmin edici bulunmazsa, Yasa\'nın 34\'üncü maddesi uyarınca doğrudan Kişisel ' +
+    'Verileri Koruma Kurulu\'na başvurabilirsiniz.',
 
   geriAlmaBaslik: 'Onayı geri almak',
   geriAlmaMetni:

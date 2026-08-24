@@ -2,7 +2,10 @@
  * Information notice, written to KKTC Personal Data Protection Law 89/2007
  * Article 13 and its regulation on fulfilling the information obligation.
  * The Turkish file carries the full reasoning; the mandatory content list is
- * Article 4(2) of that regulation. NOT REVIEWED BY A LAWYER.
+ * Article 4(2) of that regulation. 24 August 2026 (round 2): added the right to
+ * escalate to the Board (Article 34) and the storage-limitation principle
+ * (Article 5(1)(Ç)) from the Law's official text, see IYILESTIRMELER.md.
+ * NOT REVIEWED BY A LAWYER.
  */
 export const gizlilik = {
   baslik: 'Privacy',
@@ -48,8 +51,10 @@ export const gizlilik = {
 
   saklamaBaslik: 'How long it is kept',
   saklamaMetni:
-    'Measurement data is held in the Google Analytics account and its retention ' +
-    'period is set there. The site stores no visitor data on its own server.',
+    'Article 5(1)(Ç) of the Law requires that data not be kept longer than its ' +
+    'processing purpose requires. Measurement data is held in the Google ' +
+    'Analytics account and its retention period is set there. The site stores no ' +
+    'visitor data on its own server.',
 
   haklarBaslik: 'Your rights',
   haklarMetni:
@@ -57,7 +62,9 @@ export const gizlilik = {
     'processed and to access it; Article 15 gives you the right to object to ' +
     'processing and to ask for the data to be corrected, deleted or blocked. You ' +
     'are under no obligation to give data: refusing consent has no effect on your ' +
-    'use of the site.',
+    'use of the site. If you do not receive a reply within thirty days, or the ' +
+    'reply is not satisfactory, Article 34 of the Law lets you apply directly to ' +
+    'the Personal Data Protection Board (Kişisel Verileri Koruma Kurulu).',
 
   geriAlmaBaslik: 'Withdrawing consent',
   geriAlmaMetni:

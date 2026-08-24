@@ -1717,6 +1717,42 @@ karşılamaz.
 **METİN HUKUKÇU ONAYINDAN GEÇMEDİ.** Madde numaraları yasadan birebir alındı ama
 yorumu bir avukat yapmalı.
 
+## 24 Ağustos 2026 (2. tur): gizlilik metni tasarım/içerik/yapı turunda güçlendirildi
+
+Sahibi `/gizlilik/`'i tasarım, içerik ve yapı açısından kontrolden geçirmeyi istedi; içerik
+gözden geçirilirken "hukuki metin yüzeysel kaldı" dedi. Yukarıdaki turun araştırması derindi
+(Madde 6/8/11/13 doğru okunmuştu) ama sayfanın kendi metni o derinliğin hepsini taşımıyordu.
+Yasa ve Tüzüğün resmi PDF'leri (`kvkk.gov.ct.tr`) yeniden okunarak iki gerçek eksik kapatıldı:
+
+- **Kurul'a başvuru yolu eksikti.** "Haklarınız" yalnız işletmeye başvurmayı anlatıyordu.
+  Yasa'nın 34'üncü maddesi ("Şikayet Başvurusu") bireye doğrudan Kurul'a başvurma hakkı
+  veriyor, Kurul 30 gün içinde yazılı cevap vermekle yükümlü; Madde 14(3) ve 15(1)-(2) de
+  aynı 30/15 günlük yanıtsızlık durumunda Kurul'a başvuruyu ayrıca öngörüyor. Tek cümle
+  eklendi: yanıt gelmez veya tatmin etmezse Madde 34 uyarınca Kurul'a başvurulabilir.
+- **Saklama süresi bir ilkeye dayanmıyordu.** "Ne kadar kalıyor" yalnız "Google hesabının
+  ayarı" diyordu, hangi ilkeye göre olması gerektiğini söylemiyordu. Yasa'nın 5'inci
+  maddesinin (1)'inci fıkrasının (Ç) bendi, verinin işlenme amacının gerektirdiğinden uzun
+  tutulmamasını istiyor; cümle metne eklendi. Gerçek GA4 saklama süresi (property ayarı,
+  2/14 ay gibi) bilinmiyor, uydurulmadı: bu, doğrulanacak ayrı bir madde.
+
+**Kontrolör kimliği (Madde 4(2)(A)) yeniden değerlendirildi ve DOKUNULMADI.** Metnin
+"Kontrolör Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC" satırı ilk bakışta eksik
+göründü (tüzel kişilik/vergi no yok), ama Tüzüğün gerçek metni yalnız "kimlik" istiyor,
+sicil numarası şart koşmuyor. `content/isletme.ts`'te zaten tüzel kimlik alanı yok; eklenecek
+bir alan varsa bu sahibinden gelecek bir karar, metin sapması değil.
+
+**Yapıda bir regresyon bulundu ve düzeltildi:** `/gizlilik/`'in kendi alt bilgisi kendine
+`<a href="/gizlilik/">Gizlilik</a>` basıyordu. Bu aynı sorunun ikinci turu: yukarıdaki 70.
+satırda "bağlantı basılmaz" diye kayıtlı bir kural, link 13 Ağustos'ta kaldırılıp 24
+Ağustos'ta geri getirilirken unutulmuştu. `Kabuk`'un zaten taşıdığı `aktif` prop'u
+`AltBilgi`/`AltBilgiTam`/`TelifSeridi` zincirine eklendi, gizlilik rotasında bağlantı artık
+hiç basılmıyor (`TelifSeridi.tsx`). 154/154 test, typecheck ve build temiz.
+
+**Tasarım tarafında yeni bulgu yok:** `.icerik { max-width: 680px }`'in geniş masaüstünde
+sağ yarıyı boş bıraktığı önceki turda zaten bulunmuş ve sahibine sorulmuştu, cevap gelmedi.
+
+**METİN HÂLÂ HUKUKÇU ONAYINDAN GEÇMEDİ.**
+
 ## 24 Ağustos 2026: hikaye portresi ve gece şeridi kalktı
 
 **Portre.** `bozo-portre` kaydından `dosya` satırı düştü (sahibi: "şimdilik kaldıralım").

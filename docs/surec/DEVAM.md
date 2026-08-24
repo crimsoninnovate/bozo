@@ -35,7 +35,12 @@ Son güncelleme: 24 Ağustos 2026
 4. `IYILESTIRMELER.md`'de sahibini bekleyen iki madde: "Yol Tarifi Al" etiketinin sayfa içi
    `#harita` hedefiyle çelişkisi, ve Konum hero'sunun boş sağ yarısı. İkincisinin erteleme
    gerekçesi (yer tutucu levha) artık geçerli değil, karar açılabilir.
-5. Yasal metinler backlogda (sahibinin kararı, C4). Yeniden önerme.
+5. **Gizlilik metni yayında ama hukukçu onayından geçmedi.** 24 Ağustos'ta iki turda
+   yazıldı/güçlendirildi (`IYILESTIRMELER.md` > "KKTC uyumu, araştırılmış hâliyle" ve bugünkü
+   ikinci tur). O turda sahibine iletilen, kodla çözülemeyen iki açık madde hâlâ cevapsız:
+   Madde 8 Başkana Bildirim (kvkk.gov.ct.tr Başkana Bildirim Formu) ve Madde 11 Transfer
+   Ruhsatı (şu an onay yolu Madde 11(2)(A) kullanılıyor, ruhsat ayrı bir seçenek). C4'ün eski
+   "backlogda kalsın" kararı GA4 eklenince (24 Ağustos) geçersiz oldu, madde ona göre güncellendi.
 6. **FAQ/AEO içeriği** (`IYILESTIRMELER.md`, "SSS/answer-block AEO içeriği" ve konumlandırma
    cümlesi maddeleri, Task 9): yapılandırılmış soru-cevap bloğu (`FAQPage`) ve önerilen meta
    açıklama cümlesi ikisi de yeni pazarlama metni gerektirdiği için bu turda uygulanmadı. Sahibine:
