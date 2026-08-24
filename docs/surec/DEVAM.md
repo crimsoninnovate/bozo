@@ -44,10 +44,11 @@ Son güncelleme: 24 Ağustos 2026
 - **On iki rotanın `<title>`/açıklaması genişletildi**, hepsi sitede zaten canlı olan metinden
   kuruldu (`content/*/ortak.ts` > `sayfaMeta`), yeni pazarlama metni uydurulmadı.
 - **İki yeni JSON-LD üreticisi** `lib/jsonld.ts`'e eklendi: `menuJsonLd(dil)` (`Menu` şeması,
-  iki kök layout'ta `restaurantJsonLd`'nin yanında basılıyor) ve `breadcrumbJsonLd(anahtar, dil)`
-  (`BreadcrumbList`, `Kabuk`'ta ana sayfa dışındaki her rotada). İki ana sayfa (tr, en) artık iki,
-  diğer on rota üç `<script type="application/ld+json">` taşıyor: `Restaurant` + `Menu` her
-  sayfada, `BreadcrumbList` yalnız ana sayfa dışındaki on rotada; hepsi geçerli JSON, ölçüldü.
+  `Kabuk`'ta yalnız `/menu` rotasında basılıyor; final review sonrası site geneli değil, bkz.
+  `IYILESTIRMELER.md`) ve `breadcrumbJsonLd(anahtar, dil)` (`BreadcrumbList`, `Kabuk`'ta ana
+  sayfa dışındaki her rotada). İki ana sayfa tek `<script type="application/ld+json">` taşır
+  (`Restaurant`), iki menü sayfası üç (`Restaurant` + `Menu` + `BreadcrumbList`), diğer sekiz
+  rota iki (`Restaurant` + `BreadcrumbList`); hepsi geçerli JSON, ölçüldü.
 - **`app/sitemap.ts` her URL'i `lastModified`/`changeFrequency`/`priority` ile damgalıyor.**
 - **`lib/llmsTxt.ts`**, yapay zeka/cevap motoru tarayıcıları için build zamanında bir olgu özeti
   üretiyor; `/llms.txt`'te (`app/llms.txt/route.ts`) yayında, okunur metin ve işlevsel linklerle.
