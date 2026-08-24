@@ -82,8 +82,11 @@ Aynı ilke, `sayfaMeta.{anahtar}.aciklama` güncellenir.
 
 `menu` açıklaması `menu.acilis.spot`'taki "bir özel" bilgisini de taşıyor; onun dışında her
 cümle mevcut `sayfaMeta.aciklama`'nın üstüne, sözlükte zaten var olan başka alanlar eklenerek
-uzatıldı. `icerik.test.ts` bu alanlara referans veren testleri güncellenmiş metinle karşılaştıracak
-şekilde güncellenir.
+uzatıldı. `lib/metadata.test.ts` sözlük değerini birebir karşılaştırdığı için (bkz.
+`sayfaMetadata_tumRotalarda_sozlukBasligiVeAciklamasiniTasir`) kendiliğinden geçer; `galeri` ve
+`menu` açıklamaları sırasıyla "on altı"/"Sixteen" ve "sekiz"/"eight" alt dizisini taşımaya devam
+ettiğinden `content/icerik.test.ts`'in sayı-tutarlılık testleri de değişmeden geçer. Hiçbir test
+dosyası bu görev için değiştirilmez.
 
 ## 5. JSON-LD: Menu şeması
 
@@ -92,8 +95,11 @@ mevcut, test edilmiş fonksiyona dokunulmaz. Bunun yerine `lib/jsonld.ts`'e yeni
 fonksiyon eklenir:
 
 ```ts
-export function menuJsonLd(dil: Dil, isletmeVerisi: Isletme = isletme): object
+export function menuJsonLd(dil: Dil): object
 ```
+
+(`isletmeVerisi` parametresi yok: fonksiyon yalnız ürün/fiyat verisiyle çalışıyor, işletme
+kimliğine hiç dokunmuyor — `restaurantJsonLd()`'nin test-override deseni burada gereksiz.)
 
 Kaynak veri `content/urunler.ts` `menuUrunler` (altı kalem: beş ana ürün + `bozo-karisik`) ve
 `ozelUrun`; ürün adları `content/{tr,en}/menu.ts` `ocakbasi.urunler.{id}.ad` /
