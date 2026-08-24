@@ -9,6 +9,14 @@ Son koşum: 12 Ağustos 2026, kontrol turu. Ölçen: kendi Chromium örneği (pl
 Ölçüm genişlikleri 1440x900 ve 390x844. **Rota sayısı 12** (galeri dahil), artı
 `404.html`.
 
+> **24 Ağustos 2026 notu.** Aşağıdaki tablolar 12 Ağustos koşumunun sonucudur ve o günün
+> kaydı olarak korunuyor; satırları geriye dönük düzeltilmiyor. O tarihten sonra değişen
+> işletme verisi: 7.5 e-posta (`bozo@cigercibozo.com`, 24 Ağu), 7.6 harita koordinatı
+> (`35.3370065, 33.3057253` + posta kodu `99300`, 24 Ağu; yol tarifi artık adres araması
+> değil gerçek rota), 7.1 ocak fiyatları (13 Ağu), 7.2/7.3 telefon ve WhatsApp, 7.4
+> Instagram (12 Ağu). 7.12'deki logo satırı da geçersiz: rozet birincil marka oldu ve alt
+> bilgi 24 Ağustos'ta sahibinin kelime markasını aldı. Güncel durum `docs/surec/DEVAM.md`.
+
 ## Nasıl koşulur
 
 ```bash

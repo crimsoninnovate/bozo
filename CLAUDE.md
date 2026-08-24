@@ -21,7 +21,8 @@ npm run preview    # serve the out/ export locally
 
 - App Router, `output: 'export'`. No server runtime after build; the site is plain static files
   served from a Plesk document root on the arc server. Server behaviour that the site needs
-  (designed 404, `noindex` header) is in `public/.htaccess`, which the build copies into `out/`.
+  (the designed 404) is in `public/.htaccess`, which the build copies into `out/`. The
+  `noindex` header that used to live there was deleted on 24 August 2026; the site is indexed.
 - **Two root layouts, no root `app/layout.tsx`.** `app/(tr)/layout.tsx` renders `<html lang="tr">`
   and keeps Turkish routes at the site root. `app/(en)/layout.tsx` renders `<html lang="en">` and
   nests English routes under `en/`. A root `app/layout.tsx` breaks this: do not add one.
@@ -82,17 +83,23 @@ is hardcoded anywhere outside them.
 
 | Token | Bordo (active, owner's decision 21 Aug 2026) | Siyah (kept, switchable) |
 |---|---|---|
-| `--zemin` page ground | `#2E110F` | `#0B0F0F` |
-| `--komur` charcoal | `#3A1815` | `#131817` |
-| `--plaka-zemin` menu plates | `#351512` | `#0F1413` |
-| `--gece` Gece section only | `#240C0A` | `#070A0A` |
-| `--kor` ember | `#C13029` | `#AD2624` |
-| `--kor-hover` | `#A82822` | `#8E1D1C` |
+| `--zemin` page ground | `#230D0B` | `#0B0F0F` |
+| `--komur` charcoal | `#2C1210` | `#131817` |
+| `--plaka-zemin` menu plates | `#28100E` | `#0F1413` |
+| `--gece` Gece section only | `#1B0908` | `#070A0A` |
+| `--kor` ember | `#B82B27` | `#AD2624` |
+| `--kor-hover` | `#A02420` | `#8E1D1C` |
 
 The bordo ground replaced the black one because the black measured cold (R−B −4, the wrong
 direction for a fire brand) and its contrast was 16.20:1, over twice AAA and past the halation
-threshold. Ember was brightened one step with it: `#AD2624` fell to 2.56:1 on bordo, so the
-button stopped separating from the page.
+threshold. Ember was brightened one step with it: `#AD2624` measured 2.56:1 on the first bordo,
+so the button stopped separating from the page.
+
+**The whole ground family went two steps darker on 23 August 2026** (owner: "a bit too light").
+One multiplier, inner ratios kept, ember untouched: darkening the ground raises the button's
+separation on its own, measured 2.84:1 to 3.01:1. Cream text now measures 15.56:1 on `--zemin`,
+14.69:1 on `--komur`, 15.07:1 on `--plaka-zemin`, and exactly 16.20:1 on `--gece`, which is the
+halation level the black ground was rejected at: one section, deliberately the darkest surface.
 
 - Ground-independent, identical in both palettes, in `styles/tokens.css`: cream text `#F9E9D5`
   with its alpha ladder, the `--cizgi*` line family, copper (bakır) `#D19E66` with light
@@ -100,9 +107,9 @@ button stopped separating from the page.
 - Nar, pumpkin and oak were deleted on 20 August 2026: no consumers, and the palette no longer
   goes outside the logo. Do not reintroduce them.
 - Ember is never body text on any surface, and under 3:1 it cannot carry a graphic element on
-  its own either. As a button fill it is valid: cream on it measures 4.74:1 on bordo (AA), and
-  the fill separates from the ground at 3.09:1. Copper and ember never sit side by side in a
-  large area.
+  its own either. As a button fill it is valid: cream on it measures 5.17:1 on bordo (AA), and
+  the fill separates from the ground at 3.01:1, which clears the 3:1 floor by very little.
+  Copper and ember never sit side by side in a large area.
 - **Third-party marks are the one exception to the closed list** (owner's decision, 18 August
   2026, for recognition): the WhatsApp glyph is WhatsApp green and the Instagram glyph carries
   Instagram's gradient, tokens `--marka-*` in `styles/tokens.css`, applied only inside

@@ -6,6 +6,11 @@ duman testi. Sunucu yapılandırmasının kendisi burada tekrarlanmaz, tek kayna
 
 Son güncelleme: 12 Ağustos 2026.
 
+> **24 Ağustos 2026 notu.** Site yayında ve arama motorlarına açık, yani bu listenin
+> "yayına çıkmadan önce" kısmı kapandı. Madde 4'ün "e-posta, koordinat ve posta kodu hâlâ
+> null" tespiti de geçersiz: üçü de geldi, `content/isletme.ts`'te artık null alan yok.
+> Uydurulmuş veri olmama kuralı geçerliliğini koruyor. Güncel durum `docs/surec/DEVAM.md`.
+
 ## Bugünkü zemin
 
 `npm run build` temiz, 15 HTML dosyası, `out/` 3.2 MB. 99 test geçiyor, typecheck

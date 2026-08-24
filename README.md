@@ -78,7 +78,8 @@ document root `/var/www/vhosts/cigercibozo.com/httpdocs`. `trailingSlash: true` 
 `next.config.ts` is required for this: it makes `/menu` resolve to `menu/index.html` instead of
 a bare file the server cannot find.
 
-Production domain: `https://cigercibozo.com`, still a test publication. DNS is at Cloudflare and
+Production domain: `https://cigercibozo.com`, **live and open to search engines since
+24 August 2026**. DNS is at Cloudflare and
 the apex is **proxied** (measured 20 August 2026: `server: cloudflare`, `cf-ray`,
 `cf-cache-status`). `www` and apex both resolve onto the arc IP. The certificate is Let's Encrypt.
 
@@ -117,9 +118,17 @@ own `755` onto it, hence the `chmod`.
 Verify after every deploy:
 
 ```bash
-ssh plesk-206 'plesk repair fs cigercibozo.com -n'   # expect: [OK], 0 errors
-curl -sI https://cigercibozo.com/ | grep -i x-robots-tag   # expect: noindex while in test
+ssh plesk-206 'plesk repair fs cigercibozo.com -n'          # expect: [OK], 0 errors
+curl -sI https://cigercibozo.com/ | grep -ci x-robots-tag   # expect: 0, the site is indexed
+rsync -az --delete --checksum --dry-run --itemize-changes \
+  out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/  # expect: no file lines
 ```
+
+That last line is the only honest "is the deploy complete" check. A plain dry-run is not:
+`rsync` compares mtime by default, and a clean rebuild resets every timestamp, so it reports
+changes that are not there. `--checksum` compares content. Note also that a clean rebuild
+mints a new Next build ID, which every HTML file embeds in its asset paths: after a
+`rm -rf out && npm run build` all twelve routes genuinely differ even when nothing changed.
 
 ### Server behaviour lives in `public/.htaccess`
 
@@ -128,11 +137,9 @@ has to do are versioned with the site instead of living only on the box:
 
 - `ErrorDocument 404 /404.html`, so the designed 404 page (`app/global-not-found.tsx`) reaches a
   visitor. Without it Plesk answers with its own `error_docs/not_found.html`.
-- `X-Robots-Tag: noindex, nofollow` while this is a test publication. `robots.txt` deliberately
-  still allows crawling, so a crawler can reach the page and read the header.
-
-**Opening day is one line:** delete the `Header always set X-Robots-Tag` line from
-`public/.htaccess`, then build and deploy.
+The `X-Robots-Tag: noindex, nofollow` line that used to sit here was deleted on 24 August 2026
+(commit `290052f`), which is what opened the site to search engines. `robots.txt` already said
+`Allow: /`, so removing the header was the whole of it. Do not add it back without a reason.
 
 ### Two settings that live in Plesk, not in the repo
 
