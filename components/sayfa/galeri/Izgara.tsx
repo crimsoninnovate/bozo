@@ -15,17 +15,16 @@ type Props = { dil: Dil }
  * fotoğrafın okunacağı ölçü değil. `kart` (clamp(240px,30vh,300px)) sitenin
  * fotoğraf taşıyan en küçük plakası, Menu:126.
  *
- * Tembel yükleme: `dosya` dolduğunda `FotoYuvasi` `next/image`'a geçer ve
- * `priority` verilmediği için yükleme `lazy` olur. Bugün yüklenecek bir şey yok,
- * yani bu yol ölçülmedi.
+ * İlk kare her genişlikte ekranın üstünde ve LCP öğesi: tembel yüklenince mobil
+ * LCP 3,2-3,4 sn ölçüldü (8 Ekim 2026). Diğerleri tembel kalır.
  */
 export function Izgara({ dil }: Props) {
   const kadrajlar = Object.keys(fotograflar) as FotoId[]
 
   return (
     <div className={stil.izgara}>
-      {kadrajlar.map((id) => (
-        <FotoYuvasi key={id} id={id} dil={dil} bicim="kart" etiketGoster />
+      {kadrajlar.map((id, i) => (
+        <FotoYuvasi key={id} id={id} dil={dil} bicim="kart" etiketGoster oncelikli={i === 0} />
       ))}
     </div>
   )

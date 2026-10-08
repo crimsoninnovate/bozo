@@ -91,6 +91,8 @@ type Props = {
    * değerini geçer, yoksa 780px'lik aday indiriliyor.
    */
   sizes?: string
+  /** Ekranın üstündeki LCP karesi: tembel değil, hemen ve yüksek öncelikle yüklenir. */
+  oncelikli?: boolean
   children?: React.ReactNode
 }
 
@@ -109,6 +111,7 @@ export function FotoYuvasi({
   etiketGoster = false,
   bosMobildeGizli = false,
   sizes = '(max-width: 1040px) 100vw, 50vw',
+  oncelikli = false,
   children,
 }: Props) {
   const foto = fotograflar[id]
@@ -124,6 +127,8 @@ export function FotoYuvasi({
           fill
           className={stil.gorsel}
           sizes={sizes}
+          loading={oncelikli ? 'eager' : undefined}
+          fetchPriority={oncelikli ? 'high' : undefined}
           style={odak ? { objectPosition: odak } : undefined}
         />
         {children}
