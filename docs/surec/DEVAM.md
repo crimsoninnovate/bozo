@@ -19,6 +19,11 @@ Son güncelleme: 8 Ekim 2026
 - **Üçüncü 8 Ekim deploy'u:** `b99247c` çerez bandı metni kısaldı (`IYILESTIRMELER.md` >
   "çerez bandı metni kısaldı"). `plesk repair fs` 0 hata, `--checksum` 0 içerik farkı, on iki
   rota 200, canlı bantta yeni metin ve düğmeler, onaysız GA yok. 166 test.
+- **Dördüncü 8 Ekim deploy'u:** `43d357c` rozet gölgesi ayrı katmanda (canlı mobil LCP üç soğuk
+  ölçümde 2528/2568/2860 ms, LCP = FCP, önce 2906) ve `8dcbfaa` site artık "Uygulamayı yükle"
+  önermiyor (manifest `display: browser`, `mobile-web-app-capable` yok). Checksum 0 fark.
+- **Yayında değil:** `67ab32e` çekmecenin durum alt metni kalktı (yeni kural: masaüstünde
+  olmayan içerik mobilde olmaz, `KISITLAR.md`). 167 test, build temiz.
 - Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
   `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
   0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
@@ -56,7 +61,7 @@ Son güncelleme: 8 Ekim 2026
    açıklama cümlesi ikisi de yeni pazarlama metni gerektirdiği için bu turda uygulanmadı. Sahibine:
    hangi sorular ve cevaplar ([issue #1](https://github.com/crimsoninnovate/bozo/issues/1)),
    konumlandırma cümlesi onaylanır mı ([issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
-7. **Performans teşhisi yapıldı (8 Ekim 2026), düzeltme kararı bekliyor**
+7. **Performans teşhisi yapıldı (8 Ekim 2026); aday 1 (rozet gölgesi) uygulandı, 2-5 karar bekliyor**
    (`IYILESTIRMELER.md` > "mobil performans teşhisi"). Mobil kısıtlı soğuk yüklemede ana
    sayfa LCP 2906 ms: LCP öğesi üst bardaki rozet, yalnız `drop-shadow`'u alanını şişirdiği
    için (filtre kapalıyken LCP = FCP = 2572 ms). FCP'yi 92 KB'lık ana CSS belirliyor; aynı
