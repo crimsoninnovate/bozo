@@ -3,6 +3,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   align-content: start;
   min-height: 100dvh;
@@ -14,10 +15,78 @@
   padding-top: 12px;
 }
 
-/* Telefonda tam genişlik, masaüstünde 560px'lik tek sütun; cam panel sahanın zemini. */
+/* Çevre ışığı: girişte ve sonuçta rozetin arkasında kor radyali (handoff 1a/1c), oyunda
+   masaüstü panelin çevresinde 1100 px radyal ve vinyet (handoff 1b 1440). */
+.cevre {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cevre::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: var(--bar-boy);
+  width: 560px;
+  height: 560px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--kor) 30%, transparent),
+    color-mix(in srgb, var(--kor) 10%, transparent) 38%,
+    transparent 66%
+  );
+}
+
+.sayfa[data-ekran='oyun'] .cevre::before {
+  top: 50%;
+  width: 1100px;
+  height: 1100px;
+  transform: translate(-50%, -40%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--kor) 26%, transparent),
+    color-mix(in srgb, var(--kor) 8%, transparent) 40%,
+    transparent 66%
+  );
+}
+
+.sayfa[data-ekran='oyun'] .cevre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 90% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5));
+}
+
+/* Telefonda tam genişlik; masaüstünde oyun 420 px dikey panel, giriş iki sütun, sonuç tek sütun. */
 .ekran {
   width: 100%;
   max-width: 560px;
+}
+
+.ekran[data-ekran='giris'] {
+  max-width: var(--panel-en);
+}
+
+.ekran[data-ekran='oyun'] {
+  max-width: 420px;
+}
+
+@media (min-width: 1041px) {
+  .sayfa[data-ekran='giris'] .cevre::before {
+    top: 160px;
+    width: 900px;
+    height: 900px;
+  }
+
+  .ekran[data-ekran='oyun'] {
+    box-shadow:
+      0 40px 120px rgba(0, 0, 0, 0.6),
+      0 0 0 1px var(--cizgi-kart);
+  }
 }
 
 .panel {

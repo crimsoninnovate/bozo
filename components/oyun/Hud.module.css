@@ -1,0 +1,192 @@
+/* HUD paneli (handoff 50): yarı saydam zemin, ince kenar, gölge; iç pay 8/10/6. */
+.hud {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 10px 6px;
+  border: 1px solid var(--cizgi-soluk);
+  background: var(--panel-acik);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Saat rayı: 2 px zemin, 9 çizgi, dolum ve imleç `--oran` ile; son saatte bakırlaşır. */
+.ray {
+  position: relative;
+  display: block;
+  height: 14px;
+  margin-right: 16px;
+}
+
+.ray::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  height: 2px;
+  background: var(--krem-13);
+}
+
+.cizgi {
+  position: absolute;
+  top: 3px;
+  width: 1px;
+  height: 8px;
+  background: var(--cizgi-guclu);
+}
+
+.dolum {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(var(--oran, 0));
+  background: var(--krem-50);
+  transition: background var(--gecis-yogunluk);
+}
+
+:global([data-evre='4']) .dolum {
+  background: var(--bakir);
+}
+
+.imlec {
+  position: absolute;
+  left: calc(var(--oran, 0) * 100% - 1px);
+  top: 2px;
+  width: 2px;
+  height: 10px;
+  background: var(--bakir-acik);
+  box-shadow: 0 0 6px var(--bakir-acik);
+}
+
+.rayUcu {
+  position: absolute;
+  right: -18px;
+  top: -5px;
+  width: 24px;
+  height: 24px;
+  color: var(--krem-50);
+}
+
+.govde {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.saat,
+.puan {
+  font: 400 20px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.saat {
+  color: var(--krem);
+}
+
+.puan {
+  min-width: 5.2ch;
+  color: var(--bakir-acik);
+}
+
+.ayirici {
+  width: 1px;
+  height: 16px;
+  background: var(--cizgi-meta);
+}
+
+/* ×2: yalnız son saat çarpanı (evre 5, `data-evre='4'`). Telefonda duyuru satırının sağında. */
+.carpan {
+  display: none;
+  grid-row: 2;
+  grid-column: 7 / 9;
+  justify-self: end;
+  padding: 4px 6px;
+  background: var(--bakir-acik);
+  font: 400 13px/1 var(--font-baslik);
+  color: var(--zemin);
+}
+
+:global([data-evre='4']) .carpan {
+  display: inline-block;
+}
+
+.kombo,
+.porsiyon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 32px;
+  font: 400 13px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-50);
+}
+
+.kombo[data-carpan]:not([data-carpan='1']) {
+  color: var(--zemin);
+}
+
+.kombo > span {
+  position: relative;
+}
+
+/* Porsiyon rozeti akışta yer tutmaz: kombonun sağına biner, `tepkiler.ts` basar. */
+.porsiyon {
+  position: absolute;
+  left: calc(50% - 19px);
+  top: 0;
+  color: var(--zemin);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bosluk {
+  min-width: 0;
+}
+
+.dugme {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--krem-74);
+}
+
+@media (max-width: 359px) {
+  .govde { gap: 8px 4px; }
+  .saat, .puan { font-size: 17px; }
+}
+
+@media (min-width: 1041px) {
+  .carpan { grid-row: auto; grid-column: auto; }
+  .duyuru { grid-column: 1 / -1; }
+}
+
+.dugme[aria-pressed='true'] {
+  color: var(--bakir-acik);
+}
+
+/* Duyuru satırı görünür (K7); canlı bölge aynı öğe. */
+.duyuru {
+  grid-row: 2;
+  grid-column: 1 / 7;
+  min-height: 16px;
+  margin: 0;
+  font: 500 13px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}

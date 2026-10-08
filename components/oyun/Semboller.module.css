@@ -1,125 +1,25 @@
-/* Sembollerin kendi renkleri; konum ve ölçü çağıran modülde. Yalnız token. */
-
-.plaka {
+/* HUD rozetleri; konum çağıran modülde. */
+.altigen {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.plakaZemin {
-  fill: var(--komur);
-  stroke: var(--cizgi-guclu);
-  stroke-width: 0.6;
+.altigenDolgu {
+  fill: rgba(0, 0, 0, 0.3);
+  stroke: var(--cizgi-buton);
+  transition:
+    fill var(--gecis-orta),
+    stroke var(--gecis-orta);
 }
 
-.plakaIc {
-  fill: none;
-  stroke: var(--cizgi-soluk);
-  stroke-width: 0.5;
+/* Çarpan 2+ pirinç. */
+:global([data-carpan]:not([data-carpan='1'])) .altigenDolgu {
+  fill: url(#gBrass);
+  stroke: #E2C275;
 }
 
-/* Halka `--oran` kadar dolu: pathLength 100, ofset kalan pay. Üstten başlar. */
-.halka {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.halka circle {
-  fill: none;
-  stroke: var(--kor-60);
-  stroke-width: 2.4;
-  stroke-dasharray: 100;
-  stroke-dashoffset: calc((1 - var(--oran, 1)) * 100);
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-.sis {
-  display: block;
-  height: 100%;
-  width: auto;
-  overflow: visible;
-}
-
-.govde {
-  fill: currentColor;
-}
-
-.govde circle {
-  fill: none;
-  stroke: currentColor;
-}
-
-/* Kuyruk yağı: çiğde de pişmişte de bir ton açık kalsın. */
-.yag {
-  opacity: 0.8;
-}
-
-/* Üç katman aynı biçim: krem altta, bakır `--pisme`, kömür `--yanma` kadar üstte. */
-.cig {
-  fill: var(--krem);
-}
-
-.pismis {
-  fill: var(--bakir);
-  opacity: var(--pisme, 0);
-}
-
-.komur {
-  fill: var(--komur);
-  opacity: calc(var(--yanma, 0) * 0.8);
-}
-
-/* Yanık: kömür dolgu, krem kontur (spec §13); kontur renkten bağımsız okunur. */
-.yanik {
-  fill: var(--komur);
-  stroke: var(--krem-50);
-  stroke-width: 0.5;
-}
-
-.yatak {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 26px;
-}
-
-.koz {
-  fill: var(--kor);
-  opacity: 0.7;
-}
-
-.kozSicak {
-  fill: var(--bakir);
-  opacity: 0.85;
-}
-
-/* Maşrapa dolumu alttan yükselir; `fill-box` olmadan ölçek viewBox'ın köşesinden alınır. */
-.dolum {
-  transform: scaleY(var(--oran, 0));
-  transform-origin: bottom;
-  transform-box: fill-box;
-}
-
-.dolu {
-  opacity: 0.85;
-}
-
-.rozet {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.2;
-}
-
-.hale {
-  opacity: 0.5;
+.korCekirdek {
+  filter: drop-shadow(0 0 4px #FF7A1A);
 }

@@ -143,9 +143,9 @@ function porsiyonRozeti(alan: HTMLElement, azalt: boolean): void {
   alan.querySelector('[data-rozet="porsiyon"]')?.animate(kareler, { duration: 1800, easing: EGRI })
 }
 
-/** Son saat: sahne `--gece`ye geçer; iki modda da opaklık, yani azaltılmışta aynı. */
+/** Son saat: sahne `--gece`ye geçer, 900 ms; iki modda da opaklık, yani azaltılmışta aynı. */
 function sonSaat(alan: HTMLElement): void {
-  const secenek: KeyframeAnimationOptions = { duration: 1200, easing: 'ease-out', fill: 'forwards' }
+  const secenek: KeyframeAnimationOptions = { duration: 900, easing: 'ease-out', fill: 'forwards' }
   alan.querySelector('[data-gece]')?.animate(opaklik(0, 1), secenek)
 }
 

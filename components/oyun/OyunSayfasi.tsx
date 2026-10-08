@@ -10,7 +10,7 @@ import { KatilimEkrani } from './KatilimEkrani'
 import { Saha } from './Saha'
 import { SonucEkrani } from './SonucEkrani'
 import { useOdakModu } from './useOdakModu'
-import { useOyunAkisi } from './useOyunAkisi'
+import { useOyunAkisi, type Ekran } from './useOyunAkisi'
 import stil from './OyunSayfasi.module.css'
 
 /** Ekran geçişi (spec §12): Motion yalnız burada ve sonuç satırlarında; `reducedMotion="user"` kaymayı keser,
@@ -22,13 +22,18 @@ const EKRAN = {
   transition: { duration: 0.25, ease: 'easeOut' as const },
 }
 
-/** `AnimatePresence`'ın doğrudan çocuğu: anahtarlı Motion sarmalı ve cam panel. */
-function panel(anahtar: string, dolgu: 'orta' | 'yok', icerik: ReactNode) {
+/** `AnimatePresence`'ın doğrudan çocuğu: anahtarlı Motion sarmalı. Giriş, oyun ve sonuç `--zemin` üstünde
+ *  düz akar (K8); yalnız katılım cam panelde kalır. */
+function ekran(anahtar: string, tur: Ekran, icerik: ReactNode) {
   return (
-    <m.div key={anahtar} className={stil.ekran} {...EKRAN}>
-      <CamPanel opaklik={0.74} bulanik={false} dolgu={dolgu} className={stil.panel}>
-        {icerik}
-      </CamPanel>
+    <m.div key={anahtar} className={stil.ekran} data-ekran={tur} {...EKRAN}>
+      {tur === 'katilim' ? (
+        <CamPanel opaklik={0.74} bulanik={false} dolgu="orta" className={stil.panel}>
+          {icerik}
+        </CamPanel>
+      ) : (
+        icerik
+      )}
     </m.div>
   )
 }
@@ -42,23 +47,24 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
   return (
     <MotionConfig reducedMotion="user">
       <LazyMotion features={domAnimation} strict>
-        <div className={stil.sayfa}>
+        <div className={stil.sayfa} data-ekran={akis.ekran}>
+          <span className={stil.cevre} aria-hidden="true" />
           {akis.ekran !== 'giris' && <h1 className={stil.gizliBaslik}>{s.oyun.baslik}</h1>}
           <AnimatePresence mode="wait" initial={false}>
             {akis.ekran === 'giris' &&
-              panel('giris', 'orta', <GirisEkrani dil={dil} basla={akis.basla} bekliyor={akis.bekliyor} />)}
+              ekran('giris', 'giris', <GirisEkrani dil={dil} basla={akis.basla} bekliyor={akis.bekliyor} />)}
             {akis.ekran === 'oyun' &&
               tur &&
-              panel(
+              ekran(
                 `oyun-${tur.tohum}`,
-                'yok',
+                'oyun',
                 <Saha dil={dil} tohum={tur.tohum} ipucu={tur.ipucu} bitince={akis.bitir} cik={akis.cik} />,
               )}
             {akis.ekran === 'sonuc' &&
               son &&
-              panel(
+              ekran(
                 'sonuc',
-                'orta',
+                'sonuc',
                 <SonucEkrani
                   dil={dil}
                   sonuc={son.sonuc}
@@ -71,7 +77,7 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
                 />,
               )}
             {akis.ekran === 'katilim' &&
-              panel('katilim', 'orta', <KatilimEkrani dil={dil} kaydet={akis.kaydet} vazgec={akis.vazgec} />)}
+              ekran('katilim', 'katilim', <KatilimEkrani dil={dil} kaydet={akis.kaydet} vazgec={akis.vazgec} />)}
           </AnimatePresence>
         </div>
       </LazyMotion>
