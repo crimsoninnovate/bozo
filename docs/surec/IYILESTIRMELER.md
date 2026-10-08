@@ -2386,5 +2386,8 @@ katmanı token. `CLAUDE.md` > Colors'a ikinci istisna olarak yazıldı.
   düz sahnesi aynı düzenekte p95 17,8 idi. 17,5 kapısı lafzen 0,5 ms kaçtı, ama p50 vsync'te
   (16,7) ve 6x'te bile kare düşmedi: fark vsync titreşimi, boyalı sahne maliyet eklemedi.
   K10 basamakları uygulanmadı. Gerçek cihaz ölçümü yapılmadı.
-- Pikselden etiket kontrastı **henüz ölçülmedi**.
+- Etiket kontrastı (390 px, pikselden, zemin medyanı): bölüm etiketi 5,52:1 (en açık zemin
+  pikselinde 4,77), duyuru 7,98, raf adı 8,87 (en açık 8,56). Hepsi AA üstü; düzeltme gerekmedi.
+- Kare süresi, refine turu 1 sonrası (alev, duman, titreme, yeni ürünler): CPU 4x p95 17,4 ms,
+  25 ms üstü 0, uzun görev 0; kapı (17,5) tutuyor.
 - Handoff karşılaştırması: kare kare tur yapılmadı; kareler `/tmp/bozo-oyun/sahne/ng/`.
