@@ -105,10 +105,17 @@ kez daha. Sonraki turlarda ipucu yoktur. Tek yazı: raf etiketleri ve rakamlar.
 | Evre | Saat | Tik | En çok sofra | Ocak | Misafir aralığı | Fiş boyu | Yeni | Ciğer pişme | Alma penceresi | Tam kıvam bandı | Sabır |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | 21-22 | 0-900 | 1→2 | 3 | yönlendirmeli | 1-2 | Ciğer, Ayran | 4,0 sn | 2,0 sn | 500 ms | 30 sn |
-| 2 | 22-00 | 900-2700 | 2 | 3 | 8 sn | 1-2 | Dalak | 3,5 sn | 1,8 sn | 450 ms | 26 sn |
-| 3 | 00-02 | 2700-4500 | 3 | 4 | 6 sn | 2-3 | Yürek | 3,0 sn | 1,6 sn | 400 ms | 22 sn |
-| 4 | 02-04 | 4500-6300 | 4 | 4 | 4,5 sn | 2-3 | Bozo Karışık | 2,6 sn | 1,4 sn | 350 ms | 18 sn |
-| 5 son saat | 04-05 | 6300-7200 | 4 | 4 | 3,5 sn | 2-4 | puan ×2 | 2,2 sn | 1,2 sn | 300 ms | 15 sn |
+| 2 | 22-00 | 900-2700 | 2 | 3 | 7 sn | 1-2 | Dalak | 3,5 sn | 1,8 sn | 450 ms | 22 sn |
+| 3 | 00-02 | 2700-4500 | 3 | 4 | 5 sn | 2-3 | Yürek | 3,0 sn | 1,6 sn | 400 ms | 18 sn |
+| 4 | 02-04 | 4500-6300 | 4 | 4 | 3,75 sn | 2-3 | Bozo Karışık | 2,6 sn | 1,4 sn | 350 ms | 15 sn |
+| 5 son saat | 04-05 | 6300-7200 | 4 | 4 | 2,33 sn | 3-4 | puan ×2 | 2,2 sn | 1,2 sn | 300 ms | 13 sn |
+
+**Ölçümle ayar (8 Ekim 2026, plan 1 Görev 5).** İlk tabloyu otomatik oyuncularla 200 tohumda
+oynattık: saniyede 1,5 dokunan sıradan oyuncu gecelerin %97'sini tamamlıyordu, baskı yoktu.
+Sabır kısaldı, misafir sıklaştı, gece 21'den 24 misafire çıktı. Şimdi saniyede 4 dokunan kusursuz
+usta %100, 2,5 dokunan çevirmeyen acemi %99,5, sıradan oyuncu %0 tamamlıyor; sıradanın gecesi
+ortalama 03:50'de bitiyor. Son evrenin aralığı son misafiri 05:00'ten en az 6 sn önce getirir.
+`lib/oyun/motor.test.ts` > `zorlukBandi` bu bandı tutar; kaba prototip testi insanla yeniden ayarlar.
 
 Tezgah 4 yuva. Bozo Karışık fişi ciğer, dalak ve yürek şişini birlikte ister. Raf düğmesi
 ürünün evresi başlayınca belirir; ayran istasyonu dolarken dokunma etkisizdir.
@@ -212,8 +219,8 @@ oynayan arkadaş. Ödül küçük ve yüz yüze; ötesi oyunun değerini aşar.
 `/oyun/?k=sofra`, Instagram `/oyun/?k=ig`.
 
 **Simülasyon çekirdeği** `lib/oyun/`: saf TypeScript, DOM ve saat yok. Tek giriş
-`simule(tohum, girdiler) -> { puan, ozet, olaylar, bitti }`, ayrıca adım adım ilerleten bir
-durum makinesi (oyun ekranı ve izleyici kullanır). 32 bit tohumlu PRNG, sabit tik, bütün
+`simule(tohum, girdiler) -> { puan, ozet, bitti, tik }`, ayrıca adım adım ilerleten
+`ilerle(oyun, hedefler)`; olayları o döner (oyun ekranı ve izleyici kullanır). 32 bit tohumlu PRNG, sabit tik, bütün
 durum tamsayı. Aynı dosyalar tarayıcıda ve sunucuda çalışır.
 
 **Oyun ekranı** `components/oyun/`: DOM + SVG. React yapıyı yalnız yeni sofra veya şiş
