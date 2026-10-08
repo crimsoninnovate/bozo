@@ -6,11 +6,22 @@ import { adimSayisi } from '@/lib/oyun/zamanlayici'
 
 type Secenek = {
   tohum: number
-  /** Her karede sürekli değerleri (ray, sabır, saat, puan) DOM'a yazar. */
-  ciz: (oyun: Oyun) => void
+  /** Her karede çağrılır; `ilerledi` false ise bu karede tik olmadı (120 Hz ekran), DOM yazımı atlanır. */
+  ciz: (oyun: Oyun, ilerledi: boolean) => void
   /** Karede olan olaylar; anlık tepkiler için. */
   tepki: (olaylar: Olay[]) => void
   bitince: (sonuc: Sonuc) => void
+}
+
+/** Sekme arka plana geçince oyun duraklar; otomatik başlama yok (spec §15). Setter sabit, abonelik bir kez. */
+function useGizleninceDuraklat(setDuraklatildi: (durum: boolean) => void): void {
+  useEffect(() => {
+    const gizlenince = () => {
+      if (document.hidden) setDuraklatildi(true)
+    }
+    document.addEventListener('visibilitychange', gizlenince)
+    return () => document.removeEventListener('visibilitychange', gizlenince)
+  }, [setDuraklatildi])
 }
 
 /**
@@ -22,12 +33,12 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
   const [goruntu, setGoruntu] = useState(() => goruntuAl(canli.oyun))
   const [duraklatildi, setDuraklatildi] = useState(false)
 
-  const kareSonu = useEffectEvent((olaylar: Olay[]) => {
+  const kareSonu = useEffectEvent((olaylar: Olay[], adim: number) => {
     if (olaylar.length > 0) {
       setGoruntu(goruntuAl(canli.oyun))
       tepki(olaylar)
     }
-    ciz(canli.oyun)
+    ciz(canli.oyun, adim > 0)
     const bitti = canli.oyun.bitti
     if (bitti) bitince({ puan: canli.oyun.puan, ozet: { ...canli.oyun.ozet }, bitti, tik: canli.oyun.tik })
   })
@@ -43,20 +54,14 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
       birikim = sonuc.birikim
       const olaylar: Olay[] = []
       for (let i = 0; i < sonuc.adim && !canli.oyun.bitti; i++) olaylar.push(...canliAdim(canli))
-      kareSonu(olaylar)
+      kareSonu(olaylar, sonuc.adim)
       if (!canli.oyun.bitti) istek = requestAnimationFrame(kare)
     }
     istek = requestAnimationFrame(kare)
     return () => cancelAnimationFrame(istek)
   }, [canli, duraklatildi])
 
-  useEffect(() => {
-    const gizlenince = () => {
-      if (document.hidden) setDuraklatildi(true)
-    }
-    document.addEventListener('visibilitychange', gizlenince)
-    return () => document.removeEventListener('visibilitychange', gizlenince)
-  }, [])
+  useGizleninceDuraklat(setDuraklatildi)
 
   const dokun = (hedef: Hedef) => {
     if (!duraklatildi) canliDokun(canli, hedef)
