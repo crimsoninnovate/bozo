@@ -27,3 +27,8 @@ export function onayYaz(durum: Exclude<OnayDurumu, 'karar-yok'>): void {
     // Yazamıyorsak da sorun değil: bu oturumda ölçülür, sonrakinde yeniden sorulur.
   }
 }
+
+/** Oyun rotalarında ne bant ne ölçüm: oyun birinci taraftır, dışarıya istek yapmaz (spec §10). */
+export function onayGerekirMi(yol: string): boolean {
+  return !/^\/(en\/)?oyun(\/|$)/.test(yol)
+}

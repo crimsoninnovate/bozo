@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { sozluk, type Dil } from '@/content'
 import { yol } from '@/lib/site'
-import { onayOku, onayYaz, type OnayDurumu } from '@/lib/onay'
+import { onayGerekirMi, onayOku, onayYaz, type OnayDurumu } from '@/lib/onay'
 import { Olcumleme } from './Olcumleme'
 import stil from './CerezOnayi.module.css'
 
@@ -24,6 +25,7 @@ export function CerezOnayi({ dil }: Props) {
   // okunduktan sonra belirir. Aksi halde kabul etmiş kullanıcı da onu görürdü.
   const [durum, setDurum] = useState<OnayDurumu>('karar-yok')
   const [okundu, setOkundu] = useState(false)
+  const sayfaYolu = usePathname()
 
   useEffect(() => {
     setDurum(onayOku())
@@ -34,6 +36,8 @@ export function CerezOnayi({ dil }: Props) {
     onayYaz(yeni)
     setDurum(yeni)
   }
+
+  if (!onayGerekirMi(sayfaYolu)) return null
 
   return (
     <>
