@@ -594,6 +594,8 @@
   inset: 0;
   border-radius: 3px;
   pointer-events: none;
+  /* Global kural azaltılmışta animasyonu keser; taban 0 olmazsa parlama kalıcı perde olur. */
+  opacity: 0;
   animation: parla 450ms ease-out forwards;
 }
 

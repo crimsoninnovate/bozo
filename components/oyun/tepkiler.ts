@@ -26,7 +26,7 @@ export function dokunus(el: HTMLElement | null, azalt: boolean): void {
   el.animate([y(0), { ...y(-2), offset: 0.4 }, y(0)], ANLIK)
 }
 
-/** Sınıfı söküp takar: CSS parlaması baştan oynar (global kural azaltılmışta kapatır). */
+/** Sınıfı söküp takar: CSS parlaması baştan oynar. Azaltılmışta animasyon yok, taban opaklık 0 kalır. */
 function parla(el: HTMLElement | null, sinif: string | undefined): void {
   if (!el || !sinif) return
   el.classList.remove(sinif)
