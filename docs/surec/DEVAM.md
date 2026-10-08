@@ -16,6 +16,8 @@ Son güncelleme: 8 Ekim 2026
 - **İkinci 8 Ekim deploy'u** (`1f092a7` yarım porsiyon cümlesi, `9568c58` İngilizce tur) 15:45
   build'i ile yayında: dört rotanın canlı HTML'i yerel `out/` ile aynı SHA-256, on iki rota 200.
   165 test, typecheck, build temiz. Commit'ler GitHub'a push edilmedi.
+- **Yayında değil:** `b99247c` çerez bandı metni kısaldı (`IYILESTIRMELER.md` > "çerez bandı
+  metni kısaldı"). 166 test, build temiz; deploy onayı bekliyor.
 - Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
   `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
   0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
