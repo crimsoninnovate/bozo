@@ -43,7 +43,13 @@ function komboYaz(el: HTMLElement, kombo: number, azalt: boolean): void {
 
 function ocagiCiz(el: HTMLElement, oyun: Oyun, no: number): void {
   const sis = oyun.ocak[no]
-  if (!sis) return nitelikYaz(el, 'gorunum', 'bos')
+  if (!sis) {
+    // Boşalan yuva son şişin rayını taşımasın.
+    nitelikYaz(el, 'gorunum', 'bos')
+    degiskenYaz(el, '--oran', 0)
+    degiskenYaz(el, '--pisme', 0)
+    return degiskenYaz(el, '--yanma', 0)
+  }
   nitelikYaz(el, 'gorunum', sisGorunumu(sis))
   degiskenYaz(el, '--oran', sis.gecen / (sis.pisme + sis.pencere))
   degiskenYaz(el, '--pisme', pismeOrani(sis))
