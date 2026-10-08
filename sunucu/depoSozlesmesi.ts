@@ -155,6 +155,15 @@ function donemVeKazananTestleri(t: Testci): void {
     assert.equal(await depo.sonSampiyon(), null)
   })
 
+  /** `sema.sql` > `kazanan_donem_sira`: bir dönemde her sıra bir kez; bellek deposu da aynı kuralı taşır. */
+  t('kazanan_ayniDonemVeSira_ikinciEklemeReddedilir', async (depo) => {
+    const a = await oyuncuEkle(depo, 'A')
+    const k = { donem: '2026-09-28', sira: 1, oyuncuId: a.id, takmaAd: 'A', puan: 5, deneme: 0, gecerlilik: 9 }
+    await depo.kazananEkle({ ...k, kodOzeti: 'oz1' })
+    await assert.rejects(depo.kazananEkle({ ...k, kodOzeti: 'oz2' }))
+    assert.equal((await depo.kazananlar('2026-09-28')).length, 1)
+  })
+
   t('sayac_artirVeOku_gunVeKanalBasina', async (depo) => {
     await depo.sayacArtir('2026-10-08', 'sofra')
     await depo.sayacArtir('2026-10-08', 'sofra')

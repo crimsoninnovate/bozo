@@ -187,6 +187,9 @@ function kazananlar(b: Bellek): KazananUclari {
   const sec = (uyan: (k: Kazanan) => boolean) => [...b.kazananlar.values()].filter(uyan).sort(sira).map(oku)
   return {
     async kazananEkle(k) {
+      // `sema.sql` > `kazanan_donem_sira` ile aynı kural.
+      const ayni = sec((x) => x.donem === k.donem && x.sira === k.sira)
+      if (ayni.length > 0) throw new Error(`kazanan var: ${k.donem}/${k.sira}`)
       const id = ++b.sonId
       b.kazananlar.set(id, { ...k, id, gizli: false, kullanildi: null })
       return id

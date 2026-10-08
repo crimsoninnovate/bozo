@@ -15,10 +15,15 @@ export const SAMPIYON_SAKLAMA_MS = 90 * GUN_MS
 export const KORUNAN_TUR = 20
 export const ODUL_SAYISI = 3
 
-/** Bir dönemin ilk üçüne kod üretir; aynı özet başka dönemden çıkmışsa deneme sayacı artar. */
+/**
+ * Bir dönemin ilk üçüne kod üretir; aynı özet başka dönemden çıkmışsa deneme sayacı artar.
+ * Yarım kalmış kapanışta yazılmış sıralar atlanır.
+ */
 async function kazananlariYaz(depo: Depo, tuz: string, donem: string, simdi: number): Promise<void> {
   const sirali = enIyiler(await depo.siralama(donem))
+  const yazili = new Set((await depo.kazananlar(donem)).map((k) => k.sira))
   for (const [i, satir] of sirali.slice(0, ODUL_SAYISI).entries()) {
+    if (yazili.has(i + 1)) continue
     for (let deneme = 0; deneme < 10; deneme++) {
       const ozet = kodOzeti(tuz, odulKodu(tuz, donem, satir.oyuncuId, deneme))
       if (await depo.kazananBul(ozet)) continue

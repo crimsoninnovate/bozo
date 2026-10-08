@@ -83,6 +83,18 @@ test('donemleriKapat_kodOzetiCakisirsa_denemeSayaciArtar', async () => {
   assert.equal(birinci?.kodOzeti, kodOzeti(TUZ, odulKodu(TUZ, DONEM, a, 1)))
 })
 
+/** Kapanış birinciyi yazıp dönemi kapatamadan düşerse sonraki tik eksik sıraları yazar, takılmaz. */
+test('donemleriKapat_yarimKalanKapanis_eksikSiralariYazarVeKapatir', async () => {
+  const depo = bellekDepoKur()
+  const { a, b, c } = await haftaKur(depo)
+  const ozet = kodOzeti(TUZ, odulKodu(TUZ, DONEM, a, 0))
+  const yarim = { donem: DONEM, sira: 1, oyuncuId: a, takmaAd: 'A', puan: 950, deneme: 0, gecerlilik: BIT + 14 * GUN }
+  await depo.kazananEkle({ ...yarim, kodOzeti: ozet })
+  assert.deepEqual(await donemleriKapat(depo, TUZ, BIT + 60_000), [DONEM])
+  const kazananlar = await depo.kazananlar(DONEM)
+  assert.deepEqual(kazananlar.map((k) => [k.sira, k.oyuncuId, k.deneme]), [[1, a, 0], [2, b, 0], [3, c, 0]])
+})
+
 test('suresiDolaniSil_ilkYirmiDisiGirdiler_otuzGunlukGirdiler_doksanGunlukOyuncular', async () => {
   const depo = bellekDepoKur()
   const { a, d } = await haftaKur(depo)
