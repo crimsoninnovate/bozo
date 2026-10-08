@@ -8,6 +8,11 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
+- **9 Ekim 2026 01:40: oyun prototipi canlıya alındı** (`a9caf09`, tüm dal rsync ile): `/oyun/`,
+  `/en/oyun/`, `/oyun/siralama/` 200, `noindex, nofollow`, sitemap'te yok, hiçbir sayfadan bağlantı
+  yok (yalnız bağlantıyı bilen girer). `plesk repair fs` 0 hata. Skor sunucusu **yayında değil**:
+  `api.cigercibozo.com` DNS'te yok, oyun çevrimdışı tur olarak çalışır, tarayıcı o alan adına istek
+  dener ve düşer (veri gitmez). Gizlilik metni ve avukat onayı öncesi sunucu açılmaz (plan 4).
 - **Oyun refine turu 2 (9 Ekim 2026), görselden bağımsız katman:** açılışta kamera yaklaşması,
   rozet arkasında duman, hazır olunca nabız atan Oyna; tahta kurulurken istasyonlar sırayla
   yükselir; oda ışığı titrer; dokunma bastır ve yaylan; fiş tamamlanınca bakır kıvılcım patlaması,
