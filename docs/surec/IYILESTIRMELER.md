@@ -2139,3 +2139,67 @@ handoff başlığı, üslup kararı olarak kaldı. Tavuk şişlerin İngilizce a
 kararı bıraktı, iki ürünün gerçek farkı bilinmeden ada olgu eklenmez; Terbiyeli Tavuk Şiş
 açıklaması gelince ikisi birlikte hizalanır. 404 sayfasının Türkçe meta açıklaması statik
 export'un tek `404.html`'inden geliyor, sayfa `noindex`; bilinen sınır.
+
+## 8 Ekim 2026: mobil performans teşhisi (DEVAM madde 7)
+
+Yalnız teşhis, kod değişmedi. Canlı site (`9568c58` build'i), Chrome DevTools izi, 412x823
+DPR 1.75, Slow 4G + 4x CPU, her ölçüm ayrı izole bağlamda soğuk önbellekle.
+
+### LCP
+
+| Ölçüm | FCP | LCP | LCP öğesi |
+|---|---|---|---|
+| Ana sayfa, kısıtlı | 2592 ms | 2906 ms | üst bardaki `rozet.svg` |
+| Aynısı, rozetin `filter`'ı kapalı | 2572 ms | 2572 ms | açılış paragrafı (`Acilis govde`) |
+| Ana sayfa, kısıtsız | 736 ms | 884 ms | `rozet.svg` |
+| `/menu/`, kısıtlı | 2948 ms | 2948 ms | H1 |
+| `/konum/`, kısıtlı | 2600 ms | 2600 ms | H1 |
+
+**Rozet LCP'yi metinden sonraya itiyor, sebebi gölgesi.** Rozet mobilde 76x87 px (6.612 px²),
+paragraf 24.287 px². Chrome rozetin alanını 36.524 px² sayıyor: `.rozet img`'deki
+`drop-shadow(0 12px 30px ...)` görsel alanı büyütüyor. Yalnız bu filtre kapatılınca rozet
+aday olmaktan çıktı ve LCP FCP'ye eşitlendi (kısıtlı -334 ms, kısıtsız -148 ms). Rozet
+`rozet.svg` 65,4 KB ham / 26,6 KB zstd, 230 path; yüklenmesi metinden geç bitiyor.
+
+**FCP'yi ana CSS belirliyor.** HTML 885 ms'de geliyor (TTFB 468 ms, HTML Cloudflare'de
+`DYNAMIC`). Üç render-blocking CSS'in büyüğü (`3cgtql0h7uzk_.css`, 92 KB ham / 14,4 KB br)
+~2450 ms'de bitiyor, metin 120 ms sonra boyanıyor. 14 KB'ın 1,6 s sürmesinin sebebi aynı
+anda (882 ms) istenen ~280 KB kritik olmayan yük: 4 font ön yüklemesi 92 KB, 9 JS parçası
+157 KB, 2 SVG ön yüklemesi 33 KB.
+
+- Ana CSS bütün sayfaların modüllerini taşıyor (Gizlilik, Hata, Lakap, Usul, UrunKarti...).
+  Ana sayfada kuralların %33'ü kullanılmıyor (105 KB serileştirilmiş metnin 35 KB'ı; 7 KB'ı
+  açılınca kullanılan `Cekmece`). Turbopack'in varsayılan `cssChunking: true` birleştirmesi.
+- `kelime-markasi.svg` alt bilgide (y=5326) ama `<img>` lazy olmadığı için React ona
+  otomatik `preload` basıyor; rozetle aynı anda iniyor.
+- JS'in 157 KB'ının 105 KB'ı React/Next çerçevesi (`react-dom` 228 KB ham). Burada kaldıraç yok.
+- `_next/static/*` hash'li ama `cache-control: max-age=14400`: origin başlık göndermiyor,
+  4 saat Cloudflare'in varsayılanı. Yalnız tekrar ziyareti etkiliyor.
+
+### CLS
+
+Ağustos'taki ara sıra 0,1 üstü CLS bugünkü build'de **yeniden üretilemedi.**
+
+| Sayfa / koşul | CLS | Kaynak |
+|---|---|---|
+| Ana, Girne 14:00 / 02:00 / 04:30 (açık) | 0,0014 | `DurumCipi` hidrasyonda 182 → 124 px |
+| Ana, Girne 07:00 (kapalı) | 0,0009 | `DurumCipi` 182 → 142 px |
+| Ana, kısıtsız | 0,0014 | aynı |
+| `/menu/` | 0,0012 | font takası (çip genişliği), `CanliSaat` |
+| `/konum/` | 0,0011 | `CanliSaat` |
+
+Saat `Date` kaydırılarak dört durumda ölçüldü: statik HTML `null` yer tutucuyla geliyor,
+fark yalnız çipin genişliği, dikey kayma yok. Çerez bandı `position: fixed`, kayma
+üretmiyor. Archivo'nun iki dosyası FCP'den sonra iniyor ama `size-adjust`'lı yedek yazı
+tipi sayesinde takas ölçülebilir kayma yapmıyor.
+
+### Düzeltme adayları (karar ayrı, uygulanmadı)
+
+1. Rozetin gölgesini LCP alanını büyütmeyecek biçimde vermek (ör. filtreyi `<img>` yerine
+   kapsayıcıya taşımak). Etkisi yeniden ölçülmeli; görünüm değişmemeli.
+2. Alt bilgi kelime markasına `loading="lazy"`: otomatik ön yükleme kalkar.
+3. `cssChunking: 'graph'` ya da `inlineCss` (ikisi de Next 16'da deneysel, belgeleri
+   `node_modules/next/dist/docs/.../cssChunking.md`, `inlineCss.md`). İkincisi her HTML'e
+   ~14 KB ekler ve CSS önbelleğini kaybeder.
+4. `.htaccess`'te `_next/static/` için `max-age=31536000, immutable`.
+5. `rozet.svg`'yi sadeleştirmek: logo varlığı, rozet kararındaki üç ölçüm gerekir.
