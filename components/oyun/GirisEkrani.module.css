@@ -1,5 +1,6 @@
 /* Oyna: 64 px, tam genişlik (masaüstünde 320), kor zemin, Bevan 22. */
 .oyna {
+  position: relative;
   width: 100%;
   height: 64px;
   background: var(--kor);
@@ -9,4 +10,20 @@
 
 .oyna:disabled {
   opacity: 0.7;
+}
+
+/* Hazır olunca düğme közün parlaması gibi nabız atar; yalnız opaklık animasyonu. */
+.oyna:not(:disabled)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 28px 6px color-mix(in srgb, var(--kor) 80%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  animation: nabiz 2400ms ease-in-out 2600ms infinite;
+}
+
+@keyframes nabiz {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.85; }
 }

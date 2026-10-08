@@ -149,6 +149,29 @@ function sonSaat(alan: HTMLElement): void {
   alan.querySelector('[data-gece]')?.animate(opaklik(0, 1), secenek)
 }
 
+/** Fiş tamam: bakır kıvılcımlar sofradan saçılır; azaltılmışta yok. */
+function patlat(el: HTMLElement | null, azalt: boolean): void {
+  if (!el || azalt) return
+  for (let i = 0; i < 8; i++) {
+    const parca = document.createElement('span')
+    parca.className = stil.parca ?? ''
+    el.append(parca)
+    const aci = (i / 8) * 2 * Math.PI
+    const uzaklik = i % 2 === 0 ? 34 : 24
+    const son = `translate(calc(-50% + ${Math.cos(aci) * uzaklik}px), calc(-50% + ${Math.sin(aci) * uzaklik}px)) scale(0.3)`
+    const kareler = [{ transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }, { transform: son, opacity: 0 }]
+    const kaldir = () => parca.remove()
+    parca.animate(kareler, { duration: 520, easing: EGRI }).finished.then(kaldir, kaldir)
+  }
+}
+
+/** Dönüm noktasında tahta kısa sarsılır; azaltılmışta yok. */
+function sars(alan: HTMLElement, azalt: boolean): void {
+  if (azalt) return
+  const x = (px: number) => ({ transform: `translateX(${px}px)` })
+  alan.animate([x(0), x(-3), x(3), x(-2), x(2), x(0)], { duration: 240, easing: 'ease-out' })
+}
+
 function yanik(yuva: HTMLElement | null): void {
   yuva?.querySelector('[data-yanik]')?.animate(opaklik(1, 0), { duration: 700, easing: 'ease-in' })
 }
@@ -172,6 +195,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       return servisUcusu(alan, hedef(alan, `s${olay.sofra}`), olay.urun, azalt)
     case 'fisTamam':
       parla(hedef(alan, `s${olay.sofra}`), stil.odedi)
+      patlat(hedef(alan, `s${olay.sofra}`), azalt)
       return ucanRakam(hedef(alan, `s${olay.sofra}`), `+${olay.odeme}`, azalt)
     case 'sofraKalkti':
       return olay.odedi ? undefined : kalkis(hedef(alan, `s${olay.sofra}`))
@@ -180,6 +204,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
     case 'tezgahDolu':
       return parla(alan.querySelector<HTMLElement>('[data-tezgah]'), stil.dolu)
     case 'porsiyon':
+      sars(alan, azalt)
       return porsiyonRozeti(alan, azalt)
     case 'evre':
       return olay.evre === 4 ? sonSaat(alan) : undefined

@@ -24,6 +24,19 @@
   z-index: 1;
 }
 
+/* Tahta kurulur: istasyonlar aşağıdan sırayla yükselir (sofra, ocak, tezgah, raf). */
+.saha > [data-serit] {
+  animation: kurul 460ms var(--gecis-egri) both;
+}
+
+.saha > [data-serit]:nth-of-type(2) { animation-delay: 80ms; }
+.saha > [data-serit]:nth-of-type(3) { animation-delay: 160ms; }
+.saha > [data-serit]:nth-of-type(4) { animation-delay: 240ms; }
+
+@keyframes kurul {
+  from { opacity: 0; translate: 0 22px; }
+}
+
 .saha[data-evre='4'] {
   --sahne-zemin: var(--gece);
 }
@@ -58,6 +71,17 @@
     color-mix(in srgb, var(--kor) 10%, transparent) 50%,
     rgba(0, 0, 0, 0) 75%
   );
+  translate: calc(var(--egim-x, 0) * -10px) calc(var(--egim-y, 0) * -6px);
+  animation: isikTitre 3.7s ease-in-out infinite;
+}
+
+/* Tek ışık kaynağı közdür: odanın sıcak ışığı düzensiz ritimle titrer. */
+@keyframes isikTitre {
+  0%, 100% { opacity: 0.8; }
+  18% { opacity: 1; }
+  32% { opacity: 0.86; }
+  55% { opacity: 0.97; }
+  74% { opacity: 0.78; }
 }
 
 .vinyet {
@@ -187,6 +211,7 @@
   opacity: calc(0.25 + var(--kor-yogunluk, 0.25) * 0.65);
   transition: opacity var(--gecis-yogunluk);
   transform-origin: 50% 100%;
+  translate: calc(var(--egim-x, 0) * -6px) calc(var(--egim-y, 0) * -3px);
   animation: koruSalin 4.6s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -211,6 +236,18 @@
 }
 
 /* Uçan rakam ve servis hayaleti: `tepkiler.ts` yaratır, animasyon bitince siler. */
+.parca {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bakir-acik);
+  box-shadow: 0 0 6px 1px color-mix(in srgb, var(--bakir-acik) 70%, transparent);
+  pointer-events: none;
+}
+
 .ucanRakam {
   position: absolute;
   left: 50%;

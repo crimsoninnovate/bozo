@@ -159,6 +159,7 @@
 .kivilcim {
   position: absolute;
   inset: 0;
+  translate: calc(var(--egim-x, 0) * -3px) calc(var(--egim-y, 0) * -2px);
   opacity: var(--oran, 0);
   transition: opacity var(--gecis-erit);
   pointer-events: none;
@@ -166,6 +167,7 @@
 
 .yuvalar {
   position: relative;
+  translate: calc(var(--egim-x, 0) * 2px) 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;

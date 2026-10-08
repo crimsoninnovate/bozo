@@ -21,6 +21,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  transform-origin: 50% 25%;
+  animation: yaklas 1800ms ease-out both;
 }
 
 /* Rozet 200 px, üst bardan 28 px yukarı sarkar; kor ışığı ve kıvılcım arkasında. */
@@ -66,6 +68,20 @@
     0 0 90px 30px var(--bakir-28);
   opacity: 0;
   animation: parla 400ms ease-out 1400ms both;
+}
+
+.duman {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 55%;
+  width: 180px;
+  height: 180px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 240 225 / 0.4), rgb(255 240 225 / 0.14) 45%, transparent 70%);
+  opacity: 0;
+  animation: tuy 2600ms ease-out var(--g) both;
 }
 
 .kivilcimlar {
@@ -148,6 +164,16 @@
   .eylem { width: 320px; margin-top: 36px; }
   .altinda { grid-column: 2; grid-row: 1 / 3; justify-self: end; }
   .baglantilar { grid-column: 1; align-self: start; padding-bottom: 0; }
+}
+
+@keyframes yaklas {
+  from { scale: 1.1; }
+}
+
+@keyframes tuy {
+  0% { opacity: 0; translate: -50% -30%; scale: 0.7; }
+  30% { opacity: 1; }
+  100% { opacity: 0; translate: -50% -120%; scale: 1.7; }
 }
 
 @keyframes tutus {

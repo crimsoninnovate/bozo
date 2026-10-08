@@ -7,6 +7,7 @@ import { SahneDefs } from './SahneDefs'
 import { Ocak, Sofralar } from './Seritler'
 import { Raf, Tezgah } from './SeritlerTezgah'
 import { dokunus } from './tepkiler'
+import { useEgim } from './useEgim'
 import { useOyunAlani } from './useOyunAlani'
 import stil from './Saha.module.css'
 
@@ -65,6 +66,8 @@ export function Saha({ dil, tohum, ipucu, bitince, cik }: Props) {
     metin: s.oyun,
     bitince,
   })
+
+  useEgim(kok, azalt)
 
   useEffect(() => {
     if (!vurgu) return

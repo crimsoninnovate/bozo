@@ -8,6 +8,13 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
+- **Oyun refine turu 2 (9 Ekim 2026), görselden bağımsız katman:** açılışta kamera yaklaşması,
+  rozet arkasında duman, hazır olunca nabız atan Oyna; tahta kurulurken istasyonlar sırayla
+  yükselir; oda ışığı titrer; dokunma bastır ve yaylan; fiş tamamlanınca bakır kıvılcım patlaması,
+  dönüm noktasında kısa sarsıntı; imleç/telefon eğimiyle üç derinlikte parallax (`useEgim`).
+  Hepsi CSS ya da WAAPI, azaltılmışta kapalı. Kare p95 17,4-18,1 ms (ölçüm titreşimi içinde).
+  **Bekleyen:** sahibin ürettiği raster varlıklar (`docs/surec/OYUN-VARLIK-BRIEFI.md`); gelince
+  SVG parçalar onlarla değişir, bu katman aynen kalır.
 - **Oyun refine turu 1 (9 Ekim 2026):** her ürün kendi biçim ve rengiyle (ciğer tuğla küp, dalak
   mor fasulye, yürek kalp, ayran bakır maşrapa), pişme izli ve kömür çatlaklı şiş hâlleri,
   gruplu fiş (`fisSatirlari`, adet rozeti, onay işareti), bakır tabaklar, nefes alan köz
