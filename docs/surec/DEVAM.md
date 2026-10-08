@@ -22,11 +22,13 @@ Son güncelleme: 8 Ekim 2026
 - **Dördüncü 8 Ekim deploy'u:** `43d357c` rozet gölgesi ayrı katmanda (canlı mobil LCP üç soğuk
   ölçümde 2528/2568/2860 ms, LCP = FCP, önce 2906) ve `8dcbfaa` site artık "Uygulamayı yükle"
   önermiyor (manifest `display: browser`, `mobile-web-app-capable` yok). Checksum 0 fark.
-- **Yayında değil:** `67ab32e` çekmecenin durum alt metni kalktı (yeni kural: masaüstünde
-  olmayan içerik mobilde olmaz, `KISITLAR.md`) ve genel kontrol turunun dokuz commit'i
-  (`dca5670`..`742dedf`: next 16.3.8, galeri LCP, çekmece numaraları, Gizlilik hedefi,
-  aksiyon barı landmark'ı, kelime markası, JSON-LD kaçışı, ölü kod, yorumlar;
-  `IYILESTIRMELER.md` > "tam kapsam genel kontrol"). 168 test, build temiz, axe 0 ihlal.
+- **Beşinci 8 Ekim deploy'u (17:52):** `67ab32e` çekmece alt metni ve genel kontrol turu
+  (`dca5670`..`c9eeccf`: next 16.3.8, galeri LCP, çekmece numaraları, Gizlilik hedefi, aksiyon
+  barı landmark'ı, kelime markası, JSON-LD kaçışı, ölü kod, portre yayından kalktı, güvenlik
+  ve önbellek başlıkları; `IYILESTIRMELER.md` > "tam kapsam genel kontrol"). `repair fs` 0
+  hata, `--checksum` 0 içerik farkı, 12 rota 200, beş rotanın HTML'i yerel `out/` ile aynı.
+  Canlıda dört güvenlik başlığı var, portre 404. Galeri LCP'si değişmedi (3,26-3,46 sn,
+  görselin boyutu). Commit'ler GitHub'a push edilmedi.
 - Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
   `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
   0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
@@ -43,10 +45,11 @@ Son güncelleme: 8 Ekim 2026
 
 ## Bekleyen iş
 
-0. **Genel kontrolün sahibine soruları ve canlı sunucu başlıkları** (`IYILESTIRMELER.md` >
-   "tam kapsam genel kontrol" > Sahibine / Canlı sunucu): yayındaki portre dosyası,
+0. **Genel kontrolün açık soruları** (`IYILESTIRMELER.md` > "tam kapsam genel kontrol" >
+   Sahibine):
    "Bozo's Table", "Beş ürün" çelişkisi, galeri sayfası ve boş plakalar, onayı geri alma,
-   EN "piece", tanımsız `--krem-84`; güvenlik başlıkları onay bekliyor.
+   EN "piece", tanımsız `--krem-84`. Kullanıcıya: galeri görselini küçültmek (LCP),
+   `X-Powered-By` için Plesk ayarı.
 1. **Fiyat listesinden kalan üç soru sahibinde** (`IYILESTIRMELER.md` > "8 Ekim 2026: fiyat
    listesi"): dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı, Terbiyeli Tavuk
    Şiş açıklaması. İçecek fiyatları dahil bütün fiyatlar 8 Ekim'de geldi.

@@ -2285,7 +2285,7 @@ ayrı bir kod okuması ve ekran görüntüleriyle görsel tur. Ham çıktılar `
 | Bulgu | Değişiklik | Ölçüm |
 |---|---|---|
 | `next 16.3.0` npm audit: 1 kritik, 2 yüksek (dokuz next uyarısı, sharp, source-map-js) | `next 16.3.8`, `source-map-js` 1.2.2 (zorlamasız `audit fix`) | `npm audit` 0 açık |
-| Galeri mobil LCP 3,2-3,4 sn (canlı), tek sayfa 2,5 sn üstünde | İlk karo `oncelikli`: `loading="eager"`, `fetchPriority="high"` | Yerel kısıtlı: 5,6 → 4,6-5,0 sn |
+| Galeri mobil LCP 3,2-3,4 sn (canlı), tek sayfa 2,5 sn üstünde | İlk karo `oncelikli`: `loading="eager"`, `fetchPriority="high"` | Yerel kısıtlı: 5,6 → 4,6-5,0 sn. **Canlıda değişmedi** (3,26-3,46 sn): istek zaten ilk partide (680 ms) başlıyor, LCP = 165 KB'ın inişinin bittiği an. Kalan kaldıraç dosya boyutu, sahibinin karesine dokunur |
 | Çekmece numaraları Bevan 600, sentetik kalın | `.no` ağırlığı `.link`'ten (400) miras alıyor | Hesaplanan Bevan 400, genişlik 22px aynı |
 | Telif şeridindeki "Gizlilik" 40x15, genişletmesiz tek alt bilgi linki | `.yolTarifi` ile aynı `::before` | 48x44 |
 | axe `region`: aksiyon barı landmark dışında (12 rota, 390) | `<nav aria-label="Hızlı eylemler">`, ad testi üç landmark'ı kapsıyor | axe 0 ihlal (390 ve 1440) |
@@ -2301,8 +2301,8 @@ listesinde ve rengi `--pumpkin` 20 Ağustos'ta silindi. Aynı ailenin `--komur-5
 
 ### Sahibine
 
-- **Portre hâlâ yayında.** 24 Ağustos'ta "şimdilik kaldıralım" dendi; `dosya` satırı kalktı
-  ama `public/foto/bozo-portre.webp` her deploy'da gidiyor, canlıda 200 (111 KB).
+- **Portre yayından kalktı** (`a6bcc43`, kullanıcı onayıyla): `public/`'ten çıktı, canlıda
+  kenar ve kaynak 404. Aslı sahibinin fotoğraf klasöründe, webp git geçmişinde.
 - **"Bozo's Table"** (`content/en/ortak.ts`, `cta.bozoSofrasi`) yasaklı ifadeler listesinde
   ("Bozo's"); her EN sayfasının mobil barında. Yeni etiket uydurulmadı.
 - **"Beş ürün, sekiz ikram"** (ana sayfa, iki dil) menünün "Yedi porsiyon, bir özel"iyle
@@ -2320,11 +2320,13 @@ listesinde ve rengi `--pumpkin` 20 Ağustos'ta silindi. Aynı ailenin `--komur-5
   üst bar linkleri amaçlanan .84 yerine miras alınan tam kremle görünüyor. Token eklemek
   linkleri yedi haftadır görülenden sönükleştirir; görsel karar.
 
-### Canlı sunucu, onay bekliyor
+### Canlı sunucu, uygulandı (`c9eeccf`, kullanıcı onayıyla)
 
-HSTS, `X-Content-Type-Options`, `Referrer-Policy` ve çerçeveleme başlığı yok;
-`x-powered-by: PleskLin` sızıyor; `site.webmanifest` content-type'sız; `_next/static`
-hash'li dosyaları 4 saat önbellekte (1 yıl `immutable` olabilir).
+HSTS (bir yıl, `includeSubDomains` yok), `X-Content-Type-Options`, `Referrer-Policy`,
+`X-Frame-Options` `public/.htaccess`'ten geliyor; manifest `application/manifest+json`;
+`_next/static` kaynaktan bir yıl `immutable` (kenardaki eski kopyalar 4 saatte tazelenir).
+Deploy'dan önce sunucuda geçici bir alt klasörde denendi: 500 yok. `x-powered-by: PleskLin`
+`Header unset`'e direnmedi, yani Apache dışında ekleniyor: Plesk ayarı, ayrıca karar.
 
 ### Temiz çıkanlar
 
