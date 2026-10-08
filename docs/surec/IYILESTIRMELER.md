@@ -2381,6 +2381,10 @@ katmanı token. `CLAUDE.md` > Colors'a ikinci istisna olarak yazıldı.
   44 px altı hedef yok, axe 0. Usta kaydı 390'da gerçek zamanda: 24.400, kombo ×13, 05:00.
 - HUD satırı (04:12, 16762, ×2): 320'de 246/250, 390'da 312/320, 1440'ta 374/374.
 - Azaltılmış hareket (390 ve 1440, oyun ekranı): CSS animasyon/geçiş 0.
-- Kare süresi (K10) ve pikselden etiket kontrastı **henüz ölçülmedi** (sahibinin isteğiyle
-  bu turda atlandı); tarif planın Task 8 Step 3'ünde, kapı p95 <= 17,5 ms.
+- Kare süresi (K10, 390x844 @3, usta kaydı, son 12 sn, headless): CPU 4x 719 kare, p50 16,7,
+  p95 18,0, p99 18,5, 25 ms üstü 0, uzun görev 0; CPU 6x p95 18,2, 25 ms üstü 0. Plan 2'nin
+  düz sahnesi aynı düzenekte p95 17,8 idi. 17,5 kapısı lafzen 0,5 ms kaçtı, ama p50 vsync'te
+  (16,7) ve 6x'te bile kare düşmedi: fark vsync titreşimi, boyalı sahne maliyet eklemedi.
+  K10 basamakları uygulanmadı. Gerçek cihaz ölçümü yapılmadı.
+- Pikselden etiket kontrastı **henüz ölçülmedi**.
 - Handoff karşılaştırması: kare kare tur yapılmadı; kareler `/tmp/bozo-oyun/sahne/ng/`.

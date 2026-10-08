@@ -14,8 +14,8 @@ Son güncelleme: 8 Ekim 2026
   `SahneDefs`te (kimlik testi), sahne `Sahne*` modüllerinde, HUD görünür duyuru satırıyla,
   giriş ve sonuç cam panelsiz, masaüstünde 420 px panel. Simülasyon, sunucu, `ciz.ts`
   sözleşmesi değişmedi. "Değişen ne" listesi ve ölçümler `IYILESTIRMELER.md` > 9 Ekim 2026.
-  **Açık:** K10 kare süresi ölçümü ve etiket kontrast ölçümü (tarif planın Task 8'inde),
-  sahibine önce/sonra vitrin karşılaştırması. Yayında değil.
+  K10 kare süresi ölçüldü (p95 18,0 ms 4x, kare düşmedi). **Açık:** etiket kontrast
+  ölçümü, sahibine önce/sonra vitrin karşılaştırması ve refine turları. Yayında değil.
 - **Açılış oyunu, plan 3 bitti: skor sunucusu ve sıralama** (spec §6-§10, §16; plan
   `docs/plans/2026-10-08-oyun-plan-3-sunucu.md`). `sunucu/` npm workspace: `node:http`, tek
   bağımlılık `mariadb`, `simule` ile yeniden oynatma, tavan, 15 dk tek kullanımlık jeton, hız
