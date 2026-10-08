@@ -6,6 +6,11 @@ import { sozluk, type Sozluk } from '../content/index.ts'
 import type { Dil, Icecek, Urun } from '../content/types.ts'
 import { icecekler, menuUrunler, ozelUrun, urunOlculeri } from '../content/urunler.ts'
 
+/** `<script type="application/ld+json">` gövdesi: `<` kaçar, içerik bloğu kapatamaz. */
+export function jsonLdMetni(veri: object): string {
+  return JSON.stringify(veri).replace(/</g, '\\u003c')
+}
+
 /** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
 function saatMetni(saat: number): string {
   return `${String(saat).padStart(2, '0')}:00`

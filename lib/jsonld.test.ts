@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
-import { restaurantJsonLd, menuJsonLd, breadcrumbJsonLd } from './jsonld.ts'
+import { restaurantJsonLd, menuJsonLd, breadcrumbJsonLd, jsonLdMetni } from './jsonld.ts'
 
 type Adres = {
   '@type': string
@@ -230,4 +230,13 @@ test('breadcrumbJsonLd_etiketlerSozlukteVar', () => {
 
 test('breadcrumbJsonLd_anaRotasiIcinFirlatir', () => {
   assert.throws(() => breadcrumbJsonLd('ana', 'tr'))
+})
+
+// Next JSON-LD rehberi: `JSON.stringify` HTML'i temizlemez; içerikte `</script>`
+// geçerse blok kapanır. `<` < olarak kaçar, JSON anlamı aynı kalır.
+test('jsonLdMetni_scriptKapanisiIceren_veriyleKucuktureYerVermez', () => {
+  const veri = { ad: '</script><script>alert(1)</script>', not: 'a < b' }
+  const metin = jsonLdMetni(veri)
+  assert.equal(metin.includes('<'), false)
+  assert.deepEqual(JSON.parse(metin), veri)
 })
