@@ -20,10 +20,6 @@ export const ortak = {
     icecekler: 'Drinks',
     gizlilik: 'Privacy',
   },
-  /**
-   * Screen readers only; the names of the icon-only controls. The design is not
-   * marked up for assistive technology, so these two strings have no source.
-   */
   cerez: {
     metin: 'We use cookies to measure visits. The data is transferred abroad.',
     kabul: 'Accept',
@@ -72,7 +68,6 @@ export const ortak = {
     kapali: 'We are closed, opening at 10:00',
     kapaliKisa: 'We are closed',
     kapaliAlt: 'Closed only 05:00 - 10:00',
-    geceSerit: 'We are open through the night, the fire is lit',
   },
   satirlar: {
     adresKisa: 'Kyrenia, Naci Talat Street No:4',

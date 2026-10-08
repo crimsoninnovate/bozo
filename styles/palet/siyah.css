@@ -34,8 +34,6 @@
      kutu gibi duruyordu. Cam üç katman, tarif MobilAksiyonBari'den. */
   --panel-bar: rgba(11, 15, 15, 0.72);
   --panel-daralmis: rgba(11, 15, 15, 0.78);
-  /* harita POI çipinin zemini (Konum Sayfasi.dc.html:98-100) */
-  --panel-poi: rgba(11, 15, 15, 0.85);
   /* ikincil butonun zemini (a.g.e. Ana:113, Konum:81, Hikaye:129) */
   --panel-buton: rgba(11, 15, 15, 0.4);
   /* Üç rolün paylaştığı yarı saydam zemin, o yüzden rol değil alfa adı taşıyor:
@@ -73,7 +71,6 @@
   --kor-leke-guclu: rgba(173, 38, 36, 0.5);
   --kor-leke: rgba(173, 38, 36, 0.36);
   --kor-leke-solgun: rgba(173, 38, 36, 0.34);
-  --kor-leke-karo: rgba(173, 38, 36, 0.3);
   --kor-leke-hover: rgba(173, 38, 36, 0.4);
 
   /* kor kenarlıkları: üstteki leke ailesinden ayrı, çünkü rol kenarlık.
@@ -108,13 +105,6 @@
      markanın yedinci rengiydi ama yeni palet logonun dışına çıkmıyor, o yüzden
      bordo koyuya taşındı. Rolü değişmedi: ikramı ana kordan ayırmak. */
   --ikram-leke: rgba(142, 29, 28, 0.5);
-
-  /* Paket şeridinin paragraf rengi. Şerit 13 Ağustos 2026'da kaldırıldı; --pumpkin
-     ve --mese 20 Ağustos 2026'da silindi (tüketicisi yoktu ve yeni palet kapalı). */
-  --komur-90: rgba(19, 24, 23, 0.9);
-  --komur-55: rgba(19, 24, 23, 0.55);
-  --komur-10: rgba(19, 24, 23, 0.1);
-  --komur-golge: 0 14px 34px rgba(19, 24, 23, 0.4);
 
   /* Zemin üstünde tek başına duran başlığın gölgesi. 5 kullanım, dört dosya:
      Ana:224, Hikaye:68, Hikaye:125, Konum:74, Menu:76 */

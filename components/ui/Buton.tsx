@@ -3,7 +3,7 @@ import { CapaBaglantisi } from './CapaBaglantisi'
 import { OkAsagiIkon, OkSagIkon } from './Ikonlar'
 import stil from './Buton.module.css'
 
-export type ButonTuru = 'birincil' | 'ikincil' | 'koyu' | 'koyuOutline'
+export type ButonTuru = 'birincil' | 'ikincil'
 /** sm 14.5px, md 15.5px, lg 16px, xl 16.5px: tasarımın dört gövde ölçüsü. */
 export type ButonBoyu = 'sm' | 'md' | 'lg' | 'xl'
 
@@ -27,7 +27,6 @@ type Props = {
   ok?: boolean
 }
 
-const CERCEVELI: ReadonlySet<ButonTuru> = new Set<ButonTuru>(['ikincil', 'koyuOutline'])
 
 /**
  * İki katmanlı işaret dili (sahibinin kararı, 13 Ağustos 2026): baştaki ikon
@@ -44,7 +43,7 @@ export function Buton({
   ikon,
   ok = false,
 }: Props) {
-  const sinif = `${stil.taban} ${stil[tur]} ${stil[boy]}${CERCEVELI.has(tur) ? ` ${stil.cerceveli}` : ''}`
+  const sinif = `${stil.taban} ${stil[tur]} ${stil[boy]}${tur === 'ikincil' ? ` ${stil.cerceveli}` : ''}`
   const capaMi = typeof href === 'string' && href.startsWith('#')
 
   const govde = (

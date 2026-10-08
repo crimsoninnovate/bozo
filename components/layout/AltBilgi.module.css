@@ -87,10 +87,6 @@
   line-height: 1.7;
 }
 
-.baglantiKolonu .baslik {
-  margin-bottom: 12px;
-}
-
 /*
  * fix round 1'in min-height:44px'i burada `.kolon`un dikey gap'li sütun akışını
  * büyütüyordu (fix round 2, Open 2: satır Y konumları ölçülüp doğrulandı, bkz.

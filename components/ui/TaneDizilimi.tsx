@@ -10,7 +10,7 @@ const RITIMLER = {
   6: [true, false, true, true, false, true],
 } as const
 
-export type TaneTonu = 'krem' | 'krem80' | 'krem75' | 'krem50' | 'koyu' | 'anahat'
+export type TaneTonu = 'krem' | 'krem80' | 'krem50'
 
 /** Bir rayın üç ölçüsü: büyük tane, küçük tane, aradaki boşluk (px). */
 export type TaneOlculeri = {

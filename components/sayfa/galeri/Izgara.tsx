@@ -11,9 +11,8 @@ type Props = { dil: Dil }
  * değil. (Menünün `CekimListesi` bölümü aynı manifestten yedi kare seçiyordu;
  * 13 Ağustos 2026'da kaldırıldı, manifestin tek yüzeyi burası kaldı.)
  *
- * `kart` biçimi: ızgaranın karosu (`karo`, 110px) bir kontrol listesi ölçüsü,
- * fotoğrafın okunacağı ölçü değil. `kart` (clamp(240px,30vh,300px)) sitenin
- * fotoğraf taşıyan en küçük plakası, Menu:126.
+ * `kart` biçimi (clamp(240px,30vh,300px)): sitenin fotoğraf taşıyan en küçük
+ * plakası, Menu:126.
  *
  * İlk kare her genişlikte ekranın üstünde ve LCP öğesi: tembel yüklenince mobil
  * LCP 3,2-3,4 sn ölçüldü (8 Ekim 2026). Diğerleri tembel kalır.

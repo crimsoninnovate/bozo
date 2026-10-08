@@ -12,9 +12,9 @@ import stil from './FotoYuvasi.module.css'
  *   genis      Ana:236 ikram, ortalanmış etiket
  *
  * Ocak ailesi (--plaka-zemin, kor lekesi, vinyet, taşma gizli):
- *   spread Menu:94, kart Menu:126, ikram Menu:207, icecek Menu:239, karo Menu:271
+ *   spread Menu:94, kart Menu:126, ikram Menu:207, icecek Menu:239
  */
-export type YuvaBicimi = 'portre' | 'portreUzun' | 'genis' | 'spread' | 'kart' | 'ikram' | 'icecek' | 'karo'
+export type YuvaBicimi = 'portre' | 'portreUzun' | 'genis' | 'spread' | 'kart' | 'ikram' | 'icecek'
 
 /** Tasarımın her biçimde kaç köşe işareti kullandığı. */
 const VARSAYILAN_KOSE: Record<YuvaBicimi, 0 | 1 | 2 | 4> = {
@@ -25,11 +25,10 @@ const VARSAYILAN_KOSE: Record<YuvaBicimi, 0 | 1 | 2 | 4> = {
   kart: 1,
   ikram: 0,
   icecek: 0,
-  karo: 0,
 }
 
 /** Kor lekesi ve vinyet yalnız ocak ailesinde var. */
-const OCAK_AILESI: ReadonlySet<YuvaBicimi> = new Set<YuvaBicimi>(['spread', 'kart', 'ikram', 'icecek', 'karo'])
+const OCAK_AILESI: ReadonlySet<YuvaBicimi> = new Set<YuvaBicimi>(['spread', 'kart', 'ikram', 'icecek'])
 
 /**
  * Bir plakanın kor nefesinin süresi ve gecikmesi, saniye.
@@ -73,9 +72,8 @@ type Props = {
   /**
    * Kadraj etiketini basar. Varsayılan `false`: ürün ve hero plakalarında etiket
    * fotoğrafçıya yazılmış bir yönergeydi ve misafire caption gibi okunuyordu
-   * (UYGULAMA-NOTLARI 1.2). Galeri ızgarası ile menünün çekim listesinde ise
-   * etiket İÇERİĞİN KENDİSİ: o iki yüzey "beklenen kareler"i sayar, adları
-   * düşünce geriye anonim koyu kutular kalıyor.
+   * (UYGULAMA-NOTLARI 1.2). Galeri ızgarasında ise etiket İÇERİĞİN KENDİSİ:
+   * "beklenen kareler"i sayar, adları düşünce geriye anonim koyu kutular kalıyor.
    */
   etiketGoster?: boolean
   /**

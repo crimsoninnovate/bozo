@@ -20,10 +20,6 @@ export const ortak = {
     gizlilik: 'Gizlilik',
   },
   /**
-   * Yalnızca ekran okuyucu için; ikondan ibaret kontrollerin adı. Tasarım
-   * yardımcı teknoloji için işaretlenmediğinden bu iki metnin kaynağı yoktur.
-   */
-  /**
    * Çerez onayı. KKTC 89/2007 Madde 11(2)(A): yurt dışına aktarım, kişinin
    * şüpheye yer bırakmayan onayıyla mümkün. GA4 veriyi Google'a aktardığı için
    * ölçüm onay ALINMADAN başlamaz. Tüzük Madde 5(7): bilgilendirme ve onay
@@ -81,7 +77,6 @@ export const ortak = {
     /** Saat tablosunun dar hücresi için, `kapali`nin ilk cümleciği. Yeni metin değil. */
     kapaliKisa: 'Şu an kapalıyız',
     kapaliAlt: 'Kapalı aralık: 05:00 - 10:00',
-    geceSerit: 'Gece açığız, ocak yanıyor',
   },
   satirlar: {
     adresKisa: 'Girne, Naci Talat Caddesi No:4',

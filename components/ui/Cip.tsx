@@ -4,7 +4,7 @@ import stil from './Cip.module.css'
  * Tasarımın tek içerikli çip aileleri. İki satırlı ikram kartı bu ailede
  * değil, ayrı bir bileşendir: `IkramCipi`.
  */
-export type CipTuru = 'outline' | 'dolu' | 'olcu' | 'ikram' | 'komsuluk' | 'poi' | 'yakinda'
+export type CipTuru = 'outline' | 'dolu' | 'olcu' | 'ikram'
 
 type Props = {
   tur: CipTuru

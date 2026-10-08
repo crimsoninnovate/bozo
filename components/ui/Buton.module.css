@@ -81,10 +81,6 @@
 .birincil { background: var(--kor); color: var(--krem); box-shadow: var(--kor-golge); }
 .birincil.sm { box-shadow: var(--kor-golge-kucuk); }
 .ikincil { border: 1px solid var(--cizgi-buton); background: var(--panel-buton); color: var(--krem); }
-/* pumpkin şerit üstünde: zemin kömür, metin krem.
-   Tasarımda koyu buton hover'da zemin DEĞİŞTİRMEZ, yalnız yükselir ve gölge alır. */
-.koyu { background: var(--komur); color: var(--krem); }
-.koyuOutline { border: 1px solid var(--komur-55); color: var(--komur); }
 
 @media (hover: hover) {
   .birincil:hover {
@@ -99,14 +95,6 @@
     background: var(--bakir-10);
     color: var(--krem);
   }
-
-  .koyu:hover {
-    color: var(--krem);
-    transform: translateY(-2px);
-    box-shadow: var(--komur-golge);
-  }
-
-  .koyuOutline:hover { background: var(--komur-10); color: var(--komur); }
 }
 
 /* Basma (:active) hover kapısının DIŞINDA: dokunmada tek geri bildirim bu.
@@ -114,7 +102,5 @@
 .taban:active { transition-duration: 0s; }
 .birincil:active { background: var(--kor-hover); box-shadow: var(--kor-golge-kucuk); }
 .ikincil:active { border-color: var(--bakir-85); background: var(--bakir-10); }
-.koyu:active { box-shadow: var(--komur-golge); }
-.koyuOutline:active { background: var(--komur-10); }
 
 .pasif { opacity: 0.55; cursor: default; pointer-events: none; }

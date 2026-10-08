@@ -90,7 +90,7 @@ export function Acilis({ dil }: Props) {
         {/* Yumuşak kaydırma: sayfadaki dört çapadan ikisi (bu ipucu ve bardaki "Gece")
             düz <a> ile tek karede zıplıyordu, ikisi 600ms kayıyordu. Ölçüldü, 18 Ağustos 2026. */}
         <CapaBaglantisi className={stil.ipucu} href="#iddia">
-          <span className={stil.ipucuMetin}>{s.ana.hero.scrollIpucu}</span>
+          <span>{s.ana.hero.scrollIpucu}</span>
           <span aria-hidden="true" className={stil.ipucuOk}>
             ↓
           </span>
