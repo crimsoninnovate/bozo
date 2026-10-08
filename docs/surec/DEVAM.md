@@ -8,6 +8,12 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
+- **Oyun refine turu 1 (9 Ekim 2026):** her ürün kendi biçim ve rengiyle (ciğer tuğla küp, dalak
+  mor fasulye, yürek kalp, ayran bakır maşrapa), pişme izli ve kömür çatlaklı şiş hâlleri,
+  gruplu fiş (`fisSatirlari`, adet rozeti, onay işareti), bakır tabaklar, nefes alan köz
+  yatağı, alev dilleri, şiş titremesi ve duman telleri (CSS, azaltılmışta kapalı). Kare süresi
+  aynı (p95 17,9 ms, CPU 4x). **Sıradaki:** sesler (önce araştırma), nasıl oynanır sorusu
+  (spec §1 "yok" diyor; sahibin kararı), etiket kontrastı, görsel sadakat karşılaştırması.
 - **Açılış oyunu, sahne planı bitti: boyalı illüstrasyon** (karar belgesi
   `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md`, plan
   `docs/plans/2026-10-08-oyun-sahne-plani.md`). Handoff'un gradyan ve filtreleri tek
