@@ -111,6 +111,7 @@ export function ustBarVaryanti(aktif: SayfaAnahtari): UstBarVaryanti {
     case 'galeri':
     case 'gizlilik':
     case 'oyun':
+    case 'siralama':
       // Tasarımda yok. İç sayfa varsayılanı; CTA ana sayfanınkiyle aynı.
       return { anaVaryantMi: false, nav: IC_NAV, cta: { tur: 'harici' } }
   }

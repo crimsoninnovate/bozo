@@ -7,10 +7,22 @@ import { useHareketAzaltilmisMi } from '@/lib/hareket'
 import { TUR_TIK } from '@/lib/oyun/ayar'
 import { oyunSaati } from '@/lib/oyun/gosterim'
 import type { Sonuc } from '@/lib/oyun/tipler'
+import { yol } from '@/lib/site'
 import { OcakSonerIsareti } from './Semboller'
+import { GonderimDurumu, SiraSatiri } from './SonucGonderim'
+import type { Gonderim } from './useOyunAkisi'
 import stil from './SonucEkrani.module.css'
 
-type Props = { dil: Dil; sonuc: Sonuc; onceki: number | null; yeni: boolean; tekrar: () => void }
+type Props = {
+  dil: Dil
+  sonuc: Sonuc
+  onceki: number | null
+  yeni: boolean
+  tekrar: () => void
+  gonderim: Gonderim
+  katil: () => void
+  tekrarDene: () => void
+}
 
 const SAYMA_MS = 900
 const GECIS = { duration: 0.3, ease: 'easeOut' as const }
@@ -55,10 +67,34 @@ function enIyiSatiri(s: Sozluk, puan: number, onceki: number | null, yeni: boole
   return `${s.oyun.enIyi} ${sayi(onceki)}, ${sayi(onceki - puan)} ${s.oyun.kaldi}`
 }
 
+/** Özet satırları (spec §11): sofra, şiş, tam kıvam, en uzun kombo; sırayla belirir. */
+function OzetListesi({ s, sonuc, sayi }: { s: Sozluk; sonuc: Sonuc; sayi: (n: number) => string }) {
+  const satirlar = [
+    [sonuc.ozet.sofra, s.oyun.ozet.sofra],
+    [sonuc.ozet.sis, s.oyun.ozet.sis],
+    [sonuc.ozet.tamKivam, s.oyun.ozet.tamKivam],
+    [sonuc.ozet.enUzunKombo, s.oyun.ozet.enUzunKombo],
+  ] as const
+  return (
+    <ul className={stil.ozet}>
+      {satirlar.map(([deger, etiket], i) => (
+        <m.li
+          key={etiket}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...GECIS, delay: 0.45 + i * 0.08 }}
+        >
+          <span className={stil.deger}>{sayi(deger)}</span> {etiket}
+        </m.li>
+      ))}
+    </ul>
+  )
+}
+
 /** Saat mühürlenir: satır büyükten yerine oturur; azaltılmışta Motion ölçeği keser, opaklık kalır. */
 const MUHUR = { initial: { opacity: 0, scale: 1.3 }, animate: { opacity: 1, scale: 1 }, transition: GECIS }
 
-export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar }: Props) {
+export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar, gonderim, katil, tekrarDene }: Props) {
   const s = sozluk(dil)
   const azalt = useHareketAzaltilmisMi()
   const sayilan = useSayac(sonuc.puan, azalt)
@@ -66,12 +102,6 @@ export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar }: Props) {
   const sayi = (n: number) => n.toLocaleString(dil === 'en' ? 'en-GB' : 'tr-TR')
   const satir = bitisSatiri(s, sonuc)
   const enIyi = enIyiSatiri(s, sonuc.puan, onceki, yeni, sayi)
-  const ozet = [
-    [sonuc.ozet.sofra, s.oyun.ozet.sofra],
-    [sonuc.ozet.sis, s.oyun.ozet.sis],
-    [sonuc.ozet.tamKivam, s.oyun.ozet.tamKivam],
-    [sonuc.ozet.enUzunKombo, s.oyun.ozet.enUzunKombo],
-  ] as const
 
   // Odak puana gider: ekran okuyucu düğmeyi değil sonucu duyar. Sayım görsel, gizli metin son değer.
   useEffect(() => puanRef.current?.focus(), [])
@@ -89,22 +119,20 @@ export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar }: Props) {
         </span>
         <span aria-hidden="true">{sayi(sayilan)}</span>
       </h2>
-      <ul className={stil.ozet}>
-        {ozet.map(([deger, etiket], i) => (
-          <m.li
-            key={etiket}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...GECIS, delay: 0.45 + i * 0.08 }}
-          >
-            <span className={stil.deger}>{sayi(deger)}</span> {etiket}
-          </m.li>
-        ))}
-      </ul>
+      <OzetListesi s={s} sonuc={sonuc} sayi={sayi} />
       {enIyi && <p className={stil.enIyi}>{enIyi}</p>}
+      <SiraSatiri s={s} gonderim={gonderim} sayi={sayi} />
       <button type="button" className={stil.tekrar} onClick={tekrar}>
         {s.oyun.tekrar}
       </button>
+      <GonderimDurumu
+        s={s}
+        gonderim={gonderim}
+        sayi={sayi}
+        katil={katil}
+        tekrarDene={tekrarDene}
+        siralamaYolu={yol('siralama', dil)}
+      />
     </section>
   )
 }

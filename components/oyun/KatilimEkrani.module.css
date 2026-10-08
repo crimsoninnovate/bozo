@@ -1,0 +1,92 @@
+/* Dikey ortalama yok: form üstten başlar, son düğme mobil eylem barının altında kalmaz. */
+.katilim {
+  display: grid;
+  justify-items: stretch;
+  gap: 10px;
+  width: min(100%, 420px);
+  margin: 0 auto;
+}
+
+.baslik {
+  margin: 0 0 6px;
+  font: 400 26px/1.15 var(--font-baslik);
+  text-shadow: var(--golge-baslik);
+}
+
+.etiket {
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}
+
+/* Okunan metin: 16px tabanı, iOS'un odakta yakınlaştırmasını da keser. */
+.alan {
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  background: var(--krem-dolgu);
+  font: 400 16px/1.4 var(--font-govde);
+  color: var(--krem);
+}
+
+.alan[aria-invalid='true'] {
+  border-color: var(--kor);
+}
+
+.kural,
+.aciklama,
+.uyari {
+  margin: 0;
+  font: 400 14.5px/1.5 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.hata {
+  margin: 0;
+  font: 500 14.5px/1.5 var(--font-govde);
+  color: var(--bakir-acik);
+}
+
+.aciklama {
+  margin-top: 8px;
+  color: var(--krem);
+}
+
+.baglanti {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-width: 44px;
+  min-height: 44px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--bakir);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.dugmeler {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.kaydet {
+  min-height: 56px;
+  border-radius: 3px;
+  background: var(--kor);
+  box-shadow: var(--kor-golge);
+  font: 600 18px/1 var(--font-govde);
+  color: var(--krem);
+}
+
+.kaydet:disabled {
+  opacity: 0.6;
+}
+
+.vazgec {
+  min-height: 44px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

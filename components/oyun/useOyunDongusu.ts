@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useState } from 'react'
 import { canliAdim, canliBaslat, canliDokun } from '@/lib/oyun/canli'
 import { goruntuAl } from '@/lib/oyun/gosterim'
-import type { Hedef, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
+import type { Girdi, Hedef, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
 import { adimSayisi } from '@/lib/oyun/zamanlayici'
 
 type Secenek = {
@@ -10,7 +10,8 @@ type Secenek = {
   ciz: (oyun: Oyun, ilerledi: boolean) => void
   /** Karede olan olaylar; anlık tepkiler için. */
   tepki: (olaylar: Olay[]) => void
-  bitince: (sonuc: Sonuc) => void
+  /** Tur bitince sonuç ve dokunuş kaydı; kayıt sunucuya gider (spec §7). */
+  bitince: (sonuc: Sonuc, kayit: readonly Girdi[]) => void
 }
 
 /** Sekme arka plana geçince oyun duraklar; otomatik başlama yok (spec §15). Setter sabit, abonelik bir kez. */
@@ -40,7 +41,7 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
     }
     ciz(canli.oyun, adim > 0)
     const bitti = canli.oyun.bitti
-    if (bitti) bitince({ puan: canli.oyun.puan, ozet: { ...canli.oyun.ozet }, bitti, tik: canli.oyun.tik })
+    if (bitti) bitince({ puan: canli.oyun.puan, ozet: { ...canli.oyun.ozet }, bitti, tik: canli.oyun.tik }, canli.kayit)
   })
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import {
+  dizindeMi,
   yol,
   yoldanDil,
   tumYollar,
@@ -64,9 +65,17 @@ test('yol_oyun_ikiDildeOyunYolu', () => {
   assert.equal(yol('oyun', 'en'), '/en/oyun/')
 })
 
-/** Oyun prototipi noindex: sitemap ve llms.txt `tumYollar`'dan türer, oyun oraya girmez. */
-test('tumYollar_oyunuIcermez', () => {
-  assert.equal(tumYollar().some((g) => (g.anahtar as string) === 'oyun'), false)
+test('yol_siralama_oyunAltinda', () => {
+  assert.equal(yol('siralama', 'tr'), '/oyun/siralama/')
+  assert.equal(yol('siralama', 'en'), '/en/oyun/siralama/')
+})
+
+/** Oyun prototipi noindex: sitemap ve llms.txt `tumYollar`'dan türer, oyun ve sıralaması oraya girmez. */
+test('tumYollar_oyunuVeSiralamayiIcermez', () => {
+  const anahtarlar = tumYollar().map((g) => g.anahtar as string)
+  assert.equal(anahtarlar.includes('oyun') || anahtarlar.includes('siralama'), false)
+  assert.equal(dizindeMi('oyun') || dizindeMi('siralama'), false)
+  assert.equal(dizindeMi('menu'), true)
 })
 
 test('yolTarifiUrl_koordinatVePlaceIdBilinmiyorken_adresAramasiUretir', () => {

@@ -102,6 +102,7 @@ test('ustBar_oyun_icSayfaVaryantiTasir', () => {
   assert.equal(oyun.anaVaryantMi, false)
   assert.deepEqual(oyun.nav, ustBarVaryanti('galeri').nav)
   assert.deepEqual(oyun.cta, { tur: 'harici' })
+  assert.deepEqual(ustBarVaryanti('siralama'), oyun)
 })
 
 /** Oyun nav'da ve çekmecede yok: yalnız kampanya bağlantısıyla gelinir (spec §19 karar 8, 8 Ekim 2026). */

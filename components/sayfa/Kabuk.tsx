@@ -4,7 +4,7 @@ import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
 import { breadcrumbJsonLd, jsonLdMetni, menuJsonLd } from '@/lib/jsonld'
-import type { SayfaAnahtari } from '@/lib/site'
+import { dizindeMi, type SayfaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
 /** Atlanan blok bağlantısının hedefi; `<main>` ile bağlantının tek ortak değeri. */
@@ -44,7 +44,7 @@ export function Kabuk({ dil, aktif, children }: Props) {
         {s.ortak.erisim.icerigeAtla}
       </a>
       {/* Oyun noindex: breadcrumb yalnız dizindeki rotalarda. */}
-      {aktif !== 'ana' && aktif !== 'oyun' && (
+      {aktif !== 'ana' && dizindeMi(aktif) && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdMetni(breadcrumbJsonLd(aktif, dil)) }}

@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { ROZET } from '@/components/ui/Rozet'
 import stil from './OyunAcilisi.module.css'
 
-type Props = { baslik: string; cumle: string; children: ReactNode }
+type Props = { baslik: string; cumle: string; children: ReactNode; altinda?: ReactNode }
 
 /** Kıvılcım: yatay savrulma ve yükselme (px), gecikme (ms). Sabit dizi; her açılış aynı. */
 const KIVILCIMLAR = [
@@ -14,7 +14,7 @@ const KIVILCIMLAR = [
  * Giriş ekranının açılışı, ~1,6 sn: kor tutuşur, rozet oturur, kıvılcım savrulur, bakır parlama
  * geçer, sonra başlık, cümle ve düğme. Yalnız CSS; dokunuş ya da tuş son hâle atlatır.
  */
-export function OyunAcilisi({ baslik, cumle, children }: Props) {
+export function OyunAcilisi({ baslik, cumle, children, altinda }: Props) {
   const [atla, setAtla] = useState(false)
   useEffect(() => {
     const tus = () => setAtla(true)
@@ -46,6 +46,7 @@ export function OyunAcilisi({ baslik, cumle, children }: Props) {
       <h1 className={stil.baslik}>{baslik}</h1>
       <p className={stil.cumle}>{cumle}</p>
       <div className={stil.eylem}>{children}</div>
+      {altinda && <div className={stil.altinda}>{altinda}</div>}
     </section>
   )
 }

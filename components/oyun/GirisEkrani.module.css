@@ -1,0 +1,13 @@
+.oyna {
+  min-width: 200px;
+  min-height: 56px;
+  border-radius: 3px;
+  background: var(--kor);
+  box-shadow: var(--kor-golge);
+  font: 600 18px/1 var(--font-govde);
+  color: var(--krem);
+}
+
+.oyna:disabled {
+  opacity: 0.7;
+}

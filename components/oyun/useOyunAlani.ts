@@ -4,7 +4,7 @@ import { duyurucuKur, duyuruSec } from '@/lib/oyun/duyuru'
 import { ipucuHedefi } from '@/lib/oyun/gosterim'
 import { kisayolHedefi } from '@/lib/oyun/klavye'
 import { sesSec } from '@/lib/oyun/ses'
-import type { Hedef, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
+import type { Girdi, Hedef, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
 import { duyuruYaz, sahayiCiz } from './ciz'
 import { seritleriDuzenle } from './odak'
 import type { Metin } from './Seritler'
@@ -17,7 +17,7 @@ type Secenek = {
   tohum: number
   ipucu: boolean
   metin: Metin
-  bitince: (sonuc: Sonuc) => void
+  bitince: (sonuc: Sonuc, kayit: readonly Girdi[]) => void
 }
 
 /**

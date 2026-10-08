@@ -1,7 +1,12 @@
-/** Oyunun tarayıcıda tuttuğu üç şey: kişisel en iyi, ilk turun bittiği, ses tercihi (spec §3, §11, §13). */
+/**
+ * Oyunun tarayıcıda tuttukları: kişisel en iyi, ilk turun bittiği, ses tercihi (spec §3, §11,
+ * §13) ve sıralama hesabı: 128 bitlik anahtar ile takma ad (spec §8, §10).
+ */
 const EN_IYI = 'bozo-oyun-en-iyi'
 const ILK_TUR = 'bozo-oyun-ilk-tur-bitti'
 const SES = 'bozo-oyun-ses'
+const ANAHTAR = 'bozo-oyun-anahtar'
+const TAKMA_AD = 'bozo-oyun-takma-ad'
 
 export function enIyiOku(): number | null {
   try {
@@ -57,5 +62,44 @@ export function sesYaz(acik: boolean): void {
     window.localStorage.setItem(SES, acik ? '1' : '0')
   } catch {
     // Yazılamazsa tercih yalnız bu turda geçerli; bir sonraki açılışta ses yine kapalı.
+  }
+}
+
+export type Hesap = { anahtar: string; takmaAd: string }
+
+/** Tarayıcı anahtarı: 16 rastgele bayt, hex. Sunucu yalnız özetini tutar. */
+export function anahtarUret(): string {
+  const baytlar = new Uint8Array(16)
+  crypto.getRandomValues(baytlar)
+  return Array.from(baytlar, (b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+export function hesapOku(): Hesap | null {
+  try {
+    const anahtar = window.localStorage.getItem(ANAHTAR)
+    const takmaAd = window.localStorage.getItem(TAKMA_AD)
+    return anahtar && /^[0-9a-f]{32}$/.test(anahtar) && takmaAd ? { anahtar, takmaAd } : null
+  } catch {
+    return null
+  }
+}
+
+/** Yazılamazsa (depolama kapalı) hesap yalnız bu oturumda yaşar; katılım ekranı bunu söyler. */
+export function hesapYaz(hesap: Hesap): boolean {
+  try {
+    window.localStorage.setItem(ANAHTAR, hesap.anahtar)
+    window.localStorage.setItem(TAKMA_AD, hesap.takmaAd)
+    return true
+  } catch {
+    return false
+  }
+}
+
+export function hesapSil(): void {
+  try {
+    window.localStorage.removeItem(ANAHTAR)
+    window.localStorage.removeItem(TAKMA_AD)
+  } catch {
+    // Zaten okunamıyordu; silecek bir şey yok.
   }
 }

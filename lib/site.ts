@@ -7,8 +7,8 @@ export const SITE_URL = 'https://cigercibozo.com'
 /** Dizine giren rotalar: sitemap, llms.txt, breadcrumb ve sayfa metası bunlardan türer. */
 export type RotaAnahtari = 'ana' | 'menu' | 'galeri' | 'hikaye' | 'konum' | 'gizlilik'
 
-/** Kabuğu taşıyan her sayfa. Oyun prototipi noindex, dizine girmez. */
-export type SayfaAnahtari = RotaAnahtari | 'oyun'
+/** Kabuğu taşıyan her sayfa. Oyun prototipi ve sıralaması noindex, dizine girmez. */
+export type SayfaAnahtari = RotaAnahtari | 'oyun' | 'siralama'
 
 const YOLLAR: Record<SayfaAnahtari, string> = {
   ana: '',
@@ -18,6 +18,12 @@ const YOLLAR: Record<SayfaAnahtari, string> = {
   konum: 'konum',
   gizlilik: 'gizlilik',
   oyun: 'oyun',
+  siralama: 'oyun/siralama',
+}
+
+/** Sitemap, llms.txt ve breadcrumb yalnız dizindeki rotaları görür. */
+export function dizindeMi(anahtar: SayfaAnahtari): anahtar is RotaAnahtari {
+  return anahtar !== 'oyun' && anahtar !== 'siralama'
 }
 
 /** EN rotalarında yol adları Türkçe kalır: /en/menu/, /en/hikaye/. */
@@ -38,7 +44,7 @@ export function yoldanDil(yolAdi: string): Dil {
 }
 
 export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[] {
-  const dizindekiler = (Object.keys(YOLLAR) as SayfaAnahtari[]).filter((a): a is RotaAnahtari => a !== 'oyun')
+  const dizindekiler = (Object.keys(YOLLAR) as SayfaAnahtari[]).filter(dizindeMi)
   return dizindekiler.map((a) => ({
     anahtar: a,
     tr: yol(a, 'tr'),
