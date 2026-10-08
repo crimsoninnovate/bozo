@@ -47,7 +47,19 @@ npm run preview    # serve the out/ export locally
   `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
   integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
   display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,
-  `ses`) that never feed values back into it.
+  `ses`, `tarih`) that never feed values back into it, and the server-facing modules shared
+  with `sunucu/`: `aktarim` (the wire contract), `api` (browser client), `tavan` (per-seed score
+  ceiling), `tohum` (uint32 seed bounds), `takmaAd` (nickname format and folding).
+- **`sunucu/` is the game's score server** (spec §10): Node 24, `node:http`, one dependency
+  (`mariadb`) in its own `package.json`, wired in as an npm workspace so the root `npm install`,
+  `npm run typecheck` and `npm test` cover it. It imports `lib/oyun/` directly and replays every
+  round with `simule`; it never reads a claimed score. Storage is behind `sunucu/depo.ts`:
+  `bellekDepo` for tests and local runs, `mariaDepo` for production (`sema.sql`). The MariaDB
+  contract test is opt-in (`BOZO_TEST_DB_URL`), so bare `npm test` stays hermetic. Run locally
+  with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`; the site reads the API base
+  from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`). **Not
+  deployed:** the privacy page still says the site stores no visitor data on its own server; the
+  server cannot go live before that text changes (plan 4) and the owner's lawyer approves.
 - **Every third-party runtime request sits behind consent.** `components/layout/CerezOnayi.tsx`
   is the gate and `Olcumleme` (GA4) is only rendered once the stored answer is `kabul`; KKTC law
   89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
@@ -214,8 +226,9 @@ Comment density here has drifted into essays. Keep them short.
 ## Dependencies
 
 Runtime: `next`, `react`, `react-dom`, `lucide-react`, `motion` (imported only under
-`components/oyun/`, so it ships only in the `/oyun` chunk; spec §10). Dev: `typescript` and the three
-`@types` packages.
+`components/oyun/`, so it ships only in the `/oyun` chunks; spec §10). Dev: `typescript` and the three
+`@types` packages. The `sunucu` workspace adds `mariadb` for the score server only; it is not
+imported by the site.
 
 **Owner's decision, 13 August 2026.** The old "those three packages only" rule is lifted: this
 is a small restaurant brand with a launch to make, not a bundle-budget project. Add a dependency

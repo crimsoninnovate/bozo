@@ -8,6 +8,15 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
+- **Açılış oyunu, plan 3 bitti: skor sunucusu ve sıralama** (spec §6-§10, §16; plan
+  `docs/plans/2026-10-08-oyun-plan-3-sunucu.md`). `sunucu/` npm workspace: `node:http`, tek
+  bağımlılık `mariadb`, `simule` ile yeniden oynatma, tavan, 15 dk tek kullanımlık jeton, hız
+  sınırı, Cloudflare IP, dönem kapanışı (Pazartesi 05:00 Girne) ve ödül kodları, gece silme,
+  `/yonetim/*` temel kimlikle. Sitede "önce oyna, sonra kaydet": katılım ekranı, sonuçta
+  haftalık sıra, `/oyun/siralama/` (TR ve EN), "Hesabımı sil", çevrimdışı tur. Yönetim
+  arayüzü sayfası ve paylaşım kartı plan 4'te. **Yayında değil ve yayınlanamaz:** gizlilik
+  sayfası hâlâ "site kendi sunucusunda ziyaretçi verisi saklamaz" diyor; plan 4'ün gizlilik
+  değişikliği ve hukukçu onayı olmadan sunucu açılmaz.
 - **Açılış oyunu, plan 2 bitti: görsel ve ses dili `/oyun/`** (spec
   `docs/specs/2026-10-08-oyun-design.md` §12-§13 ve §15; plan
   `docs/plans/2026-10-08-oyun-plan-2-gorsel-dil.md`). Kor zemin üstünde cam panel, elle çizilmiş

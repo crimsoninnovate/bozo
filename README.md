@@ -70,6 +70,37 @@ Produces a static export in `out/`. To check the export locally:
 npm run preview
 ```
 
+## Score server
+
+`sunucu/` is the game's score server (spec `docs/specs/2026-10-08-oyun-design.md` §10), an npm
+workspace: the root `npm install` installs its one dependency (`mariadb`), and the root
+`npm run typecheck` and `npm test` cover its files. Run it locally against the in-memory store:
+
+```bash
+GIZLI_TUZ=yerel KOKEN=http://localhost:3000 PORT=8402 node sunucu/ana.ts
+NEXT_PUBLIC_OYUN_API=http://127.0.0.1:8402 npm run dev   # the site reads the API base at build time
+```
+
+Environment (all read in `sunucu/ana.ts`): `PORT` (8402), `KOKEN` (CORS origins, comma-separated,
+default `https://cigercibozo.com`), `GIZLI_TUZ` (prize-code HMAC secret, required), `DB_URL`
+(`mariadb://user:pass@host:3306/db`; without it the in-memory store is used and nothing survives a
+restart), `YONETIM_KULLANICI` and `YONETIM_SIFRE` (basic auth for `/yonetim/*`; without both the
+admin endpoints answer 503), `GUVENILIR_VEKIL` (the local reverse proxy in front of Node, default
+`127.0.0.1,::1`), `KAMPANYA_BITIS` (ISO date; champion records are purged 90 days after it).
+
+Schema: `sunucu/sema.sql` (MariaDB 10.11). Production build: `npm run build -w sunucu` emits
+`sunucu/dist/` (`tsc` with `rewriteRelativeImportExtensions`), started with `npm start -w sunucu`.
+The MariaDB adapter test runs only when `BOZO_TEST_DB_URL` points at a throwaway database:
+
+```bash
+docker run -d --name bozo-maria -e MARIADB_ROOT_PASSWORD=sifre -e MARIADB_DATABASE=bozo_test \
+  -p 127.0.0.1:3399:3306 mariadb:10.11
+BOZO_TEST_DB_URL=mariadb://root:sifre@127.0.0.1:3399/bozo_test node --test sunucu/mariaDepo.test.ts
+```
+
+Not deployed yet: subdomain, DNS, Plesk Node.js app and database are plan 4, each step with its
+own approval, after the privacy text changes and the lawyer's review.
+
 ## Publishing
 
 The build output in `out/` is a plain static site with no server runtime. It is served from the
