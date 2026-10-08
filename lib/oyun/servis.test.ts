@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { bekle, dokun, evreyeGec, sahne, sonaKadarBekle } from './deneme.ts'
 import { ilerle } from './motor.ts'
-import type { Olay } from './tipler.ts'
+import type { Hedef, Olay } from './tipler.ts'
 
 test('servis_eslesenKalemleriTasir_fisBitinceKomboVeSabirlaOder', () => {
   const oyun = sahne([['ciger', 'ayran']])
@@ -109,4 +109,11 @@ test('evre_sinirdaGecer_olayVerir', () => {
   bekle(oyun, 899)
   assert.deepEqual(bekle(oyun, 1), [{ tur: 'evre', evre: 1 }])
   assert.equal(oyun.evre, 1)
+})
+
+test('ilerle_tanimsizHedef_etkisiz', () => {
+  const oyun = sahne([])
+  dokun(oyun, 'ciger')
+  assert.deepEqual(ilerle(oyun, ['x' as Hedef]), [])
+  assert.equal(oyun.ocak[0]?.cevirme, 'yok')
 })

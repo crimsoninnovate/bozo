@@ -67,3 +67,13 @@ test('zorlukBandi_ustaTamamlar_siradanTamamlayamaz', () => {
   assert.ok(tamamlayan('usta') >= 36, 'usta gecelerin %90ından azını tamamlıyor')
   assert.ok(tamamlayan('siradan') <= 12, 'sıradan oyuncu gecelerin %30undan fazlasını tamamlıyor')
 })
+
+test('simule_tanimsizHedefYaDaBozukGirdi_hataVerir', () => {
+  const bozuk = (g: unknown) => g as Girdi[]
+  assert.throws(() => simule(1, bozuk([[0, 'x']])), RangeError)
+  assert.throws(() => simule(1, bozuk([[0, 'o4']])), RangeError)
+  assert.throws(() => simule(1, bozuk([[0, 5]])), RangeError)
+  assert.throws(() => simule(1, bozuk([[0, null]])), RangeError)
+  assert.throws(() => simule(1, bozuk([null])), RangeError)
+  assert.throws(() => simule(1, bozuk([[0, 's0', 'fazla']])), RangeError)
+})
