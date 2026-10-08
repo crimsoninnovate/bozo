@@ -1,0 +1,243 @@
+/* Ocağın boyalı parçaları; konum çağıran modülde (`Saha.module.css` > ocak). */
+.dayama {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  width: 22px;
+  height: 10px;
+  transform: translateX(-50%);
+}
+
+.kapaliCizgi {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  width: 0;
+  border-left: 1px dashed var(--cizgi-plaka);
+}
+
+.sis {
+  display: block;
+  height: 168px;
+  width: auto;
+  overflow: visible;
+}
+
+/* Pişme > .4 iken duman belirir; katman opaklıkları kare değişkenlerinden (K3). */
+.duman {
+  opacity: calc(clamp(0, (var(--pisme, 0) - 0.4) * 10, 1) * 0.16);
+}
+
+.pismis {
+  opacity: var(--pisme, 0);
+}
+
+.komur {
+  opacity: calc(var(--yanma, 0) * 0.92);
+}
+
+.yag {
+  opacity: calc(0.9 - var(--yanma, 0) * 0.55);
+}
+
+/* Yanık şiş sabit kömür: `[data-yanik]` hayaleti 700 ms söner. */
+.yanik .pismis { opacity: 1; }
+.yanik .komur { opacity: 0.92; }
+.yanik .yag { opacity: 0.35; }
+
+.yatak {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.kor {
+  fill: var(--kor);
+}
+
+/* Sıcak köz: ocak eşiği (`--kor-yogunluk`, 0.25 ... 1) `--esik`i geçince yanar. */
+.sicak {
+  opacity: clamp(0, (var(--kor-yogunluk, 0.25) - var(--esik) + 0.17) * 6, 1);
+  transition: opacity var(--gecis-yogunluk);
+}
+
+.kivilcim {
+  position: absolute;
+  inset: 0;
+  opacity: var(--oran, 0);
+  transition: opacity var(--gecis-erit);
+  pointer-events: none;
+}
+
+.yuvalar {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  justify-items: center;
+  margin: auto 0;
+}
+
+.yuva,
+.kapaliYuva {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 72px;
+}
+
+.kapaliYuva {
+  height: 176px;
+}
+
+.sisKap {
+  position: relative;
+  display: grid;
+  height: 176px;
+  place-items: center;
+  perspective: 300px;
+}
+
+.sis {
+  display: block;
+  line-height: 0;
+}
+
+/* Çevrilmiş şiş öbür yüzünü gösterir; dönüşün kendisi WAAPI'de, azaltılmışta anlık. */
+.yuva[data-cevirme='iyi'] .sis,
+.yuva[data-cevirme='kotu'] .sis {
+  transform: rotateY(180deg);
+}
+
+.yanik {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+}
+
+.cevir {
+  position: absolute;
+  right: -4px;
+  top: 4px;
+  color: #FFE2A8;
+  filter: drop-shadow(0 0 4px rgba(255, 180, 90, 0.8));
+  opacity: 0;
+  transition: opacity var(--gecis-hizli);
+}
+
+.yuva[data-gorunum='centik'] .cevir {
+  opacity: 1;
+}
+
+/* Tam kıvam: yuva çevresinde bakır çerçeve ve +150. */
+.kivamCerceve {
+  position: absolute;
+  inset: -4px;
+  opacity: 0;
+  box-shadow:
+    0 0 0 2px var(--bakir-acik),
+    0 0 26px color-mix(in srgb, var(--bakir-acik) 60%, transparent);
+  transition: opacity var(--gecis-hizli);
+  pointer-events: none;
+}
+
+.kivamPuan {
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  transform: translateX(-50%);
+  font: 400 15.5px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--bakir-acik);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity var(--gecis-hizli);
+}
+
+.yuva[data-gorunum='kivam'] .kivamCerceve,
+.yuva[data-gorunum='kivam'] .kivamPuan {
+  opacity: 1;
+}
+
+.kivilcimUcu {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--bakir-acik);
+  opacity: 0;
+}
+
+/* Pişme rayı 5 px: alma penceresi, tam kıvam bandı, pirinç dolum, orta çentik. */
+.ray {
+  position: relative;
+  display: block;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(226, 194, 117, 0.25);
+}
+
+.pencere,
+.kivam,
+.rayDolum,
+.centik {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.pencere {
+  left: calc(var(--pencere) * 100%);
+  right: 0;
+  background: rgba(226, 194, 117, 0.3);
+}
+
+.kivam {
+  left: calc((var(--kivam) - var(--bant) / 2) * 100%);
+  width: calc(var(--bant) * 100%);
+  background: var(--bakir-acik);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--bakir-acik) 80%, transparent);
+}
+
+.rayDolum {
+  left: 0;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(var(--oran, 0));
+  background: linear-gradient(90deg, #8A6A2B, #E2C275);
+}
+
+.centik {
+  left: calc(var(--centik, 0.5) * 100% - 1px);
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: rgba(226, 194, 117, 0.45);
+}
+
+.yuva[data-gorunum] .centik {
+  background: var(--bakir);
+}
+
+.yuva[data-gorunum='bos'] .centik {
+  background: rgba(226, 194, 117, 0.45);
+}
+
+/* Çevirme bandında çentik 500 ms yanıp söner; azaltılmışta global kural keser, sabit açık kalır. */
+.yuva[data-gorunum='centik'] .centik {
+  background: #FFE2A8;
+  animation: centikYanip 500ms ease-in-out infinite alternate;
+}
+
+@keyframes centikYanip {
+  from { opacity: 1; }
+  to { opacity: 0.35; }
+}
