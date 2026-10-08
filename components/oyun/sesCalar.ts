@@ -5,7 +5,7 @@ import { SESLER, type SesAdi } from '@/lib/oyun/ses'
  * dokunuşta kurulur; tarayıcı kullanıcı hareketi olmadan ses başlatmaz.
  */
 
-export type SesCalar = { cal: (ad: SesAdi) => void; kapat: () => void }
+export type SesCalar = { cal: (ad: SesAdi) => void; uyandir: () => void; kapat: () => void }
 
 /** Bir saniyelik beyaz gürültü, bir kez üretilir: cızırtının kaynağı. */
 function gurultuTamponu(ctx: AudioContext): AudioBuffer {
@@ -39,8 +39,12 @@ export function sesCalarKur(): SesCalar | null {
   if (typeof AudioContext === 'undefined') return null
   const ctx = new AudioContext()
   const tampon = gurultuTamponu(ctx)
-  const cal = (ad: SesAdi): void => {
+  // iOS Safari bağlamı yalnız bir dokunuşun içinde açar; `uyandir` oradan çağrılır.
+  const uyandir = (): void => {
     if (ctx.state === 'suspended') void ctx.resume()
+  }
+  const cal = (ad: SesAdi): void => {
+    uyandir()
     const ses = SESLER[ad]
     let t = ctx.currentTime
     for (const nota of ses.notalar) {
@@ -55,5 +59,5 @@ export function sesCalarKur(): SesCalar | null {
       t += sure
     }
   }
-  return { cal, kapat: () => void ctx.close() }
+  return { cal, uyandir, kapat: () => void ctx.close() }
 }

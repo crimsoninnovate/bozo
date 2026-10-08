@@ -47,6 +47,7 @@ export function useOyunAlani({ kok, tohum, ipucu, metin, bitince }: Secenek) {
 
   /** Dokunuş: simülasyona sıraya girer, hedefte anlık tepki başlar. */
   const dokun = (hedef: Hedef, el: HTMLElement | null) => {
+    ses.uyandir()
     dongu.dokun(hedef)
     dokunus(el, azalt)
   }
