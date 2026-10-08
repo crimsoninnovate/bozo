@@ -300,6 +300,10 @@ ulaşmaz. Hedef: orta seviye Android'de 60 fps, chrome-devtools trace ile ölç�
 
 ## 13. Görsel ve ses dili
 
+> 8 Ekim 2026: bu bölümün "yalnız marka token'ları" cümlesi ve §3'ün yerleşim ölçüleri
+> `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md` (K1, K6) ile geçersiz kılındı:
+> sahne katmanı handoff'un boyalı paletini taşır, UI katmanı token'da kalır.
+
 Arcade kabini yok. Oyun sitenin kor zemini (`KorSahnesi`) üstünde bir `CamPanel` içinde.
 Yalnız marka token'ları: zemin `--zemin`, ocak yatağı `--kor-leke*`, çiğ `--krem`, pişmiş
 `--bakir`, yanık `--komur` + `--krem-50` kontur, halka `--kor`, tam kıvam `--bakir-acik`.

@@ -72,8 +72,9 @@ npm run preview    # serve the out/ export locally
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
 - `components/` has six buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
   `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen
-  (DOM + hand-drawn SVG, per-frame values written by a rAF loop, instant reactions in WAAPI,
-  `motion` only for screen transitions). Each component is `X.tsx` next to `X.module.css`.
+  (DOM + painted inline SVG from the handoff, `Sahne*` modules and one `SahneDefs`; per-frame
+  values written by a rAF loop as CSS variables the SVG layers read, instant reactions in
+  WAAPI, `motion` only for screen transitions). Each component is `X.tsx` next to `X.module.css`.
   Imports go through the `@/*` alias, not relative paths.
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
   keyframe sitting in a global file never resolves and the animation silently never runs. Measured
@@ -148,6 +149,15 @@ halation level the black ground was rejected at: one section, deliberately the d
   2026, for recognition): the WhatsApp glyph is WhatsApp green and the Instagram glyph carries
   Instagram's gradient, tokens `--marka-*` in `styles/tokens.css`, applied only inside
   `components/ui/Ikonlar.tsx`. Nothing else on the site uses those colours.
+- **The game scene is the second exception** (owner's decision, 8 October 2026; spec
+  `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md` K1): the painted board under
+  `components/oyun/Sahne*` (walnut, brass, steel, marble, raw and cooked meat, coal, ember
+  `#FF7A1A`) carries the handoff's own warm palette as literals, with every stop that IS a
+  palette colour bound to its token (`stop-color: var(--kor)`, `fill: var(--kor)`). The UI
+  layer on top of it (HUD, section labels, buttons, pause curtain, ticket strike line, ×2 and
+  combo text) stays on tokens, and no palette rgb is written as a literal anywhere
+  (`styles/palet.test.ts`). All gradients and filters live in one `SahneDefs` bound once;
+  `components/oyun/SahneDefs.test.ts` fails on a second `<defs>` or an undefined `url(#…)`.
 
 ## Typography
 
