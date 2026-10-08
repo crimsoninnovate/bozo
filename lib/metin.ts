@@ -14,3 +14,8 @@ export function dulOnle(metin: string): string {
   if (son === -1) return metin
   return metin.slice(0, son) + BOLUNMEZ + metin.slice(son + 1)
 }
+
+/** `{ad}` yer tutucularını doldurur; kalıp sözlükten, değer çağırandan. Tanımsız ad olduğu gibi kalır. */
+export function doldur(metin: string, degerler: Record<string, string | number>): string {
+  return metin.replace(/\{(\w+)\}/g, (butun, ad: string) => (ad in degerler ? String(degerler[ad]) : butun))
+}
