@@ -8,6 +8,8 @@ import stil from './SahneOcak.module.css'
 
 const TANE_Y = [26, 52, 78, 104] as const
 const YAG_Y = [38.5, 64.5, 90.5] as const
+const TEL = 'M14 8c-4-6 3-9 0-14'
+const TEL_GECIKME = [0, -0.9, -1.8] as const
 
 /** Şişin üstündeki pirinç dayama. */
 export function DayamaCentigi() {
@@ -33,8 +35,13 @@ export function Sis({ urun, yanik = false }: SisProps) {
   return (
     <svg viewBox="0 0 28 128" className={`${stil.sis} ${yanik ? stil.yanik : ''}`} aria-hidden="true">
       {!yanik && (
-        <path d="M14 10c-5-7 4-11-1-18c-3-5 3-9 1-14" className={stil.duman} stroke="#FFF" strokeWidth={3} fill="none" filter="url(#fBlur2)" strokeLinecap="round" />
+        <g className={stil.duman}>
+          {TEL_GECIKME.map((g) => (
+            <path key={g} d={TEL} className={stil.tel} style={{ animationDelay: `${g}s` }} />
+          ))}
+        </g>
       )}
+      <ellipse cx={14} cy={122} rx={14} ry={5} fill="url(#gEmber)" className={stil.alt} />
       <ellipse cx={14} cy={126} rx={9} ry={2.4} fill="#000" opacity={0.5} filter="url(#fBlur2)" />
       <circle cx={14} cy={6} r={4} fill="none" stroke="url(#gSteel)" strokeWidth={2} />
       <path d="M12.6 10h2.8v108l-1.4 6-1.4-6z" fill="url(#gSteel)" stroke="rgba(0,0,0,.4)" strokeWidth={0.4} />
@@ -60,29 +67,50 @@ const KULLER = [[60, 16, 5, 2], [200, 15, 6, 2], [330, 16, 5, 2]] as const
 /** Sıcak közler sırayla yanar: kor yoğunluğu (kombo) eşiği geçtikçe bir tane daha. */
 const SICAK = [60, 180, 300, 120, 240, 360] as const
 
-/** 400×34 yatak, `preserveAspectRatio="none"` ile tekne genişliğine yayılır. */
+/** 400×34 yatak, `preserveAspectRatio="none"` ile tekne genişliğine yayılır. Kor elipsleri iki ayrı katmanda: katman opaklıkları farklı hızda nefes alır. */
 export function KozYatagi() {
   return (
-    <svg viewBox="0 0 400 34" preserveAspectRatio="none" className={stil.yatak} aria-hidden="true">
-      <rect x={0} y={12} width={400} height={22} fill="url(#gCoal)" />
-      <g filter="url(#fBlur2)">
-        {KOZLER.map(([cx, cy, rx, ry, renk, o]) => (
-          <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} opacity={o} className={renk === 'kor' ? stil.kor : undefined} fill={renk === 'kor' ? undefined : renk} />
+    <>
+      <svg viewBox="0 0 400 34" preserveAspectRatio="none" className={stil.yatak} aria-hidden="true">
+        <rect x={0} y={12} width={400} height={22} fill="url(#gCoal)" />
+        <g opacity={0.85}>
+          {KOMURLER.map(([cx, cy, rx, ry]) => (
+            <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} fill="#2A1A14" />
+          ))}
+        </g>
+        <g opacity={0.6}>
+          {KULLER.map(([cx, cy, rx, ry]) => (
+            <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} fill="#8A8078" />
+          ))}
+        </g>
+        {SICAK.map((cx, i) => (
+          <ellipse key={cx} cx={cx} cy={22} rx={14} ry={5} fill="url(#gEmber)" className={stil.sicak} style={{ '--esik': (i + 1) / 6 } as React.CSSProperties} />
         ))}
-      </g>
-      <g opacity={0.85}>
-        {KOMURLER.map(([cx, cy, rx, ry]) => (
-          <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} fill="#2A1A14" />
-        ))}
-      </g>
-      <g opacity={0.6}>
-        {KULLER.map(([cx, cy, rx, ry]) => (
-          <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} fill="#8A8078" />
-        ))}
-      </g>
-      {SICAK.map((cx, i) => (
-        <ellipse key={cx} cx={cx} cy={22} rx={14} ry={5} fill="url(#gEmber)" className={stil.sicak} style={{ '--esik': (i + 1) / 6 } as React.CSSProperties} />
+      </svg>
+      {[0, 1].map((k) => (
+        <svg key={k} viewBox="0 0 400 34" preserveAspectRatio="none" className={`${stil.yatak} ${k ? stil.parilti2 : stil.parilti1}`} aria-hidden="true">
+          <g filter="url(#fBlur2)">
+            {KOZLER.filter((_, i) => i % 2 === k).map(([cx, cy, rx, ry, renk, o]) => (
+              <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={ry} opacity={o} className={renk === 'kor' ? stil.kor : undefined} fill={renk === 'kor' ? undefined : renk} />
+            ))}
+          </g>
+        </svg>
       ))}
-    </svg>
+    </>
+  )
+}
+
+const ALEVLER = [
+  [4, 3.1, 0], [21, 2.4, -1], [38, 3.7, -0.4], [55, 2.8, -1.7], [72, 3.3, -0.8], [88, 2.6, -1.3],
+] as const
+
+/** Köz yatağının üstünde yükselen alev dilleri: yoğunluk komboyla (`--kor-yogunluk`). */
+export function OcakAlevi() {
+  return (
+    <span className={stil.alevler} aria-hidden="true">
+      {ALEVLER.map(([x, sure, gecikme]) => (
+        <i key={x} className={stil.alev} style={{ left: `${x}%`, animationDuration: `${sure}s`, animationDelay: `${gecikme}s` }} />
+      ))}
+    </span>
   )
 }

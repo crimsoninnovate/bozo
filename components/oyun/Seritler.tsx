@@ -4,7 +4,7 @@ import { fisSatirlari } from '@/lib/oyun/gorsel'
 import type { Goruntu } from '@/lib/oyun/gosterim'
 import type { Hedef, Urun } from '@/lib/oyun/tipler'
 import { seritOdagi, seritTusu } from './odak'
-import { DayamaCentigi, KapaliYuva, KozYatagi, Sis } from './SahneOcak'
+import { DayamaCentigi, KapaliYuva, KozYatagi, OcakAlevi, Sis } from './SahneOcak'
 import { IkramTabaklari, KalktiHalkasi, KapaliSofra, KorHalkasi, SofraPlakasi } from './SahneSofra'
 import { KarisikSimgesi, TaneSimgesi } from './SahneTane'
 import { CevirmeIsareti, KalktiIsareti, KorNoktasi } from './Semboller'
@@ -207,6 +207,7 @@ export function Ocak({ goruntu, ...kalan }: SeritProps) {
         <span className={stil.tekneUst} aria-hidden="true" />
         <div className={stil.tekneIci}>
           <span className={stil.tekneKoru} aria-hidden="true" />
+          <OcakAlevi />
           <span className={ocakStil.kivilcim} data-ciz="kivilcim" aria-hidden="true">
             <KorKivilcimi />
           </span>
