@@ -1,0 +1,157 @@
+/* Oyun sayfasıyla aynı yerleşim: kabuğun barı ve sarkan rozeti için üst pay, 560px tek sütun. */
+.sayfa {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  min-height: 100dvh;
+  padding: calc(var(--bar-boy) + var(--rozet-sarkma) + 12px) 12px 12px;
+  color: var(--krem);
+}
+
+.panel {
+  width: 100%;
+  max-width: 560px;
+}
+
+.siralama {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 32px/1.1 var(--font-baslik);
+  text-shadow: var(--golge-baslik);
+}
+
+.altBaslik {
+  margin: 6px 0 0;
+  font: 500 14.5px/1.2 var(--font-govde);
+  letter-spacing: 0.04em;
+  color: var(--krem-70);
+}
+
+.liste {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Sıra, ad, puan: rakamlar Bevan tabular, uzun ad kısalır. */
+.satir {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.satir:first-child {
+  border-top: 0;
+}
+
+.sira,
+.puan {
+  font-family: var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.sira {
+  color: var(--bakir);
+}
+
+.ad {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.not {
+  margin: 0;
+  color: var(--krem-70);
+}
+
+.ben {
+  margin: 4px 0 0;
+  color: var(--bakir);
+}
+
+.odul {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 10px;
+  border: 1px solid var(--bakir-32);
+  border-radius: 3px;
+}
+
+/* Kod sofrada telefondan okunur: büyük, aralıklı, tabular. */
+.kod {
+  margin: 0;
+  font: 400 40px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: var(--bakir-acik);
+}
+
+.hesap {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tehlike {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--cizgi-buton);
+  border-radius: 3px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem);
+}
+
+.tehlike:disabled {
+  opacity: 0.6;
+}
+
+.baglantiDugme {
+  min-height: 44px;
+  padding: 0 10px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.oyunaDon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  min-height: 56px;
+  margin-top: 8px;
+  border-radius: 3px;
+  background: var(--kor);
+  box-shadow: var(--kor-golge);
+  font: 600 18px/1 var(--font-govde);
+  color: var(--krem);
+  text-decoration: none;
+}
