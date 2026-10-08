@@ -2077,3 +2077,31 @@ kuşbaşının dürümü ve karışığın porsiyon dışı ölçüleri kalktı.
 2. `priceRange` (20-1.100 TL) JSON-LD'de yayımlansın mı? En ucuz kalem su; aralık yemeğin
    fiyatını olduğundan düşük gösterebilir.
 3. Terbiyeli Tavuk Şiş açıklaması.
+
+## 8 Ekim 2026: İngilizce metin denetimi (İngilizce turunun girdisi)
+
+Yalnız okuma; hiçbir metin değiştirilmedi. İngilizce tur bu listeden başlar. Handoff'tan gelen
+cümleler sessizce düzeltilmez, buraya ölçümüyle yazılır (KISITLAR.md).
+
+**Kesin hatalar** (kaynakta doğrulandı):
+- Anlam kayması: `en/menu.ts:52` lebeni "Served before the fire."; TR "Şişlerden önce gelir"
+  (şişlerden önce).
+- Saat biçimi: `en/ortak.ts:75, 88, 138` "Closed only between 05:00 and 10:00" ve `en/konum.ts:17`
+  "05:00 to 10:00"; kural `10:00 - 05:00` biçimi, TR ikizleri uyuyor.
+- Ülke adı üç biçimde: "TRNC" (`en/ortak.ts:82`), "Northern Cyprus" (`en/gizlilik.ts`),
+  "KKTC" (`en/gizlilik.ts:77`, İngilizce metinde Türkçe kısaltma).
+- `tane` üç karşılıkla: çoğunlukla "the cut", ama "Bead measure" (`en/ana.ts:12`) ve "piece(s)"
+  (`en/ana.ts:11`, `en/hikaye.ts:56`, `en/menu.ts:33`); "piece" yasaklı "parça"nın karşılığı.
+- Kısa çizgi eksik: "Urfa style liver" (`en/ortak.ts:98, 111, 113`), "Ember Roasted Onion"
+  (`en/menu.ts:65`), "AI generated" (`en/galeri.ts:11`), "Firm textured" (`en/ana.ts:53`,
+  `en/menu.ts:28`).
+- Gizlilik meta açıklaması 27 karakter: "How this site handles data." (`en/ortak.ts:140`);
+  TR ikizi de aynı kısalıkta.
+
+**Yargı gerektirenler:** "on beşte bir" EN'de "every fifteen minutes" olmuş, TR birim
+söylemiyor; "The table and the fire are on us" (`en/ortak.ts:93`) yemeğin bedava olduğu gibi
+okunabilir; "English (Türkçe)" ad kalıbı ürünlerde var, Lebeni/Bostana/Ayran'da yok, Şalgam
+tersine dönmüştü (Şalgam bu turda menüden kalktı); Terbiyeli/Terbiyesiz kelime oyunu İngilizcede
+kayboluyor ve "Chicken Skewer (Terbiyesiz...)" açıklaması "with an Urfa marinade" diyor; hikaye
+etiketleri ("The name", "The cut") cümle düzeninde; virgüllü bağlama (comma splice) beş yerde;
+yazım tutarlı biçimde İngiliz İngilizcesi (`en_GB`).

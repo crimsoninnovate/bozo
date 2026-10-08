@@ -68,7 +68,7 @@ curl -s -o /dev/null -w "$RSC : %{http_code}\n" "$ALAN/menu/$RSC"
 # 5. Arama motoru dosyaları ve ikon
 curl -s -o /dev/null -w 'sitemap:%{http_code} ' "$ALAN/sitemap.xml"
 curl -s -o /dev/null -w 'robots:%{http_code} '  "$ALAN/robots.txt"
-curl -s -o /dev/null -w 'ikon:%{http_code}\n' "$ALAN/icon.svg"
+curl -s -o /dev/null -w 'ikon:%{http_code}\n' "$ALAN/favicon.svg"
 ```
 
 Beklenen çıktı ve okuması:
@@ -79,7 +79,7 @@ Beklenen çıktı ve okuması:
 | 2 | `durum: 404` ve ardından `1` | `1` yerine `0`: `handle_errors` bloğu yok, misafir boş 404 görüyor |
 | 3 | `301 -> .../menu/` ya da `200` | `404`: `trailingSlash` ile sunucunun dizin davranışı çakışıyor |
 | 4 | `200` | `403`/`404`: sunucuda olağandışı dosya adlarını eleyen bir kural var; **sayfalar tek tek açılır ama sayfa içi gezinme kırılır**, iyi saklanan bir arıza |
-| 5 | `sitemap:200 robots:200 ikon:200` | `ikon:404`: `out/icon.svg` sunucuya kopyalanmamış. **Not:** eski liste `/favicon.ico` probe ediyordu; bu derleme öyle bir dosya hiç üretmez, yani o satır kalıcı sahte kırmızıydı |
+| 5 | `sitemap:200 robots:200 ikon:200` | `ikon:404`: `out/favicon.svg` sunucuya kopyalanmamış. **8 Ekim 2026:** ikon seti RealFaviconGenerator'a geçince `icon.svg` üretilmez oldu ve probe kalıcı sahte kırmızı veriyordu; `favicon.svg`'ye çevrildi |
 
 Bu probe'ların beşi de 12 Ağustos 2026'da yerel export üstünde (`npm run preview`)
 koşuldu ve beklenen değerleri verdi; tek istisna `favicon:404` idi, ve 18 Ağustos'ta

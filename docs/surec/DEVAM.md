@@ -4,12 +4,15 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 24 Ağustos 2026
+Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
-- Branch `feat/site-kurulumu`. 154 test geçiyor, `npm run typecheck` ve `npm run build` temiz.
-  Ağaç temiz, çalışan ajan yok. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
+- **8 Ekim 2026'nın üç commit'i (`2d278d6` Maps Place ID, `def4362` ciğer 12 şiş, `04c3284`
+  fiyat listesi) yerelde, DEPLOY EDİLMEDİ.** Canlıda hâlâ eski fiyatlar ve "Yol Tarifi Al"ın
+  Maps'te "Kıbrıs İnşaat" gösteren koordinat linki var (`IYILESTIRMELER.md` > 8 Ekim 2026).
+  163 test, typecheck ve build temiz; yerel taramada 12 rota x 5 genişlik (360-1440) temiz.
+- Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
   `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
   0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
   kullanıcısı olmadığı için beklenen gürültü, checksum/boyut farkı yok). Canlıda ayrıca
@@ -25,10 +28,10 @@ Son güncelleme: 24 Ağustos 2026
 
 ## Bekleyen iş
 
-1. **İşletmeden gelmesi gereken tek veri içecek fiyatları** (`content/urunler.ts`, arayüz fiyat
-   yerine sunum ölçüsü basıyor). E-posta, koordinat ve posta kodu 24 Ağustos'ta geldi:
-   `content/isletme.ts`'te artık null alan YOK.
-2. **On altı fotoğraf** (`content/fotograflar.ts`). Dosya yokken telefonda plaka hiç basılmıyor,
+1. **Fiyat listesinden kalan üç soru sahibinde** (`IYILESTIRMELER.md` > "8 Ekim 2026: fiyat
+   listesi"): dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı, Terbiyeli Tavuk
+   Şiş açıklaması. İçecek fiyatları dahil bütün fiyatlar 8 Ekim'de geldi.
+2. **On yedi kare** (`content/fotograflar.ts`; 8 Ekim'de terbiyeli tavuk şiş yuvası eklendi). Dosya yokken telefonda plaka hiç basılmıyor,
    dosya tanımlanınca kendiliğinden geri geliyor. İlk gerçek fotoğraf geldiğinde
    `fotograflar_hicbiriHenuzDosyaTasimaz` testi bilerek kırılacak, o gün güncellenmeli.
 3. **Sahibinin eski açık maddeleri** `KARAR-FORMU.md` A1-A12. Sorulmadan uygulanmaz.
@@ -58,6 +61,9 @@ Son güncelleme: 24 Ağustos 2026
      değişimi (`tabular-nums` dijitleri korur ama kelime sayısı değişebilir), font takası.
    - Kök neden netleşmeden hiçbir CSS/JS değişikliği yapılmasın; bu madde yalnızca teşhis,
      düzeltme ayrı bir karar.
+
+8. **İngilizce tur** sıradaki iş. Girdisi `IYILESTIRMELER.md` > "8 Ekim 2026: İngilizce metin
+   denetimi": altı kesin hata, geri kalanı sahibinin/yazarın yargısı.
 
 ## Son turda ne değişti (24 Ağustos, SEO/AEO turu)
 
