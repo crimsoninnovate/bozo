@@ -298,6 +298,12 @@
     margin-right: auto;
   }
 
+  /* Oyun giriş ve sonuç ekranında sayfanın kendi büyük rozeti var: küçük olan onunla yarışmasın.
+     Ana sayfaya dönüş çekmecenin üst satırında kalır. Yalnız oyun, yalnız mobil. */
+  body:has([data-ekran='giris'], [data-ekran='sonuc']) .markaOrta {
+    display: none;
+  }
+
   .sol {
     order: 2;
   }
