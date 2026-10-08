@@ -37,7 +37,7 @@ owns it now and `package.json` carries `lucide-react` under it. What still binds
 architectural, not budgetary: **no CSS framework, no i18n package, and no test framework
 beyond Node's built-in `node:test`.**
 
-Next 16.3.0, React 19.2.8, Node >=22.18 (`package.json` > engines; v25.6.0 installed).
+Next 16.3.8, React 19.2.8, Node >=22.18 (`package.json` > engines; v25.6.0 installed).
 
 ## Colour
 
