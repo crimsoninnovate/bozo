@@ -8,10 +8,11 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
-- **8 Ekim 2026'nın üç commit'i (`2d278d6` Maps Place ID, `def4362` ciğer 12 şiş, `04c3284`
-  fiyat listesi) yerelde, DEPLOY EDİLMEDİ.** Canlıda hâlâ eski fiyatlar ve "Yol Tarifi Al"ın
-  Maps'te "Kıbrıs İnşaat" gösteren koordinat linki var (`IYILESTIRMELER.md` > 8 Ekim 2026).
-  163 test, typecheck ve build temiz; yerel taramada 12 rota x 5 genişlik (360-1440) temiz.
+- **8 Ekim 2026 turu deploy edildi** (`2d278d6` Maps Place ID, `def4362` ciğer 12 şiş,
+  `04c3284` fiyat listesi; `IYILESTIRMELER.md` > 8 Ekim 2026). `plesk repair fs` 0 hata,
+  `--checksum` kuru koşuda 0 içerik/boyut farkı (yalnız beklenen `og` sahiplik gürültüsü).
+  Canlıda doğrulandı: 12 rota 200, yeni fiyatlar iki dilde, canlı yol tarifi linki Maps'te
+  "varış: Ciğerci Bozo" açıyor (önce "Kıbrıs İnşaat"). 163 test, typecheck, build temiz.
 - Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
   `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
   0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
