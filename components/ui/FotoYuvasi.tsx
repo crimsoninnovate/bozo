@@ -83,12 +83,6 @@ type Props = {
    * Çağıranlar plakayı `> div:first-child` ile boyutluyor; kök div ilk çocuk kalmalı.
    */
   bosMobildeGizli?: boolean
-  /**
-   * `srcset` seçimi için kutu genişliği ipucu. Varsayılan telefonda tam genişlik varsayar;
-   * mobil geometriyi çağıran bildiği için dar yuvalar (72px kare, yarım satır) kendi
-   * değerini geçer, yoksa 780px'lik aday indiriliyor.
-   */
-  sizes?: string
   /** Ekranın üstündeki LCP karesi: tembel değil, hemen ve yüksek öncelikle yüklenir. */
   oncelikli?: boolean
   children?: React.ReactNode
@@ -108,7 +102,6 @@ export function FotoYuvasi({
   korNefesi,
   etiketGoster = false,
   bosMobildeGizli = false,
-  sizes = '(max-width: 1040px) 100vw, 50vw',
   oncelikli = false,
   children,
 }: Props) {
@@ -124,7 +117,6 @@ export function FotoYuvasi({
           alt={etiket}
           fill
           className={stil.gorsel}
-          sizes={sizes}
           loading={oncelikli ? 'eager' : undefined}
           fetchPriority={oncelikli ? 'high' : undefined}
           style={odak ? { objectPosition: odak } : undefined}

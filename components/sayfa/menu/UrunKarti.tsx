@@ -32,7 +32,6 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }
         bicim="kart"
         korNefesi={korNefesi}
         bosMobildeGizli
-        sizes="(max-width: 1040px) 72px, 33vw"
       />
       <span aria-hidden="true" className={stil.indeks}>
         {indeks}

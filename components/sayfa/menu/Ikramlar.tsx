@@ -65,7 +65,6 @@ function IkramKarti(props: {
         bicim="ikram"
         korNefesi={korNefesi}
         bosMobildeGizli
-        sizes="(max-width: 1040px) 50vw, 25vw"
       />
       <div className={stil.govde}>
         <h3 className={stil.ad}>{ad}</h3>
