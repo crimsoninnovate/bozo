@@ -3,16 +3,32 @@
   align-content: center;
   justify-items: center;
   gap: 14px;
-  min-height: 100dvh;
-  padding: 24px;
+  min-height: calc(100dvh - 26px - 2 * var(--kart-ic-orta));
   text-align: center;
 }
 
-.satir { color: var(--krem-70); }
+.satir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--krem-70);
+}
 
 .puan {
+  margin: 0;
   font: 400 48px/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
+  text-shadow: var(--golge-baslik);
+}
+
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .ozet {
@@ -37,5 +53,7 @@
   min-height: 56px;
   border-radius: 3px;
   background: var(--kor);
+  box-shadow: var(--kor-golge);
   font: 600 18px/1 var(--font-govde);
+  color: var(--krem);
 }

@@ -1,7 +1,14 @@
 import stil from './CamPanel.module.css'
 
-/** genis 48px, orta 44px, dar 40px: tasarımın üç panel dolgusu. */
-export type PanelDolgusu = 'genis' | 'orta' | 'dar'
+/** genis 48px, orta 44px, dar 40px: tasarımın üç panel dolgusu. yok: dolguyu içerik verir (oyun sahası). */
+export type PanelDolgusu = 'genis' | 'orta' | 'dar' | 'yok'
+
+const DOLGU_SINIFI: Record<PanelDolgusu, string | undefined> = {
+  genis: stil.dolguGenis,
+  orta: stil.dolguOrta,
+  dar: stil.dolguDar,
+  yok: undefined,
+}
 
 type Props = {
   opaklik: 0.72 | 0.74
@@ -30,12 +37,11 @@ export function CamPanel({
   className,
   children,
 }: Props) {
-  const dolguSinif = dolgu === 'genis' ? stil.dolguGenis : dolgu === 'orta' ? stil.dolguOrta : stil.dolguDar
   const zeminSinif = opaklik === 0.72 ? stil.acik : stil.orta
   const sinif = [
     stil.panel,
     zeminSinif,
-    dolguSinif,
+    DOLGU_SINIFI[dolgu],
     genislik === 'sayfa' ? stil.sayfaEni : '',
     bulanik ? stil.bulanik : '',
     className,

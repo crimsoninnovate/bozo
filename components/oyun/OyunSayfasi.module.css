@@ -1,7 +1,23 @@
+/* z-index 1: `KorSahnesi` sabit ve z-index 0; içerik onun üstünde durur. */
 .sayfa {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: start;
   min-height: 100dvh;
-  background: var(--zemin);
+  padding: 12px;
   color: var(--krem);
+}
+
+/* Telefonda tam genişlik, masaüstünde 560px'lik tek sütun; cam panel sahanın zemini. */
+.ekran {
+  width: 100%;
+  max-width: 560px;
+}
+
+.panel {
+  width: 100%;
 }
 
 .giris {
@@ -9,20 +25,29 @@
   align-content: center;
   justify-items: center;
   gap: 18px;
-  min-height: 100dvh;
-  padding: 24px;
+  min-height: calc(100dvh - 26px - 2 * var(--kart-ic-orta));
   text-align: center;
 }
 
-.baslik { font: 400 32px/1.1 var(--font-baslik); }
-.cumle { color: var(--krem-70); }
+.baslik {
+  margin: 0;
+  font: 400 32px/1.1 var(--font-baslik);
+  text-shadow: var(--golge-baslik);
+}
+
+.cumle {
+  margin: 0;
+  color: var(--krem-70);
+}
 
 .oyna {
   min-width: 200px;
   min-height: 56px;
   border-radius: 3px;
   background: var(--kor);
+  box-shadow: var(--kor-golge);
   font: 600 18px/1 var(--font-govde);
+  color: var(--krem);
 }
 
 /* Oyun ve sonuç ekranında başlık yalnız ekran okuyucuya; `display:none` onu ağaçtan da siler. */
