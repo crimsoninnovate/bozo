@@ -2271,3 +2271,66 @@ açılarak görünür metin bazında karşılaştırıldı (Playwright, `checkVi
   (`DurumAltMetni`). Masaüstünde karşılığı yoktu. Bileşen, CSS'i ve `ortak.durum.acikAlt`
   silindi; `kapaliAlt` masaüstü `KapanisNotu`'nda kullanıldığı için duruyor. Durum satırı
   açık/kapalı x 320/390 x TR/EN'de 47px, taşma yok.
+
+## 8 Ekim 2026: tam kapsam genel kontrol
+
+On iki rota x 320/390/768/1040/1440 (Playwright: konsol, ağ, taşma, kırpılma, metin
+kuralları, başlık/landmark/ARIA, görsel, link, sentetik kalınlık, dokunma hedefi), 390 ve
+1440'ta axe-core 4.13 (WCAG 2.2 AA + best-practice), etkileşimler (çekmece, çerez, klavye,
+azaltılmış hareket, JS kapalı, saat çipi sınır anları), canlıda 24 soğuk LCP/CLS ölçümü,
+ayrı bir kod okuması ve ekran görüntüleriyle görsel tur. Ham çıktılar `/tmp/bozo-kontrol/`.
+
+### Uygulandı
+
+| Bulgu | Değişiklik | Ölçüm |
+|---|---|---|
+| `next 16.3.0` npm audit: 1 kritik, 2 yüksek (dokuz next uyarısı, sharp, source-map-js) | `next 16.3.8`, `source-map-js` 1.2.2 (zorlamasız `audit fix`) | `npm audit` 0 açık |
+| Galeri mobil LCP 3,2-3,4 sn (canlı), tek sayfa 2,5 sn üstünde | İlk karo `oncelikli`: `loading="eager"`, `fetchPriority="high"` | Yerel kısıtlı: 5,6 → 4,6-5,0 sn |
+| Çekmece numaraları Bevan 600, sentetik kalın | `.no` ağırlığı `.link`'ten (400) miras alıyor | Hesaplanan Bevan 400, genişlik 22px aynı |
+| Telif şeridindeki "Gizlilik" 40x15, genişletmesiz tek alt bilgi linki | `.yolTarifi` ile aynı `::before` | 48x44 |
+| axe `region`: aksiyon barı landmark dışında (12 rota, 390) | `<nav aria-label="Hızlı eylemler">`, ad testi üç landmark'ı kapsıyor | axe 0 ihlal (390 ve 1440) |
+| React alt bilgi kelime markası için her sayfada `preload` basıyordu | `loading="lazy"` | Preload yok; ana sayfada kaydırmadan inmiyor |
+| JSON-LD `<` kaçışsız | `jsonLdMetni()`, Next JSON-LD rehberindeki kaçış | 5 sayfada 11 blok anlamca aynı |
+| Ölü kod | Buton/Cip/FotoYuvasi/TaneDizilimi varyantları, 12 token, `geceSerit`, `KAPSAM_METRE` ve dört küçük kalıntı | 17 sayfanın render HTML'i aynı, CSS 109,0 → 106,4 KB |
+
+Yukarıdaki "Sekiz çağıransız token silinmedi" kararı kısmen geri alındı: `--komur-90`
+"paket şeridiyle birlikte döner" diye tutulmuştu, ama şerit sahibinin geri getirilmeyecekler
+listesinde ve rengi `--pumpkin` 20 Ağustos'ta silindi. Aynı ailenin `--komur-55/10/golge`'si,
+`koyu` butonu ve `yakinda` çipi de gitti. `--bakir-12` (açık A2 kararı) ve `--ol-duygusal`
+(`Ikram.module.css:20` uyarısındaki çift) duruyor.
+
+### Sahibine
+
+- **Portre hâlâ yayında.** 24 Ağustos'ta "şimdilik kaldıralım" dendi; `dosya` satırı kalktı
+  ama `public/foto/bozo-portre.webp` her deploy'da gidiyor, canlıda 200 (111 KB).
+- **"Bozo's Table"** (`content/en/ortak.ts`, `cta.bozoSofrasi`) yasaklı ifadeler listesinde
+  ("Bozo's"); her EN sayfasının mobil barında. Yeni etiket uydurulmadı.
+- **"Beş ürün, sekiz ikram"** (ana sayfa, iki dil) menünün "Yedi porsiyon, bir özel"iyle
+  çelişiyor: menü 8 Ekim'de yediye çıktı, ikram sayısı teste bağlıydı, ürün sayısı değil.
+- **Galeri sayfası** "Sitenin beklediği on yedi kare" diyor ve 16 boş karo basıyor; bir
+  kare geldiği için sayı da artık yanlış. 13 Ağustos'ta menüdeki "Çekim Listesi" aynı
+  gerekçeyle (fotoğrafçıya yazılmış not) silinmişti. Boş plakalar ayrıca ana sayfada 2,
+  hikayede portre yerinde 1 (iki genişlikte), masaüstü menüde 8.
+- **Onayı geri almak** yalnız tarayıcı verisini silerek mümkün; sitede tercih düğmesi yok.
+  Hukukçu onayı bekleyen gizlilik metniyle birlikte sorulmalı.
+- **EN "piece(s)"** üç yerde "tane"nin karşılığı; Türkçedeki yasak İngilizceye uzanıyor mu?
+  Saatin düzyazı biçimi ("10:00 until 05:00", "10:00'dan ertesi sabah 05:00'e kadar")
+  `10:00 - 05:00` kuralına giriyor mu?
+- **`--krem-84` hiç tanımlanmadı** (`UstBar.module.css:209`, 20 Ağustos'tan beri): masaüstü
+  üst bar linkleri amaçlanan .84 yerine miras alınan tam kremle görünüyor. Token eklemek
+  linkleri yedi haftadır görülenden sönükleştirir; görsel karar.
+
+### Canlı sunucu, onay bekliyor
+
+HSTS, `X-Content-Type-Options`, `Referrer-Policy` ve çerçeveleme başlığı yok;
+`x-powered-by: PleskLin` sızıyor; `site.webmanifest` content-type'sız; `_next/static`
+hash'li dosyaları 4 saat önbellekte (1 yıl `immutable` olabilir).
+
+### Temiz çıkanlar
+
+Taşma, kırpılma, konsol hatası, onaysız dış istek, kırık iç link/çapa/görsel sıfır. TR metin
+kuralları (meta, alt, JSON-LD, llms.txt dahil) temiz. axe'ın belirsiz bıraktığı kontrastlar
+pikselden ölçüldü, en düşük 5,86:1. Odak halkası her durakta; atlama linki, çekmece odak
+tuzağı, Escape ve odak dönüşü çalışıyor. Onaysız GA isteği yok. Azaltılmış harekette 0
+animasyon, 0 rAF. JS kapalıyken gizli içerik yok. Saat çipi 04:59/05:00/09:59/10:00/23:30 ve
+kışın doğru. Canlı mobil LCP 1,7-2,3 sn (galeri hariç), CLS en kötü 0,0103.
