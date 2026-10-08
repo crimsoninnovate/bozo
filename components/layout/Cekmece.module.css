@@ -143,11 +143,10 @@
   color: var(--bakir);
 }
 
-/* Sıra numarası: tabular Bricolage, ekran okuyucuya kapalı. Genişlik 22, aralık 14: alt
+/* Sıra numarası: tabular Bevan, ekran okuyucuya kapalı. Genişlik 22, aralık 14: alt
    çapalar ve meta satırları 36px içeriden başlar, sayfa adıyla aynı hizada. */
 .no {
   min-width: 22px;
-  font-weight: 600;
   font-size: 12px;
   line-height: 1;
   letter-spacing: 0.06em;
