@@ -78,7 +78,6 @@ export const ortak = {
     kapali: "Şu an kapalıyız, 10:00'da açılıyoruz",
     /** Saat tablosunun dar hücresi için, `kapali`nin ilk cümleciği. Yeni metin değil. */
     kapaliKisa: 'Şu an kapalıyız',
-    acikAlt: "Ocak 05:00'e kadar yanıyor",
     kapaliAlt: 'Kapalı aralık: 05:00 - 10:00',
     geceSerit: 'Gece açığız, ocak yanıyor',
   },

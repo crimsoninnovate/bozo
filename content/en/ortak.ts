@@ -69,7 +69,6 @@ export const ortak = {
     acik: 'We are open',
     kapali: 'We are closed, opening at 10:00',
     kapaliKisa: 'We are closed',
-    acikAlt: 'The fire is lit until 05:00',
     kapaliAlt: 'Closed only 05:00 - 10:00',
     geceSerit: 'We are open through the night, the fire is lit',
   },

@@ -151,6 +151,9 @@ touch target, not by the type size.
   Dish names are not translated, they are explained: `Urfa liver kebab (ciğer)`.
   `Alcohol-free` is visible on English pages. English copy states plainly that Bozo
   is a person's lifelong nickname.
+- Mobile carries no content the desktop does not (owner, 8 October 2026). Mobile-only
+  structure stays: drawer, action bar, navigation. A sentence or block that exists only
+  at phone widths is a defect.
 
 ## Architecture
 

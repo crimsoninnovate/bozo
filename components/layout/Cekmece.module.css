@@ -195,13 +195,6 @@
   gap: 10px 12px;
 }
 
-.durumSol {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
 .meta {
   display: flex;
   flex-direction: column;
@@ -336,7 +329,6 @@
     gap: 10px;
   }
 
-  .durumSol,
   .meta {
     gap: 8px;
   }

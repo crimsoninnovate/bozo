@@ -13,9 +13,7 @@ type Props = { dil: Dil }
  * Konum sayfasının açılışı. Konum Sayfasi.dc.html:63-86
  *
  * Durum satırı üç öğe taşır: durum çipi, canlı saat ve "Girne saati, canlı" alt
- * notu (Konum:72). Bu üçüncü öğe `DurumAltMetni` DEĞİL; o bileşen açık/kapalı
- * durumuna göre değişen bir cümle basar (`ortak.durum.acikAlt` / `kapaliAlt`),
- * buradaki ise saatin hangi saat dilimi olduğunu söyleyen sabit bir etikettir.
+ * notu (Konum:72), saatin hangi saat dilimi olduğunu söyleyen sabit bir etiket.
  *
  * Birincil buton dışarıya link değil: tasarımda `data-git="harita"` taşır ve
  * sayfa içindeki `#harita` bölümüne kaydırır (Konum:80 ve script satır 248-254).

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import Link from 'next/link'
 import { CanliSaat } from '@/components/saat/CanliSaat'
-import { DurumAltMetni } from '@/components/saat/DurumAltMetni'
 import { DurumCipi } from '@/components/saat/DurumCipi'
 import { BolumCipi } from '@/components/ui/BolumCipi'
 import { Buton } from '@/components/ui/Buton'
@@ -181,10 +180,7 @@ function AltBlok({ dil }: { dil: Dil }) {
   return (
     <div className={stil.altBlok}>
       <div className={stil.durum}>
-        <div className={stil.durumSol}>
-          <DurumCipi dil={dil} boy="kucuk" canli={false} kisaKapali />
-          <DurumAltMetni dil={dil} />
-        </div>
+        <DurumCipi dil={dil} boy="kucuk" canli={false} kisaKapali />
         <CanliSaat boy="cekmece" />
       </div>
 

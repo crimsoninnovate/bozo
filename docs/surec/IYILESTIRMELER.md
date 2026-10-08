@@ -2256,3 +2256,18 @@ favicon üreticisinden gelen `site.webmanifest` > `"display": "standalone"` ve N
 - `appleWebApp.capable: false`: meta etiketi kalktı, ana ekrana elle eklenen kısayol uygulama
   gibi değil tarayıcıda açılır. İkon, tema rengi ve `apple-mobile-web-app-title` duruyor.
 - `manifest_kurulabilirUygulamaIlanEtmez` ikisini de kilitliyor.
+
+## 8 Ekim 2026: mobilde masaüstünde olmayan içerik kalmadı
+
+Sahibinin kuralı: masaüstünde olmayan içerik mobilde olmaz, mobile özel yapı (çekmece, alt
+bar, gezinme) kalır (`KISITLAR.md` > Copy rules). On iki rota 1440 ve 390'da, çekmece de
+açılarak görünür metin bazında karşılaştırıldı (Playwright, `checkVisibility`).
+
+- Kapalı çekmeceyle yalnız mobilde görünen tek şey alt eylem barı: yapı, kaldı.
+- Çekmecede telefon, WhatsApp ("WhatsApp'tan Yaz" konum sayfasında aynı etiketle),
+  Instagram, adres, saat ve "Mekanımız alkolsüzdür" masaüstünde de var: kaldı. Bölüm çipleri
+  ve sayfa bağlantıları gezinme: kaldı.
+- **Kalkan:** çekmecenin durum alt metni "Ocak 05:00'e kadar yanıyor" / "Kapalı aralık"
+  (`DurumAltMetni`). Masaüstünde karşılığı yoktu. Bileşen, CSS'i ve `ortak.durum.acikAlt`
+  silindi; `kapaliAlt` masaüstü `KapanisNotu`'nda kullanıldığı için duruyor. Durum satırı
+  açık/kapalı x 320/390 x TR/EN'de 47px, taşma yok.
