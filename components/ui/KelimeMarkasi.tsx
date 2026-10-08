@@ -17,12 +17,15 @@ type Props = { dil: Dil }
  * dört rotanın alt bilgisinde satır içi gömmek her sayfaya 15 KB eklerdi.
  * Renkleri sabit; palet takasını takip etmez, marka işaretleri kapalı renk
  * listesinin zaten kayıtlı istisnası (bkz. CLAUDE.md > Colors).
+ *
+ * `loading="lazy"`: yoksa React her sayfanın başına bu görsel için preload basıyor
+ * ve sayfanın dibindeki marka mobilde kritik dosyalarla bant paylaşıyordu.
  */
 export function KelimeMarkasi({ dil }: Props) {
   const s = sozluk(dil)
   return (
     <Link href={yol('ana', dil)} className={stil.baglanti}>
-      <img className={stil.marka} src="/kelime-markasi.svg" alt={s.ortak.marka.ad} />
+      <img className={stil.marka} src="/kelime-markasi.svg" alt={s.ortak.marka.ad} loading="lazy" />
     </Link>
   )
 }
