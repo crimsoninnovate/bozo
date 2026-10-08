@@ -48,7 +48,7 @@ export const gizlilik = {
   dayanakBaslik: 'Hukuki dayanak',
   dayanakMetni:
     'Ölçüm, Yasa\'nın 6\'ncı maddesindeki onaya dayanır: ziyaretinizde çıkan ' +
-    'bantta "Kabul ediyorum" demediğiniz sürece ölçüm hiç başlamaz. Onay ' +
+    'bantta "Kabul Et" düğmesine basmadığınız sürece ölçüm hiç başlamaz. Onay ' +
     'vermezseniz site aynen çalışır.',
 
   aliciBaslik: 'Kime gidiyor',
@@ -83,7 +83,7 @@ export const gizlilik = {
   geriAlmaMetni:
     'Onayınızı istediğiniz an geri alabilirsiniz: tarayıcınızın bu site için ' +
     'sakladığı verileri ve çerezleri silin, bant yeniden çıkar ve bu kez ' +
-    '"İstemiyorum" diyebilirsiniz.',
+    '"Reddet" düğmesine basabilirsiniz.',
 
   soruBaslik: 'Başvuru',
   soruMetni: 'Bu haklara ilişkin taleplerinizi bu adrese yazabilirsiniz:',

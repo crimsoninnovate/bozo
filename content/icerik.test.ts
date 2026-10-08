@@ -477,3 +477,11 @@ test('sozluk_saatAraligiTireyleYazilir', () => {
   )
   assert.deepEqual(kirli, [])
 })
+
+/** Gizlilik sayfası bandın düğmelerini adıyla anıyor; düğme adı değişirse metin yok bir düğmeyi tarif eder. */
+test('gizlilik_bantDugmeleriniGuncelAdlariylaAnar', () => {
+  for (const s of [tr, en]) {
+    assert.ok(s.gizlilik.dayanakMetni.includes(`"${s.ortak.cerez.kabul}"`), s.gizlilik.dayanakMetni)
+    assert.ok(s.gizlilik.geriAlmaMetni.includes(`"${s.ortak.cerez.ret}"`), s.gizlilik.geriAlmaMetni)
+  }
+})

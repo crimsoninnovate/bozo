@@ -25,11 +25,9 @@ export const ortak = {
    * marked up for assistive technology, so these two strings have no source.
    */
   cerez: {
-    metin:
-      "We'd like to measure visits with Google Analytics; it sets a cookie, " +
-      "sends data abroad, and won't start without your consent.",
-    kabul: 'I accept',
-    ret: 'No thanks',
+    metin: 'We use cookies to measure visits. The data is transferred abroad.',
+    kabul: 'Accept',
+    ret: 'Reject',
     detay: 'Details',
     etiket: 'Cookie consent',
   },

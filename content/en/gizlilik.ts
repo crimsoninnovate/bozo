@@ -35,7 +35,7 @@ export const gizlilik = {
   dayanakBaslik: 'Legal basis',
   dayanakMetni:
     'Measurement rests on consent under Article 6 of the Law: unless you press ' +
-    '"I accept" on the banner shown during your visit, measurement never starts. ' +
+    '"Accept" on the banner shown during your visit, measurement never starts. ' +
     'If you do not consent, the site works exactly the same.',
 
   aliciBaslik: 'Who receives it',
@@ -69,7 +69,7 @@ export const gizlilik = {
   geriAlmaBaslik: 'Withdrawing consent',
   geriAlmaMetni:
     'You can withdraw consent at any time: clear the data and cookies your browser ' +
-    'stores for this site, the banner appears again and you can choose "No thanks".',
+    'stores for this site, the banner appears again and you can choose "Reject".',
 
   soruBaslik: 'Requests',
   soruMetni: 'You can send requests about these rights to this address:',

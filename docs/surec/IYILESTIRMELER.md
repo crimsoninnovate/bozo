@@ -2203,3 +2203,24 @@ tipi sayesinde takas ölçülebilir kayma yapmıyor.
    ~14 KB ekler ve CSS önbelleğini kaybeder.
 4. `.htaccess`'te `_next/static/` için `max-age=31536000, immutable`.
 5. `rozet.svg`'yi sadeleştirmek: logo varlığı, rozet kararındaki üç ölçüm gerekir.
+
+## 8 Ekim 2026: çerez bandı metni kısaldı
+
+Kullanıcının isteği: eski metin amatör duruyordu, yaygın standarttaki en kısa ve yalın hâli
+istendi.
+
+| | Önce | Şimdi |
+|---|---|---|
+| TR metin | Ziyaret sayısını Google Analytics ile ölçmek istiyoruz; çerez yazar, veri yurt dışına gider, onayınız olmadan başlamaz. | Ziyaretleri ölçmek için çerez kullanıyoruz. Veriler yurt dışına aktarılır. |
+| TR düğmeler | Kabul ediyorum / İstemiyorum | Kabul Et / Reddet |
+| EN metin | We'd like to measure visits with Google Analytics; it sets a cookie, sends data abroad, and won't start without your consent. | We use cookies to measure visits. The data is transferred abroad. |
+| EN düğmeler | I accept / No thanks | Accept / Reject |
+
+**Yurt dışı cümlesi bilerek kaldı.** Ruhsat olmadığı için GA4'ün tek dayanağı Madde 11(2)(A),
+yani kişinin aktarıma onayı; kişi onay anında aktarımı bilmezse onay o aktarıma verilmiş
+sayılmaz. Google'ın adı ve alıcılar "Ayrıntılar"daki gizlilik sayfasında. "Onayınız olmadan
+başlamaz" düştü: iki eşit düğme bunu zaten söylüyor.
+
+Gizlilik sayfası düğmeleri adıyla anıyordu (`dayanakMetni`, `geriAlmaMetni`), iki dilde
+güncellendi; `gizlilik_bantDugmeleriniGuncelAdlariylaAnar` artık bu kaymayı yakalıyor.
+Ölçüldü: 320, 390 ve 1440'ta taşma yok, düğmeler 44px, bant mobilde iki satır.
