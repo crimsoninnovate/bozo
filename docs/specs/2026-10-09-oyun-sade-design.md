@@ -95,8 +95,12 @@ bir el ve tek cümlelik bir balon. Oyun **dokunuşu bekler**: saat durur, kaybed
 ekranındaki "Bu Skoru Sıralamaya Yaz" düğmesi eskisi gibi takma ad sorar. Geri dönen oyuncunun
 adı tarayıcı hafızasından gelir ve alanda hazır durur. Biçim ve yasaklı adlar mevcut `takmaAd`
 kurallarıyla. Alan yalnız sıralama ulaşılabilirken görünür: skor sunucusu kapalıyken (çevrimdışı
-tur) oyun ad sormaz ve sonuçta "sıralamaya girmez" der. **Sunucu hukuk onayına kadar yayında
-olmayacağı için** (sahibi onayladı) canlıdaki sürümde bu alan görünmez; headless testlerde sahte
+tur) oyun ad sormaz ve sonuçta "sıralamaya girmez" der. **Skor sunucusu sade mod bittikten sonra
+yayına alınır** (sahibi 9 Ekim'de hukuk onayı beklemeyeceğini söyledi; kapı kalktı). Yayından önce
+gizlilik metni (TR ve EN) olguya uygun güncellenir: takma ad, skor ve tur kaydı sunucuda tutulur
+(neyin, ne kadar süre, hangi amaçla; `docs/specs/2026-10-08-oyun-design.md` §16-§17). Altyapı ayrı
+bir iş: Node 24 süreci, MariaDB, `api.cigercibozo.com` DNS ve proxy, gizli anahtarlar (README >
+Score server). O zamana kadar canlıdaki sürümde bu alan görünmez; headless testlerde sahte
 sunucuyla doğrulanır.
 
 ## 4. Kod etkisi
