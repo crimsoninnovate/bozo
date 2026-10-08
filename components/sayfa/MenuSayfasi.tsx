@@ -20,8 +20,8 @@ type Props = { dil: Dil }
  * tek görevi doğru id'yi taşımak: `#ocakbasi`, `#ikramlar`, `#icecekler`, üçü de
  * üst barın bu sayfadaki nav hedefleri.
  *
- * Footer bu ağaçta değil: menü sayfasının kompakt şeridi `Kabuk` > `AltBilgi`
- * varyantlarından geliyor (Menu:283-292).
+ * Footer bu ağaçta değil: `Kabuk` > `AltBilgi` basıyor, her sayfada aynı dört
+ * kolon (sahibi, 13 Ağustos 2026; tasarımın Menu:283-292 şeridi kalktı).
  */
 export function MenuSayfasi({ dil }: Props) {
   return (

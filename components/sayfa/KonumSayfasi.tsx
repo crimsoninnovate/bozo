@@ -20,8 +20,8 @@ type Props = { dil: Dil }
  *
  * Varsayılan hal Konum'unki olduğu için prop geçilmez.
  *
- * Footer bu ağaçta değil: Konum'un "Sayfalar" kolonlu footer'ı `Kabuk` >
- * `AltBilgi` varyantlarından geliyor (Konum:166-194).
+ * Footer bu ağaçta değil: `Kabuk` > `AltBilgi` basıyor, her sayfada aynı dört
+ * kolon (sahibi, 13 Ağustos 2026; tasarımın Konum:166-194 footer'ı kalktı).
  */
 export function KonumSayfasi({ dil }: Props) {
   return (

@@ -24,7 +24,8 @@ type Props = { dil: Dil }
  * notun arasına girmemeli, ikisi tasarımda tek sarmalayıcıda ve aralarında boşluk
  * yok (Konum:108-118, 02-konum.jpg).
  *
- * E-posta satırı YOK: tasarımda üç satır var ve `isletme.eposta` null.
+ * E-posta satırı YOK: tasarımda üç satır var; eklemek sapma olur, karar sahibinde
+ * (IYILESTIRMELER.md, 24 Ağustos 2026).
  */
 export function SaatlerVeIletisim({ dil }: Props) {
   const s = sozluk(dil)
