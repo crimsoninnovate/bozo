@@ -24,26 +24,6 @@
   width: 100%;
 }
 
-.giris {
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 18px;
-  min-height: calc(100dvh - 26px - var(--bar-boy) - var(--rozet-sarkma) - 2 * var(--kart-ic-orta));
-  text-align: center;
-}
-
-.baslik {
-  margin: 0;
-  font: 400 32px/1.1 var(--font-baslik);
-  text-shadow: var(--golge-baslik);
-}
-
-.cumle {
-  margin: 0;
-  color: var(--krem-70);
-}
-
 .oyna {
   min-width: 200px;
   min-height: 56px;

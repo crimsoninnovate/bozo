@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { m } from 'motion/react'
+import { ROZET } from '@/components/ui/Rozet'
 import { sozluk, type Sozluk } from '@/content'
 import type { Dil } from '@/content/types'
 import { useHareketAzaltilmisMi } from '@/lib/hareket'
@@ -77,6 +78,7 @@ export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar }: Props) {
 
   return (
     <section className={stil.sonuc}>
+      <img className={stil.rozet} src={ROZET} alt="" width={1748} height={1999} decoding="async" />
       <m.p className={stil.satir} {...MUHUR}>
         {satir.geceTamam && <OcakSonerIsareti boy={18} />}
         {satir.metin}

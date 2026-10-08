@@ -7,6 +7,12 @@
   text-align: center;
 }
 
+/* Paylaşılan ekran görüntüsünde marka. */
+.rozet {
+  width: 84px;
+  height: auto;
+}
+
 .satir {
   display: inline-flex;
   align-items: center;

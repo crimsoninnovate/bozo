@@ -7,6 +7,7 @@ import { sozluk } from '@/content'
 import type { Dil } from '@/content/types'
 import { enIyiOku, enIyiYaz, ilkTurBitti, ilkTurMu } from '@/lib/oyun/defter'
 import type { Sonuc } from '@/lib/oyun/tipler'
+import { OyunAcilisi } from './OyunAcilisi'
 import { Saha } from './Saha'
 import { SonucEkrani } from './SonucEkrani'
 import { useOdakModu } from './useOdakModu'
@@ -53,13 +54,11 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
             {ekran.ad === 'giris' && (
               <m.div key="giris" className={stil.ekran} {...EKRAN}>
                 <CamPanel opaklik={0.74} dolgu="orta" bulanik={false} className={stil.panel}>
-                  <section className={stil.giris}>
-                    <h1 className={stil.baslik}>{s.oyun.baslik}</h1>
-                    <p className={stil.cumle}>{s.ana.gece.baslik}</p>
+                  <OyunAcilisi baslik={s.oyun.baslik} cumle={s.ana.gece.baslik}>
                     <button type="button" className={stil.oyna} onClick={basla}>
                       {s.oyun.oyna}
                     </button>
-                  </section>
+                  </OyunAcilisi>
                 </CamPanel>
               </m.div>
             )}

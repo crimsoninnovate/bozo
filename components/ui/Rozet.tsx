@@ -10,7 +10,7 @@ import stil from './Rozet.module.css'
  */
 type Props = { dil: Dil; boy?: 'bar' | 'daralmis' | 'cekmece' }
 
-const ROZET = '/marka/rozet.svg'
+export const ROZET = '/marka/rozet.svg'
 
 export function Rozet({ dil, boy = 'bar' }: Props) {
   const s = sozluk(dil)
