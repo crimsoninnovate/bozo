@@ -42,6 +42,12 @@ export function Sis({ urun, yanik = false }: SisProps) {
         </g>
       )}
       <ellipse cx={14} cy={122} rx={14} ry={5} fill="url(#gEmber)" className={stil.alt} />
+      {!yanik && (
+        <g className={stil.damla}>
+          <circle cx={11} cy={118} r={1} className={stil.kivilcimNokta} style={{ animationDelay: '0s' }} />
+          <circle cx={17} cy={118} r={0.9} className={stil.kivilcimNokta} style={{ animationDelay: '-0.7s' }} />
+        </g>
+      )}
       <ellipse cx={14} cy={126} rx={9} ry={2.4} fill="#000" opacity={0.5} filter="url(#fBlur2)" />
       <circle cx={14} cy={6} r={4} fill="none" stroke="url(#gSteel)" strokeWidth={2} />
       <path d="M12.6 10h2.8v108l-1.4 6-1.4-6z" fill="url(#gSteel)" stroke="rgba(0,0,0,.4)" strokeWidth={0.4} />
@@ -101,15 +107,17 @@ export function KozYatagi() {
 }
 
 const ALEVLER = [
-  [4, 3.1, 0], [21, 2.4, -1], [38, 3.7, -0.4], [55, 2.8, -1.7], [72, 3.3, -0.8], [88, 2.6, -1.3],
+  [2, 3.1, 0], [17, 2.4, -1], [33, 3.7, -0.4], [50, 2.8, -1.7], [66, 3.3, -0.8], [82, 2.6, -1.3],
 ] as const
 
-/** Köz yatağının üstünde yükselen alev dilleri: yoğunluk komboyla (`--kor-yogunluk`). */
+/** Köz yatağının üstünde yükselen alev dilleri; her birinin sıcak sarı bir çekirdeği var. Yoğunluk komboyla. */
 export function OcakAlevi() {
   return (
     <span className={stil.alevler} aria-hidden="true">
       {ALEVLER.map(([x, sure, gecikme]) => (
-        <i key={x} className={stil.alev} style={{ left: `${x}%`, animationDuration: `${sure}s`, animationDelay: `${gecikme}s` }} />
+        <i key={x} className={stil.alev} style={{ left: `${x}%`, animationDuration: `${sure}s`, animationDelay: `${gecikme}s` }}>
+          <b style={{ animationDuration: `${sure * 0.55}s`, animationDelay: `${gecikme}s` }} />
+        </i>
       ))}
     </span>
   )

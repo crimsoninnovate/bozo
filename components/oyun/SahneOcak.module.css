@@ -83,36 +83,71 @@
   70% { opacity: 0.7; }
 }
 
-/* Alev dilleri: köz yatağından yükselir, boy ve genişlik düzensiz oynar. */
+/* Alev dilleri: köz yatağından yükselir, boy ve genişlik düzensiz oynar; içinde sıcak sarı çekirdek. */
 .alevler {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 38px;
-  height: 96px;
+  bottom: 36px;
+  height: 130px;
   pointer-events: none;
-  opacity: calc(0.35 + var(--kor-yogunluk, 0.25) * 0.65);
+  opacity: calc(0.4 + var(--kor-yogunluk, 0.25) * 0.6);
   transition: opacity var(--gecis-yogunluk);
 }
 
 .alev {
   position: absolute;
   bottom: 0;
-  width: 18%;
+  display: block;
+  width: 22%;
   height: 100%;
   background: radial-gradient(
-    ellipse 50% 60% at 50% 100%,
-    rgb(255 150 50 / 0.75),
-    rgb(255 110 20 / 0.28) 55%,
-    transparent 75%
+    ellipse 50% 62% at 50% 100%,
+    rgb(255 150 50 / 0.9),
+    rgb(255 110 20 / 0.34) 55%,
+    transparent 76%
   );
   transform-origin: 50% 100%;
   animation: alev 3s ease-in-out infinite alternate;
 }
 
+.alev b {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: 0;
+  height: 46%;
+  background: radial-gradient(ellipse 50% 70% at 50% 100%, rgb(255 226 150 / 0.85), transparent 75%);
+  transform-origin: 50% 100%;
+  animation: alevCekirdek 1.6s ease-in-out infinite alternate;
+}
+
 @keyframes alev {
-  from { scale: 0.85 0.65; opacity: 0.55; }
-  to { scale: 0.7 1.2; opacity: 0.95; }
+  from { scale: 0.85 0.62; opacity: 0.6; }
+  to { scale: 0.68 1.25; opacity: 1; }
+}
+
+@keyframes alevCekirdek {
+  from { scale: 0.8 0.7; opacity: 0.5; }
+  to { scale: 1.1 1.15; opacity: 1; }
+}
+
+/* Pişen şişten yağ damlası kıvılcımı: dipten fırlar ve söner. */
+.damla {
+  opacity: calc(clamp(0, (var(--pisme, 0) - 0.15) * 8, 1));
+}
+
+.kivilcimNokta {
+  fill: #FFD28A;
+  opacity: 0;
+  transform-box: fill-box;
+  animation: damla 1.4s ease-out infinite;
+}
+
+@keyframes damla {
+  0% { opacity: 0; translate: 0 0; }
+  15% { opacity: 1; }
+  100% { opacity: 0; translate: 3px -16px; }
 }
 
 /* Sıcak köz: ocak eşiği (`--kor-yogunluk`, 0.25 ... 1) `--esik`i geçince yanar. */
