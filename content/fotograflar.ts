@@ -35,7 +35,8 @@ export const fotograflar: Record<FotoId, Foto> = {
      "ocak başında" diyordu, eldeki kare koyu zeminde stüdyo portresi. Bu metin
      fotoğraf gelince `alt` olarak ağaçta kaldığı için gerçeği anlatmak zorunda. */
   /* Gerçek kare 24 Ağustos 2026'da sahibinin isteğiyle çekildi ("şimdilik
-     kaldıralım"). Dosya diskte duruyor; `dosya` satırını geri koymak yeterli. */
+     kaldıralım"); dosya 8 Ekim'de public/'ten de çıktı, canlıda hâlâ açılıyordu.
+     Geri koymak için: `git show 742dedf:public/foto/bozo-portre.webp`, sonra `dosya`. */
   'bozo-portre': {
     etiket: 'Bozo Çağlar, portre',
     etiketEn: 'Bozo Çağlar, portrait',
