@@ -22,6 +22,8 @@ export type Isletme = {
   whatsapp: string | null
   eposta: string | null
   instagram: string | null
+  /** Google'daki işletme kartının Place ID'si (`ChIJ...`); linkleri `lib/site.ts` kurar. */
+  googlePlaceId: string | null
   alkolServisi: false
   sahip: string
 }

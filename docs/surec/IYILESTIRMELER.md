@@ -1997,3 +1997,33 @@ eninden %14 uzun) ve yatay bir barda yatay metnin yanında duran uzun bir nesne 
 ayrıca `drop-shadow(0 12px 30px)` gölgeyi 12px AŞAĞI atıyor, bu da dikey uzantıyı artırıyor.
 Rozeti daha geniş göstermek istenirse kaldıraç bir hata düzeltmesi değil, ya çizimin kendisi
 ya da bardaki genişliği (`Rozet.module.css` `.bar img { width: 122px }`).
+
+## 8 Ekim 2026: Google Maps kaydı
+
+### Google Maps kaydı
+
+Sahibi iki link verdi: bir Maps yön tarifi linki (`kgmid=/g/11nvgcy061`, `geocode=KR88ykmHbd4UMTdnn1lSkPrH`)
+ve `share.google/M95ofse5hq58fUXBg`. İkincisi yalnız "Ciğerci Bozo" aramasını açıyor; kalıcı kimlik ilkinde.
+
+| Kimlik | Değer | Nasıl elde edildi |
+|---|---|---|
+| Özellik kimliği (FID) | `0x14de6d8749ca3c1f:0xc7fa9052599f6737` | `geocode` base64 protobuf, çözüldü |
+| CID | `14409988641090660151` | FID'in ikinci yarısı |
+| Place ID | `ChIJHzzKSYdt3hQRN2efWVKQ-sc` | FID protobuf olarak yeniden paketlendi |
+
+Üçü de tarayıcıda doğrulandı: `?cid=` ve `query_place_id` "Ciğerci Bozo" kartını açıyor;
+`destination=Girne&destination_place_id=...` bile hedefi "Ciğerci Bozo" yapıyor.
+`content/isletme.ts` > `googlePlaceId` yalnız Place ID'yi tutuyor, linkleri `lib/site.ts` kuruyor.
+
+Kartın içeriği sitedeki verilerle birebir: ad, adres (`Naci Talat Cd 4, Girne 99300`), telefon,
+web sitesi, her gün 10:00-05:00. Kategori "Restoran". Google'ın pini (35.3371843, 33.305993)
+sahibinin verdiği kapı noktasından yaklaşık 30 m uzakta; `koordinat` değiştirilmedi.
+
+**Bulunan hata, düzeltildi.** Canlıdaki "Yol Tarifi Al" koordinata gidiyordu ve Maps hedefi
+**"Kıbrıs İnşaat, Girne 99300"** diye gösteriyordu: koordinata en yakın kayıtlı yer. Place ID
+koordinatla birlikte verilince yok sayılıyor, metin hedefle birlikte verilince önceliği alıyor;
+`yolTarifiUrl()` artık `destination=<adres metni>&destination_place_id=<id>` üretiyor. Altı
+çağrı yerinin hiçbiri değişmedi.
+
+JSON-LD `Restaurant` artık `hasMap` taşıyor ve aynı kart linki `sameAs`'e eklendi (Instagram'ın
+yanına): sitedeki varlığı Google'daki kayda bağlıyor.

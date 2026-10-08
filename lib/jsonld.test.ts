@@ -43,8 +43,24 @@ test('restaurantJsonLd_gercekVeriyle_telefonuYazar', () => {
   assert.equal(veri.telephone, '+90 533 888 74 24')
 })
 
-test('restaurantJsonLd_gercekVeriyle_instagramiSameAsaYazar', () => {
+const HARITA_KARTI =
+  'https://www.google.com/maps/search/?api=1&query=Ci%C4%9Ferci%20Bozo%2C%20Naci%20Talat%20Caddesi%20No%3A4' +
+  '%2C%20Girne%2C%20KKTC&query_place_id=ChIJHzzKSYdt3hQRN2efWVKQ-sc'
+
+test('restaurantJsonLd_gercekVeriyle_instagramVeHaritaKartiniSameAsaYazar', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
+  assert.deepEqual(veri.sameAs, ['https://instagram.com/cigercibozo', HARITA_KARTI])
+})
+
+test('restaurantJsonLd_gercekVeriyle_haritaKartiniHasMapeYazar', () => {
+  const veri = restaurantJsonLd() as Record<string, unknown>
+  assert.equal(veri.hasMap, HARITA_KARTI)
+})
+
+test('restaurantJsonLd_placeIdNullken_hasMapYazmazSameAsYalnizInstagramTasir', () => {
+  const placeIdsiz: Isletme = { ...isletme, googlePlaceId: null }
+  const veri = restaurantJsonLd(placeIdsiz) as Record<string, unknown>
+  assert.equal('hasMap' in veri, false)
   assert.deepEqual(veri.sameAs, ['https://instagram.com/cigercibozo'])
 })
 
@@ -98,6 +114,7 @@ test('restaurantJsonLd_bilinenVeriyle_koordinatVeTelefonuYazar', () => {
     telefon: '+90 542 123 45 67',
     eposta: 'info@cigercibozo.com',
     instagram: 'cigercibozo',
+    googlePlaceId: null,
   }
   const veri = restaurantJsonLd(bilinen) as Record<string, unknown>
   assert.deepEqual(veri.geo, { '@type': 'GeoCoordinates', latitude: 35.3411, longitude: 33.319 })

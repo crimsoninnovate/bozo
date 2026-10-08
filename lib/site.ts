@@ -40,27 +40,46 @@ export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[]
   }))
 }
 
-/**
- * Koordinat bilinmiyorken adres metniyle arama üretir. `isletmeVerisi` varsayılan
- * olarak tekil `isletme` kaynağını okur; parametre yalnız testlerin bilinen-koordinat
- * dalını gerçek veriyi değiştirmeden kapsayabilmesi için var, çağıranlar `yolTarifiUrl()`
- * ile sıfır argümanla çağırmaya devam eder.
- */
-export function yolTarifiUrl(isletmeVerisi: Isletme = isletme): string {
-  if (isletmeVerisi.koordinat) {
-    const { enlem, boylam } = isletmeVerisi.koordinat
-    return `https://www.google.com/maps/dir/?api=1&destination=${enlem},${boylam}`
-  }
+/** "Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC": Maps aramalarının metin hedefi. */
+function adresMetni(isletmeVerisi: Isletme): string {
   // Cadde ile numara tek parça: "Naci Talat Caddesi, No:4" araması numarayı ayrı
   // bir bileşen sanır ve sonucu bozar.
   const sokak = isletmeVerisi.binaNo
     ? `${isletmeVerisi.cadde} ${isletmeVerisi.binaNo}`
     : isletmeVerisi.cadde
-  const parcalar = [isletmeVerisi.ad, sokak, isletmeVerisi.sehir, isletmeVerisi.ulke].filter(
-    (parca): parca is string => Boolean(parca),
-  )
-  const adres = parcalar.join(', ')
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adres)}`
+  return [isletmeVerisi.ad, sokak, isletmeVerisi.sehir, isletmeVerisi.ulke]
+    .filter((parca): parca is string => Boolean(parca))
+    .join(', ')
+}
+
+/** Google'daki işletme kartı (ad, saat, yorumlar). Place ID bilinmiyorken null. */
+export function haritaUrl(isletmeVerisi: Isletme = isletme): string | null {
+  const placeId = isletmeVerisi.googlePlaceId
+  if (!placeId) return null
+  const sorgu = encodeURIComponent(adresMetni(isletmeVerisi))
+  return `https://www.google.com/maps/search/?api=1&query=${sorgu}&query_place_id=${placeId}`
+}
+
+/**
+ * Yön tarifi: önce işletme kartına, sonra koordinata, en son adres aramasına.
+ * `isletmeVerisi` parametresi yalnız testlerin gerçek veriyi değiştirmeden geri
+ * dalları kapsayabilmesi için var; çağıranlar sıfır argümanla çağırır.
+ */
+export function yolTarifiUrl(isletmeVerisi: Isletme = isletme): string {
+  const adres = encodeURIComponent(adresMetni(isletmeVerisi))
+  // Hedef metin olmalı: koordinatla verilince Maps place ID'yi yok sayıp en yakın
+  // kaydı ("Kıbrıs İnşaat") gösterdi, ölçüldü 8 Ekim 2026.
+  if (isletmeVerisi.googlePlaceId) {
+    return (
+      `https://www.google.com/maps/dir/?api=1&destination=${adres}` +
+      `&destination_place_id=${isletmeVerisi.googlePlaceId}`
+    )
+  }
+  if (isletmeVerisi.koordinat) {
+    const { enlem, boylam } = isletmeVerisi.koordinat
+    return `https://www.google.com/maps/dir/?api=1&destination=${enlem},${boylam}`
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${adres}`
 }
 
 export function whatsappUrl(numara: string | null): string | null {

@@ -154,6 +154,12 @@ test('isletme_epostaDogrulanmisDegeriTasir', () => {
   assert.equal(isletme.eposta, 'bozo@cigercibozo.com')
 })
 
+// Sahibinin 8 Ekim 2026 Maps linkindeki özellik kimliğinden türetildi; tarayıcıda
+// "Ciğerci Bozo" kartını açtığı doğrulandı (IYILESTIRMELER.md > Google Maps kaydı).
+test('isletme_googlePlaceId_dogrulanmisDegerTasir', () => {
+  assert.equal(isletme.googlePlaceId, 'ChIJHzzKSYdt3hQRN2efWVKQ-sc')
+})
+
 // Kullanıcı adı saklanır, tam URL değil: AltBilgi öneki kendisi kurar.
 test('isletme_instagram_kullaniciAdiTasirUrlDegil', () => {
   assert.equal(isletme.instagram, 'cigercibozo')

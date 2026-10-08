@@ -8,6 +8,7 @@ import {
   yoldanDil,
   tumYollar,
   yolTarifiUrl,
+  haritaUrl,
   whatsappUrl,
   telefonUrl,
   instagramUrl,
@@ -58,10 +59,8 @@ test('tumYollar_altiRotaIcinTrVeEnUretir', () => {
   }
 })
 
-test('yolTarifiUrl_koordinatBilinmiyorken_adresAramasiUretir', () => {
-  // Gerçek koordinat 24 Ağustos 2026'da geldi, bu yüzden dal artık sahte nesneyle
-  // kapsanıyor: adres araması yalnız koordinat null iken üretilmeli.
-  const koordinatsiz: Isletme = { ...isletme, koordinat: null }
+test('yolTarifiUrl_koordinatVePlaceIdBilinmiyorken_adresAramasiUretir', () => {
+  const koordinatsiz: Isletme = { ...isletme, googlePlaceId: null, koordinat: null }
   const url = yolTarifiUrl(koordinatsiz)
   assert.match(url, /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/)
   const sorgu = decodeURIComponent(url.split('query=')[1] ?? '')
@@ -77,11 +76,31 @@ test('yolTarifiUrl_koordinatBilinmiyorken_adresAramasiUretir', () => {
   assert.match(sorgu, /KKTC/)
 })
 
-// Gerçek veri artık bu dala düşüyor: beş çağrı yeri (mobil bar, hero, footer,
-// iletişim satırı, çekmece) adres araması yerine yön tarifi alıyor.
-test('yolTarifiUrl_koordinatBilinirken_yonTarifiRotasiUretir', () => {
-  const url = yolTarifiUrl()
+test('yolTarifiUrl_yalnizKoordinatBilinirken_koordinataYonTarifiUretir', () => {
+  const placeIdsiz: Isletme = { ...isletme, googlePlaceId: null }
+  const url = yolTarifiUrl(placeIdsiz)
   assert.equal(url, 'https://www.google.com/maps/dir/?api=1&destination=35.3370065,33.3057253')
+})
+
+// Gerçek veri bu dala düşer. Hedef metin olmak zorunda: koordinat verilince Maps
+// place ID'yi yok sayıp en yakın kaydı ("Kıbrıs İnşaat") gösterdi, 8 Ekim 2026.
+test('yolTarifiUrl_placeIdBilinirken_isletmeKartinaYonTarifiUretir', () => {
+  const url = new URL(yolTarifiUrl())
+  assert.equal(url.origin + url.pathname, 'https://www.google.com/maps/dir/')
+  assert.equal(url.searchParams.get('api'), '1')
+  assert.equal(url.searchParams.get('destination_place_id'), 'ChIJHzzKSYdt3hQRN2efWVKQ-sc')
+  assert.equal(url.searchParams.get('destination'), 'Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC')
+})
+
+test('haritaUrl_placeIdNullIken_nullDoner', () => {
+  assert.equal(haritaUrl({ ...isletme, googlePlaceId: null }), null)
+})
+
+test('haritaUrl_gercekVeriyle_isletmeKartiniAcar', () => {
+  const url = new URL(haritaUrl() ?? '')
+  assert.equal(url.origin + url.pathname, 'https://www.google.com/maps/search/')
+  assert.equal(url.searchParams.get('query_place_id'), 'ChIJHzzKSYdt3hQRN2efWVKQ-sc')
+  assert.equal(url.searchParams.get('query'), 'Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC')
 })
 
 test('whatsappUrl_numaraNullIken_nullDoner', () => {
