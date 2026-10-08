@@ -26,16 +26,16 @@ const DOGRUSAL: Gradyan[] = [
 
 const TANE_ODAK = { cx: 0.35, cy: 0.3, r: 0.9 }
 const RADYAL: Radyal[] = [
-  { id: 'gRawCiger', ...TANE_ODAK, duraklar: [{ o: 0, r: '#C94B4B' }, { o: 0.6, r: '#8E1B22' }, { o: 1, r: '#4E0C12' }] },
-  { id: 'gRawDalak', ...TANE_ODAK, duraklar: [{ o: 0, r: '#9B5B86' }, { o: 0.6, r: '#5E2A4F' }, { o: 1, r: '#2E1226' }] },
-  { id: 'gRawYurek', ...TANE_ODAK, duraklar: [{ o: 0, r: '#B8403F' }, { o: 0.6, r: '#7A1A20' }, { o: 1, r: '#3E0A0F' }] },
-  { id: 'gCooked', ...TANE_ODAK, duraklar: [{ o: 0, r: '#B07040' }, { o: 0.6, r: '#6E3B20' }, { o: 1, r: '#3A1D0E' }] },
+  { id: 'gRawCiger', ...TANE_ODAK, duraklar: [{ o: 0, r: '#B3302F' }, { o: 0.6, r: '#7A1417' }, { o: 1, r: '#3F0A0D' }] },
+  { id: 'gRawDalak', ...TANE_ODAK, duraklar: [{ o: 0, r: '#9A62B0' }, { o: 0.6, r: '#5E2F78' }, { o: 1, r: '#2B1238' }] },
+  { id: 'gRawYurek', ...TANE_ODAK, duraklar: [{ o: 0, r: '#EE6A7E' }, { o: 0.6, r: '#C23652' }, { o: 1, r: '#7E1630' }] },
+  { id: 'gCooked', ...TANE_ODAK, duraklar: [{ o: 0, r: '#C98650' }, { o: 0.6, r: '#8A4E26' }, { o: 1, r: '#4A260F' }] },
   { id: 'gChar', cx: 0.4, cy: 0.35, r: 0.9, duraklar: [{ o: 0, r: '#3A2A22' }, { o: 1, r: '#120A07' }] },
   { id: 'gFat', ...TANE_ODAK, duraklar: [{ o: 0, r: '#FFF6E6' }, { o: 1, r: '#D9C39E' }] },
   { id: 'gEmber', cx: 0.5, cy: 0.5, r: 0.5, duraklar: [{ o: 0, r: '#FFD28A' }, { o: 0.35, r: '#FF7A1A' }, { o: 1, r: 'kor', a: 0 }] },
   { id: 'gCoal', cx: 0.5, cy: 0.5, r: 0.5, duraklar: [{ o: 0, r: '#2A1A14' }, { o: 1, r: '#0E0705' }] },
   { id: 'gYogurt', cx: 0.4, cy: 0.35, r: 0.8, duraklar: [{ o: 0, r: '#FFFBF2' }, { o: 1, r: '#E8DCC4' }] },
-  { id: 'gPlate', cx: 0.4, cy: 0.35, r: 0.8, duraklar: [{ o: 0, r: '#FFFFFF' }, { o: 0.8, r: '#E9E1D3' }, { o: 1, r: '#B9AE9C' }] },
+  { id: 'gBakirTabak', cx: 0.4, cy: 0.35, r: 0.8, duraklar: [{ o: 0, r: '#E3985F' }, { o: 0.75, r: '#B06A38' }, { o: 1, r: '#7A4222' }] },
   { id: 'gAyran', cx: 0.4, cy: 0.3, r: 0.8, duraklar: [{ o: 0, r: '#FFFFFF' }, { o: 1, r: '#E3E6E9' }] },
 ]
 

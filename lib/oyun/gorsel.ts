@@ -54,3 +54,27 @@ export function servisEdilenler(fis: readonly Urun[], kalan: readonly Urun[]): b
     return sira < (fisSayisi.get(u) ?? 0) - (kalanSayisi.get(u) ?? 0)
   })
 }
+
+export type FisSatiri =
+  | { tur: 'karisik'; servis: readonly [boolean, boolean, boolean] }
+  | { tur: 'urun'; urun: Urun; kalan: number }
+
+/**
+ * Fişin ekranda gösterilen satırları: aynı ürün tek satırda, yanında henüz gelmeyen adet.
+ * Karışık fişte ilk üç kalem (ciğer, dalak, yürek) tek kümedir, servisleri ayrı taşınır.
+ */
+export function fisSatirlari(fis: readonly Urun[], kalan: readonly Urun[], karisik: boolean): FisSatiri[] {
+  const servis = servisEdilenler(fis, kalan)
+  const bekleyen = sayim(kalan)
+  const satirlar: FisSatiri[] = []
+  if (karisik) {
+    fis.slice(0, 3).forEach((u, i) => {
+      if (!servis[i]) bekleyen.set(u, (bekleyen.get(u) ?? 1) - 1)
+    })
+    satirlar.push({ tur: 'karisik', servis: [servis[0]!, servis[1]!, servis[2]!] })
+  }
+  for (const urun of new Set(fis.slice(karisik ? 3 : 0))) {
+    satirlar.push({ tur: 'urun', urun, kalan: bekleyen.get(urun) ?? 0 })
+  }
+  return satirlar
+}

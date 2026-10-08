@@ -3,20 +3,20 @@ import type { Urun } from '@/lib/oyun/tipler'
 import stil from './SahneTezgah.module.css'
 
 /*
- * Tezgah ve rafın boyalı parçaları (handoff OyunAlani 212-270): porselen tabak, yatay pişmiş
+ * Tezgah ve rafın boyalı parçaları (handoff OyunAlani 212-270): bakır tabak, yatay pişmiş
  * şiş, bakır maşrapa, açık yayık, raf tepsisi. Mermer ve ceviz zemin CSS'te.
  */
 
-const SIS_X = [-20, -4, 12, 26] as const
+const SIS_X = [-22, -7, 8, 23] as const
 const TEPSI = [[16, 12], [32, 13], [24, 6]] as const
 
-/** 80×60 porselen tabak ve gölgesi; üstüne şiş ya da maşrapa gelir. */
+/** 80×60 bakır tabak ve gölgesi; üstüne şiş ya da maşrapa gelir. */
 export function TezgahTabagi({ children }: { children?: React.ReactNode }) {
   return (
     <svg viewBox="0 0 80 60" className={stil.tabak} aria-hidden="true">
       <ellipse cx={40} cy={34} rx={30} ry={18} fill="#000" opacity={0.28} filter="url(#fBlur2)" />
-      <ellipse cx={40} cy={30} rx={31} ry={19} fill="url(#gPlate)" />
-      <ellipse cx={40} cy={30} rx={23} ry={13} fill="none" stroke="#B9AE9C" strokeWidth={0.8} opacity={0.7} />
+      <ellipse cx={40} cy={30} rx={31} ry={19} fill="url(#gBakirTabak)" stroke="#F0B27A" strokeWidth={0.8} />
+      <ellipse cx={40} cy={30} rx={23} ry={13} fill="none" stroke="#7A4222" strokeWidth={1.2} opacity={0.6} />
       {children}
     </svg>
   )
@@ -30,7 +30,7 @@ export function TezgahUrunu({ urun }: { urun: Urun }) {
       <path d="M-34 0h66l4-1.4v2.8z" fill="url(#gSteel)" stroke="rgba(0,0,0,.4)" strokeWidth={0.4} />
       <circle cx={-34} cy={0} r={3} fill="none" stroke="url(#gSteel)" strokeWidth={1.6} />
       {SIS_X.map((x) => (
-        <Tane key={x} urun={urun} x={x} donus={90} dolgu="url(#gCooked)" />
+        <Tane key={x} urun={urun} x={x} olcek={0.75} pismis />
       ))}
     </g>
   )
@@ -72,7 +72,7 @@ export function RafTepsisi({ urun }: { urun: SisUrun }) {
       <path d="M4 14h40l-3 20H7z" fill="#2A2320" stroke="rgba(255,255,255,.15)" strokeWidth={0.8} />
       <ellipse cx={24} cy={14} rx={20} ry={4.5} fill="#3A302B" stroke="rgba(255,255,255,.2)" strokeWidth={0.8} />
       {TEPSI.map(([x, y]) => (
-        <Tane key={x} urun={urun} x={x} y={y} />
+        <Tane key={x} urun={urun} x={x} y={y} olcek={0.7} />
       ))}
     </svg>
   )

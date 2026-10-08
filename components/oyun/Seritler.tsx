@@ -1,6 +1,6 @@
 import type { Sozluk } from '@/content'
 import { KorKivilcimi } from '@/components/ember/KorKivilcimi'
-import { servisEdilenler } from '@/lib/oyun/gorsel'
+import { fisSatirlari } from '@/lib/oyun/gorsel'
 import type { Goruntu } from '@/lib/oyun/gosterim'
 import type { Hedef, Urun } from '@/lib/oyun/tipler'
 import { seritOdagi, seritTusu } from './odak'
@@ -85,17 +85,20 @@ function sofraEtiketi(metin: Metin, no: number, sofra: SofraProps['sofra'], ad: 
   return `${metin.sofra} ${no + 1}${durum}: ${sofra.kalan.map(ad).join(', ')}`
 }
 
-/** Fiş: yırtık kağıt, kalemler 14 px tane; servis edilen üstü çizili. */
+/** Fiş: yırtık kağıt, ürün başına tek büyük simge; birden çok gelecekse adet, tamamsa onay işareti. */
 function Fis({ sofra }: { sofra: NonNullable<SofraProps['sofra']> }) {
-  const servis = servisEdilenler(sofra.fis, sofra.kalan)
+  const satirlar = fisSatirlari(sofra.fis, sofra.kalan, sofra.karisik)
   return (
     <span className={sofraStil.fis} data-fis aria-hidden="true">
-      {sofra.karisik && <KarisikSimgesi />}
-      {sofra.fis.map((u, i) => (
-        <span key={i} className={sofraStil.kalem} data-servis={servis[i] ? '' : undefined}>
-          <TaneSimgesi urun={u} />
-        </span>
-      ))}
+      {satirlar.map((s) => {
+        const tamam = s.tur === 'karisik' ? s.servis.every(Boolean) : s.kalan === 0
+        return (
+          <span key={s.tur === 'karisik' ? 'karisik' : s.urun} className={sofraStil.kalem} data-servis={tamam ? '' : undefined}>
+            {s.tur === 'karisik' ? <KarisikSimgesi boy={40} servis={s.servis} /> : <TaneSimgesi urun={s.urun} boy={40} />}
+            {s.tur === 'urun' && s.kalan > 1 && <span className={sofraStil.adet}>{s.kalan}</span>}
+          </span>
+        )
+      })}
     </span>
   )
 }

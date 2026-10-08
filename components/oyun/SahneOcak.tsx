@@ -1,4 +1,4 @@
-import { CIG, Tane, TANE, type SisUrun } from './SahneTane'
+import { TaneKatmanlari, type SisUrun } from './SahneTane'
 import stil from './SahneOcak.module.css'
 
 /*
@@ -40,10 +40,7 @@ export function Sis({ urun, yanik = false }: SisProps) {
       <path d="M12.6 10h2.8v108l-1.4 6-1.4-6z" fill="url(#gSteel)" stroke="rgba(0,0,0,.4)" strokeWidth={0.4} />
       {TANE_Y.map((y) => (
         <g key={y} transform={`translate(14 ${y})`}>
-          <path d={TANE[urun]} fill={CIG[urun]} stroke="rgba(0,0,0,.4)" strokeWidth={0.8} />
-          <path d={TANE[urun]} fill="url(#gCooked)" className={stil.pismis} />
-          <path d={TANE[urun]} fill="url(#gChar)" className={stil.komur} />
-          <ellipse cx={-2.5} cy={-3.5} rx={2.6} ry={1.4} fill="#fff" opacity={0.3} />
+          <TaneKatmanlari urun={urun} pismisSinif={stil.pismis} komurSinif={stil.komur} />
         </g>
       ))}
       {YAG_Y.map((y) => (
@@ -89,6 +86,3 @@ export function KozYatagi() {
     </svg>
   )
 }
-
-/** Kıvam ve çevirme çentiğinde tane yolunu dışarı verir (fiş ve raf aynı yolu kullanır). */
-export { Tane }

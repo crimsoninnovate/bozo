@@ -1,6 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { kivilcimYogunlugu, korYogunlugu, pismeOrani, sabirDurumu, servisEdilenler, yanmaOrani } from './gorsel.ts'
+import {
+  fisSatirlari, kivilcimYogunlugu, korYogunlugu, pismeOrani, sabirDurumu, servisEdilenler, yanmaOrani,
+} from './gorsel.ts'
 import { bekle, dokun, sahne } from './deneme.ts'
 
 const SIS = { urun: 'ciger' as const, gecen: 0, pisme: 240, pencere: 120, bant: 30, cevirme: 'yok' as const }
@@ -45,4 +47,27 @@ test('servisEdilenler_ayniUrundenOnceYazilanOnceServisSayilir', () => {
   assert.deepEqual(servisEdilenler(['ciger', 'ayran'], ['ciger']), [false, true])
   assert.deepEqual(servisEdilenler(['ciger', 'ciger', 'dalak'], ['ciger', 'dalak']), [true, false, false])
   assert.deepEqual(servisEdilenler(['ciger', 'dalak', 'yurek'], []), [true, true, true])
+})
+
+test('fisSatirlari_ayniUrunuTekSatirdaTopla_kalanAdediniSay', () => {
+  assert.deepEqual(fisSatirlari(['ciger', 'ciger', 'dalak'], ['ciger', 'ciger', 'dalak'], false), [
+    { tur: 'urun', urun: 'ciger', kalan: 2 },
+    { tur: 'urun', urun: 'dalak', kalan: 1 },
+  ])
+  assert.deepEqual(fisSatirlari(['ciger', 'ciger', 'dalak'], ['ciger'], false), [
+    { tur: 'urun', urun: 'ciger', kalan: 1 },
+    { tur: 'urun', urun: 'dalak', kalan: 0 },
+  ])
+})
+
+test('fisSatirlari_karisikFis_ilkUcuTekKumeOlurServisleriAyriTasir', () => {
+  const fis = ['ciger', 'dalak', 'yurek', 'ayran'] as const
+  assert.deepEqual(fisSatirlari(fis, ['dalak', 'yurek', 'ayran'], true), [
+    { tur: 'karisik', servis: [true, false, false] },
+    { tur: 'urun', urun: 'ayran', kalan: 1 },
+  ])
+  assert.deepEqual(fisSatirlari(['ciger', 'dalak', 'yurek', 'ciger'], ['ciger'], true), [
+    { tur: 'karisik', servis: [true, true, true] },
+    { tur: 'urun', urun: 'ciger', kalan: 1 },
+  ])
 })

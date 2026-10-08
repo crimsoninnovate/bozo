@@ -35,24 +35,24 @@ export function IkramTabaklari() {
     <svg viewBox="0 0 100 100" className={stil.katman} aria-hidden="true">
       <g filter="url(#fShadow)">
         <g data-tabak className={stil.tabak}>
-          <circle cx={30} cy={29} r={8} fill="url(#gPlate)" />
+          <circle cx={30} cy={29} r={8} fill="url(#gBakirTabak)" stroke="#F0B27A" strokeWidth={0.6} />
           <circle cx={30} cy={29} r={5.6} fill="url(#gYogurt)" />
           <path d="M27 28c2 1.5 4.5 1.5 6 0" stroke="#C8B48E" strokeWidth={0.9} fill="none" />
         </g>
         <g data-tabak className={stil.tabak}>
-          <circle cx={70} cy={29} r={8} fill="url(#gPlate)" />
+          <circle cx={70} cy={29} r={8} fill="url(#gBakirTabak)" stroke="#F0B27A" strokeWidth={0.6} />
           <circle cx={70} cy={29} r={5.8} fill="#C8402E" />
           <circle cx={68} cy={27.5} r={1.6} fill="#8FBF5A" />
           <circle cx={72.5} cy={30.5} r={1.4} fill="#5E8A3A" />
           <circle cx={71.5} cy={26.6} r={1.1} fill="#F3E2C7" />
         </g>
         <g data-tabak className={stil.tabak}>
-          <circle cx={30} cy={69} r={8} fill="url(#gPlate)" />
+          <circle cx={30} cy={69} r={8} fill="url(#gBakirTabak)" stroke="#F0B27A" strokeWidth={0.6} />
           <path d="M25 70c2-5 7-5 9-1-3-1-6 1-9 1zM27 66c3-2 6-1 7 2-3 0-5-1-7-2z" fill="#5E8A3A" />
           <path d="M26 71c3-3 6-3 8-1" stroke="#8FBF5A" strokeWidth={1} fill="none" />
         </g>
         <g data-tabak className={stil.tabak}>
-          <circle cx={70} cy={69} r={8} fill="url(#gPlate)" />
+          <circle cx={70} cy={69} r={8} fill="url(#gBakirTabak)" stroke="#F0B27A" strokeWidth={0.6} />
           <circle cx={70} cy={69} r={5} fill="none" stroke="#B07AB8" strokeWidth={1.8} />
           <circle cx={70} cy={69} r={2.4} fill="none" stroke="#7D4B8C" strokeWidth={1.2} />
           <circle cx={67} cy={66} r={0.9} fill="#7A1F2E" />
