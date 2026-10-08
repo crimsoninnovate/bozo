@@ -65,10 +65,29 @@ Dikey akış **HUD → Sofra → Ocak → Raf** (Tezgah satırı kalkar, ocağa 
 - **Görsel dil değişmez:** ürün glifleri, ateş, duman, ses, açılış, parallax, bakır tabak (ikram
   tabakları sofrada kalır). Silinenler: tezgah mermeri ve tabakları, yayık, maşrapa, çevirme çentiği.
 
-**Yönerge satırı (yalnız tarayıcıdaki ilk turda).** HUD'daki duyuru satırı duruma göre tek cümle
-söyler: "Fişe bak: ciğer istiyor" → "Rafa dokun" → "Altın olunca şişe dokun". Sözlükten, TR ve EN.
-Bu bir "nasıl oynanır ekranı" değil, bağlamsal ipucudur; ikinci turdan itibaren kapalı. (Eski spec
-§1'in "nasıl oynanır yok" kuralı bu ölçüde gevşer: ekran yok, cümle var.)
+**Rehberli ilk tur (yalnız bu tarayıcıdaki ilk turda; sahibin 9 Ekim kararı: "öğreten,
+anlatan, yönlendiren bir akış oyun ekranının üstünde olmalı").** Ayrı bir sayfa değil, oyun
+alanının üstünde bir katman: ekran kararır, yalnız dokunulacak yer açık kalır, üstünde nabız atan
+bir el ve tek cümlelik bir balon. Oyun **dokunuşu bekler**: saat durur, kaybedilecek bir şey yok.
+
+| Adım | Ne açık kalır | Balon | Beklenen | Saat |
+|---|---|---|---|---|
+| 1 | Fiş (ilk misafir, ciğer) | "Misafir ciğer istiyor" | Dokun (Tamam) | durur |
+| 2 | Raf: Ciğer | "Ciğer şişini ocağa koy" | Rafa dokun | durur |
+| 3 | Ocaktaki şiş ve ray | "Şiş pişiyor. Altın olunca dokun" | Gözler (balon kalır) | akar |
+| 4 | Hazır şiş (altın halka) | "Şimdi dokun!" | Şişe dokun | durur, dokununca akar |
+| 5 | Sofra | "Afiyet olsun! Misafir ödedi" | 2 sn sonra kapanır | akar |
+| 6 | Yok | Sıradaki misafir için raf yine parlar | Serbest oyun | akar |
+
+- Adım 3'te şiş pişerken saat akar ama ilk misafir tükenmezdir; adım 4'te pencere açılınca saat
+  durur ki öğrenen kaçırmasın, dokununca kaldığı yerden sürer. Yanlış yere dokunmak etkisiz.
+- **Atla** düğmesi her adımda var (44 px hedef); atlanınca rehber kapanır, oyun serbest.
+- Duraklama simülasyonu etkilemez: tik ilerlemez, kayıt ve sunucu yeniden oynatması aynıdır.
+- İkinci turdan itibaren rehber yok; yalnız raf rehberi (parlayan düğmeler) kalır.
+- Metinler sözlükten (TR ve EN), her cümle en çok 6 sözcük; rehber `prefers-reduced-motion`
+  altında el nabzı olmadan, opaklık geçişiyle çalışır.
+- Eski spec §1'in "nasıl oynanır ekranı yok" ilkesi şöyle okunur: ayrı ekran ve ayrı metin sayfası
+  yok, öğretim oyunun kendi içinde ve ilk turda.
 
 ## 4. Kod etkisi
 
@@ -94,10 +113,10 @@ Aynı simülasyon deseni korunur (tamsayı, tik, deterministik, `simule` ve `ile
   dokunuş) gecelerin en az %80'ini tamamlar; *rastgele dokunan* (bilgisizce raf ve ocak yuvalarına
   vurur) ilk iki evreyi geçer; *hareketsiz* 0:40 içinde biter (kaybetme mümkün, haksız değil).
 - **Skor negatif olmaz** (mülkiyet testi, rastgele girdilerle).
-- Tarayıcı: aynı headless hat (duman, azaltılmış hareket, kare süresi); yönerge satırı üç adımı
-  sırayla gösterir.
-- **İnsan testi** sahibin telefonu: yönerge olmadan ilk 30 sn anlaşılıyor mu (ölçüt: ilk dokunuş
-  raf, ikinci dokunuş şiş).
+- Tarayıcı: aynı headless hat (duman, azaltılmış hareket, kare süresi); rehber altı adımı sırayla
+  gösterir, saat adım 1, 2 ve 4'te durur, Atla her adımda çalışır.
+- **İnsan testi** sahibin telefonu: rehberle ilk misafir servis edilebiliyor mu, rehber bittikten
+  sonra ikinci misafir yardımsız servis ediliyor mu (ölçüt: ilk 60 sn içinde iki misafir).
 
 ## 6. Kapsam dışı
 
