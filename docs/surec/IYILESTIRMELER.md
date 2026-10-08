@@ -2241,3 +2241,18 @@ verilmiş düz siyah bir katman, bulanıklık dış sarmalayıcıda. Aynı öğe
   fark rozetin sol alt kenarında 4x2 CSS piksellik kenar yumuşatması.
 - Boy ve sarkma payları `img`'den `.cerceve`'ye taşındı; dört boy ve daralma geçişi gölgeye
   kendiliğinden uyuyor. `-webkit-mask-image` Chrome 120 ve iOS 15.4 öncesi için.
+
+## 8 Ekim 2026: site uygulama olarak kurulmayı önermiyor
+
+Kullanıcı bildirdi: telefonda "Uygulamayı yükle" önerisi çıkıyordu. Kaynağı iki sinyal:
+favicon üreticisinden gelen `site.webmanifest` > `"display": "standalone"` ve Next'in
+`appleWebApp` verilince varsayılan olarak bastığı `<meta name="mobile-web-app-capable" content="yes">`.
+İkisi de karar değildi, varsayılandı.
+
+- `display` → `"browser"`. Tam Chrome'un kurulabilirlik denetimi (CDP
+  `Page.getInstallabilityErrors`, Playwright `channel: 'chrome'`) yeni manifest için
+  `manifest-display-not-supported` döndürüyor. Playwright'ın headless shell'i bu denetimi
+  taşımıyor, her manifest için boş liste dönüyor: ölçüm tam Chrome'la yapılmalı.
+- `appleWebApp.capable: false`: meta etiketi kalktı, ana ekrana elle eklenen kısayol uygulama
+  gibi değil tarayıcıda açılır. İkon, tema rengi ve `apple-mobile-web-app-title` duruyor.
+- `manifest_kurulabilirUygulamaIlanEtmez` ikisini de kilitliyor.

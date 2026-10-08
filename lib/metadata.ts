@@ -62,7 +62,7 @@ export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil): Metadata {
     description: meta.aciklama,
     icons: IKONLAR,
     manifest: '/site.webmanifest',
-    appleWebApp: { title: s.ortak.marka.ad },
+    appleWebApp: { title: s.ortak.marka.ad, capable: false },
     alternates: {
       canonical: `${SITE_URL}${yol(anahtar, dil)}`,
       languages: {

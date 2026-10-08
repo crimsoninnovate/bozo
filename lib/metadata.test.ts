@@ -1,5 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { tr } from '../content/tr/index.ts'
 import { en } from '../content/en/index.ts'
 import { sayfaMetadata } from './metadata.ts'
@@ -51,4 +52,15 @@ test('sayfaMetadata_openGraph_dileGoreLocaleSecer', () => {
   const enMeta = sayfaMetadata('konum', 'en')
   assert.equal(trMeta.openGraph?.locale, 'tr_TR')
   assert.equal(enMeta.openGraph?.locale, 'en_GB')
+})
+
+/** `standalone` siteyi kurulabilir uygulama yapıyor ve Android "Uygulamayı yükle" öneriyordu (8 Ekim 2026). */
+test('manifest_kurulabilirUygulamaIlanEtmez', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../public/site.webmanifest', import.meta.url), 'utf8'))
+  assert.equal(manifest.display, 'browser')
+  // Next `appleWebApp` verilince `mobile-web-app-capable: yes` basar; ana ekran kısayolu uygulama gibi açılır.
+  for (const dil of ['tr', 'en'] as const) {
+    const apple = sayfaMetadata('ana', dil).appleWebApp
+    assert.ok(apple && typeof apple === 'object' && apple.capable === false)
+  }
 })
