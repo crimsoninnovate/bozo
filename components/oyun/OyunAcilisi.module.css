@@ -1,13 +1,12 @@
 /*
  * Temel stiller SON hâldir, keyframe'ler yalnız başlangıcı taşır: hareket azaltmada global
- * kural animasyonu keser ve ekran doğrudan son hâlde açılır.
+ * kural animasyonu keser ve ekran doğrudan son hâlde açılır (hareket notu, azaltılmış sütun).
  */
 .acilis {
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 14px;
-  min-height: calc(100dvh - 26px - var(--bar-boy) - var(--rozet-sarkma) - 2 * var(--kart-ic-orta));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   overflow-x: clip;
   text-align: center;
 }
@@ -17,150 +16,164 @@
   animation: none;
 }
 
+.sol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Rozet 200 px, üst bardan 28 px yukarı sarkar; kor ışığı ve kıvılcım arkasında. */
 .sahne {
   position: relative;
-  isolation: isolate;
-  width: clamp(150px, 46vw, 220px);
-  margin-bottom: 4px;
+  width: 200px;
+  margin-top: -28px;
 }
 
 .kor {
   position: absolute;
   z-index: -1;
   left: 50%;
-  top: 58%;
-  width: 150%;
-  aspect-ratio: 1.3;
+  top: 50%;
+  width: 560px;
+  height: 560px;
   translate: -50% -50%;
-  background: radial-gradient(closest-side, var(--kor-leke-guclu), transparent);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--kor) 50%, transparent),
+    color-mix(in srgb, var(--kor) 18%, transparent) 35%,
+    transparent 65%
+  );
   animation: tutus 600ms ease-out both;
 }
 
 .rozet {
   position: relative;
   display: block;
-  animation: otur 750ms cubic-bezier(0.2, 0.7, 0.3, 1) 150ms both;
-}
-
-.rozet img {
-  display: block;
   width: 100%;
   height: auto;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.6));
+  animation: yuksel 800ms var(--gecis-egri) 600ms both;
 }
 
-/* Rozetin şekliyle maskeli; bant `transform` ile geçer, her karede boyama istemez. */
-.parlama {
+/* Bakır halka 1,4-1,8 sn: ölçek 1 > 1,15, opaklık .6 > 0; son hâlde yok. */
+.halka {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-}
-
-.bant {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    color-mix(in srgb, var(--bakir-acik) 55%, transparent) 50%,
-    transparent 65%
-  );
-  transform: translateX(100%);
-  animation: gec 700ms ease-in-out 800ms both;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--bakir-60),
+    0 0 90px 30px var(--bakir-28);
+  opacity: 0;
+  animation: parla 400ms ease-out 1400ms both;
 }
 
 .kivilcimlar {
   position: absolute;
   left: 50%;
-  bottom: 22%;
+  top: 60%;
 }
 
-/* Tane gibi kare; son hâli görünmez. */
+/* Beş kıvılcım yukarı 40 px, 900 ms; son hâli görünmez. */
 .kivilcim {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 1px;
-  background: var(--bakir-acik);
-  opacity: 0;
-  animation: savrul 1100ms cubic-bezier(0.15, 0.6, 0.4, 1) both;
-  animation-delay: calc(700ms + var(--g));
-}
-
-.kivilcim:nth-child(3n) {
+  left: var(--x);
+  top: var(--y);
   width: 3px;
   height: 3px;
-  background: var(--bakir);
+  border-radius: 50%;
+  background: var(--bakir-acik);
+  opacity: 0;
+  animation: savrul 900ms ease-out var(--g) both;
+}
+
+.kivilcim:nth-child(2n) {
+  width: 2px;
+  height: 2px;
 }
 
 .baslik {
-  margin: 0;
-  font: 400 32px/1.1 var(--font-baslik);
-  text-shadow: var(--golge-baslik);
-  animation: belir 400ms ease-out 1000ms both;
+  margin: 22px 0 0;
+  font: 400 40px/1.05 var(--font-baslik);
+  letter-spacing: -0.025em;
+  animation: belir 400ms ease-out 1800ms both;
 }
 
 .cumle {
-  margin: 0;
-  color: var(--krem-70);
-  animation: belir 400ms ease-out 1120ms both;
+  margin: 12px 0 0;
+  font: 400 17px/1.5 var(--font-govde);
+  color: var(--krem-74);
+  animation: belir 400ms ease-out 1880ms both;
 }
 
 .eylem {
-  position: relative;
-  isolation: isolate;
-  animation: beliris 400ms ease-out 1240ms both;
+  width: 100%;
+  margin-top: 32px;
+  animation: beliris 400ms ease-out 1960ms both;
 }
 
-/* Düğmenin kor ışığı bir kez nefes alır. */
-.eylem::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -16px -24px;
-  background: radial-gradient(closest-side, var(--kor-leke-guclu), transparent);
-  opacity: 0;
-  animation: nefes 1000ms ease-in-out 1500ms both;
-}
-
-/* Düğmenin altındaki tablo: açılışın son adımı, aynı belirme. */
 .altinda {
   width: 100%;
-  animation: belir 400ms ease-out 1400ms both;
+  animation: belir 400ms ease-out 2040ms both;
+}
+
+/* Telefonda en altta; alt pay mobil eylem pilinin (84 px + 18 px alt boşluk) üstünde tutar. */
+.baglantilar {
+  margin-top: 28px;
+  padding-bottom: 110px;
+  animation: belir 400ms ease-out 2120ms both;
+}
+
+@media (max-width: 359px) {
+  .baslik { font-size: 36px; }
+}
+
+/* Masaüstü (handoff 1a 1440): sol sütun sola yaslı, sağda 420 px sıralama bloğu. */
+@media (min-width: 1041px) {
+  .acilis {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 64px;
+    min-height: calc(100dvh - var(--bar-boy) - var(--rozet-sarkma) - 24px);
+    padding: 0 64px;
+    text-align: left;
+  }
+
+  .sol { align-self: end; align-items: flex-start; }
+  .sahne { width: 220px; margin-top: 0; }
+  .baslik { margin-top: 28px; font-size: 80px; line-height: 1; letter-spacing: -0.04em; }
+  .cumle { margin-top: 16px; font-size: 19px; }
+  .eylem { width: 320px; margin-top: 36px; }
+  .altinda { grid-column: 2; grid-row: 1 / 3; justify-self: end; }
+  .baglantilar { grid-column: 1; align-self: start; padding-bottom: 0; }
 }
 
 @keyframes tutus {
-  from { opacity: 0; transform: scale(0.5); }
+  from { opacity: 0; }
 }
 
-@keyframes otur {
-  0% { opacity: 0; transform: translateY(24px) scale(0.86); }
-  65% { opacity: 1; transform: translateY(-3px) scale(1.015); }
-  100% { opacity: 1; transform: none; }
+@keyframes yuksel {
+  from { opacity: 0.72; transform: translateY(60px); }
 }
 
-@keyframes gec {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
+@keyframes parla {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.15); }
 }
 
 @keyframes savrul {
   0% { opacity: 0; transform: none; }
-  15% { opacity: 1; }
-  100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.4); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px); }
 }
 
 @keyframes belir {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; }
 }
 
 /* Gecikme boyunca `visibility: hidden`: görünmeyen düğmeye dokunulamaz, odak da gitmez. */
 @keyframes beliris {
-  from { opacity: 0; transform: translateY(10px); visibility: hidden; }
-}
-
-@keyframes nefes {
-  40% { opacity: 1; }
+  from { opacity: 0; visibility: hidden; }
 }

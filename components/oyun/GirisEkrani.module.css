@@ -1,10 +1,9 @@
+/* Oyna: 64 px, tam genişlik (masaüstünde 320), kor zemin, Bevan 22. */
 .oyna {
-  min-width: 200px;
-  min-height: 56px;
-  border-radius: 3px;
+  width: 100%;
+  height: 64px;
   background: var(--kor);
-  box-shadow: var(--kor-golge);
-  font: 600 18px/1 var(--font-govde);
+  font: 400 22px/1 var(--font-baslik);
   color: var(--krem);
 }
 

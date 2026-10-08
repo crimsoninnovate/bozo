@@ -1,76 +1,116 @@
+/* Sıralama bloğu (handoff 1a 86-92): üst kenar güçlü, satırlar hayalet çizgiyle ayrılır. */
 .tablo {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  width: min(100%, 360px);
-  margin: 8px auto 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 32px;
+  border-top: 1px solid var(--cizgi-bolum);
+  text-align: left;
+}
+
+.baslikSatiri {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 8px;
 }
 
 .baslik {
   margin: 0;
-  font: 500 14.5px/1.2 var(--font-govde);
+  font: 600 13px/1 var(--font-govde);
   letter-spacing: 0.04em;
-  color: var(--krem-70);
+  color: var(--krem-56);
+}
+
+.donem {
+  font: 500 13px/1 var(--font-govde);
+  color: var(--krem-56);
 }
 
 .liste {
-  display: grid;
-  gap: 2px;
-  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Sıra, ad, puan: rakamlar Bevan tabular, ad taşarsa kısalır. */
+/* Sıra Bevan 15.5 bakır, ad Archivo 16/500, puan Bevan 16 tabular; ad taşarsa kısalır. */
 .satir {
-  display: grid;
-  grid-template-columns: 28px 1fr auto;
-  align-items: center;
-  gap: 10px;
-  min-height: 32px;
-  padding: 0 10px;
-  border-top: 1px solid var(--cizgi-kart);
-}
-
-.satir:first-child {
-  border-top: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--cizgi-hayalet);
 }
 
 .sira,
-.puan {
+.puan,
+.sampiyonPuan {
   font-family: var(--font-baslik);
   font-variant-numeric: tabular-nums;
 }
 
 .sira {
+  width: 20px;
+  font-size: 15.5px;
+  line-height: 1;
   color: var(--bakir);
 }
 
 .ad {
+  flex: 1;
   overflow: hidden;
-  text-align: left;
+  font: 500 16px/1 var(--font-govde);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.puan {
+  font-size: 16px;
+  line-height: 1;
+}
+
 .sampiyon {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
   margin: 0;
-  color: var(--krem-70);
+  padding: 12px 0;
+  border-top: 1px solid var(--cizgi-bolum);
+  font: 500 15.5px/1 var(--font-govde);
+}
+
+.sampiyonEtiket {
+  flex: 1;
+  color: var(--krem-74);
+}
+
+.sampiyonPuan {
+  font-size: 15.5px;
+  color: var(--bakir);
 }
 
 .baglantilar {
   display: flex;
-  gap: 8px;
+  gap: 20px;
 }
 
 .baglanti {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 10px;
-  font: 500 14.5px/1.2 var(--font-govde);
-  color: var(--bakir);
+  font: 500 15.5px/1 var(--font-govde);
+  color: var(--krem-74);
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 1041px) {
+  .tablo { margin-top: 0; }
+  .baslikSatiri { padding: 14px 0 10px; }
+  .satir { gap: 14px; padding: 14px 0; }
+  .sira { width: 24px; font-size: 17px; }
+  .ad, .puan { font-size: 17px; }
+  .sampiyon { padding: 16px 0; font-size: 16px; }
+  .sampiyonPuan { font-size: 16px; }
+  .baglantilar { gap: 24px; }
 }

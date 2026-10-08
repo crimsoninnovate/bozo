@@ -8,6 +8,7 @@ import stil from './SonucEkrani.module.css'
 /*
  * Sonuç ekranının sunucuya bakan iki parçası (spec §7, §11): puanın altındaki haftalık sıra
  * satırı ve "Tekrar Oyna"nın altındaki durum ya da "Bu Skoru Sıralamaya Yaz" düğmesi.
+ * Çevrimdışı kutusu `SonucEkrani`de, özetin altında (handoff 1c c).
  */
 type Ortak = { s: Sozluk; gonderim: Gonderim; sayi: (n: number) => string }
 
@@ -37,7 +38,6 @@ type DurumProps = Ortak & { katil: () => void; tekrarDene: () => void; siralamaY
 export function GonderimDurumu({ s, gonderim, katil, tekrarDene, siralamaYolu }: DurumProps) {
   return (
     <div className={stil.gonderim}>
-      {gonderim.durum === 'cevrimdisi' && <p className={stil.durum}>{s.oyun.gonderim.cevrimdisi}</p>}
       {gonderim.durum === 'gonderiliyor' && <p className={stil.durum}>{s.oyun.gonderim.gonderiliyor}</p>}
       {gonderim.durum === 'bekliyor' && (
         <button type="button" className={stil.ikincil} onClick={katil}>

@@ -1,30 +1,44 @@
+/* Sonuç (handoff 1c): rozet 132, durum satırı, puan Bevan 72 bakır-açık, 4 sütun özet, 64 px Tekrar Oyna. */
 .sonuc {
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 14px;
-  min-height: calc(100dvh - 26px - var(--bar-boy) - var(--rozet-sarkma) - 2 * var(--kart-ic-orta));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   text-align: center;
 }
 
-/* Paylaşılan ekran görüntüsünde marka. */
 .rozet {
-  width: 84px;
+  width: 132px;
   height: auto;
+  margin-top: -20px;
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.6));
 }
 
 .satir {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--krem-70);
+  margin: 18px 0 0;
+  font: 500 15.5px/1 var(--font-govde);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem-74);
 }
 
 .puan {
-  margin: 0;
-  font: 400 48px/1 var(--font-baslik);
+  margin: 10px 0 0;
+  font: 400 72px/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
-  text-shadow: var(--golge-baslik);
+  letter-spacing: -0.02em;
+  color: var(--bakir-acik);
+}
+
+.puanEtiketi {
+  margin-top: 4px;
+  font: 600 13px/1 var(--font-govde);
+  letter-spacing: 0.04em;
+  color: var(--krem-56);
 }
 
 .gizli {
@@ -39,56 +53,111 @@
 
 .ozet {
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 6px 20px;
-  list-style: none;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  margin: 26px 0 0;
   padding: 0;
-  color: var(--krem-70);
+  border-top: 1px solid var(--cizgi-bolum);
+  border-bottom: 1px solid var(--cizgi-bolum);
+  list-style: none;
+}
+
+.ozet li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 0;
+}
+
+.ozet li + li {
+  border-left: 1px solid var(--cizgi-hayalet);
 }
 
 .deger {
-  font-family: var(--font-baslik);
+  font: 400 24px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.etiket {
+  font: 500 13px/1.2 var(--font-govde);
+  color: var(--krem-56);
+}
+
+/* Karşılaştırma satırları: Archivo 16/1.4 krem-74, vurgular 600 krem. */
+.satirlar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+  font: 400 16px/1.4 var(--font-govde);
+  color: var(--krem-74);
+  text-align: left;
+}
+
+.satirlar:empty {
+  display: none;
+}
+
+.karsilastirma,
+.sira {
+  margin: 0;
+}
+
+.karsilastirma strong,
+.sira strong {
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--krem);
 }
 
-.enIyi { color: var(--bakir); }
+.rozetYeni {
+  padding: 5px 7px;
+  background: var(--bakir-acik);
+  font: 600 13px/1 var(--font-govde);
+  color: var(--zemin);
+}
+
+/* Çevrimdışı tur: kenarlı uyarı kutusu (handoff 1c c). */
+.cevrimdisi {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--cizgi-plaka);
+  font: 400 15.5px/1.4 var(--font-govde);
+}
 
 .tekrar {
-  min-width: 200px;
-  min-height: 56px;
-  border-radius: 3px;
+  width: 100%;
+  height: 64px;
+  margin-top: 26px;
   background: var(--kor);
-  box-shadow: var(--kor-golge);
-  font: 600 18px/1 var(--font-govde);
+  font: 400 22px/1 var(--font-baslik);
   color: var(--krem);
 }
 
-/* Haftalık sıra satırı (spec §11): kişisel en iyinin altında, bakır. */
-.sira {
-  margin: 0;
-  color: var(--bakir);
-}
-
 .gonderim {
-  display: grid;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 6px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .durum {
   margin: 0;
-  color: var(--krem-70);
+  color: var(--krem-74);
 }
 
-/* İkincil düğme: kor dolgu yok, kenarlık. "Bu Skoru Sıralamaya Yaz" Tekrar Oyna'nın altında. */
+/* İkincil düğme: 56 px, kenarlık; "Bu Skoru Sıralamaya Yaz" Tekrar Oyna'nın altında. */
 .ikincil {
-  min-width: 200px;
-  min-height: 48px;
-  padding: 0 20px;
+  width: 100%;
+  height: 56px;
   border: 1px solid var(--cizgi-buton);
-  border-radius: 3px;
-  font: 600 16px/1 var(--font-govde);
+  font: 600 17px/1 var(--font-govde);
   color: var(--krem);
 }
 
@@ -98,8 +167,17 @@
   align-items: center;
   min-height: 44px;
   padding: 0 10px;
-  font: 500 14.5px/1.2 var(--font-govde);
-  color: var(--bakir);
+  font: 500 15.5px/1 var(--font-govde);
+  color: var(--krem-74);
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 359px) {
+  .puan { font-size: 64px; }
+}
+
+@media (min-width: 1041px) {
+  .sonuc { max-width: 560px; }
+  .puan { font-size: 96px; }
 }
