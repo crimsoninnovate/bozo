@@ -29,6 +29,11 @@ export class ApiHatasi extends Error {
   }
 }
 
+/** Ağ, hız sınırı ve sunucu hatası geçicidir; 4xx retleri aynı tur için kalıcıdır (spec §7). */
+export function tekrarDenenebilirMi(hata: ApiHatasi): boolean {
+  return hata.durum === 0 || hata.durum === 429 || hata.durum >= 500
+}
+
 /** QR `/oyun/?k=sofra`, Instagram `/oyun/?k=ig`, ana sayfa bandı `/oyun/?k=site`; başka her şey 'yok'. */
 export function kanalCoz(arama: string): Kanal {
   const k = new URLSearchParams(arama).get('k')

@@ -66,6 +66,7 @@ export const oyun = {
     cevrimdisi: 'Çevrimdışı tur: sıralamaya girmez.',
     gonderiliyor: 'Sıralamaya yazılıyor',
     hata: 'Sıralamaya yazılamadı.',
+    reddedildi: 'Bu tur sıralamaya yazılamaz.',
     tekrarDene: 'Tekrar Dene',
     sira: 'Haftalık sıra: {sira}',
     enIyin: 'Haftalık en iyin: {puan}',

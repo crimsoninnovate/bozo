@@ -44,6 +44,7 @@ export function GonderimDurumu({ s, gonderim, katil, tekrarDene, siralamaYolu }:
           {s.oyun.siralamayaYaz}
         </button>
       )}
+      {gonderim.durum === 'reddedildi' && <p className={stil.durum}>{s.oyun.gonderim.reddedildi}</p>}
       {gonderim.durum === 'hata' && (
         <p className={stil.durum}>
           {s.oyun.gonderim.hata}{' '}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ONAY_SURUMU, type SiraBilgisi } from '@/lib/oyun/aktarim'
-import { api, ApiHatasi, kanalCoz } from '@/lib/oyun/api'
+import { api, ApiHatasi, kanalCoz, tekrarDenenebilirMi } from '@/lib/oyun/api'
 import {
   anahtarUret,
   enIyiOku,
@@ -25,6 +25,7 @@ export type Gonderim =
   | { durum: 'gonderiliyor' }
   | { durum: 'gonderildi'; hafta: SiraBilgisi; buTurEnIyi: boolean }
   | { durum: 'hata' }
+  | { durum: 'reddedildi' }
 
 export type Ekran = 'giris' | 'oyun' | 'sonuc' | 'katilim'
 export type Tur = { tohum: number; turId: string | null; ipucu: boolean }
@@ -54,7 +55,7 @@ async function turuGonder(turId: string, kayit: readonly Girdi[], hesap: Hesap):
       const ben = await api.benAl(hesap.anahtar).catch(() => null)
       if (ben?.hafta) return { durum: 'gonderildi', hafta: ben.hafta, buTurEnIyi: false }
     }
-    return { durum: 'hata' }
+    return { durum: tekrarDenenebilirMi(hata) ? 'hata' : 'reddedildi' }
   }
 }
 

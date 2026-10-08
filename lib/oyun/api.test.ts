@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ApiHatasi, apiKur, jetonCoz, kanalCoz } from './api.ts'
+import { ApiHatasi, apiKur, jetonCoz, kanalCoz, tekrarDenenebilirMi } from './api.ts'
 
 test('kanalCoz_sofraVeIg_taninir_digerleriYok', () => {
   assert.equal(kanalCoz('?k=sofra'), 'sofra')
@@ -51,6 +51,12 @@ test('api_agHatasi_durumSifirKodAg', async () => {
     throw new TypeError('fetch failed')
   })
   await assert.rejects(api.tabloAl(), (h: unknown) => h instanceof ApiHatasi && h.durum === 0 && h.kod === 'ag')
+})
+
+/** Süresi dolmuş, yakılmış ya da reddedilmiş tur yeniden gönderilse de aynı yanıtı alır. */
+test('tekrarDenenebilirMi_agSinirVeSunucuHatasi_evet_kaliciRetler_hayir', () => {
+  for (const durum of [0, 429, 500, 503]) assert.equal(tekrarDenenebilirMi(new ApiHatasi(durum, 'x')), true, String(durum))
+  for (const durum of [400, 404, 409, 410, 413, 422]) assert.equal(tekrarDenenebilirMi(new ApiHatasi(durum, 'x')), false, String(durum))
 })
 
 test('api_anahtar_bearerBasligiylaGider', async () => {

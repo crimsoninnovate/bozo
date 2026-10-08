@@ -62,6 +62,7 @@ export const oyun = {
     cevrimdisi: 'Offline round: it does not count for the board.',
     gonderiliyor: 'Sending to the board',
     hata: 'Could not send to the board.',
+    reddedildi: 'This round cannot go on the board.',
     tekrarDene: 'Try Again',
     sira: 'Weekly rank: {sira}',
     enIyin: 'Your weekly best: {puan}',
