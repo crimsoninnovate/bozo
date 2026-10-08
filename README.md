@@ -141,6 +141,13 @@ has to do are versioned with the site instead of living only on the box:
 
 - `ErrorDocument 404 /404.html`, so the designed 404 page (`app/global-not-found.tsx`) reaches a
   visitor. Without it Plesk answers with its own `error_docs/not_found.html`.
+- Content types Apache does not know: `charset=utf-8` on `.txt` (llms.txt), and
+  `application/manifest+json` on `.webmanifest`.
+- Security headers (since 8 October 2026): HSTS (one year, no `includeSubDomains`),
+  `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`. `_next/static` gets a one-year
+  `immutable` cache: those filenames change whenever their content does.
+- `X-Powered-By: PleskLin` cannot be removed here: `Header unset` in this file left it in place
+  (tested 8 October 2026), so it is added outside Apache's reach. Removing it is a Plesk setting.
 The `X-Robots-Tag: noindex, nofollow` line that used to sit here was deleted on 24 August 2026
 (commit `290052f`), which is what opened the site to search engines. `robots.txt` already said
 `Allow: /`, so removing the header was the whole of it. Do not add it back without a reason.

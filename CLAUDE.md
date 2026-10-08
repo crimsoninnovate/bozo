@@ -21,7 +21,8 @@ npm run preview    # serve the out/ export locally
 
 - App Router, `output: 'export'`. No server runtime after build; the site is plain static files
   served from a Plesk document root on the arc server. Server behaviour that the site needs
-  (the designed 404) is in `public/.htaccess`, which the build copies into `out/`. The
+  (the designed 404, security and cache headers) is in `public/.htaccess`, which the build
+  copies into `out/`. The
   `noindex` header that used to live there was deleted on 24 August 2026; the site is indexed.
 - **Two root layouts, no root `app/layout.tsx`.** `app/(tr)/layout.tsx` renders `<html lang="tr">`
   and keeps Turkish routes at the site root. `app/(en)/layout.tsx` renders `<html lang="en">` and
