@@ -31,9 +31,18 @@ export type Goruntu = {
   acikOcak: number
   raf: readonly SisUrun[]
   kapida: number
-  sofralar: ({ fis: readonly Urun[]; kalan: readonly Urun[]; kurulu: boolean; odedi: boolean } | null)[]
-  /** Çentik ve pencere başlangıcı rayın kesri olarak (0-1). */
-  ocak: ({ urun: SisUrun; centik: number; pencere: number; cevirme: OcakSisi['cevirme'] } | null)[]
+  sofralar: (
+    | { fis: readonly Urun[]; kalan: readonly Urun[]; kurulu: boolean; odedi: boolean; karisik: boolean }
+    | null
+  )[]
+  /**
+   * Rayın kesirleri (0-1): çevirme çentiğinin ortası, alma penceresinin başı, tam
+   * kıvam bandının ortası; `bant` iki bandın ortak genişliği.
+   */
+  ocak: (
+    | { urun: SisUrun; centik: number; pencere: number; kivam: number; bant: number; cevirme: OcakSisi['cevirme'] }
+    | null
+  )[]
   tezgah: ({ urun: Urun; kalite: Kalite | null } | null)[]
   ayran: 'bos' | 'doluyor' | 'bekliyor'
 }
@@ -47,12 +56,27 @@ export function goruntuAl(oyun: Oyun): Goruntu {
     raf: (['ciger', 'dalak', 'yurek'] as const).filter((u) => ACILDIGI_EVRE[u] <= oyun.evre),
     kapida: oyun.kuyruk.length,
     sofralar: oyun.sofralar.map((s) =>
-      s ? { fis: s.misafir.fis, kalan: [...s.kalan], kurulu: s.kurulu, odedi: s.kalkis !== null } : null,
+      s
+        ? {
+            fis: s.misafir.fis,
+            kalan: [...s.kalan],
+            kurulu: s.kurulu,
+            odedi: s.kalkis !== null,
+            karisik: s.misafir.karisik,
+          }
+        : null,
     ),
     ocak: oyun.ocak.map((s) => {
       if (!s) return null
       const ray = s.pisme + s.pencere
-      return { urun: s.urun, centik: s.pisme / 2 / ray, pencere: s.pisme / ray, cevirme: s.cevirme }
+      return {
+        urun: s.urun,
+        centik: s.pisme / 2 / ray,
+        pencere: s.pisme / ray,
+        kivam: (s.pisme + s.pencere / 2) / ray,
+        bant: s.bant / ray,
+        cevirme: s.cevirme,
+      }
     }),
     tezgah: oyun.tezgah.map((k) => (k ? { urun: k.urun, kalite: k.kalite } : null)),
     ayran: oyun.ayran === null ? 'bos' : oyun.ayran > 0 ? 'doluyor' : 'bekliyor',

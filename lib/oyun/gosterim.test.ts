@@ -34,8 +34,21 @@ test('goruntuAl_evreAciklariVeOcakRayi', () => {
   assert.equal(g.acikSofra, 2)
   assert.equal(g.acikOcak, 3)
   assert.deepEqual(g.raf, ['ciger'])
-  assert.deepEqual(g.sofralar[0], { fis: ['ciger', 'ayran'], kalan: ['ciger', 'ayran'], kurulu: false, odedi: false })
-  assert.deepEqual(g.ocak[0], { urun: 'ciger', centik: 1 / 3, pencere: 2 / 3, cevirme: 'yok' })
+  assert.deepEqual(g.sofralar[0], {
+    fis: ['ciger', 'ayran'],
+    kalan: ['ciger', 'ayran'],
+    kurulu: false,
+    odedi: false,
+    karisik: false,
+  })
+  assert.deepEqual(g.ocak[0], {
+    urun: 'ciger',
+    centik: 1 / 3,
+    pencere: 2 / 3,
+    kivam: 5 / 6,
+    bant: 1 / 12,
+    cevirme: 'yok',
+  })
   assert.equal(g.ayran, 'doluyor')
 })
 
