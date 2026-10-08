@@ -6,5 +6,6 @@ import { hikaye } from './hikaye.ts'
 import { konum } from './konum.ts'
 import { gizlilik } from './gizlilik.ts'
 import { hata } from './hata.ts'
+import { oyun } from './oyun.ts'
 
-export const tr = { ortak, ana, menu, galeri, hikaye, konum, gizlilik, hata }
+export const tr = { ortak, ana, menu, galeri, hikaye, konum, gizlilik, hata, oyun }

@@ -1,0 +1,20 @@
+/** Game copy. DRAFT: awaiting the owner's approval (spec §19, decision 4). */
+export const oyun = {
+  baslik: 'Sofra Yetiştir',
+  oyna: 'Play',
+  tekrar: 'Play Again',
+  duraklat: 'Pause',
+  devam: 'Resume',
+  puan: 'Score',
+  kombo: 'Combo',
+  kapida: 'At the door',
+  ocak: 'Fire',
+  tezgah: 'Counter',
+  sofra: 'Table',
+  bosSofra: 'Empty table',
+  ucSofraKalkti: 'three tables walked out',
+  ozet: { sofra: 'tables', sis: 'skewers', tamKivam: 'just right', enUzunKombo: 'longest combo' },
+  enIyi: 'Your best',
+  yeniEnIyi: 'New best',
+  kaldi: 'to go',
+}

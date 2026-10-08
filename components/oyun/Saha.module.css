@@ -1,0 +1,258 @@
+/* Kaba prototip (plan 1): gri kutular, yalnız marka token'ları. Görsel dil plan 2'de. */
+.saha {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto auto;
+  gap: 14px;
+  min-height: 100dvh;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 12px;
+  color: var(--krem);
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.saat,
+.puan,
+.kombo,
+.son {
+  font-family: var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.saat { font-size: 18px; }
+.puan { font-size: 20px; }
+.kombo { font-size: 15px; color: var(--bakir); }
+.son { min-width: 48px; font-size: 13px; color: var(--krem-70); }
+
+/* Yatay ilerleme çubukları: hepsi `--oran` (0-1) ile, yalnız transform. */
+.geceRayi,
+.sabir,
+.soguma,
+.ray {
+  position: relative;
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  background: var(--cizgi);
+}
+
+.geceRayi::after,
+.sabir::after,
+.soguma::after,
+.rayDolum {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transform: scaleX(var(--oran, 0));
+}
+
+.geceRayi::after { background: var(--bakir); }
+.sabir { background: var(--kor-30); }
+.sabir::after { background: var(--kor); }
+.soguma::after { background: var(--krem-50); }
+
+.sofra,
+.yuva,
+.tezgahKalem,
+.ayran,
+.rafUrun,
+.duraklat,
+.devam {
+  position: relative;
+  min-height: 56px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  font: 500 14px/1.2 var(--font-govde);
+}
+
+.duraklat { min-height: 44px; padding: 0 12px; }
+
+.sofralar,
+.ocak,
+.raf {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Oyun alanı ekranın altına toplanır: uzun telefonda başparmak sofraya da yetişir. */
+.sofralar { align-self: end; }
+
+.raf { grid-template-columns: repeat(3, 1fr); }
+
+.kapali {
+  border: 1px dashed var(--cizgi-soluk);
+  border-radius: 3px;
+}
+
+.sofra {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 84px;
+  padding: 6px;
+  border-style: dashed;
+  text-align: left;
+}
+
+.sofra[data-kurulu] {
+  border-style: solid;
+  border-color: var(--bakir-60);
+  background: var(--komur);
+}
+
+.sofra[data-vurgu] { border-color: var(--bakir-acik); }
+
+.fis {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+}
+
+.kapida {
+  position: absolute;
+  top: -18px;
+  right: 0;
+  font-size: 12px;
+  color: var(--krem-70);
+}
+
+.yuva {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  padding: 8px 6px;
+  background: var(--komur);
+}
+
+.yuvaAdi { font-size: 13px; }
+
+.ray { height: 10px; }
+.rayDolum { background: var(--krem-50); }
+
+.centik,
+.pencere {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.centik {
+  left: calc(var(--centik) * 100%);
+  width: 3px;
+  background: var(--bakir-60);
+}
+
+.centik[data-cevirme='iyi'] { background: var(--bakir-acik); }
+.centik[data-cevirme='kotu'] { background: var(--krem-50); }
+
+.pencere {
+  left: calc(var(--pencere) * 100%);
+  right: 0;
+  border-left: 1px solid var(--bakir);
+  background: var(--bakir-30);
+}
+
+.yuva[data-gorunum='centik'] .centik { background: var(--bakir-acik); }
+.yuva[data-gorunum='hazir'] { border-color: var(--bakir); }
+.yuva[data-gorunum='kivam'] { border-color: var(--bakir-acik); background: var(--plaka-zemin); }
+
+.tezgah {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.tezgahBos {
+  min-height: 56px;
+  border: 1px dashed var(--cizgi-soluk);
+  border-radius: 3px;
+}
+
+.tezgahKalem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px;
+  background: var(--komur);
+  font-size: 12.5px;
+}
+
+.tezgahKalem[data-kalite='tam'] { border-color: var(--bakir-acik); }
+
+.ayran {
+  overflow: hidden;
+  border-color: var(--bakir-60);
+}
+
+.ayran::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--bakir);
+  transform-origin: left;
+  transform: scaleX(var(--oran, 0));
+}
+
+.ayran[data-durum='bekliyor'] { background: var(--bakir-30); }
+
+.rafUrun {
+  background: var(--komur);
+  font: 600 16px/1 var(--font-govde);
+}
+
+/* Yalnız ilk turda: bir sonraki doğru dokunuş (spec §3). */
+.saha [data-ipucu] {
+  outline: 3px solid var(--bakir-acik);
+  outline-offset: -3px;
+}
+
+.perde {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--zemin);
+}
+
+.devam { padding: 0 28px; }
+
+/* Dokunuşun karşılığı: kısa bir parlama, yalnız opaklık. */
+.tam::before,
+.iyi::before,
+.yandi::before,
+.odedi::before,
+.kalkti::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: parla 450ms ease-out forwards;
+}
+
+.tam::before { background: var(--bakir-acik); }
+.iyi::before { background: var(--bakir-40); }
+.odedi::before { background: var(--bakir); }
+.yandi::before,
+.kalkti::before { background: var(--kor); }
+
+@keyframes parla {
+  from { opacity: 0.7; }
+  to { opacity: 0; }
+}

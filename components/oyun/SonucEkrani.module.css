@@ -1,0 +1,41 @@
+.sonuc {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
+  min-height: 100dvh;
+  padding: 24px;
+  text-align: center;
+}
+
+.satir { color: var(--krem-70); }
+
+.puan {
+  font: 400 48px/1 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.ozet {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 6px 20px;
+  list-style: none;
+  padding: 0;
+  color: var(--krem-70);
+}
+
+.deger {
+  font-family: var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--krem);
+}
+
+.enIyi { color: var(--bakir); }
+
+.tekrar {
+  min-width: 200px;
+  min-height: 56px;
+  border-radius: 3px;
+  background: var(--kor);
+  font: 600 18px/1 var(--font-govde);
+}
