@@ -7,6 +7,7 @@
 /.next/
 /out/
 /build
+/sunucu/dist/
 
 # çevre değişkenleri
 .env
