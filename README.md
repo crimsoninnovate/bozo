@@ -93,6 +93,10 @@ at the edge. Two consequences:
 - Deleting an asset does not delete it from the edge. `sosyal-kart.png` kept answering `200`
   after `rsync --delete` removed it; `?x=1` on the same URL returned `404` from the origin.
   Harmless when nothing references the file any more, otherwise purge.
+- Cloudflare's Email Address Obfuscation rewrites the two privacy pages on the way out: the
+  `mailto:` link becomes `/cdn-cgi/l/email-protection#...` plus an injected decoder script
+  (measured 8 October 2026, +245 bytes). Their live HTML never hashes equal to `out/`; compare
+  the file on the server instead. With JS the link decodes to the right address.
 
 ### Deploy
 
