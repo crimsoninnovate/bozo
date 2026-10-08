@@ -453,3 +453,20 @@ test('menu_porsiyonSayisi_metindekiSayiylaAyni', () => {
     }
   }
 })
+
+/** Sözlüğün bütün metin yapraklarını yoluyla birlikte döner. */
+function metinler(nesne: unknown, onek = ''): [string, string][] {
+  if (typeof nesne === 'string') return [[onek, nesne]]
+  if (typeof nesne !== 'object' || nesne === null) return []
+  return Object.entries(nesne).flatMap(([k, v]) => metinler(v, onek ? `${onek}.${k}` : k))
+}
+
+/**
+ * Yarım porsiyon 8 Ekim 2026 fiyat listesiyle kalktı. Menü değişti ama ana sayfanın
+ * fiyat bloğu "yarım porsiyon tam fiyatın yarısıdır" demeye devam etti ve yayına çıktı.
+ */
+test('sozluk_kalkmisYarimPorsiyonaDegimez', () => {
+  const kirli = [...metinler(tr), ...metinler(en)].filter(([, m]) => /(?<!\p{L})(yarım|half)(?!\p{L})/iu.test(m))
+  assert.deepEqual(kirli, [])
+})
+

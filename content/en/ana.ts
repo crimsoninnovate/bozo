@@ -63,7 +63,6 @@ export const ana = {
     },
     fiyat: {
       baslik: 'The full list and prices are on the menu.',
-      metin: 'Every item comes full, half or as a wrap. A half portion is half the full price.',
       menuLinki: 'The Full Menu',
     },
   },

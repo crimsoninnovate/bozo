@@ -63,7 +63,6 @@ export function Ocakbasi({ dil }: Props) {
           kalmasını istedi, rakamlar menü sayfasında duruyor. */}
       <div className={stil.fiyatBloku}>
         <p className={stil.fiyatBaslik}>{fiyat.baslik}</p>
-        <p className={stil.fiyatMetin}>{fiyat.metin}</p>
         <div className={stil.fiyatButonlari}>
           {telefon && (
             <Buton tur="ikincil" boy="md" href={telefon} ikon={<TelefonIkon boy={17} />}>

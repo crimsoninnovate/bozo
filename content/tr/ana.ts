@@ -72,12 +72,11 @@ export const ana = {
     },
     /*
      * Fiyat sütunu kalktı; rakamlar listenin altında tek blokta toplanır.
-     * Fiyatlar 13 Ağustos 2026'da geldi: blok artık "kesinleşmedi" demiyor,
-     * ana sayfa beş kalemde kalsın diye rakamları menüye yönlendiriyor.
+     * Ana sayfa beş kalemde kalsın diye rakamları menüye yönlendiriyor. Ölçüleri anlatan
+     * cümle 8 Ekim 2026 fiyat listesiyle kalktı (sahibi): yarım porsiyon artık yok.
      */
     fiyat: {
       baslik: 'Tam liste ve fiyatlar menüde.',
-      metin: 'Her üründe tam, yarım ve dürüm var. Yarım porsiyon tam fiyatın yarısıdır.',
       menuLinki: 'Menünün Tamamı',
     },
   },

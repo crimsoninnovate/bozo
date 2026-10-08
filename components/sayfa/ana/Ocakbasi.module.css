@@ -56,13 +56,6 @@
   color: var(--krem);
 }
 
-.fiyatMetin {
-  margin: 10px 0 0;
-  max-width: 620px;
-  font: 400 17px/1.6 var(--font-govde);
-  color: var(--krem-76);
-}
-
 .fiyatButonlari {
   display: flex;
   flex-wrap: wrap;
@@ -80,8 +73,7 @@
   }
 
   .altNot,
-  .fiyatMetin,
-    .fiyatBloku {
+  .fiyatBloku {
     padding: 22px 20px;
   }
 }
