@@ -38,7 +38,7 @@ export const ana = {
     metin:
       "Urfa'da ustayı tanesinden anlarsınız. Tavla zarı kadar küçük, eşit doğranmış ciğer; " +
       'aralara giren kuyruk yağı ondan da küçük, ki yerken ağza yağ gelmesin.',
-    sayac1: { deger: '8', etiket: 'şiş, bir porsiyonda' },
+    sayac1: { deger: '12', etiket: 'şiş, bir porsiyonda' },
     sayac2: { deger: '4+2', etiket: 'ciğer ve kuyruk yağı, her şişte' },
     sayac3: { deger: '3', etiket: 'dakika, yüksek meşe korunda' },
   },

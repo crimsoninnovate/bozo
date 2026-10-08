@@ -22,7 +22,7 @@ function SayacHucresi({ deger, etiket }: HucreProps) {
  * Ana Sayfa Alternatif.dc.html:128-167 önceki hali.
  *
  * Cam panel çerçevesi kalktı ve sayaçlar kartın dibinden çıkıp başlığın altına
- * geldi: `8 / 4+2 / 3` bu bölümün iddiasının kanıtı, dipnotu değil. Fotoğraf
+ * geldi: `12 / 4+2 / 3` bu bölümün iddiasının kanıtı, dipnotu değil. Fotoğraf
  * plakası da küçüldü; gelene kadar bölüm metin ağırlıklı duruyor.
  */
 export function Iddia({ dil }: Props) {

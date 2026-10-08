@@ -2027,3 +2027,13 @@ koordinatla birlikte verilince yok sayılıyor, metin hedefle birlikte verilince
 
 JSON-LD `Restaurant` artık `hasMap` taşıyor ve aynı kart linki `sameAs`'e eklendi (Instagram'ın
 yanına): sitedeki varlığı Google'daki kayda bağlıyor.
+
+## 8 Ekim 2026: ciğer porsiyonu 12 şiş
+
+Sahibinin kararı, 8 Ekim 2026: porsiyon 8 değil 12 şiş. Altı metinde değişti: menü kartı
+`cigerSpec.sis`, ana sayfa sayacı `iddia.sayac1`, hikaye `usul.olcuSisSayisi`, iki dilde.
+Handoff ve `metin-envanteri.json` hâlâ 8 yazıyor; bir parite turu farkı kusur sanmasın diye
+`sozluk_cigerPorsiyonu_heryerdeOnIkiSistir` testi altısını birden kilitliyor.
+
+Sayaç artık 0'dan 12'ye iki basamağa sayıyor. Ölçüldü (360px): hücre boyutu sayım boyunca
+83x119 sabit, `layout-shift` girdisi sıfır; 320px'te rakam 39px, kutusu 58px.

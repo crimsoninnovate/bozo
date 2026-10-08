@@ -7,7 +7,7 @@ export const menu = {
   ocakbasi: {
     baslik: 'Ocakbaşı',
     imzaRozeti: 'imza ürün',
-    cigerSpec: { sis: '8 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
+    cigerSpec: { sis: '12 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
     /** Üç ölçü her üründe aynı sırayla basılır; sahibinin Tam / Yarım / Dürüm mantığı. */
     olculer: { tam: 'Tam', yarim: 'Yarım', durum: 'Dürüm' },
     durumNotu: '5 şiş',

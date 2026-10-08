@@ -56,7 +56,7 @@ export const hikaye = {
       'Liver diced as small as a backgammon die, evenly. The tail fat between the pieces is ' +
       'smaller still, so no fat meets the tongue.',
     olcuEtiketi: 'The portion',
-    olcuSisSayisi: '8 skewers in one portion',
+    olcuSisSayisi: '12 skewers in one portion',
     olcuSisIcerigi: '4 liver + 2 tail fat per skewer',
     olcuPisirme: '3 minutes over high oak embers',
     saatEtiketi: 'The hours',

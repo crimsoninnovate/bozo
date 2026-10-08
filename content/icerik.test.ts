@@ -80,7 +80,7 @@ test('sozluk_nufustakiAdiIcermez', () => {
  * geçiyor ama isletmeGercekleri içinde karşılığı yok; işletme sahibi kaldırdı.
  * Tasarım ekran görüntüleri hala eski hali gösterdiği için ileride bir parite
  * turu bunu "eksik" sanıp geri ekleyebilir; bu test o yolu kapatır.
- * Doğrulanmış ölçüler (8 şiş, 4 ciğer, 3 dakika) bu desene takılmaz.
+ * Doğrulanmış ölçüler (12 şiş, 4 ciğer, 3 dakika) bu desene takılmaz.
  */
 test('sozluk_dogrulanmamisMesafeIddiasiIcermez', () => {
   const mesafeli: string[] = []
@@ -415,5 +415,17 @@ test('ikram_sayisi_metindekiSayiylaAyni', () => {
     ] as const) {
       assert.ok(metin.toLowerCase().includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor`)
     }
+  }
+})
+
+/**
+ * Ciğer porsiyonu 12 şiş (sahibi, 8 Ekim 2026). Tasarım ve metin-envanteri.json hâlâ 8
+ * yazıyor; sayı altı ayrı metinde geçtiği için biri geride kalırsa bu test yakalar.
+ */
+test('sozluk_cigerPorsiyonu_heryerdeOnIkiSistir', () => {
+  for (const s of [tr, en]) {
+    assert.equal(s.ana.iddia.sayac1.deger, '12')
+    assert.match(s.menu.ocakbasi.cigerSpec.sis, /^12 /)
+    assert.match(s.hikaye.usul.olcuSisSayisi, /^12 /)
   }
 })

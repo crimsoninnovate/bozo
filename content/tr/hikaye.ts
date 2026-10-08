@@ -63,7 +63,7 @@ export const hikaye = {
       'Tavla zarı kadar küçük, eşit doğranmış ciğer. Aralara giren kuyruk yağı ondan da küçük; ' +
       'yerken ağza yağ gelmesin diye.',
     olcuEtiketi: 'Porsiyon',
-    olcuSisSayisi: '8 şiş, bir porsiyonda',
+    olcuSisSayisi: '12 şiş, bir porsiyonda',
     olcuSisIcerigi: '4 ciğer + 2 kuyruk yağı, her şişte',
     olcuPisirme: '3 dakika, yüksek meşe korunda',
     saatEtiketi: 'Saat',

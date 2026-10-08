@@ -7,7 +7,7 @@ export const menu = {
   ocakbasi: {
     baslik: 'From the Fire',
     imzaRozeti: 'signature',
-    cigerSpec: { sis: '8 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
+    cigerSpec: { sis: '12 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
     olculer: { tam: 'Full', yarim: 'Half', durum: 'Wrap' },
     durumNotu: '5 skewers',
     yarimNotu: 'A half portion is half the full price',

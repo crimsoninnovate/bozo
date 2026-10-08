@@ -30,7 +30,7 @@ export const ana = {
     metin:
       'In Urfa you can tell a master by the cut. Liver diced as small as a backgammon die, ' +
       'evenly; the tail fat between them smaller still, so no fat meets the tongue.',
-    sayac1: { deger: '8', etiket: 'skewers in one portion' },
+    sayac1: { deger: '12', etiket: 'skewers in one portion' },
     sayac2: { deger: '4+2', etiket: 'liver and tail fat per skewer' },
     sayac3: { deger: '3', etiket: 'minutes over high oak embers' },
   },
