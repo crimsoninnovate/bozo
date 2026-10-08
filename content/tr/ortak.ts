@@ -50,6 +50,8 @@ export const ortak = {
      */
     anaGezinme: 'Ana gezinme',
     mobilGezinme: 'Mobil gezinme',
+    /** Telefonda alta sabit yüzen aksiyon barının landmark adı. */
+    hizliEylemler: 'Hızlı eylemler',
     /**
      * `role="dialog"` erişilebilir adı. İçindeki `<nav>` zaten mobilGezinme
      * adını taşıyor; aynı adı ikinci kez vermek iki bölgeyi ayırt edilemez

@@ -118,10 +118,12 @@ test('cta_mobilYolTarifiEtiketiKisaKalir', () => {
  */
 test('erisim_gezinmeBolgeleriFarkliAdTasir', () => {
   for (const s of [tr, en]) {
-    assert.notEqual(
-      s.ortak.erisim.anaGezinme,
-      s.ortak.erisim.mobilGezinme,
-      'İki gezinme landmarkı aynı adı taşıyamaz',
+    const { anaGezinme, mobilGezinme, hizliEylemler } = s.ortak.erisim
+    for (const ad of [anaGezinme, mobilGezinme, hizliEylemler]) assert.ok(ad?.trim(), 'Landmark adı boş olamaz')
+    assert.equal(
+      new Set([anaGezinme, mobilGezinme, hizliEylemler]).size,
+      3,
+      'Gezinme landmarkları (ana, çekmece, mobil aksiyon barı) aynı adı taşıyamaz',
     )
   }
 })

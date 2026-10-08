@@ -44,6 +44,8 @@ export const ortak = {
      */
     anaGezinme: 'Main navigation',
     mobilGezinme: 'Mobile navigation',
+    /** Landmark name of the floating action bar pinned to the bottom on phones. */
+    hizliEylemler: 'Quick actions',
     /**
      * The accessible name of `role="dialog"`. The `<nav>` inside it already
      * carries mobilGezinme; reusing that name would make the two regions

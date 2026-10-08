@@ -21,7 +21,7 @@ export function MobilAksiyonBari({ dil }: Props) {
   const whatsapp = whatsappUrl(isletme.whatsapp)
 
   return (
-    <div className={stil.bar}>
+    <nav className={stil.bar} aria-label={s.ortak.erisim.hizliEylemler}>
       <a href={yolTarifiUrl()} className={stil.hedef} rel="noopener">
         <PinIkon boy={19} />
         <span className={stil.etiket}>{s.ortak.cta.yolTarifiKisa}</span>
@@ -45,6 +45,6 @@ export function MobilAksiyonBari({ dil }: Props) {
           <span className={stil.etiket}>{s.ortak.cta.whatsapp}</span>
         </span>
       )}
-    </div>
+    </nav>
   )
 }
