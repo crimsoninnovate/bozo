@@ -1,4 +1,4 @@
-/* z-index 1: `KorSahnesi` sabit ve z-index 0; içerik onun üstünde durur. */
+/* Kabuğun sabit barı ve sarkan rozeti için üst pay; turda kabuk gizli, pay da kalkar. */
 .sayfa {
   position: relative;
   z-index: 1;
@@ -6,8 +6,12 @@
   justify-items: center;
   align-content: start;
   min-height: 100dvh;
-  padding: 12px;
+  padding: calc(var(--bar-boy) + var(--rozet-sarkma) + 12px) 12px 12px;
   color: var(--krem);
+}
+
+:global(body[data-odak]) .sayfa {
+  padding-top: 12px;
 }
 
 /* Telefonda tam genişlik, masaüstünde 560px'lik tek sütun; cam panel sahanın zemini. */
@@ -25,7 +29,7 @@
   align-content: center;
   justify-items: center;
   gap: 18px;
-  min-height: calc(100dvh - 26px - 2 * var(--kart-ic-orta));
+  min-height: calc(100dvh - 26px - var(--bar-boy) - var(--rozet-sarkma) - 2 * var(--kart-ic-orta));
   text-align: center;
 }
 

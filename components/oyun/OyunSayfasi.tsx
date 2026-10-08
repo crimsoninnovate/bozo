@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { AnimatePresence, LazyMotion, MotionConfig, domAnimation, m } from 'motion/react'
-import { KorSahnesi } from '@/components/ember/KorSahnesi'
 import { CamPanel } from '@/components/ui/CamPanel'
 import { sozluk } from '@/content'
 import type { Dil } from '@/content/types'
@@ -10,6 +9,7 @@ import { enIyiOku, enIyiYaz, ilkTurBitti, ilkTurMu } from '@/lib/oyun/defter'
 import type { Sonuc } from '@/lib/oyun/tipler'
 import { Saha } from './Saha'
 import { SonucEkrani } from './SonucEkrani'
+import { useOdakModu } from './useOdakModu'
 import stil from './OyunSayfasi.module.css'
 
 type Ekran =
@@ -41,12 +41,13 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
     ilkTurBitti()
     setEkran({ ad: 'sonuc', sonuc, onceki, yeni })
   }
+  const cik = () => setEkran({ ad: 'giris' })
+  useOdakModu(ekran.ad === 'oyun')
 
   return (
     <MotionConfig reducedMotion="user">
       <LazyMotion features={domAnimation} strict>
-        <KorSahnesi varyant="ic" />
-        <main className={stil.sayfa}>
+        <div className={stil.sayfa}>
           {ekran.ad !== 'giris' && <h1 className={stil.gizliBaslik}>{s.oyun.baslik}</h1>}
           <AnimatePresence mode="wait" initial={false}>
             {ekran.ad === 'giris' && (
@@ -65,7 +66,7 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
             {ekran.ad === 'oyun' && (
               <m.div key={`oyun-${ekran.tohum}`} className={stil.ekran} {...EKRAN}>
                 <CamPanel opaklik={0.74} dolgu="yok" bulanik={false} className={stil.panel}>
-                  <Saha dil={dil} tohum={ekran.tohum} ipucu={ekran.ipucu} bitince={bitir} />
+                  <Saha dil={dil} tohum={ekran.tohum} ipucu={ekran.ipucu} bitince={bitir} cik={cik} />
                 </CamPanel>
               </m.div>
             )}
@@ -77,7 +78,7 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
               </m.div>
             )}
           </AnimatePresence>
-        </main>
+        </div>
       </LazyMotion>
     </MotionConfig>
   )

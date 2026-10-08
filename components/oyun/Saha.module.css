@@ -576,12 +576,27 @@
   background: var(--zemin);
 }
 
+.perdeDugmeleri {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
 .devam {
   min-height: 56px;
   padding: 0 28px;
   border: 1px solid var(--cizgi-guclu);
   border-radius: 3px;
   font: 500 14px/1.2 var(--font-govde);
+}
+
+.cik {
+  min-height: 44px;
+  padding: 0 16px;
+  font: 500 14px/1.2 var(--font-govde);
+  color: var(--krem-70);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* Olayın karşılığı: kısa bir parlama, yalnız opaklık. */

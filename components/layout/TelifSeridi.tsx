@@ -1,11 +1,11 @@
 import { sozluk, type Dil } from '@/content'
-import { yol, type RotaAnahtari } from '@/lib/site'
+import { yol, type SayfaAnahtari } from '@/lib/site'
 import stil from './AltBilgi.module.css'
 import { YapimciIsareti } from './YapimciIsareti'
 
 type Props = {
   dil: Dil
-  aktif: RotaAnahtari
+  aktif: SayfaAnahtari
 }
 
 /**

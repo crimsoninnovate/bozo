@@ -12,13 +12,13 @@ import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
 import { hareketAzaltilmisMi, useHareketAzaltilmisMi } from '@/lib/hareket'
 import { cekmeceLinkleri, ustBarVaryanti, type CekmeceLinki } from '@/lib/kabuk'
-import { instagramUrl, telefonUrl, whatsappUrl, yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
+import { instagramUrl, telefonUrl, whatsappUrl, yol, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
 import { DilAnahtari } from './DilAnahtari'
 import stil from './Cekmece.module.css'
 
 type Props = {
   dil: Dil
-  aktif: RotaAnahtari
+  aktif: SayfaAnahtari
   acik: boolean
   kapat: () => void
   tetikleyiciRef: RefObject<HTMLButtonElement | null>
@@ -107,7 +107,7 @@ type SatirProps = {
   link: CekmeceLinki
   sira: number
   dil: Dil
-  aktif: RotaAnahtari
+  aktif: SayfaAnahtari
   ilkLinkRef?: RefObject<HTMLAnchorElement | null>
 }
 

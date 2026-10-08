@@ -329,3 +329,8 @@
     display: flex;
   }
 }
+
+/* Oyun turunda kabuk geri çekilir (`useOdakModu`): saha bütün ekranı alır. */
+:global(body[data-odak]) .bar {
+  display: none;
+}

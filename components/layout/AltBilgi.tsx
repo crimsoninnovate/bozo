@@ -1,8 +1,8 @@
 import type { Dil } from '@/content'
-import type { RotaAnahtari } from '@/lib/site'
+import type { SayfaAnahtari } from '@/lib/site'
 import { AltBilgiTam } from './AltBilgiTam'
 
-type Props = { dil: Dil; aktif: RotaAnahtari }
+type Props = { dil: Dil; aktif: SayfaAnahtari }
 
 /**
  * Tek footer. Tasarımda üç varyant vardı (tam, sayfalar, şerit) ve

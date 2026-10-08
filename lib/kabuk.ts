@@ -1,4 +1,4 @@
-import type { RotaAnahtari } from './site.ts'
+import type { RotaAnahtari, SayfaAnahtari } from './site.ts'
 
 /**
  * Kabuğun rota başına değişen parçaları tek yerde.
@@ -69,7 +69,7 @@ const IC_NAV: NavOgesi[] = [
  * menü sayfası dahil (menü nav'ında `menu` öğesi yok, bu yüzden orada aktif
  * sekme de yok, `Menu:50-54`).
  */
-export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
+export function ustBarVaryanti(aktif: SayfaAnahtari): UstBarVaryanti {
   switch (aktif) {
     case 'ana':
       return {
@@ -110,6 +110,7 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
       return { anaVaryantMi: false, nav: IC_NAV, cta: { tur: 'capa', hedef: 'harita' } }
     case 'galeri':
     case 'gizlilik':
+    case 'oyun':
       // Tasarımda yok. İç sayfa varsayılanı; CTA ana sayfanınkiyle aynı.
       return { anaVaryantMi: false, nav: IC_NAV, cta: { tur: 'harici' } }
   }
@@ -119,7 +120,7 @@ export function ustBarVaryanti(aktif: RotaAnahtari): UstBarVaryanti {
  * O rotanın üst barındaki sayfa içi çapalar. İki tüketici var: çekmecenin alt satırı
  * ve menü sayfasının atlama çipleri; ikisi de barın kendi listesinden türer.
  */
-export function barCapalari(rota: RotaAnahtari): { hedef: string; etiket: NavEtiketi }[] {
+export function barCapalari(rota: SayfaAnahtari): { hedef: string; etiket: NavEtiketi }[] {
   return ustBarVaryanti(rota).nav.flatMap((o) =>
     o.tur === 'capa' ? [{ hedef: o.hedef, etiket: o.etiket }] : [],
   )

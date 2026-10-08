@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { sozluk, type Dil } from '@/content'
-import { yol, type RotaAnahtari } from '@/lib/site'
+import { yol, type SayfaAnahtari } from '@/lib/site'
 import stil from './DilAnahtari.module.css'
 
-type Props = { dil: Dil; aktif: RotaAnahtari }
+type Props = { dil: Dil; aktif: SayfaAnahtari }
 
 /**
  * Tasarımda DOM metnini değiştiren bir toggle; burada rota bağlantısına

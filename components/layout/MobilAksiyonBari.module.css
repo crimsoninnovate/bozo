@@ -154,3 +154,8 @@
      Telefondaki tek kalıcı eylem yüzeyi ve WhatsApp'ı hero'da hiç yok. 13 Ağustos'un
      120-240px kapısı geri gelmedi: kaydırmadan görünmeyen kalıcı gezinme standart değil. */
 }
+
+/* Oyun turunda kabuk geri çekilir (`useOdakModu`): saha bütün ekranı alır. */
+:global(body[data-odak]) .bar {
+  display: none;
+}

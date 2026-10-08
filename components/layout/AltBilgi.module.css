@@ -278,3 +278,8 @@
     color: var(--bakir);
   }
 }
+
+/* Oyun turunda kabuk geri çekilir (`useOdakModu`): saha bütün ekranı alır. */
+:global(body[data-odak]) .zemin {
+  display: none;
+}

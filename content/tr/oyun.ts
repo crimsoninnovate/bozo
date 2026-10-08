@@ -8,6 +8,7 @@ export const oyun = {
   tekrar: 'Tekrar Oyna',
   duraklat: 'Duraklat',
   devam: 'Devam Et',
+  cik: 'Oyundan Çık',
   ses: 'Ses',
   saat: 'Saat',
   puan: 'Puan',

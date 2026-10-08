@@ -8,7 +8,7 @@ import { PinIkon } from '@/components/ui/Ikonlar'
 import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { ustBarVaryanti, type NavOgesi, type UstBarCta } from '@/lib/kabuk'
-import { yol, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
+import { yol, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
 import { BarDurumu } from './BarDurumu'
 import { Cekmece } from './Cekmece'
 import { DilAnahtari } from './DilAnahtari'
@@ -17,7 +17,7 @@ import stil from './UstBar.module.css'
 
 type Props = {
   dil: Dil
-  aktif: RotaAnahtari
+  aktif: SayfaAnahtari
 }
 
 function ctaHedefi(cta: UstBarCta, dil: Dil): { href: string; hariciMi: boolean } {
@@ -61,7 +61,7 @@ function navBol(nav: NavOgesi[]): [NavOgesi[], NavOgesi[]] {
   return [nav.slice(0, orta), nav.slice(orta)]
 }
 
-function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: RotaAnahtari }) {
+function NavOgeleri({ nav, dil, aktif }: { nav: NavOgesi[]; dil: Dil; aktif: SayfaAnahtari }) {
   const s = sozluk(dil)
   return (
     <>

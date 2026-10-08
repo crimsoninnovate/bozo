@@ -96,6 +96,26 @@ test('cekmece_icerikRotalarininHepsiniTasir', () => {
   )
 })
 
+/** Oyun kabuğu iç sayfa kabuğudur: raysız bar, iç nav, harici yol tarifi CTA'sı. */
+test('ustBar_oyun_icSayfaVaryantiTasir', () => {
+  const oyun = ustBarVaryanti('oyun')
+  assert.equal(oyun.anaVaryantMi, false)
+  assert.deepEqual(oyun.nav, ustBarVaryanti('galeri').nav)
+  assert.deepEqual(oyun.cta, { tur: 'harici' })
+})
+
+/** Oyun nav'da ve çekmecede yok: yalnız kampanya bağlantısıyla gelinir (spec §19 karar 8, 8 Ekim 2026). */
+test('oyun_navdaVeCekmecedeYok', () => {
+  for (const rota of [...ROTALAR, 'oyun'] as const) {
+    assert.equal(
+      ustBarVaryanti(rota).nav.some((o) => o.tur === 'rota' && (o.rota as string) === 'oyun'),
+      false,
+      rota,
+    )
+  }
+  assert.equal(cekmeceLinkleri().some((l) => (l.rota as string) === 'oyun'), false)
+})
+
 /** Çekmece etiketleri de sözlükten gelir, elle yazılmaz. */
 test('cekmece_etiketleri_sozlukteKarsiligiVar', () => {
   for (const link of cekmeceLinkleri()) {

@@ -4,7 +4,7 @@ import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
 import { breadcrumbJsonLd, jsonLdMetni, menuJsonLd } from '@/lib/jsonld'
-import type { RotaAnahtari } from '@/lib/site'
+import type { SayfaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
 /** Atlanan blok bağlantısının hedefi; `<main>` ile bağlantının tek ortak değeri. */
@@ -12,12 +12,12 @@ const ICERIK_ID = 'icerik'
 
 type Props = {
   dil: Dil
-  aktif: RotaAnahtari
+  aktif: SayfaAnahtari
   children: React.ReactNode
 }
 
 /**
- * On iki rotanın ortak kabuğu: kor sahnesi, üst bar, sayfa gövdesi, alt bilgi ve
+ * Dizindeki on iki rotanın ve oyunun ortak kabuğu: kor sahnesi, üst bar, sayfa gövdesi, alt bilgi ve
  * mobil eylem barı. Her `app/**\/page.tsx` bunu bir kez sarmalar.
  *
  * `UstBar` (nav listesi, CTA hedefi, bar ölçüsü) ve `KorSahnesi` (yoğunluk
@@ -43,7 +43,8 @@ export function Kabuk({ dil, aktif, children }: Props) {
       <a href={`#${ICERIK_ID}`} className={stil.atla}>
         {s.ortak.erisim.icerigeAtla}
       </a>
-      {!anaSayfaMi && (
+      {/* Oyun noindex: breadcrumb yalnız dizindeki rotalarda. */}
+      {aktif !== 'ana' && aktif !== 'oyun' && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdMetni(breadcrumbJsonLd(aktif, dil)) }}

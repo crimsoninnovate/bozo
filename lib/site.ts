@@ -4,19 +4,24 @@ import type { Dil, Isletme } from '../content/types.ts'
 /** Sitenin tek mutlak adresi; canonical, sitemap ve sosyal kartlar buradan kurulur. */
 export const SITE_URL = 'https://cigercibozo.com'
 
+/** Dizine giren rotalar: sitemap, llms.txt, breadcrumb ve sayfa metası bunlardan türer. */
 export type RotaAnahtari = 'ana' | 'menu' | 'galeri' | 'hikaye' | 'konum' | 'gizlilik'
 
-const YOLLAR: Record<RotaAnahtari, string> = {
+/** Kabuğu taşıyan her sayfa. Oyun prototipi noindex, dizine girmez. */
+export type SayfaAnahtari = RotaAnahtari | 'oyun'
+
+const YOLLAR: Record<SayfaAnahtari, string> = {
   ana: '',
   menu: 'menu',
   galeri: 'galeri',
   hikaye: 'hikaye',
   konum: 'konum',
   gizlilik: 'gizlilik',
+  oyun: 'oyun',
 }
 
 /** EN rotalarında yol adları Türkçe kalır: /en/menu/, /en/hikaye/. */
-export function yol(anahtar: RotaAnahtari, dil: Dil): string {
+export function yol(anahtar: SayfaAnahtari, dil: Dil): string {
   const parca = YOLLAR[anahtar]
   const onek = dil === 'en' ? '/en' : ''
   return parca === '' ? `${onek}/` : `${onek}/${parca}/`
@@ -33,7 +38,8 @@ export function yoldanDil(yolAdi: string): Dil {
 }
 
 export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[] {
-  return (Object.keys(YOLLAR) as RotaAnahtari[]).map((a) => ({
+  const dizindekiler = (Object.keys(YOLLAR) as SayfaAnahtari[]).filter((a): a is RotaAnahtari => a !== 'oyun')
+  return dizindekiler.map((a) => ({
     anahtar: a,
     tr: yol(a, 'tr'),
     en: yol(a, 'en'),

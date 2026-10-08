@@ -19,7 +19,7 @@ hafta taban ölçümüdür, hedefler o tabana göre yazılır):
 
 | Ölçüt | Karar kuralı |
 |---|---|
-| Tur sayısı / hafta, kanala göre (`sofra`, `ig`, `yok`) | Taban. QR payı %30 altıysa sofra kartı yeniden tasarlanır |
+| Tur sayısı / hafta, kanala göre (`sofra`, `ig`, `site`, `yok`) | Taban. QR payı %30 altıysa sofra kartı yeniden tasarlanır |
 | Sıralamaya katılan oyuncu | Taban |
 | Geri dönüş: aynı oyuncu ≥ 2 ayrı gün | %25 altıysa ödül ve duyuru gözden geçirilir |
 | Geceyi tamamlayan tur (05:00) | %5-15 bandı; dışındaysa evre 4-5 ayarı |
@@ -216,7 +216,13 @@ oynayan arkadaş. Ödül küçük ve yüz yüze; ötesi oyunun değerini aşar.
 
 **Yerleşim.** `/oyun/`, `/oyun/siralama/`, `/oyun/kurallar/` ve `/en/oyun/...`.
 `lib/site.ts` > `RotaAnahtari` genişler; sitemap ve hreflang mevcut yoldan gelir. QR
-`/oyun/?k=sofra`, Instagram `/oyun/?k=ig`.
+`/oyun/?k=sofra`, Instagram `/oyun/?k=ig`, ana sayfa banner'ı `/oyun/?k=site`.
+
+**Kabuk (sahibi, 8 Ekim 2026).** Oyun sitenin `Kabuk`'u içinde açılır: giriş, sonuç ve diğer
+ekranlarda üst bar, alt bilgi ve mobil eylem barı durur, gelen siteye dönebilir. Tur sürerken
+kabuk geri çekilir (`body[data-odak]`, `useOdakModu`); çıkış duraklatma perdesindeki "Oyundan
+Çık" ile. Prototip noindex kaldıkça `oyun` bir `SayfaAnahtari`'dır, `RotaAnahtari` değil:
+sitemap, `llms.txt` ve breadcrumb'a girmez.
 
 **Simülasyon çekirdeği** `lib/oyun/`: saf TypeScript, DOM ve saat yok. Tek giriş
 `simule(tohum, girdiler) -> { puan, ozet, bitti, tik }`, ayrıca adım adım ilerleten
@@ -393,6 +399,7 @@ fotoğrafların sonuç ve paylaşım kartına girmesi.
 5. Geç kalan şişin adı: "yandı" (çalışma) veya "kurudu".
 6. Pişme süreleri: dalak kısa, yürek uzun; gerçek ocakla uyumlu mu?
 7. Fotoğraf ve yapay zeka görseli kuralının oyunu da kapsadığının onayı (oyun tamamen vektör).
-8. `/oyun` üst menüde ve çekmecede mi, yalnız kampanya bağlantısı mı?
+8. ~~`/oyun` üst menüde ve çekmecede mi?~~ Karar (8 Ekim 2026): şimdilik hayır. Ana sayfa
+   Gece bölümüne banner (`?k=site`) ve menü bağlantısı yayından önce ayrı bir tasarım işi.
 9. Kod onayını ve takma ad denetimini hangi personel yapar?
 10. Gizlilik değişiklikleri hukukçuya kimle gider?

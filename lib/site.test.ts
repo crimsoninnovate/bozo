@@ -59,6 +59,16 @@ test('tumYollar_altiRotaIcinTrVeEnUretir', () => {
   }
 })
 
+test('yol_oyun_ikiDildeOyunYolu', () => {
+  assert.equal(yol('oyun', 'tr'), '/oyun/')
+  assert.equal(yol('oyun', 'en'), '/en/oyun/')
+})
+
+/** Oyun prototipi noindex: sitemap ve llms.txt `tumYollar`'dan türer, oyun oraya girmez. */
+test('tumYollar_oyunuIcermez', () => {
+  assert.equal(tumYollar().some((g) => (g.anahtar as string) === 'oyun'), false)
+})
+
 test('yolTarifiUrl_koordinatVePlaceIdBilinmiyorken_adresAramasiUretir', () => {
   const koordinatsiz: Isletme = { ...isletme, googlePlaceId: null, koordinat: null }
   const url = yolTarifiUrl(koordinatsiz)

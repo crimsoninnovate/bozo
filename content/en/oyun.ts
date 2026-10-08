@@ -5,6 +5,7 @@ export const oyun = {
   tekrar: 'Play Again',
   duraklat: 'Pause',
   devam: 'Resume',
+  cik: 'Leave Game',
   ses: 'Sound',
   saat: 'Time',
   puan: 'Score',

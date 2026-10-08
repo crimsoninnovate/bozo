@@ -2,11 +2,11 @@ import { sozluk, type Dil } from '@/content'
 import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
 import { KelimeMarkasi } from '@/components/ui/KelimeMarkasi'
-import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl, type RotaAnahtari } from '@/lib/site'
+import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
 import { TelifSeridi } from './TelifSeridi'
 import stil from './AltBilgi.module.css'
 
-type Props = { dil: Dil; aktif: RotaAnahtari }
+type Props = { dil: Dil; aktif: SayfaAnahtari }
 
 /**
  * `Ana Sayfa Alternatif.dc.html:351-386`: dört kolon (marka, adres, saatler,
