@@ -19,6 +19,13 @@ test('gercekIp_guvenilirVekilArkasinda_xForwardedForSonAdimiEsSayilir', () => {
   assert.equal(gercekIp('::ffff:127.0.0.1', { 'x-forwarded-for': '5.5.5.5' }, VEKIL), '5.5.5.5')
 })
 
+/** Plesk: nginx → Apache → Node, iki yerel adım; istemcinin uydurduğu baştaki adım okunmaz. */
+test('gercekIp_ikiYerelVekilZinciri_guvenilirAdimlarAtlanir', () => {
+  const zincir = { 'x-forwarded-for': '6.6.6.6, 9.9.9.9, 104.16.1.1, 127.0.0.1', 'cf-connecting-ip': '9.9.9.9' }
+  assert.equal(gercekIp('127.0.0.1', zincir, VEKIL), '9.9.9.9')
+  assert.equal(gercekIp('127.0.0.1', { 'x-forwarded-for': '6.6.6.6, 5.5.5.5, ::1' }, VEKIL), '5.5.5.5')
+})
+
 test('gercekIp_guvenilmeyenEsinXForwardedFor_yokSayilir', () => {
   const basliklar = { 'x-forwarded-for': '104.16.1.1', 'cf-connecting-ip': '9.9.9.9' }
   assert.equal(gercekIp('8.8.8.8', basliklar, VEKIL), '8.8.8.8')

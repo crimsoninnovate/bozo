@@ -101,6 +101,10 @@ BOZO_TEST_DB_URL=mariadb://root:sifre@127.0.0.1:3399/bozo_test node --test sunuc
 Not deployed yet: subdomain, DNS, Plesk Node.js app and database are plan 4, each step with its
 own approval, after the privacy text changes and the lawyer's review.
 
+`GUVENILIR_VEKIL` must cover every local hop in front of Node (Plesk: nginx, then Apache); the
+first untrusted `X-Forwarded-For` hop from the right is the peer. After deploy, check that a forged
+`CF-Connecting-IP` sent straight to the origin is ignored, or every visitor shares one rate limit.
+
 ## Publishing
 
 The build output in `out/` is a plain static site with no server runtime. It is served from the

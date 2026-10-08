@@ -2,8 +2,8 @@ import { BlockList, isIP } from 'node:net'
 
 /*
  * Gerçek IP (spec §10): `CF-Connecting-IP` yalnız istek Cloudflare aralığından geliyorsa.
- * Plesk'te Node'un önünde yerel bir vekil durur; güvenilir vekilin eklediği son
- * `X-Forwarded-For` adımı eş adres sayılır. IP yalnız bellekteki hız sınırında kullanılır.
+ * Plesk'te Node'un önünde yerel vekiller durur; güvenilir olmayan ilk `X-Forwarded-For` adımı
+ * (sağdan) eş adres sayılır. IP yalnız bellekteki hız sınırında kullanılır.
  */
 
 /** cloudflare.com/ips, 8 Ekim 2026. */
@@ -42,12 +42,14 @@ export const CLOUDFLARE = listeKur([...CLOUDFLARE_V4, ...CLOUDFLARE_V6])
 
 export type IpBasliklari = { 'cf-connecting-ip'?: string; 'x-forwarded-for'?: string }
 
+/** Plesk'te vekil zinciri iki adım olabilir (nginx → Apache); güvenilir adımlar sağdan atlanır. */
 export function gercekIp(soket: string | undefined, basliklar: IpBasliklari, guvenilirVekil: BlockList): string {
   let es = ipDuzelt(soket ?? '')
-  const iletilen = basliklar['x-forwarded-for']
-  if (iletilen && listede(guvenilirVekil, es)) {
-    const son = ipDuzelt(iletilen.split(',').at(-1)?.trim() ?? '')
-    if (isIP(son)) es = son
+  const adimlar = (basliklar['x-forwarded-for'] ?? '').split(',').map((a) => ipDuzelt(a.trim()))
+  while (listede(guvenilirVekil, es) && adimlar.length > 0) {
+    const onceki = adimlar.pop() ?? ''
+    if (!isIP(onceki)) break
+    es = onceki
   }
   const cf = ipDuzelt(basliklar['cf-connecting-ip'] ?? '')
   if (cf && isIP(cf) && listede(CLOUDFLARE, es)) return cf
