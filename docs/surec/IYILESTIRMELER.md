@@ -2340,3 +2340,47 @@ pikselden ölçüldü, en düşük 5,86:1. Odak halkası her durakta; atlama lin
 tuzağı, Escape ve odak dönüşü çalışıyor. Onaysız GA isteği yok. Azaltılmış harekette 0
 animasyon, 0 rAF. JS kapalıyken gizli içerik yok. Saat çipi 04:59/05:00/09:59/10:00/23:30 ve
 kışın doğru. Canlı mobil LCP 1,7-2,3 sn (galeri hariç), CLS en kötü 0,0103.
+
+## 9 Ekim 2026: oyun sahnesi boyalı tasarıma geçti
+
+Sahibi plan 2'nin düz vektör sahnesini beğenmedi; `design_handoff_bozo_oyun/` boyalı, dokulu
+illüstrasyon getirdi. Kararlar `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md`
+(K1-K11), plan `docs/plans/2026-10-08-oyun-sahne-plani.md`. Simülasyon, sunucu, ekran akışı ve
+kare değerleri sözleşmesi değişmedi; `git diff` o dosyalarda boş.
+
+### Palet istisnası (K1)
+
+Sahne katmanı handoff'un kendi sıcak paletini literal taşır (ceviz, pirinç, çelik, mermer,
+çiğ ve pişmiş et, kömür, kor `#FF7A1A`); palet rengi olan her durak token'a bağlı
+(`stop-color: var(--kor)`), palet rgb'si hiçbir modülde literal değil (`palet.test`). UI
+katmanı token. `CLAUDE.md` > Colors'a ikinci istisna olarak yazıldı.
+
+### Handoff'tan farklı olan ("değişen ne", handoff açık soru 3)
+
+| Yer | Handoff | Kod | Neden |
+|---|---|---|---|
+| Giriş bağlantıları | Kurallar, Gizlilik | Sıralama, Gizlilik | Kurallar sayfası plan 4; var olmayan sayfaya bağlantı konmaz |
+| Sonuç | Paylaş düğmesi, "Bu skoru sıralamaya yaz" bağlantısı | Paylaş yok; "Bu Skoru Sıralamaya Yaz" 56 px kenarlı düğme | Paylaşım kartı plan 4; eylem düğmedir, bağlantı değil |
+| ×2 rozeti | Puanın yanında | Telefonda duyuru satırının sağında, masaüstünde puanın yanında | Beş haneli puanla satır 390'da 362 px > 320 px alan (ölçüldü); 320'de saat/puan Bevan 17 |
+| Ocak kıvılcımları | 2/4/7 sabit nokta | `KorKivilcimi` tuvali, yoğunluk kombo ile | Spec §12 hareketli kıvılcım; azaltılmışta kapalı |
+| Çevirme çentiği | 2 px çizgi | 2 px çizgi (`--centik`), bant yalnız tam kıvamda | Handoff hifi; spec §3 "bant" cümlesinden sapma |
+| Yanık tane | Kömür .92 ikili | Kömür `--yanma` ile sürekli, yanınca .92 hayalet | Pencere boyunca uyarı (spec §15 renkten bağımsızlık, ray ile birlikte) |
+| Fiş | En çok 3 kalem | 4+ kalem ikinci sütuna sarar | Simülasyon 5 kalemli fiş üretir (ölçüldü: 5 kalem 84 px hücreyi aşıyordu) |
+| Çevrimdışı kutusu | Başlık + cümle | Sözlükteki tek cümle | Yeni metin yok |
+| Giriş rozeti | Kabuk rozeti yok, 28 px bara sarkar | Kabuk rozeti kalır; büyük rozet `margin-top: -28px` | Kabuk dokunulmaz (README "mevcut pil neyse o") |
+| Oyun zemini | `#1C0E0A` / `#120706` | `--zemin` / `--gece` | Handoff token eşlemesi 1d |
+| Kalkmış sofra | Kalıcı hal | 700 ms geçici (hayalet) | Simülasyon kalkan sofrayı hemen boşaltır |
+| Duraklat perdesi azaltılmışta | 300 ms | anında | Global `prefers-reduced-motion` kuralı |
+| Raf pasifliği | `pasif` alanı | Açık ocak yuvalarının hepsi dolu | Kodda karşılığı bu |
+| 320 yükseklik | 700 px'te kırpılır | Saha 781 px, kaydırır | Ray ve raf kırpılmasın |
+| Duman | statik yol | statik yol (`--pisme` > .4) | aynı |
+
+### Ölçümler
+
+- Testler 363 (354 geçti, 9 atlandı), 21 rota. 390 ve 1440'ta giriş, oyun, perde: taşma yok,
+  44 px altı hedef yok, axe 0. Usta kaydı 390'da gerçek zamanda: 24.400, kombo ×13, 05:00.
+- HUD satırı (04:12, 16762, ×2): 320'de 246/250, 390'da 312/320, 1440'ta 374/374.
+- Azaltılmış hareket (390 ve 1440, oyun ekranı): CSS animasyon/geçiş 0.
+- Kare süresi (K10) ve pikselden etiket kontrastı **henüz ölçülmedi** (sahibinin isteğiyle
+  bu turda atlandı); tarif planın Task 8 Step 3'ünde, kapı p95 <= 17,5 ms.
+- Handoff karşılaştırması: kare kare tur yapılmadı; kareler `/tmp/bozo-oyun/sahne/ng/`.
