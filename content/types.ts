@@ -28,12 +28,12 @@ export type Isletme = {
   sahip: string
 }
 
+export type Olcu = 'porsiyon' | 'bucukPorsiyon' | 'durum' | 'bucukDurum'
+
 export type Urun = {
   id: string
-  /** Tam porsiyon, kuruşsuz TL. Yarım porsiyon ayrı kalem değil, tamın yarısıdır. */
-  tam: number | null
-  /** Beş şişlik dürüm, kuruşsuz TL. Dürümü olmayan üründe null. */
-  durum: number | null
+  /** Kuruşsuz TL. Porsiyon her üründe var; fiyat listesinde olmayan ölçünün alanı yok. */
+  fiyatlar: { porsiyon: number } & Partial<Record<Exclude<Olcu, 'porsiyon'>, number>>
   fotoId: FotoId | null
 }
 
@@ -45,8 +45,8 @@ export type Ikram = { id: string; fotoId: FotoId | null }
 /** Plakasız ikram kümesi; `ogeler` sözlükteki `menu.ikramlar.ogeler` anahtarlarıdır. */
 export type IkramGrubu = { id: string; ogeler: string[] }
 
-/** `olculer` sözlükteki `menu.icecekler.olculer` anahtarları; ölçüsüz içecekte boş. */
-export type Icecek = { id: string; olculer: string[] }
+/** `olcu` sözlükteki `menu.icecekler.olculer` anahtarı; fiyat kuruşsuz TL. */
+export type Icecek = { id: string; olculer: { olcu: string; fiyat: number }[] }
 
 export type Foto = {
   /** Çekim listesindeki kadraj etiketi, plaka üstünde görünür. */
@@ -69,6 +69,7 @@ export type FotoId =
   | 'terbiyeli-kusbasi'
   | 'bozo-karisik'
   | 'tavuk-sis'
+  | 'terbiyeli-tavuk-sis'
   | 'lebeni'
   | 'bostana'
   | 'ayran'

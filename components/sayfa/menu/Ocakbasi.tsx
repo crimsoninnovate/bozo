@@ -12,13 +12,13 @@ import stil from './Ocakbasi.module.css'
 
 type Props = { dil: Dil }
 
-type UrunMetni = { ad: string; aciklama: string }
+type UrunMetni = { ad: string; aciklama?: string }
 
 /**
  * Kartların kor nefesi. Tasarım her plakaya kendi süresini veriyor ve süreler
  * hiçbir kurala uymuyor (10 / 11 / 9.5 / 12), o yüzden indeksten türetilmez.
- * Menu:127, 145, 163, 181. Beşincisi tasarımda yok: karışık ürün 13 Ağustos
- * 2026'da eklendi, süre komşularının aralığından seçildi.
+ * Menu:127, 145, 163, 181. Beşinci (karışık, 13 Ağustos 2026) ve altıncı (terbiyeli
+ * tavuk şiş, 8 Ekim 2026) tasarımda yok; süreleri komşularının aralığından.
  */
 const KART_NEFESLERI: KorNefesi[] = [
   { sure: 10, gecikme: 0.6 },
@@ -26,6 +26,7 @@ const KART_NEFESLERI: KorNefesi[] = [
   { sure: 9.5, gecikme: 1.8 },
   { sure: 12, gecikme: 2.4 },
   { sure: 10.5, gecikme: 3 },
+  { sure: 11.5, gecikme: 3.6 },
 ]
 
 /**
@@ -50,7 +51,7 @@ function indeksMetni(sira: number): string {
 }
 
 /** İmza ürün paneli: ızgaradaki kart değil, spread plakasının yanındaki panel. Menu:104-120.
-    Telefonda listenin ilk satırı: tam fiyat adın hizasında (`anaFiyat`, masaüstünde gizli). */
+    Telefonda listenin ilk satırı: porsiyon fiyatı adın hizasında (`anaFiyat`, masaüstünde gizli). */
 function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
   const s = sozluk(dil)
   const metin = urunMetni(s, urun.id)
@@ -67,7 +68,7 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
       <div className={stil.imzaAdSatiri}>
         <h3 className={stil.imzaAd}>{metin.ad}</h3>
         <span aria-hidden="true" className={stil.anaFiyat}>
-          {fiyatMetni(urun.tam)}
+          {fiyatMetni(urun.fiyatlar.porsiyon)}
         </span>
       </div>
       <p className={stil.imzaAciklama}>{metin.aciklama}</p>
@@ -85,7 +86,7 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
 
 /**
  * Bozo Special: tek ölçüsü olan kombinasyon, o yüzden ızgarada değil ızgaranın
- * altında kendi şeridinde. Yarım ve dürüm satırı basılmaz, taşımıyor.
+ * altında kendi şeridinde.
  */
 function OzelSerit({ dil }: { dil: Dil }) {
   const { ozel } = sozluk(dil).menu.ocakbasi
@@ -95,9 +96,8 @@ function OzelSerit({ dil }: { dil: Dil }) {
       <div className={stil.ozelGovde}>
         <div className={stil.ozelUst}>
           <h3 className={stil.ozelAd}>{ozel.ad}</h3>
-          <Cip tur="dolu">{ozel.sisNotu}</Cip>
+          <Cip tur="dolu">{ozel.miktarNotu}</Cip>
         </div>
-        <p className={stil.ozelAciklama}>{ozel.aciklama}</p>
       </div>
       <span className={stil.ozelFiyat}>{fiyatMetni(ozelUrun.fiyat)}</span>
     </article>
@@ -152,10 +152,6 @@ export function Ocakbasi({ dil }: Props) {
       </div>
 
       <OzelSerit dil={dil} />
-
-      {/* Kuralı bir kez söyleyen dipnot. `BolumBasligi`nin not yuvası tane rayına
-          ait (sag ?? not), o yüzden başlıkta değil fiyatların altında. */}
-      <p className={stil.olcuNotu}>{s.menu.ocakbasi.yarimNotu}</p>
     </section>
   )
 }

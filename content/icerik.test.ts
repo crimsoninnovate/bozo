@@ -6,8 +6,7 @@ import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
-import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun } from './urunler.ts'
-import { yarimFiyat } from './isletme.ts'
+import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun, urunOlculeri } from './urunler.ts'
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -214,48 +213,41 @@ test('urunler_anaSayfaBesKalemdeKalir', () => {
   )
 })
 
-test('urunler_menuListesiKarisigiEkler', () => {
+// Sıra sahibinin fiyat listesinin sırası (8 Ekim 2026).
+test('urunler_menuListesiFiyatListesininSirasiniTasir', () => {
   assert.deepEqual(
     menuUrunler.map((u) => u.id),
-    [...anaUrunler.map((u) => u.id), 'bozo-karisik'],
+    ['ciger', 'dalak', 'yurek', 'terbiyeli-tavuk-sis', 'terbiyesiz-tavuk-sis', 'terbiyeli-kusbasi', 'bozo-karisik'],
   )
 })
 
 /**
- * Fiyatlar sahibinden 13 Ağustos 2026'da geldi. Önceki sürümde bu testin işi
- * "hiçbir fiyat uydurulmamış" demekti; artık işi, gelen değerlerin bir
- * yenileme turunda sessizce kaymamasını sağlamak.
+ * Fiyat listesi sahibinden 8 Ekim 2026'da geldi. Yarım kalktı, 1,5 porsiyon ve
+ * 1,5 dürüm geldi; listede olmayan ölçü (kuşbaşı dürümü, karışığın 1,5'i) yok.
  */
 test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
-  const beklenen: Record<string, [number, number]> = {
-    ciger: [800, 500],
-    dalak: [600, 400],
-    yurek: [700, 450],
-    'terbiyesiz-tavuk-sis': [600, 400],
-    'terbiyeli-kusbasi': [850, 550],
-    'bozo-karisik': [800, 500],
+  const beklenen: Record<string, Record<string, number>> = {
+    ciger: { porsiyon: 690, bucukPorsiyon: 900, durum: 690, bucukDurum: 900 },
+    dalak: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 },
+    yurek: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 },
+    'terbiyeli-tavuk-sis': { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    'terbiyesiz-tavuk-sis': { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    'terbiyeli-kusbasi': { porsiyon: 850, bucukPorsiyon: 1200 },
+    'bozo-karisik': { porsiyon: 600 },
   }
   for (const urun of menuUrunler) {
-    assert.deepEqual([urun.tam, urun.durum], beklenen[urun.id], `${urun.id} fiyatı kaymış`)
+    assert.deepEqual(urun.fiyatlar, beklenen[urun.id], `${urun.id} fiyatı kaymış`)
   }
-  assert.equal(ozelUrun.fiyat, 1000)
+  assert.equal(ozelUrun.fiyat, 1100)
 })
 
-/**
- * `yarimFiyat` tek sayıda yuvarlar. Bugünkü tam fiyatların hepsi çift, yani
- * yuvarlama hiç çalışmıyor. Tek sayı bir fiyat girilirse yarım porsiyon sessizce
- * yuvarlanmış bir değer basardı; karar insanın olsun diye burada durduruluyor.
- */
-test('urunler_tamFiyatlarCiftSayidir', () => {
-  for (const urun of menuUrunler) {
-    assert.equal(urun.tam === null || urun.tam % 2 === 0, true, `${urun.id} tam fiyatı tek sayı`)
-  }
-})
-
-test('yarimFiyat_tamPorsiyonunYarisidir', () => {
-  assert.equal(yarimFiyat(800), 400)
-  assert.equal(yarimFiyat(850), 425)
-  assert.equal(yarimFiyat(null), null)
+test('urunOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {
+  const kusbasi = menuUrunler.find((u) => u.id === 'terbiyeli-kusbasi')
+  assert.ok(kusbasi)
+  assert.deepEqual(urunOlculeri(kusbasi), [
+    { olcu: 'porsiyon', fiyat: 850 },
+    { olcu: 'bucukPorsiyon', fiyat: 1200 },
+  ])
 })
 
 test('ikramlar_fiyatTasimaz', () => {
@@ -263,9 +255,19 @@ test('ikramlar_fiyatTasimaz', () => {
   for (const i of ikramlar) assert.equal('fiyat' in i, false)
 })
 
-/** İçecek fiyatı gelmedi; alan hiç yok, "000 TL" basan bir yol da yok. */
-test('icecekler_fiyatAlaniTasimaz', () => {
-  for (const i of icecekler) assert.equal('fiyat' in i, false)
+/** Fiyat listesinde olmayan içecekler menüden kalktı (sahibi, 8 Ekim 2026). */
+test('icecekler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
+  const ozet = Object.fromEntries(
+    icecekler.map((i) => [i.id, Object.fromEntries(i.olculer.map((o) => [o.olcu, o.fiyat]))]),
+  )
+  assert.deepEqual(ozet, {
+    kola: { kutu: 40, sise: 58 },
+    kolaZero: { kutu: 40, sise: 58 },
+    fanta: { kutu: 40 },
+    cappy: { kutu: 40 },
+    ayran: { buyuk: 27, kucuk: 22, acikYayik: 35 },
+    su: { pet: 20, cam: 40 },
+  })
 })
 
 /**
@@ -283,7 +285,7 @@ test('kimlikler_ikiDildeDeSozluktedir', () => {
     }
     for (const icecek of icecekler) {
       assert.ok(icecek.id in s.menu.icecekler.urunler, `${icecek.id} içecek sözlüğünde yok`)
-      for (const olcu of icecek.olculer) {
+      for (const { olcu } of icecek.olculer) {
         assert.ok(olcu in s.menu.icecekler.olculer, `${olcu} ölçüsü sözlükte yok`)
       }
     }
@@ -427,5 +429,27 @@ test('sozluk_cigerPorsiyonu_heryerdeOnIkiSistir', () => {
     assert.equal(s.ana.iddia.sayac1.deger, '12')
     assert.match(s.menu.ocakbasi.cigerSpec.sis, /^12 /)
     assert.match(s.hikaye.usul.olcuSisSayisi, /^12 /)
+  }
+})
+
+/** Menü spotu ve meta açıklaması porsiyon sayısını harfle yazar; ürün eklenince ikisi de kayar. */
+test('menu_porsiyonSayisi_metindekiSayiylaAyni', () => {
+  const sayiSozcugu: Record<number, { tr: string; en: string }> = {
+    6: { tr: 'altı', en: 'six' },
+    7: { tr: 'yedi', en: 'seven' },
+    8: { tr: 'sekiz', en: 'eight' },
+  }
+  const sozcuk = sayiSozcugu[menuUrunler.length]
+  assert.ok(sozcuk, `${menuUrunler.length} porsiyon için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
+  for (const [dil, s, beklenen] of [
+    ['tr', tr, `${sozcuk.tr} porsiyon`],
+    ['en', en, `${sozcuk.en} portions`],
+  ] as const) {
+    for (const [ad, metin] of [
+      ['menu.acilis.spot', s.menu.acilis.spot],
+      ['sayfaMeta.menu.aciklama', s.ortak.sayfaMeta.menu.aciklama],
+    ] as const) {
+      assert.ok(metin.toLowerCase().includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor`)
+    }
   }
 })

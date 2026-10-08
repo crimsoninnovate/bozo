@@ -116,13 +116,13 @@ export const ortak = {
     menu: {
       baslik: 'Menu · Ciğerci Bozo, Kyrenia',
       aciklama:
-        'Six portions from the fire, wraps, eight on the house, and drinks. Kyrenia, every ' +
+        'Seven portions from the fire, wraps, eight on the house, and drinks. Kyrenia, every ' +
         'day 10:00 - 05:00.',
     },
     galeri: {
       baslik: 'Gallery · Ciğerci Bozo, Kyrenia',
       aciklama:
-        'Sixteen frames the site is waiting for: the place and the dishes. Kyrenia, Naci ' +
+        'Seventeen frames the site is waiting for: the place and the dishes. Kyrenia, Naci ' +
         'Talat Street, every day 10:00 - 05:00.',
     },
     hikaye: {

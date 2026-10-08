@@ -21,7 +21,7 @@
   gap: 12px;
 }
 
-/* Üç adlı içecek on kaleme çıktı; tek sütun sayfayı gereksiz uzatıyordu.
+/* Tasarımın üç kalemi altıya çıktı; tek sütun sayfayı gereksiz uzatıyordu.
    Tasarımın 12px adımı sütun içinde ve sütunlar arasında aynı kalır. */
 .liste {
   list-style: none;
@@ -48,17 +48,25 @@
   color: var(--krem);
 }
 
-/* Ölçüler fiyat değil, sunum biçimi: tangerine yerine sakin krem tonunda. */
 .olculer {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 10px;
+  gap: 4px 14px;
 }
 
+/* Ölçü sakin krem, fiyat Ocakbaşı fiyatlarıyla aynı bakır ve başlık fontunda. */
 .olcu {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
   font: 400 13.5px/1.3 var(--font-govde);
-  font-variant-numeric: tabular-nums;
   color: var(--krem-62);
+}
+
+.fiyat {
+  font: 400 15px/1.2 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+  color: var(--bakir);
 }
 
 .dipnot {

@@ -9,10 +9,10 @@ import { dulOnle } from '@/lib/metin'
 type Props = {
   dil: Dil
   fotoId: FotoId
-  /** İki haneli statik indeks ("02" ... "06"), plakanın sağ üstünde. */
+  /** İki haneli statik indeks ("02" ... "07"), plakanın sağ üstünde. */
   indeks: string
   ad: string
-  aciklama: string
+  aciklama?: string
   urun: Urun
   korNefesi?: KorNefesi
 }
@@ -41,10 +41,10 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }
         <div className={stil.adSatiri}>
           <h3 className={stil.ad}>{dulOnle(ad)}</h3>
           <span aria-hidden="true" className={stil.anaFiyat}>
-            {fiyatMetni(urun.tam)}
+            {fiyatMetni(urun.fiyatlar.porsiyon)}
           </span>
         </div>
-        <p className={stil.aciklama}>{aciklama}</p>
+        {aciklama && <p className={stil.aciklama}>{aciklama}</p>}
         <div className={stil.altSatir}>
           <TaneDizilimi adet={3} buyuk={9} kucuk={5} bosluk={4} ton="krem50" />
         </div>

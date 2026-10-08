@@ -2037,3 +2037,43 @@ Handoff ve `metin-envanteri.json` hâlâ 8 yazıyor; bir parite turu farkı kusu
 
 Sayaç artık 0'dan 12'ye iki basamağa sayıyor. Ölçüldü (360px): hücre boyutu sayım boyunca
 83x119 sabit, `layout-shift` girdisi sıfır; 320px'te rakam 39px, kutusu 58px.
+
+## 8 Ekim 2026: fiyat listesi
+
+Kaynak: sahibinin fiyat listesi ekran görüntüsü, 8 Ekim 2026. Belirsiz dört nokta sahibine
+soruldu; cevapları aşağıda "sahibi" diye geçiyor.
+
+**Ölçü modeli değişti.** Tam / Yarım (tamın yarısı) / Dürüm kalktı; yerine listedeki Porsiyon /
+1,5 Porsiyon / Dürüm / 1,5 Dürüm geldi. Listede olmayan ölçü basılmaz (sahibi: "listedeki gibi"):
+kuşbaşının dürümü ve karışığın porsiyon dışı ölçüleri kalktı. Yarım dipnotu da gitti.
+
+| Ürün | Önce (tam / dürüm) | Şimdi (porsiyon / 1,5 / dürüm / 1,5 dürüm) |
+|---|---|---|
+| Ciğer | 800 / 500 | 690 / 900 / 690 / 900 |
+| Dalak | 600 / 400 | 550 / 800 / 550 / 800 |
+| Yürek | 700 / 450 | 550 / 800 / 550 / 800 |
+| Terbiyeli Tavuk Şiş | yoktu | 450 / 650 / 450 / 650 |
+| Terbiyesiz Tavuk Şiş | 600 / 400 | 450 / 650 / 450 / 650 |
+| Terbiyeli Kuşbaşı | 850 / 550 | 850 / 1.200 / - / - |
+| Bozo Karışık | 800 / 500 | 600 / - / - / - |
+| Bozo Special | 1.000, "10 şiş" | 1.100, "250 gr" |
+
+- **Terbiyeli Tavuk Şiş** açıklamasız eklendi (sahibi); açıklama uydurulmadı. Yalnız menüde: ana
+  sayfa her kalemi açıklamasıyla basıyor. Kendi foto yuvası var (`terbiyeli tavuk şiş karesi`),
+  fotoğrafçı iki tavuk şişi ayrı çeksin diye; manifest 17 kareye çıktı, galeri metni "on yedi".
+  Menü spotu ve meta açıklaması "yedi porsiyon" oldu, `menu_porsiyonSayisi_metindekiSayiylaAyni`
+  sayıyı ürün listesine kilitliyor.
+- **Bozo Special:** sahibi "fiyat listesinde ne varsa" dedi. "10 şiş" çipi "250 gr" oldu;
+  "Her üründen iki şiş" açıklaması da kalktı, çünkü 10 şiş iddiasının cümle hâliydi.
+- **İçecekler ilk kez fiyatlı.** Listede olmayanlar kalktı (sahibi): Sprite, Fuse Tea, Şalgam,
+  Çay, Fanta şişe ve ml bilgileri. Ayran "Kapalı" yerine listedeki Büyük (27) / Küçük (22);
+  listedeki "Açık" sahibinin daha önce verdiği "Açık Yayık" adıyla kaldı. "İçecek fiyatları
+  açılışta kesinleşir" notu kalktı.
+- JSON-LD `Menu` artık her ölçüyü ayrı `Offer` olarak ve içecekleri kendi bölümünde taşıyor.
+
+**Açık kalan, sahibinde:**
+1. Dürüm notu hâlâ "5 şiş". Dürüm artık porsiyonla aynı fiyatta (ciğerde ikisi de 690 TL, porsiyon
+   12 şiş); not doğru mu?
+2. `priceRange` (20-1.100 TL) JSON-LD'de yayımlansın mı? En ucuz kalem su; aralık yemeğin
+   fiyatını olduğundan düşük gösterebilir.
+3. Terbiyeli Tavuk Şiş açıklaması.

@@ -2,16 +2,15 @@
 export const menu = {
   acilis: {
     baslik: 'Menü',
-    spot: 'Hepsi tek ocakta pişer. Altı porsiyon, bir özel, sekiz ikram.',
+    spot: 'Hepsi tek ocakta pişer. Yedi porsiyon, bir özel, sekiz ikram.',
   },
   ocakbasi: {
     baslik: 'Ocakbaşı',
     imzaRozeti: 'imza ürün',
     cigerSpec: { sis: '12 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
-    /** Üç ölçü her üründe aynı sırayla basılır; sahibinin Tam / Yarım / Dürüm mantığı. */
-    olculer: { tam: 'Tam', yarim: 'Yarım', durum: 'Dürüm' },
+    /** Sahibinin fiyat listesinin ölçüleri (8 Ekim 2026); yalnız fiyatı olan basılır. */
+    olculer: { porsiyon: 'Porsiyon', bucukPorsiyon: '1,5 Porsiyon', durum: 'Dürüm', bucukDurum: '1,5 Dürüm' },
     durumNotu: '5 şiş',
-    yarimNotu: 'Yarım porsiyon tam fiyatın yarısıdır',
     urunler: {
       ciger: {
         ad: 'Ciğer',
@@ -29,6 +28,8 @@ export const menu = {
         aciklama:
           'Urfa sakatat hattının klasiği. Sıkı dokulu; ısırınca dağılmayan tane.',
       },
+      // Fiyat listesiyle açıklamasız geldi (8 Ekim 2026); açıklama uydurulmaz.
+      'terbiyeli-tavuk-sis': { ad: 'Terbiyeli Tavuk Şiş' },
       'terbiyesiz-tavuk-sis': {
         ad: 'Terbiyesiz Tavuk Şiş',
         aciklama: "Buttan, Urfa'ya özgü marineyle. Aralara kuyruk yağı konur.",
@@ -42,11 +43,8 @@ export const menu = {
         aciklama: 'Ciğer, dalak ve yürek bir arada.',
       },
     },
-    ozel: {
-      ad: 'Bozo Special',
-      aciklama: 'Her üründen iki şiş.',
-      sisNotu: '10 şiş',
-    },
+    // "Her üründen iki şiş · 10 şiş" yerine fiyat listesindeki "250 GR" (sahibi, 8 Ekim 2026).
+    ozel: { ad: 'Bozo Special', miktarNotu: '250 gr' },
   },
   ikramlar: {
     baslik: 'İkramlar',
@@ -69,26 +67,22 @@ export const menu = {
   },
   icecekler: {
     baslik: 'İçecekler',
-    altMetin: 'İçecek fiyatları açılışta kesinleşir',
     olculer: {
-      sise250: 'Şişe 250 ml',
-      kutu330: 'Kutu 330 ml',
-      sise: 'Şişe',
       kutu: 'Kutu',
-      kapali: 'Kapalı',
+      sise: 'Şişe',
+      buyuk: 'Büyük',
+      kucuk: 'Küçük',
       acikYayik: 'Açık Yayık',
+      pet: 'Pet',
+      cam: 'Cam',
     },
     urunler: {
       kola: 'Kola',
       kolaZero: 'Kola Zero',
-      sprite: 'Sprite',
       fanta: 'Fanta',
-      fuseTea: 'Fuse Tea Çeşitleri',
       cappy: 'Cappy Çeşitleri',
       ayran: 'Ayran',
-      salgam: 'Şalgam',
       su: 'Su',
-      cay: 'Çay',
     },
     // Handoff "Masadaki" yazıyor; sofra/masa kilidi sert kural, kilit kazanır.
     qrNotu: 'Sofradaki QR menü aynı listeyi gösterir',

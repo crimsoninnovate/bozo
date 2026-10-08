@@ -2,15 +2,14 @@
 export const menu = {
   acilis: {
     baslik: 'Menu',
-    spot: 'Everything comes off the fire. Six portions, one special, eight on the house.',
+    spot: 'Everything comes off the fire. Seven portions, one special, eight on the house.',
   },
   ocakbasi: {
     baslik: 'From the Fire',
     imzaRozeti: 'signature',
     cigerSpec: { sis: '12 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
-    olculer: { tam: 'Full', yarim: 'Half', durum: 'Wrap' },
+    olculer: { porsiyon: 'Portion', bucukPorsiyon: '1.5 Portion', durum: 'Wrap', bucukDurum: '1.5 Wrap' },
     durumNotu: '5 skewers',
-    yarimNotu: 'A half portion is half the full price',
     urunler: {
       ciger: {
         ad: 'Urfa Liver Kebab (Ciğer)',
@@ -28,6 +27,7 @@ export const menu = {
         aciklama:
           'A classic of the Urfa offal line. Firm textured; the cut that holds its bite.',
       },
+      'terbiyeli-tavuk-sis': { ad: 'Marinated Chicken Skewer (Terbiyeli Tavuk Şiş)' },
       'terbiyesiz-tavuk-sis': {
         ad: 'Chicken Skewer (Terbiyesiz Tavuk Şiş)',
         aciklama: 'From the thigh, with an Urfa marinade, tail fat between the pieces.',
@@ -41,11 +41,7 @@ export const menu = {
         aciklama: 'Liver, spleen and heart together.',
       },
     },
-    ozel: {
-      ad: 'Bozo Special',
-      aciklama: 'Two skewers of every item.',
-      sisNotu: '10 skewers',
-    },
+    ozel: { ad: 'Bozo Special', miktarNotu: '250 g' },
   },
   ikramlar: {
     baslik: 'On the House',
@@ -73,26 +69,22 @@ export const menu = {
   },
   icecekler: {
     baslik: 'Drinks',
-    altMetin: 'Drink prices are confirmed at opening',
     olculer: {
-      sise250: 'Bottle 250 ml',
-      kutu330: 'Can 330 ml',
-      sise: 'Bottle',
       kutu: 'Can',
-      kapali: 'Bottled',
+      sise: 'Bottle',
+      buyuk: 'Large',
+      kucuk: 'Small',
       acikYayik: 'Churned, by the Glass',
+      pet: 'Plastic',
+      cam: 'Glass',
     },
     urunler: {
       kola: 'Cola',
       kolaZero: 'Cola Zero',
-      sprite: 'Sprite',
       fanta: 'Fanta',
-      fuseTea: 'Fuse Tea Flavours',
       cappy: 'Cappy Flavours',
       ayran: 'Ayran',
-      salgam: 'Şalgam (Turnip Juice)',
       su: 'Water',
-      cay: 'Tea (Çay)',
     },
     qrNotu: 'The same list runs behind the table QR',
   },

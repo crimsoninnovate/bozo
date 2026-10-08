@@ -1,6 +1,7 @@
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { sozluk, type Dil, type Sozluk } from '@/content'
+import { fiyatMetni } from '@/content/isletme'
 import { icecekler } from '@/content/urunler'
 import stil from './Icecekler.module.css'
 
@@ -45,31 +46,23 @@ export function Icecekler({ dil }: Props) {
 
   return (
     <section id="icecekler" tabIndex={-1} className={stil.bolum}>
-      <BolumBasligi
-        olcek="sayfa"
-        baslik={s.menu.icecekler.baslik}
-        not={s.menu.icecekler.altMetin}
-        notTonu="krem64"
-      />
+      <BolumBasligi olcek="sayfa" baslik={s.menu.icecekler.baslik} />
 
       <div className={stil.satir}>
         <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosMobildeGizli />
         <div className={stil.kolon}>
-          {/* Fiyat sütunu yok: içecek fiyatı işletmeden gelmedi ve on satır
-              "000 TL" basmaktansa sunum ölçüsü basılıyor. */}
           <ul className={stil.liste}>
             {icecekler.map((icecek) => (
               <li key={icecek.id} className={stil.kalem}>
                 <span className={stil.ad}>{icecekAdi(s, icecek.id)}</span>
-                {icecek.olculer.length > 0 && (
-                  <span className={stil.olculer}>
-                    {icecek.olculer.map((olcu) => (
-                      <span key={olcu} className={stil.olcu}>
-                        {olcuAdi(s, olcu)}
-                      </span>
-                    ))}
-                  </span>
-                )}
+                <span className={stil.olculer}>
+                  {icecek.olculer.map(({ olcu, fiyat }) => (
+                    <span key={olcu} className={stil.olcu}>
+                      {olcuAdi(s, olcu)}
+                      <span className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
+                    </span>
+                  ))}
+                </span>
               </li>
             ))}
           </ul>

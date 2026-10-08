@@ -39,18 +39,8 @@ export const isletme: Isletme = {
 }
 
 export const TELEFON_YER_TUTUCU = '000 000 00 00'
-export const FIYAT_YER_TUTUCU = '000 TL'
 
-/** Fiyatı arayüz metnine çevirir. Bilinmeyen fiyat yer tutucuya düşer. */
-export function fiyatMetni(fiyat: number | null): string {
-  return fiyat === null ? FIYAT_YER_TUTUCU : `${fiyat.toLocaleString('tr-TR')} TL`
-}
-
-/**
- * Yarım porsiyon ayrı fiyat taşımaz, tamın yarısıdır (sahibi, 13 Ağustos 2026).
- * Bugünkü tam fiyatların hepsi çift sayı; tekini `urunler_tamFiyatlarCiftSayidir`
- * yakalar, yani yuvarlama sessizce devreye giremez.
- */
-export function yarimFiyat(tam: number | null): number | null {
-  return tam === null ? null : Math.round(tam / 2)
+/** Fiyatı arayüz metnine çevirir: 1200 → "1.200 TL". */
+export function fiyatMetni(fiyat: number): string {
+  return `${fiyat.toLocaleString('tr-TR')} TL`
 }

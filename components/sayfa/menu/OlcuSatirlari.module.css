@@ -1,4 +1,4 @@
-/* Tam / Yarım / Dürüm satırları. Ölçü solda, fiyat sağda, aralarında ince çizgi. */
+/* Ölçü satırları. Ölçü solda, fiyat sağda, aralarında ince çizgi. */
 .liste {
   margin: 0;
   display: flex;
@@ -40,8 +40,8 @@
   color: var(--bakir);
 }
 
-/* Telefon: Tam fiyat adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), bu satır
-   görünmez olur; Yarım ve Dürüm tek ince satırda (sahibinin 2A kararı, 18 Ağustos 2026).
+/* Telefon: porsiyon fiyatı adın hizasında basılıyor (UrunKarti/ImzaPaneli `anaFiyat`), bu satır
+   görünmez olur; diğer ölçüler ince satırlarda (sahibinin 2A kararı, 18 Ağustos 2026).
    Rakamlar başlık fontunda ve tabular kalır (CLAUDE.md > Typography), etiket gövde fontunda. */
 @media (max-width: 1040px) {
   .liste {
@@ -57,8 +57,8 @@
     border-top: 0;
   }
 
-  /* `display:none` değil: fiyat adın satırında görünüyor ama terimi ("Tam") yalnız burada. */
-  .tamSatiri {
+  /* `display:none` değil: fiyat adın satırında görünüyor ama terimi ("Porsiyon") yalnız burada. */
+  .porsiyonSatiri {
     position: absolute;
     width: 1px;
     height: 1px;

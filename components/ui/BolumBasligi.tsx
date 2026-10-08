@@ -9,10 +9,9 @@ export type BaslikOlcegi = 'genis' | 'orta' | 'sayfa'
 
 /**
  * Notun tipografisi her yerde 400 15px/1.5, yalnız krem alfası değişiyor:
- * Ana Sayfa Ocakbasi .66 (Ana:173), Menü İkramlar .72 (Menu:203), Menü
- * İçecekler .64 (Menu:236).
+ * Ana Sayfa Ocakbasi .66 (Ana:173), Menü İkramlar .72 (Menu:203).
  */
-export type NotTonu = 'krem64' | 'krem66' | 'krem72'
+export type NotTonu = 'krem66' | 'krem72'
 
 type Props = {
   baslik: string

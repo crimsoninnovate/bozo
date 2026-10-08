@@ -3,8 +3,8 @@ import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { SITE_URL, yol, instagramUrl, haritaUrl, type RotaAnahtari } from './site.ts'
 import { sozluk, type Sozluk } from '../content/index.ts'
-import type { Dil, Urun } from '../content/types.ts'
-import { menuUrunler, ozelUrun } from '../content/urunler.ts'
+import type { Dil, Icecek, Urun } from '../content/types.ts'
+import { icecekler, menuUrunler, ozelUrun, urunOlculeri } from '../content/urunler.ts'
 
 /** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
 function saatMetni(saat: number): string {
@@ -31,10 +31,9 @@ const HAFTA_GUNLERI = [
  * bu, geceyi aşan çalışma saatinin schema.org yazımıdır ve Google bunu destekler.
  * İki ayrı aralığa bölünmez, `23:59` gibi bir yaklaşıklık yazılmaz.
  *
- * `priceRange` hâlâ yoktur. Ocak fiyatları 13 Ağustos 2026'da geldi (600-1000 TL) ama
- * içecek fiyatları gelmedi, yani menünün tamamını kapsayan bir aralık hâlâ yok.
- * Brifin `'$$'` örneği ayrıca bir para birimi sınıfı iddiası; kisitlar.md'nin
- * "no invented prices" kuralı gereği atlandı. İçecek fiyatı gelince açılabilir.
+ * `priceRange` yoktur. Menünün tamamı 8 Ekim 2026'dan beri fiyatlı (20-1.100 TL), ama
+ * aralığın yayımlanması sahibinin kararı (IYILESTIRMELER.md > fiyat listesi). Brifin
+ * `'$$'` örneği bir para birimi sınıfı iddiası; "no invented prices" gereği atlandı.
  *
  * `isletmeVerisi` varsayılan olarak tekil `isletme` kaynağını okur; parametre yalnız
  * testlerin bilinen-koordinat/telefon dallarını gerçek veriyi değiştirmeden
@@ -103,44 +102,42 @@ function urunAdi(s: Sozluk, id: string): string {
   return kayit.ad
 }
 
+function offer(name: string, fiyat: number): Offer {
+  return { '@type': 'Offer', name, price: String(fiyat), priceCurrency: 'TRY' }
+}
+
 function urunOfferleri(s: Sozluk, urun: Urun): Offer[] {
-  const offers: Offer[] = []
-  if (urun.tam !== null) {
-    offers.push({
-      '@type': 'Offer',
-      name: s.menu.ocakbasi.olculer.tam,
-      price: String(urun.tam),
-      priceCurrency: 'TRY',
-    })
-  }
-  if (urun.durum !== null) {
-    offers.push({
-      '@type': 'Offer',
-      name: s.menu.ocakbasi.olculer.durum,
-      price: String(urun.durum),
-      priceCurrency: 'TRY',
-    })
-  }
-  return offers
+  return urunOlculeri(urun).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat))
+}
+
+function icecekKalemi(s: Sozluk, icecek: Icecek): object {
+  const adlar: Record<string, string | undefined> = s.menu.icecekler.urunler
+  const olcuAdlari: Record<string, string | undefined> = s.menu.icecekler.olculer
+  const ad = adlar[icecek.id]
+  if (!ad) throw new Error(`menuJsonLd: "${icecek.id}" için içecek adı sözlükte yok`)
+  const offers = icecek.olculer.map(({ olcu, fiyat }) => {
+    const olcuAdi = olcuAdlari[olcu]
+    if (!olcuAdi) throw new Error(`menuJsonLd: "${olcu}" için içecek ölçüsü sözlükte yok`)
+    return offer(olcuAdi, fiyat)
+  })
+  return { '@type': 'MenuItem', name: ad, offers }
 }
 
 type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
 
 /**
- * schema.org `Menu` yapısal verisi: yalnız fiyatı olan kalemler (`menuUrunler`, `ozelUrun`);
- * ikram/içecek hiç görünmez (`KISITLAR.md`: uydurma fiyat yok). Yalnız `/menu`'de basılır
- * (`components/sayfa/Kabuk.tsx`), görünmeyen sayfada işaretlenmiş içerik olmasın diye.
+ * schema.org `Menu` yapısal verisi: fiyatı olan her kalem; ikramlar fiyatsız olduğu için
+ * görünmez. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`), görünmeyen sayfada
+ * işaretlenmiş içerik olmasın diye.
  */
 export function menuJsonLd(dil: Dil): object {
   const s = sozluk(dil)
 
-  const ocakbasiKalemleri = menuUrunler
-    .map((urun) => ({
-      '@type': 'MenuItem',
-      name: urunAdi(s, urun.id),
-      offers: urunOfferleri(s, urun),
-    }))
-    .filter((kalem) => kalem.offers.length > 0)
+  const ocakbasiKalemleri = menuUrunler.map((urun) => ({
+    '@type': 'MenuItem',
+    name: urunAdi(s, urun.id),
+    offers: urunOfferleri(s, urun),
+  }))
 
   return {
     '@context': 'https://schema.org',
@@ -163,6 +160,11 @@ export function menuJsonLd(dil: Dil): object {
             offers: [{ '@type': 'Offer', price: String(ozelUrun.fiyat), priceCurrency: 'TRY' }],
           },
         ],
+      },
+      {
+        '@type': 'MenuSection',
+        name: s.menu.icecekler.baslik,
+        hasMenuItem: icecekler.map((icecek) => icecekKalemi(s, icecek)),
       },
     ],
   }

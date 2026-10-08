@@ -14,8 +14,8 @@ type Adres = {
 }
 type Saat = { '@type': string; dayOfWeek: string[]; opens: string; closes: string }
 
-// İçecek fiyatı hâlâ gelmedi, yani menünün tamamını kapsayan aralık yok:
-// `priceRange` `Isletme`'de null kalan son gerçeğin yerine geçen tek eksik alan.
+// İçecek fiyatları 8 Ekim 2026'da geldi; aralığın yayımlanıp yayımlanmayacağı
+// sahibinin kararı (IYILESTIRMELER.md > fiyat listesi). Karar gelene kadar yazılmaz.
 test('restaurantJsonLd_gercekVeriyle_priceRangeYazmaz', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
   assert.equal('priceRange' in veri, false)
@@ -127,21 +127,29 @@ type Offer = { '@type': string; name?: string; price: string; priceCurrency: str
 type MenuItem = { '@type': string; name: string; offers: Offer[] }
 type MenuSection = { '@type': string; name: string; hasMenuItem: MenuItem[] }
 
-test('menuJsonLd_ocakbasiBolumu_altiKalemTasir', () => {
+test('menuJsonLd_ocakbasiBolumu_yediKalemTasir', () => {
   const veri = menuJsonLd('tr') as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
-  assert.equal(bolumler[0]?.hasMenuItem.length, 6)
+  assert.equal(bolumler[0]?.hasMenuItem.length, 7)
 })
 
-test('menuJsonLd_cigerKalemi_tamVeDurumOfferiTasir', () => {
+test('menuJsonLd_cigerKalemi_dortOlcununOfferiniTasir', () => {
   const veri = menuJsonLd('tr') as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
   const ciger = bolumler[0]?.hasMenuItem.find((k) => k.name === 'Ciğer')
   assert.ok(ciger)
   assert.deepEqual(ciger.offers, [
-    { '@type': 'Offer', name: 'Tam', price: '800', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Dürüm', price: '500', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Porsiyon', price: '690', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: '1,5 Porsiyon', price: '900', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Dürüm', price: '690', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: '1,5 Dürüm', price: '900', priceCurrency: 'TRY' },
   ])
+})
+
+test('menuJsonLd_karisikKalemi_yalnizPorsiyonOfferiTasir', () => {
+  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozo Karışık')
+  assert.deepEqual(karisik?.offers, [{ '@type': 'Offer', name: 'Porsiyon', price: '600', priceCurrency: 'TRY' }])
 })
 
 test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
@@ -150,7 +158,7 @@ test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
   assert.equal(bolumler[1]?.name, 'Bozo Special')
   assert.equal(bolumler[1]?.hasMenuItem.length, 1)
   assert.deepEqual(bolumler[1]?.hasMenuItem[0]?.offers, [
-    { '@type': 'Offer', price: '1000', priceCurrency: 'TRY' },
+    { '@type': 'Offer', price: '1100', priceCurrency: 'TRY' },
   ])
 })
 
@@ -163,11 +171,20 @@ test('menuJsonLd_urunAdlari_dileGoreDegisir', () => {
   assert.equal(enAd, 'Urfa Liver Kebab (Ciğer)')
 })
 
-test('menuJsonLd_ikramVeIcecekAdlari_hicGecmez', () => {
+test('menuJsonLd_ikramAdlari_hicGecmez', () => {
   const metin = JSON.stringify(menuJsonLd('tr'))
   assert.equal(metin.includes('Lebeni'), false)
   assert.equal(metin.includes('Bostana'), false)
-  assert.equal(metin.includes('Ayran'), false)
+})
+
+test('menuJsonLd_icecekBolumu_herOlcuyuFiyatiylaTasir', () => {
+  const bolumler = (menuJsonLd('tr') as Record<string, unknown>).hasMenuSection as MenuSection[]
+  const icecek = bolumler.find((b) => b.name === 'İçecekler')
+  assert.equal(icecek?.hasMenuItem.length, 6)
+  assert.deepEqual(icecek?.hasMenuItem.find((k) => k.name === 'Su')?.offers, [
+    { '@type': 'Offer', name: 'Pet', price: '20', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Cam', price: '40', priceCurrency: 'TRY' },
+  ])
 })
 
 test('menuJsonLd_temelAlanlar_dogruBasar', () => {

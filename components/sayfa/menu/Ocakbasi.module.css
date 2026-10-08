@@ -126,18 +126,6 @@
   color: var(--krem);
 }
 
-.ozelAciklama {
-  margin: 0;
-  font: 400 var(--ol-govde-kucuk)/1.6 var(--font-govde);
-  color: var(--krem-76);
-}
-
-.olcuNotu {
-  margin: 16px 0 0;
-  font: 400 14px/1.5 var(--font-govde);
-  color: var(--krem-58);
-}
-
 .ozelFiyat {
   font: 400 var(--ol-imza-fiyat)/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
@@ -255,17 +243,8 @@
     font-size: 22px;
   }
 
-  .ozelAciklama {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
   .ozelFiyat {
     flex: none;
     font-size: 20px;
-  }
-
-  .olcuNotu {
-    margin-top: 12px;
   }
 }

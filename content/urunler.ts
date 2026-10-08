@@ -1,31 +1,55 @@
-import type { Icecek, IkramGrubu, Ikram, OzelUrun, Urun } from './types.ts'
+import type { Icecek, IkramGrubu, Ikram, Olcu, OzelUrun, Urun } from './types.ts'
 
 /**
  * Ürün adları ve açıklamaları sözlükte yaşar; burada yalnızca kimlik, fiyat ve
  * fotoğraf bağı vardır. Böylece EN menü aynı listeyi kullanır.
  *
- * Fiyatlar sahibinden 13 Ağustos 2026'da geldi, kuruşsuz TL. Yarım porsiyon
- * ayrı kalem değil, tamın yarısı: `yarimFiyat` türetir.
+ * Fiyatlar ve sıra sahibinin 8 Ekim 2026 fiyat listesinden, kuruşsuz TL. Yarım
+ * porsiyon o listeyle kalktı; listede olmayan ölçü (kuşbaşı dürümü gibi) yazılmaz.
  */
-export const anaUrunler: Urun[] = [
-  { id: 'ciger', tam: 800, durum: 500, fotoId: 'tane-yakin-cekim' },
-  { id: 'dalak', tam: 600, durum: 400, fotoId: 'dalak' },
-  { id: 'yurek', tam: 700, durum: 450, fotoId: 'yurek' },
-  { id: 'terbiyesiz-tavuk-sis', tam: 600, durum: 400, fotoId: 'tavuk-sis' },
-  { id: 'terbiyeli-kusbasi', tam: 850, durum: 550, fotoId: 'terbiyeli-kusbasi' },
+export const menuUrunler: Urun[] = [
+  {
+    id: 'ciger',
+    fiyatlar: { porsiyon: 690, bucukPorsiyon: 900, durum: 690, bucukDurum: 900 },
+    fotoId: 'tane-yakin-cekim',
+  },
+  { id: 'dalak', fiyatlar: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 }, fotoId: 'dalak' },
+  { id: 'yurek', fiyatlar: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 }, fotoId: 'yurek' },
+  {
+    id: 'terbiyeli-tavuk-sis',
+    fiyatlar: { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    fotoId: 'terbiyeli-tavuk-sis',
+  },
+  {
+    id: 'terbiyesiz-tavuk-sis',
+    fiyatlar: { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    fotoId: 'tavuk-sis',
+  },
+  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850, bucukPorsiyon: 1200 }, fotoId: 'terbiyeli-kusbasi' },
+  { id: 'bozo-karisik', fiyatlar: { porsiyon: 600 }, fotoId: 'bozo-karisik' },
 ]
 
 /**
- * Menü sayfası ayrıca karışığı taşır. Ana sayfa beş ana kalemde kalır: karışık
- * ve special kombinasyondur, ürün değil (sahibinin kararı, 13 Ağustos 2026).
+ * Ana sayfa beş ana kalemde kalır: karışık ve special kombinasyondur (sahibinin
+ * kararı, 13 Ağustos 2026). Terbiyeli tavuk şiş 8 Ekim 2026'da açıklamasız geldi;
+ * ana sayfa her kalemi açıklamasıyla bastığı için yalnız menüde.
  */
-export const menuUrunler: Urun[] = [
-  ...anaUrunler,
-  { id: 'bozo-karisik', tam: 800, durum: 500, fotoId: 'bozo-karisik' },
-]
+const ANA_SAYFA_DISI = new Set(['terbiyeli-tavuk-sis', 'bozo-karisik'])
+export const anaUrunler: Urun[] = menuUrunler.filter((urun) => !ANA_SAYFA_DISI.has(urun.id))
 
-/** On şiş, her üründen iki şiş. Yarımı ve dürümü yok, o yüzden ayrı tip. */
-export const ozelUrun: OzelUrun = { id: 'bozo-special', fiyat: 1000 }
+/** Ölçülerin menüdeki sırası, fiyat listesinin sütun sırası. */
+const OLCU_SIRASI: Olcu[] = ['porsiyon', 'bucukPorsiyon', 'durum', 'bucukDurum']
+
+/** Ürünün fiyatı olan ölçüleri, menüdeki sırayla. */
+export function urunOlculeri(urun: Urun): { olcu: Olcu; fiyat: number }[] {
+  return OLCU_SIRASI.flatMap((olcu) => {
+    const fiyat = urun.fiyatlar[olcu]
+    return fiyat === undefined ? [] : [{ olcu, fiyat }]
+  })
+}
+
+/** Fiyat listesinde "250 GR", tek ölçü. */
+export const ozelUrun: OzelUrun = { id: 'bozo-special', fiyat: 1100 }
 
 /** İkramlarda fiyat alanı yoktur; arayüzde "ikram" ibaresi basılır. */
 export const ikramlar: Ikram[] = [
@@ -45,20 +69,22 @@ export const ikramGruplari: IkramGrubu[] = [
 ]
 
 /**
- * Sahibinin içecek listesi (13 Ağustos 2026). Fiyat gelmedi, o yüzden kalemler
- * fiyat alanı taşımaz: dokuz satır "000 TL" basmaktansa sunum ölçüsü basılır.
- * Sıra sahibin listesi değil, rafın kendi düzeni: gazlılar, meyveliler, sonra
- * ocağın yanına giden içecekler.
+ * Sahibinin 8 Ekim 2026 fiyat listesi; listede olmayan içecekler menüden kalktı.
+ * Sıra listenin değil, rafın düzeni: gazlılar, meyveli, sonra ocağın yanına
+ * giden içecekler.
  */
 export const icecekler: Icecek[] = [
-  { id: 'kola', olculer: ['sise250', 'kutu330'] },
-  { id: 'kolaZero', olculer: ['sise250', 'kutu330'] },
-  { id: 'sprite', olculer: ['sise', 'kutu'] },
-  { id: 'fanta', olculer: ['sise', 'kutu'] },
-  { id: 'fuseTea', olculer: ['kutu330'] },
-  { id: 'cappy', olculer: ['kutu330'] },
-  { id: 'ayran', olculer: ['kapali', 'acikYayik'] },
-  { id: 'salgam', olculer: [] },
-  { id: 'su', olculer: [] },
-  { id: 'cay', olculer: [] },
+  { id: 'kola', olculer: [{ olcu: 'kutu', fiyat: 40 }, { olcu: 'sise', fiyat: 58 }] },
+  { id: 'kolaZero', olculer: [{ olcu: 'kutu', fiyat: 40 }, { olcu: 'sise', fiyat: 58 }] },
+  { id: 'fanta', olculer: [{ olcu: 'kutu', fiyat: 40 }] },
+  { id: 'cappy', olculer: [{ olcu: 'kutu', fiyat: 40 }] },
+  {
+    id: 'ayran',
+    olculer: [
+      { olcu: 'buyuk', fiyat: 27 },
+      { olcu: 'kucuk', fiyat: 22 },
+      { olcu: 'acikYayik', fiyat: 35 },
+    ],
+  },
+  { id: 'su', olculer: [{ olcu: 'pet', fiyat: 20 }, { olcu: 'cam', fiyat: 40 }] },
 ]
