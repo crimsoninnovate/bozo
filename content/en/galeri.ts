@@ -8,5 +8,5 @@
 export const galeri = {
   baslik: 'Gallery',
   altMetin: 'Seventeen frames the site is waiting for',
-  aiNotu: 'No AI generated food imagery is used. Slots stay dark until the shoot.',
+  aiNotu: 'No AI-generated food imagery is used. Slots stay dark until the shoot.',
 }

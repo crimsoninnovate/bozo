@@ -63,8 +63,8 @@ Son güncelleme: 8 Ekim 2026
    - Kök neden netleşmeden hiçbir CSS/JS değişikliği yapılmasın; bu madde yalnızca teşhis,
      düzeltme ayrı bir karar.
 
-8. **İngilizce tur** sıradaki iş. Girdisi `IYILESTIRMELER.md` > "8 Ekim 2026: İngilizce metin
-   denetimi": altı kesin hata, geri kalanı sahibinin/yazarın yargısı.
+8. **İngilizce tur 8 Ekim 2026'da uygulandı** (`IYILESTIRMELER.md` > "İngilizce tur, uygulandı").
+   Tavuk şişlerin İngilizce adları Terbiyeli Tavuk Şiş açıklamasını bekliyor (madde 1).
 
 ## Son turda ne değişti (24 Ağustos, SEO/AEO turu)
 

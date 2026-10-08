@@ -29,7 +29,7 @@ export const hikaye = {
       'I gave this place my own name because I wanted to stand behind the work ' +
         'myself. When you come you will not find me in a photograph on the wall ' +
         'but at the fire. The skewers are prepared every day and the fire is ' +
-        'renewed every fifteen minutes.',
+        'refreshed every fifteen minutes.',
     ],
   },
   lakap: {
@@ -68,7 +68,7 @@ export const hikaye = {
     baslik: 'The table comes set',
     metin:
       'Lebeni and bostana are on the house; you do not need to ask. ' +
-      'Our place is alcohol-free, the fire is the show.',
+      'Our place is alcohol-free; the fire is the show.',
     ctaKonum: 'Location and Hours',
   },
 }

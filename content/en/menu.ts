@@ -25,7 +25,7 @@ export const menu = {
       yurek: {
         ad: 'Heart (Yürek)',
         aciklama:
-          'A classic of the Urfa offal line. Firm textured; the cut that holds its bite.',
+          'A classic of the Urfa offal line. Firm-textured; the cut that holds its bite.',
       },
       'terbiyeli-tavuk-sis': { ad: 'Marinated Chicken Skewer (Terbiyeli Tavuk Şiş)' },
       'terbiyesiz-tavuk-sis': {
@@ -49,7 +49,7 @@ export const menu = {
     urunler: {
       lebeni: {
         ad: 'Lebeni Soup',
-        aciklama: 'Yoghurt and thyme, no chickpeas. Served before the fire.',
+        aciklama: 'Yoghurt and thyme, no chickpeas. Served before the skewers.',
       },
       bostana: {
         ad: 'Bostana',
@@ -62,7 +62,7 @@ export const menu = {
       nane: 'Fresh Mint',
       maydanoz: 'Parsley',
       sumakli: 'Sumac Onion',
-      kozdeSogan: 'Ember Roasted Onion',
+      kozdeSogan: 'Ember-Roasted Onion',
       domates: 'Tomato',
       biber: 'Hot and Mild Peppers',
     },
@@ -86,6 +86,6 @@ export const menu = {
       ayran: 'Ayran',
       su: 'Water',
     },
-    qrNotu: 'The same list runs behind the table QR',
+    qrNotu: 'The QR menu on the table shows the same list',
   },
 }

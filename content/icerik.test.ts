@@ -470,3 +470,10 @@ test('sozluk_kalkmisYarimPorsiyonaDegimez', () => {
   assert.deepEqual(kirli, [])
 })
 
+/** Saat aralığı kuralı: `10:00 - 05:00`. "between 05:00 and 10:00" İngilizcede üç yere sızmıştı. */
+test('sozluk_saatAraligiTireyleYazilir', () => {
+  const kirli = [...metinler(tr), ...metinler(en)].filter(([, m]) =>
+    /\d{2}:\d{2}\s+(and|to|ile|ila)\s+\d{2}:\d{2}/i.test(m),
+  )
+  assert.deepEqual(kirli, [])
+})

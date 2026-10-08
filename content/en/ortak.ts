@@ -72,7 +72,7 @@ export const ortak = {
     kapali: 'We are closed, opening at 10:00',
     kapaliKisa: 'We are closed',
     acikAlt: 'The fire is lit until 05:00',
-    kapaliAlt: 'Closed only between 05:00 and 10:00',
+    kapaliAlt: 'Closed only 05:00 - 10:00',
     geceSerit: 'We are open through the night, the fire is lit',
   },
   satirlar: {
@@ -85,17 +85,17 @@ export const ortak = {
     saatlerUzun: 'Every day from 10:00 until 05:00 the next morning',
     saatAraligi: '10:00 - 05:00',
     haftaAraligi: 'Monday to Sunday',
-    kapaliAralik: 'Closed only between 05:00 and 10:00',
+    kapaliAralik: 'Closed only 05:00 - 10:00',
   },
   /** Same order as lib/saat.ts gunIndeksi: 0 = Sunday. */
   gunler: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   bugun: 'Today',
-  alkolsuz: 'Our place is alcohol-free. The table and the fire are on us, come again.',
+  alkolsuz: 'Our place is alcohol-free. We look after the table and the fire. Come again.',
   alkolsuzKisa: 'Our place is alcohol-free',
   ikramRozeti: 'on the house',
   telif: '© 2026 Ciğerci Bozo',
   footer: {
-    tanim: 'Urfa style liver over oak embers.',
+    tanim: 'Urfa-style liver over oak embers.',
     adresBaslik: 'Address',
     saatlerBaslik: 'Hours',
     iletisimBaslik: 'Contact',
@@ -103,14 +103,14 @@ export const ortak = {
   /**
    * Titles/descriptions expanded for SEO (24 Aug 2026, spec:
    * docs/specs/2026-08-24-seo-aeo-design.md), built from text already live on the site
-   * (`footer.tanim` = "Urfa style liver over oak embers." for most fields). `galeri`'s own
+   * (`footer.tanim` = "Urfa-style liver over oak embers." for most fields). `galeri`'s own
    * source is documented in the Turkish file's comment above its entry.
    */
   sayfaMeta: {
     ana: {
-      baslik: 'Ciğerci Bozo · Urfa Style Liver, Kyrenia',
+      baslik: 'Ciğerci Bozo · Urfa-Style Liver, Kyrenia',
       aciklama:
-        'Urfa style liver over oak embers. Kyrenia, Naci Talat Street. Every day from 10:00 ' +
+        'Urfa-style liver over oak embers. Kyrenia, Naci Talat Street. Every day from 10:00 ' +
         'until 05:00 the next morning. Our place is alcohol-free.',
     },
     menu: {
@@ -135,8 +135,13 @@ export const ortak = {
       baslik: 'Location · Ciğerci Bozo, Naci Talat Street, Kyrenia',
       aciklama:
         'Naci Talat Street, Kyrenia. Every day from 10:00 until 05:00 the next morning. ' +
-        'Closed only between 05:00 and 10:00.',
+        'Closed only 05:00 - 10:00.',
     },
-    gizlilik: { baslik: 'Privacy · Ciğerci Bozo', aciklama: 'How this site handles data.' },
+    gizlilik: {
+      baslik: 'Privacy · Ciğerci Bozo',
+      aciklama:
+        'What data the Ciğerci Bozo website processes, why, and on what legal basis. ' +
+        'There is no form on the site.',
+    },
   },
 }

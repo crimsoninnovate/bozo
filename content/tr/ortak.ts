@@ -151,6 +151,11 @@ export const ortak = {
         "Naci Talat Caddesi, Girne. Her gün 10:00'dan ertesi sabah 05:00'e kadar açığız. " +
         'Kapanış gece yarısını aşar, ertesi sabaha sarkar.',
     },
-    gizlilik: { baslik: 'Gizlilik · Ciğerci Bozo', aciklama: 'Bu sitenin veri yaklaşımı.' },
+    gizlilik: {
+      baslik: 'Gizlilik · Ciğerci Bozo',
+      aciklama:
+        'Ciğerci Bozo web sitesinde hangi verinin, neden ve hangi hukuki dayanakla işlendiği. ' +
+        'Sitede form yoktur.',
+    },
   },
 }

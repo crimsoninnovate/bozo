@@ -8,7 +8,7 @@ export const hata = {
   // "grill" ocak kilidini ihlal ediyordu; sitenin EN karşılığı "the fire".
   baslik: 'This page is not on the fire.',
   metin:
-    'We could not find the page you were looking for. The fire is still lit; pick up from below.',
+    'We could not find the page you were looking for. The fire is still lit; carry on from the links below.',
   anaSayfa: 'Home',
   menu: 'See the Menu',
 }

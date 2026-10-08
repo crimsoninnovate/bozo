@@ -2105,3 +2105,37 @@ tersine dönmüştü (Şalgam bu turda menüden kalktı); Terbiyeli/Terbiyesiz k
 kayboluyor ve "Chicken Skewer (Terbiyesiz...)" açıklaması "with an Urfa marinade" diyor; hikaye
 etiketleri ("The name", "The cut") cümle düzeninde; virgüllü bağlama (comma splice) beş yerde;
 yazım tutarlı biçimde İngiliz İngilizcesi (`en_GB`).
+
+## 8 Ekim 2026: İngilizce tur, uygulandı
+
+Yukarıdaki denetimin uygulaması. Sahibine dört soru soruldu; cevaplar "sahibi" diye geçiyor.
+
+**Ana sayfa fiyat cümlesi kalktı (canlıdaki hata).** "Her üründe tam, yarım ve dürüm var. Yarım
+porsiyon tam fiyatın yarısıdır." fiyat listesi turunda gözden kaçmış ve yayına çıkmıştı. Sahibi
+kaldırılmasını seçti; blokta başlık ve iki buton kaldı. `sozluk_kalkmisYarimPorsiyonaDegimez`
+iki dilde "yarım/half" geçen her metni yakalıyor.
+
+| Nerede | Önce | Şimdi | Neden |
+|---|---|---|---|
+| `en/menu.ts` lebeni | Served before the fire. | Served before the skewers. | TR "şişlerden önce" |
+| `en/ortak.ts` x3, `en/konum.ts` | between 05:00 and 10:00 / 05:00 to 10:00 | 05:00 - 10:00 | Saat yazım kuralı; `sozluk_saatAraligiTireyleYazilir` |
+| `en/gizlilik.ts` | KKTC Personal Data Protection Law | TRNC ... | İngilizcede Türkçe kısaltma |
+| EN, beş yer | Urfa style liver, Ember Roasted, AI generated, Firm textured | kısa çizgiyle | Birleşik sıfat |
+| `en/ortak.ts` alkolsuz | The table and the fire are on us, come again. | We look after the table and the fire. Come again. | "On us" bedava demek (sahibi onayladı) |
+| `sayfaMeta.gizlilik`, iki dil | 26-27 karakter | sayfanın kendi giriş cümlesi | Arama sonucunda boş açıklama |
+| `en/hikaye.ts` | renewed every fifteen minutes | refreshed ... | Ana sayfayla aynı fiil; "15 dakikada bir" sahibince doğrulandı |
+| `en/hikaye.ts` | alcohol-free, the fire is the show | ...; the fire... | Virgüllü bağlama, TR noktalı virgül |
+| `en/ana.ts` tane rayı etiketi | Bead measure: ... | Per skewer: ... | Ekran okuyucu etiketi; "bead" anlamsız |
+| `en/ana.ts` servis etiketi | {yuzde}% served | service {yuzde}% | Yemeğin yüzdesi gibi okunuyordu; TR "servis %" |
+| `en/menu.ts` QR notu | The same list runs behind the table QR | The QR menu on the table shows the same list | TR'nin anlamı |
+| `en/hata.ts` | pick up from below | carry on from the links below | Altta iki bağlantı var |
+| `en/gizlilik.ts` amaç | The purpose is single and limited to this | There is one purpose and processing stays within it | Doğal İngilizce, anlam aynı |
+
+**Bilinçli bırakılanlar.** Denetimin "piece" bulgusu geri çekildi: "parça" yasağı Türkçe kilit,
+İngilizcede "each piece" tek bir tanenin doğal adı. Hikaye başlığı "The name" bir sayfa başlığı
+(h2), cümle düzeni doğru. Ülke adı: düzyazıda "Northern Cyprus", dar alt bilgide "TRNC";
+İngilizcenin olağan kısaltma kullanımı. "Bozo is not a brand name, it is the man himself"
+handoff başlığı, üslup kararı olarak kaldı. Tavuk şişlerin İngilizce adları değişmedi: sahibi
+kararı bıraktı, iki ürünün gerçek farkı bilinmeden ada olgu eklenmez; Terbiyeli Tavuk Şiş
+açıklaması gelince ikisi birlikte hizalanır. 404 sayfasının Türkçe meta açıklaması statik
+export'un tek `404.html`'inden geliyor, sayfa `noindex`; bilinen sınır.

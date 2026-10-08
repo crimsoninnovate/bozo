@@ -14,7 +14,7 @@ export const konum = {
   },
   saatler: {
     baslik: 'Hours',
-    not: 'Closing runs past midnight into the next morning. The only closed window is 05:00 to 10:00.',
+    not: 'Closing runs past midnight into the next morning. The only closed window is 05:00 - 10:00.',
   },
   iletisim: {
     baslik: 'Contact',

@@ -9,8 +9,8 @@ export const ana = {
     govde:
       'Four of liver, two of tail fat. Bozo threads every skewer himself, cuts each ' +
       'piece to the size of a backgammon die, and the fire is refreshed every fifteen minutes.',
-    taneOlcusuEtiketi: 'Bead measure: four of liver, two of tail fat',
-    servisEtiketi: '{yuzde}% served',
+    taneOlcusuEtiketi: 'Per skewer: four of liver, two of tail fat',
+    servisEtiketi: 'service {yuzde}%',
     scrollIpucu: 'The proof is in the cut',
     saatEtiketi: 'Kyrenia · right now',
     ocakSoner: 'The fire goes out at 05:00.',
@@ -50,7 +50,7 @@ export const ana = {
       },
       yurek: {
         ad: 'Heart (Yürek)',
-        aciklama: 'Firm textured; the cut that holds its bite.',
+        aciklama: 'Firm-textured; the cut that holds its bite.',
       },
       'terbiyeli-kusbasi': {
         ad: 'Marinated Cubes (Terbiyeli Kuşbaşı)',

@@ -1,5 +1,5 @@
 /**
- * Information notice, written to KKTC Personal Data Protection Law 89/2007
+ * Information notice, written to TRNC Personal Data Protection Law 89/2007
  * Article 13 and its regulation on fulfilling the information obligation.
  * The Turkish file carries the full reasoning; the mandatory content list is
  * Article 4(2) of that regulation. 24 August 2026 (round 2): added the right to
@@ -22,8 +22,8 @@ export const gizlilik = {
   amacBaslik: 'What is processed, and what for',
   amacMetni:
     'Visit measurement only: which page was opened, how long the visit lasted, the ' +
-    'referring address, device type and country-level location. The purpose is ' +
-    'single and limited to this: seeing which pages of the site are useful. No ' +
+    'referring address, device type and country-level location. There is one ' +
+    'purpose and processing stays within it: seeing which pages of the site are useful. No ' +
     'advertising, no profiling, no sale of data.',
 
   yontemBaslik: 'How it is collected',
@@ -74,6 +74,6 @@ export const gizlilik = {
   soruBaslik: 'Requests',
   soruMetni: 'You can send requests about these rights to this address:',
   guncellemeMetni:
-    'Last updated: 24 August 2026. Basis: KKTC Personal Data Protection Law ' +
+    'Last updated: 24 August 2026. Basis: TRNC Personal Data Protection Law ' +
     '(89/2007) and the regulation on the information obligation.',
 }
