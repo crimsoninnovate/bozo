@@ -50,6 +50,7 @@ Boyutlar 2x (retina) çıktı boyutudur; ekranda yarısı kadar görünür.
 | 11 | **Fiş kâğıdı**: hafif buruşuk, yırtık alt kenar | 360×400 şeffaf | Yazısız; ürün simgelerini kod koyar |
 | 12 | **Yayık**: ceviz fıçı, pirinç çemberli | 220×300 şeffaf | |
 | 13 | **Açılış sahnesi**: üç katman (arka duvar, orta ocak, ön köz ve duman) | 3 × 1170×2532, ön ve orta şeffaf | Kamera yaklaşımı ve parallax bunlarla yapılır |
+| 15 | **Ayran sürahisi ve bardak** (sade modda geri dönerse): bakır sürahi eğik ve dik, cam bardak boş ve dolu köpüklü, beyaz döküş akışı | 2 × 256×256 + 1 × 128×256 şeffaf | Ayranın ayran olduğu ilk bakışta anlaşılmalı: kalın beyaz sıvı, köpük, bakır sürahi |
 | 14 | **Duman ve kıvılcım dokuları** | 4 × 256×256 şeffaf | Beyaz duman, turuncu kıvılcım, yumuşak kenar |
 
 Her görsel yazısız olmalı. Logo ve rozet vektör kalır, yapay zekâya çizdirilmez.

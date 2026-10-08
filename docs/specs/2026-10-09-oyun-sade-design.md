@@ -134,3 +134,10 @@ Aynı simülasyon deseni korunur (tamsayı, tik, deterministik, `simule` ve `ile
 
 Sıralama, ödül, katılım, paylaşım kartı, raster varlıklar (brief hazır; sade mod görsellerle
 bağımsız), yeni oyun konsepti (sahibi bu turda mevcut konseptin sadeleşmesini seçti).
+
+**Ayran (ilk sürümde yok).** Sahibi 9 Ekim'de ayranın "ayran olduğunun, dökülüp konduğunun
+tasarımsal anlaşılmadığını" söyledi; sade mod yayık, dolum ve maşrapayı kaldırır. Geri gelirse
+**tek dokunuşlu içecek** olarak: rafta 4. ürün (sürahi), dokununca sürahi eğilir, beyaz akış
+bardağa dolar, köpük çıkar (~1,5 sn, zamanlama yok) ve bardak doğrudan ayran isteyen misafire
+gider, ocak yuvası tutmaz. Net okunması için sürahi ve bardak gerçekçi varlık olarak üretilir
+(`docs/surec/OYUN-VARLIK-BRIEFI.md` madde 15).
