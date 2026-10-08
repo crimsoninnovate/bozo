@@ -2292,6 +2292,8 @@ ayrı bir kod okuması ve ekran görüntüleriyle görsel tur. Ham çıktılar `
 | React alt bilgi kelime markası için her sayfada `preload` basıyordu | `loading="lazy"` | Preload yok; ana sayfada kaydırmadan inmiyor |
 | JSON-LD `<` kaçışsız | `jsonLdMetni()`, Next JSON-LD rehberindeki kaçış | 5 sayfada 11 blok anlamca aynı |
 | Ölü kod | Buton/Cip/FotoYuvasi/TaneDizilimi varyantları, 12 token, `geceSerit`, `KAPSAM_METRE` ve dört küçük kalıntı | 17 sayfanın render HTML'i aynı, CSS 109,0 → 106,4 KB |
+| Galeri LCP, eager'dan sonra (`d72d884`, deploy edilmedi) | `tane-yakin-cekim.webp` aynı 800x993 kare, `cwebp -q 70 -m 6 -sharp_yuv`. Mobil varyant elendi: dosya zaten DPR 2 yuva ölçüsünde, 390'daki karo 342x253, 3x'te 1026px istiyor. Aynı ayarla q80 yalnız %4 küçültüyor, kare yoğun dokulu | 165 → 126 KB, PSNR 35,3 dB, 2x büyütmede fark görülmüyor. Yerel kısıtlı medyan 4964 → 4180 ms, ana sayfa aynı (LCP orada metin). Canlı ölçüm deploy'dan sonra |
+| `FotoYuvasi` `sizes` propu ve iki çağrı değeri (`d521116`) | Silindi: `images.unoptimized` altında Next `sizes`'ı `undefined` yapıyor (`get-img-props.js:123`), srcset hiç basılmadı | 15 HTML, RSC yükündeki o dizgi dışında aynı; JS chunk'ları aynı |
 
 Yukarıdaki "Sekiz çağıransız token silinmedi" kararı kısmen geri alındı: `--komur-90`
 "paket şeridiyle birlikte döner" diye tutulmuştu, ama şerit sahibinin geri getirilmeyecekler
@@ -2327,6 +2329,8 @@ HSTS (bir yıl, `includeSubDomains` yok), `X-Content-Type-Options`, `Referrer-Po
 `_next/static` kaynaktan bir yıl `immutable` (kenardaki eski kopyalar 4 saatte tazelenir).
 Deploy'dan önce sunucuda geçici bir alt klasörde denendi: 500 yok. `x-powered-by: PleskLin`
 `Header unset`'e direnmedi, yani Apache dışında ekleniyor: Plesk ayarı, ayrıca karar.
+Kaynağı nginx: `nginxDomainVirtualHost.php:251` sunucu düzeyindeki `xPoweredByHeader`'a
+bakıyor, alan adı başına ayar yok. Kapatmak arc'taki 26 vhost'un config'ini yeniden üretir.
 
 ### Temiz çıkanlar
 

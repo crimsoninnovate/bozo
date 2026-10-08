@@ -48,8 +48,9 @@ Son güncelleme: 8 Ekim 2026
 0. **Genel kontrolün açık soruları** (`IYILESTIRMELER.md` > "tam kapsam genel kontrol" >
    Sahibine):
    "Bozo's Table", "Beş ürün" çelişkisi, galeri sayfası ve boş plakalar, onayı geri alma,
-   EN "piece", tanımsız `--krem-84`. Kullanıcıya: galeri görselini küçültmek (LCP),
-   `X-Powered-By` için Plesk ayarı.
+   EN "piece", tanımsız `--krem-84`. Galeri görseli q70'e indi (`d72d884`, 165 → 126 KB) ve
+   ölü `sizes` propu silindi (`d521116`): ikisi commit'li, **deploy onayı bekliyor**.
+   Kullanıcıya: `X-Powered-By` sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler.
 1. **Fiyat listesinden kalan üç soru sahibinde** (`IYILESTIRMELER.md` > "8 Ekim 2026: fiyat
    listesi"): dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı, Terbiyeli Tavuk
    Şiş açıklaması. İçecek fiyatları dahil bütün fiyatlar 8 Ekim'de geldi.
