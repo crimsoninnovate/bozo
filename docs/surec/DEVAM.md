@@ -8,11 +8,14 @@ Son güncelleme: 8 Ekim 2026
 
 ## Durum
 
-- **Açılış oyunu, plan 1 bitti: oynanabilir prototip `/oyun/`** (spec
-  `docs/specs/2026-10-08-oyun-design.md`, plan `docs/plans/2026-10-08-oyun-plan-1-prototip.md`).
-  Gri kutular, sunucusuz, noindex, menüde yok; **yayında değil**. Sırada kaba prototip testi
-  (spec §16: mekanda 5-10 misafir) ve plan 2 (görsel dil, animasyon, Motion). Sahibine açık
-  kararlar spec §19'da.
+- **Açılış oyunu, plan 2 bitti: görsel ve ses dili `/oyun/`** (spec
+  `docs/specs/2026-10-08-oyun-design.md` §12-§13 ve §15; plan
+  `docs/plans/2026-10-08-oyun-plan-2-gorsel-dil.md`). Kor zemin üstünde cam panel, elle çizilmiş
+  SVG semboller, WAAPI tepkiler, Motion ekran geçişleri, Web Audio ses (varsayılan kapalı),
+  klavye kısayolları ve canlı bölge. Simülasyon değişmedi (altın kayıtlar aynı). Sunucusuz,
+  noindex, menüde yok; **yayında değil**. Ölçüldü: CPU 4x 390 px'te p95 17,5 ms, düşen kare 0;
+  320/390/1440 taşma yok, axe 0. Sırada kaba prototip testi (spec §16) ve plan 3 (skor
+  sunucusu). Sahibine açık kararlar spec §19'da.
 - **8 Ekim 2026 turu deploy edildi** (`2d278d6` Maps Place ID, `def4362` ciğer 12 şiş,
   `04c3284` fiyat listesi; `IYILESTIRMELER.md` > 8 Ekim 2026). `plesk repair fs` 0 hata,
   `--checksum` kuru koşuda 0 içerik/boyut farkı (yalnız beklenen `og` sahiplik gürültüsü).

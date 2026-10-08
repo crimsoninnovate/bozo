@@ -38,23 +38,31 @@ npm run preview    # serve the out/ export locally
   the palette, so `styles/palet.test.ts` rejects it.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
   business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
-- `lib/` is eleven small modules, each with a `.test.ts` beside it where behaviour is
-  load-bearing: `saat` (the one business rule), `site` (routes and every outbound URL),
-  `kabuk` (the shell parts that change per route: top-bar variant, anchors, drawer links),
-  `metadata` (page metadata and the social card), `jsonld`, `onay` (consent storage),
-  `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame), `hareket`
-  (reduced-motion preference and rAF throttling), `metin` (widow prevention).
+- `lib/` is eleven small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
+  where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
+  outbound URL), `kabuk` (the shell parts that change per route: top-bar variant, anchors,
+  drawer links), `metadata` (page metadata and the social card), `jsonld`, `onay` (consent
+  storage), `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame),
+  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention).
+  `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
+  integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
+  display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,
+  `ses`) that never feed values back into it.
 - **Every third-party runtime request sits behind consent.** `components/layout/CerezOnayi.tsx`
   is the gate and `Olcumleme` (GA4) is only rendered once the stored answer is `kabul`; KKTC law
   89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
   that loads when the page opens is the same cross-border transfer, so it needs the same gate,
   and behind a gate most visitors never see it. Prefer a build-time equivalent: both map plates
   are OpenStreetMap geometry baked into SVG (`components/sayfa/haritaYollari.ts`, ODbL
-  attribution required on every surface that shows it) for exactly this reason.
+  attribution required on every surface that shows it) for exactly this reason. The game
+  routes (`/oyun`, `/en/oyun`) are first-party and make no outbound request, so `CerezOnayi`
+  renders nothing there (`onayGerekirMi` in `lib/onay.ts`): no banner, no GA.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
-- `components/` has five buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
-  `layout/` shell, `saat/` opening hours, `ember/` decorative scene. Each component is `X.tsx`
-  next to `X.module.css`. Imports go through the `@/*` alias, not relative paths.
+- `components/` has six buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
+  `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen
+  (DOM + hand-drawn SVG, per-frame values written by a rAF loop, instant reactions in WAAPI,
+  `motion` only for screen transitions). Each component is `X.tsx` next to `X.module.css`.
+  Imports go through the `@/*` alias, not relative paths.
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
   keyframe sitting in a global file never resolves and the animation silently never runs. Measured
   once at 42 declarations and 0 running; `styles/animasyon.test.ts` guards it now.
@@ -205,7 +213,8 @@ Comment density here has drifted into essays. Keep them short.
 
 ## Dependencies
 
-Runtime: `next`, `react`, `react-dom`, `lucide-react`. Dev: `typescript` and the three
+Runtime: `next`, `react`, `react-dom`, `lucide-react`, `motion` (imported only under
+`components/oyun/`, so it ships only in the `/oyun` chunk; spec §10). Dev: `typescript` and the three
 `@types` packages.
 
 **Owner's decision, 13 August 2026.** The old "those three packages only" rule is lifted: this
@@ -225,9 +234,11 @@ Colors).
   global rule in `styles/animasyonlar.css`, with ONE recorded exception: the ember density
   wrappers keep an opacity-only cross-fade (`KorSahnesi.module.css`), because without it the
   full-viewport glow hard-cuts by up to 45% at every section boundary; measured 18 August 2026.
-  The rule does NOT reach canvas loops or SMIL: those read the preference themselves (see
-  `components/ember/KorKivilcimi.tsx`). Any new non-CSS animation must do the same, or the
-  guarantee is silently broken.
+  The rule does NOT reach canvas loops, SMIL, Web Animations API calls or Motion: those read
+  the preference themselves (see `components/ember/KorKivilcimi.tsx`; the game's
+  `components/oyun/tepkiler.ts` keeps opacity-only keyframes when `useHareketAzaltilmisMi()` is
+  true, and `OyunSayfasi` wraps Motion in `MotionConfig reducedMotion="user"`). Any new non-CSS
+  animation must do the same, or the guarantee is silently broken.
 - The design mockups use `<div>` for buttons and links; the port uses real `<a>` or `<button>`.
 - Decorative layers (ember scene, smoke, grill, tane pattern) get `aria-hidden="true"`.
 
