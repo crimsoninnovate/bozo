@@ -89,6 +89,16 @@ bir el ve tek cümlelik bir balon. Oyun **dokunuşu bekler**: saat durur, kaybed
 - Eski spec §1'in "nasıl oynanır ekranı yok" ilkesi şöyle okunur: ayrı ekran ve ayrı metin sayfası
   yok, öğretim oyunun kendi içinde ve ilk turda.
 
+**Takma ad (sahibin 9 Ekim kararı).** Giriş ekranında Oyna'nın üstünde isteğe bağlı bir alan:
+"Takma adın (isteğe bağlı)". Doldurulursa tur sonunda skor **doğrudan** sıralamaya yazılır
+(katılım ekranı atlanır, yalnız "Sıralamaya yazıldı: sıra N" görünür); boş bırakılırsa sonuç
+ekranındaki "Bu Skoru Sıralamaya Yaz" düğmesi eskisi gibi takma ad sorar. Geri dönen oyuncunun
+adı tarayıcı hafızasından gelir ve alanda hazır durur. Biçim ve yasaklı adlar mevcut `takmaAd`
+kurallarıyla. Alan yalnız sıralama ulaşılabilirken görünür: skor sunucusu kapalıyken (çevrimdışı
+tur) oyun ad sormaz ve sonuçta "sıralamaya girmez" der. **Sunucu hukuk onayına kadar yayında
+olmayacağı için** (sahibi onayladı) canlıdaki sürümde bu alan görünmez; headless testlerde sahte
+sunucuyla doğrulanır.
+
 ## 4. Kod etkisi
 
 Aynı simülasyon deseni korunur (tamsayı, tik, deterministik, `simule` ve `ilerle` imzaları aynı).
@@ -101,6 +111,8 @@ Aynı simülasyon deseni korunur (tamsayı, tik, deterministik, `simule` ve `ile
 - Sunucu: `simule` aynı olduğu için yeniden oynatma aynı kalır; `aktarim.ts` hedef sözleşmesi ve
   `tavan.ts` (tohum başına skor tavanı) yeni kurala göre güncellenir. Sunucu yayında olmadığı için
   eski kayıtlarla uyum gerekmez.
+- Giriş ekranı: `GirisEkrani.tsx` takma ad alanı, `useOyunAkisi.ts` doğrudan gönderim,
+  `defter.ts` ad hafızası (mevcut katılım akışı yeniden kullanılır).
 - Bileşenler: `SeritlerTezgah.tsx` yalnız Raf'ı tutar; `SahneTezgah` içinden tabak, maşrapa ve
   yayık silinir (raf tepsisi kalır); `Semboller` içinden çevirme ve ayran işaretleri; `tepkiler.ts`
   içinden servis uçuşunun tezgah kısmı (şiş doğrudan hedef sofranın fişine uçar).
