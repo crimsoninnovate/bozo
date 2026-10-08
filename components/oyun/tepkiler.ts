@@ -17,13 +17,13 @@ const DONUS: KeyframeAnimationOptions = { duration: 180, easing: 'ease-in-out' }
 const hedef = (alan: HTMLElement, h: string) => alan.querySelector<HTMLElement>(`[data-hedef="${h}"]`)
 const opaklik = (bas: number, son: number): Keyframe[] => [{ opacity: bas }, { opacity: son }]
 
-/** Dokunma: hedef 2 px kalkar, dolgu 120 ms; azaltılmışta yalnız dolgu. */
+/** Dokunma: hedef bastırılır ve yaylanır (ağırlık hissi), dolgu 120 ms; azaltılmışta yalnız dolgu. */
 export function dokunus(el: HTMLElement | null, azalt: boolean): void {
   if (!el) return
   el.querySelector<HTMLElement>('[data-dolgu]')?.animate(opaklik(0.85, 0), ANLIK)
   if (azalt) return
-  const y = (px: number) => ({ transform: `translateY(${px}px)` })
-  el.animate([y(0), { ...y(-2), offset: 0.4 }, y(0)], ANLIK)
+  const olcek = (o: number, offset: number): Keyframe => ({ transform: `scale(${o})`, offset })
+  el.animate([olcek(1, 0), olcek(0.93, 0.3), olcek(1.04, 0.65), olcek(1, 1)], { duration: 230, easing: 'ease-out' })
 }
 
 /** Sınıfı söküp takar: CSS parlaması baştan oynar. Azaltılmışta animasyon yok, taban opaklık 0 kalır. */

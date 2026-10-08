@@ -72,9 +72,9 @@ Her görsel yazısız olmalı. Logo ve rozet vektör kalır, yapay zekâya çizd
 - Palet istisnası (CLAUDE.md > Colors, ikinci madde) görsellere de uygulanır; UI katmanı
   token'da kalır, görsel üstüne gelen yazılar kontrast ölçümünden geçer (AA).
 
-## 6. Açık kararlar
+## 6. Kararlar
 
-1. **Arcade kabini yok** (spec §13). Referans oyun kabin çerçevesi kullanıyor; bizde telefonda
-   yer yer, masaüstünde 420 px panel. Önerim: kabin yerine "ocak başı" çerçevesi (bakır kenar,
-   arka planda gerçekçi mekân). Sahibi farklı isterse spec değişir.
+1. **Arcade kabini yok** (spec §13; sahibi 9 Ekim 2026'da teyit etti). Referans oyun kabin
+   çerçevesi kullanıyor; bizde yok. Çerçeve olarak bakır kenarlı "ocak başı" ve arka planda
+   gerçekçi mekân.
 2. Görseller tek bir ana tabloda onaylanmadan seri üretime geçilmez.
