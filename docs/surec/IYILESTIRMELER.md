@@ -2224,3 +2224,20 @@ başlamaz" düştü: iki eşit düğme bunu zaten söylüyor.
 Gizlilik sayfası düğmeleri adıyla anıyordu (`dayanakMetni`, `geriAlmaMetni`), iki dilde
 güncellendi; `gizlilik_bantDugmeleriniGuncelAdlariylaAnar` artık bu kaymayı yakalıyor.
 Ölçüldü: 320, 390 ve 1440'ta taşma yok, düğmeler 44px, bant mobilde iki satır.
+
+## 8 Ekim 2026: rozet gölgesi ayrı katmana taşındı (teşhis adayı 1)
+
+Gölge `<img>`'den çıkıp görselin arkasında ayrı bir katmana geçti: rozet SVG'si maske olarak
+verilmiş düz siyah bir katman, bulanıklık dış sarmalayıcıda. Aynı öğede `filter` maskeden
+önce uygulandığı için tek katmanda silüet keskin kalıyordu (ölçüldü, sonra ayrıldı).
+
+- **Kapsayıcıya taşımak işe yaramadı:** filtre `<a>`'dayken de rozetin LCP alanı 36.524 px²
+  kaldı; Chrome atadaki filtreyi de görselin alanına katıyor.
+- **Maske LCP adayı değil:** canlıda CSS enjeksiyonuyla, mobil kısıtlı soğuk yükleme: LCP
+  2906 → 2500 ms, öğe artık açılış paragrafı ve LCP = FCP. SVG ikinci kez inmiyor, maske
+  isteği önbellekten 0 KB.
+- **Görünüm aynı:** 390px DPR 3'te eski filtreyle yeni katman aynı sayfada karşılaştırıldı;
+  gölge bölgelerinde en büyük fark 4/255, ortalama parlaklık farkı 1'in altında. Tek görünür
+  fark rozetin sol alt kenarında 4x2 CSS piksellik kenar yumuşatması.
+- Boy ve sarkma payları `img`'den `.cerceve`'ye taşındı; dört boy ve daralma geçişi gölgeye
+  kendiliğinden uyuyor. `-webkit-mask-image` Chrome 120 ve iOS 15.4 öncesi için.

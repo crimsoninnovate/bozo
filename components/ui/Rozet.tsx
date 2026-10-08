@@ -10,16 +10,26 @@ import stil from './Rozet.module.css'
  */
 type Props = { dil: Dil; boy?: 'bar' | 'daralmis' | 'cekmece' }
 
+const ROZET = '/marka/rozet.svg'
+
 export function Rozet({ dil, boy = 'bar' }: Props) {
   const s = sozluk(dil)
+  const maske = `url(${ROZET})`
   return (
     <Link
       href={yol('ana', dil)}
       className={`${stil.rozet} ${stil[boy]}`}
       aria-label={s.ortak.marka.ad}
     >
-      {/* alt boş: erişilebilir adı bağlantı taşıyor, görsel dekoratif kalır. */}
-      <img src="/marka/rozet.svg" alt="" width={1748} height={1999} decoding="async" />
+      <span className={stil.cerceve}>
+        {/* Gölge ayrı katman: `<img>`'deki ya da atasındaki filter LCP alanını
+            6.612'den 36.524 px²'ye şişiriyordu (ölçüldü 8 Ekim 2026). */}
+        <span className={stil.golge} aria-hidden="true">
+          <span style={{ maskImage: maske, WebkitMaskImage: maske }} />
+        </span>
+        {/* alt boş: erişilebilir adı bağlantı taşıyor, görsel dekoratif kalır. */}
+        <img src={ROZET} alt="" width={1748} height={1999} decoding="async" />
+      </span>
     </Link>
   )
 }

@@ -26,33 +26,57 @@
   }
 }
 
-.rozet img {
+.cerceve {
+  position: relative;
   display: block;
-  height: auto;
-  /* Sarkan kısım hero'nun üstüne düşüyor; zeminden ayrılsın. */
-  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.62));
   transition:
     width var(--gecis-bar),
     margin-bottom var(--gecis-bar);
 }
 
+.cerceve img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sarkan kısım hero'nun üstüne düşüyor; zeminden ayrılsın.
+   `drop-shadow(0 12px 30px)` karşılığı: 30px yarıçap = 15px sapma. */
+.golge {
+  position: absolute;
+  inset: 0;
+  transform: translateY(12px);
+  filter: blur(15px);
+}
+
+/* Maske iç katmanda: aynı öğede filter maskeden önce uygulanır ve silüet keskin kalır. */
+.golge span {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
 /* Ölçü genişlikten veriliyor ama BOY sabit tutuldu: her logo revizyonu en/boy
    oranını değiştiriyor (Aug23 0.8747, önceki 0.8844, ondan önceki 0.9606) ve aynı
    genişlikte uzuyor. Dört değer de ilk boyu korur, yani hiçbir yerleşim kaymadı. */
-.bar img {
+.bar .cerceve {
   width: 122px;
   margin-top: var(--rozet-tepe);
   margin-bottom: calc(-1 * var(--rozet-sarkma) - var(--rozet-tepe));
 }
 
 /* Daralmış barda sarkma yok: hero'nun üstünde duracak yer kalmıyor. */
-.daralmis img {
+.daralmis .cerceve {
   width: 56px;
   margin-bottom: 0;
 }
 
 /* Çekmecenin üst satırı barın mobil satırının ikizi. */
-.cekmece img {
+.cekmece .cerceve {
   width: 91px;
   margin-top: var(--rozet-tepe);
   margin-bottom: calc(-1 * var(--rozet-sarkma) - var(--rozet-tepe));
@@ -62,8 +86,8 @@
    üstünde bırakıyordu (ölçüldü: üst kenar 1px, şiş uçları kırpılıyordu).
    77px/-12px eski 84px'in boyunu (87px) korur, yani aynı 5px payı bırakır. */
 @media (max-width: 1040px) {
-  .bar img,
-  .daralmis img {
+  .bar .cerceve,
+  .daralmis .cerceve {
     width: 76px;
   }
 
@@ -71,9 +95,9 @@
     --rozet-tepe: 4px;
   }
 
-  .cekmece img,
-  .bar img,
-  .daralmis img {
+  .cekmece .cerceve,
+  .bar .cerceve,
+  .daralmis .cerceve {
     margin-bottom: calc(-12px - var(--rozet-tepe));
   }
 }
