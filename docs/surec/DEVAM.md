@@ -12,7 +12,9 @@ Son güncelleme: 8 Ekim 2026
   mor fasulye, yürek kalp, ayran bakır maşrapa), pişme izli ve kömür çatlaklı şiş hâlleri,
   gruplu fiş (`fisSatirlari`, adet rozeti, onay işareti), bakır tabaklar, nefes alan köz
   yatağı, alev dilleri, şiş titremesi ve duman telleri (CSS, azaltılmışta kapalı). Kare süresi
-  aynı (p95 17,9 ms, CPU 4x). **Sıradaki:** sesler (önce araştırma), nasıl oynanır sorusu
+  aynı (p95 17,9 ms, CPU 4x). Sesler: beş bip yerine on bir katmanlı Web Audio sesi (dosya yok,
+  `lib/oyun/ses.ts`); 40 sn'lik oyunda 68 osilatör, 14 gürültü kaynağı, hata yok; gerçek kulakla
+  dinlenmedi. **Sıradaki:** nasıl oynanır sorusu
   (spec §1 "yok" diyor; sahibin kararı), etiket kontrastı, görsel sadakat karşılaştırması.
 - **Açılış oyunu, sahne planı bitti: boyalı illüstrasyon** (karar belgesi
   `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md`, plan

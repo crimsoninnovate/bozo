@@ -321,9 +321,10 @@ Rakamlar Bevan 400 tabular, etiketler Archivo. Köşe 0-3 px.
 | HUD (5) | saat rayı, kombo rozeti, porsiyon rozeti, ocak söner işareti, duraklat |
 | Diğer (3) | sabit QR, paylaşım kartı şablonu, kor noktası ipucu |
 
-**Ses:** dosya yok, Web Audio ile üretilir: kor cızırtısı, bakır tık, servis için iki nota,
-yanık için alçak vuruş, son saat için derin ton. Varsayılan kapalı, tek dokunuşla açılır,
-tercih tarayıcıda kalır.
+**Ses:** dosya yok, Web Audio ile üretilir; on bir ses, her biri birkaç katman (bakır çan,
+süzgeçli gürültü, alçak vuruş): şiş cızırtısı, çevirme, bakır tık, tam kıvam zili, servis,
+fiş akoru, yanık, sofra kalktı, son saat, gece tamam, kayıp. Varsayılan kapalı, tek dokunuşla
+açılır, tercih tarayıcıda kalır. (9 Ekim 2026: beş bip yerine bu set.)
 
 ## 14. Paylaşım kartı
 
