@@ -58,6 +58,7 @@ export type Olay =
   | { tur: 'ayranDoldu' }
   | { tur: 'porsiyon' }
   | { tur: 'rafDolu'; urun: SisUrun }
+  | { tur: 'tezgahDolu'; yuva: number }
   | { tur: 'evre'; evre: number }
   | { tur: 'bitti'; sebep: Bitis }
 

@@ -51,7 +51,10 @@ export function ocagaDokun(oyun: Oyun, yuva: number, olaylar: Olay[]): void {
     return
   }
   const bos = bosYuva(oyun.tezgah)
-  if (bos === -1) return
+  if (bos === -1) {
+    olaylar.push({ tur: 'tezgahDolu', yuva })
+    return
+  }
   const merkezFarki = Math.abs(2 * (sis.gecen - sis.pisme) - sis.pencere)
   const kalite = sis.cevirme === 'iyi' && merkezFarki <= sis.bant ? 'tam' : 'iyi'
   oyun.tezgah[bos] = { urun: sis.urun, kalite, bekleme: 0 }

@@ -64,6 +64,8 @@ function olayaTepki(alan: HTMLElement, olay: Olay): void {
   if (olay.tur === 'sisAlindi') parla(hedef(`o${olay.yuva}`), stil[olay.kalite])
   if (olay.tur === 'sisYandi') parla(hedef(`o${olay.yuva}`), stil.yandi)
   if (olay.tur === 'sofraKalkti' && !olay.odedi) parla(hedef(`s${olay.sofra}`), stil.kalkti)
+  if (olay.tur === 'rafDolu') parla(hedef(olay.urun), stil.dolu)
+  if (olay.tur === 'tezgahDolu') parla(alan.querySelector<HTMLElement>('[data-tezgah]'), stil.dolu)
   if (olay.tur === 'fisTamam') {
     const son = alan.querySelector<HTMLElement>('[data-son]')
     if (son) metinYaz(son, `+${olay.odeme}`)
@@ -213,7 +215,7 @@ function Ocak({ goruntu, ad, dokun, metin }: SeritProps) {
 
 function Tezgah({ goruntu, ad, dokun, metin, vurgula }: SeritProps & { vurgula: (u: Urun) => void }) {
   return (
-    <section className={stil.tezgah} aria-label={metin.tezgah}>
+    <section className={stil.tezgah} data-tezgah aria-label={metin.tezgah}>
       {YUVALAR.map((no) => {
         const kalem = goruntu.tezgah[no]
         if (!kalem) return <div key={no} className={stil.tezgahBos} />

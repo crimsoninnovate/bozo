@@ -171,6 +171,7 @@
 .yuva[data-gorunum='kivam'] { border-color: var(--bakir-acik); background: var(--plaka-zemin); }
 
 .tezgah {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
@@ -238,7 +239,8 @@
 .iyi::before,
 .yandi::before,
 .odedi::before,
-.kalkti::before {
+.kalkti::before,
+.dolu::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -251,6 +253,8 @@
 .odedi::before { background: var(--bakir); }
 .yandi::before,
 .kalkti::before { background: var(--kor); }
+/* Ocak ya da tezgah dolu (spec §3); rafın sallanması plan 2'de. */
+.dolu::before { background: var(--krem-50); }
 
 @keyframes parla {
   from { opacity: 0.7; }

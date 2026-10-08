@@ -99,7 +99,7 @@ test('ocak_tezgahDoluyken_sisAlinamaz_ocaktaKalir', () => {
   for (let i = 0; i < 4; i++) oyun.tezgah[i] = { urun: 'ayran', kalite: null, bekleme: 0 }
   dokun(oyun, 'ciger')
   bekle(oyun, 239)
-  assert.deepEqual(dokun(oyun, 'o0'), [])
+  assert.deepEqual(dokun(oyun, 'o0'), [{ tur: 'tezgahDolu', yuva: 0 }])
   assert.equal(oyun.ocak[0]?.urun, 'ciger')
 })
 
