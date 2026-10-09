@@ -40,7 +40,6 @@ Boyutlar 2x (retina) çıktı boyutudur; ekranda yarısı kadar görünür.
 | 1 | **Arka plan sahnesi**: gece ocakbaşı iç mekânı, asılı lambalar, raflar, duvar | 1170×2532 dikey, düz (şeffaf değil) | Ortası sakin kalsın (oyun üstüne biner); köşeler ve üst bölüm detaylı; tek renk ailesi bordo-bakır |
 | 2 | **Ürün parçaları**: ciğer küpü, dalak, yürek × çiğ, pişiyor, hazır, yandı | 12 parça, her biri 256×256 şeffaf | Tek tabloda 3×4 ızgara üret, sonra kes; her parça aynı ölçekte, 3/4 üst görünüm |
 | 3 | **Şiş**: çelik halkalı ince şiş, boş (parçalar kodla dizilir) | 96×640 şeffaf, dikey | Ucu sivri, halka üstte |
-| 4 | **Bakır maşrapa** (ayran), köpüklü | 256×256 şeffaf | Dolu ve boş değil, yalnız dolu |
 | 5 | **Bakır tabak**, boş, 3/4 | 400×300 şeffaf | Tezgahta dört kez kullanılır |
 | 6 | **Ocak yatağı**: köz, kömür, kül; yan duvarlar bakır | 1600×360, uçları şeffaf | Parlayan közler ayrı katman: aynı görselin yalnız köz parlaması, siyah zeminde (`screen` karışımı) |
 | 7 | **Mermer tezgah** şeridi, pirinç ön kenarlı | 1600×260 | Dikişsiz yatay döşeme olabilir |
@@ -48,10 +47,15 @@ Boyutlar 2x (retina) çıktı boyutudur; ekranda yarısı kadar görünür.
 | 9 | **İkram tabakları**: lebeni, bostana, yeşillik, sumaklı soğan | 4 × 200×200 şeffaf | Üstten bakış |
 | 10 | **Raf**: ceviz raf, siyah tepsiler, çiğ yığınlar (ciğer, dalak, yürek) | 3 × 300×240 şeffaf | |
 | 11 | **Fiş kâğıdı**: hafif buruşuk, yırtık alt kenar | 360×400 şeffaf | Yazısız; ürün simgelerini kod koyar |
-| 12 | **Yayık**: ceviz fıçı, pirinç çemberli | 220×300 şeffaf | |
 | 13 | **Açılış sahnesi**: üç katman (arka duvar, orta ocak, ön köz ve duman) | 3 × 1170×2532, ön ve orta şeffaf | Kamera yaklaşımı ve parallax bunlarla yapılır |
 | 15 | **Ayran sürahisi ve bardak** (sade modda geri dönerse): bakır sürahi eğik ve dik, cam bardak boş ve dolu köpüklü, beyaz döküş akışı | 2 × 256×256 + 1 × 128×256 şeffaf | Ayranın ayran olduğu ilk bakışta anlaşılmalı: kalın beyaz sıvı, köpük, bakır sürahi |
 | 14 | **Duman ve kıvılcım dokuları** | 4 × 256×256 şeffaf | Beyaz duman, turuncu kıvılcım, yumuşak kenar |
+| 16 | **Misafir silueti**, 3 varyant, yüzsüz, omuz üstü | 3 × 240×300 şeffaf | Aynı ölçek ve ışık; kodla kor halkası ve fiş balonu eklenir |
+| 17 | **Fiş balonu**: küçük kâğıt balon, aşağı sivri kuyruk | 320×200 şeffaf | Yazısız; ürün simgelerini kod koyar |
+| 18 | **Domates ve sumaklı soğan kaseleri** ve tabak üstü halleri | 2 × 160×160 kase + 2 × 160×160 tabak üstü, şeffaf | Üstten 3/4 bakış |
+| 19 | **Bakır kova** (çöp) | 160×160 şeffaf | Ağzı açık, hafif kararmış bakır |
+| 20 | **Bahşiş parası**: bakır madeni, tezgah kenarında | 96×96 şeffaf | Parlayan kenar |
+| 21 | **Rehber eli**: parmak ucu işaret eden el | 128×128 şeffaf | Düz çizim, gölgeyi kod ekler |
 
 Her görsel yazısız olmalı. Logo ve rozet vektör kalır, yapay zekâya çizdirilmez.
 

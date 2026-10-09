@@ -4,11 +4,18 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 8 Ekim 2026
+Son güncelleme: 9 Ekim 2026
 
 ## Durum
 
-- **9 Ekim 2026 01:40: oyun prototipi canlıya alındı** (`a9caf09`, tüm dal rsync ile): `/oyun/`,
+- **Oyun: tabak akışı uygulandı, yayında değil** (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
+  plan `docs/plans/2026-10-09-oyun-tabak-plani.md`, on beş görev, `feat/site-kurulumu` dalında). Fiş,
+  ocak, tabak, misafir: dokunarak ya da sürükleyerek oynanır, ilk tur rehberli, takma ad isteğe bağlı
+  (giriş ekranında, yalnız sunucu ayaktayken görünür). Simülasyon, botlar, tavan, axe 0 ve kare p95
+  `IYILESTIRMELER.md` > tabak akışı bölümlerinde. **Skor sunucusu canlıya çıkmak için** gizlilik metni
+  (TR/EN), altyapı, DNS ve gizli anahtarlar gerekir; o güne dek canlıdaki sürüm çevrimdışı tur olarak
+  kalır ve ad alanı görünmez. 375 x 548 gibi çok kısa ekranlar desteklenmiyor (ölçüm aynı yerde).
+- **9 Ekim 2026 01:40: oyun prototipi canlıya alındı (önceki sürüm)** (`a9caf09`, tüm dal rsync ile): `/oyun/`,
   `/en/oyun/`, `/oyun/siralama/` 200, `noindex, nofollow`, sitemap'te yok, hiçbir sayfadan bağlantı
   yok (yalnız bağlantıyı bilen girer). `plesk repair fs` 0 hata. Skor sunucusu **yayında değil**:
   `api.cigercibozo.com` DNS'te yok, oyun çevrimdışı tur olarak çalışır, tarayıcı o alan adına istek

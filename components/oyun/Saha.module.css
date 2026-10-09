@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: calc(100dvh - 24px);
+  height: calc(100dvh - 24px);
   padding: 12px 12px 14px;
   background: var(--zemin);
   color: var(--krem);
@@ -346,4 +346,36 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Kısa ekran, kademe 1 (940 px altı: 844 dahil): etiketler görünmez kalır (ad hâlâ `aria-labelledby` ile
+   okunur), yalnız misafir çipi şeridin köşesinde yüzer; 26 px x 4 kazanç tahtayı 844'e sığdırır. */
+@media (max-height: 940px) {
+  .etiketSatiri {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    min-height: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .etiket {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Kademe 2 (834 px altı: Safari çubuklu 664 gibi): boşluklar daralır, misafir ve tabak şeridi ve ocak içeriği
+   küçülür; ocak 96 px'e kadar esner. */
+@media (max-height: 834px) {
+  .saha {
+    gap: 8px;
+    padding: 8px 12px 8px;
+  }
 }

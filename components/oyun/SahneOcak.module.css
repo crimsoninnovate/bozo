@@ -305,3 +305,19 @@
   0%, 100% { outline-color: var(--bakir-60); }
   50% { outline-color: var(--bakir-acik); }
 }
+
+/* Kısa ekranda şiş hücresi küçülür: ocak şeridi 96 px'e kadar esner ve hücre şeridin dışına taşmaz. */
+@media (max-height: 834px) {
+  .sisKap,
+  .kapaliYuva {
+    height: 70px;
+  }
+
+  .sis {
+    height: 64px;
+  }
+
+  .alevler {
+    height: 90px;
+  }
+}

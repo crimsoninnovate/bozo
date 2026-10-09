@@ -1,6 +1,6 @@
 # Açılış oyunu · Tabak akışı: ocaktan tabağa, tabaktan misafire
 
-Tarih: 9 Ekim 2026 · Durum: sahibin Kebab World referansı ve akış tarifi üzerine yazıldı, spec incelemede.
+Tarih: 9 Ekim 2026 · Durum: uygulandı (plan `docs/plans/2026-10-09-oyun-tabak-plani.md`).
 Üst belgeler: `docs/specs/2026-10-08-oyun-design.md` (sunucu §10, sıralama ve ödül §7, gizlilik §8 ve
 §16-§17, erişilebilirlik §15, görsel dil §12-§13 geçerli) ve `docs/specs/2026-10-09-oyun-sade-design.md`.
 Bu belge sade spec'in **§2 ve §3'ünü değiştirir**; sade spec'in rehberli ilk tur ilkesi, takma ad alanı,
@@ -326,3 +326,10 @@ kararları aldı; yukarıdaki bölümler buna göre düzeltildi:
     sürükleme gelince "Şişi tabağa sürükle" (§3, §7).
 11. **Son saat (evre 5) kaybedilemez** (üç kalkış için süre yetmez), puan sprintidir; bilerek böyle
     bırakıldı, `IYILESTIRMELER.md`'de sahibine yazılır.
+
+### Uygulamada ayarlanan sayılar (§5 için)
+
+Aralıklar evrelere sığdırıldı (340/290/245/110 tik), evre 5 üç fiş artı Karışık, gece 24 misafir;
+hareketsiz kapısı "02:00'den önce", rastgele kapısı yapı gereği sağlanıyor. Sabırlar evre 3 ve 4'te
+1560 ve 2040'a açıldı (ölçüm `IYILESTIRMELER.md` > tabak akışı zorluk ayarı).
+

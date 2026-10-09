@@ -180,3 +180,9 @@
   overflow: visible;
   opacity: calc(0.35 + var(--oran, 1) * 0.65);
 }
+
+@media (max-height: 834px) {
+  .yerler {
+    height: 150px;
+  }
+}

@@ -73,13 +73,14 @@ function EnIyi({ s, puan, onceki, yeni, sayi }: { s: Sozluk; puan: number; oncek
   )
 }
 
-/** Özet (spec §11): misafir, şiş, tam kıvam, en uzun kombo; dört sütun, 100 ms arayla belirir. */
+/** Özet (spec §11): misafir, şiş, tam kıvam, en uzun kombo, bahşiş; beş sütun, 100 ms arayla belirir. */
 function OzetListesi({ s, sonuc, sayi }: { s: Sozluk; sonuc: Sonuc; sayi: Sayi }) {
   const satirlar = [
     [sayi(sonuc.ozet.misafir), s.oyun.ozet.misafir],
     [sayi(sonuc.ozet.sis), s.oyun.ozet.sis],
     [sayi(sonuc.ozet.tamKivam), s.oyun.ozet.tamKivam],
     [`×${sonuc.ozet.enUzunKombo}`, s.oyun.ozet.enUzunKombo],
+    [sayi(sonuc.ozet.bahsis), s.oyun.ozet.bahsis],
   ] as const
   return (
     <ul className={stil.ozet}>

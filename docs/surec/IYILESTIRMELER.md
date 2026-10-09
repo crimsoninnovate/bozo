@@ -2437,3 +2437,31 @@ iki evrede açıldı, sütunun başka yerine dokunulmadı:
   kutu gölgesi değişikliği ölçülebilir maliyet getirmedi; ikisine dokunulmadı.
 - Rehber sürükleme modunda hem kaynağı hem hedefi açar (kaynak delikle, hedef kesikli bakır çerçeveyle).
   Karartma hedefin üstünü örtmez; hedef çerçevesi karartmanın üstüne çizilir, dört dikdörtgene geçilmedi.
+
+### Hedef boyutları ve ekrana sığma (tabak akışı, 9 Ekim 2026)
+
+- Dokunma hedefleri (headless, `[data-hedef]`, 44 px altı sayısı **0** her ekranda): tabak düğmesi 48 px
+  geniş (320) ve 71 px (390), kase 48 (320) ve 56 (390), ocak yuvası 54 ve 72 px geniş, hepsi en az 84 px
+  yüksek (kase 56). `scrollWidth` 320'de 320, 390'da 390: yatay taşma yok. Masaüstünde panel 420 px.
+- **Plan öncesi ölçüm, tahta 844'e sığmıyordu:** 390 × 844'te tahta 915 px çıktı (raf alt kenarı 913),
+  çünkü `.saha` yalnız `min-height` taşıyordu ve ocak şeridinin esneme kuralı hiç devreye girmiyordu;
+  `touch-action: none` altında alt şerit erişilemez olurdu. Düzeltme: `.saha` yüksekliği
+  `calc(100dvh - 24px)` olarak sabitlendi (ocak şeridi artık gerçekten esner), etiket satırları 940 px
+  altı yükseklikte görünmez oldu (ad `aria-labelledby` ile okunmaya devam eder; misafir çipi şeridin
+  köşesinde yüzer, 4 x 26 px kazanç), 834 px altında boşluk 8, misafir şeridi 150, tabak şeridi 104,
+  ocak hücresi 70 px olur.
+- Raf alt kenarı (`getBoundingClientRect().bottom`, viewport): 320 x 640 → 624; 390 x 844 → 806;
+  390 x 760 → 728; 390 x 700 → 668; **390 x 664 (Safari çubuklu) → 632**; 1440 x 900 → 862. Hepsi
+  `innerHeight` içinde, ocak şiş hücresi şeridin dışına en çok 7 px taşar ve tabak şeridine girmez.
+- **Sığmayan:** 375 x 548 (SE, çubuklu) rafı 624'te bırakır, 76 px taşar. Sabit parçaların toplamı
+  (HUD 106, misafir 198, ocak tabanı 96, tabak 104, raf 62, boşluklar) 548'e inmez; çözmek tahtayı yeniden
+  tasarlamak olur ve bu sürüm 560 px altı yüksekliği desteklemez. Sahibine bildirildi.
+- Kare süresi bu düzenlemeden etkilenmedi: aynı makinede önceki derleme ve yenisi 18,0-18,5 ms
+  (makine o saatte yüklüydü, ilk ölçümlerde 17,5 çıkmıştı); fark düzenlemeden değil ölçüm gürültüsünden.
+
+### Son saat kaybedilemez
+
+Evre 5 (04:00-05:00, 15 sn) üç misafir kalkışıyla bitirilemez: sabır 16 sn, evreden uzun. Bu yüzden son
+saat bir puan koşusudur, kaybettirmez. Bilerek böyle bırakıldı (spec §13); gecenin kaybı evre 2-4'te
+olur, son saat o geceyi sonuna kadar getirenin ödülüdür.
+

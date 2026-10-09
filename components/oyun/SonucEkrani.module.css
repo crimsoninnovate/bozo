@@ -1,4 +1,4 @@
-/* Sonuç (handoff 1c): rozet 132, durum satırı, puan Bevan 72 bakır-açık, 4 sütun özet, 64 px Tekrar Oyna. */
+/* Sonuç (handoff 1c): rozet 132, durum satırı, puan Bevan 72 bakır-açık, 5 sütun özet, 64 px Tekrar Oyna. */
 .sonuc {
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@
 
 .ozet {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
   margin: 26px 0 0;
   padding: 0;
@@ -77,6 +77,12 @@
 .deger {
   font: 400 24px/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 359px) {
+  .deger {
+    font-size: 20px;
+  }
 }
 
 .etiket {

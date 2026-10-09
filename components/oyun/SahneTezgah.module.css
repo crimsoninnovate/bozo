@@ -144,3 +144,9 @@
   box-shadow: 0 0 0 2px var(--bakir-acik), 0 0 22px color-mix(in srgb, var(--bakir-acik) 55%, transparent);
   pointer-events: none;
 }
+
+@media (max-height: 834px) {
+  .tabakSeridi {
+    height: 104px;
+  }
+}

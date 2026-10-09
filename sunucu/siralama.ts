@@ -3,7 +3,7 @@ import type { SiraSatiri } from './depo.ts'
 
 type Siralanabilir = Pick<SiraSatiri, 'puan' | 'tamKivam' | 'kalkan' | 'olusturma'>
 
-/** Beraberlik (spec §6): puan, tam kıvam sayısı, kalkan sofra azlığı, önce gönderen. */
+/** Beraberlik (spec §6): puan, tam kıvam sayısı, küsüp kalkan misafir azlığı, önce gönderen. */
 export function karsilastir(a: Siralanabilir, b: Siralanabilir): number {
   return b.puan - a.puan || b.tamKivam - a.tamKivam || a.kalkan - b.kalkan || a.olusturma - b.olusturma
 }

@@ -47,7 +47,8 @@ npm run preview    # serve the out/ export locally
   `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
   integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
   display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,
-  `ses`, `tarih`) that never feed values back into it, and the server-facing modules shared
+  `ses`, `tarih`, `surukle` (gesture machine), `rehber` (guided round)) that never feed values back
+  into it, and the server-facing modules shared
   with `sunucu/`: `aktarim` (the wire contract), `api` (browser client), `tavan` (per-seed score
   ceiling), `tohum` (uint32 seed bounds), `takmaAd` (nickname format and folding).
 - **`sunucu/` is the game's score server** (spec §10): Node 24, `node:http`, one dependency
@@ -74,7 +75,8 @@ npm run preview    # serve the out/ export locally
   `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen
   (DOM + painted inline SVG from the handoff, `Sahne*` modules and one `SahneDefs`; per-frame
   values written by a rAF loop as CSS variables the SVG layers read, instant reactions in
-  WAAPI, `motion` only for screen transitions). Each component is `X.tsx` next to `X.module.css`.
+  WAAPI, `motion` only for screen transitions; pointer drags reduced to grab/drop inputs by
+  `lib/oyun/surukle.ts`). Each component is `X.tsx` next to `X.module.css`.
   Imports go through the `@/*` alias, not relative paths.
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
   keyframe sitting in a global file never resolves and the animation silently never runs. Measured
