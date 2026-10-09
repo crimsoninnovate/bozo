@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { SESLER, olayinSesi, perdeOrani, sesSec } from './ses.ts'
+import { ORTAM_KAZANCI, SESLER, olayinSesi, ortamSeviyesi, perdeOrani, sesSec } from './ses.ts'
 import type { Olay } from './tipler.ts'
 
 test('sesler_herSes_katmanlarKisikVeSinirIcinde', () => {
@@ -61,4 +61,10 @@ test('perdeOrani_teslimVeTamKivam_carpanlaTamTonYukselir_digerleriSabit', () => 
   assert.ok(Math.abs(perdeOrani('tamKivam', 4) - 2 ** 0.5) < 1e-9)
   assert.equal(perdeOrani('tamKivam', 9), perdeOrani('tamKivam', 4))
   assert.equal(perdeOrani('tut', 4), 1)
+})
+
+test('ortamSeviyesi_sisSayisiylaArtar_dortteDurur', () => {
+  assert.equal(ortamSeviyesi(0), 0)
+  assert.equal(ortamSeviyesi(2), 2 * ORTAM_KAZANCI)
+  assert.equal(ortamSeviyesi(9), ortamSeviyesi(4))
 })

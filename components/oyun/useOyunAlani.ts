@@ -2,7 +2,7 @@ import { useEffect, useState, type RefObject } from 'react'
 import { useHareketAzaltilmisMi } from '@/lib/hareket'
 import { duyurucuKur, duyuruSec } from '@/lib/oyun/duyuru'
 import { komboCarpani } from '@/lib/oyun/puan'
-import { perdeOrani, sesSec } from '@/lib/oyun/ses'
+import { ortamSeviyesi, perdeOrani, sesSec } from '@/lib/oyun/ses'
 import { eldeKaynagi } from '@/lib/oyun/surukle'
 import type { Girdi, Hedef, Kalem, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
 import { duyuruYaz, sahayiCiz } from './ciz'
@@ -34,6 +34,7 @@ export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secen
     const alan = kok.current
     if (!alan) return
     if (ilerledi) sahayiCiz(alan, oyun, azalt, metin)
+    ses.ortam(ortamSeviyesi(oyun.ocak.filter(Boolean).length))
     duyuruYaz(alan, duyurucu.al(performance.now()), metin, ad)
   }
   const tepki = (olaylar: Olay[]) => {
@@ -56,6 +57,11 @@ export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secen
     return true
   }
   useSurukleme({ kok, elde: () => eldeKaynagi(dongu.oyunu().el), dokun, azalt })
+
+  // Duraklatınca kor susar; devamda ilk kare seviyeyi yeniden yollar.
+  useEffect(() => {
+    if (dongu.duraklatildi) ses.ortam(0)
+  }, [dongu.duraklatildi, ses])
 
   useEffect(() => {
     if (kok.current) seritleriDuzenle(kok.current)

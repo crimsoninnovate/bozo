@@ -22,6 +22,13 @@ export type Katman = {
   kazanc: number
 }
 
+/**
+ * Karışım: katmanlar ana kazançtan, sonra sınırlayıcıdan geçer. Varsayılan sıkıştırıcı (-24 dB, 12:1)
+ * her sesi eziyordu: tepeler -13 ile -33 dBFS (10 Ekim 2026, WAV'dan). Bu ayarla -5 ile -15.
+ */
+export const ANA_KAZANC = 3
+export const SINIRLAYICI = { threshold: -6, knee: 6, ratio: 12, attack: 0.003, release: 0.12 } as const
+
 /** Bakır çan: temel ton ve kısa süren uyumsuz üst ton. */
 function zil(hz: number, ms: number, kazanc: number, gecikme = 0): Katman[] {
   return [
@@ -32,15 +39,15 @@ function zil(hz: number, ms: number, kazanc: number, gecikme = 0): Katman[] {
 
 export const SESLER: Readonly<Record<SesAdi, readonly Katman[]>> = {
   cizirti: [
-    { tur: 'gurultu', suzgec: 'highpass', hz: 2600, hzSon: 1400, ms: 380, kazanc: 0.08 },
-    { tur: 'ton', hz: 150, hzSon: 70, ms: 90, kazanc: 0.12 },
+    { tur: 'gurultu', suzgec: 'highpass', hz: 2600, hzSon: 1400, ms: 380, kazanc: 0.035 },
+    { tur: 'ton', hz: 150, hzSon: 70, ms: 90, kazanc: 0.05 },
   ],
-  tut: zil(1320, 70, 0.08),
-  tik: zil(988, 90, 0.08),
+  tut: zil(1320, 70, 0.065),
+  tik: zil(988, 90, 0.065),
   tamKivam: [...zil(1568, 420, 0.1), ...zil(2349, 300, 0.06, 70)],
   teslim: [...zil(784, 120, 0.1), ...zil(988, 120, 0.1, 110), ...zil(1319, 320, 0.11, 220)],
   bahsis: [...zil(2093, 160, 0.09), ...zil(2489, 260, 0.08, 90)],
-  birak: [{ tur: 'gurultu', suzgec: 'lowpass', hz: 700, hzSon: 300, ms: 120, kazanc: 0.07 }],
+  birak: [{ tur: 'gurultu', suzgec: 'lowpass', hz: 1400, hzSon: 450, ms: 130, kazanc: 0.15 }],
   yanlis: [
     { tur: 'ton', dalga: 'triangle', hz: 262, hzSon: 220, ms: 140, kazanc: 0.09 },
     { tur: 'ton', dalga: 'triangle', hz: 262, hzSon: 220, ms: 140, kazanc: 0.09, gecikme: 170 },
@@ -110,4 +117,10 @@ export function sesSec(olaylar: readonly Olay[]): SesAdi[] {
 export function perdeOrani(ad: SesAdi, carpan: number): number {
   if (ad !== 'teslim' && ad !== 'tamKivam') return 1
   return 2 ** (((Math.min(Math.max(carpan, 1), 4) - 1) * 2) / 12)
+}
+
+/** Ortam cızırtısı: ocaktaki şiş sayısıyla (0-4) yükselir; olay seslerinin altında kalır. */
+export const ORTAM_KAZANCI = 0.007
+export function ortamSeviyesi(sisSayisi: number): number {
+  return Math.min(Math.max(sisSayisi, 0), 4) * ORTAM_KAZANCI
 }

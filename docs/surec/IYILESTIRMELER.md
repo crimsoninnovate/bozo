@@ -2485,3 +2485,13 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
 - Kombo bozulunca rozet sarsılıp düşer (`komboKirildi`); azaltılmışta söner ve belirir.
 - Gece her evrede koyulaşır (`GECE_OPAKLIGI` 0 / 0,15 / 0,3 / 0,45 / 1); önce yalnız son saatte değişiyordu.
 - Sonuç ekranında "Menüyü Gör" (sitenin CTA etiketi, yeni metin yok), `/menu/`, 44 px.
+
+## 10 Ekim 2026: ses karışımı ve kor ortamı
+
+- Sebep: ortak sıkıştırıcı varsayılan ayardaydı (-24 dB, 12:1) ve her sesi eziyordu. Yerine ana kazanç ×3 ve
+  sınırlayıcı (-6 dB, diz 6, 12:1, 3 ms / 120 ms). `cizirti`, `tut`, `tik` kısıldı, `birak` süzgeci açıldı.
+- Tepeler (WAV, dBFS), önce → sonra: teslim -13 → -5, tam kıvam -16 → -6,5, bahşiş -17 → -8, yanık -17 → -7,
+  tut/tik -21 → -12, cızırtı -16 → -11,5, bırak -33 → -14,5.
+- Kor ortamı: ocakta şiş varken iki saniyelik tıslama ve çıtırtı döngüsü; şiş başına 0,007 kazanç, 1 şiş -29,
+  4 şiş -17 dBFS (olay seslerinin altında). Duraklatınca susar, ses kapalıyken kurulmaz.
+- Dinleme dosyaları `~/Desktop/Bozo/ses-dinleme/` (15 dosya). Sesler hâlâ gerçek kulakla dinlenmedi.
