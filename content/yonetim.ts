@@ -1,0 +1,47 @@
+/** Personel ekranı `/oyun/yonetim/` (spec §7, §9); yalnız Türkçe, dizine girmez. */
+export const yonetim = {
+  baslik: 'Oyun Yönetimi',
+  giris: {
+    kullanici: 'Kullanıcı',
+    sifre: 'Şifre',
+    dugme: 'Giriş Yap',
+    hata: 'Kullanıcı adı ya da şifre yanlış.',
+  },
+  cikis: 'Çıkış',
+  kod: {
+    baslik: 'Ödül kodu',
+    etiket: 'Misafirin gösterdiği 6 haneli kod',
+    dugme: 'Kodu Kullan',
+    not: 'Kod kullanılınca ödül teslim edilmiş sayılır.',
+    tamam: '{sira}. sıra: {ad}, {puan} puan ({donem} haftası). Ödülü verin.',
+  },
+  hafta: {
+    baslik: '{donem} haftası, ilk 20',
+    bu: 'Bu Hafta',
+    gecen: 'Önceki Hafta',
+    bos: 'Bu dönemde tur yok.',
+    supheli: 'şüpheli',
+    gizli: 'adı gizli',
+    gizle: 'Gizle',
+    goster: 'Göster',
+    dogrula: 'Doğrula',
+    tutuyor: 'Yeniden oynatma {puan}: tutuyor.',
+    tutmuyor: 'Yeniden oynatma {puan}: tutmuyor.',
+    kayitYok: 'Dokunuş kaydı saklama süresi dolduğu için silinmiş.',
+  },
+  kazananlar: {
+    baslik: 'Kazananlar',
+    bos: 'Dönem Pazartesi 05:00\'te kapanınca burada görünür.',
+    teslim: 'teslim edildi',
+    bekliyor: 'son gün {tarih}',
+  },
+  hata: {
+    kodGecersiz: 'Kod 6 haneli olmalı.',
+    kodYok: 'Bu kod yok.',
+    kodSuresiDoldu: 'Bu kodun süresi dolmuş.',
+    kodKullanildi: 'Bu kod daha önce kullanılmış.',
+    ag: 'Sunucuya ulaşılamadı.',
+    cokIstek: 'Çok fazla deneme oldu, bir saat sonra tekrar deneyin.',
+    genel: 'Bir hata oldu ({kod}).',
+  },
+} as const

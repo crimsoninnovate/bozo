@@ -50,7 +50,8 @@ npm run preview    # serve the out/ export locally
   `ses`, `tarih`, `surukle` (gesture machine), `rehber` (guided round)) that never feed values back
   into it, and the server-facing modules shared
   with `sunucu/`: `aktarim` (the wire contract), `api` (browser client), `tavan` (per-seed score
-  ceiling), `tohum` (uint32 seed bounds), `takmaAd` (nickname format and folding).
+  ceiling), `tohum` (uint32 seed bounds), `takmaAd` (nickname format and folding), `yonetim` (staff
+  screen `/oyun/yonetim/`: prior period, replay check).
 - **`sunucu/` is the game's score server** (spec §10): Node 24, `node:http`, one dependency
   (`mariadb`) in its own `package.json`, wired in as an npm workspace so the root `npm install`,
   `npm run typecheck` and `npm test` cover it. It imports `lib/oyun/` directly and replays every

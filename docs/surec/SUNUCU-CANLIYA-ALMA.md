@@ -30,7 +30,13 @@ ssh plesk-206 'chown -R engincaglar:psacln /opt/bozo-oyun && systemctl restart b
 
 Doğrulandı: `/tablo` 200 (Cloudflare üzerinden), CORS yalnız `https://cigercibozo.com`, `/yonetim/*`
 kimliksiz 401, uçtan uca tur (jeton, katılım, sunucuda yeniden oynatma puanı yerelle aynı, sıralama,
-hesap silme) çalışıyor. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
+hesap silme) çalışıyor.
+
+**Personel ekranı** `https://cigercibozo.com/oyun/yonetim/` (10 Ekim 2026): `YONETIM_KULLANICI` /
+`YONETIM_SIFRE` ile girilir, oturum sekme kapanınca biter. Ödül kodunu kullanır (kod tek seferlik,
+kullanılınca teslim sayılır), haftanın ilk 20'sini gösterir, adı gizler, turu tarayıcıda yeniden
+oynatıp puanı karşılaştırır ("tutuyor"). Yönetim uçlarına IP başına saatte 60 istek: mekandaki
+herkes aynı IP'den çıkar. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
 
 ## Yayındaki gizlilik metninin kaynağı
 

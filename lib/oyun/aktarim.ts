@@ -45,3 +45,42 @@ export type TabloYaniti = {
 export type Odul = { kod: string; sira: number; donem: string; gecerlilik: string; kullanildi: boolean }
 export type BenYaniti = { takmaAd: string; hafta: SiraBilgisi | null; odul: Odul | null }
 export type HataYaniti = { hata: string }
+
+/** Yönetim uçları (spec §10), temel kimlikle. Zamanlar: satırda epoch ms, diğerlerinde ISO. */
+export type YonetimSatiri = {
+  turId: number
+  oyuncuId: number
+  takmaAd: string
+  gizli: boolean
+  supheli: boolean
+  puan: number
+  tamKivam: number
+  kalkan: number
+  olusturma: number
+}
+export type YonetimKazanan = {
+  sira: number
+  oyuncuId: number | null
+  takmaAd: string
+  puan: number
+  gecerlilik: string | null
+  kullanildi: string | null
+}
+export type YonetimSiralamaYaniti = { donem: string; satirlar: YonetimSatiri[]; kazananlar: YonetimKazanan[] }
+/** İzleyici verisi; dokunuş kaydı saklama süresi geçince null. */
+export type YonetimTurYaniti = {
+  id: number
+  oyuncuId: number
+  takmaAd: string
+  donem: string
+  tohum: number
+  puan: number
+  ozet: Ozet
+  bitti: Bitis
+  tik: number
+  kanal: Kanal
+  supheli: boolean
+  girdiler: Girdi[] | null
+  olusturma: string
+}
+export type KodYaniti = { sira: number; donem: string; takmaAd: string; puan: number }

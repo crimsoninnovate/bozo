@@ -1,6 +1,9 @@
 import {
   KANALLAR,
   type BenYaniti,
+  type KodYaniti,
+  type YonetimSiralamaYaniti,
+  type YonetimTurYaniti,
   type BitirYaniti,
   type JetonYaniti,
   type Kanal,
@@ -49,13 +52,14 @@ export function jetonCoz(yanit: unknown): JetonYaniti | null {
   return { turId, tohum, sonaErme }
 }
 
-type Secenek = { yontem?: 'GET' | 'POST' | 'DELETE'; govde?: unknown; anahtar?: string }
+type Secenek = { yontem?: 'GET' | 'POST' | 'DELETE'; govde?: unknown; anahtar?: string; yetki?: string }
 
-export function apiKur(kok: string, getir: typeof fetch) {
-  async function istek<T>(yol: string, { yontem = 'GET', govde, anahtar }: Secenek = {}): Promise<T> {
+function istekKur(kok: string, getir: typeof fetch) {
+  return async function istek<T>(yol: string, { yontem = 'GET', govde, anahtar, yetki }: Secenek = {}): Promise<T> {
     const basliklar: Record<string, string> = {}
     if (govde !== undefined) basliklar['Content-Type'] = 'application/json'
     if (anahtar) basliklar.Authorization = `Bearer ${anahtar}`
+    if (yetki) basliklar.Authorization = yetki
     let yanit: Response
     try {
       yanit = await getir(kok + yol, {
@@ -75,7 +79,10 @@ export function apiKur(kok: string, getir: typeof fetch) {
     }
     return veri as T
   }
+}
 
+export function apiKur(kok: string, getir: typeof fetch) {
+  const istek = istekKur(kok, getir)
   return {
     async turAl(kanal: Kanal): Promise<JetonYaniti> {
       const jeton = jetonCoz(await istek<unknown>('/tur', { yontem: 'POST', govde: { kanal } }))
@@ -95,3 +102,24 @@ export function apiKur(kok: string, getir: typeof fetch) {
 export type Api = ReturnType<typeof apiKur>
 
 export const api: Api = apiKur(API_KOKU, (girdi, secenek) => fetch(girdi, secenek))
+
+/** Yönetim girişi; UTF-8 güvenli, `btoa` yalnız Latin-1 alır. */
+export function temelYetki(kullanici: string, sifre: string): string {
+  const baytlar = new TextEncoder().encode(`${kullanici}:${sifre}`)
+  return `Basic ${btoa(String.fromCharCode(...baytlar))}`
+}
+
+/** Personel ekranının istemcisi (spec §7, §9): sıralama, izleyici verisi, kod onayı, ad gizleme. */
+export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
+  const istek = istekKur(kok, getir)
+  return {
+    siralama: (donem?: string) =>
+      istek<YonetimSiralamaYaniti>(`/yonetim/siralama${donem ? `?donem=${donem}` : ''}`, { yetki }),
+    tur: (id: number) => istek<YonetimTurYaniti>(`/yonetim/tur/${id}`, { yetki }),
+    kod: (kod: string) => istek<KodYaniti>('/yonetim/kod', { yontem: 'POST', govde: { kod }, yetki }),
+    gizle: (oyuncuId: number, gizli: boolean) =>
+      istek<null>(`/yonetim/oyuncu/${oyuncuId}/gizle`, { yontem: 'POST', govde: { gizli }, yetki }),
+  }
+}
+
+export type YonetimApi = ReturnType<typeof yonetimApiKur>

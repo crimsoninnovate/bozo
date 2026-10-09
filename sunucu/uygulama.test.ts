@@ -224,6 +224,8 @@ test('yonetim_kimliksiz401_yanlis401_turIzleyiciVerisi', async () => {
   const tur = await istek(`/yonetim/tur/${siralama[0]?.turId}`, { basliklar: yonetimBasligi })
   assert.equal(tur.durum, 200)
   assert.ok(Array.isArray(tur.govde?.girdiler))
+  assert.equal(tur.govde?.jetonId, undefined, 'tek kullanımlık jeton kimliği yönetime de gitmez')
+  assert.match(String(tur.govde?.olusturma), /^\d{4}-\d{2}-\d{2}T/)
   assert.equal(siralama[0]?.supheli, true, 'sabit aralıklı bot işaretlenir')
   assert.equal((await istek('/yonetim/tur/999999', { basliklar: yonetimBasligi })).durum, 404)
 })

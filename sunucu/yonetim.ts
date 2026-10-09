@@ -1,3 +1,4 @@
+import type { KodYaniti, YonetimSiralamaYaniti, YonetimTurYaniti } from '../lib/oyun/aktarim.ts'
 import { donemAnahtari, girneGunu } from './donem.ts'
 import { IstekHatasi, temelKimlik, type Istek, type Yanit } from './http.ts'
 import { esitMi, kodOzeti } from './kod.ts'
@@ -36,7 +37,7 @@ export async function yonetimSiralama(b: Baglam, istek: Istek): Promise<Yanit> {
         gecerlilik: iso(k.gecerlilik),
         kullanildi: iso(k.kullanildi),
       })),
-    },
+    } satisfies YonetimSiralamaYaniti,
   }
 }
 
@@ -44,7 +45,8 @@ export async function yonetimSiralama(b: Baglam, istek: Istek): Promise<Yanit> {
 export async function yonetimTur(b: Baglam, id: string): Promise<Yanit> {
   const tur = await b.depo.turBul(Number(id))
   if (!tur) throw new IstekHatasi(404, 'turYok')
-  return { durum: 200, govde: { ...tur, olusturma: iso(tur.olusturma) } }
+  const { jetonId: _jeton, olusturma, ...kalan } = tur
+  return { durum: 200, govde: { ...kalan, olusturma: new Date(olusturma).toISOString() } satisfies YonetimTurYaniti }
 }
 
 export async function yonetimKod(b: Baglam, istek: Istek): Promise<Yanit> {
@@ -59,7 +61,7 @@ export async function yonetimKod(b: Baglam, istek: Istek): Promise<Yanit> {
     throw new IstekHatasi(409, 'kodKullanildi')
   }
   const { sira, donem, takmaAd, puan } = kazanan
-  return { durum: 200, govde: { sira, donem, takmaAd, puan } }
+  return { durum: 200, govde: { sira, donem, takmaAd, puan } satisfies KodYaniti }
 }
 
 export async function yonetimGizle(b: Baglam, istek: Istek, id: string): Promise<Yanit> {

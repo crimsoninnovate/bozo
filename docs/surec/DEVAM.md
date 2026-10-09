@@ -13,7 +13,8 @@ Son güncelleme: 10 Ekim 2026
   güncelleme: `SUNUCU-CANLIYA-ALMA.md`. Aynı gün yayına çıkanlar: sürükleme hatası (geçersiz bırakışta
   öğe elde asılı kalıyordu), alma penceresi %20 geniş (çırak botu %59 → %73), rehberde sabır ve çöp
   adımları, girişte "Nasıl Oynanır". `/oyun/` hâlâ `noindex`, bağlantısız. Eksik: gerçek telefonda kare
-  ölçümü; Md. 8/Md. 11 işlemleri sahibinde.
+  ölçümü; Md. 8/Md. 11 işlemleri sahibinde. Personel ekranı `/oyun/yonetim/` eklendi (kod onayı, ilk 20,
+  ad gizleme, tur doğrulama; `SUNUCU-CANLIYA-ALMA.md`); görsel tur oynatıcı ve sayaç ekranı yok.
 - **Oyun: tabak akışı canlıda** (9 Ekim 2026, `8235636`, `/oyun/` ve `/en/oyun/`, `noindex, nofollow`, bağlantısız, sitemap'te yok) (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
   plan `docs/plans/2026-10-09-oyun-tabak-plani.md`, on beş görev, `feat/site-kurulumu` dalında). Fiş,
   ocak, tabak, misafir: dokunarak ya da sürükleyerek oynanır, ilk tur rehberli, takma ad isteğe bağlı

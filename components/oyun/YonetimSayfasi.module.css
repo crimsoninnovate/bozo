@@ -1,0 +1,135 @@
+/* Personel ekranı: kabuksuz, tek sütun, telefonda tezgahta kullanılır. */
+.sayfa {
+  display: grid;
+  gap: 24px;
+  max-width: 640px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  color: var(--krem);
+  font: 400 16px/1.5 var(--font-govde);
+}
+
+.baslik {
+  margin: 0;
+  font: 400 28px/1.1 var(--font-baslik);
+}
+
+.altBaslik {
+  margin: 0 0 8px;
+  font: 600 14.5px/1.2 var(--font-govde);
+  letter-spacing: 0.04em;
+  color: var(--krem-70);
+}
+
+.bolum {
+  display: grid;
+  gap: 12px;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.alan {
+  display: grid;
+  gap: 6px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.alan input {
+  min-height: 48px;
+  padding: 0 12px;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  color: var(--krem);
+  font: 400 16px/1.4 var(--font-govde);
+}
+
+.ana {
+  min-height: 48px;
+  background: var(--kor);
+  color: var(--krem);
+  font: 600 16px/1 var(--font-govde);
+}
+
+.dugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dugmeler button,
+.cikis {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  color: var(--krem);
+  font: 500 14.5px/1 var(--font-govde);
+}
+
+.cikis {
+  justify-self: end;
+}
+
+.liste {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.satir {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.satir > .dugmeler,
+.satir > .not,
+.satirNotu {
+  grid-column: 2 / -1;
+}
+
+.sira,
+.puan {
+  font-family: var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}
+
+.sira {
+  color: var(--bakir);
+}
+
+.etiket {
+  margin-left: 8px;
+  font: 500 14.5px/1 var(--font-govde);
+  font-style: normal;
+  color: var(--bakir-acik);
+}
+
+.not,
+.satirNotu {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--krem-70);
+}
+
+.hata {
+  margin: 0;
+  color: var(--bakir-acik);
+  font-weight: 600;
+}
+
+.tamam {
+  margin: 0;
+  font-weight: 600;
+}

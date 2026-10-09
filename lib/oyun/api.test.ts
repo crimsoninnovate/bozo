@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ApiHatasi, apiKur, jetonCoz, kanalCoz, tekrarDenenebilirMi } from './api.ts'
+import { ApiHatasi, apiKur, jetonCoz, kanalCoz, tekrarDenenebilirMi, temelYetki, yonetimApiKur } from './api.ts'
 
 test('kanalCoz_sofraVeIg_taninir_digerleriYok', () => {
   assert.equal(kanalCoz('?k=sofra'), 'sofra')
@@ -64,4 +64,33 @@ test('api_anahtar_bearerBasligiylaGider', async () => {
   const api = apiKur('http://x', sahteGetir(200, { takmaAd: 'A', hafta: null, odul: null }, kayit))
   await api.benAl('deadbeef')
   assert.equal((kayit.secenek?.headers as Record<string, string>).Authorization, 'Bearer deadbeef')
+})
+
+test('temelYetki_turkceHarfler_utf8Base64', () => {
+  assert.equal(temelYetki('personel', 'gizli'), `Basic ${Buffer.from('personel:gizli').toString('base64')}`)
+  assert.equal(temelYetki('usta', 'şiş:ğ'), `Basic ${Buffer.from('usta:şiş:ğ', 'utf8').toString('base64')}`)
+})
+
+test('yonetimApi_yollarYontemlerVeTemelKimlik', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, {}, kayit), 'Basic abc')
+  const cagrilar: [() => Promise<unknown>, string, string, string | undefined][] = [
+    [() => yonetim.siralama(), 'http://x/yonetim/siralama', 'GET', undefined],
+    [() => yonetim.siralama('2026-10-05'), 'http://x/yonetim/siralama?donem=2026-10-05', 'GET', undefined],
+    [() => yonetim.tur(42), 'http://x/yonetim/tur/42', 'GET', undefined],
+    [() => yonetim.kod('123456'), 'http://x/yonetim/kod', 'POST', '{"kod":"123456"}'],
+    [() => yonetim.gizle(7, true), 'http://x/yonetim/oyuncu/7/gizle', 'POST', '{"gizli":true}'],
+  ]
+  for (const [cagri, url, yontem, govde] of cagrilar) {
+    await cagri()
+    assert.equal(kayit.url, url)
+    assert.equal(kayit.secenek?.method, yontem)
+    assert.equal(kayit.secenek?.body, govde)
+    assert.equal((kayit.secenek?.headers as Record<string, string>).Authorization, 'Basic abc')
+  }
+})
+
+test('yonetimApi_bosGovde204_hataVermez', async () => {
+  const yonetim = yonetimApiKur('http://x', async () => new Response(null, { status: 204 }), 'Basic abc')
+  assert.equal(await yonetim.gizle(1, false), null)
 })
