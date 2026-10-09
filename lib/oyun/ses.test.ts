@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { SESLER, olayinSesi, sesSec } from './ses.ts'
+import { SESLER, olayinSesi, perdeOrani, sesSec } from './ses.ts'
 import type { Olay } from './tipler.ts'
 
 test('sesler_herSes_katmanlarKisikVeSinirIcinde', () => {
@@ -53,4 +53,12 @@ test('sesSec_ayniKaredeAyniSes_birKez', () => {
   ]
   assert.deepEqual(sesSec(olaylar), ['tamKivam', 'yanik'])
   assert.deepEqual(sesSec([]), [])
+})
+
+test('perdeOrani_teslimVeTamKivam_carpanlaTamTonYukselir_digerleriSabit', () => {
+  assert.equal(perdeOrani('teslim', 1), 1)
+  assert.ok(Math.abs(perdeOrani('teslim', 2) - 2 ** (2 / 12)) < 1e-9)
+  assert.ok(Math.abs(perdeOrani('tamKivam', 4) - 2 ** 0.5) < 1e-9)
+  assert.equal(perdeOrani('tamKivam', 9), perdeOrani('tamKivam', 4))
+  assert.equal(perdeOrani('tut', 4), 1)
 })

@@ -103,6 +103,11 @@
   color: var(--bakir-acik);
 }
 
+/* Kazançta vurulur (`tepkiler.ts` > `vur`); satır içi öğe transform almaz. */
+.puan [data-ciz='puan'] {
+  display: inline-block;
+}
+
 .ayirici {
   width: 1px;
   height: 16px;

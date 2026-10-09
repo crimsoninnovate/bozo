@@ -105,3 +105,9 @@ export function sesSec(olaylar: readonly Olay[]): SesAdi[] {
   }
   return secilen
 }
+
+/** Kombo merdiveni: teslim ve tam kıvam her çarpan basamağında bir tam ton incelir (×1-×4). */
+export function perdeOrani(ad: SesAdi, carpan: number): number {
+  if (ad !== 'teslim' && ad !== 'tamKivam') return 1
+  return 2 ** (((Math.min(Math.max(carpan, 1), 4) - 1) * 2) / 12)
+}

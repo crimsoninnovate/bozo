@@ -71,6 +71,18 @@
 }
 
 /* Balon: fiş kağıdı, -4°, yırtık alt kenar; kor halkası balonun çevresinde. */
+/* Sabır azalınca fiş huysuzca sallanır: her 1,8 sn'de kısa bir sarsıntı (azaltılmışta global kural kapatır). */
+.halka[data-sabir='az'] + .balon {
+  animation: huysuz 1.8s ease-in-out infinite;
+}
+
+@keyframes huysuz {
+  0%, 30%, 100% { transform: translateX(-50%) rotate(-4deg); }
+  8% { transform: translateX(-50%) rotate(-8deg); }
+  16% { transform: translateX(-50%) rotate(0deg); }
+  24% { transform: translateX(-50%) rotate(-6deg); }
+}
+
 .balon {
   position: absolute;
   left: 50%;

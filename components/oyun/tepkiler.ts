@@ -59,6 +59,43 @@ function ucanRakam(el: HTMLElement | null, metin: string, azalt: boolean): void 
   rakam.animate(kareler, { duration: 700, easing: 'ease-out' }).finished.then(kaldir, kaldir)
 }
 
+const puanEl = (alan: HTMLElement) => alan.querySelector<HTMLElement>('[data-ciz="puan"]')
+
+/** Kısa vuruş: büyür ve yaylanarak döner (kazanç anı). Azaltılmışta yok; parlama ve rakam yeter. */
+function vur(el: HTMLElement | null, olcek: number, azalt: boolean): void {
+  if (!el || azalt) return
+  const kare = (o: number, offset: number): Keyframe => ({ transform: `scale(${o})`, offset })
+  el.animate([kare(1, 0), kare(olcek, 0.35), kare(1, 1)], { duration: 220, easing: 'ease-out' })
+}
+
+/** Bahşiş rakamı paradan HUD puanına yay çizerek uçar, varınca puan vurur (sebep ile sonuç bağlanır). */
+function puanaUc(alan: HTMLElement, kaynakEl: HTMLElement | null, metin: string): void {
+  const puan = puanEl(alan)
+  if (!kaynakEl || !puan) return
+  const rakam = document.createElement('span')
+  rakam.className = stil.ucanRakam ?? ''
+  rakam.textContent = metin
+  const k = alan.getBoundingClientRect()
+  const a = kaynakEl.getBoundingClientRect()
+  const b = puan.getBoundingClientRect()
+  rakam.style.left = `${a.left + a.width / 2 - k.left}px`
+  rakam.style.top = `${a.top - k.top}px`
+  alan.append(rakam)
+  const dx = b.left + b.width / 2 - a.left - a.width / 2
+  const dy = b.top + b.height / 2 - a.top
+  const yer = (x: number, y: number, o: number) => `translate(calc(-50% + ${x}px), ${y}px) scale(${o})`
+  const kareler: Keyframe[] = [
+    { transform: yer(0, 0, 1), opacity: 0 },
+    { transform: yer(dx * 0.3, Math.min(dy, 0) - 36, 1.15), opacity: 1, offset: 0.3 },
+    { transform: yer(dx, dy, 0.7), opacity: 0.9 },
+  ]
+  const bitir = () => {
+    rakam.remove()
+    vur(puan, 1.2, false)
+  }
+  rakam.animate(kareler, { duration: 560, easing: 'ease-in' }).finished.then(bitir, () => rakam.remove())
+}
+
 function titre(): void {
   if ('vibrate' in navigator) navigator.vibrate(12)
 }
@@ -167,7 +204,9 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       if (olay.el.tur !== 'sis') return
       const yuva = hedef(alan, `o${olay.el.yuva}`)
       parla(yuva, stil[olay.el.kalite])
-      return olay.el.kalite === 'tam' ? titre() : undefined
+      if (olay.el.kalite !== 'tam') return undefined
+      vur(yuva, 1.12, azalt)
+      return titre()
     }
     case 'tabagaKondu':
       ucus(alan, kaynak(alan, olay.el), hedef(alan, `t${olay.no}`), azalt)
@@ -182,13 +221,16 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       ucus(alan, hedef(alan, `t${olay.no}`), hedef(alan, `m${olay.yer}`), azalt)
       parla(hedef(alan, `m${olay.yer}`), stil.odedi)
       patlat(hedef(alan, `m${olay.yer}`), azalt)
+      vur(puanEl(alan), 1.2, azalt)
       return ucanRakam(hedef(alan, `m${olay.yer}`), `+${olay.hesap}`, azalt)
     case 'yanlisTabak':
       return salla(hedef(alan, `m${olay.yer}`), azalt)
     case 'paraDustu':
       return paraBelir(hedef(alan, `p${olay.yer}`), azalt)
     case 'bahsisAlindi':
-      return ucanRakam(hedef(alan, `p${olay.yer}`), `+${olay.tutar}`, azalt)
+      return azalt
+        ? ucanRakam(hedef(alan, `p${olay.yer}`), `+${olay.tutar}`, azalt)
+        : puanaUc(alan, hedef(alan, `p${olay.yer}`), `+${olay.tutar}`)
     case 'copeGitti':
       ucus(alan, kaynak(alan, olay.el), hedef(alan, 'cop'), azalt)
       return salla(hedef(alan, 'cop'), azalt)

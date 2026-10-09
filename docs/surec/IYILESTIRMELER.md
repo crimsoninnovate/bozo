@@ -2465,3 +2465,16 @@ Evre 5 (04:00-05:00, 15 sn) üç misafir kalkışıyla bitirilemez: sabır 16 sn
 saat bir puan koşusudur, kaybettirmez. Bilerek böyle bırakıldı (spec §13); gecenin kaybı evre 2-4'te
 olur, son saat o geceyi sonuna kadar getirenin ödülüdür.
 
+
+## 10 Ekim 2026: his turu 1
+
+Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
+
+- Bahşiş rakamı paradan HUD puanına yay çizerek uçar, varınca puan vurur; teslimde de puan vurur.
+- Tam kıvamda ocak yuvası kısa bir vuruşla büyüyüp döner (titreşimin yanında).
+- Sabır azalınca (`data-sabir="az"`) fiş her 1,8 sn'de kısa bir sarsıntı yapar.
+- Kombo merdiveni: teslim ve tam kıvam sesi her çarpan basamağında bir tam ton incelir (`perdeOrani`).
+- Azaltılmışta vuruş ve yay yok, bahşiş yerinde belirir; fiş sarsıntısını global kural kapatır.
+- Ölçüm (390 px, CPU 4x, headless, misafir beklerken): p50 16,7, p95 18,0 ms, 25 ms üstü 0; önceki 17,4-18,6.
+- Ses seviyesi (WAV'a çıkarılıp ölçüldü, `~/Desktop/Bozo/ses-dinleme/`): en yüksek tepe -13 dBFS, `birak`
+  -36 dBFS (telefonda duyulmaz), `tut` ve `tik` -21 dBFS. Sahibi dinleyince kazançlar birlikte ayarlanacak.

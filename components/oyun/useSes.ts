@@ -3,7 +3,7 @@ import { sesAcikMi, sesYaz } from '@/lib/oyun/defter'
 import type { SesAdi } from '@/lib/oyun/ses'
 import { sesCalarKur, type SesCalar } from './sesCalar'
 
-export type Ses = { acik: boolean; degistir: () => void; cal: (ad: SesAdi) => void; uyandir: () => void }
+export type Ses = { acik: boolean; degistir: () => void; cal: (ad: SesAdi, perde?: number) => void; uyandir: () => void }
 
 /** Ses varsayılan kapalı; tercih tarayıcıda kalır. Bağlam bir dokunuşun içinde kurulur (spec §13). */
 export function useSes(): Ses {
@@ -30,10 +30,10 @@ export function useSes(): Ses {
   const uyandir = () => {
     if (acik) hazirla()
   }
-  const cal = (ad: SesAdi) => {
+  const cal = (ad: SesAdi, perde?: number) => {
     if (!acik) return
     calar.current ??= sesCalarKur()
-    calar.current?.cal(ad)
+    calar.current?.cal(ad, perde)
   }
   return { acik, degistir, cal, uyandir }
 }

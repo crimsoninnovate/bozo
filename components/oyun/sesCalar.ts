@@ -5,7 +5,7 @@ import { SESLER, type Katman, type SesAdi } from '@/lib/oyun/ses'
  * dokunuşta kurulur; tarayıcı kullanıcı hareketi olmadan ses başlatmaz.
  */
 
-export type SesCalar = { cal: (ad: SesAdi) => void; uyandir: () => void; kapat: () => void }
+export type SesCalar = { cal: (ad: SesAdi, perde?: number) => void; uyandir: () => void; kapat: () => void }
 
 /** Bir saniyelik beyaz gürültü, bir kez üretilir: cızırtının ve çevirmenin kaynağı. */
 function gurultuTamponu(ctx: AudioContext): AudioBuffer {
@@ -66,9 +66,12 @@ export function sesCalarKur(): SesCalar | null {
   const uyandir = (): void => {
     if (ctx.state === 'suspended') void ctx.resume()
   }
-  const cal = (ad: SesAdi): void => {
+  const cal = (ad: SesAdi, perde = 1): void => {
     uyandir()
-    for (const katman of SESLER[ad]) katmanKur(ctx, tampon, katman, sikistirici)
+    for (const k of SESLER[ad]) {
+      const katman = k.tur === 'ton' && perde !== 1 ? { ...k, hz: k.hz * perde, hzSon: k.hzSon && k.hzSon * perde } : k
+      katmanKur(ctx, tampon, katman, sikistirici)
+    }
   }
   return { cal, uyandir, kapat: () => void ctx.close() }
 }

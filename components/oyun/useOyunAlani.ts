@@ -1,7 +1,8 @@
 import { useEffect, useState, type RefObject } from 'react'
 import { useHareketAzaltilmisMi } from '@/lib/hareket'
 import { duyurucuKur, duyuruSec } from '@/lib/oyun/duyuru'
-import { sesSec } from '@/lib/oyun/ses'
+import { komboCarpani } from '@/lib/oyun/puan'
+import { perdeOrani, sesSec } from '@/lib/oyun/ses'
 import { eldeKaynagi } from '@/lib/oyun/surukle'
 import type { Girdi, Hedef, Kalem, Olay, Oyun, Sonuc } from '@/lib/oyun/tipler'
 import { duyuruYaz, sahayiCiz } from './ciz'
@@ -39,7 +40,8 @@ export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secen
     const alan = kok.current
     if (!alan) return
     olaylaraTepki(alan, olaylar, azalt)
-    for (const sesAdi of sesSec(olaylar)) ses.cal(sesAdi)
+    const carpan = komboCarpani(dongu.oyunu().kombo)
+    for (const sesAdi of sesSec(olaylar)) ses.cal(sesAdi, perdeOrani(sesAdi, carpan))
     const duyuru = duyuruSec(olaylar)
     if (duyuru) duyurucu.ekle(duyuru)
   }
