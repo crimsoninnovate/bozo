@@ -8,11 +8,11 @@ Son güncelleme: 9 Ekim 2026
 
 ## Durum
 
-- **Oyun: tabak akışı uygulandı, yayında değil** (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
+- **Oyun: tabak akışı canlıda** (9 Ekim 2026, `8235636`, `/oyun/` ve `/en/oyun/`, `noindex, nofollow`, bağlantısız, sitemap'te yok) (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
   plan `docs/plans/2026-10-09-oyun-tabak-plani.md`, on beş görev, `feat/site-kurulumu` dalında). Fiş,
   ocak, tabak, misafir: dokunarak ya da sürükleyerek oynanır, ilk tur rehberli, takma ad isteğe bağlı
   (giriş ekranında, yalnız sunucu ayaktayken görünür). Simülasyon, botlar, tavan, axe 0 ve kare p95
-  `IYILESTIRMELER.md` > tabak akışı bölümlerinde. **Skor sunucusu canlıya çıkmak için** gizlilik metni
+  `IYILESTIRMELER.md` > tabak akışı bölümlerinde. **Skor sunucusu yayında değil; canlıya çıkmak için** gizlilik metni
   (TR/EN), altyapı, DNS ve gizli anahtarlar gerekir; o güne dek canlıdaki sürüm çevrimdışı tur olarak
   kalır ve ad alanı görünmez. 375 x 548 gibi çok kısa ekranlar desteklenmiyor (ölçüm aynı yerde).
 - **9 Ekim 2026 01:40: oyun prototipi canlıya alındı (önceki sürüm)** (`a9caf09`, tüm dal rsync ile): `/oyun/`,
