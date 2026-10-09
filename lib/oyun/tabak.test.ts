@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { TABAK_SINIRI } from './ayar.ts'
 import { evreyeGec, sahne } from './deneme.ts'
 import { birak, copeBirak, kasedenTut, tabagaDokun } from './tabak.ts'
-import type { Elde, Olay, Oyun } from './tipler.ts'
+import type { Elde, Olay } from './tipler.ts'
 
 const SIS: NonNullable<Elde> = { tur: 'sis', urun: 'ciger', kalite: 'tam', yuva: 2 }
 

@@ -1,19 +1,10 @@
-import type { Hedef } from './tipler.ts'
+export type TusEylemi = 'dokun' | 'birak'
 
-/** 1-4 sofra, 5-8 ocak yuvası (spec §15). */
-const KISAYOLLAR: Readonly<Record<string, Hedef>> = {
-  '1': 's0',
-  '2': 's1',
-  '3': 's2',
-  '4': 's3',
-  '5': 'o0',
-  '6': 'o1',
-  '7': 'o2',
-  '8': 'o3',
-}
-
-export function kisayolHedefi(tus: string): Hedef | null {
-  return KISAYOLLAR[tus] ?? null
+/** Enter ve boşluk odaktaki hedefe dokunur, Esc eldekini bırakır (spec tabak §3). Rakam kısayolu yok. */
+export function tusEylemi(tus: string): TusEylemi | null {
+  if (tus === 'Enter' || tus === ' ') return 'dokun'
+  if (tus === 'Escape') return 'birak'
+  return null
 }
 
 /** Şerit içi gezinme: sol ve yukarı geri, sağ ve aşağı ileri; başka tuş null. */

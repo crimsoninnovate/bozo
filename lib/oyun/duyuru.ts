@@ -1,37 +1,39 @@
-import type { Olay } from './tipler.ts'
+import type { Kalem, Olay } from './tipler.ts'
 
 /*
  * Canlı bölge (spec §15): önemli anlar saniyede en çok bir kez duyurulur. Metin
  * sözlükten gelir; burada yalnız hangi anın duyurulacağı ve sırası seçilir.
  */
 
-export type DuyuruAnahtari = 'sonSaat' | 'porsiyon' | 'sofraKalkti' | 'fisTamam' | 'sisYandi' | 'sogudu'
-export type Duyuru = { anahtar: DuyuruAnahtari; puan?: number }
+export type DuyuruAnahtari =
+  | 'sonSaat' | 'misafirKalkti' | 'teslim' | 'bahsis' | 'yanlisTabak' | 'sisYandi' | 'paraSoldu' | 'tabagaKondu' | 'elde'
+export type Duyuru = { anahtar: DuyuruAnahtari; puan?: number; no?: number; urun?: Kalem }
 
-/** Önem sırası: büyük sayı önce söylenir. */
+/** Önem sırası: büyük sayı önce söylenir. Tut ve bırak sonuçları en altta (spec tabak §3). */
 const ONCELIK: Readonly<Record<DuyuruAnahtari, number>> = {
-  sonSaat: 6,
-  porsiyon: 5,
-  sofraKalkti: 4,
-  fisTamam: 3,
-  sisYandi: 2,
-  sogudu: 1,
+  sonSaat: 9, misafirKalkti: 8, teslim: 7, bahsis: 6, yanlisTabak: 5, sisYandi: 4, paraSoldu: 3, tabagaKondu: 2, elde: 1,
 }
 
 function olayDuyurusu(olay: Olay): Duyuru | null {
   switch (olay.tur) {
     case 'evre':
       return olay.evre === 4 ? { anahtar: 'sonSaat' } : null
-    case 'porsiyon':
-      return { anahtar: 'porsiyon' }
-    case 'sofraKalkti':
-      return olay.odedi ? null : { anahtar: 'sofraKalkti' }
-    case 'fisTamam':
-      return { anahtar: 'fisTamam', puan: olay.odeme }
+    case 'misafirKalkti':
+      return olay.odedi ? null : { anahtar: 'misafirKalkti' }
+    case 'teslim':
+      return { anahtar: 'teslim', no: olay.yer + 1, puan: olay.hesap }
+    case 'bahsisAlindi':
+      return { anahtar: 'bahsis', puan: olay.tutar }
+    case 'yanlisTabak':
+      return { anahtar: 'yanlisTabak' }
     case 'sisYandi':
       return { anahtar: 'sisYandi' }
-    case 'sogudu':
-      return { anahtar: 'sogudu' }
+    case 'paraSoldu':
+      return { anahtar: 'paraSoldu' }
+    case 'tabagaKondu':
+      return { anahtar: 'tabagaKondu', no: olay.no + 1 }
+    case 'tutuldu':
+      return olay.el.tur === 'tabak' ? null : { anahtar: 'elde', urun: olay.el.urun }
     default:
       return null
   }

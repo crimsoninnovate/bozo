@@ -1,9 +1,10 @@
+import { PARA_TIK } from './ayar.ts'
 import { komboCarpani } from './puan.ts'
-import type { OcakSisi, Oyun, Urun } from './tipler.ts'
+import type { Kalem, OcakSisi, Oyun, Para } from './tipler.ts'
 
 /*
  * Görsel dilin saf hesapları (spec §12-§13): tane rengi, kor ışığı, sabır halkası,
- * fişteki servis işaretleri. Oyun durumunu değiştirmez; yalnız ekran çağırır.
+ * bahşiş solması, fiş satırları. Oyun durumunu değiştirmez; yalnız ekran çağırır.
  */
 
 /** Tanenin kremden bakıra dönüşü: 0 çiğ, 1 pişti; alma penceresinde 1'de kalır. */
@@ -34,47 +35,18 @@ export function sabirDurumu(oran: number): 'var' | 'az' {
   return oran <= SABIR_ESIGI ? 'az' : 'var'
 }
 
-function sayim(urunler: readonly Urun[]): Map<Urun, number> {
-  const m = new Map<Urun, number>()
-  for (const u of urunler) m.set(u, (m.get(u) ?? 0) + 1)
-  return m
+/** Paranın kalan ömrü (0-1): solma opaklığı. */
+export function paraOrani(para: Para | null): number {
+  return para ? para.kalan / PARA_TIK : 0
 }
 
-/**
- * Fişin her kalemi için servis edildi mi: aynı üründen önce yazılanlar önce servis
- * sayılır. `fis` misafirin tam fişi, `kalan` henüz gelmeyenler.
- */
-export function servisEdilenler(fis: readonly Urun[], kalan: readonly Urun[]): boolean[] {
-  const fisSayisi = sayim(fis)
-  const kalanSayisi = sayim(kalan)
-  const gorulen = new Map<Urun, number>()
-  return fis.map((u) => {
-    const sira = gorulen.get(u) ?? 0
-    gorulen.set(u, sira + 1)
-    return sira < (fisSayisi.get(u) ?? 0) - (kalanSayisi.get(u) ?? 0)
-  })
-}
+export type FisSatiri = { tur: 'karisik' } | { tur: 'kalem'; urun: Kalem; adet: number }
 
-export type FisSatiri =
-  | { tur: 'karisik'; servis: readonly [boolean, boolean, boolean] }
-  | { tur: 'urun'; urun: Urun; kalan: number }
-
-/**
- * Fişin ekranda gösterilen satırları: aynı ürün tek satırda, yanında henüz gelmeyen adet.
- * Karışık fişte ilk üç kalem (ciğer, dalak, yürek) tek kümedir, servisleri ayrı taşınır.
- */
-export function fisSatirlari(fis: readonly Urun[], kalan: readonly Urun[], karisik: boolean): FisSatiri[] {
-  const servis = servisEdilenler(fis, kalan)
-  const bekleyen = sayim(kalan)
-  const satirlar: FisSatiri[] = []
-  if (karisik) {
-    fis.slice(0, 3).forEach((u, i) => {
-      if (!servis[i]) bekleyen.set(u, (bekleyen.get(u) ?? 1) - 1)
-    })
-    satirlar.push({ tur: 'karisik', servis: [servis[0]!, servis[1]!, servis[2]!] })
-  }
-  for (const urun of new Set(fis.slice(karisik ? 3 : 0))) {
-    satirlar.push({ tur: 'urun', urun, kalan: bekleyen.get(urun) ?? 0 })
-  }
+/** Fişin simgeleri: aynı kalem tek satırda adetle; Karışık fişte ilk üç kalem tek kümedir. */
+export function fisSatirlari(fis: readonly Kalem[], karisik: boolean): FisSatiri[] {
+  const satirlar: FisSatiri[] = karisik ? [{ tur: 'karisik' }] : []
+  const adet = new Map<Kalem, number>()
+  for (const k of fis.slice(karisik ? 3 : 0)) adet.set(k, (adet.get(k) ?? 0) + 1)
+  for (const [urun, n] of adet) satirlar.push({ tur: 'kalem', urun, adet: n })
   return satirlar
 }

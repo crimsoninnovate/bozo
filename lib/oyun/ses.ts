@@ -3,11 +3,11 @@ import type { Olay } from './tipler.ts'
 /*
  * Ses dili (spec §13): dosya yok, sesler Web Audio ile üretilir. Burada yalnız tanımlar
  * ve olay eşlemesi; sentez `components/oyun/sesCalar.ts`'te. Her ses birkaç katmandır:
- * çan tınısı (bakır tık, servis), süzgeçli gürültü (cızırtı, çevirme), alçak vuruş (yanık).
+ * çan tınısı (tut, bahşiş, teslim), süzgeçli gürültü (cızırtı, bırakma), alçak vuruş (yanık).
  */
 
 export type SesAdi =
-  | 'cizirti' | 'cevir' | 'tik' | 'tamKivam' | 'servis' | 'fisTamam'
+  | 'cizirti' | 'tut' | 'tik' | 'tamKivam' | 'teslim' | 'bahsis' | 'birak' | 'yanlis'
   | 'yanik' | 'kalkti' | 'sonSaat' | 'gece' | 'kayip'
 
 /** `ton`: osilatör frekansı; `gurultu`: süzgeç merkezi. `hzSon` verilirse üstel kayar. */
@@ -35,11 +35,16 @@ export const SESLER: Readonly<Record<SesAdi, readonly Katman[]>> = {
     { tur: 'gurultu', suzgec: 'highpass', hz: 2600, hzSon: 1400, ms: 380, kazanc: 0.08 },
     { tur: 'ton', hz: 150, hzSon: 70, ms: 90, kazanc: 0.12 },
   ],
-  cevir: [{ tur: 'gurultu', hz: 500, hzSon: 2200, ms: 170, kazanc: 0.09 }],
-  tik: zil(1320, 70, 0.08),
+  tut: zil(1320, 70, 0.08),
+  tik: zil(988, 90, 0.08),
   tamKivam: [...zil(1568, 420, 0.1), ...zil(2349, 300, 0.06, 70)],
-  servis: [...zil(659, 120, 0.1), ...zil(988, 200, 0.11, 100)],
-  fisTamam: [...zil(784, 120, 0.1), ...zil(988, 120, 0.1, 110), ...zil(1319, 320, 0.11, 220)],
+  teslim: [...zil(784, 120, 0.1), ...zil(988, 120, 0.1, 110), ...zil(1319, 320, 0.11, 220)],
+  bahsis: [...zil(2093, 160, 0.09), ...zil(2489, 260, 0.08, 90)],
+  birak: [{ tur: 'gurultu', suzgec: 'lowpass', hz: 700, hzSon: 300, ms: 120, kazanc: 0.07 }],
+  yanlis: [
+    { tur: 'ton', dalga: 'triangle', hz: 262, hzSon: 220, ms: 140, kazanc: 0.09 },
+    { tur: 'ton', dalga: 'triangle', hz: 262, hzSon: 220, ms: 140, kazanc: 0.09, gecikme: 170 },
+  ],
   yanik: [
     { tur: 'ton', dalga: 'triangle', hz: 120, hzSon: 55, ms: 240, kazanc: 0.15 },
     { tur: 'gurultu', suzgec: 'lowpass', hz: 900, ms: 140, kazanc: 0.1 },
@@ -65,21 +70,22 @@ export function olayinSesi(olay: Olay): SesAdi | null {
   switch (olay.tur) {
     case 'sisKondu':
       return 'cizirti'
-    case 'sisCevrildi':
-      return 'cevir'
-    case 'sisAlindi':
-      return olay.kalite === 'tam' ? 'tamKivam' : 'tik'
-    case 'sofraKuruldu':
-    case 'ayranDoldu':
+    case 'tutuldu':
+      return olay.el.tur === 'sis' && olay.el.kalite === 'tam' ? 'tamKivam' : 'tut'
+    case 'tabagaKondu':
       return 'tik'
-    case 'servis':
-      return 'servis'
-    case 'fisTamam':
-      return 'fisTamam'
+    case 'teslim':
+      return 'teslim'
+    case 'bahsisAlindi':
+      return 'bahsis'
+    case 'birakildi':
+    case 'copeGitti':
+      return 'birak'
+    case 'yanlisTabak':
+      return 'yanlis'
     case 'sisYandi':
-    case 'sogudu':
       return 'yanik'
-    case 'sofraKalkti':
+    case 'misafirKalkti':
       return olay.odedi ? null : 'kalkti'
     case 'evre':
       return olay.evre === 4 ? 'sonSaat' : null
@@ -90,12 +96,12 @@ export function olayinSesi(olay: Olay): SesAdi | null {
   }
 }
 
-/** Karenin sesleri, her ad bir kez; fiş tamamlanınca onun akoru servis zilinin yerine çalar. */
+/** Karenin sesleri, her ad bir kez. */
 export function sesSec(olaylar: readonly Olay[]): SesAdi[] {
   const secilen: SesAdi[] = []
   for (const olay of olaylar) {
     const ad = olayinSesi(olay)
     if (ad && !secilen.includes(ad)) secilen.push(ad)
   }
-  return secilen.includes('fisTamam') ? secilen.filter((ad) => ad !== 'servis') : secilen
+  return secilen
 }
