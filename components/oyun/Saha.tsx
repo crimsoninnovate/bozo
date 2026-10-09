@@ -80,7 +80,14 @@ export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
       <Tabaklar {...serit} />
       <Raf {...serit} />
       {rehber.durum.adim !== 'bitti' && rehber.durum.adim !== 'bekle' && rehber.durum.adim !== 'ikinci' && (
-        <Rehber alan={kok} adim={rehber.durum.adim} el={goruntu.el} metin={s.oyun.rehber} tamam={rehber.tamam} atla={rehber.atla} />
+        <Rehber
+          alan={kok}
+          adim={rehber.durum.adim}
+          metin={s.oyun.rehber}
+          azalt={azalt}
+          tamam={rehber.tamam}
+          atla={rehber.atla}
+        />
       )}
       {duraklatildi && <Perde metin={s.oyun} devam={devam} cik={cik} />}
     </div>

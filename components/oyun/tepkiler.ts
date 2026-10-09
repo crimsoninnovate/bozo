@@ -108,6 +108,16 @@ function yanik(yuva: HTMLElement | null): void {
 
 const kaynak = (alan: HTMLElement, el: Exclude<Elde, null>): HTMLElement | null => hedef(alan, eldeKaynagi(el) ?? '')
 
+/** Sürüklenen öğe 180 ms'de yerine döner; azaltılmışta anlık. Yalnız girdi vermeyen ya da reddedilen bırakışta. */
+export function yerineDon(tasinan: HTMLElement | null, azalt: boolean): void {
+  if (!tasinan) return
+  const simdiki = tasinan.style.transform
+  tasinan.style.transform = ''
+  tasinan.removeAttribute('data-tasinan')
+  if (azalt || !simdiki) return
+  tasinan.animate([{ transform: simdiki }, { transform: 'none' }], { duration: 180, easing: 'ease-out' })
+}
+
 /**
  * Uçuş: kaynaktaki `[data-tasinir]` kopyalanır (React aynı karede aslını değiştirir), köke eklenir,
  * 220 ms'de hedefin ortasına uçar ve silinir; azaltılmışta anında. Dokun-dokun yolunun "nereye gitti"si.
@@ -115,7 +125,12 @@ const kaynak = (alan: HTMLElement, el: Exclude<Elde, null>): HTMLElement | null 
  */
 export function ucus(alan: HTMLElement, kaynak: HTMLElement | null, hedef: HTMLElement | null, azalt: boolean): void {
   const asil = kaynak?.querySelector<HTMLElement>('[data-tasinir]')
-  if (alan.hasAttribute('data-suruklendi')) return alan.removeAttribute('data-suruklendi')
+  const suruklendi = alan.getAttribute('data-suruklendi')
+  if (suruklendi !== null) {
+    alan.removeAttribute('data-suruklendi')
+    // Bayrak yalnız taze bırakışa aittir: sim girdiyi reddettiyse eski bayrak sonraki dokunuşun uçuşunu yutmasın.
+    if (performance.now() - Number(suruklendi) < 400) return
+  }
   if (!asil || !hedef || azalt) return
   const kopya = asil.cloneNode(true) as HTMLElement
   kopya.removeAttribute('data-tasinir')

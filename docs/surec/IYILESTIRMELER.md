@@ -2428,3 +2428,12 @@ iki evrede açıldı, sütunun başka yerine dokunulmadı:
 - Enter ve Boşluk odaktakine dokunur, Esc eldekini bırakır; şiş elde kalır (yuvası boşaldı, yemeği
   yalnız çöp atar). Canlı bölge son duyuruyu taşır.
 - axe-core, oyun ekranı, rehberle (adım `fis`) ve rehbersiz: 0 ihlal.
+
+### Sürükleme katmanı (tabak akışı, 9 Ekim 2026)
+
+- Kare süresi, 2 sn'lik yavaş sürükleme sırasında (CPU 4x, 390 px, headless, 4 koşu): ortalama 16,67 ms,
+  p95 17,5 ms, en uzun kare 17,7 ms. Süreler 60 Hz ızgarasına oturur (16,7 / 17,5); 17,5 kapısı tam
+  sınırda geçer, sürükleme kareyi uzatmaz. `elementFromPoint` kare başına bir kez, `[data-ustunde]`
+  kutu gölgesi değişikliği ölçülebilir maliyet getirmedi; ikisine dokunulmadı.
+- Rehber sürükleme modunda hem kaynağı hem hedefi açar (kaynak delikle, hedef kesikli bakır çerçeveyle).
+  Karartma hedefin üstünü örtmez; hedef çerçevesi karartmanın üstüne çizilir, dört dikdörtgene geçilmedi.

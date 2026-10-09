@@ -53,7 +53,7 @@ export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secen
     dokunus(el, azalt)
     return true
   }
-  useSurukleme({ kok, elde: () => eldeKaynagi(dongu.oyunu().el), dokun })
+  useSurukleme({ kok, elde: () => eldeKaynagi(dongu.oyunu().el), dokun, azalt })
 
   useEffect(() => {
     if (kok.current) seritleriDuzenle(kok.current)

@@ -27,6 +27,11 @@
   z-index: 1;
 }
 
+/* Sürüklenen öğenin şeridi üste çıkar; yoksa `[data-tasinan]` komşu şeridin altında kalır. */
+.saha > [data-serit]:has([data-tasinan]) {
+  z-index: 2;
+}
+
 /* Tahta kurulur: istasyonlar aşağıdan sırayla yükselir (misafir, ocak, tabak, raf). */
 .saha > [data-serit] {
   animation: kurul 460ms var(--gecis-egri) both;
