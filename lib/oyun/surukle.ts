@@ -83,8 +83,8 @@ function yurume(durum: Surukleme, i: Extract<Isaret, { tur: 'yuru' }>, elde: Hed
 function kaldirma(durum: Surukleme, i: Extract<Isaret, { tur: 'kaldir' }>, elde: Hedef | null): SuruklemeSonucu {
   if (durum.tur !== 'basili' || durum.id !== i.id) return ayni(durum)
   if (!durum.suruklendi || elde === null) return bos()
-  if (i.hedef === null) return bos(['birak'])
-  return bos(birakmaHedefiMi(elde, i.hedef) ? [i.hedef] : [])
+  // Geçerli hedef dışındaki her bırakış (boşluk, yanlış düğme) `birak`tır; öğe elde asılı kalmaz (spec tabak §3).
+  return bos(i.hedef !== null && birakmaHedefiMi(elde, i.hedef) ? [i.hedef] : ['birak'])
 }
 
 /** Her işaret için yeni durum, simülasyona gidecek girdiler ve taşıma ötelemesi. */

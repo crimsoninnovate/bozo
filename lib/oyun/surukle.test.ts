@@ -47,13 +47,13 @@ test('surukle_bosAlanaBirakis_birakVerir', () => {
   assert.deepEqual(s.girdiler, ['birak'])
 })
 
-test('surukle_yanlisTurHedef_eldeKalir', () => {
-  const sis = oynat([bas('o0'), yuru(0, 40), kaldir('m0', 0, 40)], 'o0')
-  assert.deepEqual(sis.girdiler, [])
-  const tabak = oynat([bas('t0'), yuru(0, 40), kaldir('t1', 0, 40)], 't0')
-  assert.deepEqual(tabak.girdiler, [])
-  const kendi = oynat([bas('o0'), yuru(0, 40), kaldir('o0', 0, 40)], 'o0')
-  assert.deepEqual(kendi.girdiler, [])
+test('surukle_yanlisTurHedef_birakVerir_elAsiliKalmaz', () => {
+  const eslikci = oynat([bas('domates'), yuru(0, 40), kaldir('m0', 0, 40)], 'domates')
+  assert.deepEqual(eslikci.girdiler, ['birak'])
+  assert.deepEqual(oynat([bas('sogan'), yuru(0, 40), kaldir('ciger', 0, 40)], 'sogan').girdiler, ['birak'])
+  assert.deepEqual(oynat([bas('t0'), yuru(0, 40), kaldir('t1', 0, 40)], 't0').girdiler, ['birak'])
+  assert.deepEqual(oynat([bas('domates'), yuru(0, 40), kaldir('domates', 0, 40)], 'domates').girdiler, ['birak'])
+  assert.deepEqual(oynat([bas('o0'), yuru(0, 40), kaldir('m0', 0, 40)], 'o0').girdiler, ['birak'])
 })
 
 test('surukle_tabak_misafireVeCope_sisVeEslikci_tabagaVeCope', () => {
