@@ -17,7 +17,7 @@ type Props = {
   tablo: TabloYaniti | null
 }
 
-/** Giriş (spec §11, handoff 1a): açılış, isteğe bağlı takma ad, Oyna 64 px, sıralama bloğu, bağlantılar.
+/** Giriş (spec §11, handoff 1a): açılış, isteğe bağlı takma ad, Oyna düğmesi, sıralama bloğu, bağlantılar.
  *  Jeton gelene kadar düğme kilitli. */
 export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: Props) {
   const s = sozluk(dil)
