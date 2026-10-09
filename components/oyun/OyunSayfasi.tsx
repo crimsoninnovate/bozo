@@ -58,7 +58,7 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
               ekran(
                 `oyun-${tur.tohum}`,
                 'oyun',
-                <Saha dil={dil} tohum={tur.tohum} ipucu={tur.ipucu} bitince={akis.bitir} cik={akis.cik} />,
+                <Saha dil={dil} tohum={tur.tohum} rehberli={tur.rehberli} bitince={akis.bitir} cik={akis.cik} />,
               )}
             {akis.ekran === 'sonuc' &&
               son &&

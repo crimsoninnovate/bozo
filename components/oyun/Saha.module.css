@@ -225,7 +225,7 @@
   box-shadow: inset 0 1px 0 rgba(255, 200, 150, 0.25);
 }
 
-/* Uçan rakam ve servis hayaleti: `tepkiler.ts` yaratır, animasyon bitince siler. */
+/* Uçan rakam ve uçuş kopyası: `tepkiler.ts` yaratır, animasyon bitince siler. */
 .parca {
   position: absolute;
   left: 50%;
@@ -251,13 +251,12 @@
   pointer-events: none;
 }
 
+/* Uçuş kopyası köke eklenir; konum ve ölçü `tepkiler.ts`'ten. */
 .hayalet {
-  position: fixed;
-  z-index: 2;
-  width: 72px;
-  height: 54px;
-  overflow: visible;
+  position: absolute;
+  z-index: 6;
   pointer-events: none;
+  line-height: 0;
 }
 
 /* Duraklat perdesi (handoff 281): zemin alfa .92, 300 ms belirir. */

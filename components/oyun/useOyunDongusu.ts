@@ -12,6 +12,10 @@ type Secenek = {
   tepki: (olaylar: Olay[]) => void
   /** Tur bitince sonuç ve dokunuş kaydı; kayıt sunucuya gider (spec §7). */
   bitince: (sonuc: Sonuc, kayit: readonly Girdi[]) => void
+  /** Rehberli adımda saat durur; sıradaki girdi varsa tam bir tik işler ki girdi etki etsin. */
+  durdur: () => boolean
+  /** Her karede, olaylar boş olsa da: rehber adımını ilerletir. */
+  izle: (oyun: Oyun, olaylar: readonly Olay[]) => void
 }
 
 /** Sekme arka plana geçince oyun duraklar; otomatik başlama yok (spec §15). Setter sabit, abonelik bir kez. */
@@ -29,12 +33,16 @@ function useGizleninceDuraklat(setDuraklatildi: (durum: boolean) => void): void 
  * Sabit adımlı oyun döngüsü (spec §10). Simülasyon tikte, çizim karede ilerler; React
  * yalnız olay olunca yeniden çizer, sürekli değerleri `ciz` doğrudan yazar.
  */
-export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
+export function useOyunDongusu({ tohum, ciz, tepki, bitince, durdur, izle }: Secenek) {
   const [canli] = useState(() => canliBaslat(tohum))
   const [goruntu, setGoruntu] = useState(() => goruntuAl(canli.oyun))
   const [duraklatildi, setDuraklatildi] = useState(false)
 
+  const duruyor = useEffectEvent(durdur)
+  const izleyici = useEffectEvent(izle)
+
   const kareSonu = useEffectEvent((olaylar: Olay[], adim: number) => {
+    izleyici(canli.oyun, olaylar)
     if (olaylar.length > 0) {
       setGoruntu(goruntuAl(canli.oyun))
       tepki(olaylar)
@@ -52,10 +60,12 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
     const kare = (simdi: number) => {
       const sonuc = adimSayisi(birikim, simdi - onceki)
       onceki = simdi
-      birikim = sonuc.birikim
+      const durdu = duruyor()
+      const adim = durdu ? Math.min(canli.bekleyen.length, 1) : sonuc.adim
+      birikim = durdu ? 0 : sonuc.birikim
       const olaylar: Olay[] = []
-      for (let i = 0; i < sonuc.adim && !canli.oyun.bitti; i++) olaylar.push(...canliAdim(canli))
-      kareSonu(olaylar, sonuc.adim)
+      for (let i = 0; i < adim && !canli.oyun.bitti; i++) olaylar.push(...canliAdim(canli))
+      kareSonu(olaylar, adim)
       if (!canli.oyun.bitti) istek = requestAnimationFrame(kare)
     }
     istek = requestAnimationFrame(kare)
@@ -70,6 +80,7 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince }: Secenek) {
 
   return {
     goruntu,
+    oyunu: () => canli.oyun,
     dokun,
     duraklatildi,
     duraklat: () => setDuraklatildi(true),

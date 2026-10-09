@@ -8,8 +8,7 @@ import {
   hesapOku,
   hesapSil,
   hesapYaz,
-  ilkTurBitti,
-  ilkTurMu,
+  rehberGorulduMu,
   type Hesap,
 } from '@/lib/oyun/defter'
 import type { Girdi, Sonuc } from '@/lib/oyun/tipler'
@@ -28,18 +27,18 @@ export type Gonderim =
   | { durum: 'reddedildi' }
 
 export type Ekran = 'giris' | 'oyun' | 'sonuc' | 'katilim'
-export type Tur = { tohum: number; turId: string | null; ipucu: boolean }
+export type Tur = { tohum: number; turId: string | null; rehberli: boolean }
 export type Son = { sonuc: Sonuc; kayit: readonly Girdi[]; turId: string | null; onceki: number | null; yeni: boolean }
 export type Kayit = 'tamam' | 'red' | 'hata'
 
 /** Jeton sunucudan; ulaşılamazsa yerel tohumla çevrimdışı tur. */
 async function jetonIste(): Promise<Tur> {
-  const ipucu = ilkTurMu()
+  const rehberli = !rehberGorulduMu()
   try {
     const jeton = await api.turAl(kanalCoz(window.location.search))
-    return { tohum: jeton.tohum, turId: jeton.turId, ipucu }
+    return { tohum: jeton.tohum, turId: jeton.turId, rehberli }
   } catch {
-    return { tohum: rastgeleTohum(), turId: null, ipucu }
+    return { tohum: rastgeleTohum(), turId: null, rehberli }
   }
 }
 
@@ -111,7 +110,6 @@ export function useOyunAkisi() {
   const bitir = (sonuc: Sonuc, kayit: readonly Girdi[]) => {
     const onceki = enIyiOku()
     const yeni = enIyiYaz(sonuc.puan)
-    ilkTurBitti()
     const turId = tur?.turId ?? null
     setSon({ sonuc, kayit, turId, onceki, yeni })
     setEkran('sonuc')

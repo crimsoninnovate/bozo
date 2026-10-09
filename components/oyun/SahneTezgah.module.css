@@ -124,13 +124,13 @@
 }
 
 /* Elde olan: 2 px kalkar, bakır halka (dokun-dokun yolu). */
-[data-elde] {
+:global([data-elde]) {
   translate: 0 -2px;
   filter: drop-shadow(0 0 0 var(--bakir-acik)) drop-shadow(0 0 6px var(--bakir-acik));
 }
 
 /* Sürüklenen öğe parmağın altında kalmaz, hedef `elementFromPoint` ile bulunur. */
-[data-tasinan] {
+:global([data-tasinan]) {
   pointer-events: none;
   z-index: 4;
   transition: none;

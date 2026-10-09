@@ -1,9 +1,11 @@
-import { AYRAN_TIK, SOGUMA_TIK, TUR_TIK } from '@/lib/oyun/ayar'
+import { TUR_TIK } from '@/lib/oyun/ayar'
 import type { Duyuru } from '@/lib/oyun/duyuru'
-import { kivilcimYogunlugu, korYogunlugu, pismeOrani, sabirDurumu, yanmaOrani } from '@/lib/oyun/gorsel'
+import { kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, yanmaOrani } from '@/lib/oyun/gorsel'
 import { oyunSaati, sisGorunumu } from '@/lib/oyun/gosterim'
+import { doldur } from '@/lib/metin'
 import { komboCarpani } from '@/lib/oyun/puan'
-import type { Hedef, Oyun } from '@/lib/oyun/tipler'
+import type { Kalem, Oyun } from '@/lib/oyun/tipler'
+import type { Metin } from './Serit'
 import { muhurBas } from './tepkiler'
 
 /*
@@ -56,11 +58,21 @@ function ocagiCiz(el: HTMLElement, oyun: Oyun, no: number): void {
   degiskenYaz(el, '--yanma', yanmaOrani(sis))
 }
 
+/** Düğme adının durum parçası: yalnız değişince yazılır (ekran okuyucu her tikte yeniden okumasın). */
+function durumMetni(el: HTMLElement, oyun: Oyun, no: number, metin: Metin): void {
+  if (el.dataset.ciz === 'ocakMetni') {
+    const sis = oyun.ocak[no]
+    const elde = oyun.el?.tur === 'sis' && oyun.el.yuva === no
+    return metinYaz(el, elde ? metin.durum.elde : sis ? metin.durum[sis.gecen < sis.pisme ? 'pisiyor' : 'hazir'] : '')
+  }
+  const yer = oyun.misafirler[no]
+  const yuzde = yer ? Math.round((yer.sabir / yer.toplamSabir) * 10) * 10 : 0
+  metinYaz(el, yer && yer.kalkis === null ? doldur(metin.durum.sabir, { yuzde }) : '')
+}
+
 /** Bir çizim öğesinin bu karedeki değeri; `data-ciz` adına göre. */
-function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean): void {
+function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean, metin: Metin): void {
   const no = Number(el.dataset.no)
-  const sofra = oyun.sofralar[no]
-  const kalem = oyun.tezgah[no]
   switch (el.dataset.ciz) {
     case 'saat':
       return metinYaz(el, oyunSaati(oyun.tik))
@@ -71,16 +83,18 @@ function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean): void {
     case 'kombo':
       return komboYaz(el, oyun.kombo, azalt)
     case 'sabir': {
-      const oran = sofra ? sofra.sabir / sofra.toplamSabir : 0
+      const yer = oyun.misafirler[no]
+      const oran = yer ? yer.sabir / yer.toplamSabir : 0
       degiskenYaz(el, '--oran', oran)
       return nitelikYaz(el, 'sabir', sabirDurumu(oran))
     }
+    case 'sabirMetni':
+    case 'ocakMetni':
+      return durumMetni(el, oyun, no, metin)
     case 'ocak':
       return ocagiCiz(el, oyun, no)
-    case 'soguma':
-      return degiskenYaz(el, '--oran', kalem ? 1 - kalem.bekleme / SOGUMA_TIK : 0)
-    case 'ayran':
-      return degiskenYaz(el, '--oran', oyun.ayran === null ? 0 : 1 - oyun.ayran / AYRAN_TIK)
+    case 'para':
+      return degiskenYaz(el, '--oran', paraOrani(oyun.paralar[no] ?? null))
     case 'kor':
       return degiskenYaz(el, '--kor-yogunluk', korYogunlugu(oyun.kombo))
     case 'kivilcim':
@@ -88,19 +102,17 @@ function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean): void {
   }
 }
 
-/** Bütün `data-ciz` öğeleri, ipucu halkası ve evre niteliği. */
-export function sahayiCiz(alan: HTMLElement, oyun: Oyun, ipucu: Hedef | null, azalt: boolean): void {
-  for (const el of alan.querySelectorAll<HTMLElement>('[data-ciz]')) ogeyiCiz(el, oyun, azalt)
-  for (const el of alan.querySelectorAll<HTMLElement>('[data-hedef]')) {
-    el.toggleAttribute('data-ipucu', el.dataset.hedef === ipucu)
-  }
+/** Bütün `data-ciz` öğeleri ve evre niteliği. */
+export function sahayiCiz(alan: HTMLElement, oyun: Oyun, azalt: boolean, metin: Metin): void {
+  for (const el of alan.querySelectorAll<HTMLElement>('[data-ciz]')) ogeyiCiz(el, oyun, azalt, metin)
   nitelikYaz(alan, 'evre', String(oyun.evre))
 }
 
-/** Canlı bölgeye bu karenin duyurusu; metin sözlükten, `{puan}` ödemeyle değişir. */
-export function duyuruYaz(alan: HTMLElement, duyuru: Duyuru | null, metinler: Record<Duyuru['anahtar'], string>): void {
+/** Canlı bölgeye bu karenin duyurusu; metin sözlükten, yer tutucular olaydan. */
+export function duyuruYaz(alan: HTMLElement, duyuru: Duyuru | null, metin: Metin, ad: (k: Kalem) => string): void {
   if (!duyuru) return
   const bolge = alan.querySelector<HTMLElement>('[data-duyuru]')
   if (!bolge) return
-  bolge.textContent = metinler[duyuru.anahtar].replace('{puan}', String(duyuru.puan ?? ''))
+  const degerler = { puan: duyuru.puan ?? '', no: duyuru.no ?? '', urun: duyuru.urun ? ad(duyuru.urun) : '' }
+  bolge.textContent = doldur(metin.duyuru[duyuru.anahtar], degerler)
 }

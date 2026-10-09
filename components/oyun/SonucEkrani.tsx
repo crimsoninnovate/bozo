@@ -53,11 +53,11 @@ function useSayac(hedef: number, azalt: boolean): number {
   return deger
 }
 
-/** Gecenin bitiş satırı: 05:00 ise ana sayfanın "son tane" satırı, değilse saat ve "üç sofra kalktı". */
+/** Gecenin bitiş satırı: 05:00 ise ana sayfanın "son tane" satırı, değilse saat ve "üç misafir kalktı". */
 function bitisSatiri(s: Sozluk, sonuc: Sonuc): { metin: string; geceTamam: boolean } {
   const sonTane = s.ana.hero.kilometreTaslari.find((k) => k.saat === oyunSaati(TUR_TIK))
   if (sonuc.bitti === 'gece' && sonTane) return { metin: `${sonTane.saat} · ${sonTane.metin}`, geceTamam: true }
-  return { metin: `${oyunSaati(sonuc.tik)} · ${s.oyun.ucSofraKalkti}`, geceTamam: false }
+  return { metin: `${oyunSaati(sonuc.tik)} · ${s.oyun.ucMisafirKalkti}`, geceTamam: false }
 }
 
 type Sayi = (n: number) => string
@@ -73,10 +73,10 @@ function EnIyi({ s, puan, onceki, yeni, sayi }: { s: Sozluk; puan: number; oncek
   )
 }
 
-/** Özet (spec §11): sofra, şiş, tam kıvam, en uzun kombo; dört sütun, 100 ms arayla belirir. */
+/** Özet (spec §11): misafir, şiş, tam kıvam, en uzun kombo; dört sütun, 100 ms arayla belirir. */
 function OzetListesi({ s, sonuc, sayi }: { s: Sozluk; sonuc: Sonuc; sayi: Sayi }) {
   const satirlar = [
-    [sayi(sonuc.ozet.sofra), s.oyun.ozet.sofra],
+    [sayi(sonuc.ozet.misafir), s.oyun.ozet.misafir],
     [sayi(sonuc.ozet.sis), s.oyun.ozet.sis],
     [sayi(sonuc.ozet.tamKivam), s.oyun.ozet.tamKivam],
     [`×${sonuc.ozet.enUzunKombo}`, s.oyun.ozet.enUzunKombo],
