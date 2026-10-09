@@ -41,8 +41,10 @@ export function GirisTablosu({ dil, tablo }: { dil: Dil; tablo: TabloYaniti | nu
   )
 }
 
-/** Sıralama ve Gizlilik bağlantıları; Kurallar sayfası plan 4'te, bağlantısı yok. */
-/** Nasıl Oynanır rehberli turu yeniden açar: Atla ile geçilen rehbere dönüş yolu. */
+/**
+ * Nasıl Oynanır (rehberli turu yeniden açar: Atla ile geçilen rehbere dönüş), Sıralama, Gizlilik.
+ * Kurallar sayfası plan 4'te, bağlantısı yok.
+ */
 export function GirisBaglantilari({ dil, nasil, bekliyor }: { dil: Dil; nasil: () => void; bekliyor: boolean }) {
   const s = sozluk(dil)
   return (
