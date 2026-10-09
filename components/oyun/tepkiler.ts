@@ -1,3 +1,4 @@
+import { GECE_OPAKLIGI } from '@/lib/oyun/gorsel'
 import { eldeKaynagi } from '@/lib/oyun/surukle'
 import type { Elde, Olay } from '@/lib/oyun/tipler'
 import stil from './Saha.module.css'
@@ -39,6 +40,19 @@ export function muhurBas(el: HTMLElement, azalt: boolean): void {
     ? opaklik(0, 1)
     : [{ transform: 'scale(1.7)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }]
   el.animate(kareler, { duration: 220, easing: EGRI })
+}
+
+/** Kombo bozulunca rozet sarsılıp düşer ve yerine oturur; azaltılmışta söner ve belirir. */
+export function komboKirildi(el: HTMLElement, azalt: boolean): void {
+  const kareler = azalt
+    ? [{ opacity: 1 }, { opacity: 0.3 }, { opacity: 1 }]
+    : [
+        { transform: 'none', opacity: 1 },
+        { transform: 'translateX(-4px) rotate(-10deg)', offset: 0.2 },
+        { transform: 'translate(3px, 6px) rotate(8deg)', opacity: 0.4, offset: 0.5 },
+        { transform: 'none', opacity: 1 },
+      ]
+  el.animate(kareler, { duration: 420, easing: 'ease-out' })
 }
 
 /** "+150" ya da fiş ödemesi yükselir; azaltılmışta yerinde belirip söner. */
@@ -116,10 +130,14 @@ function salla(el: HTMLElement | null, azalt: boolean): void {
   el.animate([x(0), x(-3), x(3), x(-2), x(0)], { duration: 250, easing: 'ease-out' })
 }
 
-/** Son saat: sahne `--gece`ye geçer, 900 ms; iki modda da opaklık, yani azaltılmışta aynı. */
-function sonSaat(alan: HTMLElement): void {
+/** Gece her evrede biraz koyulaşır, son saatte tam `--gece`; 900 ms opaklık, azaltılmışta aynı. */
+function geceIlerle(alan: HTMLElement, evre: number): void {
+  const gece = alan.querySelector<HTMLElement>('[data-gece]')
+  if (!gece) return
+  const simdiki = Number(getComputedStyle(gece).opacity)
+  for (const a of gece.getAnimations()) a.cancel()
   const secenek: KeyframeAnimationOptions = { duration: 900, easing: 'ease-out', fill: 'forwards' }
-  alan.querySelector('[data-gece]')?.animate(opaklik(0, 1), secenek)
+  gece.animate(opaklik(simdiki, GECE_OPAKLIGI[evre] ?? 1), secenek)
 }
 
 /** Teslim: bakır kıvılcımlar misafirden saçılır; azaltılmışta yok. */
@@ -239,7 +257,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
     case 'rafDolu':
       return salla(hedef(alan, olay.urun), azalt)
     case 'evre':
-      return olay.evre === 4 ? sonSaat(alan) : undefined
+      return geceIlerle(alan, olay.evre)
     default:
       return undefined
   }

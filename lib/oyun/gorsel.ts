@@ -50,3 +50,12 @@ export function fisSatirlari(fis: readonly Kalem[], karisik: boolean): FisSatiri
   for (const [urun, n] of adet) satirlar.push({ tur: 'kalem', urun, adet: n })
   return satirlar
 }
+
+/** HUD puanı hedefe sayarak yaklaşır: kalan farkın %15'i, en az 1; kazanç anı göze görünür. */
+export function sayacAdimi(gosterilen: number, hedef: number): number {
+  if (gosterilen >= hedef) return hedef
+  return Math.min(hedef, gosterilen + Math.max(1, Math.ceil((hedef - gosterilen) * 0.15)))
+}
+
+/** Gece katmanının evre opaklığı: her evre biraz daha koyu, son saat tam gece. */
+export const GECE_OPAKLIGI: readonly number[] = [0, 0.15, 0.3, 0.45, 1]

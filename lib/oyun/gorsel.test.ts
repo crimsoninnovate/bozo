@@ -2,7 +2,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { EVRELER, PARA_TIK } from './ayar.ts'
 import {
-  fisSatirlari, kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, yanmaOrani,
+  GECE_OPAKLIGI, fisSatirlari, kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, sayacAdimi,
+  yanmaOrani,
 } from './gorsel.ts'
 import { bekle, dokun, sahne } from './deneme.ts'
 
@@ -58,4 +59,20 @@ test('fisSatirlari_ayniKalemTekSatirdaAdetle_karisikIlkUcuTekKume', () => {
     { tur: 'karisik' },
     { tur: 'kalem', urun: 'domates', adet: 1 },
   ])
+})
+
+test('sayacAdimi_hedefeYaklasir_asmaz_geriGitmez', () => {
+  assert.equal(sayacAdimi(0, 100), 15)
+  assert.equal(sayacAdimi(99, 100), 100)
+  assert.equal(sayacAdimi(100, 100), 100)
+  assert.equal(sayacAdimi(500, 0), 0, 'yeni tur: anında sıfır')
+  let g = 0
+  for (let i = 0; i < 40; i++) g = sayacAdimi(g, 1350)
+  assert.equal(g, 1350, '40 karede (0,7 sn) varır')
+})
+
+test('geceOpakligi_herEvreDahaKoyu_sonSaatTam', () => {
+  assert.equal(GECE_OPAKLIGI.length, EVRELER.length)
+  for (let i = 1; i < GECE_OPAKLIGI.length; i++) assert.ok((GECE_OPAKLIGI[i] ?? 0) > (GECE_OPAKLIGI[i - 1] ?? 0))
+  assert.equal(GECE_OPAKLIGI.at(-1), 1)
 })

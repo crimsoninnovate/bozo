@@ -1,12 +1,14 @@
 import { TUR_TIK } from '@/lib/oyun/ayar'
 import type { Duyuru } from '@/lib/oyun/duyuru'
-import { kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, yanmaOrani } from '@/lib/oyun/gorsel'
+import {
+  kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, sayacAdimi, yanmaOrani,
+} from '@/lib/oyun/gorsel'
 import { oyunSaati, sisGorunumu } from '@/lib/oyun/gosterim'
 import { doldur } from '@/lib/metin'
 import { komboCarpani } from '@/lib/oyun/puan'
 import type { Kalem, Oyun } from '@/lib/oyun/tipler'
 import type { Metin } from './Serit'
-import { muhurBas } from './tepkiler'
+import { komboKirildi, muhurBas } from './tepkiler'
 
 /*
  * Her karede değişen değerler DOM'a buradan yazılır (spec §10): React'e uğramaz.
@@ -41,6 +43,7 @@ function komboYaz(el: HTMLElement, kombo: number, azalt: boolean): void {
   el.dataset.carpan = String(carpan)
   metinYaz(el.querySelector<HTMLElement>('[data-kombo]'), `×${carpan}`)
   if (carpan > onceki) muhurBas(el, azalt)
+  else komboKirildi(el, azalt)
 }
 
 function ocagiCiz(el: HTMLElement, oyun: Oyun, no: number): void {
@@ -78,8 +81,10 @@ function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean, metin: Metin): vo
       return metinYaz(el, oyunSaati(oyun.tik))
     case 'gece':
       return degiskenYaz(el, '--oran', oyun.tik / TUR_TIK)
-    case 'puan':
-      return metinYaz(el, String(oyun.puan))
+    case 'puan': {
+      const gosterilen = azalt ? oyun.puan : sayacAdimi(Number(el.textContent) || 0, oyun.puan)
+      return metinYaz(el, String(gosterilen))
+    }
     case 'kombo':
       return komboYaz(el, oyun.kombo, azalt)
     case 'sabir': {

@@ -2478,3 +2478,10 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
 - Ölçüm (390 px, CPU 4x, headless, misafir beklerken): p50 16,7, p95 18,0 ms, 25 ms üstü 0; önceki 17,4-18,6.
 - Ses seviyesi (WAV'a çıkarılıp ölçüldü, `~/Desktop/Bozo/ses-dinleme/`): en yüksek tepe -13 dBFS, `birak`
   -36 dBFS (telefonda duyulmaz), `tut` ve `tik` -21 dBFS. Sahibi dinleyince kazançlar birlikte ayarlanacak.
+
+## 10 Ekim 2026: his turu 2
+
+- HUD puanı hedefe sayarak çıkar (`sayacAdimi`, kalan farkın %15'i): +150 teslim 23 karede 0 → 150; azaltılmışta anında.
+- Kombo bozulunca rozet sarsılıp düşer (`komboKirildi`); azaltılmışta söner ve belirir.
+- Gece her evrede koyulaşır (`GECE_OPAKLIGI` 0 / 0,15 / 0,3 / 0,45 / 1); önce yalnız son saatte değişiyordu.
+- Sonuç ekranında "Menüyü Gör" (sitenin CTA etiketi, yeni metin yok), `/menu/`, 44 px.

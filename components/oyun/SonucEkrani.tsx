@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { m } from 'motion/react'
 import { ROZET } from '@/components/ui/Rozet'
 import { sozluk, type Sozluk } from '@/content'
@@ -146,6 +147,10 @@ export function SonucEkrani({ dil, sonuc, onceki, yeni, tekrar, gonderim, katil,
         tekrarDene={tekrarDene}
         siralamaYolu={yol('siralama', dil)}
       />
+      {/* Oyundan dükkana köprü: sitenin kendi CTA etiketi, yeni metin yok. */}
+      <Link href={yol('menu', dil)} className={stil.baglanti}>
+        {s.ortak.cta.menuyuGor}
+      </Link>
     </section>
   )
 }
