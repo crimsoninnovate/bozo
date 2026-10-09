@@ -1,9 +1,9 @@
 /**
- * Oyunun tarayıcıda tuttukları: kişisel en iyi, ilk turun bittiği, ses tercihi (spec §3, §11,
+ * Oyunun tarayıcıda tuttukları: kişisel en iyi, rehberin görüldüğü, ses tercihi (spec §3, §11,
  * §13) ve sıralama hesabı: 128 bitlik anahtar ile takma ad (spec §8, §10).
  */
 const EN_IYI = 'bozo-oyun-en-iyi'
-const ILK_TUR = 'bozo-oyun-ilk-tur-bitti'
+const REHBER = 'bozo-oyun-rehber-goruldu'
 const SES = 'bozo-oyun-ses'
 const ANAHTAR = 'bozo-oyun-anahtar'
 const TAKMA_AD = 'bozo-oyun-takma-ad'
@@ -31,20 +31,20 @@ export function enIyiYaz(puan: number): boolean {
   return true
 }
 
-/** İpuçları yalnız tarayıcıdaki ilk turda çıkar. */
-export function ilkTurMu(): boolean {
+/** Rehber yalnız bu tarayıcıdaki ilk turda çıkar; depolama okunamazsa görülmemiş sayılır. */
+export function rehberGorulduMu(): boolean {
   try {
-    return window.localStorage.getItem(ILK_TUR) !== '1'
+    return window.localStorage.getItem(REHBER) === '1'
   } catch {
-    return true
+    return false
   }
 }
 
-export function ilkTurBitti(): void {
+export function rehberGoruldu(): void {
   try {
-    window.localStorage.setItem(ILK_TUR, '1')
+    window.localStorage.setItem(REHBER, '1')
   } catch {
-    // Yazılamazsa ipuçları bir sonraki turda da çıkar; zararsız.
+    // Yazılamazsa rehber bir sonraki turda da çıkar; zararsız.
   }
 }
 
