@@ -2514,3 +2514,12 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
 - Telefonda `/oyun` alt bilgisiz (`Kabuk` > `oyunAltBilgisi`): sayfa 844'te tek ekran. Masaüstünde alt bilgi kalır.
 - Masaüstünde giriş rozeti ve kor ışığı yok: rozet üst barın ortasında zaten var.
 - axe 0, testler 397.
+
+## 10 Ekim 2026: Oyna düğmesi ve sahnede derinlik
+
+- Oyna (sahibi: "çok büyük, oyun gibi değil"): tam genişlik 64 px yerine 260 x 52 arcade tuşu, 6 px koyu kor
+  dudak, basınca 4 px çöker; oynat üçgeni. 390'da ortası 195, pil 776'da, düğme 355-413.
+- Sahne (sahibi: "düz 2B"): tabakların altında uzağa daralan taş tezgah (`perspective(240px) rotateX(38deg)`)
+  ve 6 px ön kenar; ocak teknesinde bakır kenarın iç gölgesi, 16 px ön yüz; üst kısım hafif sisli (uzak).
+- Sürüklenen öğe kalkar: `scale: 1.1`, 12 px gölge. Parallax katmanları: desen -3, kor -10/-6, tezgah +4 px.
+- Yalnız görüntü; hedef kutuları değişmedi. Kare p95 18,2 ms (önce 18,0-18,1, 4x CPU), testler 397.
