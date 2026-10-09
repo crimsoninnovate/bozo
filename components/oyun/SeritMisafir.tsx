@@ -46,7 +46,7 @@ function Yer({ no, yer, ad, metin }: YerProps) {
     >
       <span id={`oyun-m${no}-fis`} className={stil.gizli}>{`${metin.misafir} ${no + 1}: ${fisMetni(metin, ad, yer)}`}</span>
       <span id={`oyun-m${no}-sabir`} className={stil.gizli} data-ciz="sabirMetni" data-no={no} />
-      <span className={misafirStil.siluet} aria-hidden="true">
+      <span className={misafirStil.siluet} data-siluet aria-hidden="true">
         <MisafirSilueti varyant={yer?.varyant ?? 0} />
       </span>
       <span className={misafirStil.ikramlar} aria-hidden="true">
@@ -55,7 +55,7 @@ function Yer({ no, yer, ad, metin }: YerProps) {
       <span className={misafirStil.halka} data-ciz="sabir" data-no={no} aria-hidden="true">
         <KorHalkasi />
       </span>
-      <span className={misafirStil.balon} aria-hidden="true">{yer && <Fis yer={yer} />}</span>
+      <span className={misafirStil.balon} data-balon aria-hidden="true">{yer && <Fis yer={yer} />}</span>
       <span className={misafirStil.kalkti} data-kalkti aria-hidden="true">
         <KalktiHalkasi />
         <KalktiIsareti boy={24} />

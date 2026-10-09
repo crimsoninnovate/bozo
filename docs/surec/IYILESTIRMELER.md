@@ -2495,3 +2495,11 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
 - Kor ortamı: ocakta şiş varken iki saniyelik tıslama ve çıtırtı döngüsü; şiş başına 0,007 kazanç, 1 şiş -29,
   4 şiş -17 dBFS (olay seslerinin altında). Duraklatınca susar, ses kapalıyken kurulmaz.
 - Dinleme dosyaları `~/Desktop/Bozo/ses-dinleme/` (15 dosya). Sesler hâlâ gerçek kulakla dinlenmedi.
+
+## 10 Ekim 2026: his turu 3
+
+- Misafir oturunca siluet 28 px aşağıdan yükselir, fiş 180 ms sonra mühür gibi basılır; teslimde siluet zıplar.
+- Evre dönümünde HUD saati mühürlenir (gecenin koyulaşmasıyla aynı anda).
+- Yanan şişten beş kara duman topu kalkar (900-1260 ms).
+- Bahşiş ömrünün son %30'unda nabız atar (`PARA_SOLMA_ESIGI`, `data-solma`).
+- Azaltılmışta geliş yalnız belirir; zıplama, duman ve nabız yok.

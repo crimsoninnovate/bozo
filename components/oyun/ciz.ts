@@ -1,6 +1,7 @@
 import { TUR_TIK } from '@/lib/oyun/ayar'
 import type { Duyuru } from '@/lib/oyun/duyuru'
 import {
+  PARA_SOLMA_ESIGI,
   kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, sayacAdimi, yanmaOrani,
 } from '@/lib/oyun/gorsel'
 import { oyunSaati, sisGorunumu } from '@/lib/oyun/gosterim'
@@ -98,8 +99,11 @@ function ogeyiCiz(el: HTMLElement, oyun: Oyun, azalt: boolean, metin: Metin): vo
       return durumMetni(el, oyun, no, metin)
     case 'ocak':
       return ocagiCiz(el, oyun, no)
-    case 'para':
-      return degiskenYaz(el, '--oran', paraOrani(oyun.paralar[no] ?? null))
+    case 'para': {
+      const oran = paraOrani(oyun.paralar[no] ?? null)
+      degiskenYaz(el, '--oran', oran)
+      return nitelikYaz(el, 'solma', oran > 0 && oran < PARA_SOLMA_ESIGI ? 'evet' : 'hayir')
+    }
     case 'kor':
       return degiskenYaz(el, '--kor-yogunluk', korYogunlugu(oyun.kombo))
     case 'kivilcim':

@@ -156,8 +156,55 @@ function patlat(el: HTMLElement | null, azalt: boolean): void {
   }
 }
 
-function yanik(yuva: HTMLElement | null): void {
+/** Yanık: kömürleşen şiş söner, ocaktan beş kara duman topu kalkar (azaltılmışta duman yok). */
+function yanik(yuva: HTMLElement | null, azalt: boolean): void {
   yuva?.querySelector('[data-yanik]')?.animate(opaklik(1, 0), { duration: 700, easing: 'ease-in' })
+  if (!yuva || azalt) return
+  for (let i = 0; i < 5; i++) {
+    const top = document.createElement('span')
+    top.className = stil.duman ?? ''
+    yuva.append(top)
+    const x = (i - 2) * 7
+    const kareler = [
+      { transform: `translate(calc(-50% + ${x}px), 0) scale(0.6)`, opacity: 0.75 },
+      { transform: `translate(calc(-50% + ${x * 1.8}px), -46px) scale(2.2)`, opacity: 0 },
+    ]
+    const kaldir = () => top.remove()
+    top.animate(kareler, { duration: 900 + i * 90, delay: i * 50, easing: 'ease-out' }).finished.then(kaldir, kaldir)
+  }
+}
+
+const misafirParcasi = (alan: HTMLElement, yer: number, parca: string) =>
+  hedef(alan, `m${yer}`)?.querySelector<HTMLElement>(`[data-${parca}]`) ?? null
+const BALON = 'translateX(-50%) rotate(-4deg)'
+
+/** Misafir oturur: siluet aşağıdan yükselir, fiş mühür gibi basılır; azaltılmışta ikisi de belirir. */
+function misafirGeldi(alan: HTMLElement, yer: number, azalt: boolean): void {
+  const siluet = misafirParcasi(alan, yer, 'siluet')
+  const balon = misafirParcasi(alan, yer, 'balon')
+  if (azalt) {
+    siluet?.animate(opaklik(0, 1), { duration: 300 })
+    balon?.animate(opaklik(0, 1), { duration: 300 })
+    return
+  }
+  siluet?.animate(
+    [{ transform: 'translateY(28px)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
+    { duration: 340, easing: EGRI },
+  )
+  balon?.animate(
+    [{ transform: `${BALON} scale(1.5)`, opacity: 0 }, { transform: BALON, opacity: 1 }],
+    { duration: 240, delay: 180, easing: EGRI, fill: 'backwards' },
+  )
+}
+
+/** Teslimde misafir sevinçle zıplar. */
+function sevin(alan: HTMLElement, yer: number, azalt: boolean): void {
+  if (azalt) return
+  const y = (px: number, offset: number): Keyframe => ({ transform: `translateY(${px}px)`, offset })
+  misafirParcasi(alan, yer, 'siluet')?.animate([y(0, 0), y(-12, 0.35), y(0, 0.7), y(-4, 0.85), y(0, 1)], {
+    duration: 420,
+    easing: 'ease-out',
+  })
 }
 
 const kaynak = (alan: HTMLElement, el: Exclude<Elde, null>): HTMLElement | null => hedef(alan, eldeKaynagi(el) ?? '')
@@ -234,11 +281,14 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
     case 'sisErken':
       return salla(hedef(alan, `o${olay.yuva}`), azalt)
     case 'sisYandi':
-      return yanik(hedef(alan, `o${olay.yuva}`))
+      return yanik(hedef(alan, `o${olay.yuva}`), azalt)
+    case 'misafirGeldi':
+      return misafirGeldi(alan, olay.yer, azalt)
     case 'teslim':
       ucus(alan, hedef(alan, `t${olay.no}`), hedef(alan, `m${olay.yer}`), azalt)
       parla(hedef(alan, `m${olay.yer}`), stil.odedi)
       patlat(hedef(alan, `m${olay.yer}`), azalt)
+      sevin(alan, olay.yer, azalt)
       vur(puanEl(alan), 1.2, azalt)
       return ucanRakam(hedef(alan, `m${olay.yer}`), `+${olay.hesap}`, azalt)
     case 'yanlisTabak':
@@ -256,8 +306,11 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       return olay.odedi ? undefined : kalkis(hedef(alan, `m${olay.yer}`))
     case 'rafDolu':
       return salla(hedef(alan, olay.urun), azalt)
-    case 'evre':
+    case 'evre': {
+      const saat = alan.querySelector<HTMLElement>('[data-ciz="saat"]')
+      if (saat) muhurBas(saat, azalt)
       return geceIlerle(alan, olay.evre)
+    }
     default:
       return undefined
   }

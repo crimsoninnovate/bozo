@@ -185,6 +185,16 @@
   visibility: hidden;
 }
 
+/* Son üçte birde nabız (`data-solma`, `PARA_SOLMA_ESIGI`); azaltılmışta global kural kapatır. */
+.paraYeri[data-solma='evet'] .para {
+  animation: yetis 0.55s ease-in-out infinite alternate;
+}
+
+@keyframes yetis {
+  from { transform: scale(1); }
+  to { transform: scale(1.18); }
+}
+
 /* Solma: kalan ömür opaklığa (`--oran`, `data-ciz="para"`). */
 .para {
   width: 40px;

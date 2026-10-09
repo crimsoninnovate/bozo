@@ -35,6 +35,9 @@ export function sabirDurumu(oran: number): 'var' | 'az' {
   return oran <= SABIR_ESIGI ? 'az' : 'var'
 }
 
+/** Ömrünün son üçte birinde bahşiş nabız atar: "yetiş" işareti. */
+export const PARA_SOLMA_ESIGI = 0.3
+
 /** Paranın kalan ömrü (0-1): solma opaklığı. */
 export function paraOrani(para: Para | null): number {
   return para ? para.kalan / PARA_TIK : 0

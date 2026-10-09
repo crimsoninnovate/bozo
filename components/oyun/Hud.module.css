@@ -103,8 +103,9 @@
   color: var(--bakir-acik);
 }
 
-/* Kazançta vurulur (`tepkiler.ts` > `vur`); satır içi öğe transform almaz. */
-.puan [data-ciz='puan'] {
+/* Puan kazançta vurulur, saat evre dönümünde mühürlenir (`tepkiler.ts`); satır içi öğe transform almaz. */
+.puan [data-ciz='puan'],
+.saat [data-ciz='saat'] {
   display: inline-block;
 }
 

@@ -261,6 +261,18 @@
   pointer-events: none;
 }
 
+/* Yanık dumanı: ocak yuvasından kalkan kara top (`tepkiler.ts` > `yanik`). */
+.duman {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 28, 26, 0.9), rgba(34, 28, 26, 0) 70%);
+  pointer-events: none;
+}
+
 /* Uçuş kopyası köke eklenir; konum ve ölçü `tepkiler.ts`'ten. */
 .hayalet {
   position: absolute;
