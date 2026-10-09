@@ -58,9 +58,11 @@ npm run preview    # serve the out/ export locally
   `bellekDepo` for tests and local runs, `mariaDepo` for production (`sema.sql`). The MariaDB
   contract test is opt-in (`BOZO_TEST_DB_URL`), so bare `npm test` stays hermetic. Run locally
   with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`; the site reads the API base
-  from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`). **Not
-  deployed:** the privacy page still says the site stores no visitor data on its own server; the
-  server cannot go live before that text changes (plan 4) and the owner's lawyer approves.
+  from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`). **Live
+  since 10 October 2026** at `api.cigercibozo.com` (systemd `bozo-oyun` on arc, Node 24, MariaDB
+  `bozo_oyun`, nginx proxy; runbook and secrets locations in `docs/surec/SUNUCU-CANLIYA-ALMA.md`).
+  The privacy page describes the game data; the owner declined a lawyer review and took the
+  decision himself (10 October 2026).
 - **Every third-party runtime request sits behind consent.** `components/layout/CerezOnayi.tsx`
   is the gate and `Olcumleme` (GA4) is only rendered once the stored answer is `kabul`; KKTC law
   89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
@@ -68,7 +70,8 @@ npm run preview    # serve the out/ export locally
   and behind a gate most visitors never see it. Prefer a build-time equivalent: both map plates
   are OpenStreetMap geometry baked into SVG (`components/sayfa/haritaYollari.ts`, ODbL
   attribution required on every surface that shows it) for exactly this reason. The game
-  routes (`/oyun`, `/en/oyun`) are first-party and make no outbound request, so `CerezOnayi`
+  routes (`/oyun`, `/en/oyun`) talk only to the first-party score API and make no third-party
+  request, so `CerezOnayi`
   renders nothing there (`onayGerekirMi` in `lib/onay.ts`): no banner, no GA.
 - `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
 - `components/` has six buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),

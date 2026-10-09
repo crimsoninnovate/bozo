@@ -64,7 +64,8 @@ const zamanlayici = setInterval(() => {
   )
 }, ZAMANLAYICI_MS)
 
-sunucu.listen(port, () => console.info(`skor sunucusu ${port} portunda, depo: ${dbUrl ? 'mariadb' : 'bellek'}`))
+// Yalnız yerel vekilin ulaşacağı adres: dışarıdan doğrudan erişim `X-Forwarded-For` güvenini kırar.
+sunucu.listen(port, '127.0.0.1', () => console.info(`skor sunucusu ${port} portunda, depo: ${dbUrl ? 'mariadb' : 'bellek'}`))
 
 for (const sinyal of ['SIGINT', 'SIGTERM'] as const) {
   process.once(sinyal, () => {

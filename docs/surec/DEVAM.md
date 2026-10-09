@@ -4,10 +4,16 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 9 Ekim 2026
+Son güncelleme: 10 Ekim 2026
 
 ## Durum
 
+- **Skor sunucusu canlıda ve isim alma açık** (10 Ekim 2026): `api.cigercibozo.com`, systemd `bozo-oyun`,
+  MariaDB, gizlilik metni güncel (sahibi hukukçu incelemesini istemedi). Kurulum, sırların yeri ve
+  güncelleme: `SUNUCU-CANLIYA-ALMA.md`. Aynı gün yayına çıkanlar: sürükleme hatası (geçersiz bırakışta
+  öğe elde asılı kalıyordu), alma penceresi %20 geniş (çırak botu %59 → %73), rehberde sabır ve çöp
+  adımları, girişte "Nasıl Oynanır". `/oyun/` hâlâ `noindex`, bağlantısız. Eksik: gerçek telefonda kare
+  ölçümü; Md. 8/Md. 11 işlemleri sahibinde.
 - **Oyun: tabak akışı canlıda** (9 Ekim 2026, `8235636`, `/oyun/` ve `/en/oyun/`, `noindex, nofollow`, bağlantısız, sitemap'te yok) (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
   plan `docs/plans/2026-10-09-oyun-tabak-plani.md`, on beş görev, `feat/site-kurulumu` dalında). Fiş,
   ocak, tabak, misafir: dokunarak ya da sürükleyerek oynanır, ilk tur rehberli, takma ad isteğe bağlı

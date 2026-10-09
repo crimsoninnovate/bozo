@@ -98,8 +98,10 @@ docker run -d --name bozo-maria -e MARIADB_ROOT_PASSWORD=sifre -e MARIADB_DATABA
 BOZO_TEST_DB_URL=mariadb://root:sifre@127.0.0.1:3399/bozo_test node --test sunucu/mariaDepo.test.ts
 ```
 
-Not deployed yet: subdomain, DNS, Plesk Node.js app and database are plan 4, each step with its
-own approval, after the privacy text changes and the lawyer's review.
+Deployed 10 October 2026: `api.cigercibozo.com` (Plesk subdomain, Let's Encrypt, nginx proxy to
+`127.0.0.1:8402`), systemd unit `bozo-oyun` running `/opt/bozo-oyun/dist/sunucu/ana.js` under Node 24
+as `engincaglar`, MariaDB `bozo_oyun`. Steps, secrets and redeploy in
+`docs/surec/SUNUCU-CANLIYA-ALMA.md`.
 
 `GUVENILIR_VEKIL` must cover every local hop in front of Node (Plesk: nginx, then Apache); the
 first untrusted `X-Forwarded-For` hop from the right is the peer. After deploy, check that a forged

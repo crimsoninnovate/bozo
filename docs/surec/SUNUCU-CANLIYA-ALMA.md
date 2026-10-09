@@ -1,60 +1,38 @@
 # Skor sunucusunu canlıya alma
 
-Oyunun skor sunucusu (`sunucu/`) canlıya alınırken sırayla geçilecek kapılar. 10 Ekim 2026'da sahibi
-"sunucuyu canlıya al" kararını verdi; bu belge o kararın adımlarıdır. Her üretim adımı yine kendi
-onayıyla yapılır (`plans/2026-10-08-oyun-plan-3-sunucu.md` > Yayın engeli).
+Oyunun skor sunucusunun (`sunucu/`) canlıya alınışı ve işletme notları. Sahibi 10 Ekim 2026'da
+"sunucuyu canlıya al" kararını verdi ve hukukçu adımını kendi üstlendi; kurulum aynı gün yapıldı.
 
-## Kapılar
+## Durum: canlıda (10 Ekim 2026)
 
-| # | Kapı | Kim | Durum |
-|---|---|---|---|
-| 1 | Gizlilik metni (TR/EN), bu belgedeki taslak | hukukçu onayı | **taslak hazır, onay bekliyor** |
-| 2 | KKTC 89/2007 Md. 8 bildirimi ve Md. 11 Transfer Ruhsatı | sahibi / hukukçu | `content/tr/gizlilik.ts` başındaki not: kodla çözülmez |
-| 3 | `api.cigercibozo.com` DNS | sahibi (Cloudflare) | **tamam** (10 Ekim 2026): Cloudflare üzerinden arc'a çözülüyor; Plesk'te `api` alt alanı yok, varsayılan sayfa yanıtlıyor |
-| 4 | Plesk altyapısı: alt alan, veritabanı, Node 24, ortam değişkenleri | Claude, sahibi onayıyla | yapılmadı |
-| 5 | Sitenin yeniden derlenip yayınlanması (gizlilik metni + oyun) | Claude, sahibi onayıyla | 1. kapıdan sonra |
+Sahibi hukukçu incelemesini istemedi ve kararı kendisi üstlendi (10 Ekim 2026); Md. 8 bildirimi ve
+Md. 11 Transfer Ruhsatı için ayrıca işlem yapılmadı, sorumluluk sahibinde. Gizlilik metni bu belgenin
+altındaki taslakla yayında. DNS sahibi tarafından yönlendirildi.
 
-Sıra: **1 ve 2 bitmeden 4 ve 5 yapılmaz.** Yayındaki oyun `/api/tablo` yanıt verir vermez giriş
-ekranında ad alanını gösterir, yani 4. adım tek başına veri toplamayı başlatır. Gizlilik sayfası yayında "site sunucuda veri saklamaz" derken
-sunucu veri alırsa metin yanlış olur.
+## Sunucudaki kurulum
 
-## Sunucunun durumu (10 Ekim 2026, salt okunur bakıldı)
+| Parça | Yer |
+|---|---|
+| Alt alan | Plesk `api.cigercibozo.com` (cigercibozo.com aboneliği), Let's Encrypt, Cloudflare proxy |
+| Vekil | `/var/www/vhosts/system/api.cigercibozo.com/conf/vhost_nginx.conf`: `location ~ ^/` ile `127.0.0.1:8402`, `X-Forwarded-For $remote_addr` |
+| Uygulama | `/opt/bozo-oyun/{dist,node_modules,package.json}`, sahip `engincaglar:psacln`, Node `/opt/plesk/node/24/bin/node` |
+| Servis | `systemctl status bozo-oyun` (systemd, `Restart=always`, yalnız `127.0.0.1` dinler) |
+| Veritabanı | MariaDB `bozo_oyun`, kullanıcı `bozo_oyun_k`; şema `sunucu/sema.sql` |
+| Sırlar | `/etc/bozo-oyun.env` ve yedeği `/root/.bozo/oyun.env` (0600, root): `GIZLI_TUZ`, `DB_URL`, `YONETIM_KULLANICI` / `YONETIM_SIFRE`. `GIZLI_TUZ` kaybolursa ödül kodları doğrulanamaz; yedeği saklayın. |
 
-arc (`plesk-206`): AlmaLinux 8.10, Plesk Obsidian 18.0.77, MariaDB 10.11.19, Git ve Node.js eklentisi
-kurulu. Sistem `node` v20.20.2; Plesk'in Node sürümleri `/opt/plesk/node/{20,21,24}`. Oyun sunucusu
-`engines: node >=24` ister, yani Plesk'in 24'ü kullanılır. `api.cigercibozo.com` şimdi 303 ile
-`/login.php`'ye yönleniyor: Plesk'in varsayılan sitesi yanıtlıyor, API değil.
+Sunucu güncellemesi:
 
-## 4. Altyapı adımları (onaydan sonra, root, `plesk-206`)
+```bash
+npm run build -w sunucu
+rsync -az --delete sunucu/dist/ plesk-206:/opt/bozo-oyun/dist/
+ssh plesk-206 'chown -R engincaglar:psacln /opt/bozo-oyun && systemctl restart bozo-oyun'
+```
 
-1. Alt alan: `plesk bin subdomain --create api -domain cigercibozo.com -www-root api.cigercibozo.com`.
-   Let's Encrypt sertifikası Plesk'ten; Cloudflare SSL modu Full (strict) olmalı.
-2. Veritabanı: `plesk bin database --create bozo_oyun -domain cigercibozo.com -type mysql`, ayrı kullanıcı
-   (yalnız bu veritabanında yetkili, rastgele 32 karakter parola), ardından
-   `mariadb bozo_oyun < sunucu/sema.sql`.
-3. Kod: derleme yerelde (`npm ci && npm run build -w sunucu`), `sunucu/dist/`, kökteki `package.json` ve
-   `sunucu/package.json` ile birlikte `/var/www/vhosts/cigercibozo.com/oyun-sunucu/` altına rsync;
-   orada `npm ci --omit=dev -w sunucu` Plesk'in Node 24'üyle. Sahip `engincaglar:psacln`, siteyle aynı kural.
-4. Çalıştırma: systemd birimi (Node 24, `127.0.0.1:8402`) ve alt alanın nginx ek yönergesinde
-   `location / { proxy_pass http://127.0.0.1:8402; }`. Plesk'in Passenger tabanlı Node arayüzü ESM
-   (`"type": "module"`) başlangıç dosyasıyla denenmedi; çalışırsa o yola geçilebilir.
-5. Ortam: `GIZLI_TUZ` (rastgele, ödül kodu HMAC'i, yedeklenir), `KOKEN=https://cigercibozo.com`,
-   `DB_URL=mariadb://...@127.0.0.1:3306/bozo_oyun`, `YONETIM_KULLANICI` / `YONETIM_SIFRE`,
-   `GUVENILIR_VEKIL` (nginx ve Apache atlaması, README'deki uyarı), `KAMPANYA_BITIS`. Birim dosyası
-   `0600` ve yalnız root okur; repoya girmez.
-6. Doğrulama: `curl https://api.cigercibozo.com/api/tablo` 200 ve JSON; sahte `CF-Connecting-IP`
-   doğrudan kaynağa gönderilince yok sayılmalı (hız sınırı ortak kalmasın); `/yonetim/*` kimliksiz 401.
+Doğrulandı: `/tablo` 200 (Cloudflare üzerinden), CORS yalnız `https://cigercibozo.com`, `/yonetim/*`
+kimliksiz 401, uçtan uca tur (jeton, katılım, sunucuda yeniden oynatma puanı yerelle aynı, sıralama,
+hesap silme) çalışıyor. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
 
-Geri alma: systemd birimini durdur, alt alanın nginx yönergesini sil. Site `/oyun` çevrimdışı tura
-döner (tablo isteği düşer, ad alanı gizlenir); veri gitmez.
-
-## 5. Site tarafı
-
-`content/{tr,en}/gizlilik.ts` aşağıdaki metne göre güncellenir, `npm run build`, README > Deploy
-(iki `chown`, `plesk repair fs`, sağlama toplamlı kuru çalıştırma). Katılım ekranının (`KatilimEkrani`)
-onay cümlesi Md. 11(2)(A) açık onayıdır; gizlilik metni onunla çelişmemeli.
-
-## Gizlilik metni taslağı (hukukçuya)
+## Yayındaki gizlilik metninin kaynağı
 
 Değişen alanlar. Diğerleri (sorumlu, haklar, onayı geri alma, başvuru) aynen kalır, yalnız
 `guncellemeMetni` tarihi yenilenir. Kaynak: `docs/specs/2026-10-08-oyun-design.md` §8.
@@ -110,6 +88,6 @@ Değişen alanlar. Diğerleri (sorumlu, haklar, onayı geri alma, başvuru) ayne
 - `haklarMetni` (extra sentence): "You can delete your game account yourself with the 'Delete My Account'
   button on the leaderboard page."
 
-Hukukçuya açık sorular: (a) Md. 8 bildirimi ve Md. 11 Transfer Ruhsatı oyun verisi için de gerekli mi;
+Hukukçu incelemesi istenmedi; açık kalan sorular sahibinin bilgisi için: (a) Md. 8 bildirimi ve Md. 11 Transfer Ruhsatı oyun verisi için de gerekli mi;
 (b) tarayıcı anahtarının özeti ve dokunuş kaydı kişisel veri sayılıyor mu (taslak sayıyor, tedbirli);
 (c) "Hesabımı Sil" düğmesinin adı ve yeri metindekiyle aynı mı (`content/*/oyun.ts` > `siralama`).
