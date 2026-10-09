@@ -66,3 +66,12 @@
  * rotanın `<main>`'inde tek bir çapa hedefi yok. Şeridi taşıyan sayfada çapa,
  * çapası olan sayfada şerit kalmadı; kural hiçbir kutuya değmiyordu.
  */
+
+.altBilgi,
+.oyunAltBilgisi {
+  display: contents;
+}
+
+@media (max-width: 1040px) {
+  .oyunAltBilgisi { display: none; }
+}

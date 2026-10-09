@@ -21,14 +21,12 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  transform-origin: 50% 25%;
-  animation: yaklas 1800ms ease-out both;
 }
 
-/* Rozet 200 px, üst bardan 28 px yukarı sarkar; kor ışığı ve kıvılcım arkasında. */
+/* Telefonda rozet 140 px (alçak ekranda 110): Oyna mobil eylem pilinin üstünde kalsın. Bara 28 px sarkar. */
 .sahne {
   position: relative;
-  width: 200px;
+  width: 140px;
   margin-top: -28px;
 }
 
@@ -37,8 +35,8 @@
   z-index: -1;
   left: 50%;
   top: 50%;
-  width: 560px;
-  height: 560px;
+  width: 400px;
+  height: 400px;
   translate: -50% -50%;
   background: radial-gradient(
     circle,
@@ -46,7 +44,9 @@
     color-mix(in srgb, var(--kor) 18%, transparent) 35%,
     transparent 65%
   );
-  animation: tutus 600ms ease-out both;
+  animation:
+    tutus 500ms ease-out both,
+    nefes 3.2s ease-in-out 500ms infinite alternate;
 }
 
 .rozet {
@@ -55,93 +55,48 @@
   width: 100%;
   height: auto;
   filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.6));
-  animation: yuksel 800ms var(--gecis-egri) 600ms both;
-}
-
-/* Bakır halka 1,4-1,8 sn: ölçek 1 > 1,15, opaklık .6 > 0; son hâlde yok. */
-.halka {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 3px var(--bakir-60),
-    0 0 90px 30px var(--bakir-28);
-  opacity: 0;
-  animation: parla 400ms ease-out 1400ms both;
-}
-
-.duman {
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: 55%;
-  width: 180px;
-  height: 180px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 240 225 / 0.4), rgb(255 240 225 / 0.14) 45%, transparent 70%);
-  opacity: 0;
-  animation: tuy 2600ms ease-out var(--g) both;
-}
-
-.kivilcimlar {
-  position: absolute;
-  left: 50%;
-  top: 60%;
-}
-
-/* Beş kıvılcım yukarı 40 px, 900 ms; son hâli görünmez. */
-.kivilcim {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--bakir-acik);
-  opacity: 0;
-  animation: savrul 900ms ease-out var(--g) both;
-}
-
-.kivilcim:nth-child(2n) {
-  width: 2px;
-  height: 2px;
+  animation: yuksel 450ms var(--gecis-egri) 100ms both;
 }
 
 .baslik {
-  margin: 22px 0 0;
-  font: 400 40px/1.05 var(--font-baslik);
+  margin: 14px 0 0;
+  font: 400 38px/1.05 var(--font-baslik);
   letter-spacing: -0.025em;
-  animation: belir 400ms ease-out 1800ms both;
+  animation: belir 300ms ease-out 300ms both;
 }
 
 .cumle {
-  margin: 12px 0 0;
+  margin: 6px 0 0;
   font: 400 17px/1.5 var(--font-govde);
   color: var(--krem-74);
-  animation: belir 400ms ease-out 1880ms both;
+  animation: belir 300ms ease-out 360ms both;
 }
 
 .eylem {
   width: 100%;
-  margin-top: 32px;
-  animation: beliris 400ms ease-out 1960ms both;
+  margin-top: 20px;
+  animation: beliris 300ms ease-out 420ms both;
 }
 
 .altinda {
   width: 100%;
-  animation: belir 400ms ease-out 2040ms both;
+  animation: belir 300ms ease-out 480ms both;
 }
 
 /* Telefonda en altta; alt pay mobil eylem pilinin (84 px + 18 px alt boşluk) üstünde tutar. */
 .baglantilar {
   margin-top: 28px;
   padding-bottom: 110px;
-  animation: belir 400ms ease-out 2120ms both;
+  animation: belir 300ms ease-out 480ms both;
 }
 
 @media (max-width: 359px) {
-  .baslik { font-size: 36px; }
+  .baslik { font-size: 34px; }
+}
+
+@media (max-height: 700px) and (max-width: 1040px) {
+  .sahne { width: 110px; }
+  .baslik { font-size: 32px; }
 }
 
 /* Masaüstü (handoff 1a 1440): sol sütun sola yaslı, sağda 420 px sıralama bloğu. */
@@ -158,41 +113,26 @@
   }
 
   .sol { align-self: end; align-items: flex-start; }
-  .sahne { width: 220px; margin-top: 0; }
-  .baslik { margin-top: 28px; font-size: 80px; line-height: 1; letter-spacing: -0.04em; }
+  /* Rozet üst barın ortasında zaten var, sayfanın kor sahnesi de: masaüstünde ikincisi gösterilmez. */
+  .sahne { display: none; }
+  .baslik { margin-top: 0; font-size: 80px; line-height: 1; letter-spacing: -0.04em; }
   .cumle { margin-top: 16px; font-size: 19px; }
   .eylem { width: 320px; margin-top: 36px; }
   .altinda { grid-column: 2; grid-row: 1 / 3; justify-self: end; }
   .baglantilar { grid-column: 1; align-self: start; padding-bottom: 0; }
 }
 
-@keyframes yaklas {
-  from { scale: 1.1; }
-}
-
-@keyframes tuy {
-  0% { opacity: 0; translate: -50% -30%; scale: 0.7; }
-  30% { opacity: 1; }
-  100% { opacity: 0; translate: -50% -120%; scale: 1.7; }
-}
-
 @keyframes tutus {
   from { opacity: 0; }
 }
 
+/* Kor nefes alır: ocak yanıyor. Son hâl tam parlaklık; azaltılmışta global kural durdurur. */
+@keyframes nefes {
+  to { opacity: 0.6; scale: 0.92; }
+}
+
 @keyframes yuksel {
-  from { opacity: 0.72; transform: translateY(60px); }
-}
-
-@keyframes parla {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 0; transform: scale(1.15); }
-}
-
-@keyframes savrul {
-  0% { opacity: 0; transform: none; }
-  20% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-40px); }
+  from { opacity: 0; transform: translateY(24px); }
 }
 
 @keyframes belir {

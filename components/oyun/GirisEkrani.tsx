@@ -33,6 +33,7 @@ export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: P
     basla(duzgun, rehberli)
   }
 
+  const yeniAd = hesapAdi === null && ad.trim() !== ''
   return (
     <OyunAcilisi
       baslik={s.oyun.baslik}
@@ -59,11 +60,14 @@ export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: P
             autoCapitalize="words"
             spellCheck={false}
             aria-invalid={hata ? true : undefined}
-            aria-describedby={hata ? 'giris-ad-kural giris-ad-bilgi' : 'giris-ad-bilgi'}
+            aria-describedby={[hata && 'giris-ad-kural', yeniAd && 'giris-ad-bilgi'].filter(Boolean).join(' ') || undefined}
           />
-          <p id="giris-ad-bilgi" className={stil.adBilgi}>
-            {s.oyun.katilim.aciklama}
-          </p>
+          {/* Onay cümlesi (Md. 11) yalnız yeni ad yazılırken: kayıtlı oyuncu onayı zaten verdi, boş alan veri vermez. */}
+          {yeniAd && (
+            <p id="giris-ad-bilgi" className={stil.adBilgi}>
+              {s.oyun.katilim.aciklama}
+            </p>
+          )}
           {hata && (
             <p id="giris-ad-kural" className={stil.adHata} role="alert">
               {s.oyun.katilim.kural}

@@ -2503,3 +2503,14 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
 - Yanan şişten beş kara duman topu kalkar (900-1260 ms).
 - Bahşiş ömrünün son %30'unda nabız atar (`PARA_SOLMA_ESIGI`, `data-solma`).
 - Azaltılmışta geliş yalnız belirir; zıplama, duman ve nabız yok.
+
+## 10 Ekim 2026: oyun giriş ekranı sadeleşti (sahibinin ekran görüntüsüyle)
+
+- Sorun (iPhone, Safari çubuklu, görünür 390 x 664): mobil eylem pili (596-650) Oyna'nın (581-645) üstüne biniyordu;
+  rozet 229 px; Oyna 1,96 sn'de beliriyordu; rozet altında duman, halka, kıvılcım, kamera yaklaşması "anlamsız".
+- Şimdi: açılışta yalnız nefes alan kor ışığı ve 450 ms'lik rozet yükselişi; Oyna 0,42 sn'de. Telefonda rozet
+  140 px (700 px altı yükseklikte 110). Oyna 664'te 394-458, 548'de 394-458 (pil 480), 844'te 435-499.
+- Onay cümlesi (Md. 11) yalnız yeni ad yazılırken görünür; kayıtlı oyuncuda ve boş alanda yok.
+- Telefonda `/oyun` alt bilgisiz (`Kabuk` > `oyunAltBilgisi`): sayfa 844'te tek ekran. Masaüstünde alt bilgi kalır.
+- Masaüstünde giriş rozeti ve kor ışığı yok: rozet üst barın ortasında zaten var.
+- axe 0, testler 397.

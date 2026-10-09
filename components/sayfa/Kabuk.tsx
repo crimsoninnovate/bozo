@@ -61,7 +61,10 @@ export function Kabuk({ dil, aktif, children }: Props) {
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>
         {children}
       </main>
-      <AltBilgi dil={dil} aktif={aktif} />
+      {/* Oyunda telefonda alt bilgi yok (sahibi, 10 Ekim 2026): giriş tek ekran, site eylem pilinden açılır. */}
+      <div className={aktif === 'oyun' ? stil.oyunAltBilgisi : stil.altBilgi}>
+        <AltBilgi dil={dil} aktif={aktif} />
+      </div>
       <MobilAksiyonBari dil={dil} />
     </>
   )

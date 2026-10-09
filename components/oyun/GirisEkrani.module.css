@@ -20,7 +20,7 @@
   box-shadow: 0 0 28px 6px color-mix(in srgb, var(--kor) 80%, transparent);
   opacity: 0;
   pointer-events: none;
-  animation: nabiz 2400ms ease-in-out 2600ms infinite;
+  animation: nabiz 2400ms ease-in-out 1200ms infinite;
 }
 
 @keyframes nabiz {

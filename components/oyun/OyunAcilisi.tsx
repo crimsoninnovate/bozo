@@ -1,20 +1,13 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { ROZET } from '@/components/ui/Rozet'
 import stil from './OyunAcilisi.module.css'
 
 type Props = { baslik: string; cumle: string; children: ReactNode; baglantilar: ReactNode; altinda?: ReactNode }
 
-/** Beş kıvılcım (handoff 1a): x ve y (px), gecikme (ms). Sabit dizi; her açılış aynı. */
-const KIVILCIMLAR = [[-25, 130, 0], [19, 90, 80], [-45, 70, 160], [41, 40, 40], [3, 10, 120]] as const
-
-/** Rozetin arkasından yükselen üç duman tüyü: gecikme (ms). */
-const DUMAN = [200, 700, 1200] as const
-
 /**
- * Giriş ekranının açılışı, handoff'un dört karesi: kor ışığı ve kıvılcım (0-0,6 sn), rozet
- * yükselir (0,6-1,4), bakır halka (1,4-1,8), metin sırayla (1,8+); açılış boyunca kamera hafifçe
- * yaklaşır, rozetin arkasından duman yükselir. Yalnız CSS; dokunuş ya da
- * tuş son hâle atlatır. Telefonda tek sütun (bağlantılar en altta); masaüstünde iki sütun: sol açılış ve
+ * Giriş ekranının açılışı: kor ışığı yanar ve nefes alır, rozet yükselir, metin ve Oyna 0,6 sn'de
+ * gelir. Sahibinin kararıyla (10 Ekim 2026) duman, halka, kıvılcım ve kamera yaklaşması kalktı:
+ * anlamsız bulundu, Oyna 2 sn bekletiliyordu. Yalnız CSS; dokunuş ya da tuş son hâle atlatır. Telefonda tek sütun (bağlantılar en altta); masaüstünde iki sütun: sol açılış ve
  * bağlantılar, sağ `altinda` (sıralama bloğu).
  */
 export function OyunAcilisi({ baslik, cumle, children, baglantilar, altinda }: Props) {
@@ -30,20 +23,7 @@ export function OyunAcilisi({ baslik, cumle, children, baglantilar, altinda }: P
       <div className={stil.sol}>
         <div className={stil.sahne} aria-hidden="true">
           <span className={stil.kor} />
-          <span className={stil.halka} />
-          {DUMAN.map((g) => (
-            <span key={g} className={stil.duman} style={{ '--g': `${g}ms` } as CSSProperties} />
-          ))}
           <img className={stil.rozet} src={ROZET} alt="" width={1748} height={1999} decoding="async" />
-          <span className={stil.kivilcimlar}>
-            {KIVILCIMLAR.map(([x, y, g], i) => (
-              <span
-                key={i}
-                className={stil.kivilcim}
-                style={{ '--x': `${x}px`, '--y': `${y}px`, '--g': `${g}ms` } as CSSProperties}
-              />
-            ))}
-          </span>
         </div>
         <h1 className={stil.baslik}>{baslik}</h1>
         <p className={stil.cumle}>{cumle}</p>
