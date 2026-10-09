@@ -4,16 +4,18 @@ import { ustaOyna } from './deneme.ts'
 import { simule } from './motor.ts'
 import { tavan } from './tavan.ts'
 
-test('tavan_hicbirAltinKaydinAltindaKalmaz', () => {
-  assert.ok(tavan(1) >= 40470)
-  assert.ok(tavan(2026) >= 10001)
+test('tavan_hicbirAltinKayitTavaniAsmaz', () => {
+  for (const [t, b] of [[1, 'usta'], [1, 'duzenli'], [2026, 'rastgele']] as const) {
+    assert.ok(simule(t, ustaOyna(t, b)).puan <= tavan(t), `${t} ${b}`)
+  }
 })
 
-test('tavan_kirkTohumdaUstaVeAcemiSkorununUstunde', () => {
+test('tavan_kirkTohumdaUcBotunUstunde', () => {
   for (let t = 1; t <= 40; t++) {
     const sinir = tavan(t)
-    assert.ok(simule(t, ustaOyna(t, 'usta')).puan <= sinir, `tohum ${t}: usta tavanı aştı`)
-    assert.ok(simule(t, ustaOyna(t, 'acemi')).puan <= sinir, `tohum ${t}: acemi tavanı aştı`)
+    for (const beceri of ['usta', 'duzenli', 'rastgele'] as const) {
+      assert.ok(simule(t, ustaOyna(t, beceri)).puan <= sinir, `tohum ${t}, ${beceri}`)
+    }
   }
 })
 
@@ -22,12 +24,12 @@ test('tavan_ayniTohum_ayniDeger_veTamsayi', () => {
   assert.ok(Number.isInteger(tavan(1)))
 })
 
-/* Altın değer: bütçe ya da puan tablosu değişince bilerek kırılır. Usta 40470 alır; sınır gevşek. */
+/* Altın değer: bütçe ya da puan tablosu değişince bilerek kırılır. */
 test('altin_tavan_tohum1', () => {
-  assert.equal(tavan(1), 90060)
+  assert.equal(tavan(1), 80780)
 })
 
-/** Bütçe sabit ama kalemlerin fişlere dağılımı tohuma bağlı: tavan tohumdan tohuma az oynar. */
-test('tavan_tohumaGoreAzOynar_doksanBinCivari', () => {
-  for (let t = 2; t <= 40; t++) assert.ok(Math.abs(tavan(t) - 90000) < 1500, `tohum ${t}: ${tavan(t)}`)
+/** Bütçe ve Karışık her tohumda aynı kalem kümesini verir; sıralanmış tabanlar da aynıdır: tavan tohumdan bağımsız. */
+test('tavan_tohumdanBagimsiz', () => {
+  for (let t = 2; t <= 40; t++) assert.equal(tavan(t), tavan(1), `tohum ${t}`)
 })
