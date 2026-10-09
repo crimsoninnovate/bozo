@@ -72,6 +72,9 @@ export const oyun = {
     alinamadi: 'The leaderboard is not available right now.',
     oyunaDon: 'Back to the Game',
   },
+  giris: {
+    takmaAd: 'Nickname (optional)',
+  },
   katilim: {
     baslik: 'Join the leaderboard',
     takmaAd: 'Nickname',
@@ -91,7 +94,7 @@ export const oyun = {
     hata: 'Could not send to the board.',
     reddedildi: 'This round cannot go on the board.',
     tekrarDene: 'Try Again',
-    sira: 'Weekly rank: {sira}',
+    sira: 'Added to the ranking: rank {sira}',
     enIyin: 'Your weekly best: {puan}',
   },
   hesap: {

@@ -52,7 +52,18 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
           {akis.ekran !== 'giris' && <h1 className={stil.gizliBaslik}>{s.oyun.baslik}</h1>}
           <AnimatePresence mode="wait" initial={false}>
             {akis.ekran === 'giris' &&
-              ekran('giris', 'giris', <GirisEkrani dil={dil} basla={akis.basla} bekliyor={akis.bekliyor} />)}
+              ekran(
+                'giris',
+                'giris',
+                <GirisEkrani
+                  dil={dil}
+                  basla={akis.basla}
+                  bekliyor={akis.bekliyor}
+                  sunucu={akis.sunucu}
+                  hesapAdi={akis.hesap?.takmaAd ?? null}
+                  tablo={akis.tablo}
+                />,
+              )}
             {akis.ekran === 'oyun' &&
               tur &&
               ekran(
@@ -70,7 +81,7 @@ export function OyunSayfasi({ dil }: { dil: Dil }) {
                   sonuc={son.sonuc}
                   onceki={son.onceki}
                   yeni={son.yeni}
-                  tekrar={akis.basla}
+                  tekrar={() => akis.basla(akis.hesap?.takmaAd ?? null)}
                   gonderim={akis.gonderim}
                   katil={akis.katil}
                   tekrarDene={akis.tekrarDene}

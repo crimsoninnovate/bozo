@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ONAY_SURUMU, type SiraBilgisi } from '@/lib/oyun/aktarim'
+import { ONAY_SURUMU, type SiraBilgisi, type TabloYaniti } from '@/lib/oyun/aktarim'
 import { api, ApiHatasi, kanalCoz, tekrarDenenebilirMi } from '@/lib/oyun/api'
 import {
   anahtarUret,
@@ -11,6 +11,7 @@ import {
   rehberGorulduMu,
   type Hesap,
 } from '@/lib/oyun/defter'
+import { gonderimKarari } from '@/lib/oyun/giris'
 import type { Girdi, Sonuc } from '@/lib/oyun/tipler'
 import { rastgeleTohum } from '@/lib/oyun/tohum'
 
@@ -27,19 +28,37 @@ export type Gonderim =
   | { durum: 'reddedildi' }
 
 export type Ekran = 'giris' | 'oyun' | 'sonuc' | 'katilim'
-export type Tur = { tohum: number; turId: string | null; rehberli: boolean }
+export type Tur = { tohum: number; turId: string | null; rehberli: boolean; takmaAd: string | null }
+export type Sunucu = 'bakiliyor' | 'var' | 'yok'
+type Bekleyen = { turId: string; kayit: readonly Girdi[] }
 export type Son = { sonuc: Sonuc; kayit: readonly Girdi[]; turId: string | null; onceki: number | null; yeni: boolean }
 export type Kayit = 'tamam' | 'red' | 'hata'
 
 /** Jeton sunucudan; ulaşılamazsa yerel tohumla çevrimdışı tur. */
-async function jetonIste(): Promise<Tur> {
+async function jetonIste(takmaAd: string | null): Promise<Tur> {
   const rehberli = !rehberGorulduMu()
   try {
     const jeton = await api.turAl(kanalCoz(window.location.search))
-    return { tohum: jeton.tohum, turId: jeton.turId, rehberli }
+    return { tohum: jeton.tohum, turId: jeton.turId, rehberli, takmaAd }
   } catch {
-    return { tohum: rastgeleTohum(), turId: null, rehberli }
+    return { tohum: rastgeleTohum(), turId: null, rehberli, takmaAd }
   }
+}
+
+/** Giriş ekranı açılınca sıralama ucuna bir kez bakılır: ad alanı yalnız sunucu varken görünür. */
+function useSunucu() {
+  const [durum, setDurum] = useState<{ sunucu: Sunucu; tablo: TabloYaniti | null }>({ sunucu: 'bakiliyor', tablo: null })
+  useEffect(() => {
+    let iptal = false
+    api.tabloAl().then(
+      (tablo) => !iptal && setDurum({ sunucu: 'var', tablo }),
+      () => !iptal && setDurum({ sunucu: 'yok', tablo: null }),
+    )
+    return () => {
+      iptal = true
+    }
+  }, [])
+  return durum
 }
 
 /** Yanıtı kaybolmuş (yakılmış jeton) gönderim sırayı /ben'den alır; silinmiş hesap düşer. */
@@ -74,7 +93,7 @@ function useGonderim() {
   }
 
   /** Katılım: anahtar üretilir, sunucuya kayıt, tarayıcıya yazım; sonra bekleyen tur gönderilir. */
-  const kaydet = async (takmaAd: string, son: Son | null): Promise<Kayit> => {
+  const kaydet = async (takmaAd: string, bekleyen: Bekleyen | null): Promise<Kayit> => {
     const anahtar = anahtarUret()
     try {
       await api.oyuncuOl(takmaAd, anahtar, ONAY_SURUMU)
@@ -84,7 +103,7 @@ function useGonderim() {
     const yeniHesap = { anahtar, takmaAd }
     hesapYaz(yeniHesap)
     setHesap(yeniHesap)
-    if (son?.turId) void gonder(son.turId, son.kayit, yeniHesap)
+    if (bekleyen) void gonder(bekleyen.turId, bekleyen.kayit, yeniHesap)
     return 'tamam'
   }
 
@@ -97,11 +116,12 @@ export function useOyunAkisi() {
   const [son, setSon] = useState<Son | null>(null)
   const [bekliyor, setBekliyor] = useState(false)
   const { hesap, gonderim, setGonderim, gonder, kaydet } = useGonderim()
+  const { sunucu, tablo } = useSunucu()
 
-  const basla = async () => {
+  const basla = async (takmaAd: string | null) => {
     if (bekliyor) return
     setBekliyor(true)
-    const yeniTur = await jetonIste()
+    const yeniTur = await jetonIste(takmaAd)
     setBekliyor(false)
     setTur(yeniTur)
     setEkran('oyun')
@@ -113,15 +133,28 @@ export function useOyunAkisi() {
     const turId = tur?.turId ?? null
     setSon({ sonuc, kayit, turId, onceki, yeni })
     setEkran('sonuc')
-    if (!turId) return setGonderim({ durum: 'cevrimdisi' })
-    if (!hesap) return setGonderim({ durum: 'bekliyor' })
-    void gonder(turId, kayit, hesap)
+    switch (gonderimKarari(turId, hesap, tur?.takmaAd ?? null)) {
+      case 'cevrimdisi':
+        return setGonderim({ durum: 'cevrimdisi' })
+      case 'sor':
+        return setGonderim({ durum: 'bekliyor' })
+      case 'gonder':
+        return void gonder(turId as string, kayit, hesap as Hesap)
+      case 'kaydet':
+        return void kaydetVeGonder(tur?.takmaAd as string, turId as string, kayit)
+    }
+  }
+
+  /** Giriş ekranındaki ad: hesabı açıp turu gönderir; ad reddedilir ya da ağ düşerse sonuç ekranındaki düğmeye döner. */
+  const kaydetVeGonder = async (takmaAd: string, turId: string, kayit: readonly Girdi[]) => {
+    setGonderim({ durum: 'gonderiliyor' })
+    if ((await kaydet(takmaAd, { turId, kayit })) !== 'tamam') setGonderim({ durum: 'bekliyor' })
   }
 
   return {
-    ekran, tur, son, gonderim, hesap, bekliyor, basla, bitir,
+    ekran, tur, son, gonderim, hesap, bekliyor, sunucu, tablo, basla, bitir,
     kaydet: async (takmaAd: string) => {
-      const sonuc = await kaydet(takmaAd, son)
+      const sonuc = await kaydet(takmaAd, son?.turId ? { turId: son.turId, kayit: son.kayit } : null)
       if (sonuc === 'tamam') setEkran('sonuc')
       return sonuc
     },

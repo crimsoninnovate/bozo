@@ -1,24 +1,13 @@
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { sozluk } from '@/content'
 import type { Dil } from '@/content/types'
 import type { TabloYaniti } from '@/lib/oyun/aktarim'
-import { api } from '@/lib/oyun/api'
 import { yol } from '@/lib/site'
 import stil from './GirisTablosu.module.css'
 
 /** Giriş ekranı (spec §11, handoff 1a): haftanın ilk üçü ve son şampiyon; sunucu yoksa blok yok. */
-export function GirisTablosu({ dil }: { dil: Dil }) {
+export function GirisTablosu({ dil, tablo }: { dil: Dil; tablo: TabloYaniti | null }) {
   const s = sozluk(dil)
-  const [tablo, setTablo] = useState<TabloYaniti | null>(null)
-  useEffect(() => {
-    let iptal = false
-    // Sunucuya ulaşılamazsa tablo yok; giriş yine açılır, oyun çevrimdışı oynanır.
-    api.tabloAl().then((t) => !iptal && setTablo(t), () => {})
-    return () => {
-      iptal = true
-    }
-  }, [])
   const sayi = (n: number) => n.toLocaleString(dil === 'en' ? 'en-GB' : 'tr-TR')
   const ad = (takmaAd: string | null) => takmaAd ?? s.oyun.siralama.gizliAd
   const ilkUc = tablo?.hafta.slice(0, 3) ?? []

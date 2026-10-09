@@ -79,6 +79,9 @@ export const oyun = {
     alinamadi: 'Sıralama şu an alınamıyor.',
     oyunaDon: 'Oyuna Dön',
   },
+  giris: {
+    takmaAd: 'Takma adın (isteğe bağlı)',
+  },
   katilim: {
     baslik: 'Sıralamaya katıl',
     takmaAd: 'Takma ad',
@@ -97,7 +100,7 @@ export const oyun = {
     hata: 'Sıralamaya yazılamadı.',
     reddedildi: 'Bu tur sıralamaya yazılamaz.',
     tekrarDene: 'Tekrar Dene',
-    sira: 'Haftalık sıra: {sira}',
+    sira: 'Sıralamaya yazıldı: sıra {sira}',
     enIyin: 'Haftalık en iyin: {puan}',
   },
   hesap: {
