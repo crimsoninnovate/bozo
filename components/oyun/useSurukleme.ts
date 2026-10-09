@@ -71,9 +71,18 @@ export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
       const el = document.activeElement instanceof HTMLElement ? document.activeElement.closest<HTMLElement>('[data-hedef]') : null
       if (eylem === 'dokun' && (!el || !alan.contains(el))) return
       e.preventDefault()
+      sonTus = performance.now()
       const hedef = hedefi(el)
       yaz(eylem === 'birak' || !hedef ? { tur: 'birak' } : { tur: 'dokun', hedef }, el)
     }
+    // Yardımcı teknoloji düğmeyi işaretçisiz tıklar (detail 0); klavye Enter/Space yukarıda işlendi.
+    let sonTus = 0
+    const tikla = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-hedef]')
+      if (e.detail !== 0 || !el || performance.now() - sonTus < 400) return
+      yaz({ tur: 'dokun', hedef: hedefi(el) as Hedef }, el)
+    }
+    alan.addEventListener('click', tikla)
     alan.addEventListener('pointerdown', bas)
     let bekleyenHareket: PointerEvent | null = null
     const yuru = (e: PointerEvent) => {
@@ -96,6 +105,7 @@ export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
     document.addEventListener('visibilitychange', gizlenince)
     document.addEventListener('keydown', tus)
     return () => {
+      alan.removeEventListener('click', tikla)
       alan.removeEventListener('pointerdown', bas)
       alan.removeEventListener('pointermove', yuru)
       alan.removeEventListener('pointerup', kaldir)

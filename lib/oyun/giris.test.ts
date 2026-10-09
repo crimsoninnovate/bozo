@@ -18,8 +18,9 @@ test('gonderimKarari_hesapYokAdVar_kaydedipGonderir', () => {
   assert.equal(gonderimKarari('t', null, 'Yeni Ad'), 'kaydet')
 })
 
-test('gonderimKarari_hesapVarFarkliAd_yeniHesapKaydeder', () => {
-  assert.equal(gonderimKarari('t', HESAP, 'Baska Ad'), 'kaydet')
+test('gonderimKarari_hesapVarFarkliAd_hesabiKoruyupGonderir', () => {
+  assert.equal(gonderimKarari('t', HESAP, 'Baska Ad'), 'gonder')
+  assert.equal(gonderimKarari('t', HESAP, 'bozo usta'), 'gonder')
 })
 
 test('gonderimKarari_hesapYokAdYok_sonucEkranindaSorar', () => {

@@ -53,6 +53,7 @@ export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: P
               setAd(e.target.value)
               setHata(false)
             }}
+            readOnly={hesapAdi !== null}
             maxLength={TAKMA_AD_EN_COK}
             autoComplete="off"
             autoCapitalize="words"

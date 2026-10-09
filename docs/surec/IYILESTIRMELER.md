@@ -2453,9 +2453,9 @@ iki evrede açıldı, sütunun başka yerine dokunulmadı:
 - Raf alt kenarı (`getBoundingClientRect().bottom`, viewport): 320 x 640 → 624; 390 x 844 → 806;
   390 x 760 → 728; 390 x 700 → 668; **390 x 664 (Safari çubuklu) → 632**; 1440 x 900 → 862. Hepsi
   `innerHeight` içinde, ocak şiş hücresi şeridin dışına en çok 7 px taşar ve tabak şeridine girmez.
-- **Sığmayan:** 375 x 548 (SE, çubuklu) rafı 624'te bırakır, 76 px taşar. Sabit parçaların toplamı
-  (HUD 106, misafir 198, ocak tabanı 96, tabak 104, raf 62, boşluklar) 548'e inmez; çözmek tahtayı yeniden
-  tasarlamak olur ve bu sürüm 560 px altı yüksekliği desteklemez. Sahibine bildirildi.
+- **Sığmayan, kaydırılır:** 375 x 548 (SE, çubuklu) rafı 624'te bırakır, 76 px taşar; sabit parçaların toplamı
+  548'e inmez. 600 px altında tahta doğal boyuna döner ve sayfa dikey kaydırılır (`touch-action: pan-y`):
+  raf kaydırınca 516'da erişilir. Sürükleme dikey kaydırmaya yenilir, dokun-dokun çalışır.
 - Kare süresi bu düzenlemeden etkilenmedi: aynı makinede önceki derleme ve yenisi 18,0-18,5 ms
   (makine o saatte yüklüydü, ilk ölçümlerde 17,5 çıkmıştı); fark düzenlemeden değil ölçüm gürültüsünden.
 

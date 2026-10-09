@@ -190,6 +190,11 @@
   overflow: hidden;
 }
 
+/* Sürüklenen şiş tekne dışına çıkınca kırpılmasın (tekne kırpması yalnız alev ve köz taşmasını tutar). */
+.tekneIci:has([data-tasinan]) {
+  overflow: visible;
+}
+
 /* Alt kor radyali: yoğunluk komboyla (`--kor-yogunluk` .25 ... 1 > opaklık .34 ... .75). */
 .tekneKoru {
   position: absolute;
@@ -377,5 +382,15 @@
   .saha {
     gap: 8px;
     padding: 8px 12px 8px;
+  }
+}
+
+/* Kademe 3 (600 px altı: SE + Safari çubukları): tahta sıkışmaz, doğal boyuna döner ve sayfa kaydırılır.
+   Dikey kaydırma tarayıcıya bırakılır; sürükleme kaydırmaya yenilir (pointercancel = bırak), dokun-dokun çalışır. */
+@media (max-height: 600px) {
+  .saha {
+    height: auto;
+    min-height: calc(100dvh - 24px);
+    touch-action: pan-y;
   }
 }
