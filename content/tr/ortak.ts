@@ -149,7 +149,7 @@ export const ortak = {
       baslik: 'Gizlilik · Ciğerci Bozo',
       aciklama:
         'Ciğerci Bozo web sitesinde hangi verinin, neden ve hangi hukuki dayanakla işlendiği. ' +
-        'Sitede form yoktur.',
+        'Açılış oyununun isteğe bağlı takma adı dahil.',
     },
   },
 }

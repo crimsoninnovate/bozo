@@ -17,7 +17,7 @@ export const SURE_PAYI_MS = 2000
 /** Tarayıcı anahtarı 128 bit, hex 32 karakter; sunucu yalnız özetini tutar. */
 export const ANAHTAR_HEX = 32
 /** Katılım ekranındaki onay cümlesinin sürümü; metin değişince artar, sunucu oyuncuda tutar. */
-export const ONAY_SURUMU = 'taslak-2026-10-08'
+export const ONAY_SURUMU = '2026-10-10'
 
 export type JetonYaniti = { turId: string; tohum: number; sonaErme: string }
 export type OyuncuIstegi = { takmaAd: string; anahtar: string; onaySurumu: string }

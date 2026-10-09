@@ -11,8 +11,8 @@ export const gizlilik = {
   baslik: 'Privacy',
   girisMetni:
     'This page explains what data the Ciğerci Bozo website processes, why, and on ' +
-    'what legal basis. There is no form on the site; no identity, address or ' +
-    'payment detail is asked for.',
+    'what legal basis. The site asks for no identity, address or payment ' +
+    'detail. In the opening game you may enter an optional nickname.',
 
   sorumluBaslik: 'Who processes it',
   sorumluMetni:
@@ -21,40 +21,54 @@ export const gizlilik = {
 
   amacBaslik: 'What is processed, and what for',
   amacMetni:
-    'Visit measurement only: which page was opened, how long the visit lasted, the ' +
-    'referring address, device type and country-level location. There is one ' +
-    'purpose and processing stays within it: seeing which pages of the site are useful. No ' +
-    'advertising, no profiling, no sale of data.',
+    'There are two separate purposes. First, visit measurement: which page was ' +
+    'opened, how long the visit lasted, the referring address, device type and ' +
+    'country-level location, to see which pages of the site are useful. Second, ' +
+    'the game leaderboard: if you join, your nickname, scores and play record ' +
+    'are processed to run the weekly ranking and prize. No advertising, no ' +
+    'profiling, no sale of data.',
 
   yontemBaslik: 'How it is collected',
   yontemMetni:
     'Entirely by automatic means, through Google Analytics 4 running in your ' +
-    'browser. The code writes a cookie to your browser. There is no data you type ' +
-    'in, because there is no form on the site.',
+    'browser. The code writes a cookie to your browser. If you join the ' +
+    'leaderboard you type the nickname yourself; the play record and a digest ' +
+    'of your browser key are created automatically during play. No real name, ' +
+    'phone number or email is asked.',
 
   dayanakBaslik: 'Legal basis',
   dayanakMetni:
     'Measurement rests on consent under Article 6 of the Law: unless you press ' +
     '"Accept" on the banner shown during your visit, measurement never starts. ' +
-    'If you do not consent, the site works exactly the same.',
+    'If you do not consent, the site works exactly the same. Joining the ' +
+    'leaderboard also rests on explicit consent: no personal data goes to the ' +
+    'server until you press "Save and Join". You can play without joining.',
 
   aliciBaslik: 'Who receives it',
   aliciMetni:
     'The only recipients are Google Ireland Limited and Google LLC, who run the ' +
-    'measurement service. No data is passed to any other third party.',
+    'measurement service. Game data is kept on the Istanbul server of the ' +
+    'business\'s hosting provider, DH Bulut Bilişim; your nickname and score ' +
+    'appear in the public leaderboard. No data is passed to any other third party.',
 
   aktarimBaslik: 'Transfer abroad',
   aktarimMetni:
     'Measurement data is processed on Google servers outside Northern Cyprus. That ' +
     'transfer rests on your consent under Article 11(2)(A) of the Law; without ' +
-    'consent no data leaves the country.',
+    'consent no data leaves the country. Game data is also kept outside Northern ' +
+    'Cyprus, on a server in Türkiye, and rests on the explicit consent you give ' +
+    'with the "Save and Join" button under the same provision.',
 
   saklamaBaslik: 'How long it is kept',
   saklamaMetni:
     'Article 5(1)(Ç) of the Law requires that data not be kept longer than its ' +
     'processing purpose requires. Measurement data is held in the Google ' +
-    'Analytics account and its retention period is set there. The site stores no ' +
-    'visitor data on its own server.',
+    'Analytics account and its retention period is set there. The game server ' +
+    'keeps your nickname, a digest of your browser key, the time of your ' +
+    'consent, and your rounds. The input record of rounds outside the week\'s ' +
+    'top twenty is deleted once the score is computed; the top twenty\'s record ' +
+    '30 days after the period ends; your account 90 days after your last round. ' +
+    'The "Delete My Account" button deletes the record immediately.',
 
   haklarBaslik: 'Your rights',
   haklarMetni:
@@ -62,7 +76,8 @@ export const gizlilik = {
     'processed and to access it; Article 15 gives you the right to object to ' +
     'processing and to ask for the data to be corrected, deleted or blocked. You ' +
     'are under no obligation to give data: refusing consent has no effect on your ' +
-    'use of the site. If you do not receive a reply within thirty days, or the ' +
+    'use of the site. You can delete your game account yourself with the "Delete ' +
+    'My Account" button on the leaderboard page. If you do not receive a reply within thirty days, or the ' +
     'reply is not satisfactory, Article 34 of the Law lets you apply directly to ' +
     'the Personal Data Protection Board (Kişisel Verileri Koruma Kurulu).',
 
@@ -74,6 +89,6 @@ export const gizlilik = {
   soruBaslik: 'Requests',
   soruMetni: 'You can send requests about these rights to this address:',
   guncellemeMetni:
-    'Last updated: 24 August 2026. Basis: TRNC Personal Data Protection Law ' +
+    'Last updated: 10 October 2026. Basis: TRNC Personal Data Protection Law ' +
     '(89/2007) and the regulation on the information obligation.',
 }

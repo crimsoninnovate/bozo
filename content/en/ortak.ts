@@ -135,7 +135,7 @@ export const ortak = {
       baslik: 'Privacy · Ciğerci Bozo',
       aciklama:
         'What data the Ciğerci Bozo website processes, why, and on what legal basis. ' +
-        'There is no form on the site.',
+        'Includes the opening game\'s optional nickname.',
     },
   },
 }
