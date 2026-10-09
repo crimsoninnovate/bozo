@@ -1,7 +1,7 @@
-import { EN_COK_OCAK, EN_COK_SOFRA, EVRELER, TEZGAH_YUVASI } from './ayar.ts'
+import { EN_COK_MISAFIR, EN_COK_OCAK, EVRELER, TABAK_SAYISI } from './ayar.ts'
 import { geceKur } from './gece.ts'
 import type { EvreAyari } from './ayar.ts'
-import type { Oyun } from './tipler.ts'
+import type { Kalem, Oyun } from './tipler.ts'
 
 /** Tikin düştüğü evre; tur bittikten sonra son evrede kalır. */
 export function evreBul(tik: number): number {
@@ -21,15 +21,30 @@ export function yeniOyun(tohum: number): Oyun {
     tik: 0,
     evre: 0,
     puan: 0,
-    sofralar: Array.from({ length: EN_COK_SOFRA }, () => null),
+    misafirler: Array.from({ length: EN_COK_MISAFIR }, () => null),
     ocak: Array.from({ length: EN_COK_OCAK }, () => null),
-    tezgah: Array.from({ length: TEZGAH_YUVASI }, () => null),
-    ayran: null,
+    tabaklar: Array.from({ length: TABAK_SAYISI }, () => []),
+    el: null,
+    paralar: Array.from({ length: EN_COK_MISAFIR }, () => null),
     kuyruk: [],
     gelecek: geceKur(tohum),
     kombo: 0,
-    porsiyonDizisi: 0,
-    ozet: { sofra: 0, sis: 0, tamKivam: 0, enUzunKombo: 0, kalkan: 0 },
+    ozet: { misafir: 0, sis: 0, tamKivam: 0, enUzunKombo: 0, kalkan: 0, bahsis: 0 },
     bitti: null,
   }
+}
+
+/** Oturan, ödememiş misafirlerin istediği kalemlerden ocakta, tabaklarda ve elde olanlar düşülür: raf rehberi ve botlar. */
+export function eksikKalemler(oyun: Oyun): Kalem[] {
+  const istenen = oyun.misafirler.flatMap((m) => (m && m.kalkis === null ? [...m.misafir.fis] : []))
+  const hazirlanan: Kalem[] = [
+    ...oyun.ocak.flatMap((s) => (s ? [s.urun] : [])),
+    ...oyun.tabaklar.flatMap((t) => t.map((k) => k.urun)),
+    ...(oyun.el && oyun.el.tur !== 'tabak' ? [oyun.el.urun] : []),
+  ]
+  for (const urun of hazirlanan) {
+    const i = istenen.indexOf(urun)
+    if (i !== -1) istenen.splice(i, 1)
+  }
+  return istenen
 }

@@ -87,11 +87,12 @@ const turOku = (r: Satir): Tur => ({
   tohum: sayi(r.tohum),
   puan: sayi(r.puan),
   ozet: {
-    sofra: sayi(r.sofra),
+    misafir: sayi(r.misafir),
     sis: sayi(r.sis),
     tamKivam: sayi(r.tam_kivam),
     enUzunKombo: sayi(r.en_uzun_kombo),
     kalkan: sayi(r.kalkan),
+    bahsis: sayi(r.bahsis),
   },
   bitti: r.bitti as Bitis,
   tik: sayi(r.tik),
@@ -177,11 +178,11 @@ async function turYaz(havuz: Pool, t: YeniTur): Promise<number> {
   try {
     await baglanti.beginTransaction()
     const r = (await baglanti.execute(
-      'INSERT INTO tur (jeton_id, oyuncu_id, donem, tohum, puan, sofra, sis, tam_kivam, en_uzun_kombo, kalkan, ' +
-        'bitti, tik, kanal, supheli, girdiler, olusturma_ms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO tur (jeton_id, oyuncu_id, donem, tohum, puan, misafir, sis, tam_kivam, en_uzun_kombo, kalkan, ' +
+        'bahsis, bitti, tik, kanal, supheli, girdiler, olusturma_ms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
-        t.jetonId, t.oyuncuId, t.donem, t.tohum, t.puan, t.ozet.sofra, t.ozet.sis, t.ozet.tamKivam,
-        t.ozet.enUzunKombo, t.ozet.kalkan, t.bitti, t.tik, t.kanal, t.supheli ? 1 : 0, JSON.stringify(t.girdiler),
+        t.jetonId, t.oyuncuId, t.donem, t.tohum, t.puan, t.ozet.misafir, t.ozet.sis, t.ozet.tamKivam,
+        t.ozet.enUzunKombo, t.ozet.kalkan, t.ozet.bahsis, t.bitti, t.tik, t.kanal, t.supheli ? 1 : 0, JSON.stringify(t.girdiler),
         t.olusturma,
       ],
     )) as Yazim

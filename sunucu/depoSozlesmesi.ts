@@ -30,12 +30,12 @@ function tur(oyuncuId: number, donem: string, puan: number, ek: Partial<YeniTur>
     donem,
     tohum: 1,
     puan,
-    ozet: { sofra: 1, sis: 2, tamKivam: 0, enUzunKombo: 1, kalkan: 0 },
+    ozet: { misafir: 1, sis: 2, tamKivam: 0, enUzunKombo: 1, kalkan: 0, bahsis: 0 },
     bitti: 'gece',
     tik: 7200,
     kanal: 'yok',
     supheli: false,
-    girdiler: [[0, 's0']],
+    girdiler: [[0, 'ciger']],
     olusturma: 5000,
     ...ek,
   }
@@ -92,7 +92,7 @@ function turTestleri(t: Testci): void {
     const b = await oyuncuEkle(depo, 'B')
     await depo.turEkle(tur(a.id, '2026-10-05', 100, { olusturma: 1 }))
     const aEnIyi = await depo.turEkle(tur(a.id, '2026-10-05', 300, { olusturma: 2 }))
-    const ozet = { sofra: 1, sis: 2, tamKivam: 1, enUzunKombo: 1, kalkan: 0 }
+    const ozet = { misafir: 1, sis: 2, tamKivam: 1, enUzunKombo: 1, kalkan: 0, bahsis: 0 }
     await depo.turEkle(tur(b.id, '2026-10-05', 300, { olusturma: 3, ozet }))
     await depo.turEkle(tur(b.id, '2026-09-28', 900, { olusturma: 0 }))
     const sirali = await depo.siralama('2026-10-05')
@@ -101,7 +101,7 @@ function turTestleri(t: Testci): void {
     assert.deepEqual((await depo.tumZamanlar(1)).map((s) => [s.takmaAd, s.puan]), [['B', 900]])
     const bulunan = await depo.turBul(aEnIyi)
     assert.equal(bulunan?.takmaAd, 'A')
-    assert.deepEqual(bulunan?.girdiler, [[0, 's0']])
+    assert.deepEqual(bulunan?.girdiler, [[0, 'ciger']])
     assert.equal(bulunan?.ozet.sis, 2)
     assert.equal(await depo.turBul(999999), null)
   })

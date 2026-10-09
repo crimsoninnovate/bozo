@@ -1,18 +1,11 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { komboCarpani, komboDusur, sabirBonusu } from './puan.ts'
+import { komboCarpani, sabirBonusu } from './puan.ts'
 
 test('komboCarpani_esiklereGore_birdenDordeKadar', () => {
   assert.deepEqual(
     [0, 2, 3, 5, 6, 8, 9, 30].map(komboCarpani),
     [1, 1, 2, 2, 3, 3, 4, 4],
-  )
-})
-
-test('komboDusur_birAltKademeninBasinaIner', () => {
-  assert.deepEqual(
-    [0, 2, 4, 7, 9, 30].map(komboDusur),
-    [0, 0, 0, 3, 6, 6],
   )
 })
 

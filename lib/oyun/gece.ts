@@ -1,23 +1,22 @@
-import { BUTCE, EVRELER, ILK_MISAFIRLER } from './ayar.ts'
+import { BUTCE, EVRELER, ILK_MISAFIRLER, RAF } from './ayar.ts'
 import { karistir, rastgele, type Rastgele } from './rastgele.ts'
-import type { Misafir, Urun } from './tipler.ts'
+import type { Kalem, Misafir } from './tipler.ts'
 
-const KARISIK: readonly Urun[] = ['ciger', 'dalak', 'yurek']
+type FisTaslagi = { fis: Kalem[]; karisik: boolean }
 
-type FisTaslagi = { fis: Urun[]; karisik: boolean }
-
-/** Bir evrenin fişleri: boylar ve kalemler karıştırılıp sırayla dağıtılır. */
+/** Bir evrenin fişleri: şişler boylara dağıtılır, eşlikçiler en küçük fişlerden başlayarak birer tane eklenir. */
 function evreFisleri(evre: number, r: Rastgele): FisTaslagi[] {
   const butce = BUTCE[evre - 1]
   if (!butce) throw new RangeError(`bütçesi olmayan evre: ${evre}`)
-  const kalemler = karistir([...butce.urunler], r)
-  const fisler: FisTaslagi[] = karistir([...butce.fisBoylari], r).map((boy) => ({
-    fis: kalemler.splice(0, boy),
-    karisik: false,
-  }))
+  const sisler = karistir([...butce.sisler], r)
+  const fisler: FisTaslagi[] = [...butce.sisBoylari]
+    .sort((a, b) => a - b)
+    .map((boy) => ({ fis: sisler.splice(0, boy), karisik: false }))
+  karistir([...butce.eslikciler], r).forEach((e, i) => fisler[i]?.fis.push(e))
+  karistir(fisler, r)
   if (butce.karisik) {
-    const yer = r.tam(0, fisler.length)
-    fisler.splice(yer, 0, { fis: [...KARISIK, ...butce.karisik], karisik: true })
+    const fis: Kalem[] = butce.karisik.eslikci ? [...RAF, butce.karisik.eslikci] : [...RAF]
+    fisler.splice(r.tam(0, fisler.length), 0, { fis, karisik: true })
   }
   return fisler
 }
@@ -46,10 +45,7 @@ function karisigiAyir(fisler: FisTaslagi[]): void {
   }
 }
 
-/**
- * Tohumdan bir gece: yönlendirmeli ilk iki misafir, sonra evre 2-5'in bütçesi.
- * Aynı tohum her makinede aynı geceyi verir.
- */
+/** Tohumdan bir gece: yönlendirmeli ilk iki misafir, sonra evre 2-5'in bütçesi. Aynı tohum her makinede aynı gece. */
 export function geceKur(tohum: number): Misafir[] {
   const r = rastgele(tohum)
   const fisler: FisTaslagi[] = []

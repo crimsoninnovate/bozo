@@ -29,8 +29,8 @@ async function oyuncu(depo: Depo, ad: string, simdi = BAS) {
 async function tur(depo: Depo, oyuncuId: number, puan: number, olusturma: number, donem = DONEM): Promise<number> {
   const t: YeniTur = {
     jetonId: `${oyuncuId}-${puan}-${olusturma}`, oyuncuId, donem, tohum: 1, puan,
-    ozet: { sofra: 1, sis: 1, tamKivam: 0, enUzunKombo: 1, kalkan: 0 },
-    bitti: 'gece', tik: 7200, kanal: 'yok', supheli: false, girdiler: [[0, 's0']], olusturma,
+    ozet: { misafir: 1, sis: 1, tamKivam: 0, enUzunKombo: 1, kalkan: 0, bahsis: 0 },
+    bitti: 'gece', tik: 7200, kanal: 'yok', supheli: false, girdiler: [[0, 'ciger']], olusturma,
   }
   return depo.turEkle(t)
 }
