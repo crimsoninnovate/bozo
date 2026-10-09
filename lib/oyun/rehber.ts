@@ -5,7 +5,8 @@ import type { Hedef, Olay, Oyun } from './tipler.ts'
  * saatin durduğunu ve hangi girdiye izin verildiğini söyler. Reddedilen girdi kayda girmez.
  */
 export type RehberAdimi =
-  | 'bekle' | 'fis' | 'raf' | 'pisiyor' | 'hazir' | 'tabak' | 'misafir' | 'para' | 'ikinci' | 'eslikci' | 'bitti'
+  | 'bekle' | 'fis' | 'raf' | 'pisiyor' | 'hazir' | 'tabak' | 'misafir' | 'para' | 'ikinci' | 'sabir' | 'eslikci' | 'cop'
+  | 'bitti'
 export type Rehber = { adim: RehberAdimi }
 
 const IZIN: Readonly<Partial<Record<RehberAdimi, readonly Hedef[]>>> = {
@@ -18,12 +19,16 @@ const IZIN: Readonly<Partial<Record<RehberAdimi, readonly Hedef[]>>> = {
   eslikci: ['domates', 't0', 't1', 'm0', 'm1', 'cop', 'birak'],
 }
 
-const DURAN: ReadonlySet<RehberAdimi> = new Set(['fis', 'raf', 'hazir', 'misafir', 'para', 'eslikci'])
+const DURAN: ReadonlySet<RehberAdimi> = new Set(['fis', 'raf', 'hazir', 'misafir', 'para', 'sabir', 'eslikci', 'cop'])
 
 export const rehberBasla = (): Rehber => ({ adim: 'bekle' })
 export const rehberAtla = (r: Rehber): Rehber => (r.adim === 'bitti' ? r : { adim: 'bitti' })
-/** Oyuncunun "Tamam" demesiyle fiş adımından rafa geçilir. */
-export const rehberTamam = (r: Rehber): Rehber => (r.adim === 'fis' ? { adim: 'raf' } : r)
+/** Bilgi adımları ("Tamam" ister, girdi almaz): fiş rafa, sabır eşlikçiye, çöp rehberin sonuna geçer. */
+const TAMAM_SONRASI: Readonly<Partial<Record<RehberAdimi, RehberAdimi>>> = { fis: 'raf', sabir: 'eslikci', cop: 'bitti' }
+export const rehberTamam = (r: Rehber): Rehber => {
+  const sonraki = TAMAM_SONRASI[r.adim]
+  return sonraki ? { adim: sonraki } : r
+}
 /** Bu adımlarda saat girdiyi bekler; `tabak` ve `ikinci` akar. */
 export const rehberDurdurur = (r: Rehber): boolean => DURAN.has(r.adim)
 
@@ -54,9 +59,9 @@ function sonraki(r: Rehber, oyun: Oyun, olaylar: readonly Olay[]): RehberAdimi {
     case 'para':
       return olayVar(olaylar, 'bahsisAlindi') ? 'ikinci' : 'para'
     case 'ikinci':
-      return oyun.misafirler.some((m) => m?.misafir.no === 1) ? 'eslikci' : 'ikinci'
+      return oyun.misafirler.some((m) => m?.misafir.no === 1) ? 'sabir' : 'ikinci'
     case 'eslikci':
-      return olaylar.some((o) => o.tur === 'tabagaKondu' && o.kalem.urun === 'domates') ? 'bitti' : 'eslikci'
+      return olaylar.some((o) => o.tur === 'tabagaKondu' && o.kalem.urun === 'domates') ? 'cop' : 'eslikci'
     default:
       return r.adim
   }

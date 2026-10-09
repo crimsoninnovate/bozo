@@ -35,8 +35,8 @@ export type Son = { sonuc: Sonuc; kayit: readonly Girdi[]; turId: string | null;
 export type Kayit = 'tamam' | 'red' | 'hata'
 
 /** Jeton sunucudan; ulaşılamazsa yerel tohumla çevrimdışı tur. */
-async function jetonIste(takmaAd: string | null): Promise<Tur> {
-  const rehberli = !rehberGorulduMu()
+async function jetonIste(takmaAd: string | null, rehberIste: boolean): Promise<Tur> {
+  const rehberli = rehberIste || !rehberGorulduMu()
   try {
     const jeton = await api.turAl(kanalCoz(window.location.search))
     return { tohum: jeton.tohum, turId: jeton.turId, rehberli, takmaAd }
@@ -141,10 +141,10 @@ export function useOyunAkisi() {
   const sonucuYolla = useSonucYolu(gonderici)
   const { sunucu, tablo } = useSunucu()
 
-  const basla = async (takmaAd: string | null) => {
+  const basla = async (takmaAd: string | null, rehberli = false) => {
     if (bekliyor) return
     setBekliyor(true)
-    const yeniTur = await jetonIste(takmaAd)
+    const yeniTur = await jetonIste(takmaAd, rehberli)
     setBekliyor(false)
     setTur(yeniTur)
     setEkran('oyun')

@@ -2,6 +2,7 @@
 export const oyun = {
   baslik: 'Sofra Yetiştir',
   oyna: 'Play',
+  nasil: 'How to Play',
   tekrar: 'Play Again',
   duraklat: 'Pause',
   devam: 'Resume',
@@ -53,7 +54,9 @@ export const oyun = {
     tabak: 'Drag the skewer to the plate',
     misafir: 'Drag the plate to the guest',
     para: 'Tap the tip',
+    sabir: 'Serve before the ring turns red',
     eslikci: 'Add the tomato too',
+    cop: 'Wrong plates go in the bin',
     tamam: 'Got It',
     atla: 'Skip',
   },

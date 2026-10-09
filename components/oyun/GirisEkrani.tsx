@@ -10,7 +10,7 @@ import stil from './GirisEkrani.module.css'
 
 type Props = {
   dil: Dil
-  basla: (takmaAd: string | null) => void
+  basla: (takmaAd: string | null, rehberli?: boolean) => void
   bekliyor: boolean
   sunucu: Sunucu
   hesapAdi: string | null
@@ -26,18 +26,18 @@ export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: P
   // Hesap tarayıcıdan geç okunur: alan henüz dokunulmadıysa hazır ad dolar.
   useEffect(() => setAd((onceki) => (onceki === '' && hesapAdi ? hesapAdi : onceki)), [hesapAdi])
 
-  const oyna = () => {
+  const oyna = (rehberli = false) => {
     const duzgun = takmaAdDuzelt(ad)
-    if (duzgun === '' || sunucu !== 'var') return basla(null)
+    if (duzgun === '' || sunucu !== 'var') return basla(null, rehberli)
     if (!takmaAdBicimiGecerliMi(duzgun)) return setHata(true)
-    basla(duzgun)
+    basla(duzgun, rehberli)
   }
 
   return (
     <OyunAcilisi
       baslik={s.oyun.baslik}
       cumle={s.ana.gece.baslik}
-      baglantilar={<GirisBaglantilari dil={dil} />}
+      baglantilar={<GirisBaglantilari dil={dil} nasil={() => oyna(true)} bekliyor={bekliyor} />}
       altinda={<GirisTablosu dil={dil} tablo={tablo} />}
     >
       {sunucu === 'var' && (
@@ -71,7 +71,7 @@ export function GirisEkrani({ dil, basla, bekliyor, sunucu, hesapAdi, tablo }: P
           )}
         </div>
       )}
-      <button type="button" className={stil.oyna} onClick={oyna} disabled={bekliyor}>
+      <button type="button" className={stil.oyna} onClick={() => oyna()} disabled={bekliyor}>
         {s.oyun.oyna}
       </button>
     </OyunAcilisi>

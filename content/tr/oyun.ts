@@ -5,6 +5,7 @@
 export const oyun = {
   baslik: 'Sofra Yetiştir',
   oyna: 'Oyna',
+  nasil: 'Nasıl Oynanır',
   tekrar: 'Tekrar Oyna',
   duraklat: 'Duraklat',
   devam: 'Devam Et',
@@ -59,7 +60,9 @@ export const oyun = {
     tabak: 'Şişi tabağa sürükle',
     misafir: 'Tabağı misafire götür',
     para: 'Bahşişi al',
+    sabir: 'Halka kızarmadan servis et',
     eslikci: 'Domatesi de tabağa koy',
+    cop: 'Yanlış tabak çöpe gider',
     tamam: 'Tamam',
     atla: 'Atla',
   },

@@ -26,10 +26,17 @@ function hedefSecici(adim: Adim): Cift {
       return ['[data-hedef="t0"]', '[data-hedef="m0"]']
     case 'para':
       return ['[data-hedef="p0"]', null]
+    case 'sabir':
+      return ['[data-hedef^="m"]:not([data-bos])', null]
     case 'eslikci':
       return ['[data-hedef="domates"]', '[data-hedef="t0"]']
+    case 'cop':
+      return ['[data-hedef="cop"]', null]
   }
 }
+
+/** "Tamam" bekleyen, girdi almayan adımlar (`rehberTamam`). */
+const BILGI_ADIMLARI: ReadonlySet<Adim> = new Set(['fis', 'sabir', 'cop'])
 
 const PAY = 6
 
@@ -108,7 +115,7 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
       </span>
       <p className={stil.balon} style={balon} role="status">
         {metin[adim]}
-        {adim === 'fis' && (
+        {BILGI_ADIMLARI.has(adim) && (
           <button type="button" className={stil.tamam} onClick={tamam}>{metin.tamam}</button>
         )}
       </p>
