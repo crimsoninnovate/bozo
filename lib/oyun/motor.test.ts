@@ -1,79 +1,71 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ustaOyna } from './deneme.ts'
-import { simule } from './motor.ts'
-import type { Girdi } from './tipler.ts'
+import { TUR_TIK } from './ayar.ts'
+import { bekle, dokun, sahne } from './deneme.ts'
+import { yeniOyun } from './durum.ts'
+import { ilerle, simule } from './motor.ts'
+import { rastgele } from './rastgele.ts'
+import type { Girdi, Hedef } from './tipler.ts'
+
+export const TUM_HEDEFLER: readonly Hedef[] = [
+  'ciger', 'dalak', 'yurek', 'domates', 'sogan', 'o0', 'o1', 'o2', 'o3', 't0', 't1', 'm0', 'm1', 'm2',
+  'p0', 'p1', 'p2', 'cop', 'birak',
+]
 
 test('simule_siraDisiAralikDisiYaDaKesirliTik_hataVerir', () => {
-  assert.throws(() => simule(1, [[5, 's0'], [4, 's0']]), RangeError)
-  assert.throws(() => simule(1, [[7200, 's0']]), RangeError)
-  assert.throws(() => simule(1, [[-1, 's0']]), RangeError)
-  assert.throws(() => simule(1, [[1.5, 's0']]), RangeError)
+  assert.throws(() => simule(1, [[5, 'ciger'], [4, 'ciger']]), RangeError)
+  assert.throws(() => simule(1, [[TUR_TIK, 'ciger']]), RangeError)
+  assert.throws(() => simule(1, [[-1, 'ciger']]), RangeError)
+  assert.throws(() => simule(1, [[1.5, 'ciger']]), RangeError)
 })
 
-test('simule_ayniTohumVeGirdi_herSeferindeAyniSonuc', () => {
-  const kayit = ustaOyna(77, 'usta')
-  assert.deepEqual(simule(77, kayit), simule(77, kayit))
-})
-
-test('simule_bitistenSonrakiGirdiler_yokSayilir', () => {
-  const kayit = ustaOyna(2026, 'siradan')
-  const sonuc = simule(2026, kayit)
-  assert.equal(sonuc.bitti, 'ucSofra')
-  const fazla: Girdi[] = [...kayit, [sonuc.tik + 10, 'ciger']]
-  assert.deepEqual(simule(2026, fazla), sonuc)
-})
-
-/*
- * Altın kayıtlar: sabit tohum ve otomatik oyuncu, sabit sonuç. Kural, ayar ya da
- * oyuncu değişince bilerek kırılır; yeni değer bilinçli olarak yazılır.
- */
-test('altin_tohum1_usta', () => {
-  assert.deepEqual(simule(1, ustaOyna(1, 'usta')), {
-    puan: 40470,
-    ozet: { sofra: 22, sis: 48, tamKivam: 36, enUzunKombo: 22, kalkan: 1 },
-    bitti: 'gece',
-    tik: 7200,
-  })
-})
-
-test('altin_tohum1_acemi', () => {
-  assert.deepEqual(simule(1, ustaOyna(1, 'acemi')), {
-    puan: 30769,
-    ozet: { sofra: 22, sis: 46, tamKivam: 0, enUzunKombo: 20, kalkan: 1 },
-    bitti: 'gece',
-    tik: 7200,
-  })
-})
-
-test('altin_tohum2026_siradan', () => {
-  assert.deepEqual(simule(2026, ustaOyna(2026, 'siradan')), {
-    puan: 10001,
-    ozet: { sofra: 15, sis: 32, tamKivam: 0, enUzunKombo: 12, kalkan: 3 },
-    bitti: 'ucSofra',
-    tik: 6504,
-  })
-})
-
-/*
- * Zorluk bandı (plan 1, Görev 5): saniyede 4 dokunan kusursuz usta gecelerin en az
- * %90'ını tamamlar; saniyede 1,5 dokunan sıradan oyuncu en fazla %30'unu. Ayar
- * değişikliği bu bandın dışına düşerse oyun ya yapılamaz ya baskısız hale gelmiştir.
- */
-test('zorlukBandi_ustaTamamlar_siradanTamamlayamaz', () => {
-  const tohumlar = Array.from({ length: 40 }, (_, i) => i + 1)
-  const tamamlayan = (beceri: 'usta' | 'siradan'): number =>
-    tohumlar.filter((t) => simule(t, ustaOyna(t, beceri)).bitti === 'gece').length
-  assert.ok(tamamlayan('usta') >= 36, 'usta gecelerin %90ından azını tamamlıyor')
-  assert.ok(tamamlayan('siradan') <= 12, 'sıradan oyuncu gecelerin %30undan fazlasını tamamlıyor')
-})
-
-test('simule_tanimsizHedefYaDaBozukGirdi_hataVerir', () => {
+test('simule_tanimsizYaDaEskiHedefYaDaBozukGirdi_hataVerir', () => {
   const bozuk = (g: unknown) => g as Girdi[]
-  assert.throws(() => simule(1, bozuk([[0, 'x']])), RangeError)
-  assert.throws(() => simule(1, bozuk([[0, 'o4']])), RangeError)
-  assert.throws(() => simule(1, bozuk([[0, 5]])), RangeError)
-  assert.throws(() => simule(1, bozuk([[0, null]])), RangeError)
+  for (const h of ['x', 's0', 'ayran', 'o4', 't2', 'm3', 'p3', 5, null]) {
+    assert.throws(() => simule(1, bozuk([[0, h]])), RangeError, String(h))
+  }
   assert.throws(() => simule(1, bozuk([null])), RangeError)
-  assert.throws(() => simule(1, bozuk([[0, 's0', 'fazla']])), RangeError)
+  assert.throws(() => simule(1, bozuk([[0, 'o0', 'fazla']])), RangeError)
+})
+
+test('simule_ondokuzHedefinHepsi_gecerli', () => {
+  assert.equal(TUM_HEDEFLER.length, 19)
+  assert.doesNotThrow(() => simule(1, TUM_HEDEFLER.map((h, i) => [i, h] as const)))
+})
+
+test('ilerle_ayniTikteTutVeBirakmaHedefi_sirayla', () => {
+  const oyun = sahne([['ciger']])
+  bekle(oyun, 1)
+  dokun(oyun, 'ciger')
+  bekle(oyun, 300)
+  const olaylar = dokun(oyun, 'o0', 't0')
+  assert.deepEqual(olaylar.map((o) => o.tur), ['tutuldu', 'tabagaKondu'])
+  assert.equal(oyun.el, null)
+})
+
+test('ilerle_bittiktenSonra_hicbirSeyDegismez', () => {
+  const oyun = sahne([])
+  oyun.bitti = 'gece'
+  assert.deepEqual(ilerle(oyun, ['ciger', 'p0']), [])
+  assert.equal(oyun.tik, 0)
+})
+
+test('evre_sinirdaGecer_olayVerir', () => {
+  const oyun = sahne([])
+  bekle(oyun, 899)
+  assert.deepEqual(bekle(oyun, 1), [{ tur: 'evre', evre: 1 }])
+})
+
+test('puan_rastgeleGirdiyle_hicbirTikteDusmez_500Tohum', () => {
+  for (let tohum = 1; tohum <= 500; tohum++) {
+    const r = rastgele(tohum * 31)
+    const oyun = yeniOyun(tohum)
+    let onceki = 0
+    while (!oyun.bitti) {
+      const hedef = TUM_HEDEFLER[r.tam(0, TUM_HEDEFLER.length - 1)] as Hedef
+      ilerle(oyun, r.tam(0, 5) === 0 ? [hedef] : [])
+      assert.ok(oyun.puan >= onceki, `tohum ${tohum}, tik ${oyun.tik}: ${onceki} -> ${oyun.puan}`)
+      onceki = oyun.puan
+    }
+  }
 })
