@@ -1,25 +1,13 @@
-import { ACILDIGI_EVRE, AYRAN_TIK, PISME_YUZDESI, PUAN, SOGUMA_TIK } from './ayar.ts'
+import { ACILDIGI_EVRE, PISME_YUZDESI } from './ayar.ts'
 import { evreAyari } from './durum.ts'
-import { komboDusur } from './puan.ts'
-import type { Olay, Oyun, SisUrun } from './tipler.ts'
+import type { Kalite, OcakSisi, Olay, Oyun, Urun } from './tipler.ts'
 
-function bosYuva<T>(yuvalar: readonly (T | null)[], ustSinir = yuvalar.length): number {
-  for (let i = 0; i < ustSinir; i++) if (!yuvalar[i]) return i
-  return -1
-}
-
-/** Yanık ve soğuma aynı bedeli öder: puan, kombo kademesi, porsiyon dizisi. */
-function ihmal(oyun: Oyun, ceza: number): void {
-  oyun.puan += ceza
-  oyun.kombo = komboDusur(oyun.kombo)
-  oyun.porsiyonDizisi = 0
-}
-
-/** Raftan şiş: açık ocak yuvalarının ilk boşuna iner; süreler o anki evreden sabitlenir. */
-export function rafaDokun(oyun: Oyun, urun: SisUrun, olaylar: Olay[]): void {
+/** Raftan şiş: açık ocak yuvalarının ilk boşuna iner; elde tutulan şişin boşalmış yuvası atlanır (ekran şişi orada gösterir). */
+export function rafaDokun(oyun: Oyun, urun: Urun, olaylar: Olay[]): void {
   if (ACILDIGI_EVRE[urun] > oyun.evre) return
   const ayar = evreAyari(oyun.evre)
-  const yuva = bosYuva(oyun.ocak, ayar.ocak)
+  const el = oyun.el
+  const yuva = oyun.ocak.slice(0, ayar.ocak).findIndex((sis, i) => !sis && !(el?.tur === 'sis' && el.yuva === i))
   if (yuva === -1) {
     olaylar.push({ tur: 'rafDolu', urun })
     return
@@ -30,75 +18,36 @@ export function rafaDokun(oyun: Oyun, urun: SisUrun, olaylar: Olay[]): void {
     pisme: Math.floor((ayar.cigerPisme * PISME_YUZDESI[urun] + 50) / 100),
     pencere: ayar.almaPenceresi,
     bant: ayar.tamKivamBandi,
-    cevirme: 'yok',
   }
   olaylar.push({ tur: 'sisKondu', yuva, urun })
 }
 
-/**
- * Pişerken ilk dokunuş şişi çevirir: çentiğin bandındaysa tam kıvam mümkün kalır.
- * Alma penceresindeki dokunuş şişi tezgaha alır. Karşılaştırmalar iki katı alınarak
- * tamsayıda yapılır: |gecen - pisme/2| <= bant/2  ⇔  |2·gecen - pisme| <= bant.
- */
-export function ocagaDokun(oyun: Oyun, yuva: number, olaylar: Olay[]): void {
+/** Tam kıvam bandı pencerenin ortasında: |gecen - pisme - pencere/2| <= bant/2, tamsayıda iki katıyla. */
+export function sisKalitesi(sis: OcakSisi): Kalite {
+  return Math.abs(2 * (sis.gecen - sis.pisme) - sis.pencere) <= sis.bant ? 'tam' : 'iyi'
+}
+
+/** Hazır şiş ele alınır, kalite o tikte mühürlenir, yuva boşalır. Pişerken dokunuş sallanır, el doluyken etkisiz. */
+export function ocaktanTut(oyun: Oyun, yuva: number, olaylar: Olay[]): void {
   const sis = oyun.ocak[yuva]
-  if (!sis) return
+  if (!sis || oyun.el) return
   if (sis.gecen < sis.pisme) {
-    if (sis.cevirme !== 'yok') return
-    const iyi = Math.abs(2 * sis.gecen - sis.pisme) <= sis.bant
-    sis.cevirme = iyi ? 'iyi' : 'kotu'
-    olaylar.push({ tur: 'sisCevrildi', yuva, iyi })
+    olaylar.push({ tur: 'sisErken', yuva })
     return
   }
-  const bos = bosYuva(oyun.tezgah)
-  if (bos === -1) {
-    olaylar.push({ tur: 'tezgahDolu', yuva })
-    return
-  }
-  const merkezFarki = Math.abs(2 * (sis.gecen - sis.pisme) - sis.pencere)
-  const kalite = sis.cevirme === 'iyi' && merkezFarki <= sis.bant ? 'tam' : 'iyi'
-  oyun.tezgah[bos] = { urun: sis.urun, kalite, bekleme: 0 }
+  oyun.el = { tur: 'sis', urun: sis.urun, kalite: sisKalitesi(sis), yuva }
   oyun.ocak[yuva] = null
-  olaylar.push({ tur: 'sisAlindi', yuva, kalite })
+  olaylar.push({ tur: 'tutuldu', el: oyun.el })
 }
 
-export function ayranaDokun(oyun: Oyun): void {
-  if (oyun.ayran !== null || ACILDIGI_EVRE.ayran > oyun.evre) return
-  oyun.ayran = AYRAN_TIK
-}
-
-/** Şişler pişer; alma penceresi geçen yanar. */
+/** Şişler pişer; pencereyi geçen yanar: yuva boşalır, kombo sıfırlanır, puan düşmez. */
 export function ocakIlerle(oyun: Oyun, olaylar: Olay[]): void {
   oyun.ocak.forEach((sis, yuva) => {
     if (!sis) return
     sis.gecen++
     if (sis.gecen < sis.pisme + sis.pencere) return
     oyun.ocak[yuva] = null
-    ihmal(oyun, PUAN.yanik)
+    oyun.kombo = 0
     olaylar.push({ tur: 'sisYandi', yuva })
   })
-}
-
-/** Tezgahta bekleyen şiş soğur; ayran soğumaz. */
-export function tezgahIlerle(oyun: Oyun, olaylar: Olay[]): void {
-  oyun.tezgah.forEach((kalem, yuva) => {
-    if (!kalem || kalem.kalite === null) return
-    kalem.bekleme++
-    if (kalem.bekleme < SOGUMA_TIK) return
-    oyun.tezgah[yuva] = null
-    ihmal(oyun, PUAN.soguma)
-    olaylar.push({ tur: 'sogudu', tezgah: yuva })
-  })
-}
-
-/** Maşrapa dolar; dolunca tezgahta ilk boş yere geçer, yer yoksa yayıkta bekler. */
-export function ayranIlerle(oyun: Oyun, olaylar: Olay[]): void {
-  if (oyun.ayran === null) return
-  if (oyun.ayran > 0) oyun.ayran--
-  if (oyun.ayran > 0) return
-  const bos = bosYuva(oyun.tezgah)
-  if (bos === -1) return
-  oyun.tezgah[bos] = { urun: 'ayran', kalite: null, bekleme: 0 }
-  oyun.ayran = null
-  olaylar.push({ tur: 'ayranDoldu' })
 }
