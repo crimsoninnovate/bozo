@@ -86,8 +86,8 @@ test('simule_bitistenSonrakiGirdiler_yokSayilir', () => {
 /* Altın kayıtlar: sabit tohum ve otomatik oyuncu, sabit sonuç. Kural, ayar ya da oyuncu değişince bilerek kırılır. */
 test('altin_tohum1_usta', () => {
   assert.deepEqual(simule(1, ustaOyna(1, 'usta')), {
-    puan: 20999,
-    ozet: { misafir: 20, sis: 36, tamKivam: 31, enUzunKombo: 14, kalkan: 0, bahsis: 6679 },
+    puan: 20143,
+    ozet: { misafir: 20, sis: 36, tamKivam: 27, enUzunKombo: 14, kalkan: 0, bahsis: 6633 },
     bitti: 'gece',
     tik: 7200,
   })
@@ -95,8 +95,8 @@ test('altin_tohum1_usta', () => {
 
 test('altin_tohum1_duzenli', () => {
   assert.deepEqual(simule(1, ustaOyna(1, 'duzenli')), {
-    puan: 11091,
-    ozet: { misafir: 17, sis: 29, tamKivam: 2, enUzunKombo: 10, kalkan: 1, bahsis: 4131 },
+    puan: 12329,
+    ozet: { misafir: 18, sis: 32, tamKivam: 3, enUzunKombo: 10, kalkan: 1, bahsis: 4479 },
     bitti: 'gece',
     tik: 7200,
   })

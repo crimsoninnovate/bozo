@@ -20,14 +20,15 @@ export type EvreAyari = {
 
 /**
  * Spec tabak §5 tablosu, tike çevrilmiş; başlangıç değerleri, botlarla ayarlanır (Görev 4).
+ * Alma penceresi 10 Ekim 2026'da %20 genişledi (çırak botu %59 → %73); sabır kapıya bağlı, dokunulmadı.
  * Sütunlar: başlangıç, bitiş, misafir yeri, ocak, ciğer pişme, alma penceresi, tam kıvam bandı, sabır, puan ×.
  */
 const TABLO = [
-  [0, 900, 2, 3, 240, 180, 36, 2100, 1],
-  [900, 2700, 2, 3, 210, 156, 30, 1680, 1],
-  [2700, 4500, 3, 4, 180, 132, 27, 1560, 1],
-  [4500, 6300, 3, 4, 156, 120, 24, 2040, 1],
-  [6300, 7200, 3, 4, 132, 108, 21, 960, 2],
+  [0, 900, 2, 3, 240, 216, 36, 2100, 1],
+  [900, 2700, 2, 3, 210, 188, 30, 1680, 1],
+  [2700, 4500, 3, 4, 180, 158, 27, 1560, 1],
+  [4500, 6300, 3, 4, 156, 144, 24, 2040, 1],
+  [6300, 7200, 3, 4, 132, 130, 21, 960, 2],
 ] as const
 
 export const EVRELER: readonly EvreAyari[] = TABLO.map(

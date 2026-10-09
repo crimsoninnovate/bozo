@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { PARA_TIK } from './ayar.ts'
+import { EVRELER, PARA_TIK } from './ayar.ts'
 import {
   fisSatirlari, kivilcimYogunlugu, korYogunlugu, paraOrani, pismeOrani, sabirDurumu, yanmaOrani,
 } from './gorsel.ts'
@@ -32,7 +32,7 @@ test('kivilcimYogunlugu_ocakBosken_sifir_sisVarkenKorIsigi', () => {
   assert.equal(kivilcimYogunlugu(oyun), 0)
   dokun(oyun, 'ciger')
   assert.equal(kivilcimYogunlugu(oyun), 0.5)
-  bekle(oyun, 420)
+  bekle(oyun, (EVRELER[0]?.cigerPisme ?? 0) + (EVRELER[0]?.almaPenceresi ?? 0))
   assert.equal(kivilcimYogunlugu(oyun), 0)
 })
 
