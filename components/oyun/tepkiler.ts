@@ -121,7 +121,7 @@ export function ucus(alan: HTMLElement, kaynak: HTMLElement | null, hedef: HTMLE
   kopya.removeAttribute('data-tasinir')
   kopya.removeAttribute('data-elde')
   kopya.setAttribute('data-ucus', '')
-  kopya.className = stil.hayalet ?? ''
+  kopya.setAttribute('class', stil.hayalet ?? '')
   const a = asil.getBoundingClientRect()
   const b = hedef.getBoundingClientRect()
   const k = alan.getBoundingClientRect()

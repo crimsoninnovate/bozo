@@ -3,6 +3,7 @@ import { sozluk, type Sozluk } from '@/content'
 import type { Dil } from '@/content/types'
 import type { Girdi, Kalem, Sonuc } from '@/lib/oyun/tipler'
 import { Hud } from './Hud'
+import { Rehber } from './Rehber'
 import { SahneDefs } from './SahneDefs'
 import { Misafirler } from './SeritMisafir'
 import { Ocak } from './SeritOcak'
@@ -54,12 +55,19 @@ function Zemin() {
   )
 }
 
-/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. `rehberli` Görev 11'de bağlanır. */
-export function Saha({ dil, tohum, bitince, cik }: Props) {
+/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. */
+export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
   const s = sozluk(dil)
   const ad = (k: Kalem): string => kalemAdi(s, k)
   const kok = useRef<HTMLDivElement>(null)
-  const { goruntu, duraklatildi, duraklat, devam, azalt, ses } = useOyunAlani({ kok, tohum, metin: s.oyun, ad, bitince })
+  const { goruntu, duraklatildi, duraklat, devam, azalt, ses, rehber } = useOyunAlani({
+    kok,
+    tohum,
+    metin: s.oyun,
+    ad,
+    rehberli,
+    bitince,
+  })
   useEgim(kok, azalt)
   const serit = { goruntu, ad, metin: s.oyun }
   return (
@@ -71,6 +79,9 @@ export function Saha({ dil, tohum, bitince, cik }: Props) {
       <Ocak {...serit} />
       <Tabaklar {...serit} />
       <Raf {...serit} />
+      {rehber.durum.adim !== 'bitti' && rehber.durum.adim !== 'bekle' && rehber.durum.adim !== 'ikinci' && (
+        <Rehber alan={kok} adim={rehber.durum.adim} el={goruntu.el} metin={s.oyun.rehber} tamam={rehber.tamam} atla={rehber.atla} />
+      )}
       {duraklatildi && <Perde metin={s.oyun} devam={devam} cik={cik} />}
     </div>
   )

@@ -10,6 +10,7 @@ import type { Metin } from './Serit'
 import { dokunus, olaylaraTepki } from './tepkiler'
 import { useOyunDongusu } from './useOyunDongusu'
 import { useSes } from './useSes'
+import { useRehber } from './useRehber'
 import { useSurukleme } from './useSurukleme'
 
 type Secenek = {
@@ -17,13 +18,15 @@ type Secenek = {
   tohum: number
   metin: Metin
   ad: (k: Kalem) => string
+  rehberli: boolean
   bitince: (sonuc: Sonuc, kayit: readonly Girdi[]) => void
 }
 
 /** Döngüyü sahaya bağlar: her karede DOM yazımı, olaylara tepki, ses, canlı bölge ve jestler. Saha yalnız yapıyı çizer. */
-export function useOyunAlani({ kok, tohum, metin, ad, bitince }: Secenek) {
+export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secenek) {
   const azalt = useHareketAzaltilmisMi()
   const ses = useSes()
+  const rehber = useRehber(rehberli)
   const [duyurucu] = useState(() => duyurucuKur())
 
   const ciz = (oyun: Oyun, ilerledi: boolean) => {
@@ -40,10 +43,11 @@ export function useOyunAlani({ kok, tohum, metin, ad, bitince }: Secenek) {
     const duyuru = duyuruSec(olaylar)
     if (duyuru) duyurucu.ekle(duyuru)
   }
-  const dongu = useOyunDongusu({ tohum, ciz, tepki, bitince, durdur: () => false, izle: () => undefined })
+  const dongu = useOyunDongusu({ tohum, ciz, tepki, bitince, durdur: rehber.durdur, izle: rehber.izle })
 
-  /** Girdi: simülasyona sıraya girer, hedefte anlık dolgu. Rehber (Görev 11) burada süzer. */
+  /** Girdi: rehber süzer, geçen simülasyona sıraya girer, hedefte anlık dolgu. */
   const dokun = (hedef: Hedef, el: HTMLElement | null): boolean => {
+    if (!rehber.izin(hedef)) return false
     ses.uyandir()
     dongu.dokun(hedef)
     dokunus(el, azalt)
@@ -55,5 +59,5 @@ export function useOyunAlani({ kok, tohum, metin, ad, bitince }: Secenek) {
     if (kok.current) seritleriDuzenle(kok.current)
   }, [kok, dongu.goruntu])
 
-  return { ...dongu, azalt, ses }
+  return { ...dongu, azalt, ses, rehber }
 }
