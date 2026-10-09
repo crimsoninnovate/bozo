@@ -1,4 +1,4 @@
-import type { Girdi, Sonuc } from '../lib/oyun/tipler.ts'
+import type { Girdi } from '../lib/oyun/tipler.ts'
 
 /*
  * İnsan olasılığı (spec §9): makine kadar düzgün zamanlanmış tur işaretlenir, silinmez. Personel
@@ -20,6 +20,6 @@ export function zamanlamaSupheli(girdiler: readonly Girdi[]): boolean {
   return enCok / (girdiler.length - 1) > SUPHE_DUZENLILIK
 }
 
-export function supheliMi(girdiler: readonly Girdi[], _sonuc: Sonuc): boolean {
+export function supheliMi(girdiler: readonly Girdi[]): boolean {
   return zamanlamaSupheli(girdiler)
 }

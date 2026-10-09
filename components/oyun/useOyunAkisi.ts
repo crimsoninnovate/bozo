@@ -110,12 +110,35 @@ function useGonderim() {
   return { hesap, gonderim, setGonderim, gonder, kaydet }
 }
 
+/** Tur bitince skorun yolu (`gonderimKarari`): çevrimdışı, sor, hesapla gönder ya da giriş adıyla hesap açıp gönder. */
+function useSonucYolu({ hesap, setGonderim, gonder, kaydet }: ReturnType<typeof useGonderim>) {
+  /** Giriş ekranındaki ad: hesabı açıp turu gönderir; ad reddedilir ya da ağ düşerse sonuç ekranındaki düğmeye döner. */
+  const kaydetVeGonder = async (takmaAd: string, turId: string, kayit: readonly Girdi[]) => {
+    setGonderim({ durum: 'gonderiliyor' })
+    if ((await kaydet(takmaAd, { turId, kayit })) !== 'tamam') setGonderim({ durum: 'bekliyor' })
+  }
+  return (turId: string | null, kayit: readonly Girdi[], takmaAd: string | null) => {
+    switch (gonderimKarari(turId, hesap, takmaAd)) {
+      case 'cevrimdisi':
+        return setGonderim({ durum: 'cevrimdisi' })
+      case 'sor':
+        return setGonderim({ durum: 'bekliyor' })
+      case 'gonder':
+        return void gonder(turId as string, kayit, hesap as Hesap)
+      case 'kaydet':
+        return void kaydetVeGonder(takmaAd as string, turId as string, kayit)
+    }
+  }
+}
+
 export function useOyunAkisi() {
   const [ekran, setEkran] = useState<Ekran>('giris')
   const [tur, setTur] = useState<Tur | null>(null)
   const [son, setSon] = useState<Son | null>(null)
   const [bekliyor, setBekliyor] = useState(false)
-  const { hesap, gonderim, setGonderim, gonder, kaydet } = useGonderim()
+  const gonderici = useGonderim()
+  const { hesap, gonderim, kaydet, gonder } = gonderici
+  const sonucuYolla = useSonucYolu(gonderici)
   const { sunucu, tablo } = useSunucu()
 
   const basla = async (takmaAd: string | null) => {
@@ -133,22 +156,7 @@ export function useOyunAkisi() {
     const turId = tur?.turId ?? null
     setSon({ sonuc, kayit, turId, onceki, yeni })
     setEkran('sonuc')
-    switch (gonderimKarari(turId, hesap, tur?.takmaAd ?? null)) {
-      case 'cevrimdisi':
-        return setGonderim({ durum: 'cevrimdisi' })
-      case 'sor':
-        return setGonderim({ durum: 'bekliyor' })
-      case 'gonder':
-        return void gonder(turId as string, kayit, hesap as Hesap)
-      case 'kaydet':
-        return void kaydetVeGonder(tur?.takmaAd as string, turId as string, kayit)
-    }
-  }
-
-  /** Giriş ekranındaki ad: hesabı açıp turu gönderir; ad reddedilir ya da ağ düşerse sonuç ekranındaki düğmeye döner. */
-  const kaydetVeGonder = async (takmaAd: string, turId: string, kayit: readonly Girdi[]) => {
-    setGonderim({ durum: 'gonderiliyor' })
-    if ((await kaydet(takmaAd, { turId, kayit })) !== 'tamam') setGonderim({ durum: 'bekliyor' })
+    sonucuYolla(turId, kayit, tur?.takmaAd ?? null)
   }
 
   return {

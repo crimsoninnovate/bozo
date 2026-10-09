@@ -2436,7 +2436,7 @@ iki evrede açıldı, sütunun başka yerine dokunulmadı:
   sınırda geçer, sürükleme kareyi uzatmaz. `elementFromPoint` kare başına bir kez, `[data-ustunde]`
   kutu gölgesi değişikliği ölçülebilir maliyet getirmedi; ikisine dokunulmadı.
 - Rehber sürükleme modunda hem kaynağı hem hedefi açar (kaynak delikle, hedef kesikli bakır çerçeveyle).
-  Karartma hedefin üstünü örtmez; hedef çerçevesi karartmanın üstüne çizilir, dört dikdörtgene geçilmedi.
+  Karartma tek katmandır ve kaynak ile hedef kutusu `clip-path: evenodd` ile oyulur (`karartma.ts`); ikisi de açık kalır.
 
 ### Hedef boyutları ve ekrana sığma (tabak akışı, 9 Ekim 2026)
 

@@ -8,10 +8,16 @@
   pointer-events: none;
 }
 
+/* Karartma kaynak ve hedef kutusu oyulmuş tek katman; ikisi de açık kalır. */
+.karartma {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--zemin) 78%, transparent);
+}
+
 .delik {
   position: absolute;
   border-radius: 6px;
-  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--zemin) 78%, transparent);
   outline: 2px solid var(--bakir-acik);
 }
 

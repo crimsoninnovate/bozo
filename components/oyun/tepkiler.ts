@@ -1,4 +1,3 @@
-import { PUAN } from '@/lib/oyun/ayar'
 import { eldeKaynagi } from '@/lib/oyun/surukle'
 import type { Elde, Olay } from '@/lib/oyun/tipler'
 import stil from './Saha.module.css'
@@ -168,9 +167,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       if (olay.el.tur !== 'sis') return
       const yuva = hedef(alan, `o${olay.el.yuva}`)
       parla(yuva, stil[olay.el.kalite])
-      if (olay.el.kalite !== 'tam') return
-      ucanRakam(yuva, `+${PUAN.tamKivam}`, azalt)
-      return titre()
+      return olay.el.kalite === 'tam' ? titre() : undefined
     }
     case 'tabagaKondu':
       ucus(alan, kaynak(alan, olay.el), hedef(alan, `t${olay.no}`), azalt)

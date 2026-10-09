@@ -139,7 +139,7 @@ async function turuKaydet(b: Baglam, oyuncu: Oyuncu, jeton: Jeton, girdiler: Gir
     bitti: sonuc.bitti,
     tik: sonuc.tik,
     kanal: jeton.kanal,
-    supheli: supheliMi(girdiler, sonuc),
+    supheli: supheliMi(girdiler),
     girdiler,
     olusturma: simdi,
   })

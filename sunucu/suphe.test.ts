@@ -1,14 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import type { Girdi, Sonuc } from '../lib/oyun/tipler.ts'
+import type { Girdi } from '../lib/oyun/tipler.ts'
 import { supheliMi, zamanlamaSupheli } from './suphe.ts'
-
-const sonuc = (sis: number, tamKivam: number): Sonuc => ({
-  puan: 0,
-  ozet: { misafir: 0, sis, tamKivam, enUzunKombo: 0, kalkan: 0, bahsis: 0 },
-  bitti: 'gece',
-  tik: 7200,
-})
 
 const titreyen = (): Girdi[] => {
   const kayit: Girdi[] = []
@@ -36,9 +29,9 @@ test('zamanlamaSupheli_yuzDokunusAlti_isaretlenmez', () => {
 })
 
 test('supheliMi_yuzdeYuzTamKivam_tekBasinaIsaretlemez', () => {
-  assert.equal(supheliMi(titreyen(), sonuc(40, 40)), false)
+  assert.equal(supheliMi(titreyen()), false)
 })
 
 test('supheliMi_sabitAralik_isaretler', () => {
-  assert.equal(supheliMi(sabit(), sonuc(40, 0)), true)
+  assert.equal(supheliMi(sabit()), true)
 })

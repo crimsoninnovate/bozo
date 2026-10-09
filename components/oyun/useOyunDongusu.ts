@@ -74,8 +74,11 @@ export function useOyunDongusu({ tohum, ciz, tepki, bitince, durdur, izle }: Sec
 
   useGizleninceDuraklat(setDuraklatildi)
 
-  const dokun = (hedef: Hedef) => {
-    if (!duraklatildi) canliDokun(canli, hedef)
+  /** Duraklatılmışken girdi düşer; false döner ki sürüklenen öğe yerine dönsün. */
+  const dokun = (hedef: Hedef): boolean => {
+    if (duraklatildi) return false
+    canliDokun(canli, hedef)
+    return true
   }
 
   return {

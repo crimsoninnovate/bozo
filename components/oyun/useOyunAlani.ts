@@ -49,7 +49,7 @@ export function useOyunAlani({ kok, tohum, metin, ad, rehberli, bitince }: Secen
   const dokun = (hedef: Hedef, el: HTMLElement | null): boolean => {
     if (!rehber.izin(hedef)) return false
     ses.uyandir()
-    dongu.dokun(hedef)
+    if (!dongu.dokun(hedef)) return false
     dokunus(el, azalt)
     return true
   }

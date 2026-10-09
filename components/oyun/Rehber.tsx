@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import type { Sozluk } from '@/content'
 import type { RehberAdimi } from '@/lib/oyun/rehber'
+import { karartmaYolu, type Kutu } from './karartma'
 import { ElIsareti } from './Semboller'
 import stil from './Rehber.module.css'
 
@@ -30,7 +31,6 @@ function hedefSecici(adim: Adim): Cift {
   }
 }
 
-type Kutu = { sol: number; ust: number; en: number; boy: number }
 const PAY = 6
 
 function olc(alan: HTMLElement, secici: string | null): Kutu | null {
@@ -89,8 +89,11 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
   const altta = kaynak.ust + kaynak.boy / 2 < (alan.current?.clientHeight ?? 0) / 2
   const balon = altta ? { top: kaynak.ust + kaynak.boy + 48 } : { bottom: `calc(100% - ${kaynak.ust}px + 48px)` }
   const a = merkez(kaynak)
+  const alanEn = alan.current?.clientWidth ?? 0
+  const alanBoy = alan.current?.clientHeight ?? 0
   return (
     <div className={stil.rehber} data-rehber={adim} data-rehber-hedef={hedefSecicisi ?? undefined}>
+      <span className={stil.karartma} style={{ clipPath: karartmaYolu(alanEn, alanBoy, [kaynak, hedef ?? kaynak]) }} />
       <span className={stil.delik} style={{ left: kaynak.sol, top: kaynak.ust, width: kaynak.en, height: kaynak.boy }} />
       {hedef && (
         <span className={stil.hedef} style={{ left: hedef.sol, top: hedef.ust, width: hedef.en, height: hedef.boy }} />

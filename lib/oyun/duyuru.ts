@@ -6,12 +6,14 @@ import type { Kalem, Olay } from './tipler.ts'
  */
 
 export type DuyuruAnahtari =
-  | 'sonSaat' | 'misafirKalkti' | 'teslim' | 'bahsis' | 'yanlisTabak' | 'sisYandi' | 'paraSoldu' | 'tabagaKondu' | 'elde'
+  | 'sonSaat' | 'misafirKalkti' | 'teslim' | 'bahsis' | 'yanlisTabak' | 'sisYandi' | 'paraSoldu' | 'tabagaKondu'
+  | 'tabakDolu' | 'tabakElde' | 'tabakDondu' | 'elde'
 export type Duyuru = { anahtar: DuyuruAnahtari; puan?: number; no?: number; urun?: Kalem }
 
 /** Önem sırası: büyük sayı önce söylenir. Tut ve bırak sonuçları en altta (spec tabak §3). */
 const ONCELIK: Readonly<Record<DuyuruAnahtari, number>> = {
-  sonSaat: 9, misafirKalkti: 8, teslim: 7, bahsis: 6, yanlisTabak: 5, sisYandi: 4, paraSoldu: 3, tabagaKondu: 2, elde: 1,
+  sonSaat: 10, misafirKalkti: 9, teslim: 8, bahsis: 7, yanlisTabak: 6, sisYandi: 5, paraSoldu: 4, tabakDolu: 3,
+  tabagaKondu: 2, tabakElde: 1, tabakDondu: 1, elde: 1,
 }
 
 function olayDuyurusu(olay: Olay): Duyuru | null {
@@ -33,7 +35,11 @@ function olayDuyurusu(olay: Olay): Duyuru | null {
     case 'tabagaKondu':
       return { anahtar: 'tabagaKondu', no: olay.no + 1 }
     case 'tutuldu':
-      return olay.el.tur === 'tabak' ? null : { anahtar: 'elde', urun: olay.el.urun }
+      return olay.el.tur === 'tabak' ? { anahtar: 'tabakElde', no: olay.el.no + 1 } : { anahtar: 'elde', urun: olay.el.urun }
+    case 'birakildi':
+      return olay.el.tur === 'tabak' ? { anahtar: 'tabakDondu', no: olay.el.no + 1 } : null
+    case 'tabakDolu':
+      return { anahtar: 'tabakDolu', no: olay.no + 1 }
     default:
       return null
   }

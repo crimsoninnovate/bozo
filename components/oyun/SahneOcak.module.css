@@ -25,6 +25,11 @@
   animation: sizla 1.15s ease-in-out infinite alternate;
 }
 
+/* Elde tutulan şiş dalgalanmaz: `sizla` `translate` oynatır ve 2 px kalkışı ezerdi. */
+.sis[data-elde] {
+  animation: none;
+}
+
 /* Pişme > .4 iken duman belirir; katman opaklıkları kare değişkenlerinden (K3). */
 .duman {
   opacity: calc(clamp(0, (var(--pisme, 0) - 0.4) * 10, 1) * 0.5);

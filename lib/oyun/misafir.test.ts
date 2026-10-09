@@ -90,7 +90,11 @@ test('misafir_bosYaDaOdemisYereTabak_geriDoner', () => {
   dokun(oyun, 'm0')
   oyun.tabaklar[1] = [{ urun: 'ciger', kalite: 'iyi' }]
   dokun(oyun, 't1')
+  const puan = oyun.puan
+  const kombo = oyun.kombo
   assert.deepEqual(dokun(oyun, 'm0'), [{ tur: 'yanlisTabak', yer: 0, no: 1 }])
+  assert.equal(oyun.puan, puan)
+  assert.equal(oyun.kombo, kombo)
   assert.deepEqual(oyun.tabaklar[1], [{ urun: 'ciger', kalite: 'iyi' }])
 })
 
@@ -148,15 +152,17 @@ test('para_ayniYereIkinciPara_toplanirSureYenidenBaslar_misafirOturur', () => {
   const oyun = sahne([['ciger'], ['ciger'], ['ciger']])
   bekle(oyun, 1)
   cigerTabagi(oyun)
-  dokun(oyun, 'm0')
+  const ilkOlaylar = dokun(oyun, 'm0')
   const ilk = oyun.paralar[0]!.tutar
+  assert.deepEqual(ilkOlaylar.find((o) => o.tur === 'paraDustu'), { tur: 'paraDustu', yer: 0, tutar: ilk })
   bekle(oyun, KALKIS_TIK)
   assert.equal(oyun.misafirler[0]?.misafir.no, 2)
   assert.ok(oyun.paralar[0])
   cigerTabagi(oyun)
-  dokun(oyun, 'm0')
+  const ikinci = dokun(oyun, 'm0').find((o) => o.tur === 'paraDustu')
+  assert.equal(ikinci?.tur, 'paraDustu')
   const para = oyun.paralar[0]!
-  assert.ok(para.tutar > ilk)
+  assert.equal(para.tutar, ilk + (ikinci?.tur === 'paraDustu' ? ikinci.tutar : -1))
   assert.equal(para.kalan, PARA_TIK - 1)
 })
 

@@ -45,3 +45,13 @@ test('duyurucu_esitOncelikteSonGelenKazanir', () => {
   d.ekle({ anahtar: 'bahsis', puan: 300 })
   assert.deepEqual(d.al(5000), { anahtar: 'bahsis', puan: 300 })
 })
+
+test('duyuruSec_tabakTutulurGeriDonerYaDaDolar_duyurulur', () => {
+  assert.deepEqual(duyuruSec([{ tur: 'tutuldu', el: { tur: 'tabak', no: 1 } }]), { anahtar: 'tabakElde', no: 2 })
+  assert.deepEqual(duyuruSec([{ tur: 'birakildi', el: { tur: 'tabak', no: 0 } }]), { anahtar: 'tabakDondu', no: 1 })
+  assert.deepEqual(duyuruSec([{ tur: 'tabakDolu', no: 1 }]), { anahtar: 'tabakDolu', no: 2 })
+})
+
+test('duyuruSec_sisBirakilinca_duyurulmaz', () => {
+  assert.equal(duyuruSec([{ tur: 'birakildi', el: { tur: 'sis', yuva: 0, urun: 'ciger', kalite: 'tam' } }]), null)
+})

@@ -46,75 +46,84 @@ export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
     const alan = kok.current
     if (!alan) return
     let durum: Surukleme = { tur: 'bos' }
-    const yaz = (isaret: Isaret, el: HTMLElement | null) => {
+    const yaz: Yazici = (isaret, el) => {
       durum = isle(isaret, el, durum)
     }
-    const bas = (e: PointerEvent) => {
-      // HUD ve perde düğmeleri kendi onClick'leriyle çalışır; tutma kilidine girmez.
-      if ((e.target as HTMLElement).closest('button:not([data-hedef])')) return
-      if (e.button !== 0 && e.pointerType === 'mouse') return
-      alan.setPointerCapture(e.pointerId)
-      const el = hedefBul(e.clientX, e.clientY)
-      yaz({ tur: 'bas', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
-    }
-    const kaldir = (e: PointerEvent) => {
-      const el = hedefBul(e.clientX, e.clientY)
-      yaz({ tur: 'kaldir', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
-    }
-    const iptal = (e: PointerEvent) => yaz({ tur: 'iptal', id: e.pointerId }, null)
-    const gizlenince = () => {
-      if (document.hidden && durum.tur === 'basili') yaz({ tur: 'iptal', id: durum.id }, null)
-    }
-    const tus = (e: KeyboardEvent) => {
-      const eylem = tusEylemi(e.key)
-      if (!eylem || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return
-      const el = document.activeElement instanceof HTMLElement ? document.activeElement.closest<HTMLElement>('[data-hedef]') : null
-      if (eylem === 'dokun' && (!el || !alan.contains(el))) return
-      e.preventDefault()
-      sonTus = performance.now()
-      const hedef = hedefi(el)
-      yaz(eylem === 'birak' || !hedef ? { tur: 'birak' } : { tur: 'dokun', hedef }, el)
-    }
-    // Yardımcı teknoloji düğmeyi işaretçisiz tıklar (detail 0); klavye Enter/Space yukarıda işlendi.
-    let sonTus = 0
-    const tikla = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-hedef]')
-      if (e.detail !== 0 || !el || performance.now() - sonTus < 400) return
-      yaz({ tur: 'dokun', hedef: hedefi(el) as Hedef }, el)
-    }
-    alan.addEventListener('click', tikla)
-    alan.addEventListener('pointerdown', bas)
-    let bekleyenHareket: PointerEvent | null = null
-    const yuru = (e: PointerEvent) => {
-      if (durum.tur !== 'basili' || bekleyenHareket) {
-        bekleyenHareket = bekleyenHareket && e
-        return
-      }
-      bekleyenHareket = e
-      requestAnimationFrame(() => {
-        const son = bekleyenHareket
-        bekleyenHareket = null
-        if (!son || durum.tur !== 'basili') return
-        yaz({ tur: 'yuru', id: son.pointerId, x: son.clientX, y: son.clientY }, hedefBul(son.clientX, son.clientY))
-      })
-    }
-    alan.addEventListener('pointermove', yuru)
-    alan.addEventListener('pointerup', kaldir)
-    alan.addEventListener('pointercancel', iptal)
-    alan.addEventListener('lostpointercapture', iptal)
-    document.addEventListener('visibilitychange', gizlenince)
-    document.addEventListener('keydown', tus)
-    return () => {
-      alan.removeEventListener('click', tikla)
-      alan.removeEventListener('pointerdown', bas)
-      alan.removeEventListener('pointermove', yuru)
-      alan.removeEventListener('pointerup', kaldir)
-      alan.removeEventListener('pointercancel', iptal)
-      alan.removeEventListener('lostpointercapture', iptal)
-      document.removeEventListener('visibilitychange', gizlenince)
-      document.removeEventListener('keydown', tus)
-    }
+    const durumOku = () => durum
+    const sonuc = [isaretleriBagla(alan, yaz, durumOku), tusuBagla(alan, yaz)]
+    return () => sonuc.forEach((kaldir) => kaldir())
   }, [kok])
+}
+
+type Yazici = (isaret: Isaret, el: HTMLElement | null) => void
+
+/** Basış, yürüme (kare başına bir), kaldırma ve iptal; bekleyen yürüme yalnız aynı işaretçininkini ezer. */
+function isaretleriBagla(alan: HTMLElement, yaz: Yazici, durumOku: () => Surukleme): () => void {
+  const bas = (e: PointerEvent) => {
+    // HUD ve perde düğmeleri kendi onClick'leriyle çalışır; tutma kilidine girmez.
+    if ((e.target as HTMLElement).closest('button:not([data-hedef])')) return
+    if (e.button !== 0 && e.pointerType === 'mouse') return
+    alan.setPointerCapture(e.pointerId)
+    const el = hedefBul(e.clientX, e.clientY)
+    yaz({ tur: 'bas', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
+  }
+  let bekleyen: PointerEvent | null = null
+  const yuru = (e: PointerEvent) => {
+    const durum = durumOku()
+    if (durum.tur !== 'basili' || e.pointerId !== durum.id) return
+    const bosta = bekleyen === null
+    bekleyen = e
+    if (!bosta) return
+    requestAnimationFrame(() => {
+      const son = bekleyen
+      bekleyen = null
+      if (son && durumOku().tur === 'basili') {
+        yaz({ tur: 'yuru', id: son.pointerId, x: son.clientX, y: son.clientY }, hedefBul(son.clientX, son.clientY))
+      }
+    })
+  }
+  const kaldir = (e: PointerEvent) => {
+    const el = hedefBul(e.clientX, e.clientY)
+    yaz({ tur: 'kaldir', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
+  }
+  const iptal = (e: PointerEvent) => yaz({ tur: 'iptal', id: e.pointerId }, null)
+  const gizlenince = () => {
+    const durum = durumOku()
+    if (document.hidden && durum.tur === 'basili') yaz({ tur: 'iptal', id: durum.id }, null)
+  }
+  const olaylar = { pointerdown: bas, pointermove: yuru, pointerup: kaldir, pointercancel: iptal, lostpointercapture: iptal }
+  for (const [ad, isleyici] of Object.entries(olaylar)) alan.addEventListener(ad, isleyici as EventListener)
+  document.addEventListener('visibilitychange', gizlenince)
+  return () => {
+    for (const [ad, isleyici] of Object.entries(olaylar)) alan.removeEventListener(ad, isleyici as EventListener)
+    document.removeEventListener('visibilitychange', gizlenince)
+  }
+}
+
+/** Klavye (Enter/Boşluk dokunur, Esc bırakır) ve yardımcı teknolojinin işaretçisiz tıklaması (detail 0). */
+function tusuBagla(alan: HTMLElement, yaz: Yazici): () => void {
+  let sonTus = 0
+  const tus = (e: KeyboardEvent) => {
+    const eylem = tusEylemi(e.key)
+    if (!eylem || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return
+    const el = document.activeElement instanceof HTMLElement ? document.activeElement.closest<HTMLElement>('[data-hedef]') : null
+    if (eylem === 'dokun' && (!el || !alan.contains(el))) return
+    e.preventDefault()
+    sonTus = performance.now()
+    const hedef = hedefi(el)
+    yaz(eylem === 'birak' || !hedef ? { tur: 'birak' } : { tur: 'dokun', hedef }, el)
+  }
+  const tikla = (e: MouseEvent) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('[data-hedef]')
+    if (e.detail !== 0 || !el || performance.now() - sonTus < 400) return
+    yaz({ tur: 'dokun', hedef: hedefi(el) as Hedef }, el)
+  }
+  document.addEventListener('keydown', tus)
+  alan.addEventListener('click', tikla)
+  return () => {
+    document.removeEventListener('keydown', tus)
+    alan.removeEventListener('click', tikla)
+  }
 }
 
 /**
