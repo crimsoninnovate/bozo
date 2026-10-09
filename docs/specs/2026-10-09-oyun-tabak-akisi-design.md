@@ -57,7 +57,7 @@ ne pişer ne soğur (elde zamanlayıcı yok: beklemenin kazancı da yok).
 
 **Tabak.** Tabak yeri 2, ikisi de hep dolu: teslim edilen tabağın yerine aynı tikte boş tabak gelir
 (referansın "tabağı çıkar" dokunuşu atıldı, bilgi taşımıyor). Tabağa bırakılan her şey tabakta kalır;
-tabak en çok 4 kalem alır, beşinci bırakış geri döner. **Doğru tabak** = kalemler kümesi fişle birebir
+tabak en çok 4 kalem alır, beşinci bırakış elde kalır (öğe kaynağına döner, kaybolmaz). **Doğru tabak** = kalemler kümesi fişle birebir
 aynı (sıra önemsiz, şiş kaliteleri önemsiz). Eksik ya da fazla kalemli tabak misafire bırakılınca
 **geri döner** (misafir başını sallar, kor halkası durmaz, puan ve kombo değişmez). Yanlış kalem
 tabağa girdiyse düzeltme tek yoldur: tabağı **çöpe** sürükle, tabak boşalır, puan ve kombo değişmez.
@@ -89,7 +89,8 @@ Simülasyon için sürükleme diye bir şey yoktur: her hareket **tut** ve **bı
 - **Sürükleme:** `pointerdown` kaynakta → `tut` girdisi o tikte; parmak 8 px'ten çok yürürse öğe
   parmağa yapışır (`transform`, rAF, parmağın 12 px üstünde ki görünsün); `pointerup` bir hedefin
   vuruş alanı üstünde → hedef girdisi; hedef dışında, `pointercancel`, parmak pencereden çıkarsa,
-  sekme arka plana geçerse → `birak` girdisi, öğe 180 ms'de yerine döner.
+  sekme arka plana geçerse → `birak` girdisi, öğe 180 ms'de yerine döner. `birak` şişi atmaz: kaçan
+  bırakış yemeği çöpe göndermez, yalnız çöp gönderir (§13).
 - **Dokun-dokun:** `pointerdown`/`pointerup` aynı yerde ve 8 px altında kaldıysa öğe **elde kalır**
   (kaynakta 2 px kalkmış, bakır halkalı). Sonraki dokunuş bir hedefteyse hedef girdisi, değilse `birak`.
   Bu yol telefonla sürüklemeyi beceremeyen oyuncu için de kaçış yoludur; rehber yalnız sürüklemeyi
@@ -139,7 +140,8 @@ aynı, tohum yalnız sırayı ve geliş anını (±%20) belirler; iki Karışık
 fişte en çok bir. Başlangıç bütçesi: evre 2 için 5 fiş (ciğer 5, dalak 2, domates 2, soğan 1), evre 3
 için 6 (ciğer 6, dalak 3, yürek 3, domates 2, soğan 2), evre 4 için 6 + Karışık (ciğer 5, dalak 3,
 yürek 3, domates 3, soğan 2), evre 5 için 4 + Karışık (ciğer 4, dalak 2, yürek 2, domates 2, soğan 1).
-Gece 24 misafir; evre 5'in aralığı son misafiri 05:00'ten en az 8 sn önce getirir.
+Gece 24 misafir; evre 5'in aralığı son misafiri 05:00'ten en az 8 sn önce getirir. Tablodaki
+aralıklar evrelere sığmadığı için uygulanan değerler §13'te.
 
 **Kapı** (`gece.test.ts`, 200 tohum; sayılar `motor.test.ts` > `zorlukBandi`'ya yazılır):
 
@@ -148,7 +150,8 @@ Gece 24 misafir; evre 5'in aralığı son misafiri 05:00'ten en az 8 sn önce ge
 | usta | saniyede 3 girdi, şişi tam kıvam bandında tutar, fişleri sabrı en az kalandan başlar, her bahşişi alır | gecelerin ≥ %95'ini tamamlar, en yüksek puan |
 | düzenli | saniyede 2 girdi, hazır olur olmaz tutar, bandı umursamaz, bahşişi alır | ≥ %70 tamamlar |
 | rastgele | saniyede 2 geçerli hedefe rastgele girdi | ≥ %90'ında evre 2'yi geçer (tik ≥ 2700'de bitmemiş) |
-| hareketsiz | hiç girdi yok | 0 puan, 01:30'dan önce (tik < 4050) "üç misafir kalktı" |
+| hareketsiz | hiç girdi yok | 0 puan, 02:00'den önce (tik < 4500) "üç misafir kalktı" (§13) |
+| çırak | ilk kez oynayan insan yerine: 40 tik aralık, tut ile bırak arası en az 36 tik | ≥ %50 tamamlar |
 
 Bir ayar değişikliği kapıyı bozarsa oyun ya yapılamaz ya baskısız olmuştur; sayı bilerek değiştirilir.
 
@@ -195,7 +198,7 @@ sağda); atlanınca rehber kapanır, oyun serbest. Yalnız bu tarayıcıdaki ilk
 | 7 | kase, tabak (2. misafir) | Domatesi de tabağa koy | Add the tomato too | `domates` + `t0` | durur |
 
 Adım 4'te pencere açılınca saat durur: öğrenen şişi yakamaz; `tut` gelince saat akar, `t0` gelene
-kadar beklenen hedefin dışına bırakış `birak` sayılır ve adım tekrar eder. Adım 7 ikinci misafir
+kadar beklenen hedefin dışına bırakış rehberce reddedilir, şiş elde kalır ve adım tekrar eder. Adım 7 ikinci misafir
 oturunca tetiklenir; adım 5-6 arası serbest hareket yoktur. Duraklama simülasyonu etkilemez: tik
 ilerlemez, kayıt ve sunucu yeniden oynatması aynıdır. Sonraki turlarda rehber yok; istenen ürünün raf
 düğmesi ve istenen kasenin parlaması (raf rehberi) kalır. Konuşan karakter yok (§12, soru 3).
@@ -214,10 +217,10 @@ imzaları aynı. Hedef kümesi (`HEDEFLER`, 19 değer):
 | `m0`-`m2` | elde tabak ve yerde misafir ve tabak fişle aynıysa: teslim, hesap, para; aksi `yanlisTabak` olayı, tabak yerine |
 | `cop` | elde ne varsa yok olur; tabaksa boş tabak yerine döner; el boşsa etkisiz |
 | `p0`-`p2` | para varsa bahşiş puana, para silinir |
-| `birak` | eldeki yerine döner (tabak yerine, şiş ve eşlikçi yok olmaz: şiş elden tabağa dönemez, yuva boşaldı; o yüzden **şiş `birak`'ta çöpe gider**, eşlikçi kaseye) |
+| `birak` | tabak yerine döner, eşlikçi kaseye döner; **şişte etkisiz**: şiş elde kalır (yuvası boşaldı, geri dönecek yeri yok; yemeği yalnız çöp atar) |
 
-Son satır önemli: tutulan şişin yuvası boşalmıştır; geri dönecek yer yok. Tarayıcı bunu bir kez
-söyler (rehber adım 4 bırakışı tekrar ettirir, serbest oyunda şiş "düşer", kombo değişmez). `Oyun`
+Son satır önemli: tutulan şişin yuvası boşalmıştır; geri dönecek yer yok, o yüzden şiş elde kalır
+ve ekran onu boş yuvasında kalkık gösterir; kaçan bırakış hiçbir şey kaybettirmez. `Oyun`
 durumuna `el` (`{ tur: 'sis', urun, kalite } | { tur: 'eslikci', urun } | { tur: 'tabak', no } | null`),
 `tabaklar`, `misafirler` (3 yer), `paralar` (3 yer, `{ tutar, kalan }`) girer; `tezgah`, `ayran`,
 `cevirme`, `kurulu`, `porsiyonDizisi` çıkar. Aynı tikte aynı hedef bir kez (mevcut kural), aynı tikte
@@ -227,8 +230,9 @@ durumuna `el` (`{ tur: 'sis', urun, kalite } | { tur: 'eslikci', urun } | { tur:
 `EN_COK_DOKUNUS` 1200 **kalır**: usta 24 misafir × en çok 7 girdi = 168, rastgele bot 240,
 saniyede 4 vuran bir el 480; 1200 iki buçuk kat pay bırakır. `tavan.ts`: her fiş için (kalemler +
 200) × kombo çarpanı × 2, en büyük fişler en yüksek çarpanlarda, + gece tamam; porsiyon terimi silinir.
-`suphe.ts` (tam kıvam > %95 işareti) aynen. `aktarim.ts` tipleri değişmez (`Girdi`, `Ozet` alan adı
-`misafir`). Eski kayıtlarla uyum gerekmez: sunucu yayında değil, altın kayıtlar yeniden üretilir.
+`suphe.ts`: tam kıvam oranı kuralı kalkar (bant halkayla görünür, tutmanın bedeli yok: dürüst bir
+usta %100 vurabilir); zamanlama kuralları aynen. `aktarim.ts`: `Ozet` alanı `sofra` → `misafir`, yeni
+`bahsis` alanı; `tur` tablosuna `bahsis` sütunu. Eski kayıtlarla uyum gerekmez: sunucu yayında değil, altın kayıtlar yeniden üretilir.
 
 ## 9. Kod etkisi
 
@@ -297,3 +301,28 @@ maydanoz fişleri; tabak stoğu dokunuşu; çöpe şiş taşıma; raster varlık
    Sahibi gerçek karakter isterse brief'e girer, oyun mantığı değişmez.
 5. **Porsiyon rozeti.** Öneri: kalksın (§2). Sahibi "bir porsiyon 12 şiş" mesajını oyunda isterse
    sonuç ekranına tek satır olarak döner ("48 şiş: 4 porsiyon"), HUD'a değil.
+
+## 13. Plan sırasında alınan kararlar
+
+Uygulama planı (`docs/plans/2026-10-09-oyun-tabak-plani.md`) yazılırken sahibinin vekili şu
+kararları aldı; yukarıdaki bölümler buna göre düzeltildi:
+
+1. **`birak` şişi atmaz.** Kaçan bırakış, pencere dışına bırakış, Esc: şiş elde kalır; yemeği yalnız
+   çöp atar. Eşlikçi kaseye, tabak yerine döner (§3, §8).
+2. **Beşinci kalem elde kalır** (§2): dolu tabağa bırakış öğeyi kaynağına döndürür, `tabakDolu` olayı.
+3. **Rehber adım 4** bırakışı reddeder (girdi kayda girmez), şiş elde kalır, adım tekrar eder (§7).
+4. **Aralıklar evreye sığacak şekilde** 340/290/245/110 tik (evre 2-5), evre 5 üç fiş + Karışık,
+   gece 24 misafir; her iki Karışık fişinde domates (§5).
+5. **Hareketsiz oyuncu kapısı 02:00** (tik 4500): spec'in sabır değerleriyle üçüncü kalkış 4140'ta.
+6. **Rastgele bot kapısı** yapı gereği kendiliğinden sağlanıyordu (ilk misafir tükenmez, ikinci 2820'den
+   önce kalkamaz); yerine "gecelerin ≤ %5'ini tamamlar, puanı düzenlinin %25'inin altında" (§5).
+7. **Çırak botu** eklendi: 40 tik aralık, tut ile bırak arası en az 36 tik, ≥ %50 tamamlar; ayar
+   yalnız evre 3-4 sabrıyla yapılır (§5).
+8. **`Ozet.bahsis`** ve `tur.bahsis` sütunu: sonuç ekranı "alınan bahşiş" sayar; sunucu yayında
+   olmadığı için göç gerekmez (§8).
+9. **`suphe.ts`** tam kıvam oranı kuralı kalkar; dürüst usta işaretlenmez (§8).
+10. **Aşamalandırma:** önce dokun-dokun yolu uçuş animasyonlarıyla tam oynanır (plan Görev 10-13),
+    sürükleme üstüne eklenir (Görev 14); rehber dokunma modunda "Şişe dokun, sonra tabağa" der,
+    sürükleme gelince "Şişi tabağa sürükle" (§3, §7).
+11. **Son saat (evre 5) kaybedilemez** (üç kalkış için süre yetmez), puan sprintidir; bilerek böyle
+    bırakıldı, `IYILESTIRMELER.md`'de sahibine yazılır.

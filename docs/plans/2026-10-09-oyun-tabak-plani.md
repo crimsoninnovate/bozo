@@ -22,7 +22,10 @@
 - `prefers-reduced-motion`: the global CSS rule does not reach WAAPI, canvas or Motion; every non-CSS animation reads `useHareketAzaltilmisMi()` itself. Under reduced motion the dragged item still follows the finger (direct positioning), the snap-back is instant, the coin appears without a bounce, no sparks, the guide hand does not pulse.
 - Touch targets at least 44 px (design sizes spec §6: rack 56, slot 72x140, plate 112x84, bowl 56, bin 56, guest place 120x150, coin 56; measured values below 390 px recorded in `docs/surec/IYILESTIRMELER.md`). Contrast AA. Ember is never text.
 - Score is never negative; no event lowers `oyun.puan` (spec §2). `EN_COK_DOKUNUS` stays 1200.
-- Red window, stated once: Tasks 1 to 6 rewrite the engine under `lib/oyun/`; between the Task 1 commit and the end of Task 6, `npm test` is red in the display and server test files not yet rewritten, and each task's check is the per-file `node --test` command it names. `node --test lib/oyun/*.test.ts sunucu/*.test.ts` is green again at the end of Task 6. `npm run typecheck` is red only under `components/oyun/` from Task 1 until the end of Task 10 (the check until then is `npx tsc --noEmit -p . 2>&1 | grep -v '^components/oyun' ; true` printing nothing). Commits are still made per task.
+- Red window, stated once: Tasks 1 to 6 rewrite the engine under `lib/oyun/`. From the Task 1 commit to the end of Task 6, `npm test` and `npm run typecheck` are both red in the `lib/oyun`, `sunucu` and `components/oyun` files each task lists as "not yet rewritten"; each task's check is the per-file `node --test` command it names, and every file in that command passes at that task. `node --test lib/oyun/*.test.ts sunucu/*.test.ts` is green again at the end of Task 6; `npx tsc --noEmit -p . 2>&1 | grep -v '^components/oyun' ; true` prints nothing from Task 6 on; `npm run typecheck` is green from the end of Task 10. Commits are still made per task.
+- `npm test` grows to tens of seconds (about 1050 bot nights in the gates plus the 500-seed property test); that is expected, not a hang.
+- Replay equality: nothing outside `canliDokun`/`canliAdim` mutates `canli.oyun`; the guide's `rehber.izin` filter runs before `canliDokun`, so a refused input is never recorded and the server's replay of the record equals the live result.
+- Staging (owner's delegate, 9 Oct 2026): the tap-tap path with flight animations is fully playable first; drag is layered on afterwards. The boundary after Tasks 10, 11 and 12 is a complete, playable, guided, accessible game with taps only; Task 14 adds pointer drags on top without changing the simulation.
 - Headless scripts live under `/tmp/bozo-oyun/sade/` (not in the repo), use Playwright 1.62.1 from `/Users/mk/.npm/_npx/db89d7302a373f10/node_modules/playwright/index.mjs`, and drive a fresh `out/` served with `python3 -m http.server 8412 --directory "$PWD/out"` (start from the repo root, not inside `out/`; a server started inside `out/` keeps the deleted inode after a rebuild). No screenshot reading loops: every check asserts DOM state or numbers.
 
 ## Review Focus
@@ -32,8 +35,8 @@ Inputs the spec implies but no feature test exercises on its own; each line has 
 1. Fifth item dropped on a full plate: the item stays in hand, nothing is lost, the plate is unchanged, a `tabakDolu` event lets the UI snap the item back (Task 2, `tabak_dorduncudenSonrakiBirakis_eldeKalir`).
 2. Second tip on a place that still holds a coin: one coin with the summed amount and a restarted timer, and a new guest sits while the coin lies there (Task 3, `para_ayniYereIkinciPara_toplanirSureYenidenBaslar_misafirOturur`).
 3. Plate delivered to an empty or already-paid place: plate goes back, score, combo and the plate's contents unchanged (Task 3, `misafir_bosYaDaOdemisYereTabak_geriDoner`).
-4. Pointer edge cases in one drag: a second finger is ignored, `pointercancel` drops the item, a release over a target of the wrong kind (skewer over a guest) keeps the item in hand instead of losing it (Task 7, `surukle_ikinciParmak_yokSayilir`, `surukle_iptal_birakVerir`, `surukle_yanlisTurHedef_eldeKalir`).
-5. Guide step 4 with a drop outside the plate: the `birak` is refused by the guide, the skewer stays in hand and the step repeats without a second trip to the rack (Task 8 pure `rehber_tabakAdiminda_birakReddedilir_adimTekrarEder`; Task 11 headless step "yanlış yere bırakış").
+4. Pointer edge cases in one drag: a second finger is ignored, `pointercancel` emits `birak` (a no-op for a skewer, so nothing is lost), a release over a target of the wrong kind (skewer over a guest) keeps the item in hand (Task 7, `surukle_ikinciParmak_yokSayilir`, `surukle_iptal_birakVerir`, `surukle_yanlisTurHedef_eldeKalir`).
+5. Guide step 4 with a drop outside the plate (or Esc): the `birak` is refused by the guide and never recorded, the skewer stays in hand and the step repeats without a second trip to the rack (Task 8 pure `rehber_tabakAdiminda_birakReddedilir_adimTekrarEder`; Task 11 headless Esc step; Task 14 headless drop on the HUD).
 
 ## File Structure
 
@@ -64,7 +67,8 @@ Inputs the spec implies but no feature test exercises on its own; each line has 
 | `components/oyun/Semboller.tsx` | `ElIsareti` added; turn, counter-full, porsiyon, ember-dot deleted |
 | `components/oyun/Saha.tsx`, `Saha.module.css`, `Hud.tsx`, `Hud.module.css` | New vertical flow, no porsiyon badge |
 | `components/oyun/ciz.ts`, `tepkiler.ts` | Coins, hand, plate reactions |
-| `components/oyun/useSurukleme.ts` (new) | Pointer and keyboard glue around `surukle.ts` |
+| `components/oyun/useSurukleme.ts` (new) | Pointer and keyboard glue around `surukle.ts`: taps in Task 10, drags added in Task 14 |
+| `sunucu/suphe.ts` + test | Tam-kıvam ratio rule removed; timing rules stay |
 | `components/oyun/useOyunAlani.ts`, `useOyunDongusu.ts` | Guide pause, gesture wiring |
 | `components/oyun/Rehber.tsx` + `.module.css`, `useRehber.ts` (new) | Guide overlay and hook |
 | `components/oyun/GirisEkrani.tsx` + `.module.css`, `GirisTablosu.tsx`, `OyunSayfasi.tsx`, `useOyunAkisi.ts`, `SonucEkrani.tsx` + `.module.css` | Nickname field, result summary with guests and tips |
@@ -80,7 +84,7 @@ Inputs the spec implies but no feature test exercises on its own; each line has 
 - Test: `lib/oyun/gece.test.ts`, `lib/oyun/durum.test.ts` (new), `lib/oyun/puan.test.ts`
 
 **Interfaces:**
-- Produces (used by every later task): the types below; `EVRELER[i]` fields `baslangic, bitis, misafir, ocak, cigerPisme, almaPenceresi, tamKivamBandi, sabir, puanCarpani`; constants `EN_COK_MISAFIR = 3`, `EN_COK_OCAK = 4`, `TABAK_SAYISI = 2`, `TABAK_SINIRI = 4`, `PARA_TIK = 480`, `KALKIS_TIK = 30`, `KAYIP_SINIRI = 3`, `RAF`, `KASELER`, `ACILDIGI_EVRE`, `PISME_YUZDESI`, `PUAN = { tamKivam: 150, iyi: 100, eslikci: 20, bahsis: 200, geceTamam: 1000 }`, `BUTCE`, `ILK_MISAFIRLER`; `yeniOyun(tohum): Oyun`; `eksikKalemler(oyun: Oyun): Kalem[]`; `geceKur(tohum): Misafir[]`; `sahne(fisler: Kalem[][], tukenmez = false): Oyun`, `evreyeGec`, `dokun`, `bekle`, `sonaKadarBekle` from `deneme.ts`.
+- Produces (used by every later task): the types below; `tavan(tohum: number): number` (implementation moved here because `sunucu/uclar.ts` imports it and must load in Task 4; its tests are Task 5); `EVRELER[i]` fields `baslangic, bitis, misafir, ocak, cigerPisme, almaPenceresi, tamKivamBandi, sabir, puanCarpani`; constants `EN_COK_MISAFIR = 3`, `EN_COK_OCAK = 4`, `TABAK_SAYISI = 2`, `TABAK_SINIRI = 4`, `PARA_TIK = 480`, `KALKIS_TIK = 30`, `KAYIP_SINIRI = 3`, `RAF`, `KASELER`, `ACILDIGI_EVRE`, `PISME_YUZDESI`, `PUAN = { tamKivam: 150, iyi: 100, eslikci: 20, bahsis: 200, geceTamam: 1000 }`, `BUTCE`, `ILK_MISAFIRLER`; `yeniOyun(tohum): Oyun`; `eksikKalemler(oyun: Oyun): Kalem[]`; `geceKur(tohum): Misafir[]`; `sahne(fisler: Kalem[][], tukenmez = false): Oyun`, `evreyeGec`, `dokun`, `bekle`, `sonaKadarBekle` from `deneme.ts`.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -92,7 +96,6 @@ import assert from 'node:assert/strict'
 import { EN_COK_MISAFIR, TABAK_SAYISI } from './ayar.ts'
 import { eksikKalemler, yeniOyun } from './durum.ts'
 import { sahne } from './deneme.ts'
-import { ilerle } from './motor.ts'
 
 test('yeniOyun_ikiBosTabak_ucMisafirYeri_elBos_paraYok', () => {
   const oyun = yeniOyun(1)
@@ -105,7 +108,8 @@ test('yeniOyun_ikiBosTabak_ucMisafirYeri_elBos_paraYok', () => {
 
 test('eksikKalemler_ocaktakiTabaktakiVeEldeki_dusulur_odemisSayilmaz', () => {
   const oyun = sahne([['ciger', 'ciger', 'domates']])
-  ilerle(oyun, [])
+  // Görev 1'in `ilerle` taslağı oturtmaz: misafir elle oturtulur.
+  oyun.misafirler[0] = { misafir: oyun.gelecek[0]!, sabir: 100, toplamSabir: 100, kalkis: null }
   assert.deepEqual(eksikKalemler(oyun), ['ciger', 'ciger', 'domates'])
   oyun.ocak[0] = { urun: 'ciger', gecen: 0, pisme: 240, pencere: 180, bant: 36 }
   oyun.tabaklar[0] = [{ urun: 'domates', kalite: null }]
@@ -119,7 +123,7 @@ test('eksikKalemler_ocaktakiTabaktakiVeEldeki_dusulur_odemisSayilmaz', () => {
 })
 ```
 
-`lib/oyun/gece.test.ts`: replace the first-two-guests test and the Karışık test, add the budget invariants:
+`lib/oyun/gece.test.ts`: delete `butce_fisBoylariToplami_urunSayisinaEsit` (it reads `b.fisBoylari`, which no longer exists), replace the first-two-guests test and the Karışık test, add the budget invariants:
 
 ```ts
 test('butce_sisBoylariToplami_sisSayisinaEsit_eslikciFisSayisiniAsmaz', () => {
@@ -147,11 +151,11 @@ test('gece_herFis_enCokUcSisVeBirEslikci_enAzBirSis', () => {
   }
 })
 
-test('gece_bozoKarisik_cigerDalakVeYuregiBirlikteIster_evre5tekiDomatesle', () => {
+test('gece_bozoKarisik_cigerDalakYurekVeDomates', () => {
   const karisiklar = geceKur(5).filter((m) => m.karisik)
   assert.equal(karisiklar.length, 2)
-  for (const m of karisiklar) for (const u of RAF) assert.ok(m.fis.includes(u))
-  assert.deepEqual(karisiklar.map((m) => m.fis.length).sort(), [3, 4])
+  for (const m of karisiklar) for (const u of [...RAF, 'domates'] as const) assert.ok(m.fis.includes(u))
+  assert.deepEqual(karisiklar.map((m) => m.fis.length), [4, 4])
 })
 
 test('gece_yirmiDortMisafir_sonMisafir05tenEnAz8SnOnce', () => {
@@ -240,7 +244,7 @@ export type Olay =
   | { tur: 'sisYandi'; yuva: number }
   | { tur: 'rafDolu'; urun: Urun }
   | { tur: 'tutuldu'; el: NonNullable<Elde> }
-  | { tur: 'tabagaKondu'; no: number; kalem: TabakKalemi }
+  | { tur: 'tabagaKondu'; no: number; kalem: TabakKalemi; el: NonNullable<Elde> }
   | { tur: 'tabakDolu'; no: number }
   | { tur: 'teslim'; yer: number; no: number; hesap: number }
   | { tur: 'yanlisTabak'; yer: number; no: number }
@@ -546,6 +550,30 @@ export function eksikKalemler(oyun: Oyun): Kalem[] {
 
 `lib/oyun/puan.ts`: delete `komboDusur` and its comment; keep `komboCarpani` and `sabirBonusu` (the latter's constant is now `PUAN.bahsis`: change `PUAN.sabirBonusu` to `PUAN.bahsis`).
 
+Replace `lib/oyun/tavan.ts` with (its tests come in Task 5; the module must load today because `sunucu/uclar.ts` imports it):
+
+```ts
+import { PUAN, RAF } from './ayar.ts'
+import { geceKur } from './gece.ts'
+import { komboCarpani } from './puan.ts'
+import type { Kalem, Urun } from './tipler.ts'
+
+/** Fişin tam kıvamlı hesabı ve tam bahşişi. */
+function fisTabani(fis: readonly Kalem[]): number {
+  return fis.reduce<number>((t, k) => t + (RAF.includes(k as Urun) ? PUAN.tamKivam : PUAN.eslikci), PUAN.bahsis)
+}
+
+/**
+ * Tohumun üst sınırı (spec tabak §8): her fiş (kalemler + 200) × kombo çarpanı × 2, en büyük fişler
+ * en yüksek çarpanlarda, gece tamam. Sayaç ancak teslimle artar, hiçbir olay puan düşürmez; sunucu
+ * bunun üstünü reddeder. Bütçe tohumdan bağımsız olduğu için değer de tohumdan bağımsızdır.
+ */
+export function tavan(tohum: number): number {
+  const tabanlar = geceKur(tohum).map((m) => fisTabani(m.fis)).sort((a, b) => a - b)
+  return tabanlar.reduce((t, taban, k) => t + taban * komboCarpani(k) * 2, 0) + PUAN.geceTamam
+}
+```
+
 `lib/oyun/deneme.ts`: keep the scene half only (`sahne`, `evreyeGec`, `dokun`, `bekle`, `sonaKadarBekle`); delete everything from the `Beceri` comment down (the bots return in Task 4; `motor.test.ts`, `tavan.test.ts`, `canli.test.ts` and `sunucu/*.test.ts` stay red until then). `sahne` takes `fisler: Kalem[][]`; the import line becomes `import type { Hedef, Kalem, Olay, Oyun } from './tipler.ts'`.
 
 `git rm lib/oyun/sofra.ts lib/oyun/sofra.test.ts lib/oyun/servis.test.ts lib/oyun/ocak.test.ts` (their replacements come in Tasks 2 and 3). `motor.ts` and `ocak.ts` still import the old names; they are rewritten in Tasks 2 and 3 and are not imported by this task's tests except `motor.ts` from `durum.test.ts` and `deneme.ts`: to keep this task's tests runnable, make the minimal edit in `lib/oyun/motor.ts` now: replace the `ocak.ts` and `sofra.ts` imports and the world step with the Task 3 version of `ilerle` **without** inputs, i.e. temporarily:
@@ -573,7 +601,7 @@ delete `HEDEFLER`, `dokun`, and in `ilerle` delete the `for (const hedef of hede
 - [ ] **Step 8: Run to verify they pass**
 
 Run: `node --test lib/oyun/gece.test.ts lib/oyun/durum.test.ts lib/oyun/puan.test.ts lib/oyun/rastgele.test.ts lib/oyun/takmaAd.test.ts sunucu/bellekDepo.test.ts sunucu/isler.test.ts`
-Expected: PASS. Then `npx tsc --noEmit -p . 2>&1 | grep -v '^components/oyun' ; true` prints nothing except errors in `lib/oyun/ocak.ts`, `gosterim.ts`, `gorsel.ts`, `ses.ts`, `duyuru.ts`, `klavye.ts`, `tavan.ts`, `canli.test.ts`, `motor.test.ts`, `tavan.test.ts`, `sunucu/suphe.test.ts`, `sunucu/uygulama.test.ts`, `sunucu/dogrulama.test.ts` (all rewritten by Task 6).
+Expected: PASS. Then `npx tsc --noEmit -p . 2>&1 | grep -v '^components/oyun' ; true` prints nothing except errors in `lib/oyun/ocak.ts`, `gosterim.ts`, `gorsel.ts`, `ses.ts`, `duyuru.ts`, `klavye.ts`, `canli.test.ts`, `motor.test.ts`, `tavan.test.ts`, `sunucu/suphe.test.ts`, `sunucu/uygulama.test.ts`, `sunucu/dogrulama.test.ts` (all rewritten by Task 6).
 
 - [ ] **Step 9: Commit**
 
@@ -648,6 +676,13 @@ test('raf_dalakKisaYurekUzunPiser', () => {
   const ayar = EVRELER[2]!
   const beklenen = (u: Urun) => Math.floor((ayar.cigerPisme * PISME_YUZDESI[u] + 50) / 100)
   assert.deepEqual(oyun.ocak.map((s) => s?.pisme ?? null), [beklenen('ciger'), beklenen('dalak'), beklenen('yurek'), null])
+})
+
+test('raf_eldeSisVarken_onunBosYuvasiAtlanir', () => {
+  const oyun = sahne([])
+  oyun.el = { tur: 'sis', urun: 'ciger', kalite: 'tam', yuva: 0 }
+  assert.deepEqual(kondur(oyun, 'ciger'), [{ tur: 'sisKondu', yuva: 1, urun: 'ciger' }])
+  assert.equal(oyun.ocak[0], null)
 })
 
 test('raf_acikYuvalarDoluysa_rafDoluOlayi_eldekineBakmaz', () => {
@@ -737,7 +772,7 @@ test('kase_elBosken_eslikciEle_tukenmez_evresiGelmemisKaseEtkisiz', () => {
 test('tabak_eldekiSisTabagaIner_kaliteyleBirlikte_elBosalir', () => {
   const oyun = sahne([])
   oyun.el = SIS
-  assert.deepEqual(olaylarla((o) => tabagaDokun(oyun, 1, o)), [{ tur: 'tabagaKondu', no: 1, kalem: { urun: 'ciger', kalite: 'tam' } }])
+  assert.deepEqual(olaylarla((o) => tabagaDokun(oyun, 1, o)), [{ tur: 'tabagaKondu', no: 1, kalem: { urun: 'ciger', kalite: 'tam' }, el: SIS }])
   assert.deepEqual(oyun.tabaklar, [[], [{ urun: 'ciger', kalite: 'tam' }]])
   assert.equal(oyun.el, null)
 })
@@ -788,15 +823,19 @@ test('cop_eldekiYokOlur_tabaksaBosalir_puanVeKomboDegismez_elBoskenEtkisiz', () 
   assert.equal(oyun.kombo, 4)
 })
 
-test('birak_tabakYerineDoner_sisDuser_eslikciKaseyeDoner', () => {
+test('birak_tabakYerineDoner_eslikciKaseyeDoner_sisteEtkisiz', () => {
   const oyun = sahne([])
   oyun.tabaklar[0] = [{ urun: 'ciger', kalite: 'iyi' }]
   oyun.el = { tur: 'tabak', no: 0 }
   assert.deepEqual(olaylarla((o) => birak(oyun, o)), [{ tur: 'birakildi', el: { tur: 'tabak', no: 0 } }])
   assert.deepEqual(oyun.tabaklar[0], [{ urun: 'ciger', kalite: 'iyi' }])
-  oyun.el = SIS
-  assert.deepEqual(olaylarla((o) => birak(oyun, o)), [{ tur: 'birakildi', el: SIS }])
+  oyun.el = { tur: 'eslikci', urun: 'domates' }
+  assert.deepEqual(olaylarla((o) => birak(oyun, o)), [{ tur: 'birakildi', el: { tur: 'eslikci', urun: 'domates' } }])
   assert.equal(oyun.el, null)
+  oyun.el = SIS
+  assert.deepEqual(olaylarla((o) => birak(oyun, o)), [])
+  assert.deepEqual(oyun.el, SIS)
+  oyun.el = null
   assert.deepEqual(olaylarla((o) => birak(oyun, o)), [])
 })
 ```
@@ -815,11 +854,12 @@ import { ACILDIGI_EVRE, PISME_YUZDESI } from './ayar.ts'
 import { evreAyari } from './durum.ts'
 import type { Kalite, OcakSisi, Olay, Oyun, Urun } from './tipler.ts'
 
-/** Raftan şiş: açık ocak yuvalarının ilk boşuna iner; süreler o anki evreden sabitlenir. Elde ne olduğuna bakmaz. */
+/** Raftan şiş: açık ocak yuvalarının ilk boşuna iner; elde tutulan şişin boşalmış yuvası atlanır (ekran şişi orada gösterir). */
 export function rafaDokun(oyun: Oyun, urun: Urun, olaylar: Olay[]): void {
   if (ACILDIGI_EVRE[urun] > oyun.evre) return
   const ayar = evreAyari(oyun.evre)
-  const yuva = oyun.ocak.slice(0, ayar.ocak).findIndex((sis) => !sis)
+  const el = oyun.el
+  const yuva = oyun.ocak.slice(0, ayar.ocak).findIndex((sis, i) => !sis && !(el?.tur === 'sis' && el.yuva === i))
   if (yuva === -1) {
     olaylar.push({ tur: 'rafDolu', urun })
     return
@@ -902,7 +942,7 @@ export function tabagaDokun(oyun: Oyun, no: number, olaylar: Olay[]): void {
   const kalem = { urun: el.urun, kalite: el.tur === 'sis' ? el.kalite : null }
   tabak.push(kalem)
   oyun.el = null
-  olaylar.push({ tur: 'tabagaKondu', no, kalem })
+  olaylar.push({ tur: 'tabagaKondu', no, kalem, el })
 }
 
 /** Çöp: eldeki yok olur, tabaksa boşalıp yerine döner. Puan ve kombo değişmez. */
@@ -914,10 +954,10 @@ export function copeBirak(oyun: Oyun, olaylar: Olay[]): void {
   olaylar.push({ tur: 'copeGitti', el })
 }
 
-/** Bırakma: tabak yerine döner; şişin yuvası boşaldı, geri dönecek yeri yok, düşer; eşlikçi kaseye döner. */
+/** Bırakma: tabak yerine, eşlikçi kaseye döner. Şişte etkisiz: yuvası boşaldı, yemeği yalnız çöp atar (spec §13). */
 export function birak(oyun: Oyun, olaylar: Olay[]): void {
   const el = oyun.el
-  if (!el) return
+  if (!el || el.tur === 'sis') return
   oyun.el = null
   olaylar.push({ tur: 'birakildi', el })
 }
@@ -932,7 +972,7 @@ Expected: PASS.
 
 ```bash
 git add lib/oyun
-git commit -m "Add the hand: take from the fire and bowls, plate, bin, drop"
+git commit -m "Add the hand: take from the fire and bowls, plate, bin"
 ```
 
 ---
@@ -1063,7 +1103,12 @@ test('odeme_komboVeSonSaatCarpanlari_hesabaVeBahsiseAyniUygulanir', () => {
   evreyeGec(oyun, 4)
   bekle(oyun, 1)
   oyun.kombo = 3
-  cigerTabagi(oyun)
+  const E4 = EVRELER[4]!
+  dokun(oyun, 'ciger')
+  bekle(oyun, E4.cigerPisme + E4.almaPenceresi / 2 - 1)
+  dokun(oyun, 'o0')
+  dokun(oyun, 't0')
+  dokun(oyun, 't0')
   const yer = oyun.misafirler[0]!
   const bahsis = sabirBonusu(yer.sabir, yer.toplamSabir) * 2 * 2
   const olaylar = dokun(oyun, 'm0')
@@ -1088,7 +1133,7 @@ test('para_dokununcaPuanaYazilir_sekizSaniyedeSolar_cezaYok', () => {
   bekle(ikinci, 1)
   cigerTabagi(ikinci)
   dokun(ikinci, 'm0')
-  assert.deepEqual(bekle(ikinci, PARA_TIK - 2), [])
+  assert.deepEqual(bekle(ikinci, PARA_TIK - 2).filter((o) => o.tur === 'paraSoldu'), [])
   assert.deepEqual(bekle(ikinci, 1), [{ tur: 'paraSoldu', yer: 0 }])
   assert.equal(ikinci.puan, puan)
 })
@@ -1102,7 +1147,6 @@ test('para_ayniYereIkinciPara_toplanirSureYenidenBaslar_misafirOturur', () => {
   bekle(oyun, KALKIS_TIK)
   assert.equal(oyun.misafirler[0]?.misafir.no, 2)
   assert.ok(oyun.paralar[0])
-  bekle(oyun, 100)
   cigerTabagi(oyun)
   dokun(oyun, 'm0')
   const para = oyun.paralar[0]!
@@ -1438,7 +1482,7 @@ export function simule(tohum: number, girdiler: readonly Girdi[]): Sonuc {
 - [ ] **Step 5: Run to verify they pass**
 
 Run: `node --test lib/oyun/misafir.test.ts lib/oyun/motor.test.ts lib/oyun/ocak.test.ts lib/oyun/tabak.test.ts lib/oyun/durum.test.ts lib/oyun/gece.test.ts`
-Expected: PASS. If a tick count in `misafir.test.ts` is off by one (the `bekle(oyun, MERKEZ - 1)` lines), fix the test's setup so the take lands at `gecen === MERKEZ`, not the engine.
+Expected: PASS. If a tick count in `misafir.test.ts` is off by one (the `bekle(oyun, MERKEZ - 1)` lines, or the evre 4 take in `odeme_komboVeSonSaat…`), fix the test's setup so the take lands at the band centre of the phase the test is in, not the engine. The coin-merge test takes the second plate right after the guest sits so the first coin is still alive after Task 4's retuning; keep it that way.
 
 - [ ] **Step 6: Commit**
 
@@ -1457,7 +1501,7 @@ git commit -m "Seat guests, match plates to tickets and pay tips"
 
 **Interfaces:**
 - Consumes: `eksikKalemler`, `fiseUyuyorMu`, `sisKalitesi`, `ilerle`, `rastgele`.
-- Produces: `type Beceri = 'usta' | 'duzenli' | 'rastgele' | 'hareketsiz'`, `ustaOyna(tohum: number, beceri: Beceri): Girdi[]` (name kept; used by `motor.test.ts`, `tavan.test.ts`, `canli.test.ts`, `sunucu/*.test.ts`).
+- Produces: `type Beceri = 'usta' | 'duzenli' | 'cirak' | 'rastgele' | 'hareketsiz'`, `ustaOyna(tohum: number, beceri: Beceri): Girdi[]` (name kept; used by `motor.test.ts`, `tavan.test.ts`, `canli.test.ts`, `sunucu/*.test.ts`).
 
 - [ ] **Step 1: Write the failing gate tests**
 
@@ -1487,9 +1531,24 @@ test('bot_duzenli_gecelerinEnAz70iniTamamlar', () => {
   assert.ok(tamam >= 140, `düzenli ${tamam}/200 gece tamamladı`)
 })
 
-test('bot_rastgele_yuzde90indaEvre2yiGecer', () => {
-  const gecen = ZORLUK_TOHUMLARI.filter((t) => oyna(t, 'rastgele').tik >= (EVRELER[2]?.baslangic ?? 0)).length
-  assert.ok(gecen >= 180, `rastgele ${gecen}/200 turda evre 2'yi geçti`)
+test('bot_cirak_gecelerinEnAz50siniTamamlar', () => {
+  const tamam = ZORLUK_TOHUMLARI.filter((t) => oyna(t, 'cirak').bitti === 'gece').length
+  assert.ok(tamam >= 100, `çırak ${tamam}/200 gece tamamladı`)
+})
+
+/* Spec'in "evre 2'yi geçer" kapısı yapı gereği sağlanır (ilk misafir tükenmez, ikinci 2820'den önce kalkamaz); yerine baskı ölçülür. */
+test('bot_rastgele_gecelerinEnCok5iniTamamlar_puaniDuzenlininCeyregininAltinda', () => {
+  let tamam = 0
+  let rastgele = 0
+  let duzenli = 0
+  for (const t of ZORLUK_TOHUMLARI) {
+    const r = oyna(t, 'rastgele')
+    if (r.bitti === 'gece') tamam++
+    rastgele += r.puan
+    duzenli += oyna(t, 'duzenli').puan
+  }
+  assert.ok(tamam <= 10, `rastgele ${tamam}/200 gece tamamladı`)
+  assert.ok(rastgele * 4 < duzenli, `rastgele ${rastgele} / düzenli ${duzenli}`)
 })
 
 test('bot_hareketsiz_sifirPuan_0200denOnceUcMisafirKalkar', () => {
@@ -1510,13 +1569,14 @@ Append to `lib/oyun/deneme.ts` (add `ACILDIGI_EVRE, KASELER, RAF, TABAK_SINIRI` 
 
 ```ts
 /**
- * Otomatik oyuncular (spec tabak §5). 'usta' saniyede 3 girdi, şişi tam kıvam bandında tutar,
+ * Otomatik oyuncular (spec tabak §5, §13). 'usta' saniyede 3 girdi, şişi tam kıvam bandında tutar,
  * fişlere sabrı en az kalandan başlar, her bahşişi alır; 'duzenli' saniyede 2, hazır olur olmaz
- * tutar; 'rastgele' saniyede 2 geçerli hedefe rastgele; 'hareketsiz' hiç girdi vermez.
+ * tutar; 'cirak' ilk kez oynayan insanın yerine: 40 tik aralık, yani tut ile bırak arası en az 36 tik,
+ * kararları düzenliyle aynı; 'rastgele' saniyede 2 geçerli hedefe rastgele; 'hareketsiz' hiç girdi vermez.
  */
-export type Beceri = 'usta' | 'duzenli' | 'rastgele' | 'hareketsiz'
+export type Beceri = 'usta' | 'duzenli' | 'cirak' | 'rastgele' | 'hareketsiz'
 
-const ARALIK: Record<Beceri, number> = { usta: 20, duzenli: 30, rastgele: 30, hareketsiz: Number.MAX_SAFE_INTEGER }
+const ARALIK: Record<Beceri, number> = { usta: 20, duzenli: 30, cirak: 40, rastgele: 30, hareketsiz: Number.MAX_SAFE_INTEGER }
 
 /** Kalem çoklu-kümesi fişin altkümesi mi. */
 function altKume(kalemler: readonly Kalem[], fis: readonly Kalem[]): boolean {
@@ -1656,7 +1716,7 @@ import { ustaOyna } from '/Users/mk/Desktop/Bozo/Web/lib/oyun/deneme.ts'
 import { simule } from '/Users/mk/Desktop/Bozo/Web/lib/oyun/motor.ts'
 
 const tohumlar = Array.from({ length: 200 }, (_, i) => i * 104729 + 3)
-for (const beceri of ['usta', 'duzenli', 'rastgele', 'hareketsiz']) {
+for (const beceri of ['usta', 'duzenli', 'cirak', 'rastgele', 'hareketsiz']) {
   const s = tohumlar.map((t) => simule(t, ustaOyna(t, beceri)))
   const tamam = s.filter((x) => x.bitti === 'gece').length
   const ortalama = Math.round(s.reduce((t, x) => t + x.puan, 0) / s.length)
@@ -1668,7 +1728,7 @@ for (const beceri of ['usta', 'duzenli', 'rastgele', 'hareketsiz']) {
 ```
 
 Run: `node /tmp/bozo-oyun/sade/zorluk.mjs`
-Expected gates: usta `tamam >= 190` and highest `ortalama`, duzenli `tamam >= 140`, rastgele `evre3 >= 180`, hareketsiz `ortalama 0` and `enGec < 4500`. If a gate fails, change **only** numbers in `TABLO` (patience column first, then window, then cook time) and `BUTCE.aralik` in `lib/oyun/ayar.ts`, one knob at a time, and keep the arrival-fit invariant (`gece_yirmiDortMisafir_sonMisafir05tenEnAz8SnOnce`). If `usta` leaves plates orphaned (`misafir` well under 24 with `tamam` high), the bot's `tabakHedefleri` is the suspect, not the numbers. Record the final table, the four bot lines and the idle-gate arithmetic in `docs/surec/IYILESTIRMELER.md` under a new heading "9 Ekim 2026: tabak akışı zorluk ayarı" (what, measured, why; one short paragraph and the table). The rastgele gate is satisfied by construction (the first guest never leaves and the second cannot leave before 2820), note that too.
+Expected gates: usta `tamam >= 190` and highest `ortalama`, duzenli `tamam >= 140`, cirak `tamam >= 100`, rastgele `tamam <= 10` and `ortalama` under a quarter of düzenli's, hareketsiz `ortalama 0` and `enGec < 4500`. If the cirak or düzenli gate fails, change **only** the patience column of evre 3 and 4 (`TABLO` rows index 2 and 3; the review's estimate is that these two phases are short of time), one step of 60 ticks at a time; evre 1 and 2 patience stays, so the idle player still loses before 02:00 (`enGec < 4500`). If the usta gate fails, widen the window column one step. Keep the arrival-fit invariant (`gece_yirmiDortMisafir_sonMisafir05tenEnAz8SnOnce`). If `usta` leaves plates orphaned (`misafir` well under 24 with `tamam` high), the bot's `tabakHedefleri` is the suspect, not the numbers. Record the final table, the four bot lines and the idle-gate arithmetic in `docs/surec/IYILESTIRMELER.md` under a new heading "9 Ekim 2026: tabak akışı zorluk ayarı" (what, measured, why; one short paragraph and the table). The rastgele gate is satisfied by construction (the first guest never leaves and the second cannot leave before 2820), note that too.
 
 - [ ] **Step 4: Regenerate the golden records**
 
@@ -1713,18 +1773,18 @@ Same for `altin_tohum1_duzenli` and `altin_tohum2026_rastgele`.
 - [ ] **Step 5: Server and live-loop fixtures**
 
 - `lib/oyun/canli.test.ts`: `canliDokun(canli, 's0')` becomes `canliDokun(canli, 'birak')` and the expected record `[[0, 'ciger'], [0, 'birak']]`.
-- `sunucu/suphe.test.ts`: every `'s0'` becomes `'ciger'`. If `zamanlamaSupheli_sabitAralikliBot_isaretlenir` fails because the usta bot's record is shorter than 100 inputs for seed 1, pick the first seed from `ZORLUK_TOHUMLARI` whose usta record has at least 100 inputs (print `ustaOyna(t,'usta').length` for a few) and use it in both usta tests.
+- `sunucu/suphe.ts` (ruling, spec §13): delete `SUPHE_TAM_KIVAM_ORANI` and `tamKivamSupheli`; `supheliMi` returns `zamanlamaSupheli(girdiler)` only, and the header comment says why (the band is visible as a ring and holding costs nothing, so an honest careful player can hit 100%). `sunucu/suphe.test.ts`: delete the `tamKivamSupheli_*` test, every `'s0'` becomes `'ciger'`, and the two bot-based tests become synthetic so they do not depend on how often the bot idles: `zamanlamaSupheli_sabitAralikliKayit_isaretlenir` uses `Array.from({ length: 200 }, (_, i) => [i * 20, i % 2 ? 'ciger' : 'birak'] as Girdi)` expecting `true`; add `supheliMi_yuzdeYuzTamKivam_tekBasinaIsaretlemez`: the jittered record from `zamanlamaSupheli_titreyenAraliklar_isaretlenmez` with `sonuc(40, 40)` expects `false`; `supheliMi_sabitAralik_isaretler`: the constant record with `sonuc(40, 0)` expects `true`.
 - `sunucu/dogrulama.test.ts`: every `'s0'`/`'s1'` becomes `'ciger'`/`'birak'` (keep the same-tick-same-target case as `[[3, 'ciger'], [3, 'ciger']]`). Add the Review Focus pin: `assert.doesNotThrow(() => girdileriCoz({ girdiler: [[7, 'o0'], [7, 't0']] }))` (same tick, tut then drop).
 - `sunucu/uygulama.test.ts`: `acemi` becomes `const duzenli = (tohum: number) => ustaOyna(tohum, 'duzenli')` and its one use; `'s0'` becomes `'ciger'` in the three records; the empty-record assertions become `assert.equal(y2.puan, 0)` with the comment "Boş kayıt her tohumda 0 puanla biter: sıra tohumdan bağımsız." and `ustekiFark` unchanged in form.
 
 - [ ] **Step 6: Run and commit**
 
 Run: `node --test lib/oyun/motor.test.ts lib/oyun/gece.test.ts lib/oyun/canli.test.ts sunucu/suphe.test.ts sunucu/dogrulama.test.ts sunucu/uygulama.test.ts`
-Expected: PASS (the gate tests take a few seconds).
+Expected: PASS (the gate tests take tens of seconds).
 
 ```bash
 git add lib/oyun sunucu docs/surec/IYILESTIRMELER.md
-git commit -m "Rewrite the bots and pin the plate-flow difficulty with gate tests"
+git commit -m "Rewrite the bots, pin the difficulty gates, drop the tam-kivam flag"
 ```
 
 ---
@@ -1732,11 +1792,11 @@ git commit -m "Rewrite the bots and pin the plate-flow difficulty with gate test
 ### Task 5: Score ceiling
 
 **Files:**
-- Modify: `lib/oyun/tavan.ts`, `lib/oyun/tavan.test.ts`
+- Modify: `lib/oyun/tavan.test.ts` (the implementation landed in Task 1 so the server could load; this task pins it)
 
 **Interfaces:**
-- Consumes: `geceKur`, `komboCarpani`, `PUAN`, `RAF`, bots.
-- Produces: `tavan(tohum: number): number` (same signature; `sunucu/uclar.ts` keeps calling it).
+- Consumes: `tavan` (Task 1), bots (Task 4).
+- Produces: the ceiling golden and the invariant tests.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1774,39 +1834,15 @@ test('altin_tavan_tohum1', () => {
   assert.equal(tavan(1), 0)
 })
 
-/** Bütçe sabit ama kalemlerin fişlere dağılımı tohuma bağlı: tavan tohumdan tohuma az oynar. */
-test('tavan_tohumaGoreAzOynar', () => {
-  for (let t = 2; t <= 40; t++) assert.ok(Math.abs(tavan(t) - tavan(1)) < 1500, `tohum ${t}: ${tavan(t)}`)
+/** Bütçe ve Karışık her tohumda aynı kalem kümesini verir; sıralanmış tabanlar da aynıdır: tavan tohumdan bağımsız. */
+test('tavan_tohumdanBagimsiz', () => {
+  for (let t = 2; t <= 40; t++) assert.equal(tavan(t), tavan(1), `tohum ${t}`)
 })
 ```
 
-- [ ] **Step 2: Implement**
+- [ ] **Step 2: Pin the golden**
 
-Replace `lib/oyun/tavan.ts` with:
-
-```ts
-import { PUAN, RAF } from './ayar.ts'
-import { geceKur } from './gece.ts'
-import { komboCarpani } from './puan.ts'
-import type { Kalem, Urun } from './tipler.ts'
-
-/** Fişin tam kıvamlı hesabı ve tam bahşişi. */
-function fisTabani(fis: readonly Kalem[]): number {
-  return fis.reduce<number>((t, k) => t + (RAF.includes(k as Urun) ? PUAN.tamKivam : PUAN.eslikci), PUAN.bahsis)
-}
-
-/**
- * Tohumun üst sınırı (spec tabak §8): her fiş (kalemler + 200) × kombo çarpanı × 2, en büyük fişler
- * en yüksek çarpanlarda, gece tamam. Sayaç ancak teslimle artar, hiçbir olay puan düşürmez; sunucu
- * bunun üstünü reddeder.
- */
-export function tavan(tohum: number): number {
-  const tabanlar = geceKur(tohum).map((m) => fisTabani(m.fis)).sort((a, b) => a - b)
-  return tabanlar.reduce((t, taban, k) => t + taban * komboCarpani(k) * 2, 0) + PUAN.geceTamam
-}
-```
-
-Run `node --test lib/oyun/tavan.test.ts`: `altin_tavan_tohum1` fails and prints the actual value; paste it in place of `0`. If `tavan_tohumaGoreAzOynar` fails, print `Math.max(...Array.from({length: 39}, (_, i) => Math.abs(tavan(i + 2) - tavan(1))))` once and set the bound to the next hundred above it, with the measured value in the comment.
+Run `node --test lib/oyun/tavan.test.ts`: `altin_tavan_tohum1` fails and prints the actual value; paste it in place of `0`. `tavan_tohumdanBagimsiz` must pass as written: if it does not, a budget leaks seed-dependent kalem counts and `gece.ts` is the bug, not the test.
 
 - [ ] **Step 3: Run and commit**
 
@@ -1815,7 +1851,7 @@ Expected: PASS.
 
 ```bash
 git add lib/oyun
-git commit -m "Recompute the score ceiling for the plate flow"
+git commit -m "Pin the score ceiling for the plate flow"
 ```
 
 ---
@@ -1914,7 +1950,7 @@ test('fisSatirlari_ayniKalemTekSatirdaAdetle_karisikIlkUcuTekKume', () => {
     [{ tur: 'tutuldu', el: { ...SIS, kalite: 'iyi' } }, 'tut'],
     [{ tur: 'tutuldu', el: { tur: 'eslikci', urun: 'domates' } }, 'tut'],
     [{ tur: 'tutuldu', el: { tur: 'tabak', no: 0 } }, 'tut'],
-    [{ tur: 'tabagaKondu', no: 0, kalem: { urun: 'ciger', kalite: 'tam' } }, 'tik'],
+    [{ tur: 'tabagaKondu', no: 0, kalem: { urun: 'ciger', kalite: 'tam' }, el: SIS }, 'tik'],
     [{ tur: 'teslim', yer: 0, no: 0, hesap: 150 }, 'teslim'],
     [{ tur: 'bahsisAlindi', yer: 0, tutar: 200 }, 'bahsis'],
     [{ tur: 'birakildi', el: SIS }, 'birak'],
@@ -2139,7 +2175,7 @@ Expected: PASS (the MariaDB contract test is opt-in and skips). `npx tsc --noEmi
 
 ```bash
 git add lib/oyun
-git commit -m "Describe the plate flow to the screen: view model, sounds, announcements"
+git commit -m "Describe the plate flow to the screen: view, sounds, announcements"
 ```
 
 ---
@@ -2153,7 +2189,7 @@ git commit -m "Describe the plate flow to the screen: view model, sounds, announ
 - Consumes: `Hedef`, `Elde`.
 - Produces: `ESIK_PX = 8`, `KALDIRMA_PX = 12`; `type Isaret`, `type Surukleme`, `type Baglam = { elde: Hedef | null }`, `type SuruklemeSonucu = { durum: Surukleme; girdiler: Hedef[]; tasima: { dx: number; dy: number } | null }`; `surukle(durum, isaret, baglam): SuruklemeSonucu`; `eldeKaynagi(el: Elde): Hedef | null`; `kaynakMi(h: Hedef): boolean`; `birakmaHedefiMi(elde: Hedef, h: Hedef): boolean`. Task 10's `useSurukleme.ts` is the only DOM consumer.
 
-Rules (spec §3, with three rulings): a press on a source while the hand is empty is the `tut`; a press that stays under 8 px keeps the item in hand (tap-tap); a drag released over a drop target of the held kind emits that target, released over nothing (no `[data-hedef]` under the finger) emits `birak`, released over anything else keeps the item in hand (snap back). While holding, a press on empty space is `birak`, on the held item's own source re-grabs it for dragging, on raf or coin passes the tap through, on another source is ignored (spec: "kaynaklara dokunmak etkisizdir"), on a drop target emits it. `pointercancel` mid-gesture is `birak`. A second pointer id is ignored until the first is released.
+Rules (spec §3 and §13): the machine still emits `birak`; the engine makes it a no-op for a skewer (Task 2), so a missed drop never throws food away. A press on a source while the hand is empty is the `tut`; a press that stays under 8 px keeps the item in hand (tap-tap); a drag released over a drop target of the held kind emits that target, released over nothing (no `[data-hedef]` under the finger) emits `birak`, released over anything else keeps the item in hand (snap back). While holding, a press on empty space is `birak`, on the held item's own source re-grabs it for dragging, on raf or coin passes the tap through, on another source is ignored (spec: "kaynaklara dokunmak etkisizdir"), on a drop target emits it. `pointercancel` mid-gesture is `birak`. A second pointer id is ignored until the first is released.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -2419,7 +2455,7 @@ git commit -m "Reduce drag, tap-tap and keyboard gestures to grab and drop input
 **Interfaces:**
 - Produces: `RehberAdimi = 'bekle' | 'fis' | 'raf' | 'pisiyor' | 'hazir' | 'tabak' | 'misafir' | 'para' | 'ikinci' | 'eslikci' | 'bitti'`; `Rehber = { adim: RehberAdimi }`; `rehberBasla(): Rehber`; `rehberTamam(r)`; `rehberAtla(r)`; `rehberDurdurur(r): boolean`; `rehberIzni(r, hedef: Hedef): boolean`; `rehberIlerle(r, oyun, olaylar): Rehber` (same object back when the step does not change). `defter.ts`: `rehberGorulduMu(): boolean`, `rehberGoruldu(): void`.
 
-Step table (spec §7): 1 `fis` (Tamam, clock stops), 2 `raf` (only `ciger`, stops), 3 `pisiyor` (no input, runs), 4 `hazir` (only `o0`, stops) then `tabak` (only `t0`, runs; `birak` refused so the skewer stays in hand), 5 `misafir` (only `t0` and `m0`, stops), 6 `para` (only `p0`, stops), then `ikinci` (free play, runs) until the second guest sits, 7 `eslikci` (`domates`, `t0`, `t1`; stops) until a tomato lands on a plate, then `bitti`.
+Step table (spec §7): 1 `fis` (Tamam, clock stops), 2 `raf` (only `ciger`, stops), 3 `pisiyor` (no input, runs), 4 `hazir` (only `o0`, stops) then `tabak` (only `t0`, runs; `birak` refused so the skewer stays in hand), 5 `misafir` (only `t0` and `m0`, stops), 6 `para` (only `p0`, stops), then `ikinci` (free play, runs) until guest number 1 sits (guest 0 has left by then, so guest 1 usually sits in place 0: the trigger is the guest's `no`, not the place), 7 `eslikci` (`domates`, `t0`, `t1`, and `birak`, `cop`, `m0`, `m1` so a plate held when the step opens can be put down, binned or delivered; stops) until a tomato lands on a plate, then `bitti`.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -2524,15 +2560,30 @@ test('rehber_ikinciMisafirOturunca_eslikciAdimi_domatesTabagaInincebiter', () =>
   assert.equal(r.adim, 'ikinci')
   r = dokunup(r, oyun, 'ciger')
   assert.equal(r.adim, 'ikinci')
-  while (!oyun.misafirler[1]) r = akit(r, oyun, 1)
+  while (r.adim === 'ikinci') r = akit(r, oyun, 1)
   assert.equal(r.adim, 'eslikci')
+  assert.equal(oyun.misafirler[0]?.misafir.no, 1)
   assert.ok(rehberDurdurur(r))
-  assert.deepEqual(izinliler(r), ['domates', 't0', 't1'])
+  assert.deepEqual(izinliler(r), ['domates', 't0', 't1', 'm0', 'm1', 'cop', 'birak'])
   r = dokunup(r, oyun, 'domates')
   assert.equal(r.adim, 'eslikci')
   r = dokunup(r, oyun, 't1')
   assert.equal(r.adim, 'bitti')
   assert.deepEqual(izinliler(r), HEDEFLER)
+})
+
+test('rehber_eslikciAdiminda_eldekiTabak_birakilirYaDaCopeGider', () => {
+  const oyun = yeniOyun(1)
+  let r: Rehber = { adim: 'ikinci' }
+  oyun.tabaklar[1] = [{ urun: 'ciger', kalite: 'iyi' }]
+  dokun(oyun, 't1')
+  assert.equal(oyun.el?.tur, 'tabak')
+  while (r.adim === 'ikinci') r = akit(r, oyun, 1)
+  assert.equal(r.adim, 'eslikci')
+  assert.ok(rehberIzni(r, 'birak') && rehberIzni(r, 'cop'))
+  r = dokunup(r, oyun, 'birak')
+  assert.equal(oyun.el, null)
+  assert.equal(r.adim, 'eslikci')
 })
 
 test('rehber_atla_herAdimdaBitirir_degismeyenNesneAyniKalir_geceBittiyseBiter', () => {
@@ -2571,7 +2622,8 @@ const IZIN: Readonly<Partial<Record<RehberAdimi, readonly Hedef[]>>> = {
   tabak: ['t0'],
   misafir: ['t0', 'm0'],
   para: ['p0'],
-  eslikci: ['domates', 't0', 't1'],
+  // Adım açılırken elde tabak olabilir: bırakma, çöp ve teslim de geçer, yoksa adım kilitlenir.
+  eslikci: ['domates', 't0', 't1', 'm0', 'm1', 'cop', 'birak'],
 }
 
 const DURAN: ReadonlySet<RehberAdimi> = new Set(['fis', 'raf', 'hazir', 'misafir', 'para', 'eslikci'])
@@ -2610,7 +2662,7 @@ function sonraki(r: Rehber, oyun: Oyun, olaylar: readonly Olay[]): RehberAdimi {
     case 'para':
       return var_(olaylar, 'bahsisAlindi') ? 'ikinci' : 'para'
     case 'ikinci':
-      return oyun.misafirler[1] ? 'eslikci' : 'ikinci'
+      return oyun.misafirler.some((m) => m?.misafir.no === 1) ? 'eslikci' : 'ikinci'
     case 'eslikci':
       return olaylar.some((o) => o.tur === 'tabagaKondu' && o.kalem.urun === 'domates') ? 'bitti' : 'eslikci'
     default:
@@ -2693,17 +2745,19 @@ git commit -m "Add the guided-round state machine for the plate flow"
     fis: 'Misafir ciğer istiyor',
     raf: 'Ciğer şişini ocağa koy',
     pisiyor: 'Şiş pişiyor, altın olunca tut',
-    hazir: 'Şişi tabağa sürükle',
-    tabak: 'Şişi tabağa sürükle',
-    misafir: 'Tabağı misafire götür',
+    hazir: 'Şişe dokun, sonra tabağa',
+    tabak: 'Şişe dokun, sonra tabağa',
+    misafir: 'Tabağa dokun, sonra misafire',
     para: 'Bahşişi al',
-    eslikci: 'Domatesi de tabağa koy',
+    eslikci: 'Domatese dokun, sonra tabağa',
     tamam: 'Tamam',
     atla: 'Atla',
   },
 ```
 
-`content/en/oyun.ts`, same keys: `tabak: 'Plate'`, `kase: 'Bowl'`, `cop: 'Bin'`, `misafir: 'Guest'`, `bosYer: 'empty seat'`, `bahsis: 'Tip'`, `durum: { pisiyor: 'cooking', hazir: 'ready', elde: 'in hand', bos: 'empty', odedi: 'paid', istiyor: 'wants {fis}', sabir: 'patience {yuzde} percent', ve: ' and ' }`, `ucMisafirKalkti: 'three guests walked out'`, `duyuru: { sonSaat: 'Last hour', misafirKalkti: 'A guest walked out', teslim: 'Guest {no} paid, +{puan}', bahsis: 'Tip +{puan}', yanlisTabak: 'Plate does not match the ticket', sisYandi: 'Skewer burnt', paraSoldu: 'Tip gone', tabagaKondu: 'On the plate', elde: '{urun} in hand' }`, `ozet: { misafir: 'guests', sis: 'skewers', tamKivam: 'just right', enUzunKombo: 'longest combo', bahsis: 'tips' }`, `rehber: { fis: 'The guest wants liver', raf: 'Tap Ciğer to start grilling', pisiyor: 'Wait until it turns golden', hazir: 'Drag the skewer to the plate', tabak: 'Drag the skewer to the plate', misafir: 'Drag the plate to the guest', para: 'Tap the tip', eslikci: 'Add the tomato too', tamam: 'Got It', atla: 'Skip' }`.
+These are the tap-mode sentences (owner's delegate, spec §13: taps ship first). Task 14 replaces `hazir`, `tabak`, `misafir`, `eslikci` with the drag wording from spec §7: TR `'Şişi tabağa sürükle'`, `'Şişi tabağa sürükle'`, `'Tabağı misafire götür'`, `'Domatesi de tabağa koy'`; EN `'Drag the skewer to the plate'`, `'Drag the skewer to the plate'`, `'Drag the plate to the guest'`, `'Add the tomato too'`.
+
+`content/en/oyun.ts`, same keys: `tabak: 'Plate'`, `kase: 'Bowl'`, `cop: 'Bin'`, `misafir: 'Guest'`, `bosYer: 'empty seat'`, `bahsis: 'Tip'`, `durum: { pisiyor: 'cooking', hazir: 'ready', elde: 'in hand', bos: 'empty', odedi: 'paid', istiyor: 'wants {fis}', sabir: 'patience {yuzde} percent', ve: ' and ' }`, `ucMisafirKalkti: 'three guests walked out'`, `duyuru: { sonSaat: 'Last hour', misafirKalkti: 'A guest walked out', teslim: 'Guest {no} paid, +{puan}', bahsis: 'Tip +{puan}', yanlisTabak: 'Plate does not match the ticket', sisYandi: 'Skewer burnt', paraSoldu: 'Tip gone', tabagaKondu: 'On the plate', elde: '{urun} in hand' }`, `ozet: { misafir: 'guests', sis: 'skewers', tamKivam: 'just right', enUzunKombo: 'longest combo', bahsis: 'tips' }`, `rehber: { fis: 'The guest wants liver', raf: 'Tap Ciğer to start grilling', pisiyor: 'Wait until it turns golden', hazir: 'Tap the skewer, then the plate', tabak: 'Tap the skewer, then the plate', misafir: 'Tap the plate, then the guest', para: 'Tap the tip', eslikci: 'Tap the tomato, then the plate', tamam: 'Got It', atla: 'Skip' }` (each at most six words).
 
 Side-dish names come from the menu: `ad('domates')` reads `s.menu.ikramlar.ogeler.domates`, `ad('sogan')` reads `s.menu.ikramlar.ogeler.sumakli`.
 
@@ -3504,12 +3558,12 @@ type Props = {
 `Perde` and `Zemin` stay as they are. The body:
 
 ```tsx
-/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. */
-export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
+/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. `rehberli` Görev 11'de bağlanır. */
+export function Saha({ dil, tohum, bitince, cik }: Props) {
   const s = sozluk(dil)
   const ad = (k: Kalem): string => kalemAdi(s, k)
   const kok = useRef<HTMLDivElement>(null)
-  const { goruntu, duraklatildi, duraklat, devam, azalt, ses } = useOyunAlani({ kok, tohum, rehberli, metin: s.oyun, ad, bitince })
+  const { goruntu, duraklatildi, duraklat, devam, azalt, ses } = useOyunAlani({ kok, tohum, metin: s.oyun, ad, bitince })
   useEgim(kok, azalt)
   const serit = { goruntu, ad, metin: s.oyun }
   return (
@@ -3534,9 +3588,9 @@ function kalemAdi(s: Sozluk, k: Kalem): string {
 }
 ```
 
-(Task 11 adds the `Rehber` overlay line; `useOyunAlani`'s new signature is Task 10.)
+(Task 10 defines this `useOyunAlani` signature; Task 11 destructures `rehberli`, passes it on and adds the `Rehber` overlay line.)
 
-`components/oyun/Saha.module.css`: header comment "Dikey akış HUD, Misafir, Ocak (esner), Tabak, Raf"; `.saha` gets `touch-action: none` instead of `manipulation` (pointer drags must not scroll); entrance delays cover four strips (`nth-of-type(2..5)` at 80/160/240/320 ms); delete `.ipucu`, `.saha [data-ipucu] .ipucu`, `@keyframes nabiz`; add:
+`components/oyun/Saha.module.css`: header comment "Dikey akış HUD, Misafir, Ocak (esner), Tabak, Raf"; `.saha` gets `touch-action: none` instead of `manipulation` (pointer drags must not scroll) plus `-webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;` (long-press on a skewer must not open the iOS callout); `.ocak` becomes `flex: 1 1 auto; min-height: 96px` so the fire gives way on short viewports (the rack must stay above the fold on a 390×664 Safari viewport; measured in Task 15); entrance delays cover four strips (`nth-of-type(2..5)` at 80/160/240/320 ms); delete `.ipucu`, `.saha [data-ipucu] .ipucu`, `@keyframes nabiz`; add:
 
 ```css
 /* Yalnız ekran okuyucuya: düğme adlarının parçaları. */
@@ -3562,7 +3616,7 @@ Expected: no output (verify each remaining line with `grep -rn "\.$c" components
 - [ ] **Step 5: Checks and commit**
 
 Run: `node --test components/oyun/SahneDefs.test.ts styles/animasyon.test.ts styles/palet.test.ts`
-Expected: PASS. `npx tsc --noEmit -p . 2>&1 | grep '^components/oyun'` lists only `Saha.tsx`, `useOyunAlani.ts`, `useOyunDongusu.ts`, `ciz.ts`, `tepkiler.ts`, `OyunSayfasi.tsx`, `useOyunAkisi.ts`, `SonucEkrani.tsx` (Tasks 10, 11, 14).
+Expected: PASS. `npx tsc --noEmit -p . 2>&1 | grep '^components/oyun'` lists only `Saha.tsx`, `useOyunAlani.ts`, `useOyunDongusu.ts`, `ciz.ts`, `tepkiler.ts`, `OyunSayfasi.tsx`, `useOyunAkisi.ts`, `SonucEkrani.tsx` (Tasks 10, 11, 15).
 
 ```bash
 git add -A components content
@@ -3571,17 +3625,17 @@ git commit -m "Lay out the plate-flow board: guests, fire, plates, rack"
 
 ---
 
-### Task 10: Input and reactions: pointer glue, per-frame writes, reactions, typecheck green
+### Task 10: Input and reactions: taps, flights, per-frame writes, typecheck green
 
 **Files:**
-- Create: `components/oyun/useSurukleme.ts`
+- Create: `components/oyun/useSurukleme.ts` (taps only in this task; Task 14 adds drags)
 - Modify: `components/oyun/ciz.ts`, `tepkiler.ts`, `useOyunAlani.ts`, `useOyunDongusu.ts`, `OyunSayfasi.tsx` (prop rename only), `useOyunAkisi.ts` (`Tur.ipucu` to `Tur.rehberli`, `ilkTurMu` to `rehberGorulduMu`, `ilkTurBitti` call deleted)
 - Test: `npm run typecheck`, `npm test`, `npm run build`, headless `tahta.mjs`
 
 **Interfaces:**
-- Consumes: `surukle`, `eldeKaynagi`, `birakmaHedefiMi` (Task 7), `tusEylemi`, `okAdimi` (Task 6), the DOM contract of Task 9.
-- Produces: `useSurukleme({ kok, elde: () => Hedef | null, dokun: (hedef: Hedef, el: HTMLElement | null) => void, azalt: boolean })`; `useOyunAlani({ kok, tohum, metin, ad, bitince })` returning `{ goruntu, dokun, duraklatildi, duraklat, devam, oyunu, azalt, ses }` (Task 11 adds the `rehberli` option and the `rehber` field). In this task `Saha.tsx` keeps `rehberli` in `Props` but does not destructure it (`function Saha({ dil, tohum, bitince, cik }: Props)`), because a destructured, unused prop fails `noUnusedParameters`; Task 11 wires it.
-- `useOyunDongusu` gains options `durdur: () => boolean` and `izle: (oyun: Oyun, olaylar: readonly Olay[]) => void` and returns `oyunu: () => Oyun` (used by Task 11; Task 10 passes `durdur: () => false` and `izle: () => undefined` from `useOyunAlani`, replaced in Task 11).
+- Consumes: `surukle`, `eldeKaynagi`, `birakmaHedefiMi` (Task 7), `tusEylemi` (Task 6), the DOM contract of Task 9.
+- Produces: `useSurukleme({ kok, elde: () => Hedef | null, dokun: (hedef: Hedef, el: HTMLElement | null) => boolean })` (Task 14 adds `azalt`; listens to `pointerdown`, `pointerup`, `pointercancel`, `lostpointercapture`, `keydown` and `visibilitychange`; no `pointermove`, so a press never becomes a drag until Task 14); `useOyunAlani({ kok, tohum, metin, ad, bitince })` returning `{ goruntu, dokun, duraklatildi, duraklat, devam, oyunu, azalt, ses }` (Task 11 adds the `rehberli` option and the `rehber` field); `useOyunDongusu` gains options `durdur: () => boolean` and `izle: (oyun: Oyun, olaylar: readonly Olay[]) => void` and returns `oyunu: () => Oyun`; `tepkiler.ts` exports `ucus(alan, kaynak: HTMLElement | null, hedef: HTMLElement | null, azalt)`.
+- Boundary: after this task plus Tasks 11 and 12 the game is complete and playable with taps only (tap the skewer, tap the plate; tap the plate, tap the guest), with flight animations showing where the item went.
 
 - [ ] **Step 1: Per-frame writes**
 
@@ -3650,22 +3704,41 @@ export function duyuruYaz(alan: HTMLElement, duyuru: Duyuru | null, metin: Metin
 
 `ocagiCiz` is unchanged.
 
-- [ ] **Step 2: Reactions**
+- [ ] **Step 2: Reactions and the flight**
 
-`components/oyun/tepkiler.ts`: delete `tabaklarIner`, `cevir`, `DONUS`, `servisUcusu`, `porsiyonRozeti`; keep `dokunus`, `parla`, `muhurBas`, `ucanRakam`, `kalkis`, `salla`, `titre`, `sonSaat`, `patlat`, `sars`, `yanik`. Add:
+`components/oyun/tepkiler.ts`: delete `tabaklarIner`, `cevir`, `DONUS`, `servisUcusu`, `porsiyonRozeti`; keep `dokunus`, `parla`, `muhurBas`, `ucanRakam`, `kalkis`, `salla`, `titre`, `sonSaat`, `patlat`, `sars`, `yanik`. Add (imports: `Elde, Olay` from `@/lib/oyun/tipler`, `eldeKaynagi` from `@/lib/oyun/surukle`):
 
 ```ts
-const kaynak = (alan: HTMLElement, el: NonNullable<Olay extends { el: infer E } ? E : never>): HTMLElement | null =>
-  hedef(alan, eldeKaynagi(el) ?? '')
+const kaynak = (alan: HTMLElement, el: Exclude<Elde, null>): HTMLElement | null => hedef(alan, eldeKaynagi(el) ?? '')
 
-/** Sürüklenen öğe 180 ms'de yerine döner; azaltılmışta anlık. `useSurukleme` da bırakışta çağırır. */
-export function yerineDon(tasinan: HTMLElement | null, azalt: boolean): void {
-  if (!tasinan) return
-  const simdiki = tasinan.style.transform
-  tasinan.style.transform = ''
-  tasinan.removeAttribute('data-tasinan')
-  if (azalt || !simdiki) return
-  tasinan.animate([{ transform: simdiki }, { transform: 'none' }], { duration: 180, easing: 'ease-out' })
+/**
+ * Uçuş: kaynaktaki `[data-tasinir]` kopyalanır (React aynı karede aslını değiştirir), köke eklenir,
+ * 220 ms'de hedefin ortasına uçar ve silinir; azaltılmışta anında. Dokun-dokun yolunun "nereye gitti"si.
+ * Sürüklenen öğe uçmaz: `data-suruklendi` köke yazılır ve burada tüketilir (Görev 14).
+ */
+export function ucus(alan: HTMLElement, kaynak: HTMLElement | null, hedef: HTMLElement | null, azalt: boolean): void {
+  const asil = kaynak?.querySelector<HTMLElement>('[data-tasinir]')
+  if (alan.hasAttribute('data-suruklendi')) return alan.removeAttribute('data-suruklendi')
+  if (!asil || !hedef || azalt) return
+  const kopya = asil.cloneNode(true) as HTMLElement
+  kopya.removeAttribute('data-tasinir')
+  kopya.removeAttribute('data-elde')
+  kopya.setAttribute('data-ucus', '')
+  kopya.className = stil.hayalet ?? ''
+  const a = asil.getBoundingClientRect()
+  const b = hedef.getBoundingClientRect()
+  const k = alan.getBoundingClientRect()
+  kopya.style.left = `${a.left - k.left}px`
+  kopya.style.top = `${a.top - k.top}px`
+  kopya.style.width = `${a.width}px`
+  kopya.style.height = `${a.height}px`
+  alan.append(kopya)
+  const dx = b.left + b.width / 2 - a.left - a.width / 2
+  const dy = b.top + b.height / 2 - a.top - a.height / 2
+  const kaldir = () => kopya.remove()
+  kopya
+    .animate([{ transform: 'translate(0, 0)' }, { transform: `translate(${dx}px, ${dy}px) scale(0.9)`, opacity: 0.6 }], { duration: 220, easing: EGRI })
+    .finished.then(kaldir, kaldir)
 }
 
 /** Para belirir: zıplayarak; azaltılmışta yalnız opaklık. */
@@ -3675,14 +3748,6 @@ function paraBelir(para: HTMLElement | null, azalt: boolean): void {
     ? opaklik(0, 1)
     : [{ opacity: 0, transform: 'translateY(-14px) scale(1.3)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }]
   para.animate(kareler, { duration: 260, easing: EGRI })
-}
-
-/** Düşen şiş: öğe sönerek iner; azaltılmışta yalnız opaklık. */
-function duser(el: HTMLElement | null, azalt: boolean): void {
-  el?.querySelector<HTMLElement>('[data-tasinir]')?.animate(
-    azalt ? opaklik(1, 0) : [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(18px)' }],
-    { duration: 220, easing: 'ease-in' },
-  )
 }
 
 function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
@@ -3696,6 +3761,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       return titre()
     }
     case 'tabagaKondu':
+      ucus(alan, kaynak(alan, olay.el), hedef(alan, `t${olay.no}`), azalt)
       return parla(hedef(alan, `t${olay.no}`), stil.iyi)
     case 'tabakDolu':
       return salla(hedef(alan, `t${olay.no}`), azalt)
@@ -3704,6 +3770,7 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
     case 'sisYandi':
       return yanik(hedef(alan, `o${olay.yuva}`))
     case 'teslim':
+      ucus(alan, hedef(alan, `t${olay.no}`), hedef(alan, `m${olay.yer}`), azalt)
       parla(hedef(alan, `m${olay.yer}`), stil.odedi)
       patlat(hedef(alan, `m${olay.yer}`), azalt)
       return ucanRakam(hedef(alan, `m${olay.yer}`), `+${olay.hesap}`, azalt)
@@ -3713,9 +3780,8 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
       return paraBelir(hedef(alan, `p${olay.yer}`), azalt)
     case 'bahsisAlindi':
       return ucanRakam(hedef(alan, `p${olay.yer}`), `+${olay.tutar}`, azalt)
-    case 'birakildi':
-      return olay.el.tur === 'sis' ? duser(kaynak(alan, olay.el), azalt) : undefined
     case 'copeGitti':
+      ucus(alan, kaynak(alan, olay.el), hedef(alan, 'cop'), azalt)
       return salla(hedef(alan, 'cop'), azalt)
     case 'misafirKalkti':
       return olay.odedi ? undefined : kalkis(hedef(alan, `m${olay.yer}`))
@@ -3729,51 +3795,42 @@ function olayaTepki(alan: HTMLElement, olay: Olay, azalt: boolean): void {
 }
 ```
 
-(`kaynak`'s parameter type: write it simply as `el: Exclude<Elde, null>` with `Elde` imported from `@/lib/oyun/tipler` and `eldeKaynagi` from `@/lib/oyun/surukle`.) `paraDustu` fires on React's old DOM: the coin button already exists (always rendered, `data-bos` toggles visibility), so the animation lands. Fix the header comment: "hedef öğeler hep DOM'da durur (paralar gizli bekler, yanık şiş, rozetler)".
+`Saha.module.css` `.hayalet` becomes `position: absolute; z-index: 6; pointer-events: none; line-height: 0;` (it was `fixed` for the old counter flight; the clone is positioned inside the root). `paraDustu` fires on React's old DOM: the coin button already exists (always rendered, `data-bos` toggles visibility), so the animation lands. Fix the header comment: "hedef öğeler hep DOM'da durur (paralar gizli bekler, yanık şiş, rozetler); uçuş kopya üstünde oynar".
 
-- [ ] **Step 3: Pointer and keyboard glue**
+- [ ] **Step 3: Tap and keyboard glue**
 
 `components/oyun/useSurukleme.ts`:
 
 ```ts
 import { useEffect, useEffectEvent, type RefObject } from 'react'
 import { tusEylemi } from '@/lib/oyun/klavye'
-import { birakmaHedefiMi, surukle, type Isaret, type Surukleme } from '@/lib/oyun/surukle'
+import { surukle, type Isaret, type Surukleme } from '@/lib/oyun/surukle'
 import type { Hedef } from '@/lib/oyun/tipler'
-import { yerineDon } from './tepkiler'
 
 type Secenek = {
   kok: RefObject<HTMLElement | null>
-  /** Simülasyonun elindeki öğenin kaynağı; sürüklenen öğe `[data-hedef=kaynak] [data-tasinir]`. */
+  /** Simülasyonun elindeki öğenin kaynağı (`eldeKaynagi`). */
   elde: () => Hedef | null
-  dokun: (hedef: Hedef, el: HTMLElement | null) => void
+  /** Girdiyi sıraya alır; rehber reddettiyse false. */
+  dokun: (hedef: Hedef, el: HTMLElement | null) => boolean
   azalt: boolean
 }
 
-function hedefBul(x: number, y: number): HTMLElement | null {
+export function hedefBul(x: number, y: number): HTMLElement | null {
   return document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-hedef]') ?? null
 }
 
-const hedefi = (el: HTMLElement | null): Hedef | null => (el?.dataset.hedef as Hedef | undefined) ?? null
+export const hedefi = (el: HTMLElement | null): Hedef | null => (el?.dataset.hedef as Hedef | undefined) ?? null
 
 /**
- * İşaretçi ve klavye `surukle` makinesinden geçer (spec tabak §3); DOM burada yalnız taşır, geçerli
- * hedefi vurgular, bırakışta yerine döndürür. Tek parmak: makine ilk `pointerId`yi kilitler.
+ * Dokunuşlar ve klavye `surukle` makinesinden geçer (spec tabak §3). Bu görevde `pointermove` yok:
+ * basış asla sürüklemeye dönmez, her jest dokun-dokun olarak iner; Görev 14 sürüklemeyi ekler.
+ * Kaybolan `pointerup` tahtayı kilitlemesin: `lostpointercapture` ve sekme gizlenmesi iptaldir.
  */
-export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
+export function useSurukleme({ kok, elde, dokun }: Secenek): void {
   const isle = useEffectEvent((isaret: Isaret, el: HTMLElement | null, durum: Surukleme): Surukleme => {
-    const alan = kok.current
-    const kaynak = elde()
-    const sonuc = surukle(durum, isaret, { elde: kaynak })
+    const sonuc = surukle(durum, isaret, { elde: elde() })
     for (const hedef of sonuc.girdiler) dokun(hedef, hedef === 'birak' ? null : el)
-    const tasinan = alan && kaynak ? alan.querySelector<HTMLElement>(`[data-hedef="${kaynak}"] [data-tasinir]`) : null
-    if (sonuc.tasima && tasinan) {
-      tasinan.setAttribute('data-tasinan', '')
-      tasinan.style.transform = `translate(${sonuc.tasima.dx}px, ${sonuc.tasima.dy}px)`
-    } else if (sonuc.durum.tur === 'bos' && tasinan?.hasAttribute('data-tasinan')) {
-      yerineDon(tasinan, azalt)
-    }
-    vurgula(alan, sonuc.durum.tur === 'basili' && sonuc.tasima ? el : null, kaynak)
     return sonuc.durum
   })
 
@@ -3781,22 +3838,24 @@ export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
     const alan = kok.current
     if (!alan) return
     let durum: Surukleme = { tur: 'bos' }
+    const yaz = (isaret: Isaret, el: HTMLElement | null) => {
+      durum = isle(isaret, el, durum)
+    }
     const bas = (e: PointerEvent) => {
+      // HUD ve perde düğmeleri kendi onClick'leriyle çalışır; tutma kilidine girmez.
+      if ((e.target as HTMLElement).closest('button:not([data-hedef])')) return
       if (e.button !== 0 && e.pointerType === 'mouse') return
       alan.setPointerCapture(e.pointerId)
       const el = hedefBul(e.clientX, e.clientY)
-      durum = isle({ tur: 'bas', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el, durum)
-    }
-    const yuru = (e: PointerEvent) => {
-      if (durum.tur !== 'basili') return
-      durum = isle({ tur: 'yuru', id: e.pointerId, x: e.clientX, y: e.clientY }, hedefBul(e.clientX, e.clientY), durum)
+      yaz({ tur: 'bas', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
     }
     const kaldir = (e: PointerEvent) => {
       const el = hedefBul(e.clientX, e.clientY)
-      durum = isle({ tur: 'kaldir', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el, durum)
+      yaz({ tur: 'kaldir', id: e.pointerId, hedef: hedefi(el), x: e.clientX, y: e.clientY }, el)
     }
-    const iptal = (e: PointerEvent) => {
-      durum = isle({ tur: 'iptal', id: e.pointerId }, null, durum)
+    const iptal = (e: PointerEvent) => yaz({ tur: 'iptal', id: e.pointerId }, null)
+    const gizlenince = () => {
+      if (document.hidden && durum.tur === 'basili') yaz({ tur: 'iptal', id: durum.id }, null)
     }
     const tus = (e: KeyboardEvent) => {
       const eylem = tusEylemi(e.key)
@@ -3805,36 +3864,27 @@ export function useSurukleme({ kok, elde, dokun, azalt }: Secenek): void {
       if (eylem === 'dokun' && (!el || !alan.contains(el))) return
       e.preventDefault()
       const hedef = hedefi(el)
-      durum = isle(eylem === 'birak' || !hedef ? { tur: 'birak' } : { tur: 'dokun', hedef }, el, durum)
+      yaz(eylem === 'birak' || !hedef ? { tur: 'birak' } : { tur: 'dokun', hedef }, el)
     }
     alan.addEventListener('pointerdown', bas)
-    alan.addEventListener('pointermove', yuru)
     alan.addEventListener('pointerup', kaldir)
     alan.addEventListener('pointercancel', iptal)
+    alan.addEventListener('lostpointercapture', iptal)
+    document.addEventListener('visibilitychange', gizlenince)
     document.addEventListener('keydown', tus)
     return () => {
       alan.removeEventListener('pointerdown', bas)
-      alan.removeEventListener('pointermove', yuru)
       alan.removeEventListener('pointerup', kaldir)
       alan.removeEventListener('pointercancel', iptal)
+      alan.removeEventListener('lostpointercapture', iptal)
+      document.removeEventListener('visibilitychange', gizlenince)
       document.removeEventListener('keydown', tus)
     }
   }, [kok])
 }
-
-/** Geçerli hedef parmak üstündeyken bakır kenar (`data-ustunde`); başka her şeyden silinir. */
-function vurgula(alan: HTMLElement | null, el: HTMLElement | null, elde: Hedef | null): void {
-  if (!alan) return
-  const hedef = hedefi(el)
-  const gecerli = el && elde && hedef && birakmaHedefiMi(elde, hedef) ? el : null
-  for (const eski of alan.querySelectorAll<HTMLElement>('[data-ustunde]')) if (eski !== gecerli) eski.removeAttribute('data-ustunde')
-  gecerli?.setAttribute('data-ustunde', '')
-}
 ```
 
-Keep `useSurukleme`'s effect under 50 lines by moving the five listener bodies into a `dinleyiciler(alan, isle, oku, yaz)` helper if `wc` says otherwise; the behaviour above is the contract. The slot ring, plate and bowl CSS for `[data-ustunde]` is in Task 9; add the same `::after` rule for `.yuva[data-ustunde]` in `SahneOcak.module.css` only if a slot can be a drop target (it cannot: skip it).
-
-The HUD buttons (pause, sound) and the pause curtain are plain buttons with `onClick`: a pointerdown on them reaches the root listener too, `hedefBul` returns null and, while holding, that counts as `birak`. Stop that: in `bas`, `if ((e.target as HTMLElement).closest('button:not([data-hedef])')) return`.
+`lostpointercapture` fires after every `pointerup` too; the machine is already `bos` then, so the extra `iptal` is a no-op (`surukle` returns `ayni(durum)` for an id that is not held). `azalt` is unused in this task: leave it out of the destructuring and the `Secenek` type until Task 14 adds it (an unused option fails `noUnusedParameters`).
 
 - [ ] **Step 4: Loop and alan hooks**
 
@@ -3851,7 +3901,7 @@ The HUD buttons (pause, sound) and the pause curtain are plain buttons with `onC
       kareSonu(olaylar, adim)
 ```
 
-and in `kareSonu` call `izleyici(canli.oyun, olaylar)` first. A paused guide step runs exactly one tick when an input is queued (so the input takes effect) and otherwise freezes time, discarding the accumulated frame time. Return `oyunu: () => canli.oyun` alongside the rest.
+and in `kareSonu` call `izleyici(canli.oyun, olaylar)` first. A paused guide step runs exactly one tick when an input is queued (so the input takes effect) and otherwise freezes time, discarding the accumulated frame time. Return `oyunu: () => canli.oyun` alongside the rest. Nothing here mutates `canli.oyun` outside `canliAdim`.
 
 `components/oyun/useOyunAlani.ts`:
 
@@ -3900,13 +3950,14 @@ export function useOyunAlani({ kok, tohum, metin, ad, bitince }: Secenek) {
   }
   const dongu = useOyunDongusu({ tohum, ciz, tepki, bitince, durdur: () => false, izle: () => undefined })
 
-  /** Girdi: simülasyona sıraya girer, hedefte anlık dolgu. */
-  const dokun = (hedef: Hedef, el: HTMLElement | null) => {
+  /** Girdi: simülasyona sıraya girer, hedefte anlık dolgu. Rehber (Görev 11) burada süzer. */
+  const dokun = (hedef: Hedef, el: HTMLElement | null): boolean => {
     ses.uyandir()
     dongu.dokun(hedef)
     dokunus(el, azalt)
+    return true
   }
-  useSurukleme({ kok, elde: () => eldeKaynagi(dongu.oyunu().el), dokun, azalt })
+  useSurukleme({ kok, elde: () => eldeKaynagi(dongu.oyunu().el), dokun })
 
   useEffect(() => {
     if (kok.current) seritleriDuzenle(kok.current)
@@ -3916,20 +3967,20 @@ export function useOyunAlani({ kok, tohum, metin, ad, bitince }: Secenek) {
 }
 ```
 
-`useOyunAkisi.ts`: `Tur = { tohum; turId; rehberli: boolean }` with `rehberli: !rehberGorulduMu()` in `jetonIste`; delete the `ilkTurBitti()` call in `bitir` and both old imports. `OyunSayfasi.tsx`: `<Saha dil={dil} tohum={tur.tohum} rehberli={tur.rehberli} … />`. `Saha.tsx` (from Task 9) does not destructure `rehberli` yet.
+`useOyunAkisi.ts`: `Tur = { tohum; turId; rehberli: boolean }` with `rehberli: !rehberGorulduMu()` in `jetonIste`; delete the `ilkTurBitti()` call in `bitir` and both old imports. `OyunSayfasi.tsx`: `<Saha dil={dil} tohum={tur.tohum} rehberli={tur.rehberli} … />`. `Saha.tsx` (from Task 9) declares `rehberli` in `Props` and does not destructure it; Task 11 wires it.
 
 - [ ] **Step 5: Typecheck, tests, build**
 
 Run: `npm run typecheck && npm test && npm run build`
-Expected: all three PASS; typecheck is green for the first time since Task 1. Fix every error it names (unused imports, removed props). Then `node --test components/oyun/SahneDefs.test.ts` is already in `npm test`; the `grep -rn "url(#"` sweep from Task 9 is repeated once here.
+Expected: all three PASS; typecheck is green for the first time since Task 1. Fix every error it names (unused imports, removed props). Repeat the `url(#…)` sweep from Task 9 once.
 
-- [ ] **Step 6: Headless smoke with a real drag**
+- [ ] **Step 6: Headless smoke, tap-tap**
 
 ```bash
 mkdir -p /tmp/bozo-oyun/sade && npm run build && (python3 -m http.server 8412 --directory "$PWD/out" >/tmp/bozo-oyun/sade/serve.log 2>&1 &)
 ```
 
-`/tmp/bozo-oyun/sade/ortak.mjs` (shared helpers):
+`/tmp/bozo-oyun/sade/ortak.mjs` (shared helpers; Task 14 adds `surukle`):
 
 ```js
 import { chromium } from '/Users/mk/.npm/_npx/db89d7302a373f10/node_modules/playwright/index.mjs'
@@ -3949,18 +4000,11 @@ export async function ac({ en = 390, boy = 844, azalt = false, rehberGoruldu = t
   return { tarayici, sayfa, hatalar }
 }
 
-/** Gerçek işaretçi sürüklemesi: down, altı adımda move, up (spec tabak §10). */
-export async function surukle(sayfa, kaynak, hedef) {
-  const a = await sayfa.locator(kaynak).boundingBox()
-  const b = await sayfa.locator(hedef).boundingBox()
-  const [ax, ay, bx, by] = [a.x + a.width / 2, a.y + a.height / 2, b.x + b.width / 2, b.y + b.height / 2]
-  await sayfa.mouse.move(ax, ay)
-  await sayfa.mouse.down()
-  for (let i = 1; i <= 6; i++) await sayfa.mouse.move(ax + ((bx - ax) * i) / 6, ay + ((by - ay) * i) / 6)
-  await sayfa.mouse.up()
+/** Dokunuş; simülasyon girdiyi bir sonraki tikte işler, aynı tikte aynı hedef düşer: 40 ms bekle. */
+export async function dokun(sayfa, hedef) {
+  await sayfa.locator(`[data-hedef="${hedef}"]`).click()
+  await sayfa.waitForTimeout(40)
 }
-
-export const dokun = (sayfa, hedef) => sayfa.locator(`[data-hedef="${hedef}"]`).click()
 export const puan = (sayfa) => sayfa.evaluate(() => Number(document.querySelector('[data-ciz="puan"]')?.textContent))
 export const bekleGorunum = (sayfa, yuva, gorunum) =>
   sayfa.waitForFunction(([y, g]) => document.querySelector(`[data-hedef="o${y}"]`)?.dataset.gorunum === g, [yuva, gorunum], { timeout: 15000 })
@@ -3969,7 +4013,7 @@ export const bekleGorunum = (sayfa, yuva, gorunum) =>
 `/tmp/bozo-oyun/sade/tahta.mjs`:
 
 ```js
-import { ac, bekleGorunum, dokun, puan, surukle } from './ortak.mjs'
+import { ac, bekleGorunum, dokun, puan } from './ortak.mjs'
 
 const { tarayici, sayfa, hatalar } = await ac()
 const sayim = await sayfa.evaluate(() => ({
@@ -3978,33 +4022,38 @@ const sayim = await sayfa.evaluate(() => ({
   eski: document.querySelectorAll('[data-tezgah], [data-hedef="ayran"], [data-hedef^="s"]').length,
   kucuk: [...document.querySelectorAll('[data-hedef]:not([data-bos])')].filter((b) => { const r = b.getBoundingClientRect(); return r.width < 44 || r.height < 44 }).length,
 }))
-// 3 raf (1 açık) + 4 yuva (3 açık) + 2 kase (1 açık) + 2 tabak + 1 çöp + 3 misafir (2 açık) + 3 para
-if (sayim.hedef !== 12 || sayim.tasinir !== 4 || sayim.eski || sayim.kucuk) throw new Error(JSON.stringify(sayim))
+// 1 raf + 3 yuva + 1 kase + 2 tabak + 1 çöp + 2 misafir + 3 para (paralar hep çizilir) = 13; taşınır: 2 tabak + 1 kase (boş yuvada şiş yok)
+if (sayim.hedef !== 13 || sayim.tasinir !== 3 || sayim.eski || sayim.kucuk) throw new Error(JSON.stringify(sayim))
 await sayfa.waitForSelector('[data-hedef="m0"]:not([data-bos])')
 await dokun(sayfa, 'ciger')
-await bekleGorunum(sayfa, 0, 'hazir')
-await surukle(sayfa, '[data-hedef="o0"]', '[data-hedef="t0"]')
-await sayfa.waitForFunction(() => /ciğer/i.test(document.querySelector('[data-hedef="t0"]')?.getAttribute('aria-label') ?? ''))
-const elde = await sayfa.evaluate(() => document.querySelectorAll('[data-elde]').length)
-await surukle(sayfa, '[data-hedef="t0"]', '[data-hedef="m0"]')
+await bekleGorunum(sayfa, 0, 'kivam')
+await dokun(sayfa, 'o0')
+await sayfa.waitForSelector('[data-hedef="o0"] [data-elde]')
+const eldeAdi = await sayfa.evaluate(() => document.getElementById('oyun-o0-durum')?.textContent)
+await dokun(sayfa, 't0')
+const ucan = await sayfa.evaluate(() => document.querySelectorAll('[data-ucus]').length)
+await sayfa.waitForFunction(() => /ciğer|liver/i.test(document.querySelector('[data-hedef="t0"]')?.getAttribute('aria-label') ?? ''))
+await dokun(sayfa, 't0')
+await sayfa.waitForSelector('[data-hedef="t0"] [data-elde]')
+await dokun(sayfa, 'm0')
 await sayfa.waitForSelector('[data-hedef="p0"]:not([data-bos])')
+const elde = await sayfa.evaluate(() => document.querySelectorAll('[data-elde]').length)
 const once = await puan(sayfa)
 await dokun(sayfa, 'p0')
 await sayfa.waitForFunction((p) => Number(document.querySelector('[data-ciz="puan"]')?.textContent) > p, once)
-const geri = await sayfa.evaluate(() => [...document.querySelectorAll('[data-tasinir]')].every((e) => !e.style.transform && !e.hasAttribute('data-tasinan')))
-console.log({ sayim, elde, once, sonra: await puan(sayfa), geri, hatalar })
+console.log({ sayim, eldeAdi, ucan, elde, once, sonra: await puan(sayfa), hatalar })
 await tarayici.close()
-if (hatalar.length || elde !== 0 || once < 150 || !geri) process.exit(1)
+if (hatalar.length || elde !== 0 || once < 150 || ucan < 1 || !/elde|in hand/i.test(eldeAdi ?? '')) process.exit(1)
 ```
 
 Run: `node /tmp/bozo-oyun/sade/tahta.mjs`
-Expected: exit 0: 12 targets at evre 1, four draggable items, no old counter or ayran nodes, no target under 44 px, the drag puts the skewer on plate 1 (aria label names ciğer), nothing stays "in hand" after the drops, the delivery scores at least 150 and the tip adds to it, every dragged element is back at `transform: ''` with `data-tasinan` removed. Then the tap-tap path: `/tmp/bozo-oyun/sade/dokun.mjs` repeats the same round with `dokun(sayfa, 'o0'); dokun(sayfa, 't0'); dokun(sayfa, 't0'); dokun(sayfa, 'm0')` instead of the two drags, asserting after the first tap that `document.querySelector('[data-hedef="o0"] [data-elde]')` exists (the skewer is in hand, raised), and the same final assertions. Expected: exit 0.
+Expected: exit 0: 13 targets and 3 draggable items at evre 1, no old counter or ayran nodes, no target under 44 px, the tapped skewer shows as in hand (raised, name says so), the second tap puts it on plate 1 with a flight clone in the DOM 40 ms later (`ucan >= 1`; the clone lives 220 ms), the plate tap-tap to the guest scores 150 (taken in the band), nothing stays in hand, the tip adds to the score. Run it again with `ac({ azalt: true })` in a copy named `tahta-azalt.mjs`, dropping the `ucan` check (no flight under reduced motion, the item just appears). Expected: exit 0.
 
 - [ ] **Step 7: Commit**
 
 ```bash
 git add -A components content lib
-git commit -m "Wire pointer drags, tap-tap and per-frame writes into the plate board"
+git commit -m "Wire tap-tap input, flights and per-frame writes into the board"
 ```
 
 ---
@@ -4017,7 +4066,7 @@ git commit -m "Wire pointer drags, tap-tap and per-frame writes into the plate b
 
 **Interfaces:**
 - Consumes: `lib/oyun/rehber.ts` (Task 8), `rehberGoruldu` (`defter.ts`), the DOM contract of Task 9, `useOyunDongusu`'s `durdur`/`izle`/`oyunu` (Task 10), `ElIsareti` (Task 9).
-- Produces: `useRehber(etkin: boolean)` returning `{ durum: Rehber; durdur: () => boolean; izin: (hedef: Hedef) => boolean; izle: (oyun: Oyun, olaylar: readonly Olay[]) => void; tamam: () => void; atla: () => void }`; `useOyunAlani` takes `rehberli: boolean` and returns `rehber` too.
+- Produces: `useRehber(etkin: boolean)` returning `{ durum: Rehber; durdur: () => boolean; izin: (hedef: Hedef) => boolean; izle: (oyun: Oyun, olaylar: readonly Olay[]) => void; tamam: () => void; atla: () => void }`; `useOyunAlani` takes `rehberli: boolean` and returns `rehber` too; `Rehber` props `{ alan; adim; el: Elde; metin; tamam; atla }` (tap mode: one lit target per step, chosen from the hand state; Task 14 adds the source-to-target hand path for drag mode).
 
 - [ ] **Step 1: Hook**
 
@@ -4057,11 +4106,11 @@ export function useRehber(etkin: boolean) {
 }
 ```
 
-`useOyunAlani.ts`: `Secenek` gains `rehberli: boolean`; `const rehber = useRehber(rehberli)`; pass `durdur: rehber.durdur, izle: rehber.izle` to `useOyunDongusu`; `dokun` starts with `if (!rehber.izin(hedef)) return` (a refused `birak` leaves the item in hand: the snap-back already happened in `useSurukleme`, the `data-elde` display stays); return `rehber`. `Saha.tsx` destructures `rehberli`, passes it, and renders after `<Raf />` and before the curtain:
+`useOyunAlani.ts`: `Secenek` gains `rehberli: boolean`; `const rehber = useRehber(rehberli)`; pass `durdur: rehber.durdur, izle: rehber.izle` to `useOyunDongusu`; `dokun` starts with `if (!rehber.izin(hedef)) return false` (the refused input is never queued, so the record and the server replay stay equal; the `data-elde` display stays); return `rehber`. `Saha.tsx` destructures `rehberli`, passes it, and renders after `<Raf />` and before the curtain:
 
 ```tsx
       {rehber.durum.adim !== 'bitti' && rehber.durum.adim !== 'bekle' && rehber.durum.adim !== 'ikinci' && (
-        <Rehber alan={kok} adim={rehber.durum.adim} metin={s.oyun.rehber} azalt={azalt} tamam={rehber.tamam} atla={rehber.atla} />
+        <Rehber alan={kok} adim={rehber.durum.adim} el={goruntu.el} metin={s.oyun.rehber} tamam={rehber.tamam} atla={rehber.atla} />
       )}
 ```
 
@@ -4070,26 +4119,36 @@ export function useRehber(etkin: boolean) {
 `components/oyun/Rehber.tsx`:
 
 ```tsx
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import { useLayoutEffect, useState, type RefObject } from 'react'
 import type { Sozluk } from '@/content'
 import type { RehberAdimi } from '@/lib/oyun/rehber'
+import type { Elde } from '@/lib/oyun/tipler'
 import { ElIsareti } from './Semboller'
 import stil from './Rehber.module.css'
 
 type Metin = Sozluk['oyun']['rehber']
 type Adim = Exclude<RehberAdimi, 'bitti' | 'bekle' | 'ikinci'>
-type Props = { alan: RefObject<HTMLElement | null>; adim: Adim; metin: Metin; azalt: boolean; tamam: () => void; atla: () => void }
+type Props = { alan: RefObject<HTMLElement | null>; adim: Adim; el: Elde; metin: Metin; tamam: () => void; atla: () => void }
 
-/** Adımın kaynağı ve, sürükleme adımlarında, hedefi. */
-const HEDEF: Record<Adim, [string, string | null]> = {
-  fis: ['[data-hedef="m0"]', null],
-  raf: ['[data-hedef="ciger"]', null],
-  pisiyor: ['[data-hedef="o0"]', null],
-  hazir: ['[data-hedef="o0"]', '[data-hedef="t0"]'],
-  tabak: ['[data-hedef="o0"]', '[data-hedef="t0"]'],
-  misafir: ['[data-hedef="t0"]', '[data-hedef="m0"]'],
-  para: ['[data-hedef="p0"]', null],
-  eslikci: ['[data-hedef="domates"]', '[data-hedef="t0"]'],
+/** Dokunma modunda her adımın tek açık hedefi; iki dokunuşlu adımlarda ikincisi el dolunca. */
+function hedefSecici(adim: Adim, el: Elde): string {
+  switch (adim) {
+    case 'fis':
+      return '[data-hedef="m0"]'
+    case 'raf':
+      return '[data-hedef="ciger"]'
+    case 'pisiyor':
+    case 'hazir':
+      return '[data-hedef="o0"]'
+    case 'tabak':
+      return '[data-hedef="t0"]'
+    case 'misafir':
+      return el?.tur === 'tabak' ? '[data-hedef="m0"]' : '[data-hedef="t0"]'
+    case 'para':
+      return '[data-hedef="p0"]'
+    case 'eslikci':
+      return el?.tur === 'eslikci' ? '[data-hedef="t0"]' : '[data-hedef="domates"]'
+  }
 }
 
 type Kutu = { sol: number; ust: number; en: number; boy: number }
@@ -4105,62 +4164,32 @@ function olc(alan: HTMLElement, secici: string | null): Kutu | null {
 
 const merkez = (k: Kutu) => ({ x: k.sol + k.en / 2, y: k.ust + k.boy / 2 })
 
-/** El kaynaktan hedefe 1,2 sn'de yol çizer (WAAPI, sonsuz); azaltılmışta kaynakta durur. */
-function useElYolu(el: RefObject<HTMLElement | null>, kaynak: Kutu | null, hedef: Kutu | null, azalt: boolean): void {
-  useEffect(() => {
-    const dugum = el.current
-    if (!dugum || !kaynak || !hedef || azalt) return
-    const a = merkez(kaynak)
-    const b = merkez(hedef)
-    const anim = dugum.animate(
-      [
-        { transform: 'translate(0, 0)', opacity: 0, offset: 0 },
-        { transform: 'translate(0, 0)', opacity: 1, offset: 0.15 },
-        { transform: `translate(${b.x - a.x}px, ${b.y - a.y}px)`, opacity: 1, offset: 0.85 },
-        { transform: `translate(${b.x - a.x}px, ${b.y - a.y}px)`, opacity: 0, offset: 1 },
-      ],
-      { duration: 1200, iterations: Infinity, easing: 'ease-in-out' },
-    )
-    return () => anim.cancel()
-  }, [el, kaynak, hedef, azalt])
-}
-
 /**
- * Oyun alanının üstünde karartma, açık kaynak (ve hedef), el, tek cümlelik balon, Atla (spec tabak §7).
+ * Oyun alanının üstünde karartma, tek açık hedef, nabız atan el, tek cümlelik balon, Atla (spec tabak §7).
  * Katman tıklamayı yutmaz: yanlış girdiyi `rehberIzni` süzer. Yalnız Tamam ve Atla düğmesi tıklanır.
  */
-export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
-  const [kutular, setKutular] = useState<{ kaynak: Kutu | null; hedef: Kutu | null }>({ kaynak: null, hedef: null })
-  const elRef = useRef<HTMLSpanElement>(null)
+export function Rehber({ alan, adim, el, metin, tamam, atla }: Props) {
+  const [kaynak, setKaynak] = useState<Kutu | null>(null)
+  const secici = hedefSecici(adim, el)
 
   useLayoutEffect(() => {
     const kok = alan.current
     if (!kok) return
-    const [k, h] = HEDEF[adim]
-    const guncelle = () => setKutular({ kaynak: olc(kok, k), hedef: olc(kok, h) })
+    const guncelle = () => setKaynak(olc(kok, secici))
     guncelle()
     const izleyici = new ResizeObserver(guncelle)
     izleyici.observe(kok)
     return () => izleyici.disconnect()
-  }, [alan, adim])
-  useElYolu(elRef, kutular.kaynak, kutular.hedef, azalt)
+  }, [alan, secici])
 
-  const { kaynak, hedef } = kutular
   if (!kaynak) return null
   const altta = kaynak.ust + kaynak.boy / 2 < (alan.current?.clientHeight ?? 0) / 2
   const balon = altta ? { top: kaynak.ust + kaynak.boy + 48 } : { bottom: `calc(100% - ${kaynak.ust}px + 48px)` }
   const a = merkez(kaynak)
-  const b = hedef ? merkez(hedef) : null
   return (
-    <div className={`${stil.rehber} ${stil.rehber}`} data-rehber={adim}>
+    <div className={`${stil.rehber} ${stil.rehber}`} data-rehber={adim} data-hedef-secici={secici}>
       <span className={stil.delik} style={{ left: kaynak.sol, top: kaynak.ust, width: kaynak.en, height: kaynak.boy }} />
-      {hedef && <span className={stil.hedef} style={{ left: hedef.sol, top: hedef.ust, width: hedef.en, height: hedef.boy }} />}
-      {hedef && b && azalt && (
-        <svg className={stil.yol} aria-hidden="true">
-          <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-        </svg>
-      )}
-      <span ref={elRef} className={stil.el} data-nabiz={hedef || azalt ? undefined : ''} style={{ left: a.x, top: a.y }}>
+      <span className={stil.el} data-nabiz style={{ left: a.x, top: a.y }}>
         <ElIsareti boy={36} />
       </span>
       <p className={stil.balon} style={balon} role="status">
@@ -4178,7 +4207,8 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
 `components/oyun/Rehber.module.css`:
 
 ```css
-/* Karartma delik kutusunun gölgesinden gelir; katman tıklamayı yutmaz (`pointer-events: none`). */
+/* Karartma delik kutusunun gölgesinden gelir; katman tıklamayı yutmaz (`pointer-events: none`).
+   Seçici iki kez yazılır: `.saha > *` kuralının (z-index 1, position) özgüllüğünü geçmek için. */
 .rehber.rehber {
   position: absolute;
   inset: 0;
@@ -4194,27 +4224,6 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
   outline: 2px solid var(--bakir-acik);
 }
 
-/* Hedef de açık kalır; karartma deliğin gölgesinden geldiği için hedef kutusu üstten boyanır. */
-.hedef {
-  position: absolute;
-  border-radius: 6px;
-  outline: 2px dashed var(--bakir-acik);
-  background: color-mix(in srgb, var(--zemin) 0%, transparent);
-}
-
-.yol {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.yol line {
-  stroke: var(--bakir-acik);
-  stroke-width: 2;
-  stroke-dasharray: 6 6;
-}
-
 .el {
   position: absolute;
   translate: -50% -20%;
@@ -4223,7 +4232,7 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
 }
 
-/* Dokunma adımlarında el nabız atar; azaltılmışta global kural keser. */
+/* El nabız atar; azaltılmışta global kural keser, el sabit durur. */
 .el[data-nabiz] {
   animation: nabiz 1.1s ease-in-out infinite;
 }
@@ -4276,7 +4285,7 @@ export function Rehber({ alan, adim, metin, azalt, tamam, atla }: Props) {
 }
 ```
 
-The karartma covers the target box too (the dark halo is the source hole's shadow); if the target reads too dark at runtime, replace `.hedef`'s background with a second `box-shadow: inset 0 0 0 100vmax transparent` approach is not possible, so instead render the dim as four `.perde` rects around the two boxes: only do this if the measured contrast of the target is below AA, and record it in `IYILESTIRMELER.md`.
+Tap mode lights one target at a time: in `misafir` the plate until it is in hand, then the guest; in `eslikci` the bowl, then the plate. The `data-hedef-secici` attribute lets the headless script assert which target is lit. Task 14 adds the second (drag target) box and the hand path.
 
 - [ ] **Step 3: Typecheck, tests, build**
 
@@ -4285,10 +4294,10 @@ Expected: PASS.
 
 - [ ] **Step 4: Headless guide runs**
 
-`/tmp/bozo-oyun/sade/rehber.mjs` (fresh storage so the guide shows):
+`/tmp/bozo-oyun/sade/rehber.mjs` (fresh storage so the guide shows; taps only in this task, Task 14 adds the drag variant):
 
 ```js
-import { ac, bekleGorunum, dokun, surukle } from './ortak.mjs'
+import { ac, dokun } from './ortak.mjs'
 
 const azalt = process.argv.includes('--azalt')
 const { tarayici, sayfa, hatalar } = await ac({ azalt, rehberGoruldu: false })
@@ -4297,6 +4306,7 @@ const saat = () => sayfa.evaluate(() => document.querySelector('[data-ciz="saat"
 const bekleAdim = (a) => sayfa.waitForFunction((x) => (document.querySelector('[data-rehber]')?.getAttribute('data-rehber') ?? null) === x, a, { timeout: 20000 })
 const durdu = async (ad) => { const s = await saat(); await sayfa.waitForTimeout(1500); if ((await saat()) !== s) throw new Error(`${ad} adımında saat aktı`) }
 const akti = async (ad) => { const s = await saat(); await sayfa.waitForTimeout(1500); if ((await saat()) === s) throw new Error(`${ad} adımında saat durdu`) }
+const acik = () => sayfa.evaluate(() => document.querySelector('[data-rehber]')?.getAttribute('data-hedef-secici'))
 
 await bekleAdim('fis'); await durdu('fis')
 await dokun(sayfa, 'ciger'); if ((await adim()) !== 'fis') throw new Error('fis adımında raf işledi')
@@ -4305,31 +4315,40 @@ await bekleAdim('raf'); await durdu('raf')
 await dokun(sayfa, 'ciger')
 await bekleAdim('pisiyor'); await akti('pisiyor')
 await bekleAdim('hazir'); await durdu('hazir')
-await surukle(sayfa, '[data-hedef="o0"]', '[data-hedef="t0"]')
+await dokun(sayfa, 'o0')
+await bekleAdim('tabak')
+// Review Focus 5: Esc rehberce reddedilir, şiş elde kalır, adım aynı.
+await sayfa.keyboard.press('Escape')
+await sayfa.waitForTimeout(200)
+if ((await adim()) !== 'tabak' || !(await sayfa.$('[data-hedef="o0"] [data-elde]'))) throw new Error('reddedilen bırakış şişi düşürdü')
+await dokun(sayfa, 't0')
 await bekleAdim('misafir')
 const elde1 = await sayfa.evaluate(() => document.querySelectorAll('[data-elde]').length)
 await durdu('misafir')
-await surukle(sayfa, '[data-hedef="t0"]', '[data-hedef="m0"]')
+if ((await acik()) !== '[data-hedef="t0"]') throw new Error('misafir adımında önce tabak açık olmalı')
+await dokun(sayfa, 't0')
+await sayfa.waitForFunction(() => document.querySelector('[data-rehber]')?.getAttribute('data-hedef-secici') === '[data-hedef="m0"]')
+await dokun(sayfa, 'm0')
 await bekleAdim('para'); await durdu('para')
 await dokun(sayfa, 'p0')
 await sayfa.waitForFunction(() => !document.querySelector('[data-rehber]'), null, { timeout: 5000 })
 await bekleAdim('eslikci'); await durdu('eslikci')
-await surukle(sayfa, '[data-hedef="domates"]', '[data-hedef="t0"]')
+const nabiz = await sayfa.evaluate(() => document.getAnimations().length)
+await dokun(sayfa, 'domates')
+await sayfa.waitForFunction(() => document.querySelector('[data-rehber]')?.getAttribute('data-hedef-secici') === '[data-hedef="t0"]')
+await dokun(sayfa, 't0')
 await sayfa.waitForFunction(() => !document.querySelector('[data-rehber]'), null, { timeout: 5000 })
 await sayfa.waitForTimeout(300)
 const goruldu = await sayfa.evaluate(() => localStorage.getItem('bozo-oyun-rehber-goruldu'))
-const nabiz = await sayfa.evaluate(() => document.getAnimations().length)
 console.log({ azalt, elde1, goruldu, nabiz, hatalar })
 await tarayici.close()
-if (hatalar.length || elde1 !== 0 || goruldu !== '1') process.exit(1)
+if (hatalar.length || elde1 !== 0 || goruldu !== '1' || (azalt ? nabiz !== 0 : nabiz < 1)) process.exit(1)
 ```
 
-Add the Review Focus step between `hazir` and `misafir`: after `bekleAdim('hazir')`, run `await surukle(sayfa, '[data-hedef="o0"]', '[data-ciz="saat"]')` (release on the HUD: no `[data-hedef]` under the finger, so `birak`, which the guide refuses), then assert `(await adim()) === 'tabak'` and `document.querySelector('[data-hedef="o0"] [data-elde]')` exists (the skewer is still in hand, snapped back), then do the real drag to `t0`.
-
 Run: `node /tmp/bozo-oyun/sade/rehber.mjs` and `node /tmp/bozo-oyun/sade/rehber.mjs --azalt`
-Expected: both exit 0: steps in order, clock frozen at `fis`, `raf`, `hazir`, `misafir`, `para`, `eslikci`, flowing at `pisiyor`; the refused drop keeps the skewer in hand; `goruldu` is `'1'`; under `--azalt` the printed `nabiz` count is 0 while a step is shown (take the count inside the `eslikci` step instead of after the overlay closes, where it is always 0, and under `--azalt` expect 0; without `--azalt` expect at least 1).
+Expected: both exit 0: steps in order, clock frozen at `fis`, `raf`, `hazir`, `misafir`, `para`, `eslikci`, flowing at `pisiyor` and `tabak`; the refused Esc keeps the skewer in hand (Review Focus 5); the lit target switches inside the two-tap steps; `goruldu` is `'1'`; the hand pulse count is 0 under `--azalt` (the global CSS rule stops it) and at least 1 otherwise.
 
-`/tmp/bozo-oyun/sade/rehber-dokun.mjs`: the same flow with tap-tap (`dokun o0`, `dokun t0`, `dokun t0`, `dokun m0`, `dokun domates`, `dokun t0`) instead of drags. `/tmp/bozo-oyun/sade/rehber-atla.mjs`: at each of the seven steps in turn (seven fresh contexts, or one context per run with `process.argv[2]` naming the step), click `Atla`, expect `[data-rehber]` gone, the clock flowing within 1.5 s, and storage `'1'`. Expected: exit 0 for all.
+`/tmp/bozo-oyun/sade/rehber-atla.mjs`: at each of the seven steps in turn (seven fresh contexts, or one context per run with `process.argv[2]` naming the step), click `Atla`, expect `[data-rehber]` gone, the clock flowing within 1.5 s, and storage `'1'`. Expected: exit 0 for all.
 
 - [ ] **Step 5: Commit**
 
@@ -4347,7 +4366,7 @@ git commit -m "Teach the plate flow on the game screen with a guided overlay"
 - Test: headless `klavye.mjs`, `axe.mjs`
 
 **Interfaces:**
-- Consumes: `useSurukleme`'s keyboard branch (Task 10), `odak.ts` (Tab between strips, arrows within), the label spans of Task 9.
+- Consumes: `useSurukleme`'s keyboard branch (Task 10), `odak.ts` (Tab between strips, arrows within), the label spans of Task 9. After this task the tap-only game is complete: playable, guided, accessible (the staging boundary).
 
 - [ ] **Step 1: Roving tabindex and hidden coins**
 
@@ -4380,14 +4399,9 @@ await sayfa.keyboard.press(' ')
 await sayfa.waitForSelector('[data-hedef="o0"] [data-elde]')
 if (!/elde|in hand/i.test(await ad('o0'))) throw new Error('elde durumu adda yok')
 await sayfa.keyboard.press('Escape')
-await sayfa.waitForFunction(() => !document.querySelector('[data-elde]'))
-// Şiş düştü (spec: birak); yenisi: raf, bekle, tut, tabağa (Tab ile tabak şeridine), misafire, bahşiş.
-while ((await odak()) !== 'ciger') await sayfa.keyboard.press('Tab')
-await sayfa.keyboard.press('Enter')
-await bekleGorunum(sayfa, 0, 'hazir')
-while ((await odak()) !== 'o0') await sayfa.keyboard.press('Shift+Tab')
-await sayfa.keyboard.press('Enter')
-await sayfa.waitForSelector('[data-elde]')
+await sayfa.waitForTimeout(100)
+// Esc şişi atmaz (spec §13): elde kalır. Tab ile tabak şeridine, ok tuşuyla tabağa, Enter.
+if (!(await sayfa.$('[data-hedef="o0"] [data-elde]'))) throw new Error('Esc şişi düşürdü')
 while ((await odak()) !== 'cop') await sayfa.keyboard.press('Tab')
 await sayfa.keyboard.press('ArrowRight')
 if ((await odak()) !== 't0') throw new Error('ok tuşu tabağa gitmedi')
@@ -4411,7 +4425,7 @@ if (hatalar.length || !duyuru) process.exit(1)
 ```
 
 Run: `node /tmp/bozo-oyun/sade/klavye.mjs`
-Expected: exit 0: Tab reaches the rack, Enter cooks, Space grabs (name says "elde"/"in hand"), Esc drops, the arrow key moves from the bin to plate 1 inside the strip, Enter places and grabs the plate, the guest's name carries the ticket and a patience percentage, Enter delivers, the coin is reachable by Tab once it exists, the live region carries the last announcement. If the misafir name check fails because `Shift+Tab` lands on `m1`, press `ArrowLeft` until `m0`.
+Expected: exit 0: Tab reaches the rack, Enter cooks, Space grabs (name says "elde"/"in hand"), Esc leaves the skewer in hand, the arrow key moves from the bin to plate 1 inside the strip, Enter places and grabs the plate, the guest's name carries the ticket and a patience percentage, Enter delivers, the coin is reachable by Tab once it exists, the live region carries the last announcement. If the misafir name check fails because `Shift+Tab` lands on `m1`, press `ArrowLeft` until `m0`.
 
 - [ ] **Step 3: axe**
 
@@ -4609,7 +4623,7 @@ Expected: PASS.
 
 - [ ] **Step 6: Headless runs with a fake server**
 
-`/tmp/bozo-oyun/sade/ad.mjs` (served `out/` on 8412; three scenarios in fresh contexts; `page.route('**/api.cigercibozo.com/**', …)` fulfils JSON; the guide is pre-marked seen; the round is ended by the idle path: install `page.clock.install()` before `goto` and `await page.clock.fastForward(5000)` in a loop until `[data-ekran="sonuc"]` appears, at most 30 iterations, since the idle night ends at 'ucMisafir' before 02:00):
+`/tmp/bozo-oyun/sade/ad.mjs` (served `out/` on 8412; three scenarios in fresh contexts; `page.route('**/api.cigercibozo.com/**', …)` fulfils JSON; the guide is pre-marked seen; the round is ended by the idle path: install `page.clock.install()` before `goto` and `await page.clock.runFor(5000)` in a loop until `[data-ekran="sonuc"]` appears, at most 30 iterations (`runFor` fires every rAF and timer inside the span; `fastForward` fires each due timer once per call, which is one frame of at most six ticks, and would run out of iterations), since the idle night ends at 'ucMisafir' before 02:00):
 
 1. **Server down** (`route.abort()`): `#giris-takma-ad` is absent; after the round the result text contains `Çevrimdışı tur: sıralamaya girmez.`
 2. **Server up, name typed**: `GET /tablo` returns `{donem:'2026-W41',bitis:'2026-10-12T00:00:00Z',hafta:[],tumZamanlar:[],sonSampiyon:null}`, `POST /tur` returns `{turId:'0123456789abcdef0123456789abcdef',tohum:12345,sonaErme:'2026-10-09T00:15:00Z'}`, `POST /oyuncu` returns `{takmaAd:'Bozo Usta'}`, `POST /tur/*/bitir` returns `{puan:0,ozet:{misafir:0,sis:0,tamKivam:0,enUzunKombo:0,kalkan:3,bahsis:0},bitti:'ucMisafir',tik:4140,hafta:{puan:0,sira:7,ustekiFark:null},buTurEnIyi:true}`. Type `Bozo Usta`, press Oyna, idle to the result; assert the request log has `/oyuncu` then `/tur/…/bitir`, the page shows `Sıralamaya yazıldı: sıra 7`, and no "Bu Skoru Sıralamaya Yaz" button exists.
@@ -4626,7 +4640,219 @@ git commit -m "Add the optional nickname field and auto-submit on the entry scre
 
 ---
 
-### Task 14: Result screen, dead-code sweep, docs, final verification
+### Task 14: The drag layer on top of the tap game
+
+**Files:**
+- Modify: `components/oyun/useSurukleme.ts`, `tepkiler.ts`, `Saha.module.css`, `Rehber.tsx`, `Rehber.module.css`, `content/tr/oyun.ts`, `content/en/oyun.ts`
+- Test: `npm run typecheck`, `npm test`, `npm run build`, headless `tahta-surukle.mjs`, `rehber-surukle.mjs`
+
+**Interfaces:**
+- Consumes: `surukle` (`yuru`, `tasima`), `birakmaHedefiMi`, `eldeKaynagi` (Task 7); `ucus` and `data-suruklendi` (Task 10); `Rehber` props (Task 11).
+- Produces: `useSurukleme` option `azalt: boolean` and the `pointermove` branch; `tepkiler.ts` exports `yerineDon(tasinan: HTMLElement | null, azalt: boolean)`; `Rehber` gains the drag target box and hand path. The simulation and its record format do not change: a drag is still `tut` then a target.
+
+- [ ] **Step 1: Snap-back and the drag branch**
+
+`components/oyun/tepkiler.ts`, add:
+
+```ts
+/** Sürüklenen öğe 180 ms'de yerine döner; azaltılmışta anlık. Yalnız girdi vermeyen ya da reddedilen bırakışta. */
+export function yerineDon(tasinan: HTMLElement | null, azalt: boolean): void {
+  if (!tasinan) return
+  const simdiki = tasinan.style.transform
+  tasinan.style.transform = ''
+  tasinan.removeAttribute('data-tasinan')
+  if (azalt || !simdiki) return
+  tasinan.animate([{ transform: simdiki }, { transform: 'none' }], { duration: 180, easing: 'ease-out' })
+}
+```
+
+`components/oyun/useSurukleme.ts`: `Secenek` gains `azalt: boolean`; `isle` grows the DOM side of the result:
+
+```ts
+  const isle = useEffectEvent((isaret: Isaret, el: HTMLElement | null, durum: Surukleme): Surukleme => {
+    const alan = kok.current
+    const kaynak = elde()
+    const sonuc = surukle(durum, isaret, { elde: kaynak })
+    const kabul = sonuc.girdiler.map((hedef) => dokun(hedef, hedef === 'birak' ? null : el))
+    const tasinan = alan && kaynak ? alan.querySelector<HTMLElement>(`[data-hedef="${kaynak}"] [data-tasinir]`) : null
+    if (sonuc.tasima && tasinan) {
+      tasinan.setAttribute('data-tasinan', '')
+      tasinan.style.transform = `translate(${sonuc.tasima.dx}px, ${sonuc.tasima.dy}px)`
+    } else if (sonuc.durum.tur === 'bos' && tasinan?.hasAttribute('data-tasinan')) {
+      birakisiBitir(alan, tasinan, kabul)
+    }
+    vurgula(alan, sonuc.durum.tur === 'basili' && sonuc.tasima ? el : null, kaynak)
+    return sonuc.durum
+  })
+```
+
+with two helpers below the hook:
+
+```ts
+/**
+ * Bırakış sonu: girdi verilmedi ya da rehber reddetti → öğe yerine süzülür; hedefe bırakıldı → dönüşüm
+ * anında silinir (React öğeyi hedefte çizer; reddederse öğe zaten kaynağında, `salla` oynar) ve uçuş
+ * atlanır (`data-suruklendi`, `ucus` tüketir).
+ */
+function birakisiBitir(alan: HTMLElement | null, tasinan: HTMLElement, kabul: boolean[], azalt: boolean): void {
+  if (kabul.length === 0 || kabul.every((k) => !k)) return yerineDon(tasinan, azalt)
+  tasinan.style.transform = ''
+  tasinan.removeAttribute('data-tasinan')
+  alan?.setAttribute('data-suruklendi', '')
+}
+
+/** Geçerli hedef parmak üstündeyken bakır kenar (`data-ustunde`); başka her şeyden silinir. */
+function vurgula(alan: HTMLElement | null, el: HTMLElement | null, elde: Hedef | null): void {
+  if (!alan) return
+  const hedef = hedefi(el)
+  const gecerli = el && elde && hedef && birakmaHedefiMi(elde, hedef) ? el : null
+  for (const eski of alan.querySelectorAll<HTMLElement>('[data-ustunde]')) if (eski !== gecerli) eski.removeAttribute('data-ustunde')
+  gecerli?.setAttribute('data-ustunde', '')
+}
+```
+
+(pass `azalt` into `birakisiBitir` from the hook's closure.) In the effect add the move listener, throttled to one `elementFromPoint` per frame:
+
+```ts
+    let bekleyenHareket: PointerEvent | null = null
+    const yuru = (e: PointerEvent) => {
+      if (durum.tur !== 'basili' || bekleyenHareket) {
+        bekleyenHareket = bekleyenHareket && e
+        return
+      }
+      bekleyenHareket = e
+      requestAnimationFrame(() => {
+        const son = bekleyenHareket
+        bekleyenHareket = null
+        if (!son || durum.tur !== 'basili') return
+        yaz({ tur: 'yuru', id: son.pointerId, x: son.clientX, y: son.clientY }, hedefBul(son.clientX, son.clientY))
+      })
+    }
+    alan.addEventListener('pointermove', yuru)
+```
+
+(and the matching `removeEventListener`). The `data-suruklendi` flag set by `birakisiBitir` is consumed by `ucus` in the same frame's reactions: a dragged item does not fly; a tapped one does. Also import `yerineDon` from `./tepkiler` and `birakmaHedefiMi` from `@/lib/oyun/surukle`.
+
+- [ ] **Step 2: Stacking**
+
+`components/oyun/Saha.module.css`: each strip is a stacking context (`.saha > * { position: relative; z-index: 1 }`), which traps the dragged item behind the next strip. Add:
+
+```css
+/* Sürüklenen öğenin şeridi üste çıkar; yoksa `[data-tasinan]` komşu şeridin altında kalır. */
+.saha > [data-serit]:has([data-tasinan]) {
+  z-index: 2;
+}
+```
+
+- [ ] **Step 3: Guide in drag mode**
+
+Dictionary: replace the four tap sentences with the drag wording listed in Task 9 (TR `hazir`/`tabak` `'Şişi tabağa sürükle'`, `misafir` `'Tabağı misafire götür'`, `eslikci` `'Domatesi de tabağa koy'`; EN `'Drag the skewer to the plate'`, `'Drag the skewer to the plate'`, `'Drag the plate to the guest'`, `'Add the tomato too'`).
+
+`Rehber.tsx`: `Props` gains `azalt: boolean` (Saha passes `azalt`); `hedefSecici` returns a pair `[kaynak, hedef | null]`: `hazir` and `tabak` `['[data-hedef="o0"]', '[data-hedef="t0"]']`, `misafir` `['[data-hedef="t0"]', '[data-hedef="m0"]']`, `eslikci` `['[data-hedef="domates"]', '[data-hedef="t0"]']`, the rest `[…, null]` (the `el`-dependent switch is no longer needed: both boxes are lit at once; keep the `el` prop out, Saha stops passing it). State becomes `{ kaynak: Kutu | null; hedef: Kutu | null }`, measured with `olc` for both selectors. Add the hand path (WAAPI, reads `azalt` itself):
+
+```tsx
+/** El kaynaktan hedefe 1,2 sn'de yol çizer (sonsuz); azaltılmışta kaynakta durur, bakır kesikli çizgi iner. */
+function useElYolu(el: RefObject<HTMLElement | null>, kaynak: Kutu | null, hedef: Kutu | null, azalt: boolean): void {
+  useEffect(() => {
+    const dugum = el.current
+    if (!dugum || !kaynak || !hedef || azalt) return
+    const a = merkez(kaynak)
+    const b = merkez(hedef)
+    const anim = dugum.animate(
+      [
+        { transform: 'translate(0, 0)', opacity: 0, offset: 0 },
+        { transform: 'translate(0, 0)', opacity: 1, offset: 0.15 },
+        { transform: `translate(${b.x - a.x}px, ${b.y - a.y}px)`, opacity: 1, offset: 0.85 },
+        { transform: `translate(${b.x - a.x}px, ${b.y - a.y}px)`, opacity: 0, offset: 1 },
+      ],
+      { duration: 1200, iterations: Infinity, easing: 'ease-in-out' },
+    )
+    return () => anim.cancel()
+  }, [el, kaynak, hedef, azalt])
+}
+```
+
+and in the JSX, after the `.delik` span:
+
+```tsx
+      {hedef && <span className={stil.hedef} style={{ left: hedef.sol, top: hedef.ust, width: hedef.en, height: hedef.boy }} />}
+      {hedef && azalt && (
+        <svg className={stil.yol} aria-hidden="true">
+          <line x1={a.x} y1={a.y} x2={merkez(hedef).x} y2={merkez(hedef).y} />
+        </svg>
+      )}
+      <span ref={elRef} className={stil.el} data-nabiz={hedef ? undefined : ''} style={{ left: a.x, top: a.y }}>
+```
+
+(`elRef` from `useRef<HTMLSpanElement>(null)`; `data-rehber-hedef` attribute on the root set to the target selector so the headless script can assert it.) `Rehber.module.css` adds:
+
+```css
+/* Sürükleme hedefi de açık: kesikli bakır çerçeve; karartma kaynağın gölgesinden gelir, hedef üstüne çizilir. */
+.hedef {
+  position: absolute;
+  border-radius: 6px;
+  outline: 2px dashed var(--bakir-acik);
+}
+
+.yol {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.yol line {
+  stroke: var(--bakir-acik);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+}
+```
+
+If the target box reads too dark under the karartma at runtime (measured contrast of the plate below AA), render the dim as four rects around the two boxes instead of the hole shadow, and record it in `IYILESTIRMELER.md`.
+
+- [ ] **Step 4: Typecheck, tests, build**
+
+Run: `npm run typecheck && npm test && npm run build`
+Expected: PASS.
+
+- [ ] **Step 5: Headless drag runs**
+
+Add to `/tmp/bozo-oyun/sade/ortak.mjs`:
+
+```js
+/** Gerçek işaretçi sürüklemesi: down, bir tik bekle (tut işlensin), altı adımda 16 ms arayla move, up. */
+export async function surukle(sayfa, kaynak, hedef) {
+  const a = await sayfa.locator(kaynak).boundingBox()
+  const b = await sayfa.locator(hedef).boundingBox()
+  const [ax, ay, bx, by] = [a.x + a.width / 2, a.y + a.height / 2, b.x + b.width / 2, b.y + b.height / 2]
+  await sayfa.mouse.move(ax, ay)
+  await sayfa.mouse.down()
+  await sayfa.waitForTimeout(50)
+  for (let i = 1; i <= 6; i++) {
+    await sayfa.mouse.move(ax + ((bx - ax) * i) / 6, ay + ((by - ay) * i) / 6)
+    await sayfa.waitForTimeout(16)
+  }
+  await sayfa.mouse.up()
+  await sayfa.waitForTimeout(40)
+}
+```
+
+`/tmp/bozo-oyun/sade/tahta-surukle.mjs`: `tahta.mjs` with `surukle(sayfa, '[data-hedef="o0"]', '[data-hedef="t0"]')` in place of the two skewer taps and `surukle(sayfa, '[data-hedef="t0"]', '[data-hedef="m0"]')` in place of the two plate taps; after the first drag assert `document.querySelectorAll('[data-tasinan]').length === 0`, every `[data-tasinir]` has `style.transform === ''`, no `[data-ucus]` clone appears within 100 ms (no flight after a drag), and the `[data-tasinir]` element's own `getAnimations().length === 0` (no snap-back animation after an accepted drop). Then three more checks in the same run: (a) drag the next ready skewer and release on the HUD clock (`[data-ciz="saat"]`): the skewer stays in hand (`[data-hedef="o0"] [data-elde]` exists) and the element is back at its source; (b) while it is in hand, `mouse.down` on `o0`, move 40 px, then `await sayfa.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))` with `document.hidden` stubbed to `true` via `Object.defineProperty` in an `addInitScript`: the pause curtain shows and no `[data-tasinan]` remains; (c) during a drag, `document.elementFromPoint` over the plate reports the plate (not the dragged skewer) and the plate carries `data-ustunde`. Expected: exit 0.
+
+`/tmp/bozo-oyun/sade/rehber-surukle.mjs`: `rehber.mjs` with drags (`surukle o0→t0`, `t0→m0`, `domates→t0`), the Review Focus 5 step as a drag released on the HUD at step `tabak` (expect the step unchanged and the skewer still in hand), and `data-rehber-hedef` asserted to be `'[data-hedef="t0"]'` at `hazir`. Run with and without `--azalt`; under `--azalt` the hand path animation count is 0 and the `.yol` line exists. Expected: exit 0 for all.
+
+Frame time, `/tmp/bozo-oyun/sade/kare.mjs`: open with `ac()`, `const cdp = await sayfa.context().newCDPSession(sayfa); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 })`, start the round, cook one skewer, then during a 2-second slow drag (`mouse.down`, 60 `mouse.move` steps of 2 px with `waitForTimeout(16)`) collect frame durations via a `requestAnimationFrame` loop pushing `performance.now()` deltas into `window.__kareler`; after `mouse.up` compute p95. Expected: p95 ≤ 17.5 ms. If it is above, the suspects are `elementFromPoint` per move (already one per frame) and the `[data-ustunde]` box-shadow; measure again after each change and record both numbers in `IYILESTIRMELER.md`.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add -A components content
+git commit -m "Layer pointer drags on top of the tap-tap plate flow"
+```
+
+---
+
+### Task 15: Result screen, dead-code sweep, docs, final verification
 
 **Files:**
 - Modify: `components/oyun/SonucEkrani.tsx`, `SonucEkrani.module.css`, `docs/specs/2026-10-09-oyun-tabak-akisi-design.md` (status line), `docs/surec/DEVAM.md`, `docs/surec/IYILESTIRMELER.md`, `docs/surec/OYUN-VARLIK-BRIEFI.md`, `CLAUDE.md` (the `lib/oyun/` and `components/oyun` sentences only), `README.md` (only if it describes the old verbs)
@@ -4638,10 +4864,10 @@ git commit -m "Add the optional nickname field and auto-submit on the entry scre
 - [ ] **Step 2: Dead-code sweep**
 
 ```bash
-grep -rnE "tezgah|Tezgah|ayran|cevirme|Cevirme|ipucu|KorNoktasi|sogudu|komboDusur|porsiyon|Porsiyon|sofra|Sofra|kurulu|ilkTur|kisayol|servisEdilenler|ucSofra" lib components content sunucu --include='*.ts' --include='*.tsx' --include='*.css' --include='*.sql' | grep -vE "content/(tr|en)/(menu|ana|ortak|hikaye|gizlilik)\.ts|components/sayfa|components/layout|lib/(site|jsonld|metadata|kabuk)\.ts|sunucu/.*kanal|'sofra'"
+grep -rnE "tezgah|Tezgah|ayran|cevirme|Cevirme|ipucu|KorNoktasi|sogudu|komboDusur|porsiyon|Porsiyon|sofra|Sofra|kurulu|ilkTur|kisayol|servisEdilenler|ucSofra" lib components content sunucu --include='*.ts' --include='*.tsx' --include='*.css' --include='*.sql' | grep -vE "content/(tr|en)/(menu|ana|ortak|hikaye|gizlilik)\.ts|components/sayfa|components/layout|lib/(site|jsonld|metadata|kabuk)\.ts|sunucu/.*kanal|'sofra'|Sofra Yetiştir|sofrada"
 ```
 
-Expected: no hits. Every hit under `lib/oyun`, `components/oyun`, `content/*/oyun.ts`, `sunucu` is dead code or an old name: delete or rename it. (`'sofra'` the QR channel in `aktarim.ts`, `sema.sql` and the server tests is the entry channel, not the table: it stays; the grep excludes it.) Also `SahneTezgah` is a file name the spec keeps; the grep's `Tezgah` hits on that file name are expected: confirm nothing else.
+Expected: no hits. Every hit under `lib/oyun`, `components/oyun`, `content/*/oyun.ts`, `sunucu` is dead code or an old name: delete or rename it. (`'sofra'` the QR channel in `aktarim.ts`, `sema.sql` and the server tests is the entry channel, not the table; `Sofra Yetiştir` is the game's title and `sofrada` sits in the prize copy: all three stay and the grep excludes them.) Also `SahneTezgah` is a file name the spec keeps; the grep's `Tezgah` hits on that file name are expected: confirm nothing else.
 
 Re-run the dead-class check from Task 9 and the `url(#…)` check from Task 10.
 
@@ -4649,7 +4875,7 @@ Re-run the dead-class check from Task 9 and the `url(#…)` check from Task 10.
 
 - Spec status line: "Durum: uygulandı (plan `docs/plans/2026-10-09-oyun-tabak-plani.md`)", and a short note under §5 listing the plan's rulings: intervals fitted to the phases (340/290/245/110 ticks), evre 5 three tickets plus Karışık, 24 guests, idle gate "02:00'den önce", rastgele gate satisfied by construction.
 - `docs/surec/DEVAM.md`: replace the top "Durum" bullet about the game with the plate flow (implemented, not deployed; score server go-live still needs the privacy text TR/EN, infra, DNS, secrets; the nickname field stays hidden live until then), pointers to this plan and spec.
-- `docs/surec/IYILESTIRMELER.md`: confirm the Task 4 and Task 12 entries have their numbers; add the measured target sizes at 320/390 (plates 60/83 wide, bowls 48/56) under the Task 4 heading.
+- `docs/surec/IYILESTIRMELER.md`: confirm the Task 4 and Task 12 entries have their numbers; add the measured target sizes at 320/390 (plates 60/83 wide, bowls 48/56) and the fold measurements from Step 4 under the Task 4 heading; add one paragraph "Son saat kaybedilemez" telling the owner that evre 5 (04:00-05:00, 15 s) cannot end the night by three leavers (patience 16 s is longer than the phase) and is therefore a score sprint, kept on purpose (spec §13).
 - `docs/surec/OYUN-VARLIK-BRIEFI.md`: add rows for the new vector parts the spec names (misafir silueti 3 varyant, fiş balonu, domates ve sumaklı soğan kaseleri ve tabak üstü halleri, bakır kova, bahşiş parası, rehber eli) and strike the churn (12) and cup (4) rows (delete them; the ayran decision is recorded in the sade spec).
 - `CLAUDE.md`: in the `lib/` bullet replace the display-module list with `gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`, `ses`, `tarih`, `surukle` (gesture machine), `rehber` (guided round), and in the `components/` bullet replace "DOM + painted inline SVG … `motion` only for screen transitions" with one sentence that adds "pointer drags reduced to grab/drop inputs by `lib/oyun/surukle.ts`". Do not add a section.
 - `README.md`: only if it lists the old verbs; otherwise untouched.
@@ -4666,9 +4892,7 @@ npm run build
 
 Expected: typecheck clean; tests all pass (count printed, none skipped except the opt-in MariaDB contract); build lists the routes including `/oyun` and `/en/oyun`.
 
-Headless matrix (rebuild and serve on 8412): `tahta.mjs`, `dokun.mjs`, `rehber.mjs` (with and without `--azalt`), `rehber-dokun.mjs`, `rehber-atla.mjs`, `klavye.mjs`, `axe.mjs`, `ad.mjs`, plus `tahta.mjs` at `{ en: 320 }` and `{ en: 1440, boy: 900 }` (the panel is 420 px wide on desktop: assert `document.querySelector('[data-ekran="oyun"]').clientWidth === 420`). Expected: every script exits 0; at 320 the `kucuk` count is 0 (no target under 44 px) and `document.documentElement.scrollWidth <= 320`.
-
-Frame time, `/tmp/bozo-oyun/sade/kare.mjs`: open with `ac()`, `const cdp = await sayfa.context().newCDPSession(sayfa); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 })`, start the round, cook one skewer, then during a 2-second slow drag (`mouse.down`, 60 `mouse.move` steps of 2 px with `waitForTimeout(16)`) collect frame durations via `sayfa.evaluate` of a `requestAnimationFrame` loop pushing `performance.now()` deltas into `window.__kareler`; after `mouse.up` compute p95. Expected: p95 ≤ 17.5 ms. If it is above, the first suspects are `elementFromPoint` per move (throttle `yuru` to one per frame with `rafKisitla` from `lib/hareket.ts`) and the `[data-ustunde]` box-shadow; measure again after each change and record both numbers in `IYILESTIRMELER.md`.
+Headless matrix (rebuild and serve on 8412): `tahta.mjs`, `tahta-azalt.mjs`, `tahta-surukle.mjs`, `rehber.mjs` (with and without `--azalt`), `rehber-surukle.mjs` (both), `rehber-atla.mjs`, `klavye.mjs`, `axe.mjs`, `ad.mjs`, `kare.mjs`, plus `tahta.mjs` at `{ en: 320 }`, `{ en: 390, boy: 664 }` (iPhone Safari with bars), `{ en: 375, boy: 548 }` (SE with bars) and `{ en: 1440, boy: 900 }` (the panel is 420 px wide on desktop: assert `document.querySelector('[data-ekran="oyun"]').clientWidth === 420`). Expected: every script exits 0; at 320 the `kucuk` count is 0 (no target under 44 px) and `document.documentElement.scrollWidth <= 320`; at 390×664 and 375×548 the rack's bottom edge stays inside the viewport: `document.querySelector('[data-hedef="ciger"]').getBoundingClientRect().bottom <= innerHeight` (the fire strip shrinks to its 96 px floor first; if the rack still overflows at 548, reduce the guest strip to 150 and the plate strip to 104 in `Saha.module.css`, re-measure, and record the numbers).
 
 - [ ] **Step 5: Commit**
 
@@ -4683,14 +4907,14 @@ Do not push or deploy: deployment happens when the owner asks (`README.md` > Pub
 
 ## Self-Review
 
-**Spec coverage.** §2 loop and rules (five moves, ticket 1-4 items, Karışık, fire with no turn, hand sealed on take, two always-full plates, four-item limit, exact-set match, wrong plate returns, bin, skewer never straight to a guest, three places and the door, three leavers end the night, paid guest leaves in 30 ticks, tip coin with 8 s fade and merge, score table with no penalties, combo thresholds, night bonus, porsiyon badge gone): Tasks 1-3. §3 drag, tap-tap, keyboard, one finger, hit areas, `elementFromPoint`, `pointer-events: none` on the dragged item, 120 ms copper edge, reduced motion, screen-reader names and live region: Tasks 7, 9, 10, 12. §4 ring, two endings, result summary with `misafir` and `bahsis`: Tasks 3, 9, 14. §5 table, budget, bots and gates: Tasks 1, 4 (with the recorded deviations). §6 screen: Task 9 (sizes measured in Task 14). §7 guide: Tasks 8, 11. §8 determinism, 19 targets, same-tick order, `EN_COK_DOKUNUS` unchanged, `tavan` without porsiyon, `suphe` unchanged, `Ozet.misafir`: Tasks 1, 3, 5. §9 code impact: file structure above; `SahneSofra` replaced by `SahneMisafir`, `Seritler*` by four strips, `surukle.ts`, `rehber.ts`, dictionary keys. §10 verification: unit tests, bot gate, Playwright drags at 390 and 1440, tap-tap, keyboard, reduced motion, axe, overflow and 44 px at 320/390/1440, frame p95 under CPU 4x: Tasks 10-14. §11 out of scope respected. §12 open questions resolved per the spec's own recommendations (two bowls, 8 s fade, hand and balloon only, faceless silhouettes, porsiyon gone). Sade spec: guided principle, nickname (Task 13), score never negative (property test, Task 3), ayran out.
+**Spec coverage.** §2 loop and rules (five moves, ticket 1-4 items, Karışık, fire with no turn, hand sealed on take, two always-full plates, four-item limit, exact-set match, wrong plate returns, bin, skewer never straight to a guest, three places and the door, three leavers end the night, paid guest leaves in 30 ticks, tip coin with 8 s fade and merge, score table with no penalties, combo thresholds, night bonus, porsiyon badge gone): Tasks 1-3. §3 tap-tap and keyboard (Tasks 7, 9, 10, 12) first, drag with one finger, hit areas, `elementFromPoint`, `pointer-events: none` on the dragged item, 120 ms copper edge and snap-back layered on in Task 14; reduced motion, screen-reader names and live region: Tasks 10, 12. §4 ring, two endings, result summary with `misafir` and `bahsis`: Tasks 3, 9, 14. §5 table, budget, bots and gates: Tasks 1, 4 (with the recorded deviations). §6 screen: Task 9 (sizes measured in Task 14). §7 guide: Tasks 8, 11 (tap wording), 14 (drag wording and hand path). §8 determinism, 19 targets, same-tick order, `EN_COK_DOKUNUS` unchanged, `tavan` without porsiyon, `suphe` unchanged, `Ozet.misafir`: Tasks 1, 3, 5. §9 code impact: file structure above; `SahneSofra` replaced by `SahneMisafir`, `Seritler*` by four strips, `surukle.ts`, `rehber.ts`, dictionary keys. §10 verification: unit tests, bot gate, Playwright taps and drags at 390 and 1440, keyboard, reduced motion, axe, overflow and 44 px at 320/390/1440 plus the two short Safari viewports, frame p95 under CPU 4x: Tasks 10-15. §13 rulings (no-op `birak` on a skewer, `Ozet.bahsis`, `suphe` without the ratio rule, çırak bot, staging): Tasks 2, 1, 4, 4, 10/14. §11 out of scope respected. §12 open questions resolved per the spec's own recommendations (two bowls, 8 s fade, hand and balloon only, faceless silhouettes, porsiyon gone). Sade spec: guided principle, nickname (Task 13), score never negative (property test, Task 3), ayran out.
 
-**Placeholder scan.** Values captured from a run: golden records (Task 4), `tavan` golden (Task 5), tuning numbers after the bot loop (Task 4), the measured sizes and frame times (Task 14), each with the command that prints them. `/* printed object */` in Task 4 is the paste point, not a placeholder.
+**Placeholder scan.** Values captured from a run: golden records (Task 4), `tavan` golden (Task 5), tuning numbers after the bot loop (Task 4), the measured sizes, fold and frame times (Tasks 14, 15), each with the command that prints them. `/* printed object */` in Task 4 is the paste point, not a placeholder.
 
-**Type consistency.** `Elde.sis` carries `yuva`; `eldeKaynagi` (Task 7), `SeritOcak` (Task 9), `tepkiler` and `ciz` (Task 10) read it. `tutuldu.el`, `copeGitti.el`, `birakildi.el` are `NonNullable<Elde>` everywhere. `Goruntu.el` is the copied `Elde`; `SeritOcak`/`SeritTabak` read `goruntu.el`. `useOyunDongusu` options `durdur`/`izle` and `oyunu()` are defined in Task 10 and consumed in Task 11. `useOyunAlani`'s signature is `{ kok, tohum, rehberli, metin, ad, bitince }` from Task 11 on (Task 10 without `rehberli`). `Ozet` has six fields in `tipler.ts`, `yeniOyun`, `mariaDepo`, `depoSozlesmesi`, `isler.test`, `ad.mjs`. `Bitis` is `'gece' | 'ucMisafir'` in `tipler.ts`, `sema.sql`, `motor.ts`, `SonucEkrani`. `rehberGorulduMu`/`rehberGoruldu` replace the old pair in `defter.ts` (Task 8), `useOyunAkisi` (Task 10), `useRehber` (Task 11), and the storage key read by every headless script is `bozo-oyun-rehber-goruldu`.
+**Type consistency.** `Elde.sis` carries `yuva`; `eldeKaynagi` (Task 7), `SeritOcak` (Task 9), `tepkiler` and `ciz` (Task 10) read it. `tutuldu.el`, `copeGitti.el`, `birakildi.el` are `NonNullable<Elde>` everywhere. `Goruntu.el` is the copied `Elde`; `SeritOcak`/`SeritTabak` read `goruntu.el`. `useOyunDongusu` options `durdur`/`izle` and `oyunu()` are defined in Task 10 and consumed in Task 11. `useOyunAlani`'s signature is `{ kok, tohum, rehberli, metin, ad, bitince }` from Task 11 on (Task 10 without `rehberli`); `dokun` returns `boolean` from Task 10 (always true) and Task 11 returns the guide's verdict, which Task 14's `birakisiBitir` reads. `tabagaKondu` carries `el` (Task 1) for the flight in Task 10. `Rehber` takes `el` in Task 11 and swaps it for `azalt` in Task 14. `Ozet` has six fields in `tipler.ts`, `yeniOyun`, `mariaDepo`, `depoSozlesmesi`, `isler.test`, `ad.mjs`. `Bitis` is `'gece' | 'ucMisafir'` in `tipler.ts`, `sema.sql`, `motor.ts`, `SonucEkrani`. `rehberGorulduMu`/`rehberGoruldu` replace the old pair in `defter.ts` (Task 8), `useOyunAkisi` (Task 10), `useRehber` (Task 11), and the storage key read by every headless script is `bozo-oyun-rehber-goruldu`.
 
-**Review Focus.** Five lines above, each pinned: Task 2 (`tabak_dorduncudenSonrakiBirakis_eldeKalir`), Task 3 (`para_ayniYereIkinciPara_…`, `misafir_bosYaDaOdemisYereTabak_geriDoner`), Task 7 (`surukle_ikinciParmak_yokSayilir`, `surukle_iptal_birakVerir`, `surukle_yanlisTurHedef_eldeKalir`), Task 8 and Task 11 (`rehber_tabakAdiminda_birakReddedilir_adimTekrarEder` and the refused-drop step in `rehber.mjs`).
+**Review Focus.** Five lines above, each pinned: Task 2 (`tabak_dorduncudenSonrakiBirakis_eldeKalir`), Task 3 (`para_ayniYereIkinciPara_…`, `misafir_bosYaDaOdemisYereTabak_geriDoner`), Task 7 (`surukle_ikinciParmak_yokSayilir`, `surukle_iptal_birakVerir`, `surukle_yanlisTurHedef_eldeKalir`), Task 8 and Tasks 11/14 (`rehber_tabakAdiminda_birakReddedilir_adimTekrarEder`, the refused Esc in `rehber.mjs`, the refused drop in `rehber-surukle.mjs`).
 
 ## Execution
 
-Plan complete and saved to `docs/plans/2026-10-09-oyun-tabak-plani.md`. Recommended execution: **subagent-driven**, because the fourteen tasks hand interfaces across a red window (Tasks 1-10) where a drifted name in one task breaks the next, and a fresh reviewer per task catches that before it compounds; the engine and gesture tasks are small enough for fresh contexts, and a shipped mistake here is a game the owner cannot play on his phone.
+Plan complete and saved to `docs/plans/2026-10-09-oyun-tabak-plani.md`. Recommended execution: **subagent-driven**, because the fifteen tasks hand interfaces across a red window (Tasks 1-10) where a drifted name in one task breaks the next, and a fresh reviewer per task catches that before it compounds; the engine and gesture tasks are small enough for fresh contexts, and a shipped mistake here is a game the owner cannot play on his phone.
