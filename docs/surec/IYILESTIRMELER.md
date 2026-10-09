@@ -2417,3 +2417,14 @@ iki evrede açıldı, sütunun başka yerine dokunulmadı:
   yerine baskı ölçüldü: rastgele ortalaması düzenlininkinin dörtte birinin çok altında.
 - Tam kıvam oranı artık şüphe işareti değil: bant halka olarak görünür, beklemek bedava, dikkatli
   bir insan %100'e varabilir. Yalnız makine düzgünlüğündeki zamanlama işaretlenir.
+
+### Klavye ve ekran okuyucu (tabak akışı, 9 Ekim 2026)
+
+- Tab sırası ölçüldü (390 px, headless): Ses, Duraklat, misafir şeridi (m0), ocak (o0), tabak şeridi
+  (çöp), raf (ciğer). Her şerit tek durak; şerit içinde ok tuşları gezer, boş bahşiş noktaları
+  (`aria-hidden`) durak listesine girmez, para düşünce listeye girer ve ok tuşuyla bulunur.
+- Okunan adlar: `o0` "Ocak 1: Ciğer hazır" (elde iken "Ocak 1: Ciğer elde"), `m0` "Misafir 1: Ciğer
+  istiyor sabır yüzde 100", `t0` "Tabak 1: Ciğer" (boşken "boş", elde iken ", elde"), `p0` "Bahşiş: 200".
+- Enter ve Boşluk odaktakine dokunur, Esc eldekini bırakır; şiş elde kalır (yuvası boşaldı, yemeği
+  yalnız çöp atar). Canlı bölge son duyuruyu taşır.
+- axe-core, oyun ekranı, rehberle (adım `fis`) ve rehbersiz: 0 ihlal.

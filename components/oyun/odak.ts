@@ -6,7 +6,7 @@ import { komsuIndeks, okAdimi } from '@/lib/oyun/klavye'
  * ok tuşları şerit içinde dolaşır. Gezici tabindex: odaktaki düğme 0, diğerleri -1.
  */
 
-const DUGME = 'button:not([disabled])'
+const DUGME = 'button:not([disabled]):not([aria-hidden="true"])'
 
 function dugmeler(serit: HTMLElement): HTMLElement[] {
   return [...serit.querySelectorAll<HTMLElement>(DUGME)]
