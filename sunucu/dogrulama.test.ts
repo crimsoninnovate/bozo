@@ -24,17 +24,18 @@ test('oyuncuIstegiCoz_anahtarHex32_onaySurumu_takmaAdBicimi', () => {
 })
 
 test('girdileriCoz_diziSiniri_ayniTikteAyniHedef_bicim', () => {
-  assert.deepEqual(girdileriCoz({ girdiler: [[0, 's0'], [0, 's1'], [5, 's0']] }), [[0, 's0'], [0, 's1'], [5, 's0']])
+  assert.deepEqual(girdileriCoz({ girdiler: [[0, 'ciger'], [0, 'birak'], [5, 'ciger']] }), [[0, 'ciger'], [0, 'birak'], [5, 'ciger']])
   assert.deepEqual(girdileriCoz({ girdiler: [] }), [])
   assert.throws(() => girdileriCoz({}), hata('girdilerGecersiz'))
-  assert.throws(() => girdileriCoz({ girdiler: Array.from({ length: 1201 }, (_, i) => [i, 's0']) }), hata('cokDokunus'))
-  assert.throws(() => girdileriCoz({ girdiler: [[3, 's0'], [3, 's0']] }), hata('ayniTikteAyniHedef'))
-  assert.throws(() => girdileriCoz({ girdiler: [[3, 's0', 'x']] }), hata('girdilerGecersiz'))
-  assert.throws(() => girdileriCoz({ girdiler: [['3', 's0']] }), hata('girdilerGecersiz'))
+  assert.throws(() => girdileriCoz({ girdiler: Array.from({ length: 1201 }, (_, i) => [i, 'ciger']) }), hata('cokDokunus'))
+  assert.throws(() => girdileriCoz({ girdiler: [[3, 'ciger'], [3, 'ciger']] }), hata('ayniTikteAyniHedef'))
+  assert.doesNotThrow(() => girdileriCoz({ girdiler: [[7, 'o0'], [7, 't0']] }))
+  assert.throws(() => girdileriCoz({ girdiler: [[3, 'ciger', 'x']] }), hata('girdilerGecersiz'))
+  assert.throws(() => girdileriCoz({ girdiler: [['3', 'ciger']] }), hata('girdilerGecersiz'))
   assert.throws(() => girdileriCoz({ girdiler: [null] }), hata('girdilerGecersiz'))
 })
 
 test('girdileriCoz_binIkiYuzDokunus_sinirdaGecer', () => {
-  const girdiler = Array.from({ length: 1200 }, (_, i) => [i, 's0'])
+  const girdiler = Array.from({ length: 1200 }, (_, i) => [i, 'ciger'])
   assert.equal(girdileriCoz({ girdiler }).length, 1200)
 })

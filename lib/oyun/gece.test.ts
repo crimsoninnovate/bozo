@@ -1,7 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { BUTCE, EVRELER, ILK_MISAFIRLER, RAF, TUR_TIK } from './ayar.ts'
+import { ustaOyna } from './deneme.ts'
 import { geceKur } from './gece.ts'
+import { simule } from './motor.ts'
 import type { Misafir, Urun } from './tipler.ts'
 
 const TOHUMLAR = Array.from({ length: 300 }, (_, i) => i * 7919 + 1)
@@ -87,4 +89,56 @@ test('gece_bozoKarisik_cigerDalakYurekVeDomates', () => {
   assert.equal(karisiklar.length, 2)
   for (const m of karisiklar) for (const u of [...RAF, 'domates'] as const) assert.ok(m.fis.includes(u))
   assert.deepEqual(karisiklar.map((m) => m.fis.length), [4, 4])
+})
+
+const ZORLUK_TOHUMLARI = Array.from({ length: 200 }, (_, i) => i * 104729 + 3)
+const oyna = (tohum: number, beceri: Parameters<typeof ustaOyna>[1]) => simule(tohum, ustaOyna(tohum, beceri))
+
+/* Kapı (spec tabak §5): ayar değişikliği kapıyı bozarsa oyun ya yapılamaz ya baskısız olmuştur. */
+test('bot_usta_gecelerinEnAz95iniTamamlar_enYuksekPuan', () => {
+  let tamam = 0
+  let usta = 0
+  let duzenli = 0
+  for (const t of ZORLUK_TOHUMLARI) {
+    const u = oyna(t, 'usta')
+    if (u.bitti === 'gece') tamam++
+    usta += u.puan
+    duzenli += oyna(t, 'duzenli').puan
+  }
+  assert.ok(tamam >= 190, `usta ${tamam}/200 gece tamamladı`)
+  assert.ok(usta > duzenli, 'usta düzenliden fazla puan almalı')
+})
+
+test('bot_duzenli_gecelerinEnAz70iniTamamlar', () => {
+  const tamam = ZORLUK_TOHUMLARI.filter((t) => oyna(t, 'duzenli').bitti === 'gece').length
+  assert.ok(tamam >= 140, `düzenli ${tamam}/200 gece tamamladı`)
+})
+
+test('bot_cirak_gecelerinEnAz50siniTamamlar', () => {
+  const tamam = ZORLUK_TOHUMLARI.filter((t) => oyna(t, 'cirak').bitti === 'gece').length
+  assert.ok(tamam >= 100, `çırak ${tamam}/200 gece tamamladı`)
+})
+
+/* Spec'in "evre 2'yi geçer" kapısı yapı gereği sağlanır (ilk misafir tükenmez, ikinci 2820'den önce kalkamaz); yerine baskı ölçülür. */
+test('bot_rastgele_gecelerinEnCok5iniTamamlar_puaniDuzenlininCeyregininAltinda', () => {
+  let tamam = 0
+  let rastgele = 0
+  let duzenli = 0
+  for (const t of ZORLUK_TOHUMLARI) {
+    const r = oyna(t, 'rastgele')
+    if (r.bitti === 'gece') tamam++
+    rastgele += r.puan
+    duzenli += oyna(t, 'duzenli').puan
+  }
+  assert.ok(tamam <= 10, `rastgele ${tamam}/200 gece tamamladı`)
+  assert.ok(rastgele * 4 < duzenli, `rastgele ${rastgele} / düzenli ${duzenli}`)
+})
+
+test('bot_hareketsiz_sifirPuan_0200denOnceUcMisafirKalkar', () => {
+  for (const t of ZORLUK_TOHUMLARI.slice(0, 50)) {
+    const sonuc = oyna(t, 'hareketsiz')
+    assert.equal(sonuc.puan, 0, `tohum ${t}`)
+    assert.equal(sonuc.bitti, 'ucMisafir', `tohum ${t}`)
+    assert.ok(sonuc.tik < (EVRELER[3]?.baslangic ?? 0), `tohum ${t}: ${sonuc.tik}`)
+  }
 })

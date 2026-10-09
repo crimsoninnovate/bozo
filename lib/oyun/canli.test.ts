@@ -26,11 +26,11 @@ test('canli_ayniTiktekiIkinciDokunus_duser', () => {
   const canli = canliBaslat(1)
   canliDokun(canli, 'ciger')
   canliDokun(canli, 'ciger')
-  canliDokun(canli, 's0')
+  canliDokun(canli, 'birak')
   canliAdim(canli)
   assert.deepEqual(canli.kayit, [
     [0, 'ciger'],
-    [0, 's0'],
+    [0, 'birak'],
   ])
 })
 

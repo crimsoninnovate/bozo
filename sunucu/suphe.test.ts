@@ -1,45 +1,44 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ustaOyna } from '../lib/oyun/deneme.ts'
-import { simule } from '../lib/oyun/motor.ts'
 import type { Girdi, Sonuc } from '../lib/oyun/tipler.ts'
-import { supheliMi, tamKivamSupheli, zamanlamaSupheli } from './suphe.ts'
+import { supheliMi, zamanlamaSupheli } from './suphe.ts'
 
 const sonuc = (sis: number, tamKivam: number): Sonuc => ({
   puan: 0,
-  ozet: { sofra: 0, sis, tamKivam, enUzunKombo: 0, kalkan: 0 },
+  ozet: { misafir: 0, sis, tamKivam, enUzunKombo: 0, kalkan: 0, bahsis: 0 },
   bitti: 'gece',
   tik: 7200,
 })
 
-test('tamKivamSupheli_yuzde95Ustu_yirmiSisVeUstu', () => {
-  assert.equal(tamKivamSupheli(sonuc(40, 39)), true)
-  assert.equal(tamKivamSupheli(sonuc(40, 38)), false)
-  assert.equal(tamKivamSupheli(sonuc(10, 10)), false)
-})
-
-test('zamanlamaSupheli_sabitAralikliBot_isaretlenir', () => {
-  const kayit = ustaOyna(1, 'usta')
-  assert.ok(kayit.length >= 100)
-  assert.equal(zamanlamaSupheli(kayit), true)
-})
-
-test('zamanlamaSupheli_titreyenAraliklar_isaretlenmez', () => {
+const titreyen = (): Girdi[] => {
   const kayit: Girdi[] = []
   let tik = 0
   for (let i = 0; i < 200; i++) {
     tik += 10 + ((i * 7) % 11)
-    kayit.push([tik, 's0'])
+    kayit.push([tik, 'ciger'])
   }
-  assert.equal(zamanlamaSupheli(kayit), false)
+  return kayit
+}
+
+const sabit = (): Girdi[] => Array.from({ length: 200 }, (_, i) => [i * 20, i % 2 ? 'ciger' : 'birak'] as Girdi)
+
+test('zamanlamaSupheli_sabitAralikliKayit_isaretlenir', () => {
+  assert.equal(zamanlamaSupheli(sabit()), true)
+})
+
+test('zamanlamaSupheli_titreyenAraliklar_isaretlenmez', () => {
+  assert.equal(zamanlamaSupheli(titreyen()), false)
 })
 
 test('zamanlamaSupheli_yuzDokunusAlti_isaretlenmez', () => {
-  const kayit: Girdi[] = Array.from({ length: 50 }, (_, i) => [i * 15, 's0'])
+  const kayit: Girdi[] = Array.from({ length: 50 }, (_, i) => [i * 15, 'ciger'])
   assert.equal(zamanlamaSupheli(kayit), false)
 })
 
-test('supheliMi_ustaBotu_zamanlamadanIsaretlenir', () => {
-  const kayit = ustaOyna(1, 'usta')
-  assert.equal(supheliMi(kayit, simule(1, kayit)), true)
+test('supheliMi_yuzdeYuzTamKivam_tekBasinaIsaretlemez', () => {
+  assert.equal(supheliMi(titreyen(), sonuc(40, 40)), false)
+})
+
+test('supheliMi_sabitAralik_isaretler', () => {
+  assert.equal(supheliMi(sabit(), sonuc(40, 0)), true)
 })

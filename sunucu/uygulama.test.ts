@@ -100,7 +100,7 @@ async function turOyna(anahtar: string, girdiler: (tohum: number) => Girdi[], ek
 }
 
 const usta = (tohum: number) => ustaOyna(tohum, 'usta')
-const acemi = (tohum: number) => ustaOyna(tohum, 'acemi')
+const duzenli = (tohum: number) => ustaOyna(tohum, 'duzenli')
 const bos = () => []
 
 test('tur_jetonVerir_tohumUint32_kanalGunlukSayacaYazilir', async () => {
@@ -124,10 +124,10 @@ test('bitir_sunucuSkoruKendiHesaplar_iddiaOkunmaz_siraVeFark', async () => {
   assert.equal(sonuc.hafta.sira, 1)
   assert.equal(sonuc.hafta.ustekiFark, null)
   assert.equal(sonuc.buTurEnIyi, true)
-  // Boş kayıt her tohumda -600: sıra tohumdan bağımsız (acemi, rastgele tohumların ~%5'inde ustayı geçiyor).
+  // Boş kayıt her tohumda 0 puanla biter: sıra tohumdan bağımsız.
   const b = await oyuncuOl('Acemi Veli')
   const y2 = (await turOyna(b, bos)).govde as unknown as BitirYaniti
-  assert.equal(y2.puan, -600)
+  assert.equal(y2.puan, 0)
   assert.equal(y2.hafta.sira, 2)
   assert.equal(y2.hafta.ustekiFark, sonuc.puan - y2.puan)
 })
@@ -157,11 +157,11 @@ test('bitir_jetonYok404_kullanildi409_suresiDoldu410', async () => {
 
 test('bitir_cokDokunus_ayniTikteAyniHedef_govdeBuyuk_tavan', async () => {
   const a = await oyuncuOl('Sinirci')
-  const cok = await turOyna(a, () => Array.from({ length: 1201 }, (_, i) => [i, 's0'] as Girdi))
+  const cok = await turOyna(a, () => Array.from({ length: 1201 }, (_, i) => [i, 'ciger'] as Girdi))
   assert.deepEqual([cok.durum, cok.govde?.hata], [422, 'cokDokunus'])
-  const cift = await turOyna(a, () => [[5, 's0'], [5, 's0']])
+  const cift = await turOyna(a, () => [[5, 'ciger'], [5, 'ciger']])
   assert.deepEqual([cift.durum, cift.govde?.hata], [422, 'ayniTikteAyniHedef'])
-  const bozuk = await turOyna(a, () => [[7200, 's0']])
+  const bozuk = await turOyna(a, () => [[7200, 'ciger']])
   assert.deepEqual([bozuk.durum, bozuk.govde?.hata], [422, 'girdilerGecersiz'])
   const jeton = await jetonAl()
   const ham = `{"girdiler":[],"x":"${'a'.repeat(65 * 1024)}"}`
@@ -255,7 +255,7 @@ test('donemKapanisi_kodUretir_benKoduGosterir_personelOnaylar_ikinciOnay409', as
 
 test('hesabiSil_204_sonraBen401_tablodanDuser', async () => {
   const a = await oyuncuOl('Silinecek')
-  await turOyna(a, acemi)
+  await turOyna(a, duzenli)
   assert.equal((await istek('/oyuncu', { yontem: 'DELETE', anahtar: a })).durum, 204)
   assert.equal((await istek('/ben', { anahtar: a })).durum, 401)
   const tablo = (await istek('/tablo')).govde as unknown as TabloYaniti

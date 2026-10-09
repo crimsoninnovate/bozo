@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { TUR_TIK } from './ayar.ts'
-import { bekle, dokun, sahne } from './deneme.ts'
+import { bekle, dokun, sahne, ustaOyna } from './deneme.ts'
 import { yeniOyun } from './durum.ts'
 import { ilerle, simule } from './motor.ts'
 import { rastgele } from './rastgele.ts'
@@ -68,4 +68,45 @@ test('puan_rastgeleGirdiyle_hicbirTikteDusmez_500Tohum', () => {
       onceki = oyun.puan
     }
   }
+})
+
+test('simule_ayniTohumVeGirdi_herSeferindeAyniSonuc', () => {
+  const kayit = ustaOyna(77, 'usta')
+  assert.deepEqual(simule(77, kayit), simule(77, kayit))
+})
+
+test('simule_bitistenSonrakiGirdiler_yokSayilir', () => {
+  const kayit = ustaOyna(2026, 'hareketsiz')
+  const sonuc = simule(2026, kayit)
+  assert.equal(sonuc.bitti, 'ucMisafir')
+  const fazla: Girdi[] = [...kayit, [sonuc.tik + 10, 'ciger']]
+  assert.deepEqual(simule(2026, fazla), sonuc)
+})
+
+/* Altın kayıtlar: sabit tohum ve otomatik oyuncu, sabit sonuç. Kural, ayar ya da oyuncu değişince bilerek kırılır. */
+test('altin_tohum1_usta', () => {
+  assert.deepEqual(simule(1, ustaOyna(1, 'usta')), {
+    puan: 20999,
+    ozet: { misafir: 20, sis: 36, tamKivam: 31, enUzunKombo: 14, kalkan: 0, bahsis: 6679 },
+    bitti: 'gece',
+    tik: 7200,
+  })
+})
+
+test('altin_tohum1_duzenli', () => {
+  assert.deepEqual(simule(1, ustaOyna(1, 'duzenli')), {
+    puan: 11091,
+    ozet: { misafir: 17, sis: 29, tamKivam: 2, enUzunKombo: 10, kalkan: 1, bahsis: 4131 },
+    bitti: 'gece',
+    tik: 7200,
+  })
+})
+
+test('altin_tohum2026_rastgele', () => {
+  assert.deepEqual(simule(2026, ustaOyna(2026, 'rastgele')), {
+    puan: 0,
+    ozet: { misafir: 0, sis: 0, tamKivam: 0, enUzunKombo: 0, kalkan: 3, bahsis: 0 },
+    bitti: 'ucMisafir',
+    tik: 4380,
+  })
 })

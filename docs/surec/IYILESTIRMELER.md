@@ -2391,3 +2391,29 @@ katmanı token. `CLAUDE.md` > Colors'a ikinci istisna olarak yazıldı.
 - Kare süresi, refine turu 1 sonrası (alev, duman, titreme, yeni ürünler): CPU 4x p95 17,4 ms,
   25 ms üstü 0, uzun görev 0; kapı (17,5) tutuyor.
 - Handoff karşılaştırması: kare kare tur yapılmadı; kareler `/tmp/bozo-oyun/sahne/ng/`.
+
+## 9 Ekim 2026: tabak akışı zorluk ayarı
+
+Spec tabak §5'in başlangıç sabırları (evre 2: 1320, evre 3: 1080 tik) beş botla 200 tohumda
+ölçüldü: düzenli 78/200, çırak 0/200 gece tamamladı (kapılar 140 ve 100). Yalnız sabır sütunu
+iki evrede açıldı, sütunun başka yerine dokunulmadı:
+
+| Evre (başlangıç) | Sabır önce | Sabır sonra |
+|---|---|---|
+| 3 (2700) | 1320 | 1560 |
+| 4 (4500) | 1080 | 2040 |
+
+| Bot | Gece tamam / 200 | Ortalama puan | Misafir ort. | En geç bitiş |
+|---|---|---|---|---|
+| usta | 200 | 19556 | 20,0 | 7200 |
+| düzenli | 200 | 10717 | 17,3 | 7200 |
+| çırak | 118 | 5410 | 12,9 | 7200 |
+| rastgele | 0 | 25 | 0,1 | 5820 |
+| hareketsiz | 0 | 0 | 0,0 | 4380 |
+
+- Hareketsiz kapısı "01:30'dan önce" değil "02:00'den önce" (tik 4500): spec'in kendi sabırlarıyla
+  üçüncü misafir 2820 + sabır'da kalkar. Sabır 1560 iken son kalkış 4380'dir, 4500'ün altında.
+- Rastgele kapısı yapı gereği sağlanır (ilk misafir tükenmez, ikinci 2820'den önce kalkamaz);
+  yerine baskı ölçüldü: rastgele ortalaması düzenlininkinin dörtte birinin çok altında.
+- Tam kıvam oranı artık şüphe işareti değil: bant halka olarak görünür, beklemek bedava, dikkatli
+  bir insan %100'e varabilir. Yalnız makine düzgünlüğündeki zamanlama işaretlenir.

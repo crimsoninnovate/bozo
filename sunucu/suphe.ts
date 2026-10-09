@@ -1,17 +1,13 @@
 import type { Girdi, Sonuc } from '../lib/oyun/tipler.ts'
 
 /*
- * İnsan olasılığı (spec §9): tam kıvam oranı %95'i aşan ya da makine kadar düzgün zamanlanmış
- * tur işaretlenir, silinmez. Personel yönetim ucundan görür ve sofrada bir tur ister.
+ * İnsan olasılığı (spec §9): makine kadar düzgün zamanlanmış tur işaretlenir, silinmez. Personel
+ * yönetim ucundan görür ve sofrada bir tur ister. Tam kıvam oranı işaret değildir: bant halka olarak
+ * görünür ve beklemek bedava, dikkatli bir insan %100'e varabilir (spec tabak §13).
  */
-export const SUPHE_TAM_KIVAM_ORANI = 0.95
 export const SUPHE_EN_AZ_DOKUNUS = 100
 /** Dokunuşlar arası aralıkların bu payı aynı değerdeyse elin titremesi yoktur. */
 export const SUPHE_DUZENLILIK = 0.6
-
-export function tamKivamSupheli(sonuc: Sonuc): boolean {
-  return sonuc.ozet.sis >= 20 && sonuc.ozet.tamKivam / sonuc.ozet.sis > SUPHE_TAM_KIVAM_ORANI
-}
 
 export function zamanlamaSupheli(girdiler: readonly Girdi[]): boolean {
   if (girdiler.length < SUPHE_EN_AZ_DOKUNUS) return false
@@ -24,6 +20,6 @@ export function zamanlamaSupheli(girdiler: readonly Girdi[]): boolean {
   return enCok / (girdiler.length - 1) > SUPHE_DUZENLILIK
 }
 
-export function supheliMi(girdiler: readonly Girdi[], sonuc: Sonuc): boolean {
-  return tamKivamSupheli(sonuc) || zamanlamaSupheli(girdiler)
+export function supheliMi(girdiler: readonly Girdi[], _sonuc: Sonuc): boolean {
+  return zamanlamaSupheli(girdiler)
 }
