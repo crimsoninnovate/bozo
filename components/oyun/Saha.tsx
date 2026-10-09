@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { sozluk, type Sozluk } from '@/content'
 import type { Dil } from '@/content/types'
-import type { Girdi, Sonuc, Urun } from '@/lib/oyun/tipler'
+import type { Girdi, Kalem, Sonuc } from '@/lib/oyun/tipler'
 import { Hud } from './Hud'
 import { SahneDefs } from './SahneDefs'
-import { Ocak, Sofralar } from './Seritler'
-import { Raf, Tezgah } from './SeritlerTezgah'
-import { dokunus } from './tepkiler'
+import { Misafirler } from './SeritMisafir'
+import { Ocak } from './SeritOcak'
+import { Raf } from './SeritRaf'
+import { Tabaklar } from './SeritTabak'
 import { useEgim } from './useEgim'
 import { useOyunAlani } from './useOyunAlani'
 import stil from './Saha.module.css'
@@ -14,7 +15,7 @@ import stil from './Saha.module.css'
 type Props = {
   dil: Dil
   tohum: number
-  ipucu: boolean
+  rehberli: boolean
   bitince: (sonuc: Sonuc, kayit: readonly Girdi[]) => void
   cik: () => void
 }
@@ -53,43 +54,31 @@ function Zemin() {
   )
 }
 
-/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. */
-export function Saha({ dil, tohum, ipucu, bitince, cik }: Props) {
+/** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. `rehberli` Görev 11'de bağlanır. */
+export function Saha({ dil, tohum, bitince, cik }: Props) {
   const s = sozluk(dil)
-  const ad = (u: Urun): string => (u === 'ayran' ? s.menu.icecekler.urunler.ayran : s.menu.ocakbasi.urunler[u].ad)
+  const ad = (k: Kalem): string => kalemAdi(s, k)
   const kok = useRef<HTMLDivElement>(null)
-  const [vurgu, setVurgu] = useState<Urun | null>(null)
-  const { goruntu, dokun, duraklatildi, duraklat, devam, azalt, ses } = useOyunAlani({
-    kok,
-    tohum,
-    ipucu,
-    metin: s.oyun,
-    bitince,
-  })
-
+  const { goruntu, duraklatildi, duraklat, devam, azalt, ses } = useOyunAlani({ kok, tohum, metin: s.oyun, ad, bitince })
   useEgim(kok, azalt)
-
-  useEffect(() => {
-    if (!vurgu) return
-    const zaman = setTimeout(() => setVurgu(null), 700)
-    return () => clearTimeout(zaman)
-  }, [vurgu])
-
-  const vurgula = (urun: Urun, el: HTMLElement) => {
-    setVurgu(urun)
-    dokunus(el, azalt)
-  }
-  const serit = { goruntu, ad, dokun, metin: s.oyun }
+  const serit = { goruntu, ad, metin: s.oyun }
   return (
     <div ref={kok} className={stil.saha}>
       <SahneDefs />
       <Zemin />
       <Hud metin={s.oyun} duraklat={duraklat} ses={ses} />
-      <Sofralar {...serit} vurgu={vurgu} />
+      <Misafirler {...serit} />
       <Ocak {...serit} />
-      <Tezgah {...serit} vurgula={vurgula} />
+      <Tabaklar {...serit} />
       <Raf {...serit} />
       {duraklatildi && <Perde metin={s.oyun} devam={devam} cik={cik} />}
     </div>
   )
+}
+
+/** Kalem adı menüden: şişler ocakbaşı ürünleri, eşlikçiler ikram öğeleri (sumaklı soğan `sumakli`). */
+function kalemAdi(s: Sozluk, k: Kalem): string {
+  if (k === 'domates') return s.menu.ikramlar.ogeler.domates
+  if (k === 'sogan') return s.menu.ikramlar.ogeler.sumakli
+  return s.menu.ocakbasi.urunler[k].ad
 }

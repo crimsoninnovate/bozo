@@ -1,4 +1,5 @@
-import { TaneKatmanlari, type SisUrun } from './SahneTane'
+import type { Urun } from '@/lib/oyun/tipler'
+import { TaneKatmanlari } from './SahneTane'
 import stil from './SahneOcak.module.css'
 
 /*
@@ -25,7 +26,7 @@ export function KapaliYuva() {
   return <span className={stil.kapaliCizgi} aria-hidden="true" />
 }
 
-type SisProps = { urun: SisUrun; yanik?: boolean }
+type SisProps = { urun: Urun; yanik?: boolean }
 
 /**
  * Çelik halka ve gövde, dört tane, aralarda kuyruk yağı. Tane katmanları: çiğ ürün gradyanı,

@@ -1,44 +1,15 @@
-/* Tezgah ve rafın boyalı parçaları; yerleşim `Saha.module.css`. */
-.tabak {
+/* Tabak şeridi ve rafın boyalı parçaları; yerleşim `Saha.module.css`. */
+.bakirTabak {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
-}
-
-.yayik {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* Ağızdaki ayran: dolum oranı opaklık (`--oran`, `data-ciz="ayran"`). */
-.ayranYuzeyi {
-  opacity: var(--oran, 0);
 }
 
 .tepsi {
   flex: none;
   overflow: visible;
-}
-
-/* Tezgah: mermer slab, pirinç alt kenar; 4 slot ve 56 px yayık. */
-.tezgahDolu {
-  line-height: 0;
-  color: var(--krem-74);
-}
-
-.mermer {
-  position: relative;
-  padding: 8px;
-  background: linear-gradient(135deg, #F1EBE0, #D8CFC0 50%, #EDE6DA);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
-    0 10px 24px rgba(0, 0, 0, 0.45);
-  overflow: hidden;
 }
 
 .damar {
@@ -48,99 +19,6 @@
   height: 100%;
   opacity: 0.9;
   pointer-events: none;
-}
-
-.slotlar {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) 56px;
-  gap: 8px;
-}
-
-.tezgahYuva {
-  position: relative;
-  display: block;
-  height: 60px;
-}
-
-.tezgahKalem {
-  position: absolute;
-  inset: 0;
-}
-
-.urun {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* Soğuma çubuğu: kalan sıcaklık (`--oran`), kor > turuncu. */
-.soguma {
-  position: absolute;
-  left: 8%;
-  bottom: 0;
-  display: block;
-  width: 84%;
-  height: 3px;
-  transform-origin: left;
-  transform: scaleX(var(--oran, 0));
-  background: linear-gradient(90deg, var(--kor), #FF7A1A);
-  box-shadow: 0 0 6px rgba(255, 122, 26, 0.7);
-}
-
-.yayik {
-  position: relative;
-  height: 60px;
-}
-
-.yayik::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  opacity: 0;
-  box-shadow:
-    0 0 0 2px var(--bakir-acik),
-    0 0 20px color-mix(in srgb, var(--bakir-acik) 60%, transparent);
-  transition: opacity var(--gecis-hizli);
-  pointer-events: none;
-}
-
-.yayik[data-durum='bekliyor']::after {
-  opacity: 1;
-}
-
-/* Alt krem çubuk: dolum oranı. Boşken görünmez. */
-.yayikDolum {
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: 0;
-  height: 3px;
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.yayikDolum::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  transform-origin: left;
-  transform: scaleX(var(--oran, 0));
-  background: var(--krem);
-}
-
-.yayik[data-durum='bos'] .yayikDolum {
-  display: none;
-}
-
-.pirincKenar {
-  display: block;
-  height: 10px;
-  background: linear-gradient(180deg, #C9A24A, #8A6A2B);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 240, 200, 0.5),
-    0 6px 14px rgba(0, 0, 0, 0.5);
 }
 
 /* Raf: ceviz şerit; düğme 62 px, tepsi ve ad. Ocak doluyken pasif (.45). */
@@ -182,4 +60,87 @@
   height: 8px;
   background: linear-gradient(180deg, #3E2210, #24120A);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Tabak şeridi: çöp 56, iki tabak esner, iki kase 56; 360 altında kase ve çöp 48 (44 altına inmez). */
+.tabakSeridi {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr) 56px 56px;
+  gap: 8px;
+  height: 120px;
+  align-items: end;
+}
+
+@media (max-width: 359px) {
+  .tabakSeridi { grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1fr) 48px 48px; }
+}
+
+.tabakYeri {
+  position: relative;
+  height: 84px;
+}
+
+.tabakGovde {
+  position: absolute;
+  inset: 0;
+}
+
+.kaseYeri,
+.copYeri {
+  position: relative;
+  height: 56px;
+}
+
+.kase,
+.kova {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Kaseden çıkan glif tam ortada durur ve sürüklenir; kase yerinde kalır. */
+.kaseGlif {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+}
+
+/* Misafirin beklediği kase ya da ürün: kenar nabız atar; azaltılmışta global kural keser, kenar sabit kalır. */
+.rafUrun[data-istenen],
+.kaseYeri[data-istenen] {
+  outline: 2px solid var(--bakir);
+  outline-offset: -2px;
+  animation: istenen 1.4s ease-in-out infinite;
+}
+
+@keyframes istenen {
+  0%, 100% { outline-color: var(--bakir-40); }
+  50% { outline-color: var(--bakir-acik); }
+}
+
+/* Elde olan: 2 px kalkar, bakır halka (dokun-dokun yolu). */
+[data-elde] {
+  translate: 0 -2px;
+  filter: drop-shadow(0 0 0 var(--bakir-acik)) drop-shadow(0 0 6px var(--bakir-acik));
+}
+
+/* Sürüklenen öğe parmağın altında kalmaz, hedef `elementFromPoint` ile bulunur. */
+[data-tasinan] {
+  pointer-events: none;
+  z-index: 4;
+  transition: none;
+}
+
+.tabakYeri[data-ustunde]::after,
+.copYeri[data-ustunde]::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  box-shadow: 0 0 0 2px var(--bakir-acik), 0 0 22px color-mix(in srgb, var(--bakir-acik) 55%, transparent);
+  pointer-events: none;
 }

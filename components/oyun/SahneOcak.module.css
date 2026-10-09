@@ -19,7 +19,7 @@
 
 .sis {
   display: block;
-  height: 168px;
+  height: 112px;
   width: auto;
   overflow: visible;
   animation: sizla 1.15s ease-in-out infinite alternate;
@@ -186,13 +186,13 @@
 }
 
 .kapaliYuva {
-  height: 176px;
+  height: 120px;
 }
 
 .sisKap {
   position: relative;
   display: grid;
-  height: 176px;
+  height: 120px;
   place-items: center;
   perspective: 300px;
 }
@@ -202,32 +202,12 @@
   line-height: 0;
 }
 
-/* Çevrilmiş şiş öbür yüzünü gösterir; dönüşün kendisi WAAPI'de, azaltılmışta anlık. */
-.yuva[data-cevirme='iyi'] .sis,
-.yuva[data-cevirme='kotu'] .sis {
-  transform: rotateY(180deg);
-}
-
 .yanik {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
   opacity: 0;
-}
-
-.cevir {
-  position: absolute;
-  right: -4px;
-  top: 4px;
-  color: #FFE2A8;
-  filter: drop-shadow(0 0 4px rgba(255, 180, 90, 0.8));
-  opacity: 0;
-  transition: opacity var(--gecis-hizli);
-}
-
-.yuva[data-gorunum='centik'] .cevir {
-  opacity: 1;
 }
 
 /* Tam kıvam: yuva çevresinde bakır çerçeve ve +150. */
@@ -282,8 +262,7 @@
 
 .pencere,
 .kivam,
-.rayDolum,
-.centik {
+.rayDolum {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -310,29 +289,19 @@
   background: linear-gradient(90deg, #8A6A2B, #E2C275);
 }
 
-.centik {
-  left: calc(var(--centik, 0.5) * 100% - 1px);
-  top: -3px;
-  bottom: -3px;
-  width: 2px;
-  background: rgba(226, 194, 117, 0.45);
+/* Alma penceresi açık: altın halka nabız atar ("beni tut"); tam kıvamda halka sıkılaşır. */
+.yuva[data-gorunum='hazir'],
+.yuva[data-gorunum='kivam'] {
+  outline: 2px solid var(--bakir-acik);
+  outline-offset: -2px;
+  animation: hazirNabiz 0.9s ease-in-out infinite;
 }
 
-.yuva[data-gorunum] .centik {
-  background: var(--bakir);
+.yuva[data-gorunum='kivam'] {
+  outline-width: 3px;
 }
 
-.yuva[data-gorunum='bos'] .centik {
-  background: rgba(226, 194, 117, 0.45);
-}
-
-/* Çevirme bandında çentik 500 ms yanıp söner; azaltılmışta global kural keser, sabit açık kalır. */
-.yuva[data-gorunum='centik'] .centik {
-  background: #FFE2A8;
-  animation: centikYanip 500ms ease-in-out infinite alternate;
-}
-
-@keyframes centikYanip {
-  from { opacity: 1; }
-  to { opacity: 0.35; }
+@keyframes hazirNabiz {
+  0%, 100% { outline-color: var(--bakir-60); }
+  50% { outline-color: var(--bakir-acik); }
 }

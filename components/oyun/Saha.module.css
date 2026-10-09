@@ -1,6 +1,6 @@
 /*
  * Oyun alanının boyalı görsel dili (handoff OyunAlani, karar belgesi K1-K11): sahne katmanı
- * serbest sıcak palet, UI katmanı token. Dikey akış HUD, Sofra, Ocak (esner), Tezgah, Raf;
+ * serbest sıcak palet, UI katmanı token. Dikey akış HUD, Misafir, Ocak (esner), Tabak, Raf;
  * bölümler arası 12 px, iç pay 12 px. Her karede değişen değerler `--oran`, `--pisme`,
  * `--yanma`, `--kor-yogunluk` ile gelir (`ciz.ts`).
  */
@@ -14,8 +14,11 @@
   padding: 12px 12px 14px;
   background: var(--zemin);
   color: var(--krem);
-  touch-action: manipulation;
+  touch-action: none;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
   overflow: hidden;
 }
 
@@ -24,7 +27,7 @@
   z-index: 1;
 }
 
-/* Tahta kurulur: istasyonlar aşağıdan sırayla yükselir (sofra, ocak, tezgah, raf). */
+/* Tahta kurulur: istasyonlar aşağıdan sırayla yükselir (misafir, ocak, tabak, raf). */
 .saha > [data-serit] {
   animation: kurul 460ms var(--gecis-egri) both;
 }
@@ -32,6 +35,7 @@
 .saha > [data-serit]:nth-of-type(2) { animation-delay: 80ms; }
 .saha > [data-serit]:nth-of-type(3) { animation-delay: 160ms; }
 .saha > [data-serit]:nth-of-type(4) { animation-delay: 240ms; }
+.saha > [data-serit]:nth-of-type(5) { animation-delay: 320ms; }
 
 @keyframes kurul {
   from { opacity: 0; translate: 0 22px; }
@@ -121,7 +125,7 @@
   color: var(--krem);
 }
 
-/* Her düğmede: dokunma dolgusu ve kor noktası ipucu (yalnız ilk tur, spec §3). */
+/* Her düğmede dokunma dolgusu (`tepkiler.ts` 120 ms oynatır). */
 .dolgu {
   position: absolute;
   inset: 0;
@@ -130,26 +134,12 @@
   pointer-events: none;
 }
 
-.ipucu {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  display: none;
-  line-height: 0;
-  pointer-events: none;
-}
-
-.saha [data-ipucu] .ipucu {
-  display: block;
-  animation: nabiz 1.2s ease-in-out infinite;
-}
-
 /* Ocak: tahtanın kahramanı, dikeyde esner. Bakır üst kenar, karanlık tekne, köz yatağı. */
 .ocak {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
+  flex: 1 1 auto;
+  min-height: 96px;
 }
 
 .tekne {
@@ -339,11 +329,17 @@
   to { opacity: 0; }
 }
 
-@keyframes nabiz {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.25); }
-}
-
 @keyframes perdeAc {
   from { opacity: 0; }
+}
+
+/* Yalnız ekran okuyucuya: düğme adlarının parçaları. */
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

@@ -1,10 +1,10 @@
 import type { Sozluk } from '@/content'
-import { DuraklatIsareti, KomboRozeti, OcakSonerIsareti, PorsiyonRozeti, SesIsareti } from './Semboller'
+import { DuraklatIsareti, KomboRozeti, OcakSonerIsareti, SesIsareti } from './Semboller'
 import type { Ses } from './useSes'
 import stil from './Hud.module.css'
 
 /*
- * HUD (handoff OyunAlani 50-72): saat rayı, saat, puan, ×2 ve kombo rozetleri, ses, duraklat,
+ * HUD (handoff OyunAlani 50-72): saat rayı, saat, puan, ×2 ve kombo rozeti, ses, duraklat,
  * görünür duyuru satırı. Değerler `ciz.ts`'ten `data-ciz` öğelerine yazılır. Gövde bir ızgara:
  * telefonda ×2 duyuru satırının sağına iner (beş haneli puanla satır 390'a sığmıyor, ölçüldü).
  */
@@ -50,10 +50,6 @@ export function Hud({ metin, duraklat, ses }: Props) {
           <KomboRozeti />
           <span className={stil.gizli}>{metin.kombo} </span>
           <span data-kombo>×1</span>
-        </span>
-        <span className={stil.porsiyon} data-rozet="porsiyon" aria-hidden="true">
-          <PorsiyonRozeti />
-          <span>12</span>
         </span>
         <span className={stil.bosluk} />
         <button

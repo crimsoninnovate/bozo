@@ -125,8 +125,7 @@
   display: inline-block;
 }
 
-.kombo,
-.porsiyon {
+.kombo {
   position: relative;
   display: grid;
   place-items: center;
@@ -143,16 +142,6 @@
 
 .kombo > span {
   position: relative;
-}
-
-/* Porsiyon rozeti akışta yer tutmaz: kombonun sağına biner, `tepkiler.ts` basar. */
-.porsiyon {
-  position: absolute;
-  left: calc(50% - 19px);
-  top: 0;
-  color: var(--zemin);
-  opacity: 0;
-  pointer-events: none;
 }
 
 .bosluk {

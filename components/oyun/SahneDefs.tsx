@@ -17,11 +17,7 @@ const DOGRUSAL: Gradyan[] = [
   { id: 'gBrass', yon: [0, 0, 1, 0], duraklar: [{ o: 0, r: '#8A6A2B' }, { o: 0.5, r: '#E2C275' }, { o: 1, r: '#8A6A2B' }] },
   { id: 'gSteel', yon: [0, 0, 1, 0], duraklar: [{ o: 0, r: '#7A7F86' }, { o: 0.5, r: '#D9DEE3' }, { o: 1, r: '#6A6F76' }] },
   { id: 'gWood', duraklar: [{ o: 0, r: '#7A4A26' }, { o: 1, r: '#4A2A14' }] },
-  { id: 'gWoodFront', duraklar: [{ o: 0, r: '#3E2210' }, { o: 1, r: '#24120A' }] },
-  { id: 'gCloth', yon: [0, 0, 1, 1], duraklar: [{ o: 0, r: '#F7EBD5' }, { o: 1, r: '#DCC7A5' }] },
-  { id: 'gPaper', duraklar: [{ o: 0, r: '#FBF3E3' }, { o: 1, r: '#E6D6B8' }] },
   { id: 'gHalka', yon: [0, 0, 1, 1], duraklar: [{ o: 0, r: '#FFB45A' }, { o: 0.5, r: '#FF6A1A' }, { o: 1, r: 'kor' }] },
-  { id: 'gMarble', yon: [0, 0, 1, 1], duraklar: [{ o: 0, r: '#F1EBE0' }, { o: 0.5, r: '#D8CFC0' }, { o: 1, r: '#EDE6DA' }] },
 ]
 
 const TANE_ODAK = { cx: 0.35, cy: 0.3, r: 0.9 }
@@ -36,7 +32,6 @@ const RADYAL: Radyal[] = [
   { id: 'gCoal', cx: 0.5, cy: 0.5, r: 0.5, duraklar: [{ o: 0, r: '#2A1A14' }, { o: 1, r: '#0E0705' }] },
   { id: 'gYogurt', cx: 0.4, cy: 0.35, r: 0.8, duraklar: [{ o: 0, r: '#FFFBF2' }, { o: 1, r: '#E8DCC4' }] },
   { id: 'gBakirTabak', cx: 0.4, cy: 0.35, r: 0.8, duraklar: [{ o: 0, r: '#E3985F' }, { o: 0.75, r: '#B06A38' }, { o: 1, r: '#7A4222' }] },
-  { id: 'gAyran', cx: 0.4, cy: 0.3, r: 0.8, duraklar: [{ o: 0, r: '#FFFFFF' }, { o: 1, r: '#E3E6E9' }] },
 ]
 
 function Duraklar({ duraklar }: { duraklar: Durak[] }) {
@@ -78,10 +73,6 @@ export function SahneDefs() {
         <filter id="fGrain">
           <feTurbulence type="fractalNoise" baseFrequency={0.9} numOctaves={2} stitchTiles="stitch" />
           <feColorMatrix values="0 0 0 0 1 0 0 0 0 .9 0 0 0 0 .8 0 0 0 .14 0" />
-        </filter>
-        <filter id="fMarble" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.05" numOctaves={3} seed={4} />
-          <feColorMatrix values="0 0 0 0 .45 0 0 0 0 .4 0 0 0 0 .36 0 0 0 .45 -.1" />
         </filter>
         <filter id="fWood" x="0" y="0" width="100%" height="100%">
           <feTurbulence type="fractalNoise" baseFrequency="0.9 0.02" numOctaves={2} seed={7} />

@@ -1,4 +1,4 @@
-/* Sofranın boyalı katmanları; hepsi hücreyi doldurur, halka ve gölge dışarı taşar. */
+/* Misafir şeridinin boyalı katmanları; hepsi hücreyi doldurur, halka ve gölge dışarı taşar. */
 .katman {
   position: absolute;
   inset: 0;
@@ -6,21 +6,6 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
-}
-
-.plaka {
-  transition: opacity var(--gecis-erit);
-}
-
-/* Tabaklar kurulunca görünür; WAAPI inişi kendi merkezinden ölçeklesin. */
-.tabak {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.sofra[data-kurulu] .tabak {
-  opacity: 1;
 }
 
 /* Halka `--oran` kadar dolu: ofset kalan pay. Kızarma 1,5 sn renk ve kalınlık geçişi. */
@@ -49,63 +34,69 @@
   transition: stroke var(--gecis-yogunluk);
 }
 
-/* Sofra: dört kare hücre (84 px @390, 66 @320), 10 px aralık; halka hücreden taşar. */
-.sofraIzgara {
+/* Misafir şeridi: üç yer (120 × 150), fiş balonu üstte, siluet altta, ikram tabakları önde. */
+.yerler {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  height: 168px;
 }
 
-.sofra,
-.kapaliSofra {
+.yer,
+.kapaliYer {
   position: relative;
-  aspect-ratio: 1;
-  min-height: 0;
+  min-height: 150px;
 }
 
-.sofra[data-bos] :global([data-tabak]) {
-  opacity: 0;
-}
-
-.sofra[data-bos] .halka {
+.yer[data-bos] .siluet,
+.yer[data-bos] .balon,
+.yer[data-bos] .halka {
   display: none;
 }
 
-/* Tezgah vurgusu (gecis-hizli). */
-.sofra::after {
-  content: '';
+.siluet {
   position: absolute;
-  inset: -2px;
-  opacity: 0;
-  box-shadow:
-    0 0 0 2px var(--bakir-acik),
-    0 0 28px color-mix(in srgb, var(--bakir-acik) 55%, transparent);
-  transition: opacity var(--gecis-hizli);
-  pointer-events: none;
+  left: 10%;
+  right: 10%;
+  bottom: 18px;
+  height: 56%;
 }
 
-.sofra[data-vurgu]::after {
-  opacity: 1;
+.ikramlar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+}
+
+/* Balon: fiş kağıdı, -4°, yırtık alt kenar; kor halkası balonun çevresinde. */
+.balon {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 64%;
+  aspect-ratio: 1;
+  transform: translateX(-50%) rotate(-4deg);
 }
 
 .halka {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 6px;
+  width: 76%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -8%);
 }
 
-/* Fiş: kağıt hücreyi doldurur, -4°, yırtık alt kenar; ürün başına tek simge, en çok iki sütun. */
 .fis {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  inset: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
   align-content: center;
   gap: 2px;
-  width: 64%;
-  aspect-ratio: 1;
   padding: 6% 5% 12%;
-  transform: translate(-50%, -50%) rotate(-4deg);
   background: linear-gradient(#FBF3E3, #E6D6B8);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   clip-path: polygon(
@@ -124,25 +115,6 @@
 .kalem svg {
   width: 100%;
   height: auto;
-  max-height: 100%;
-}
-
-.kalem[data-servis] svg {
-  opacity: 0.4;
-}
-
-.kalem[data-servis]::after {
-  content: '';
-  position: absolute;
-  inset: 50% auto auto 50%;
-  width: 42%;
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -12 24 24'%3E%3Cpath d='M-5 .4L-1.3 4L5.2 -3.8' stroke='%23E8C08A' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
-      center / 100% no-repeat,
-    color-mix(in srgb, var(--komur) 85%, transparent);
 }
 
 .adet {
@@ -162,6 +134,15 @@
   line-height: 1;
 }
 
+/* Bırakma hedefi parmak üstündeyken bakır kenar yanar (120 ms). */
+.yer[data-ustunde]::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  box-shadow: 0 0 0 2px var(--bakir-acik), 0 0 22px color-mix(in srgb, var(--bakir-acik) 55%, transparent);
+  pointer-events: none;
+}
+
 .kalkti {
   position: absolute;
   inset: 0;
@@ -169,4 +150,33 @@
   place-items: center;
   color: var(--krem-60);
   opacity: 0;
+}
+
+/* Tezgah kenarı: yerin altında 56 px para noktası; boşken görünmez ama yer tutar. */
+.kenar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  height: 48px;
+}
+
+.paraYeri {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 48px;
+  margin: 0 auto;
+}
+
+.paraYeri[data-bos] {
+  visibility: hidden;
+}
+
+/* Solma: kalan ömür opaklığa (`--oran`, `data-ciz="para"`). */
+.para {
+  width: 40px;
+  height: 40px;
+  overflow: visible;
+  opacity: calc(0.35 + var(--oran, 1) * 0.65);
 }

@@ -1,14 +1,14 @@
-import type { SisUrun, Urun } from '@/lib/oyun/tipler'
+import type { Eslikci, Kalem, Urun } from '@/lib/oyun/tipler'
 
 /*
  * Her ürünün biçimi VE rengi ayrıdır (ciğer tuğla küp, dalak mor fasulye, yürek gül kalbi,
- * ayran bakır maşrapa): renk körü de, 24 px'te de ayırt eder. Aynı yollar ocakta, tezgahta,
- * fişte ve rafta; merkez 0,0, yaklaşık -10..10.
+ * domates kırmızı dilim, sumaklı soğan mor halka): renk körü de, 24 px'te de ayırt eder. Aynı yollar
+ * ocakta, tabakta, fişte ve rafta; merkez 0,0, yaklaşık -10..10.
  */
 
 type Glif = { yol: string; kesit: string; iz: string; catlak: string }
 
-const GLIF: Record<SisUrun, Glif> = {
+const GLIF: Record<Urun, Glif> = {
   ciger: {
     yol: 'M-7.5 -5.5Q-7.5 -8.5 -4.5 -8.5H4.5Q7.5 -8.5 7.5 -5.5V5.5Q7.5 8.5 4.5 8.5H-4.5Q-7.5 8.5 -7.5 5.5Z',
     kesit: 'M-7.5 -5.5Q-7.5 -8.5 -4.5 -8.5H4.5Q7.5 -8.5 7.5 -5.5V-3H-7.5Z',
@@ -29,7 +29,7 @@ const GLIF: Record<SisUrun, Glif> = {
   },
 }
 
-export const CIG: Record<SisUrun, string> = {
+export const CIG: Record<Urun, string> = {
   ciger: 'url(#gRawCiger)',
   dalak: 'url(#gRawDalak)',
   yurek: 'url(#gRawYurek)',
@@ -38,7 +38,7 @@ export const CIG: Record<SisUrun, string> = {
 const KONTUR = 'rgba(0,0,0,.45)'
 const IZ_RENGI = '#2E160A'
 
-type KatmanProps = { urun: SisUrun; pismisSinif?: string; komurSinif?: string; pismis?: boolean }
+type KatmanProps = { urun: Urun; pismisSinif?: string; komurSinif?: string; pismis?: boolean }
 
 /**
  * Tek tanenin katmanları: çiğ gövde, pişmiş (karamel + ızgara izi), kömür (çatlaklı), parlama.
@@ -68,7 +68,7 @@ export function TaneKatmanlari({ urun, pismisSinif, komurSinif, pismis = false }
   )
 }
 
-type Props = { urun: SisUrun; x?: number; y?: number; olcek?: number; pismis?: boolean }
+type Props = { urun: Urun; x?: number; y?: number; olcek?: number; pismis?: boolean }
 
 /** Sabit tane (raf, tezgah). */
 export function Tane({ urun, x = 0, y = 0, olcek = 1, pismis = false }: Props) {
@@ -79,23 +79,35 @@ export function Tane({ urun, x = 0, y = 0, olcek = 1, pismis = false }: Props) {
   )
 }
 
-/** Bakır maşrapa, köpüklü ayran: fiş ve simge boyu (merkez 0,0). */
-function AyranGlifi() {
+/** Domates: kırmızı dilim, yeşil sap; sumaklı soğan: mor halkalar, koyu sumak noktaları. Merkez 0,0. */
+export function EslikciGlifi({ urun }: { urun: Eslikci }) {
+  if (urun === 'domates') {
+    return (
+      <g>
+        <circle r={8.5} fill="#C8402E" stroke={KONTUR} strokeWidth={0.8} />
+        <circle r={5.5} fill="#E4573F" />
+        <path d="M-4.5 0h9M0 -4.5v9M-3.2 -3.2l6.4 6.4M3.2 -3.2l-6.4 6.4" stroke="#F3C7A1" strokeWidth={0.9} opacity={0.7} />
+        <path d="M-2.5 -8.5l2.5 -2.2 2.5 2.2" stroke="#5E8A3A" strokeWidth={1.6} strokeLinecap="round" fill="none" />
+      </g>
+    )
+  }
   return (
     <g>
-      <path d="M-6.5 -6L6.5 -6L5 8.5Q0 10 -5 8.5Z" fill="url(#gCopper)" stroke={KONTUR} strokeWidth={0.8} />
-      <path d="M-6.8 -6Q0 -9.8 6.8 -6Q0 -3.6 -6.8 -6Z" fill="url(#gAyran)" stroke="rgba(0,0,0,.25)" strokeWidth={0.6} />
-      <path d="M-5.8 0H5.4" stroke="#6E3A1C" strokeWidth={1} opacity={0.6} />
-      <ellipse cx={-3.6} cy={3} rx={1} ry={3} fill="#fff" opacity={0.35} />
+      <circle r={8.5} fill="#F0DDF2" stroke={KONTUR} strokeWidth={0.8} />
+      <circle r={5.6} fill="none" stroke="#B07AB8" strokeWidth={1.8} />
+      <circle r={2.4} fill="none" stroke="#7D4B8C" strokeWidth={1.2} />
+      <circle cx={-4} cy={-3.5} r={1} fill="#7A1F2E" />
+      <circle cx={4} cy={3} r={1} fill="#7A1F2E" />
+      <circle cx={3} cy={-4.5} r={0.9} fill="#7A1F2E" />
     </g>
   )
 }
 
 /** Fiş, raf ve simge boyu: 24'lük karede tek ürün. */
-export function TaneSimgesi({ urun, boy = 14 }: { urun: Urun; boy?: number }) {
+export function TaneSimgesi({ urun, boy = 14 }: { urun: Kalem; boy?: number }) {
   return (
     <svg viewBox="-12 -12 24 24" width={boy} height={boy} aria-hidden="true">
-      {urun === 'ayran' ? <AyranGlifi /> : <TaneKatmanlari urun={urun} pismis={false} />}
+      {urun === 'domates' || urun === 'sogan' ? <EslikciGlifi urun={urun} /> : <TaneKatmanlari urun={urun} />}
     </svg>
   )
 }
@@ -103,18 +115,16 @@ export function TaneSimgesi({ urun, boy = 14 }: { urun: Urun; boy?: number }) {
 const KARISIK_X = [-7.6, 0, 7.6] as const
 const KARISIK_URUN = ['ciger', 'dalak', 'yurek'] as const
 
-/** Bozo Karışık: üç tane tek çubukta; `servis` verilirse gelen tane soluk. */
-export function KarisikSimgesi({ boy = 22, servis }: { boy?: number; servis?: readonly boolean[] }) {
+/** Bozo Karışık: üç tane tek çubukta. */
+export function KarisikSimgesi({ boy = 22 }: { boy?: number }) {
   return (
     <svg viewBox="-13 -13 26 26" width={boy} height={boy} aria-hidden="true">
       <path d="M-12.5 0H12.5" stroke="url(#gSteel)" strokeWidth={1.6} />
       {KARISIK_URUN.map((u, i) => (
-        <g key={u} transform={`translate(${KARISIK_X[i]} 0) scale(.5)`} opacity={servis?.[i] ? 0.35 : 1}>
+        <g key={u} transform={`translate(${KARISIK_X[i]} 0) scale(.5)`}>
           <TaneKatmanlari urun={u} />
         </g>
       ))}
     </svg>
   )
 }
-
-export type { SisUrun }
