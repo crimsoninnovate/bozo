@@ -49,7 +49,7 @@ export function urunOlculeri(urun: Urun): { olcu: Olcu; fiyat: number }[] {
 }
 
 /** Fiyat listesinde "250 GR", tek ölçü. */
-export const ozelUrun: OzelUrun = { id: 'bozo-special', fiyat: 1100 }
+export const ozelUrun: OzelUrun = { id: 'bozo-special', fiyat: 900 }
 
 /** İkramlarda fiyat alanı yoktur; arayüzde "ikram" ibaresi basılır. */
 export const ikramlar: Ikram[] = [

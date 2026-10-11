@@ -41,7 +41,7 @@ export const menu = {
         aciklama: 'Liver, spleen and heart together.',
       },
     },
-    ozel: { ad: 'Bozo Special', miktarNotu: '250 g' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '190 g' },
   },
   ikramlar: {
     baslik: 'On the House',

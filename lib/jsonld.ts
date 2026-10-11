@@ -36,7 +36,7 @@ const HAFTA_GUNLERI = [
  * bu, geceyi aşan çalışma saatinin schema.org yazımıdır ve Google bunu destekler.
  * İki ayrı aralığa bölünmez, `23:59` gibi bir yaklaşıklık yazılmaz.
  *
- * `priceRange` yoktur. Menünün tamamı 8 Ekim 2026'dan beri fiyatlı (20-1.100 TL), ama
+ * `priceRange` yoktur. Menünün tamamı 8 Ekim 2026'dan beri fiyatlı (20-900 TL), ama
  * aralığın yayımlanması sahibinin kararı (IYILESTIRMELER.md > fiyat listesi). Brifin
  * `'$$'` örneği bir para birimi sınıfı iddiası; "no invented prices" gereği atlandı.
  *

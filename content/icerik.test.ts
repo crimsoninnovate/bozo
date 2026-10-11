@@ -240,7 +240,7 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   for (const urun of menuUrunler) {
     assert.deepEqual(urun.fiyatlar, beklenen[urun.id], `${urun.id} fiyatı kaymış`)
   }
-  assert.equal(ozelUrun.fiyat, 1100)
+  assert.equal(ozelUrun.fiyat, 900)
 })
 
 test('urunOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {

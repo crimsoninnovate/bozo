@@ -158,7 +158,7 @@ test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
   assert.equal(bolumler[1]?.name, 'Bozo Special')
   assert.equal(bolumler[1]?.hasMenuItem.length, 1)
   assert.deepEqual(bolumler[1]?.hasMenuItem[0]?.offers, [
-    { '@type': 'Offer', price: '1100', priceCurrency: 'TRY' },
+    { '@type': 'Offer', price: '900', priceCurrency: 'TRY' },
   ])
 })
 

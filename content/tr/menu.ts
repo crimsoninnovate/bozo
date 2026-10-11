@@ -44,7 +44,7 @@ export const menu = {
       },
     },
     // "Her üründen iki şiş · 10 şiş" yerine fiyat listesindeki "250 GR" (sahibi, 8 Ekim 2026).
-    ozel: { ad: 'Bozo Special', miktarNotu: '250 gr' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '190 gr' },
   },
   ikramlar: {
     baslik: 'İkramlar',
