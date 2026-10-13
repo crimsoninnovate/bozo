@@ -2541,3 +2541,6 @@ Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
 - EN 320 taşması giderildi: ad satırı sarar, karar adın en dar haline göre (`flex: 1 1 0; min-width:
   min-content`). Fiyat yalnız 320'de Terbiyeli Kuşbaşı satırında (TR ve EN) alta, sağa iner; 360 ve
   üstünde boylar değişmedi.
+- **B2 (sahibi onayladı).** `tane-yakin-cekim-yatay` eldeki dikey kareyi gösterir, odak `50% 70%`
+  (lavaş üstünde pişmiş tabak). Masaüstü 638x474, telefon 342x200. Kaynak 800 px: 2x ekranda
+  masaüstünde 1,6 kat büyütülüyor, yatay çekim gelince yalnız `dosya` değişir. Sayfa 3017 > 3207 (TR 1440).

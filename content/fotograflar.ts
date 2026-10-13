@@ -11,11 +11,12 @@ export const fotograflar: Record<FotoId, Foto> = {
     etiketEn: 'the cut, close up',
     dosya: '/foto/tane-yakin-cekim.webp',
   },
-  // Menü imza panosu geniş ve alçaktır; ana sayfadaki dikey pano ile aynı dosya
-  // ikisini birden kadrajlayamaz. Tasarım bu yuvada kadrajı açıkça yazar.
+  // Menü imza panosu geniş ve alçaktır. Yatay kare gelene kadar dikey kare, alt yarısı
+  // (pişmiş tabak) kadrajda (sahibi, 13 Ekim 2026; odak `Ocakbasi.tsx`).
   'tane-yakin-cekim-yatay': {
     etiket: 'tane yakın çekimi · yatay',
     etiketEn: 'the cut, close up, landscape',
+    dosya: '/foto/tane-yakin-cekim.webp',
   },
   'kor-uzerinde-sis': { etiket: 'kor üzerinde şiş', etiketEn: 'skewers over embers' },
   'ustanin-eli': { etiket: 'ustanın eli', etiketEn: "the master's hand" },

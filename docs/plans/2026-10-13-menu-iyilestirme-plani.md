@@ -60,7 +60,7 @@ Her madde: `npm run typecheck`, `npm test`, build, 390/1440/320 ölçümü, axe;
 ## Durum (13 Ekim 2026)
 
 B1 sahibince onaylandı ve A1, A3 ile birlikte yapıldı; A2 ölçümle düştü, A4 B1 sonrası gereksiz
-(ayrıntı: `IYILESTIRMELER.md` > "13 Ekim 2026: menü sayfası"). Açık: B2, C1-C4.
+(ayrıntı: `IYILESTIRMELER.md` > "13 Ekim 2026: menü sayfası"). Açık: C1-C4. B2 de 13 Ekim'de onaylanıp yapıldı.
 
 ## Sıra
 

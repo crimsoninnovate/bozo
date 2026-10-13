@@ -134,7 +134,7 @@ export function Ocakbasi({ dil }: Props) {
       />
 
       <div className={stil.imzaSatiri}>
-        <FotoYuvasi id={IMZA_KARESI} dil={dil} bicim="spread" bosGizli />
+        <FotoYuvasi id={IMZA_KARESI} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
         <ImzaPaneli dil={dil} urun={imza} />
       </div>
 
