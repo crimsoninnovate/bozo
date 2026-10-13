@@ -68,6 +68,9 @@ function basma(i: Extract<Isaret, { tur: 'bas' }>, elde: Hedef | null): Suruklem
   if (i.hedef === null) return bos(['birak'])
   if (i.hedef === elde) return tut(elde, [])
   if (birakmaHedefiMi(elde, i.hedef) || DOKUNMA.test(i.hedef)) return bos([i.hedef])
+  // Başka kaynak: eldeki eşlikçi ya da tabak yerine döner, yenisi tutulur. Şiş `birak`la ele dönmez,
+  // o yüzden şiş eldeyken etkisiz kalır (simülasyon kuralı, `tabak.ts` > `birak`).
+  if (kaynakMi(i.hedef) && !elde.startsWith('o')) return tut(i.hedef, ['birak', i.hedef])
   return bos()
 }
 
@@ -77,12 +80,13 @@ function yurume(durum: Surukleme, i: Extract<Isaret, { tur: 'yuru' }>, elde: Hed
   const dy = i.y - durum.y0
   const suruklendi = durum.suruklendi || Math.hypot(dx, dy) >= ESIK_PX
   const yeni = suruklendi === durum.suruklendi ? durum : { ...durum, suruklendi }
-  return { durum: yeni, girdiler: [], tasima: suruklendi && elde !== null ? { dx, dy: dy - KALDIRMA_PX } : null }
+  // Yalnız basılan kaynak eldeyken taşınır: değişimde simülasyon bir tik sonra eli günceller.
+  return { durum: yeni, girdiler: [], tasima: suruklendi && elde === durum.kaynak ? { dx, dy: dy - KALDIRMA_PX } : null }
 }
 
 function kaldirma(durum: Surukleme, i: Extract<Isaret, { tur: 'kaldir' }>, elde: Hedef | null): SuruklemeSonucu {
   if (durum.tur !== 'basili' || durum.id !== i.id) return ayni(durum)
-  if (!durum.suruklendi || elde === null) return bos()
+  if (!durum.suruklendi || elde !== durum.kaynak) return bos()
   // Geçerli hedef dışındaki her bırakış (boşluk, yanlış düğme) `birak`tır; öğe elde asılı kalmaz (spec tabak §3).
   return bos(i.hedef !== null && birakmaHedefiMi(elde, i.hedef) ? [i.hedef] : ['birak'])
 }

@@ -2555,3 +2555,15 @@ Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
   saat akmaya devam eder, oyuncu elindekini koyunca adım açılır. Yeni metin yok.
 - Ölçüldü (dokunmatik, 390x844 ve 390x664): elde şişle 6 sn rehber açılmadı; şiş tabağa konunca sabır,
   domates sürüklenince çöp adımı. Dokun-dokun, fare, azaltılmış hareket ve 360x740 yolları aynı. Testler 398.
+
+## 13 Ekim 2026: elde domatesle şiş tutulamıyordu
+
+- Sahibi (iPhone, ekran görüntüsü: iki misafir domates istiyor, "Şiş yandı"): rehberden sonra şiş tabağa
+  çekilmiyor. Yeniden üretildi: domatese dokunup ele alınca hazır şiş sürüklenmiyor, ocakta kalıp yanıyor.
+  Elde öğe varken başka kaynağa basmak etkisizdi (`surukle.ts` `basma`).
+- Düzeltme hareket katmanında: elde eşlikçi ya da tabak varken başka kaynağa basmak `birak` + yeni kaynak
+  gönderir (bırakma hedefi önceliklidir). Elde şiş varken eski davranış kalır: şiş `birak`la ele dönmez,
+  değiştirmek simülasyon kuralıdır (Pazartesi dönem geçişi). Öğe yalnız basılan kaynak eldeyken taşınır,
+  erken kaldırış eski öğeyi bırakmaz. Simülasyon ve sunucu aynı.
+- Ölçüldü (dokunmatik 390x844, üç deneme): domates eldeyken şiş tabağa iner, domates kaseye döner, iz
+  kalmaz. Rehber (dokun, fare, azaltılmış, elde şiş), dokunmatik sürükleme yolları aynı. Testler 400.

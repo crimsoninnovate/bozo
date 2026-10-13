@@ -93,6 +93,25 @@ test('surukle_eldeyken_kaynakYokSayilir_rafVeParaGecer_kendiKaynagiYenidenTutar'
   assert.equal(tekrar.durum.tur, 'basili')
 })
 
+test('surukle_eldeEslikciYaDaTabakken_baskaKaynak_birakVeTut_hedefOncelikli', () => {
+  const sis = surukle(BOS, bas('o0'), { elde: 'domates' })
+  assert.deepEqual(sis.girdiler, ['birak', 'o0'])
+  assert.equal(sis.durum.tur === 'basili' && sis.durum.kaynak, 'o0')
+  assert.deepEqual(surukle(BOS, bas('t1'), { elde: 't0' }).girdiler, ['birak', 't1'])
+  assert.deepEqual(surukle(BOS, bas('domates'), { elde: 'sogan' }).girdiler, ['birak', 'domates'])
+  assert.deepEqual(surukle(BOS, bas('t0'), { elde: 'domates' }).girdiler, ['t0'])
+})
+
+test('surukle_degisimde_eskiOgeTasinmaz_yeniOgeEleGecinceTasinir_erkenKaldirisBirakmaz', () => {
+  const basis = surukle(BOS, bas('o0'), { elde: 'domates' })
+  const ilk = surukle(basis.durum, yuru(0, 40), { elde: 'domates' })
+  assert.equal(ilk.tasima, null)
+  assert.deepEqual(surukle(ilk.durum, kaldir('t0', 0, 40), { elde: 'domates' }).girdiler, [])
+  const sonra = surukle(ilk.durum, yuru(0, 60), { elde: 'o0' })
+  assert.deepEqual(sonra.tasima, { dx: 0, dy: 60 - KALDIRMA_PX })
+  assert.deepEqual(surukle(sonra.durum, kaldir('t0', 0, 60), { elde: 'o0' }).girdiler, ['t0'])
+})
+
 test('surukle_elBosken_rafVeParaDokunma_hedefVeCopEtkisiz', () => {
   assert.deepEqual(surukle(BOS, bas('ciger'), { elde: null }).girdiler, ['ciger'])
   assert.deepEqual(surukle(BOS, bas('p0'), { elde: null }).girdiler, ['p0'])
