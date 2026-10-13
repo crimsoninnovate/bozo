@@ -4,159 +4,49 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 10 Ekim 2026
+Son güncelleme: 13 Ekim 2026
 
 ## Durum
 
-- **Skor sunucusu canlıda ve isim alma açık** (10 Ekim 2026): `api.cigercibozo.com`, systemd `bozo-oyun`,
-  MariaDB, gizlilik metni güncel (sahibi hukukçu incelemesini istemedi). Kurulum, sırların yeri ve
-  güncelleme: `SUNUCU-CANLIYA-ALMA.md`. Aynı gün yayına çıkanlar: sürükleme hatası (geçersiz bırakışta
-  öğe elde asılı kalıyordu), alma penceresi %20 geniş (çırak botu %59 → %73), rehberde sabır ve çöp
-  adımları, girişte "Nasıl Oynanır". `/oyun/` hâlâ `noindex`, bağlantısız. Eksik: gerçek telefonda kare
-  ölçümü; Md. 8/Md. 11 işlemleri sahibinde. Personel ekranı `/oyun/yonetim/` eklendi (kod onayı, ilk 20,
-  ad gizleme, tur doğrulama; `SUNUCU-CANLIYA-ALMA.md`); görsel tur oynatıcı ve sayaç ekranı yok.
-- **Oyun: tabak akışı canlıda** (9 Ekim 2026, `8235636`, `/oyun/` ve `/en/oyun/`, `noindex, nofollow`, bağlantısız, sitemap'te yok) (spec `docs/specs/2026-10-09-oyun-tabak-akisi-design.md`,
-  plan `docs/plans/2026-10-09-oyun-tabak-plani.md`, on beş görev, `feat/site-kurulumu` dalında). Fiş,
-  ocak, tabak, misafir: dokunarak ya da sürükleyerek oynanır, ilk tur rehberli, takma ad isteğe bağlı
-  (giriş ekranında, yalnız sunucu ayaktayken görünür). Simülasyon, botlar, tavan, axe 0 ve kare p95
-  `IYILESTIRMELER.md` > tabak akışı bölümlerinde. 375 x 548 gibi çok kısa ekranlar desteklenmiyor
-  (ölçüm aynı yerde).
-- **9 Ekim 2026 01:40: oyun prototipi canlıya alındı (önceki sürüm)** (`a9caf09`, tüm dal rsync ile): `/oyun/`,
-  `/en/oyun/`, `/oyun/siralama/` 200, `noindex, nofollow`, sitemap'te yok, hiçbir sayfadan bağlantı
-  yok (yalnız bağlantıyı bilen girer). `plesk repair fs` 0 hata. Skor sunucusu **yayında değil**:
-  `api.cigercibozo.com` DNS'te yok, oyun çevrimdışı tur olarak çalışır, tarayıcı o alan adına istek
-  dener ve düşer (veri gitmez). Gizlilik metni ve avukat onayı öncesi sunucu açılmaz (plan 4).
-- **Oyun refine turu 2 (9 Ekim 2026), görselden bağımsız katman:** açılışta kamera yaklaşması,
-  rozet arkasında duman, hazır olunca nabız atan Oyna; tahta kurulurken istasyonlar sırayla
-  yükselir; oda ışığı titrer; dokunma bastır ve yaylan; fiş tamamlanınca bakır kıvılcım patlaması,
-  dönüm noktasında kısa sarsıntı; imleç/telefon eğimiyle üç derinlikte parallax (`useEgim`).
-  Hepsi CSS ya da WAAPI, azaltılmışta kapalı. Kare p95 17,4-18,1 ms (ölçüm titreşimi içinde).
-  **Bekleyen:** sahibin ürettiği raster varlıklar (`docs/surec/OYUN-VARLIK-BRIEFI.md`); gelince
-  SVG parçalar onlarla değişir, bu katman aynen kalır.
-- **Oyun refine turu 1 (9 Ekim 2026):** her ürün kendi biçim ve rengiyle (ciğer tuğla küp, dalak
-  mor fasulye, yürek kalp, ayran bakır maşrapa), pişme izli ve kömür çatlaklı şiş hâlleri,
-  gruplu fiş (`fisSatirlari`, adet rozeti, onay işareti), bakır tabaklar, nefes alan köz
-  yatağı, alev dilleri, şiş titremesi ve duman telleri (CSS, azaltılmışta kapalı). Kare süresi
-  aynı (p95 17,9 ms, CPU 4x). Sesler: beş bip yerine on bir katmanlı Web Audio sesi (dosya yok,
-  `lib/oyun/ses.ts`); 40 sn'lik oyunda 68 osilatör, 14 gürültü kaynağı, hata yok; gerçek kulakla
-  dinlenmedi. **Sıradaki:** nasıl oynanır sorusu
-  (spec §1 "yok" diyor; sahibin kararı), etiket kontrastı, görsel sadakat karşılaştırması.
-- **Açılış oyunu, sahne planı bitti: boyalı illüstrasyon** (karar belgesi
-  `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md`, plan
-  `docs/plans/2026-10-08-oyun-sahne-plani.md`). Handoff'un gradyan ve filtreleri tek
-  `SahneDefs`te (kimlik testi), sahne `Sahne*` modüllerinde, HUD görünür duyuru satırıyla,
-  giriş ve sonuç cam panelsiz, masaüstünde 420 px panel. Simülasyon, sunucu, `ciz.ts`
-  sözleşmesi değişmedi. "Değişen ne" listesi ve ölçümler `IYILESTIRMELER.md` > 9 Ekim 2026.
-  K10 kare süresi ölçüldü (p95 18,0 ms 4x, kare düşmedi). **Açık:** etiket kontrast
-  ölçümü, sahibine önce/sonra vitrin karşılaştırması ve refine turları. Yayında değil.
-- **Açılış oyunu, plan 3 bitti: skor sunucusu ve sıralama** (spec §6-§10, §16; plan
-  `docs/plans/2026-10-08-oyun-plan-3-sunucu.md`). `sunucu/` npm workspace: `node:http`, tek
-  bağımlılık `mariadb`, `simule` ile yeniden oynatma, tavan, 15 dk tek kullanımlık jeton, hız
-  sınırı, Cloudflare IP, dönem kapanışı (Pazartesi 05:00 Girne) ve ödül kodları, gece silme,
-  `/yonetim/*` temel kimlikle. Sitede "önce oyna, sonra kaydet": katılım ekranı, sonuçta
-  haftalık sıra, `/oyun/siralama/` (TR ve EN), "Hesabımı sil", çevrimdışı tur. Yönetim
-  arayüzü sayfası ve paylaşım kartı plan 4'te. **Yayında değil ve yayınlanamaz:** gizlilik
-  sayfası hâlâ "site kendi sunucusunda ziyaretçi verisi saklamaz" diyor; plan 4'ün gizlilik
-  değişikliği ve hukukçu onayı olmadan sunucu açılmaz.
-- **Açılış oyunu, plan 2 bitti: görsel ve ses dili `/oyun/`** (spec
-  `docs/specs/2026-10-08-oyun-design.md` §12-§13 ve §15; plan
-  `docs/plans/2026-10-08-oyun-plan-2-gorsel-dil.md`). Kor zemin üstünde cam panel, elle çizilmiş
-  SVG semboller, WAAPI tepkiler, Motion ekran geçişleri, Web Audio ses (varsayılan kapalı),
-  klavye kısayolları ve canlı bölge. Simülasyon değişmedi (altın kayıtlar aynı). Sunucusuz,
-  noindex, menüde yok; **yayında değil**. Ölçüldü: CPU 4x 390 px'te p95 17,5 ms, düşen kare 0;
-  320/390/1440 taşma yok, axe 0. Sırada kaba prototip testi (spec §16) ve plan 3 (skor
-  sunucusu). Sahibine açık kararlar spec §19'da.
-- **8 Ekim 2026 turu deploy edildi** (`2d278d6` Maps Place ID, `def4362` ciğer 12 şiş,
-  `04c3284` fiyat listesi; `IYILESTIRMELER.md` > 8 Ekim 2026). `plesk repair fs` 0 hata,
-  `--checksum` kuru koşuda 0 içerik/boyut farkı (yalnız beklenen `og` sahiplik gürültüsü).
-  Canlıda doğrulandı: 12 rota 200, yeni fiyatlar iki dilde, canlı yol tarifi linki Maps'te
-  "varış: Ciğerci Bozo" açıyor (önce "Kıbrıs İnşaat").
-- **İkinci 8 Ekim deploy'u** (`1f092a7` yarım porsiyon cümlesi, `9568c58` İngilizce tur) 15:45
-  build'i ile yayında: dört rotanın canlı HTML'i yerel `out/` ile aynı SHA-256, on iki rota 200.
-  165 test, typecheck, build temiz. Commit'ler GitHub'a push edilmedi.
-- **Üçüncü 8 Ekim deploy'u:** `b99247c` çerez bandı metni kısaldı (`IYILESTIRMELER.md` >
-  "çerez bandı metni kısaldı"). `plesk repair fs` 0 hata, `--checksum` 0 içerik farkı, on iki
-  rota 200, canlı bantta yeni metin ve düğmeler, onaysız GA yok. 166 test.
-- **Dördüncü 8 Ekim deploy'u:** `43d357c` rozet gölgesi ayrı katmanda (canlı mobil LCP üç soğuk
-  ölçümde 2528/2568/2860 ms, LCP = FCP, önce 2906) ve `8dcbfaa` site artık "Uygulamayı yükle"
-  önermiyor (manifest `display: browser`, `mobile-web-app-capable` yok). Checksum 0 fark.
-- **Beşinci 8 Ekim deploy'u (17:52):** `67ab32e` çekmece alt metni ve genel kontrol turu
-  (`dca5670`..`c9eeccf`: next 16.3.8, galeri LCP, çekmece numaraları, Gizlilik hedefi, aksiyon
-  barı landmark'ı, kelime markası, JSON-LD kaçışı, ölü kod, portre yayından kalktı, güvenlik
-  ve önbellek başlıkları; `IYILESTIRMELER.md` > "tam kapsam genel kontrol"). `repair fs` 0
-  hata, `--checksum` 0 içerik farkı, 12 rota 200, beş rotanın HTML'i yerel `out/` ile aynı.
-  Canlıda dört güvenlik başlığı var, portre 404. Galeri LCP'si değişmedi (3,26-3,46 sn,
-  görselin boyutu). Commit'ler GitHub'a push edilmedi.
-- Branch `feat/site-kurulumu`. **SEO/AEO turu deploy edildi (24 Ağustos 2026): son commit
-  `5f1d3ee`**, arc'a gönderildi ve `--checksum` ile içerik birebir doğrulandı (`plesk repair fs`
-  0 hata; kuru koşuda dönen tek fark sahiplik/grup bayrağı — yerel makinede `engincaglar`
-  kullanıcısı olmadığı için beklenen gürültü, checksum/boyut farkı yok). Canlıda ayrıca
-  doğrulandı: `/llms.txt` 200 ve `content-type: text/plain; charset=utf-8`, `sitemap.xml`'de
-  12 `<priority>`, ana sayfa 1 / `/menu/` 3 JSON-LD `<script>`, title'lar eşleşiyor.
-- **Site kendi alan adında ve arama motorlarına açık:** `https://cigercibozo.com`.
-  `X-Robots-Tag` 24 Ağustos'ta silindi. `www` 301 ile apex'e gidiyor, sertifika Let's Encrypt.
-- **Yayın hedefi 20 Ağustos'ta arc sunucusuna taşındı** (`arc.megaonline.net`, Plesk,
-  `/var/www/vhosts/cigercibozo.com/httpdocs`). Researchos artık deploy almıyor; oradaki demo
-  (`bozo.crimsoninnovate.com`) eski sürümde donmuş durumda. Yordam `README.md` > Publishing.
-- GA4 (`G-N3893E7B1P`) opt-in onayın arkasında (`CerezOnayi`), gizlilik sayfası 89/2007'ye göre.
-- On iki rota (altı sayfa, iki dil) 200 dönüyor, yatay taşma yok, konsol temiz.
+- **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
+  önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
+- **Dal `feat/site-kurulumu`, GitHub'a push edilmedi:** `main` (9 Ekim, `98506c5`) 20 commit geride.
+  Canlıdaki sürüm bu dalın son build'idir, `main` değil. Push kullanıcının onayıyla yapılır.
+- **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
+  `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
+  `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
+  derinlik (tezgah, tekne gölgesi, sürüklerken kalkış) yayında; kare p95 18,2 ms (4x CPU).
+  Simülasyonu değiştiren iş yalnız Pazartesi 05:00 dönem geçişinde yayına çıkar.
+- **Menü sayfası, 11-13 Ekim:** Bozo Special 900 TL ve 190 gr. Boş fotoğraf plakaları masaüstünde de
+  kapalı (sahibi, 13 Ekim); Ciğer imza alanında eldeki yakın çekim; içecekler çizgili satır; telefonda
+  ikram kümeleri tek çerçeve. Plan ve durum: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
+- **Masa QR'ı** üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
+  QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
+- Testler 397 geçer (9 atlanır: opt-in MariaDB sözleşmesi), typecheck ve build temiz.
 
 ## Bekleyen iş
 
-0. **Genel kontrolün açık soruları** (`IYILESTIRMELER.md` > "tam kapsam genel kontrol" >
-   Sahibine):
-   "Bozo's Table", "Beş ürün" çelişkisi, galeri sayfası ve boş plakalar, onayı geri alma,
-   EN "piece", tanımsız `--krem-84`. Galeri görseli q70'e indi (`d72d884`, 165 → 126 KB) ve
-   ölü `sizes` propu silindi (`d521116`): ikisi commit'li, **deploy onayı bekliyor**.
-   Kullanıcıya: `X-Powered-By` sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler.
-1. **Fiyat listesinden kalan üç soru sahibinde** (`IYILESTIRMELER.md` > "8 Ekim 2026: fiyat
-   listesi"): dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı, Terbiyeli Tavuk
-   Şiş açıklaması. İçecek fiyatları dahil bütün fiyatlar 8 Ekim'de geldi.
-2. **On yedi kare** (`content/fotograflar.ts`; 8 Ekim'de terbiyeli tavuk şiş yuvası eklendi). Dosya yokken menüde plaka hiçbir genişlikte basılmıyor (13 Ekim),
-   dosya tanımlanınca kendiliğinden geri geliyor. İlk gerçek fotoğraf geldiğinde
-   `fotograflar_hicbiriHenuzDosyaTasimaz` testi bilerek kırılacak, o gün güncellenmeli.
-3. **Sahibinin eski açık maddeleri** `KARAR-FORMU.md` A1-A12. Sorulmadan uygulanmaz.
-4. `IYILESTIRMELER.md`'de sahibini bekleyen iki madde: "Yol Tarifi Al" etiketinin sayfa içi
-   `#harita` hedefiyle çelişkisi, ve Konum hero'sunun boş sağ yarısı. İkincisinin erteleme
-   gerekçesi (yer tutucu levha) artık geçerli değil, karar açılabilir.
-5. **Gizlilik metni yayında ama hukukçu onayından geçmedi.** 24 Ağustos'ta iki turda
-   yazıldı/güçlendirildi (`IYILESTIRMELER.md` > "KKTC uyumu, araştırılmış hâliyle" ve bugünkü
-   ikinci tur). O turda sahibine iletilen, kodla çözülemeyen iki açık madde hâlâ cevapsız:
-   Madde 8 Başkana Bildirim (kvkk.gov.ct.tr Başkana Bildirim Formu) ve Madde 11 Transfer
-   Ruhsatı (şu an onay yolu Madde 11(2)(A) kullanılıyor, ruhsat ayrı bir seçenek). C4'ün eski
-   "backlogda kalsın" kararı GA4 eklenince (24 Ağustos) geçersiz oldu, madde ona göre güncellendi.
-6. **FAQ/AEO içeriği** (`IYILESTIRMELER.md`, "SSS/answer-block AEO içeriği" ve konumlandırma
-   cümlesi maddeleri, Task 9): yapılandırılmış soru-cevap bloğu (`FAQPage`) ve önerilen meta
-   açıklama cümlesi ikisi de yeni pazarlama metni gerektirdiği için bu turda uygulanmadı. Sahibine:
-   hangi sorular ve cevaplar ([issue #1](https://github.com/crimsoninnovate/bozo/issues/1)),
-   konumlandırma cümlesi onaylanır mı ([issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
-7. **Performans teşhisi yapıldı (8 Ekim 2026); aday 1 (rozet gölgesi) uygulandı, 2-5 karar bekliyor**
-   (`IYILESTIRMELER.md` > "mobil performans teşhisi"). Mobil kısıtlı soğuk yüklemede ana
-   sayfa LCP 2906 ms: LCP öğesi üst bardaki rozet, yalnız `drop-shadow`'u alanını şişirdiği
-   için (filtre kapalıyken LCP = FCP = 2572 ms). FCP'yi 92 KB'lık ana CSS belirliyor; aynı
-   anda inen ~280 KB font/JS/SVG ile bant paylaşıyor. Ağustos'taki CLS > 0,1 yeniden
-   üretilemedi: üç sayfada, dört saat durumunda 0,0009-0,0014. Beş düzeltme adayı kayıtta.
+### Sahibinden gelecek (sorulmadan uygulanmaz)
 
-8. **İngilizce tur 8 Ekim 2026'da uygulandı ve yayında** (`IYILESTIRMELER.md` > "İngilizce tur, uygulandı").
-   Tavuk şişlerin İngilizce adları Terbiyeli Tavuk Şiş açıklamasını bekliyor (madde 1).
-
-## Son turda ne değişti (24 Ağustos, SEO/AEO turu)
-
-- **On iki rotanın `<title>`/açıklaması genişletildi**, hepsi sitede zaten canlı olan metinden
-  kuruldu (`content/*/ortak.ts` > `sayfaMeta`), yeni pazarlama metni uydurulmadı.
-- **İki yeni JSON-LD üreticisi** `lib/jsonld.ts`'e eklendi: `menuJsonLd(dil)` (`Menu` şeması,
-  `Kabuk`'ta yalnız `/menu` rotasında basılıyor; final review sonrası site geneli değil, bkz.
-  `IYILESTIRMELER.md`) ve `breadcrumbJsonLd(anahtar, dil)` (`BreadcrumbList`, `Kabuk`'ta ana
-  sayfa dışındaki her rotada). İki ana sayfa tek `<script type="application/ld+json">` taşır
-  (`Restaurant`), iki menü sayfası üç (`Restaurant` + `Menu` + `BreadcrumbList`), diğer sekiz
-  rota iki (`Restaurant` + `BreadcrumbList`); hepsi geçerli JSON, ölçüldü.
-- **`app/sitemap.ts` her URL'i `lastModified`/`changeFrequency`/`priority` ile damgalıyor.**
-- **`lib/llmsTxt.ts`**, yapay zeka/cevap motoru tarayıcıları için build zamanında bir olgu özeti
-  üretiyor; `/llms.txt`'te (`app/llms.txt/route.ts`) yayında, okunur metin ve işlevsel linklerle.
-- Test sayısı 138'den 154'e çıktı (6 `menuJsonLd` + 5 `breadcrumbJsonLd` + 5 `llmsTxt` testi).
-  `npm run typecheck`, `npm test`, `npm run build` üçü de temiz; on iki rota 200 dönüyor, konsol
-  temiz (`hikaye` sayfalarındaki font/CSS preload uyarıları bu turun ürünü değil, dokunulan
-  dosyalardan hiçbiri font/preload/CSS parçalama ile ilgili değil).
+1. **Menü metinleri:** Bozo Special'ın içeriği, Terbiyeli Tavuk Şiş açıklaması (tavuk şişlerin
+   İngilizce adları da buna bağlı), dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı.
+2. **Fotoğraflar:** on altı boş kare (`content/fotograflar.ts`); geldikçe yalnız `dosya` yazılır,
+   plaka kendiliğinden döner. Yatay Ciğer çekimi gelirse imza alanındaki dikey kareyle değişir.
+3. **Oyun:** ayran tek dokunuşlu içecek olarak dönsün mü (yol `docs/specs/2026-10-09-oyun-sade-design.md`
+   > Ayran); sesler kulakla dinlenmedi (`~/Desktop/Bozo/ses-dinleme/`); gerçek telefonda kare ölçümü;
+   paylaşım kartı ve kurallar sayfası sahibin metnini bekliyor; raster varlıklar
+   (`docs/surec/OYUN-VARLIK-BRIEFI.md`).
+4. **Hukuk:** KKTC 89/2007 Md. 8 Başkana Bildirim ve Md. 11 Transfer Ruhsatı yapılmadı; gizlilik
+   metni hukukçudan geçmedi (sahibi incelemeyi istemedi, 10 Ekim).
+5. **Eski açık kararlar:** `KARAR-FORMU.md` A1-A12; "Yol Tarifi Al" etiketinin `#harita` hedefiyle
+   çelişkisi; Konum hero'sunun boş sağ yarısı; genel kontrolün soruları ("Bozo's Table", "Beş ürün",
+   galeri ve boş plakalar, onayı geri alma, EN "piece", tanımsız `--krem-84`) `IYILESTIRMELER.md` >
+   "tam kapsam genel kontrol" > Sahibine.
+6. **SSS ve konumlandırma cümlesi** yeni metin gerektiriyor
+   ([issue #1](https://github.com/crimsoninnovate/bozo/issues/1),
+   [issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
+7. **Performans adayları 2-5** (`IYILESTIRMELER.md` > "mobil performans teşhisi"); aday 1 yayında.
+8. `X-Powered-By` başlığı sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler: kullanıcının kararı.
 
 ## Bir sonraki deploy'da hatırlanacak
 
