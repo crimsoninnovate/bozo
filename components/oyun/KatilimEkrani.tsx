@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type SubmitEvent } from 'react'
 import Link from 'next/link'
 import { sozluk, type Sozluk } from '@/content'
 import type { Dil } from '@/content/types'
@@ -54,7 +54,7 @@ export function KatilimEkrani({ dil, kaydet, vazgec }: Props) {
   const [ad, setAd] = useState('')
   const [durum, setDurum] = useState<Durum>('bos')
 
-  const gonder = async (olay: FormEvent) => {
+  const gonder = async (olay: SubmitEvent<HTMLFormElement>) => {
     olay.preventDefault()
     const duzgun = takmaAdDuzelt(ad)
     if (!takmaAdBicimiGecerliMi(duzgun)) return setDurum('red')
