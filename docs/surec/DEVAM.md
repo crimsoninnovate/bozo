@@ -10,9 +10,9 @@ Son güncelleme: 13 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **Dal `feat/site-kurulumu`, GitHub'daki `main`'in (`bdcc175`) iki commit önünde:** rehberin garnitür
-  adımı yalnız boş elle açılıyor (`1d5e4c5`) ve eldeki garnitür ya da tabak başka kaynağa uzanınca
-  değişiyor (`a5368a6`). İkisi de canlıda; push kullanıcının onayıyla yapılır.
+- **Dal `feat/site-kurulumu`, GitHub'daki `main`'in (`bdcc175`) önünde:** rehberin garnitür adımı yalnız
+  boş elle açılıyor (`1d5e4c5`), eldeki garnitür ya da tabak başka kaynağa uzanınca değişiyor (`a5368a6`)
+  ve masa plakası sayacı (`8b49928`). Hepsi canlıda; push kullanıcının onayıyla yapılır.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
@@ -21,9 +21,14 @@ Son güncelleme: 13 Ekim 2026
 - **Menü sayfası, 11-13 Ekim:** Bozo Special 900 TL ve 190 gr. Boş fotoğraf plakaları masaüstünde de
   kapalı (sahibi, 13 Ekim); Ciğer imza alanında eldeki yakın çekim; içecekler çizgili satır; telefonda
   ikram kümeleri tek çerçeve. Plan ve durum: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
-- **Masa QR'ı** üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
+- **Masa plakaları, 13 Ekim:** 30 pleksi plakanın her biri `cigercibozo.com/m/N` (1-30) taşıyor; adres
+  basılı, hiç değişmez. `.htaccess` 302 ile `/menu/?masa=N`'e yollar, menü okumayı skor sunucusuna
+  bildirir (`POST /tarama/N`, tablo `masa_tarama`, kişisel veri yok), personel ekranı "Masa okumaları"
+  bölümünde bugün / son 7 gün / toplam gösterir. Canlıda uçtan uca doğrulandı, deneme kayıtları silindi.
+  Brifteki GA4 `menu_scan` olayı kullanılmadı: GA onaysız çalışmaz, okumaların küçük bir kısmını sayardı.
+- **Masa QR'ı** (11 Ekim, tek ortak QR) üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
   QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
-- Testler 400 geçer (9 atlanır: opt-in MariaDB sözleşmesi), typecheck ve build temiz.
+- Testler 407 geçer (10 atlanır: opt-in MariaDB sözleşmesi), typecheck ve build temiz.
 
 ## Bekleyen iş
 
