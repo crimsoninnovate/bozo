@@ -10,8 +10,8 @@ Son güncelleme: 13 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **Dal `feat/site-kurulumu`, GitHub'a push edilmedi:** `main` (9 Ekim, `98506c5`) 20 commit geride.
-  Canlıdaki sürüm bu dalın son build'idir, `main` değil. Push kullanıcının onayıyla yapılır.
+- **Dal `feat/site-kurulumu`, GitHub'da ve `main` ile aynı** (13 Ekim, ileri sarma). Canlıdaki sürüm
+  bu dalın son build'idir; push kullanıcının onayıyla yapılır.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
