@@ -1,10 +1,8 @@
 .kap { position: relative; }
 .gorsel { object-fit: cover; }
 
-/* Boş plaka telefonda basılmaz (bkz. FotoYuvasi.tsx `bosMobildeGizli`). */
-@media (max-width: 1040px) {
-  .bosMobil { display: none; }
-}
+/* Boş plaka basılmaz (bkz. FotoYuvasi.tsx `bosGizli`). */
+.bosGizli { display: none; }
 
 /* ---- pencere ailesi ------------------------------------------------------
    Zemin taşımaz: plaka, arkasındaki kor sahnesine açılan bir pencere.

@@ -146,13 +146,35 @@
     line-height: 1.5;
   }
 
+  /* Üç kutu yerine tek çerçeve: küme başlığı solda, kalemler sağda yan yana. */
   .gruplar {
-    margin-top: 12px;
-    gap: 10px;
+    margin-top: 10px;
+    padding: 0 16px;
+    gap: 0;
+    background: var(--panel-acik);
+    border: 1px solid var(--cizgi-kart);
   }
 
   .grup {
-    padding: 14px 16px;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 4px 12px;
+    padding: 12px 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--cizgi-soluk);
   }
+
+  .grup:first-child { border-top: 0; }
+
+  .grupBaslik { grid-row: 1 / span 2; }
+
+  .grupListesi {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+  }
+
+  .grupNotu { grid-column: 2; }
 }

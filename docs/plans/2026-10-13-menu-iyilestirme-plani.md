@@ -57,6 +57,11 @@ Her madde: `npm run typecheck`, `npm test`, build, 390/1440/320 ölçümü, axe;
 - **C3. Dürüm "5 şiş" notu hâlâ doğru mu** (DEVAM.md madde 1'den açık).
 - **C4. Fotoğraflar:** on altı boş kare; geldikçe yalnız `content/fotograflar.ts` güncellenir.
 
+## Durum (13 Ekim 2026)
+
+B1 sahibince onaylandı ve A1, A3 ile birlikte yapıldı; A2 ölçümle düştü, A4 B1 sonrası gereksiz
+(ayrıntı: `IYILESTIRMELER.md` > "13 Ekim 2026: menü sayfası"). Açık: B2, C1-C4.
+
 ## Sıra
 
 A1, A2, A3 birlikte bir tur (yalnız CSS ve küçük JSX). B1 ile B2 için 1440'ta önce/sonra görüntüsü

@@ -16,31 +16,31 @@
 .kolon {
   flex: 1 1 420px;
   min-width: min(300px, 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  container-type: inline-size;
 }
 
-/* Tasarımın üç kalemi altıya çıktı; tek sütun sayfayı gereksiz uzatıyordu.
-   Tasarımın 12px adımı sütun içinde ve sütunlar arasında aynı kalır. */
+/* Satır, kutu değil (Ocakbaşı'nın telefon listesiyle aynı dil); ad solda, ölçüler sağ sütunda.
+   Kolon genişse iki sütun: tek sütunda ad ile fiyat 1180px arayla okunuyordu. */
 .liste {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  column-gap: 56px;
 }
 
+@container (min-width: 760px) {
+  .liste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Ad kendi genişliğinde; ölçüler kalan yere sağa yaslı sarar (telefonda Ayran'ın üçü). */
 .kalem {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
   align-items: baseline;
-  justify-content: space-between;
-  gap: 6px 14px;
-  padding: 16px 20px;
-  background: var(--panel-acik);
-  border: 1px solid var(--cizgi-kart);
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--cizgi-soluk);
 }
 
 .ad {
@@ -51,6 +51,7 @@
 .olculer {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 4px 14px;
 }
 
@@ -120,8 +121,7 @@
   color: var(--krem-62);
 }
 
-/* Telefon: plaka yalnız fotoğraf varsa, satırlar bir kademe sıkı; iki sütun sığmıyor
-   (ölçüldü: "Fuse Tea Çeşitleri" 146px, kola ölçüleri 163px). */
+/* Telefon: plaka yalnız fotoğraf varsa, satırlar bir kademe sıkı. */
 @media (max-width: 1040px) {
   .bolum {
     padding-top: 44px;
@@ -140,7 +140,7 @@
   }
 
   .kalem {
-    padding: 13px 16px;
+    padding: 12px 0;
   }
 
   .dipnot {

@@ -97,6 +97,7 @@ one's measurements are in `docs/surec/IYILESTIRMELER.md`.
 | Home page | `Bozo/export/UYGULAMA-NOTLARI.md`, 12 Aug 2026 | hero, Ocakbaşı, Gece, İddia, Hikaye, Konum, ember scene, home top bar |
 | Mobile drawer (`Cekmece`) | owner's decision A, 18 Aug 2026 | own top row, numbered links, section anchors, status block, two CTAs, signed foot, entrance motion |
 | Menu page below 1040px | owner's 1A/2A, 18 Aug 2026 | rows not cards, no empty photo plates on phones, full price on the name line |
+| Menu page, all widths | owner, 13 Oct 2026 | no empty photo plates on desktop either (`FotoYuvasi bosGizli`); drinks as ruled rows |
 
 - Canonical visual and behavioral source: `/Users/mk/Desktop/Bozo/design_handoff_bozo_website/*.dc.html`
 - Cheaper structural extract of the same handoff, read this first: `docs/tasarim/*.json`

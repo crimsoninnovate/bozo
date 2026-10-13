@@ -112,7 +112,7 @@ Son güncelleme: 10 Ekim 2026
 1. **Fiyat listesinden kalan üç soru sahibinde** (`IYILESTIRMELER.md` > "8 Ekim 2026: fiyat
    listesi"): dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı, Terbiyeli Tavuk
    Şiş açıklaması. İçecek fiyatları dahil bütün fiyatlar 8 Ekim'de geldi.
-2. **On yedi kare** (`content/fotograflar.ts`; 8 Ekim'de terbiyeli tavuk şiş yuvası eklendi). Dosya yokken telefonda plaka hiç basılmıyor,
+2. **On yedi kare** (`content/fotograflar.ts`; 8 Ekim'de terbiyeli tavuk şiş yuvası eklendi). Dosya yokken menüde plaka hiçbir genişlikte basılmıyor (13 Ekim),
    dosya tanımlanınca kendiliğinden geri geliyor. İlk gerçek fotoğraf geldiğinde
    `fotograflar_hicbiriHenuzDosyaTasimaz` testi bilerek kırılacak, o gün güncellenmeli.
 3. **Sahibinin eski açık maddeleri** `KARAR-FORMU.md` A1-A12. Sorulmadan uygulanmaz.

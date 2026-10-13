@@ -49,7 +49,7 @@ export function Icecekler({ dil }: Props) {
       <BolumBasligi olcek="sayfa" baslik={s.menu.icecekler.baslik} />
 
       <div className={stil.satir}>
-        <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosMobildeGizli />
+        <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosGizli />
         <div className={stil.kolon}>
           <ul className={stil.liste}>
             {icecekler.map((icecek) => (

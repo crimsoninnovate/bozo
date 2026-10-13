@@ -3,6 +3,7 @@ import { Cip } from '@/components/ui/Cip'
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil, type Sozluk } from '@/content'
+import { fotograflar } from '@/content/fotograflar'
 import { fiyatMetni } from '@/content/isletme'
 import type { FotoId, Urun } from '@/content/types'
 import { menuUrunler, ozelUrun } from '@/content/urunler'
@@ -13,6 +14,8 @@ import stil from './Ocakbasi.module.css'
 type Props = { dil: Dil }
 
 type UrunMetni = { ad: string; aciklama?: string }
+
+const IMZA_KARESI: FotoId = 'tane-yakin-cekim-yatay'
 
 /**
  * Kartların kor nefesi. Tasarım her plakaya kendi süresini veriyor ve süreler
@@ -56,9 +59,11 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
   const s = sozluk(dil)
   const metin = urunMetni(s, urun.id)
   const spec = s.menu.ocakbasi.cigerSpec
+  // Spread karesi yokken panel satırın tamamını alır; ölçüler sağ sütuna geçer.
+  const genis = !fotograflar[IMZA_KARESI].dosya
 
   return (
-    <div className={stil.imzaPaneli}>
+    <div className={genis ? `${stil.imzaPaneli} ${stil.imzaGenis}` : stil.imzaPaneli}>
       <div className={stil.imzaUst}>
         <span aria-hidden="true" className={stil.indeks}>
           {indeksMetni(0)}
@@ -129,7 +134,7 @@ export function Ocakbasi({ dil }: Props) {
       />
 
       <div className={stil.imzaSatiri}>
-        <FotoYuvasi id="tane-yakin-cekim-yatay" dil={dil} bicim="spread" bosMobildeGizli />
+        <FotoYuvasi id={IMZA_KARESI} dil={dil} bicim="spread" bosGizli />
         <ImzaPaneli dil={dil} urun={imza} />
       </div>
 

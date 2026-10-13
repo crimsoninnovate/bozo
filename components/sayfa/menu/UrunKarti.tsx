@@ -31,7 +31,7 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, urun, korNefesi }
         dil={dil}
         bicim="kart"
         korNefesi={korNefesi}
-        bosMobildeGizli
+        bosGizli
       />
       <span aria-hidden="true" className={stil.indeks}>
         {indeks}

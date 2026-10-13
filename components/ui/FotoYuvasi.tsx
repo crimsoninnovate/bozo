@@ -77,12 +77,11 @@ type Props = {
    */
   etiketGoster?: boolean
   /**
-   * Fotoğraf dosyası yokken 1040 altında plaka basılmaz (sahibi, 18 Ağustos 2026:
-   * menü sayfasının boş plakaları telefonda sayfanın üçte biriydi). Dosya gelince
-   * kendiliğinden döner. Galeri geçmez: orada boş kare içeriğin kendisi.
-   * Çağıranlar plakayı `> div:first-child` ile boyutluyor; kök div ilk çocuk kalmalı.
+   * Fotoğraf dosyası yokken plaka basılmaz: telefonda 18 Ağustos, masaüstünde 13 Ekim 2026
+   * (sahibi). Dosya gelince kendiliğinden döner. Galeri geçmez: orada boş kare içeriğin kendisi.
+   * Çağıranlar plakayı `> div:first-child` ile boyutluyor; kök div gizli ama ilk çocuk kalmalı.
    */
-  bosMobildeGizli?: boolean
+  bosGizli?: boolean
   /** Ekranın üstündeki LCP karesi: tembel değil, hemen ve yüksek öncelikle yüklenir. */
   oncelikli?: boolean
   children?: React.ReactNode
@@ -101,7 +100,7 @@ export function FotoYuvasi({
   koseIsaretleri,
   korNefesi,
   etiketGoster = false,
-  bosMobildeGizli = false,
+  bosGizli = false,
   oncelikli = false,
   children,
 }: Props) {
@@ -133,7 +132,7 @@ export function FotoYuvasi({
   // sağ-altı kullanır, bitişik ikisini değil.
   const koseSiniflari = [stil.solUst, stil.sagAlt, stil.sagUst, stil.solAlt]
 
-  const sinif = `${stil.kap} ${stil[bicim]}${bosMobildeGizli ? ` ${stil.bosMobil}` : ''}`
+  const sinif = `${stil.kap} ${stil[bicim]}${bosGizli ? ` ${stil.bosGizli}` : ''}`
   return (
     <div className={sinif}>
       {OCAK_AILESI.has(bicim) && (

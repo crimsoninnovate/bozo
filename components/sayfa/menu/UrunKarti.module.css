@@ -102,7 +102,7 @@
     transition: none;
   }
 
-  /* Fotoğraf varsa 72px kare, sağda; yoksa plaka hiç yok (FotoYuvasi bosMobildeGizli). */
+  /* Fotoğraf varsa 72px kare, sağda; yoksa plaka hiç yok (FotoYuvasi bosGizli). */
   .kart > div:first-child {
     grid-column: 3;
     grid-row: 1 / span 3;

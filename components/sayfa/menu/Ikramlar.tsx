@@ -64,7 +64,7 @@ function IkramKarti(props: {
         dil={dil}
         bicim="ikram"
         korNefesi={korNefesi}
-        bosMobildeGizli
+        bosGizli
       />
       <div className={stil.govde}>
         <h3 className={stil.ad}>{ad}</h3>

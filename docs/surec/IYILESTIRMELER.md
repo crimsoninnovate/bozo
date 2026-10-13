@@ -2523,3 +2523,18 @@ Yalnız görüntü ve ses; simülasyona dokunmaz, altın kayıtlar aynı.
   ve 6 px ön kenar; ocak teknesinde bakır kenarın iç gölgesi, 16 px ön yüz; üst kısım hafif sisli (uzak).
 - Sürüklenen öğe kalkar: `scale: 1.1`, 12 px gölge. Parallax katmanları: desen -3, kor -10/-6, tezgah +4 px.
 - Yalnız görüntü; hedef kutuları değişmedi. Kare p95 18,2 ms (önce 18,0-18,1, 4x CPU), testler 397.
+
+## 13 Ekim 2026: menü sayfası, plan A1, A3 ve B1
+
+Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
+
+- **B1 (sahibi: "fotoğraflar gelene kadar o alanlar kapalı kalsın").** `bosMobildeGizli` > `bosGizli`:
+  boş plaka masaüstünde de basılmaz, dosya tanımlanınca döner. Ciğer paneli kare yokken masaüstünde iki
+  sütun (`imzaGenis`): metin solda, ölçüler 400 px sağ sütunda; tek sütunda ölçü ile fiyat 1100 px
+  arayla okunuyordu. Masaüstü sayfa 3923 > 3017 px (TR), EN 3174.
+- **A1, A3.** İçecekler kutu değil çizgili satır, ad solda, ölçüler sağa yaslı; kolon 760 px üstündeyse
+  iki sütun. Telefonda ikram kümeleri tek çerçevede, küme başlığı solda. Telefon sayfası 3703 > 3416 px.
+- **A2 düştü.** Ölçü satırını iki sütuna bölmek TR'de 327, EN'de 338 px istiyor; 390 telefonda liste
+  312 px. Üç satıra açmak 2A'yı bozar; mevcut akış kaldı.
+- Taşma yok (320/360/390/1040/1041/1440, TR ve EN), yalnız EN 320'de `anaFiyat` 7 px taşıyor: bu tur
+  öncesinde de vardı, ayrı madde. axe 0, testler 397.
