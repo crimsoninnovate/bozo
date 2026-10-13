@@ -48,7 +48,7 @@ export function urunOlculeri(urun: Urun): { olcu: Olcu; fiyat: number }[] {
   })
 }
 
-/** Fiyat listesinde "250 GR", tek ölçü. */
+/** Tek ölçü; gramaj menü sözlüğünde (`ozel.miktarNotu`). */
 export const ozelUrun: OzelUrun = { id: 'bozo-special', fiyat: 900 }
 
 /** İkramlarda fiyat alanı yoktur; arayüzde "ikram" ibaresi basılır. */

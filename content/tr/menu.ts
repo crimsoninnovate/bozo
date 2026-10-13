@@ -43,7 +43,7 @@ export const menu = {
         aciklama: 'Ciğer, dalak ve yürek bir arada.',
       },
     },
-    // "Her üründen iki şiş · 10 şiş" yerine fiyat listesindeki "250 GR" (sahibi, 8 Ekim 2026).
+    // "Her üründen iki şiş · 10 şiş" yerine gramaj: 250 gr (8 Ekim 2026), 190 gr (11 Ekim 2026).
     ozel: { ad: 'Bozo Special', miktarNotu: '190 gr' },
   },
   ikramlar: {
