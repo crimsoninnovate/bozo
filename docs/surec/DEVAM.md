@@ -10,9 +10,9 @@ Son güncelleme: 13 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **Dal `feat/site-kurulumu`, GitHub'daki `main`'in (`bdcc175`) önünde:** rehberin garnitür adımı yalnız
-  boş elle açılıyor (`1d5e4c5`), eldeki garnitür ya da tabak başka kaynağa uzanınca değişiyor (`a5368a6`)
-  ve masa plakası sayacı (`8b49928`). Hepsi canlıda; push kullanıcının onayıyla yapılır.
+- **Dal `feat/site-kurulumu` GitHub'a gönderildi ve `main` ona eşit (13 Ekim):** rehberin garnitür adımı,
+  eldeki garnitür ya da tabağın değişmesi ve masa plakası sayacı dahil her şey canlıda. Push her seferinde
+  kullanıcının onayıyla yapılır.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
