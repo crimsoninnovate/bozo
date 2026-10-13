@@ -10,8 +10,9 @@ Son güncelleme: 13 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **Dal `feat/site-kurulumu`, GitHub'da ve `main` ile aynı** (13 Ekim, ileri sarma). Canlıdaki sürüm
-  bu dalın son build'idir; push kullanıcının onayıyla yapılır.
+- **Dal `feat/site-kurulumu`, GitHub'daki `main`'in (`bdcc175`) iki commit önünde:** rehberin garnitür
+  adımı yalnız boş elle açılıyor (`1d5e4c5`) ve eldeki garnitür ya da tabak başka kaynağa uzanınca
+  değişiyor (`a5368a6`). İkisi de canlıda; push kullanıcının onayıyla yapılır.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
@@ -22,7 +23,7 @@ Son güncelleme: 13 Ekim 2026
   ikram kümeleri tek çerçeve. Plan ve durum: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
 - **Masa QR'ı** üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
   QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
-- Testler 397 geçer (9 atlanır: opt-in MariaDB sözleşmesi), typecheck ve build temiz.
+- Testler 400 geçer (9 atlanır: opt-in MariaDB sözleşmesi), typecheck ve build temiz.
 
 ## Bekleyen iş
 
@@ -32,7 +33,8 @@ Son güncelleme: 13 Ekim 2026
    İngilizce adları da buna bağlı), dürüm notu "5 şiş" hâlâ doğru mu, `priceRange` yayımlansın mı.
 2. **Fotoğraflar:** on altı boş kare (`content/fotograflar.ts`); geldikçe yalnız `dosya` yazılır,
    plaka kendiliğinden döner. Yatay Ciğer çekimi gelirse imza alanındaki dikey kareyle değişir.
-3. **Oyun:** ayran tek dokunuşlu içecek olarak dönsün mü (yol `docs/specs/2026-10-09-oyun-sade-design.md`
+3. **Oyun:** elde şiş varken başka kaynağa uzanılamıyor (simülasyon kuralı, değişirse Pazartesi
+   05:00'te çıkar); ayran tek dokunuşlu içecek olarak dönsün mü (yol `docs/specs/2026-10-09-oyun-sade-design.md`
    > Ayran); sesler kulakla dinlenmedi (`~/Desktop/Bozo/ses-dinleme/`); gerçek telefonda kare ölçümü;
    paylaşım kartı ve kurallar sayfası sahibin metnini bekliyor; raster varlıklar
    (`docs/surec/OYUN-VARLIK-BRIEFI.md`).
