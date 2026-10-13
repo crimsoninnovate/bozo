@@ -1,3 +1,4 @@
+import { masaGecerliMi } from '../lib/masa.ts'
 import {
   JETON_SURESI_MS,
   SURE_PAYI_MS,
@@ -69,6 +70,14 @@ export async function turAl(b: Baglam, istek: Istek): Promise<Yanit> {
   await b.depo.sayacArtir(girneGunu(new Date(simdi)), kanal)
   const govde: JetonYaniti = { turId: jeton.id, tohum: jeton.tohum, sonaErme: new Date(jeton.sonaErme).toISOString() }
   return { durum: 201, govde }
+}
+
+/** Masa plakası QR'ı (`lib/masa.ts`): menü sayfası okumayı bir kez bildirir. Gövde ve kimlik yok. */
+export async function taramaKaydet(b: Baglam, masa: string): Promise<Yanit> {
+  const n = Number(masa)
+  if (masa !== String(n) || !masaGecerliMi(n)) throw new IstekHatasi(400, 'masaGecersiz')
+  await b.depo.taramaArtir(girneGunu(new Date(b.simdi())), n)
+  return { durum: 204 }
 }
 
 async function oyuncuyuBul(b: Baglam, istek: Istek): Promise<Oyuncu> {

@@ -1,3 +1,4 @@
+import { MASA_SAYISI, yediGunlukBaslangic, type YonetimTaramaYaniti } from '../lib/masa.ts'
 import type { KodYaniti, YonetimSiralamaYaniti, YonetimTurYaniti } from '../lib/oyun/aktarim.ts'
 import { donemAnahtari, girneGunu } from './donem.ts'
 import { IstekHatasi, temelKimlik, type Istek, type Yanit } from './http.ts'
@@ -76,4 +77,15 @@ export async function yonetimSayac(b: Baglam, istek: Istek): Promise<Yanit> {
   const gun = istek.sorgu.get('gun') ?? girneGunu(new Date(b.simdi()))
   if (!/^\d{4}-\d{2}-\d{2}$/.test(gun)) throw new IstekHatasi(400, 'gunGecersiz')
   return { durum: 200, govde: { gun, ...(await b.depo.sayaclar(gun)) } }
+}
+
+/** Masa okumaları: bugün, son 7 gün ve toplam; okunmamış masa da sıfırla listelenir. */
+export async function yonetimTarama(b: Baglam): Promise<Yanit> {
+  const gun = girneGunu(new Date(b.simdi()))
+  const okunan = new Map((await b.depo.taramaOzeti(gun, yediGunlukBaslangic(gun))).map((s) => [s.masa, s]))
+  const satirlar = Array.from(
+    { length: MASA_SAYISI },
+    (_, i) => okunan.get(i + 1) ?? { masa: i + 1, bugun: 0, hafta: 0, toplam: 0 },
+  )
+  return { durum: 200, govde: { gun, satirlar } satisfies YonetimTaramaYaniti }
 }

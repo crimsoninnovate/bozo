@@ -38,12 +38,14 @@ npm run preview    # serve the out/ export locally
   the palette, so `styles/palet.test.ts` rejects it.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
   business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
-- `lib/` is eleven small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
+- `lib/` is twelve small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
   where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
   outbound URL), `kabuk` (the shell parts that change per route: top-bar variant, anchors,
   drawer links), `metadata` (page metadata and the social card), `jsonld`, `onay` (consent
   storage), `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame),
-  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention).
+  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention), `masa` (table
+  plate QRs: `/m/N` is redirected by `public/.htaccess` to `/menu/?masa=N`, counted first-party on
+  the score server, shown on the staff screen; the printed address never changes).
   `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
   integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
   display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,

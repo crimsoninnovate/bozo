@@ -1,6 +1,15 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { ApiHatasi, apiKur, jetonCoz, kanalCoz, tekrarDenenebilirMi, temelYetki, yonetimApiKur } from './api.ts'
+import {
+  ApiHatasi,
+  apiKur,
+  jetonCoz,
+  kanalCoz,
+  taramaBildir,
+  tekrarDenenebilirMi,
+  temelYetki,
+  yonetimApiKur,
+} from './api.ts'
 
 test('kanalCoz_sofraVeIg_taninir_digerleriYok', () => {
   assert.equal(kanalCoz('?k=sofra'), 'sofra')
@@ -80,6 +89,7 @@ test('yonetimApi_yollarYontemlerVeTemelKimlik', async () => {
     [() => yonetim.tur(42), 'http://x/yonetim/tur/42', 'GET', undefined],
     [() => yonetim.kod('123456'), 'http://x/yonetim/kod', 'POST', '{"kod":"123456"}'],
     [() => yonetim.gizle(7, true), 'http://x/yonetim/oyuncu/7/gizle', 'POST', '{"gizli":true}'],
+    [() => yonetim.tarama(), 'http://x/yonetim/tarama', 'GET', undefined],
   ]
   for (const [cagri, url, yontem, govde] of cagrilar) {
     await cagri()
@@ -93,4 +103,23 @@ test('yonetimApi_yollarYontemlerVeTemelKimlik', async () => {
 test('yonetimApi_bosGovde204_hataVermez', async () => {
   const yonetim = yonetimApiKur('http://x', async () => new Response(null, { status: 204 }), 'Basic abc')
   assert.equal(await yonetim.gizle(1, false), null)
+})
+
+test('taramaBildir_govdesizPost_keepalive_hataYutulmazGunluge', async () => {
+  let kayit: { url: string; secenek?: RequestInit } | null = null
+  await taramaBildir('http://x', async (url, secenek) => {
+    kayit = { url: String(url), secenek }
+    return new Response(null, { status: 204 })
+  }, 7)
+  assert.deepEqual(kayit, { url: 'http://x/tarama/7', secenek: { method: 'POST', keepalive: true } })
+  const uyarilar: unknown[][] = []
+  const uyari = console.warn
+  console.warn = (...a: unknown[]) => void uyarilar.push(a)
+  try {
+    await taramaBildir('http://x', async () => { throw new TypeError('ag') }, 7)
+  } finally {
+    console.warn = uyari
+  }
+  assert.equal(uyarilar.length, 1)
+  assert.equal(uyarilar[0]?.[1], 7)
 })

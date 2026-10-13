@@ -1,3 +1,4 @@
+import type { TaramaSatiri } from '../lib/masa.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Depo, Donem, Jeton, Kazanan, Oyuncu, SiraSatiri, Tur } from './depo.ts'
 import { enIyiler } from './siralama.ts'
@@ -19,6 +20,8 @@ type Bellek = {
   donemler: Map<string, Donem>
   kazananlar: Map<number, Kazanan>
   sayac: Map<string, number>
+  /** Anahtar `gun:masa`. */
+  tarama: Map<string, number>
   sonId: number
 }
 
@@ -220,6 +223,26 @@ function kazananlar(b: Bellek): KazananUclari {
   }
 }
 
+function taramalar(b: Bellek): Parca<'taramaArtir' | 'taramaOzeti'> {
+  return {
+    async taramaArtir(gun, masa) {
+      b.tarama.set(`${gun}:${masa}`, (b.tarama.get(`${gun}:${masa}`) ?? 0) + 1)
+    },
+    async taramaOzeti(bugun, haftaBasi) {
+      const satirlar = new Map<number, TaramaSatiri>()
+      for (const [anahtar, adet] of b.tarama) {
+        const [gun = '', masa] = anahtar.split(':')
+        const s = satirlar.get(Number(masa)) ?? { masa: Number(masa), bugun: 0, hafta: 0, toplam: 0 }
+        if (gun === bugun) s.bugun += adet
+        if (gun >= haftaBasi) s.hafta += adet
+        s.toplam += adet
+        satirlar.set(s.masa, s)
+      }
+      return [...satirlar.values()].sort((a, c) => a.masa - c.masa)
+    },
+  }
+}
+
 function sayaclar(b: Bellek): Parca<'sayacArtir' | 'sayaclar'> {
   return {
     async sayacArtir(gun, kanal) {
@@ -240,6 +263,7 @@ export function bellekDepoKur(): Depo {
     donemler: new Map(),
     kazananlar: new Map(),
     sayac: new Map(),
+    tarama: new Map(),
     sonId: 0,
   }
   return {
@@ -249,6 +273,7 @@ export function bellekDepoKur(): Depo {
     ...donemler(b),
     ...kazananlar(b),
     ...sayaclar(b),
+    ...taramalar(b),
     async kapat() {
       /* bellek */
     },

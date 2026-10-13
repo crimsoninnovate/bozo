@@ -1,3 +1,4 @@
+import type { TaramaSatiri } from '../lib/masa.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Bitis, Girdi, Ozet } from '../lib/oyun/tipler.ts'
 
@@ -115,6 +116,11 @@ export type Depo = {
 
   sayacArtir(gun: string, kanal: Kanal): Promise<void>
   sayaclar(gun: string): Promise<Record<Kanal, number>>
+
+  /** Masa plakası QR okuması, gün ve masa başına bir sayaç; kişiye ait hiçbir şey tutulmaz. */
+  taramaArtir(gun: string, masa: number): Promise<void>
+  /** Okunmuş her masa için bir satır, masa sırasıyla; `haftaBasi` dahil o günden bu yana. */
+  taramaOzeti(bugun: string, haftaBasi: string): Promise<TaramaSatiri[]>
 
   kapat(): Promise<void>
 }

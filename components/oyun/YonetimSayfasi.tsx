@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { yonetim as m } from '@/content/yonetim'
+import type { YonetimTaramaYaniti } from '@/lib/masa'
 import { doldur } from '@/lib/metin'
 import type { YonetimSiralamaYaniti } from '@/lib/oyun/aktarim'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
@@ -9,7 +10,8 @@ import { tarihMetni } from '@/lib/oyun/tarih'
 import { oncekiDonem, turuDogrula } from '@/lib/oyun/yonetim'
 import stil from './YonetimSayfasi.module.css'
 
-/* Personel ekranı (spec §7, §9): ödül kodu onayı, haftanın ilk 20'si, ad gizleme, turun yeniden oynatılması. */
+/* Personel ekranı (spec §7, §9): ödül kodu onayı, haftanın ilk 20'si, ad gizleme, turun yeniden oynatılması,
+   masa plakası okumaları. */
 
 const ANAHTAR = 'bozo-yonetim'
 const sayi = (n: number) => n.toLocaleString('tr-TR')
@@ -181,6 +183,58 @@ function Hafta({ api, cik }: Panel) {
   )
 }
 
+const SUTUNLAR = ['bugun', 'hafta', 'toplam'] as const
+
+function Taramalar({ api, cik }: Panel) {
+  const [veri, setVeri] = useState<YonetimTaramaYaniti | null>(null)
+  const [hata, setHata] = useState<string | null>(null)
+  const [surum, setSurum] = useState(0)
+  useEffect(() => {
+    api.tarama().then(
+      (v) => {
+        setVeri(v)
+        setHata(null)
+      },
+      (h: unknown) => setHata(hataIsle(h, cik)),
+    )
+  }, [api, cik, surum])
+  const topla = (k: (typeof SUTUNLAR)[number]) => veri?.satirlar.reduce((t, s) => t + s[k], 0) ?? 0
+  return (
+    <section className={stil.bolum} aria-labelledby="tarama-baslik">
+      <h2 id="tarama-baslik" className={stil.altBaslik}>{m.tarama.baslik}</h2>
+      <p className={stil.not}>{m.tarama.not}</p>
+      <div className={stil.dugmeler}>
+        <button type="button" onClick={() => setSurum((s) => s + 1)}>{m.tarama.yenile}</button>
+      </div>
+      {hata && <p className={stil.hata} role="alert">{hata}</p>}
+      {veri && (
+        <table className={stil.tablo}>
+          <thead>
+            <tr>
+              <th scope="col">{m.tarama.masa}</th>
+              {SUTUNLAR.map((k) => <th key={k} scope="col">{m.tarama[k]}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {veri.satirlar.map((s) => (
+              <tr key={s.masa}>
+                <th scope="row" className={stil.sira}>{s.masa}</th>
+                {SUTUNLAR.map((k) => <td key={k} className={stil.puan}>{sayi(s[k])}</td>)}
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">{m.tarama.hepsi}</th>
+              {SUTUNLAR.map((k) => <td key={k} className={stil.puan}>{sayi(topla(k))}</td>)}
+            </tr>
+          </tfoot>
+        </table>
+      )}
+    </section>
+  )
+}
+
 export function YonetimSayfasi() {
   const [yetki, setYetki] = useState<string | null>(null)
   useEffect(() => setYetki(sessionStorage.getItem(ANAHTAR)), [])
@@ -201,6 +255,7 @@ export function YonetimSayfasi() {
           <button type="button" className={stil.cikis} onClick={cik}>{m.cikis}</button>
           <KodFormu api={api} cik={cik} />
           <Hafta api={api} cik={cik} />
+          <Taramalar api={api} cik={cik} />
         </>
       ) : (
         <Giris gir={gir} />

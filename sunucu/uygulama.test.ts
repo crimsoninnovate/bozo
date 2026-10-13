@@ -8,6 +8,7 @@ import {
   type JetonYaniti,
   type TabloYaniti,
 } from '../lib/oyun/aktarim.ts'
+import { MASA_SAYISI, type YonetimTaramaYaniti } from '../lib/masa.ts'
 import { ustaOyna } from '../lib/oyun/deneme.ts'
 import { simule } from '../lib/oyun/motor.ts'
 import type { Girdi } from '../lib/oyun/tipler.ts'
@@ -289,4 +290,22 @@ test('bilinmeyenYol404_yanlisYontem405_bozukJson400', async () => {
   assert.equal((await istek('/tablo', { yontem: 'POST', govde: {} })).durum, 405)
   const bozuk = await istek('/tur', { yontem: 'POST', ham: '{bozuk' })
   assert.deepEqual([bozuk.durum, bozuk.govde?.hata], [400, 'bozukJson'])
+})
+
+test('tarama_gecerliMasa204_digerleri400_personelOtuzSatirGorur', async () => {
+  assert.equal((await istek('/tarama/7', { yontem: 'POST' })).durum, 204)
+  assert.equal((await istek('/tarama/7', { yontem: 'POST', basliklar: { Origin: KOKEN } })).durum, 204)
+  for (const masa of ['0', '31', '07', '999']) {
+    const red = await istek(`/tarama/${masa}`, { yontem: 'POST' })
+    assert.deepEqual([red.durum, red.govde?.hata], [400, 'masaGecersiz'], masa)
+  }
+  assert.equal((await istek('/tarama/7')).durum, 405)
+  assert.equal((await istek('/yonetim/tarama')).durum, 401)
+  const y = await istek('/yonetim/tarama', { basliklar: yonetimBasligi })
+  assert.equal(y.durum, 200)
+  const veri = y.govde as unknown as YonetimTaramaYaniti
+  assert.match(veri.gun, /^\d{4}-\d{2}-\d{2}$/)
+  assert.equal(veri.satirlar.length, MASA_SAYISI)
+  assert.deepEqual(veri.satirlar[6], { masa: 7, bugun: 2, hafta: 2, toplam: 2 })
+  assert.deepEqual(veri.satirlar[0], { masa: 1, bugun: 0, hafta: 0, toplam: 0 })
 })

@@ -8,6 +8,10 @@ ErrorDocument 404 /404.html
 # statik export'ta hiç gönderilmez (çalışma zamanı yok), o yüzden charset burada tanımlanır.
 AddType 'text/plain; charset=utf-8' .txt
 
+# Masa plakası QR'ları (`lib/masa.ts`): basılı adres `/m/N` hiç değişmez, menü taşınırsa yalnız
+# hedef değişir. 302, çünkü tarayıcı 301'i saklar ve eski hedefte kalır. Sayımı menü sayfası yapar.
+RedirectMatch 302 ^/m/([1-9]|[12][0-9]|30)/?$ /menu/?masa=$1
+
 # Apache .webmanifest'i tanımıyor; manifest content-type'sız gidiyordu (8 Ekim 2026).
 AddType application/manifest+json .webmanifest
 

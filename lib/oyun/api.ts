@@ -10,6 +10,7 @@ import {
   type OyuncuYaniti,
   type TabloYaniti,
 } from './aktarim.ts'
+import type { YonetimTaramaYaniti } from '../masa.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
 
@@ -119,7 +120,21 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
     kod: (kod: string) => istek<KodYaniti>('/yonetim/kod', { yontem: 'POST', govde: { kod }, yetki }),
     gizle: (oyuncuId: number, gizli: boolean) =>
       istek<null>(`/yonetim/oyuncu/${oyuncuId}/gizle`, { yontem: 'POST', govde: { gizli }, yetki }),
+    tarama: () => istek<YonetimTaramaYaniti>('/yonetim/tarama', { yetki }),
   }
 }
 
 export type YonetimApi = ReturnType<typeof yonetimApiKur>
+
+/**
+ * Masa plakası okumasını bildirir. Gövdesiz POST basit istektir, ön uçuş yok; `keepalive` misafir
+ * hemen başka sayfaya geçse de isteği yaşatır. Menü beklemez: hata yalnız günlüğe düşer.
+ */
+export async function taramaBildir(kok: string, getir: typeof fetch, masa: number): Promise<void> {
+  try {
+    const yanit = await getir(`${kok}/tarama/${masa}`, { method: 'POST', keepalive: true })
+    if (!yanit.ok) console.warn('masa okuması reddedildi', masa, yanit.status)
+  } catch (hata) {
+    console.warn('masa okuması gönderilemedi', masa, hata)
+  }
+}

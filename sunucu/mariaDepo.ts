@@ -308,6 +308,31 @@ function sayaclar(q: Sorgu): Parca<'sayacArtir' | 'sayaclar'> {
   }
 }
 
+function taramalar(q: Sorgu): Parca<'taramaArtir' | 'taramaOzeti'> {
+  return {
+    async taramaArtir(gun, masa) {
+      await q.yaz(
+        'INSERT INTO masa_tarama (gun, masa, adet) VALUES (?, ?, 1) ON DUPLICATE KEY UPDATE adet = adet + 1',
+        [gun, masa],
+      )
+    },
+    async taramaOzeti(bugun, haftaBasi) {
+      const satirlar = await q.sec(
+        `SELECT masa, SUM(CASE WHEN gun = ? THEN adet ELSE 0 END) AS bugun,
+                SUM(CASE WHEN gun >= ? THEN adet ELSE 0 END) AS hafta, SUM(adet) AS toplam
+           FROM masa_tarama GROUP BY masa ORDER BY masa`,
+        [bugun, haftaBasi],
+      )
+      return satirlar.map((r) => ({
+        masa: sayi(r.masa),
+        bugun: sayi(r.bugun),
+        hafta: sayi(r.hafta),
+        toplam: sayi(r.toplam),
+      }))
+    },
+  }
+}
+
 export function mariaDepoKur(url: string): Depo {
   const havuz = createPool({ ...baglantiCoz(url), connectionLimit: 5, bigIntAsNumber: true, insertIdAsNumber: true })
   const q: Sorgu = {
@@ -322,6 +347,7 @@ export function mariaDepoKur(url: string): Depo {
     ...donemler(q),
     ...kazananlar(q),
     ...sayaclar(q),
+    ...taramalar(q),
     kapat: () => havuz.end(),
   }
 }

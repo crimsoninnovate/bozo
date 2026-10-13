@@ -11,6 +11,7 @@ import {
   onbellekKur,
   oyuncuOl,
   tabloAl,
+  taramaKaydet,
   turAl,
   turBitir,
   TABLO_ONBELLEK_MS,
@@ -22,6 +23,7 @@ import {
   yonetimKod,
   yonetimSayac,
   yonetimSiralama,
+  yonetimTarama,
   yonetimTur,
   type YonetimKimligi,
 } from './yonetim.ts'
@@ -63,11 +65,13 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'GET', desen: /^\/tablo$/, isle: () => tabloAl(b) },
     { yontem: 'GET', desen: /^\/ben$/, isle: (i) => benAl(b, i) },
     { yontem: 'DELETE', desen: /^\/oyuncu$/, isle: (i) => hesabiSil(b, i) },
+    { yontem: 'POST', desen: /^\/tarama\/(\d{1,3})$/, isle: (_, [masa]) => taramaKaydet(b, masa ?? '') },
     { yontem: 'GET', desen: /^\/yonetim\/siralama$/, isle: y((i) => yonetimSiralama(b, i)) },
     { yontem: 'GET', desen: /^\/yonetim\/tur\/(\d+)$/, isle: y((_, [id]) => yonetimTur(b, id ?? '')) },
     { yontem: 'POST', desen: /^\/yonetim\/kod$/, isle: y((i) => yonetimKod(b, i)) },
     { yontem: 'POST', desen: /^\/yonetim\/oyuncu\/(\d+)\/gizle$/, isle: y((i, [id]) => yonetimGizle(b, i, id ?? '')) },
     { yontem: 'GET', desen: /^\/yonetim\/sayac$/, isle: y((i) => yonetimSayac(b, i)) },
+    { yontem: 'GET', desen: /^\/yonetim\/tarama$/, isle: y(() => yonetimTarama(b)) },
   ]
 }
 

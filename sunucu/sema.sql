@@ -81,3 +81,11 @@ CREATE TABLE IF NOT EXISTS gunluk_sayac (
   tur INT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (gun, kanal)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Masa plakası QR okumaları (`/m/N`, 13 Ekim 2026): gün ve masa başına sayaç, kişisel veri yok.
+CREATE TABLE IF NOT EXISTS masa_tarama (
+  gun CHAR(10) NOT NULL,
+  masa TINYINT UNSIGNED NOT NULL,
+  adet INT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (gun, masa)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

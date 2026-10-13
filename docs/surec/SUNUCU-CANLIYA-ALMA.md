@@ -28,6 +28,13 @@ rsync -az --delete sunucu/dist/ plesk-206:/opt/bozo-oyun/dist/
 ssh plesk-206 'chown -R engincaglar:psacln /opt/bozo-oyun && systemctl restart bozo-oyun'
 ```
 
+Şema değişince (`sema.sql` yalnız `CREATE TABLE IF NOT EXISTS`, tekrar uygulamak zararsız), servisi
+yeniden başlatmadan önce:
+
+```bash
+ssh plesk-206 'MYSQL_PWD=$(cat /etc/psa/.psa.shadow) mariadb -uadmin bozo_oyun' < sunucu/sema.sql
+```
+
 Doğrulandı: `/tablo` 200 (Cloudflare üzerinden), CORS yalnız `https://cigercibozo.com`, `/yonetim/*`
 kimliksiz 401, uçtan uca tur (jeton, katılım, sunucuda yeniden oynatma puanı yerelle aynı, sıralama,
 hesap silme) çalışıyor.
@@ -35,7 +42,9 @@ hesap silme) çalışıyor.
 **Personel ekranı** `https://cigercibozo.com/oyun/yonetim/` (10 Ekim 2026): `YONETIM_KULLANICI` /
 `YONETIM_SIFRE` ile girilir, oturum sekme kapanınca biter. Ödül kodunu kullanır (kod tek seferlik,
 kullanılınca teslim sayılır), haftanın ilk 20'sini gösterir, adı gizler, turu tarayıcıda yeniden
-oynatıp puanı karşılaştırır ("tutuyor"). Yönetim uçlarına IP başına saatte 60 istek: mekandaki
+oynatıp puanı karşılaştırır ("tutuyor"). "Masa okumaları" bölümü (13 Ekim 2026) her masa plakasının
+bugün, son 7 gün ve toplam okunma sayısını gösterir (`POST /tarama/N`, tablo `masa_tarama`, kişisel
+veri yok). Yönetim uçlarına IP başına saatte 60 istek: mekandaki
 herkes aynı IP'den çıkar. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
 
 ## Yayındaki gizlilik metninin kaynağı

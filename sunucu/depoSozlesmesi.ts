@@ -172,6 +172,19 @@ function donemVeKazananTestleri(t: Testci): void {
     assert.deepEqual(await depo.sayaclar('2026-10-08'), { sofra: 2, ig: 0, site: 1, yok: 0 })
     assert.deepEqual(await depo.sayaclar('2026-10-10'), { sofra: 0, ig: 0, site: 0, yok: 0 })
   })
+
+  t('tarama_artirVeOzet_bugunHaftaToplam_okunmayanMasaYok', async (depo) => {
+    assert.deepEqual(await depo.taramaOzeti('2026-10-13', '2026-10-07'), [])
+    await depo.taramaArtir('2026-10-13', 7)
+    await depo.taramaArtir('2026-10-13', 7)
+    await depo.taramaArtir('2026-10-07', 7)
+    await depo.taramaArtir('2026-10-06', 7)
+    await depo.taramaArtir('2026-10-01', 12)
+    assert.deepEqual(await depo.taramaOzeti('2026-10-13', '2026-10-07'), [
+      { masa: 7, bugun: 2, hafta: 3, toplam: 4 },
+      { masa: 12, bugun: 0, hafta: 0, toplam: 1 },
+    ])
+  })
 }
 
 export function depoSozlesmesi(ad: string, kur: DepoKurucu | null): void {

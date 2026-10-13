@@ -35,6 +35,16 @@ export const yonetim = {
     teslim: 'teslim edildi',
     bekliyor: 'son gün {tarih}',
   },
+  tarama: {
+    baslik: 'Masa okumaları',
+    not: 'Masa plakasındaki QR kaç kez okutuldu. Gün Girne saatiyle 00:00\'da döner.',
+    masa: 'Masa',
+    bugun: 'Bugün',
+    hafta: 'Son 7 Gün',
+    toplam: 'Toplam',
+    hepsi: 'Hepsi',
+    yenile: 'Yenile',
+  },
   hata: {
     kodGecersiz: 'Kod 6 haneli olmalı.',
     kodYok: 'Bu kod yok.',

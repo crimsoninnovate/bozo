@@ -133,3 +133,29 @@
   margin: 0;
   font-weight: 600;
 }
+
+.tablo {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tablo th,
+.tablo td {
+  padding: 8px 0;
+  border-top: 1px solid var(--cizgi-kart);
+  text-align: right;
+}
+
+.tablo th:first-child {
+  text-align: left;
+}
+
+.tablo thead th {
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.tablo tfoot th,
+.tablo tfoot td {
+  border-top: 1px solid var(--cizgi-guclu);
+}
