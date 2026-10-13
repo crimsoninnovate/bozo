@@ -2544,3 +2544,14 @@ Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
 - **B2 (sahibi onayladı).** `tane-yakin-cekim-yatay` eldeki dikey kareyi gösterir, odak `50% 70%`
   (lavaş üstünde pişmiş tabak). Masaüstü 638x474, telefon 342x200. Kaynak 800 px: 2x ekranda
   masaüstünde 1,6 kat büyütülüyor, yatay çekim gelince yalnız `dosya` değişir. Sayfa 3017 > 3207 (TR 1440).
+
+## 13 Ekim 2026: rehberde domates adımı kilitleniyordu
+
+- Sahibi: "tabağa domates çekme kısmı ilerlemiyor". Yeniden üretildi: serbest bölümde (`ikinci`, saat akar)
+  pişmiş şiş elde iken ikinci misafir oturunca sabır ve domates adımı açılıyordu. Elde şiş varken kaseye
+  basmak etkisiz (`surukle.ts` `basma`), şiş `birak` ile ele dönmüyor (`tabak.ts`); domates sürüklenmiyor,
+  rehber de elindekini koymasını söylemiyordu.
+- Düzeltme rehberde, simülasyonda değil: `ikinci` > `sabir` geçişi el boşken olur. Elde şiş ya da tabakla
+  saat akmaya devam eder, oyuncu elindekini koyunca adım açılır. Yeni metin yok.
+- Ölçüldü (dokunmatik, 390x844 ve 390x664): elde şişle 6 sn rehber açılmadı; şiş tabağa konunca sabır,
+  domates sürüklenince çöp adımı. Dokun-dokun, fare, azaltılmış hareket ve 360x740 yolları aynı. Testler 398.

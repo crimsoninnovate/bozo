@@ -117,19 +117,40 @@ test('rehber_ikinciMisafirOturunca_eslikciAdimi_domatesTabagaInincebiter', () =>
   assert.deepEqual(izinliler(r), HEDEFLER)
 })
 
-test('rehber_eslikciAdiminda_eldekiTabak_birakilirYaDaCopeGider', () => {
+/** İkinci misafir oturana kadar akıtır; rehber adımını döner. */
+function ikinciMisafireKadar(r: Rehber, oyun: Oyun): Rehber {
+  for (let i = 0; i < 2000 && !oyun.misafirler.some((m) => m?.misafir.no === 1); i++) r = akit(r, oyun, 1)
+  assert.ok(oyun.misafirler.some((m) => m?.misafir.no === 1), 'ikinci misafir oturmadı')
+  return r
+}
+
+test('rehber_ikinciMisafirGelinceEldeSisVarsa_ikincideKalir_tabagaKonuncaSabir', () => {
+  const oyun = yeniOyun(1)
+  let r: Rehber = { adim: 'ikinci' }
+  r = dokunup(r, oyun, 'ciger')
+  r = akit(r, oyun, E0.cigerPisme)
+  r = dokunup(r, oyun, 'o0')
+  assert.equal(oyun.el?.tur, 'sis')
+  r = ikinciMisafireKadar(r, oyun)
+  assert.equal(r.adim, 'ikinci')
+  r = dokunup(r, oyun, 't0')
+  assert.equal(oyun.el, null)
+  assert.equal(r.adim, 'sabir')
+})
+
+test('rehber_ikinciMisafirGelinceEldeTabakVarsa_birakilincaSabir_eslikciBosElleAcilir', () => {
   const oyun = yeniOyun(1)
   let r: Rehber = { adim: 'ikinci' }
   oyun.tabaklar[1] = [{ urun: 'ciger', kalite: 'iyi' }]
-  dokun(oyun, 't1')
+  r = dokunup(r, oyun, 't1')
   assert.equal(oyun.el?.tur, 'tabak')
-  while (r.adim === 'ikinci') r = akit(r, oyun, 1)
+  r = ikinciMisafireKadar(r, oyun)
+  assert.equal(r.adim, 'ikinci')
+  r = dokunup(r, oyun, 'birak')
+  assert.equal(r.adim, 'sabir')
   r = rehberTamam(r)
   assert.equal(r.adim, 'eslikci')
-  assert.ok(rehberIzni(r, 'birak') && rehberIzni(r, 'cop'))
-  r = dokunup(r, oyun, 'birak')
   assert.equal(oyun.el, null)
-  assert.equal(r.adim, 'eslikci')
 })
 
 test('rehber_atla_herAdimdaBitirir_degismeyenNesneAyniKalir_geceBittiyseBiter', () => {

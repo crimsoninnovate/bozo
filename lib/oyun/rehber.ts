@@ -15,7 +15,7 @@ const IZIN: Readonly<Partial<Record<RehberAdimi, readonly Hedef[]>>> = {
   tabak: ['t0'],
   misafir: ['t0', 'm0'],
   para: ['p0'],
-  // Adım açılırken elde tabak olabilir: bırakma, çöp ve teslim de geçer, yoksa adım kilitlenir.
+  // Adım boş elle açılır; domates yanlış yere giderse bırakma, çöp ve teslim kurtarır.
   eslikci: ['domates', 't0', 't1', 'm0', 'm1', 'cop', 'birak'],
 }
 
@@ -58,8 +58,9 @@ function sonraki(r: Rehber, oyun: Oyun, olaylar: readonly Olay[]): RehberAdimi {
       return olayVar(olaylar, 'teslim') ? 'para' : 'misafir'
     case 'para':
       return olayVar(olaylar, 'bahsisAlindi') ? 'ikinci' : 'para'
+    // El boşalmadan açılmaz: şiş `birak`la ele dönmez, kaseye basmak elde şişle etkisizdi, adım kilitleniyordu.
     case 'ikinci':
-      return oyun.misafirler.some((m) => m?.misafir.no === 1) ? 'sabir' : 'ikinci'
+      return oyun.el === null && oyun.misafirler.some((m) => m?.misafir.no === 1) ? 'sabir' : 'ikinci'
     case 'eslikci':
       return olaylar.some((o) => o.tur === 'tabagaKondu' && o.kalem.urun === 'domates') ? 'cop' : 'eslikci'
     default:
