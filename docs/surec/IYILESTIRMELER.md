@@ -2538,3 +2538,6 @@ Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
   312 px. Üç satıra açmak 2A'yı bozar; mevcut akış kaldı.
 - Taşma yok (320/360/390/1040/1041/1440, TR ve EN), yalnız EN 320'de `anaFiyat` 7 px taşıyor: bu tur
   öncesinde de vardı, ayrı madde. axe 0, testler 397.
+- EN 320 taşması giderildi: ad satırı sarar, karar adın en dar haline göre (`flex: 1 1 0; min-width:
+  min-content`). Fiyat yalnız 320'de Terbiyeli Kuşbaşı satırında (TR ve EN) alta, sağa iner; 360 ve
+  üstünde boylar değişmedi.

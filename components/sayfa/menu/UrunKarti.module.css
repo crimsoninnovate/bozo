@@ -33,16 +33,25 @@
   color: var(--krem-55);
 }
 
+/* Sarar: EN 320'de "(Terbiyeli Kuşbaşı)" bölünmez (`dulOnle`), fiyat 7px taşıyordu; sığmazsa alta, sağa. */
 .adSatiri {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0 12px;
+}
+
+/* Satır kararı adın en dar haline göre: ad önce kendi içinde kırılır, fiyat ancak o da sığmazsa iner. */
+.adSatiri > .ad {
+  flex: 1 1 0;
+  min-width: min-content;
 }
 
 /* Tam fiyat adın hizasında yalnız telefonda; masaüstünde dl'nin ilk satırı taşır. */
 .anaFiyat {
   display: none;
+  margin-left: auto;
 }
 
 .govde {
