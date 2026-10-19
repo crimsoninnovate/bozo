@@ -223,17 +223,17 @@ test('urunler_menuListesiFiyatListesininSirasiniTasir', () => {
 })
 
 /**
- * Fiyat listesi sahibinden 8 Ekim 2026'da geldi. Yarım kalktı, 1,5 porsiyon ve
- * 1,5 dürüm geldi; listede olmayan ölçü (kuşbaşı dürümü, karışığın 1,5'i) yok.
+ * Fiyat listesi sahibinden 8 Ekim 2026'da geldi; 1,5 porsiyon ve 1,5 dürüm 19 Ekim 2026'da
+ * kalktı. Listede olmayan ölçü (kuşbaşı dürümü) yok.
  */
 test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   const beklenen: Record<string, Record<string, number>> = {
-    ciger: { porsiyon: 690, bucukPorsiyon: 900, durum: 690, bucukDurum: 900 },
-    dalak: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 },
-    yurek: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 },
-    'terbiyeli-tavuk-sis': { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
-    'terbiyesiz-tavuk-sis': { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
-    'terbiyeli-kusbasi': { porsiyon: 850, bucukPorsiyon: 1200 },
+    ciger: { porsiyon: 690, durum: 400 },
+    dalak: { porsiyon: 550, durum: 350 },
+    yurek: { porsiyon: 550, durum: 550 },
+    'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 450 },
+    'terbiyesiz-tavuk-sis': { porsiyon: 450, durum: 450 },
+    'terbiyeli-kusbasi': { porsiyon: 850 },
     'bozo-karisik': { porsiyon: 600 },
   }
   for (const urun of menuUrunler) {
@@ -247,7 +247,6 @@ test('urunOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {
   assert.ok(kusbasi)
   assert.deepEqual(urunOlculeri(kusbasi), [
     { olcu: 'porsiyon', fiyat: 850 },
-    { olcu: 'bucukPorsiyon', fiyat: 1200 },
   ])
 })
 

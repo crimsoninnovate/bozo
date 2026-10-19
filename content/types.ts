@@ -28,7 +28,7 @@ export type Isletme = {
   sahip: string
 }
 
-export type Olcu = 'porsiyon' | 'bucukPorsiyon' | 'durum' | 'bucukDurum'
+export type Olcu = 'porsiyon' | 'durum'
 
 export type Urun = {
   id: string

@@ -5,27 +5,27 @@ import type { Icecek, IkramGrubu, Ikram, Olcu, OzelUrun, Urun } from './types.ts
  * fotoğraf bağı vardır. Böylece EN menü aynı listeyi kullanır.
  *
  * Fiyatlar ve sıra sahibinin 8 Ekim 2026 fiyat listesinden, kuruşsuz TL. Yarım
- * porsiyon o listeyle kalktı; listede olmayan ölçü (kuşbaşı dürümü gibi) yazılmaz.
+ * porsiyon o listeyle kalktı, 1,5 porsiyon ve 1,5 dürüm 19 Ekim 2026'da; listede olmayan ölçü (kuşbaşı dürümü gibi) yazılmaz.
  */
 export const menuUrunler: Urun[] = [
   {
     id: 'ciger',
-    fiyatlar: { porsiyon: 690, bucukPorsiyon: 900, durum: 690, bucukDurum: 900 },
+    fiyatlar: { porsiyon: 690, durum: 400 },
     fotoId: 'tane-yakin-cekim',
   },
-  { id: 'dalak', fiyatlar: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 }, fotoId: 'dalak' },
-  { id: 'yurek', fiyatlar: { porsiyon: 550, bucukPorsiyon: 800, durum: 550, bucukDurum: 800 }, fotoId: 'yurek' },
+  { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 350 }, fotoId: 'dalak' },
+  { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'yurek' },
   {
     id: 'terbiyeli-tavuk-sis',
-    fiyatlar: { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    fiyatlar: { porsiyon: 450, durum: 450 },
     fotoId: 'terbiyeli-tavuk-sis',
   },
   {
     id: 'terbiyesiz-tavuk-sis',
-    fiyatlar: { porsiyon: 450, bucukPorsiyon: 650, durum: 450, bucukDurum: 650 },
+    fiyatlar: { porsiyon: 450, durum: 450 },
     fotoId: 'tavuk-sis',
   },
-  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850, bucukPorsiyon: 1200 }, fotoId: 'terbiyeli-kusbasi' },
+  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850 }, fotoId: 'terbiyeli-kusbasi' },
   { id: 'bozo-karisik', fiyatlar: { porsiyon: 600 }, fotoId: 'bozo-karisik' },
 ]
 
@@ -38,7 +38,7 @@ const ANA_SAYFA_DISI = new Set(['terbiyeli-tavuk-sis', 'bozo-karisik'])
 export const anaUrunler: Urun[] = menuUrunler.filter((urun) => !ANA_SAYFA_DISI.has(urun.id))
 
 /** Ölçülerin menüdeki sırası, fiyat listesinin sütun sırası. */
-const OLCU_SIRASI: Olcu[] = ['porsiyon', 'bucukPorsiyon', 'durum', 'bucukDurum']
+const OLCU_SIRASI: Olcu[] = ['porsiyon', 'durum']
 
 /** Ürünün fiyatı olan ölçüleri, menüdeki sırayla. */
 export function urunOlculeri(urun: Urun): { olcu: Olcu; fiyat: number }[] {

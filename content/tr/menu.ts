@@ -9,8 +9,9 @@ export const menu = {
     imzaRozeti: 'imza ürün',
     cigerSpec: { sis: '10 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
     /** Sahibinin fiyat listesinin ölçüleri (8 Ekim 2026); yalnız fiyatı olan basılır. */
-    olculer: { porsiyon: 'Porsiyon', bucukPorsiyon: '1,5 Porsiyon', durum: 'Dürüm', bucukDurum: '1,5 Dürüm' },
-    durumNotu: '5 şiş',
+    olculer: { porsiyon: 'Porsiyon', durum: 'Dürüm' },
+    /** Dürümdeki şiş sayısı; ciğer ve dalak 19 Ekim 2026'da sahibinden, öteki ürünlerin sayısı henüz teyitsiz. */
+    durumNotu: { varsayilan: '5 şiş', ciger: '6 şiş', dalak: '4 şiş' } as Record<string, string>,
     urunler: {
       ciger: {
         ad: 'Ciğer',

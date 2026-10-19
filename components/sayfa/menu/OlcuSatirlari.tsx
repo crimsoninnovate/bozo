@@ -7,8 +7,7 @@ import stil from './OlcuSatirlari.module.css'
 type Props = { dil: Dil; urun: Urun }
 
 /**
- * Porsiyon / 1,5 Porsiyon / Dürüm / 1,5 Dürüm. Fiyat listesinde olmayan ölçü
- * hiç basılmaz (sahibi, 8 Ekim 2026).
+ * Porsiyon / Dürüm. Fiyat listesinde olmayan ölçü hiç basılmaz (sahibi, 8 Ekim 2026).
  *
  * `dl` seçildi: ölçü ile fiyat terim/tanım çiftidir, iki bağımsız metin değil.
  */
@@ -23,7 +22,7 @@ export function OlcuSatirlari({ dil, urun }: Props) {
         <div key={olcu} className={olcu === 'porsiyon' ? `${stil.satir} ${stil.porsiyonSatiri}` : stil.satir}>
           <dt className={stil.olcu}>
             {olculer[olcu]}
-            {olcu === 'durum' && <span className={stil.not}>{durumNotu}</span>}
+            {olcu === 'durum' && <span className={stil.not}>{durumNotu[urun.id] ?? durumNotu.varsayilan}</span>}
           </dt>
           <dd className={stil.fiyat}>{fiyatMetni(fiyat)}</dd>
         </div>

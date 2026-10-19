@@ -138,16 +138,14 @@ test('menuJsonLd_ocakbasiBolumu_yediKalemTasir', () => {
   assert.equal(bolumler[0]?.hasMenuItem.length, 7)
 })
 
-test('menuJsonLd_cigerKalemi_dortOlcununOfferiniTasir', () => {
+test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
   const veri = menuJsonLd('tr') as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
   const ciger = bolumler[0]?.hasMenuItem.find((k) => k.name === 'Ciğer')
   assert.ok(ciger)
   assert.deepEqual(ciger.offers, [
     { '@type': 'Offer', name: 'Porsiyon', price: '690', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: '1,5 Porsiyon', price: '900', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Dürüm', price: '690', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: '1,5 Dürüm', price: '900', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Dürüm', price: '400', priceCurrency: 'TRY' },
   ])
 })
 
