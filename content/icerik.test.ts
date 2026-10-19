@@ -229,9 +229,9 @@ test('urunler_menuListesiFiyatListesininSirasiniTasir', () => {
 test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   const beklenen: Record<string, Record<string, number>> = {
     ciger: { porsiyon: 690, durum: 400 },
-    dalak: { porsiyon: 550, durum: 350 },
+    dalak: { porsiyon: 550, durum: 400 },
     yurek: { porsiyon: 550, durum: 400 },
-    'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 450 },
+    'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 350 },
     'terbiyesiz-tavuk-sis': { porsiyon: 450, durum: 450 },
     'terbiyeli-kusbasi': { porsiyon: 850 },
     'bozo-karisik': { porsiyon: 600 },

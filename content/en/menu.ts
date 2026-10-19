@@ -9,7 +9,7 @@ export const menu = {
     imzaRozeti: 'signature',
     cigerSpec: { sis: '10 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
     olculer: { porsiyon: 'Portion', durum: 'Wrap' },
-    durumNotu: { varsayilan: '5 skewers', ciger: '6 skewers', dalak: '4 skewers' } as Record<string, string>,
+    durumNotu: { varsayilan: '5 skewers', ciger: '6 skewers' } as Record<string, string>,
     urunler: {
       ciger: {
         ad: 'Urfa Liver Kebab (Ciğer)',

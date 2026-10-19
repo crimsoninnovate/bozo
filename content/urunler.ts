@@ -13,11 +13,11 @@ export const menuUrunler: Urun[] = [
     fiyatlar: { porsiyon: 690, durum: 400 },
     fotoId: 'tane-yakin-cekim',
   },
-  { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 350 }, fotoId: 'dalak' },
+  { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 400 }, fotoId: 'dalak' },
   { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 400 }, fotoId: 'yurek' },
   {
     id: 'terbiyeli-tavuk-sis',
-    fiyatlar: { porsiyon: 450, durum: 450 },
+    fiyatlar: { porsiyon: 450, durum: 350 },
     fotoId: 'terbiyeli-tavuk-sis',
   },
   {
