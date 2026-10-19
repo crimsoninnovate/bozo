@@ -50,7 +50,7 @@ export const menu = {
         aciklama: 'Three skewers of liver, three of spleen, three of heart and one of tail fat.',
       },
     },
-    ozel: { ad: 'Bozo Special', miktarNotu: '190 g', aciklama: 'Two 100 g Urfa haşhaş kebabs' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '200 g', aciklama: 'Two skewers, 200 g, of Urfa haşhaş kebab' },
   },
   ikramlar: {
     baslik: 'On the House',

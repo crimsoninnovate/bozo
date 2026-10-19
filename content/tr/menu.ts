@@ -55,7 +55,7 @@ export const menu = {
       },
     },
     // "Her üründen iki şiş · 10 şiş" yerine gramaj: 250 gr (8 Ekim 2026), 190 gr (11 Ekim 2026).
-    ozel: { ad: 'Bozo Special', miktarNotu: '190 gr', aciklama: '2 tane 100 gr Urfa haşhaş kebabı' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '200 gr', aciklama: '2 şiş 200 gr Urfa haşhaş kebabı' },
   },
   ikramlar: {
     baslik: 'İkramlar',
