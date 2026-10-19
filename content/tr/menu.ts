@@ -88,8 +88,8 @@ export const menu = {
       cam: 'Cam',
     },
     urunler: {
-      kola: 'Kola',
-      kolaZero: 'Kola Zero',
+      kola: 'Cola',
+      kolaZero: 'Cola Zero',
       fanta: 'Fanta',
       cappy: 'Cappy Çeşitleri',
       ayran: 'Ayran',
