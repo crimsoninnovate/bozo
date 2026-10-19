@@ -182,8 +182,8 @@ test('menuJsonLd_icecekBolumu_herOlcuyuFiyatiylaTasir', () => {
   const icecek = bolumler.find((b) => b.name === 'İçecekler')
   assert.equal(icecek?.hasMenuItem.length, 6)
   assert.deepEqual(icecek?.hasMenuItem.find((k) => k.name === 'Su')?.offers, [
-    { '@type': 'Offer', name: 'Pet', price: '20', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Cam', price: '40', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Pet', price: '25', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Cam', price: '50', priceCurrency: 'TRY' },
   ])
 })
 

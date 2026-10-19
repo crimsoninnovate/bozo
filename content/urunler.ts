@@ -69,22 +69,22 @@ export const ikramGruplari: IkramGrubu[] = [
 ]
 
 /**
- * Sahibinin 8 Ekim 2026 fiyat listesi; listede olmayan içecekler menüden kalktı.
+ * Sahibinin 19 Ekim 2026 fiyat listesi; listede olmayan içecekler menüden kalktı.
  * Sıra listenin değil, rafın düzeni: gazlılar, meyveli, sonra ocağın yanına
  * giden içecekler.
  */
 export const icecekler: Icecek[] = [
-  { id: 'kola', olculer: [{ olcu: 'kutu', fiyat: 40 }, { olcu: 'sise', fiyat: 58 }] },
-  { id: 'kolaZero', olculer: [{ olcu: 'kutu', fiyat: 40 }, { olcu: 'sise', fiyat: 58 }] },
-  { id: 'fanta', olculer: [{ olcu: 'kutu', fiyat: 40 }] },
-  { id: 'cappy', olculer: [{ olcu: 'kutu', fiyat: 40 }] },
+  { id: 'kola', olculer: [{ olcu: 'kutu', fiyat: 60 }, { olcu: 'sise', fiyat: 70 }] },
+  { id: 'kolaZero', olculer: [{ olcu: 'kutu', fiyat: 60 }, { olcu: 'sise', fiyat: 70 }] },
+  { id: 'fanta', olculer: [{ olcu: 'kutu', fiyat: 60 }] },
+  { id: 'cappy', olculer: [{ olcu: 'kutu', fiyat: 60 }] },
   {
     id: 'ayran',
     olculer: [
-      { olcu: 'buyuk', fiyat: 27 },
-      { olcu: 'kucuk', fiyat: 22 },
-      { olcu: 'acikYayik', fiyat: 35 },
+      { olcu: 'buyuk', fiyat: 40 },
+      { olcu: 'kucuk', fiyat: 30 },
+      { olcu: 'acikYayik', fiyat: 50 },
     ],
   },
-  { id: 'su', olculer: [{ olcu: 'pet', fiyat: 20 }, { olcu: 'cam', fiyat: 40 }] },
+  { id: 'su', olculer: [{ olcu: 'pet', fiyat: 25 }, { olcu: 'cam', fiyat: 50 }] },
 ]
