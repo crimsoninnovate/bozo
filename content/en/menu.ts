@@ -9,6 +9,15 @@ export const menu = {
     imzaRozeti: 'signature',
     cigerSpec: { sis: '10 skewers', dagilim: '4 liver, 2 tail fat', sure: '3 minutes' },
     olculer: { porsiyon: 'Portion', durum: 'Wrap' },
+    porsiyonNotu: {
+      ciger: '10 skewers',
+      dalak: '7 skewers',
+      yurek: '7 skewers',
+      'terbiyeli-tavuk-sis': '7 skewers',
+      'terbiyesiz-tavuk-sis': '7 skewers',
+      'terbiyeli-kusbasi': '7 skewers',
+      'bozo-karisik': '10 skewers',
+    } as Record<string, string>,
     durumNotu: { varsayilan: '5 skewers', ciger: '6 skewers' } as Record<string, string>,
     urunler: {
       ciger: {
@@ -41,7 +50,7 @@ export const menu = {
         aciklama: 'Three skewers of liver, three of spleen, three of heart and one of tail fat.',
       },
     },
-    ozel: { ad: 'Bozo Special', miktarNotu: '190 g' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '190 g', aciklama: 'Two 100 g Urfa haşhaş kebabs' },
   },
   ikramlar: {
     baslik: 'On the House',

@@ -11,6 +11,16 @@ export const menu = {
     /** Sahibinin fiyat listesinin ölçüleri (8 Ekim 2026); yalnız fiyatı olan basılır. */
     olculer: { porsiyon: 'Porsiyon', durum: 'Dürüm' },
     /** Dürümdeki şiş sayısı; ciğer 19 Ekim 2026'da sahibinden, öteki ürünlerin sayısı henüz teyitsiz. */
+    /** Porsiyondaki şiş sayısı, sahibinden (19 Ekim 2026); karışık 3+3+3+1. */
+    porsiyonNotu: {
+      ciger: '10 şiş',
+      dalak: '7 şiş',
+      yurek: '7 şiş',
+      'terbiyeli-tavuk-sis': '7 şiş',
+      'terbiyesiz-tavuk-sis': '7 şiş',
+      'terbiyeli-kusbasi': '7 şiş',
+      'bozo-karisik': '10 şiş',
+    } as Record<string, string>,
     durumNotu: { varsayilan: '5 şiş', ciger: '6 şiş' } as Record<string, string>,
     urunler: {
       ciger: {
@@ -45,7 +55,7 @@ export const menu = {
       },
     },
     // "Her üründen iki şiş · 10 şiş" yerine gramaj: 250 gr (8 Ekim 2026), 190 gr (11 Ekim 2026).
-    ozel: { ad: 'Bozo Special', miktarNotu: '190 gr' },
+    ozel: { ad: 'Bozo Special', miktarNotu: '190 gr', aciklama: '2 tane 100 gr Urfa haşhaş kebabı' },
   },
   ikramlar: {
     baslik: 'İkramlar',

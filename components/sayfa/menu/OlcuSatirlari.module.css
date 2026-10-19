@@ -57,8 +57,8 @@
     border-top: 0;
   }
 
-  /* `display:none` değil: fiyat adın satırında görünüyor ama terimi ("Porsiyon") yalnız burada. */
-  .porsiyonSatiri {
+  /* `display:none` değil: fiyat adın satırında görünüyor; burada yalnız terim ve şiş sayısı kalır. */
+  .porsiyonSatiri .fiyat {
     position: absolute;
     width: 1px;
     height: 1px;

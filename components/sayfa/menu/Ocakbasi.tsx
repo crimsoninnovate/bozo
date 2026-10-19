@@ -103,6 +103,7 @@ function OzelSerit({ dil }: { dil: Dil }) {
           <h3 className={stil.ozelAd}>{ozel.ad}</h3>
           <Cip tur="dolu">{ozel.miktarNotu}</Cip>
         </div>
+        <p className={stil.ozelAciklama}>{ozel.aciklama}</p>
       </div>
       <span className={stil.ozelFiyat}>{fiyatMetni(ozelUrun.fiyat)}</span>
     </article>

@@ -12,16 +12,17 @@ type Props = { dil: Dil; urun: Urun }
  * `dl` seçildi: ölçü ile fiyat terim/tanım çiftidir, iki bağımsız metin değil.
  */
 export function OlcuSatirlari({ dil, urun }: Props) {
-  const { olculer, durumNotu } = sozluk(dil).menu.ocakbasi
+  const { olculer, durumNotu, porsiyonNotu } = sozluk(dil).menu.ocakbasi
 
   return (
     <dl className={stil.liste}>
       {urunOlculeri(urun).map(({ olcu, fiyat }) => (
-        // Telefonda porsiyon fiyatı adın hizasında basılıyor (`anaFiyat`); satırı görünmez
-        // kalır ama ekran okuyucu "Porsiyon" terimini yine duyar.
+        // Telefonda porsiyon fiyatı adın hizasında basılıyor (`anaFiyat`); bu satırda fiyat
+        // görünmez kalır ama ekran okuyucu yine duyar, şiş sayısı görünür.
         <div key={olcu} className={olcu === 'porsiyon' ? `${stil.satir} ${stil.porsiyonSatiri}` : stil.satir}>
           <dt className={stil.olcu}>
             {olculer[olcu]}
+            {olcu === 'porsiyon' && porsiyonNotu[urun.id] && <span className={stil.not}>{porsiyonNotu[urun.id]}</span>}
             {olcu === 'durum' && <span className={stil.not}>{durumNotu[urun.id] ?? durumNotu.varsayilan}</span>}
           </dt>
           <dd className={stil.fiyat}>{fiyatMetni(fiyat)}</dd>

@@ -149,6 +149,12 @@
   color: var(--krem);
 }
 
+.ozelAciklama {
+  margin: 0;
+  font: 400 14.5px/1.55 var(--font-govde);
+  color: var(--krem-70);
+}
+
 .ozelFiyat {
   font: 400 var(--ol-imza-fiyat)/1 var(--font-baslik);
   font-variant-numeric: tabular-nums;
@@ -264,6 +270,12 @@
 
   .ozelAd {
     font-size: 22px;
+  }
+
+  .ozelAciklama {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--krem-68);
   }
 
   .ozelFiyat {
