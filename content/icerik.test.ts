@@ -230,7 +230,7 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   const beklenen: Record<string, Record<string, number>> = {
     ciger: { porsiyon: 690, durum: 400 },
     dalak: { porsiyon: 550, durum: 350 },
-    yurek: { porsiyon: 550, durum: 550 },
+    yurek: { porsiyon: 550, durum: 400 },
     'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 450 },
     'terbiyesiz-tavuk-sis': { porsiyon: 450, durum: 450 },
     'terbiyeli-kusbasi': { porsiyon: 850 },

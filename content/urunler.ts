@@ -14,7 +14,7 @@ export const menuUrunler: Urun[] = [
     fotoId: 'tane-yakin-cekim',
   },
   { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 350 }, fotoId: 'dalak' },
-  { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'yurek' },
+  { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 400 }, fotoId: 'yurek' },
   {
     id: 'terbiyeli-tavuk-sis',
     fiyatlar: { porsiyon: 450, durum: 450 },
