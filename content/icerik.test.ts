@@ -167,11 +167,10 @@ test('isletme_instagram_kullaniciAdiTasirUrlDegil', () => {
   assert.equal(isletme.instagram?.includes('/'), false)
 })
 
-// Telefon ve WhatsApp aynı hat. `wa.me` baştaki sıfırı kabul etmez, o yüzden
-// depolanan biçim uluslararası olmak zorunda.
-test('isletme_telefonVeWhatsapp_ayniUluslararasiHattiTasir', () => {
-  assert.equal(isletme.telefon, '+90 533 888 74 24')
-  assert.equal(isletme.whatsapp, isletme.telefon)
+// Telefon ve WhatsApp siteden gizli (sahibi, 19 Ekim 2026); null olunca hiçbir yüzey bağlantı basmaz.
+test('isletme_telefonVeWhatsapp_gizliykenNullDur', () => {
+  assert.equal(isletme.telefon, null)
+  assert.equal(isletme.whatsapp, null)
 })
 
 test('isletme_dogrulanmisAlanlarDoludur', () => {

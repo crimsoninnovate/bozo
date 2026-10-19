@@ -163,11 +163,12 @@ function IletisimOgesi({ href, ikon, etiket }: { href: string | null; ikon: Reac
 
 function Ayak({ dil }: { dil: Dil }) {
   const s = sozluk(dil)
+  const telefon = telefonUrl(isletme.telefon)
   return (
     <div className={stil.ayak}>
       <div className={stil.iletisim}>
         <IletisimOgesi href={instagramUrl(isletme.instagram)} ikon={<InstagramIkon boy={16} />} etiket={s.ortak.cta.instagram} />
-        <IletisimOgesi href={telefonUrl(isletme.telefon)} ikon={<TelefonIkon boy={16} />} etiket={s.ortak.cta.telefon} />
+        {telefon && <IletisimOgesi href={telefon} ikon={<TelefonIkon boy={16} />} etiket={s.ortak.cta.telefon} />}
       </div>
       <span>{s.ortak.alkolsuzKisa}</span>
     </div>
@@ -177,6 +178,7 @@ function Ayak({ dil }: { dil: Dil }) {
 /** Durum, adres ve saat, iki CTA, iletişim ayağı: alt bilginin dar ekrandaki özeti. */
 function AltBlok({ dil }: { dil: Dil }) {
   const s = sozluk(dil)
+  const whatsapp = whatsappUrl(isletme.whatsapp)
   return (
     <div className={stil.altBlok}>
       <div className={stil.durum}>
@@ -199,9 +201,11 @@ function AltBlok({ dil }: { dil: Dil }) {
         <Buton tur="birincil" boy="md" href={yolTarifiUrl()} hariciMi ikon={<PinIkon boy={17} />}>
           {s.ortak.cta.yolTarifiAl}
         </Buton>
-        <Buton tur="ikincil" boy="md" href={whatsappUrl(isletme.whatsapp)} hariciMi ikon={<WhatsAppIkon boy={17} />}>
-          {s.ortak.cta.whatsapptanYaz}
-        </Buton>
+        {whatsapp && (
+          <Buton tur="ikincil" boy="md" href={whatsapp} hariciMi ikon={<WhatsAppIkon boy={17} />}>
+            {s.ortak.cta.whatsapptanYaz}
+          </Buton>
+        )}
       </div>
 
       <Ayak dil={dil} />

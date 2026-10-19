@@ -2,7 +2,7 @@ import { SaatTablosu } from '@/components/saat/SaatTablosu'
 import { CamPanel } from '@/components/ui/CamPanel'
 import { InstagramIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
-import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
+import { isletme } from '@/content/isletme'
 import { instagramUrl, telefonUrl, whatsappUrl } from '@/lib/site'
 import { AlkolsuzRozeti } from './AlkolsuzRozeti'
 import { IletisimSatiri } from './IletisimSatiri'
@@ -30,6 +30,8 @@ type Props = { dil: Dil }
 export function SaatlerVeIletisim({ dil }: Props) {
   const s = sozluk(dil)
   const instagram = instagramUrl(isletme.instagram)
+  const telefon = telefonUrl(isletme.telefon)
+  const whatsapp = whatsappUrl(isletme.whatsapp)
 
   return (
     <section className={stil.bolum}>
@@ -42,21 +44,25 @@ export function SaatlerVeIletisim({ dil }: Props) {
       <CamPanel opaklik={0.74} dolgu="dar" bulanik={false} className={stil.kart}>
         <h2 className={stil.baslik}>{s.konum.iletisim.baslik}</h2>
         <div className={stil.satirlar}>
-          <IletisimSatiri
-            ikon={<TelefonIkon boy={17} />}
-            etiket={s.ortak.cta.telefon}
-            alt={isletme.telefon ?? TELEFON_YER_TUTUCU}
-            tur="deger"
-            href={telefonUrl(isletme.telefon)}
-          />
-          <IletisimSatiri
-            ikon={<WhatsAppIkon boy={17} />}
-            etiket={s.ortak.cta.whatsapp}
-            alt={s.ortak.cta.whatsapptanYaz}
-            tur="aciklama"
-            href={whatsappUrl(isletme.whatsapp)}
-            hariciMi
-          />
+          {telefon && (
+            <IletisimSatiri
+              ikon={<TelefonIkon boy={17} />}
+              etiket={s.ortak.cta.telefon}
+              alt={isletme.telefon ?? ''}
+              tur="deger"
+              href={telefon}
+            />
+          )}
+          {whatsapp && (
+            <IletisimSatiri
+              ikon={<WhatsAppIkon boy={17} />}
+              etiket={s.ortak.cta.whatsapp}
+              alt={s.ortak.cta.whatsapptanYaz}
+              tur="aciklama"
+              href={whatsapp}
+              hariciMi
+            />
+          )}
           <IletisimSatiri
             ikon={<InstagramIkon boy={17} />}
             etiket={s.ortak.cta.instagram}

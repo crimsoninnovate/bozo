@@ -5,7 +5,7 @@ import { Buton } from '@/components/ui/Buton'
 import { CamPanel } from '@/components/ui/CamPanel'
 import { TelefonIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
-import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
+import { isletme } from '@/content/isletme'
 import { telefonUrl, whatsappUrl, yolTarifiUrl } from '@/lib/site'
 import stil from './Konum.module.css'
 
@@ -14,6 +14,8 @@ type Props = { dil: Dil }
 /** Ana sayfanın konum bölümü. Ana Sayfa Alternatif.dc.html:296-334 */
 export function Konum({ dil }: Props) {
   const s = sozluk(dil)
+  const telefon = telefonUrl(isletme.telefon)
+  const whatsapp = whatsappUrl(isletme.whatsapp)
 
   return (
     <Bolum id="konum" yogunluk={0.3} className={stil.bolum} eritClassName={stil.erit}>
@@ -37,14 +39,11 @@ export function Konum({ dil }: Props) {
             çözüm yine aynı, bir boy daha aşağı. `sm`in 40.5px'lik gövdesini
             `Buton`un `min-height:44px`i dokunma hedefine taşır. */}
         <div className={stil.butonlar}>
-          <Buton
-            tur="birincil"
-            boy="sm"
-            href={telefonUrl(isletme.telefon)}
-            ikon={<TelefonIkon boy={17} />}
-          >
-            {isletme.telefon ?? TELEFON_YER_TUTUCU}
-          </Buton>
+          {telefon && (
+            <Buton tur="birincil" boy="sm" href={telefon} ikon={<TelefonIkon boy={17} />}>
+              {isletme.telefon}
+            </Buton>
+          )}
           {/* İkincillerde ikon YOK, bilerek. Bu satır üç butonu 520px'e
               sığdırmak zorunda ve üç ikon 69px götürüyor: İngilizce ("Get
               Directions") ikonlarla 540px istiyor, sarıyor. Ayrıca ikonun işi
@@ -54,9 +53,11 @@ export function Konum({ dil }: Props) {
           <Buton tur="ikincil" boy="sm" href={yolTarifiUrl()} hariciMi>
             {s.ortak.cta.yolTarifiAl}
           </Buton>
-          <Buton tur="ikincil" boy="sm" href={whatsappUrl(isletme.whatsapp)} hariciMi>
-            {s.ortak.cta.whatsapp}
-          </Buton>
+          {whatsapp && (
+            <Buton tur="ikincil" boy="sm" href={whatsapp} hariciMi>
+              {s.ortak.cta.whatsapp}
+            </Buton>
+          )}
         </div>
       </CamPanel>
 

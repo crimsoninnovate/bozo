@@ -34,16 +34,11 @@ export function MobilAksiyonBari({ dil }: Props) {
         <span className={stil.etiket}>{s.ortak.cta.bozoSofrasi}</span>
       </a>
 
-      {whatsapp ? (
+      {whatsapp && (
         <a href={whatsapp} className={stil.hedef} rel="noopener">
           <WhatsAppIkon boy={19} />
           <span className={stil.etiket}>{s.ortak.cta.whatsapp}</span>
         </a>
-      ) : (
-        <span className={`${stil.hedef} ${stil.pasif}`} aria-disabled="true">
-          <WhatsAppIkon boy={19} />
-          <span className={stil.etiket}>{s.ortak.cta.whatsapp}</span>
-        </span>
       )}
     </nav>
   )

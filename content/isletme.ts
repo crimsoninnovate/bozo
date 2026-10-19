@@ -6,6 +6,8 @@ import type { Isletme } from './types.ts'
  * Değerler docs/tasarim/metin-envanteri.json içindeki isletmeGercekleri
  * listesinden gelir; dogrulanmisMi false olan her alan null kalır.
  */
+const TELEFONLA_ILETISIM_ACIK = false
+
 export const isletme: Isletme = {
   ad: 'Ciğerci Bozo',
   kisaAd: 'Bozo',
@@ -22,8 +24,10 @@ export const isletme: Isletme = {
   koordinat: { enlem: 35.3370065, boylam: 33.3057253 },
   // Sahibi 12 Ağustos 2026'da verdi. Aynı numara WhatsApp hattı: KKTC mobil
   // hatları +90 ülke kodunu kullanır, wa.me baştaki sıfırsız uluslararası biçim ister.
-  telefon: '+90 533 888 74 24',
-  whatsapp: '+90 533 888 74 24',
+  // Paket servis olmadığı için çağrı ve mesaj yükü arttı; sahibi 19 Ekim 2026'da ikisini
+  // siteden kaldırdı. Geri açmak için TELEFONLA_ILETISIM_ACIK'ı true yapmak yeter.
+  telefon: TELEFONLA_ILETISIM_ACIK ? '+90 533 888 74 24' : null,
+  whatsapp: TELEFONLA_ILETISIM_ACIK ? '+90 533 888 74 24' : null,
   // Sahibi 24 Ağustos 2026'da verdi; gizlilik taleplerinin gittiği kanal da bu.
   eposta: 'bozo@cigercibozo.com',
   // Kullanıcı adı, tam URL değil: adresi `lib/site.ts` > `instagramUrl` kurar.
@@ -37,8 +41,6 @@ export const isletme: Isletme = {
   // (sahibinin kararı, 23 Ağustos 2026).
   sahip: 'Bozo Çağlar',
 }
-
-export const TELEFON_YER_TUTUCU = '000 000 00 00'
 
 /** Fiyatı arayüz metnine çevirir: 1200 → "1.200 TL". */
 export function fiyatMetni(fiyat: number): string {

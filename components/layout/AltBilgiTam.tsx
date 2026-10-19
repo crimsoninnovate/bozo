@@ -1,5 +1,5 @@
 import { sozluk, type Dil } from '@/content'
-import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
+import { isletme } from '@/content/isletme'
 import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
 import { KelimeMarkasi } from '@/components/ui/KelimeMarkasi'
 import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
@@ -62,28 +62,18 @@ export function AltBilgiTam({ dil, aktif }: Props) {
         <div className={stil.kolon}>
           <div className={stil.baslik}>{s.ortak.footer.iletisimBaslik}</div>
 
-          {telefon ? (
+          {telefon && (
             <a href={telefon} className={stil.iletisimSatiri}>
               <TelefonIkon boy={15} />
               <span className={stil.tabular}>{isletme.telefon}</span>
             </a>
-          ) : (
-            <span className={`${stil.iletisimSatiri} ${stil.pasif}`} aria-disabled="true">
-              <TelefonIkon boy={15} />
-              <span className={stil.tabular}>{TELEFON_YER_TUTUCU}</span>
-            </span>
           )}
 
-          {whatsapp ? (
+          {whatsapp && (
             <a href={whatsapp} className={stil.iletisimSatiri} rel="noopener">
               <WhatsAppIkon boy={15} />
               <span>{s.ortak.cta.whatsapp}</span>
             </a>
-          ) : (
-            <span className={`${stil.iletisimSatiri} ${stil.pasif}`} aria-disabled="true">
-              <WhatsAppIkon boy={15} />
-              <span>{s.ortak.cta.whatsapp}</span>
-            </span>
           )}
 
           {instagram ? (

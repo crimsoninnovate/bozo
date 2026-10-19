@@ -3,7 +3,7 @@ import { DurumCipi } from '@/components/saat/DurumCipi'
 import { Buton } from '@/components/ui/Buton'
 import { PinIkon, TelefonIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
-import { isletme, TELEFON_YER_TUTUCU } from '@/content/isletme'
+import { isletme } from '@/content/isletme'
 import { telefonUrl } from '@/lib/site'
 import stil from './Acilis.module.css'
 
@@ -21,6 +21,7 @@ type Props = { dil: Dil }
  */
 export function Acilis({ dil }: Props) {
   const s = sozluk(dil)
+  const telefon = telefonUrl(isletme.telefon)
 
   return (
     <section className={stil.bolum}>
@@ -52,14 +53,11 @@ export function Acilis({ dil }: Props) {
         <Buton tur="birincil" boy="lg" href="#harita" ok>
           {s.ortak.cta.yolTarifiAl}
         </Buton>
-        <Buton
-          tur="ikincil"
-          boy="lg"
-          href={telefonUrl(isletme.telefon)}
-          ikon={<TelefonIkon boy={17} />}
-        >
-          {isletme.telefon ?? TELEFON_YER_TUTUCU}
-        </Buton>
+        {telefon && (
+          <Buton tur="ikincil" boy="lg" href={telefon} ikon={<TelefonIkon boy={17} />}>
+            {isletme.telefon}
+          </Buton>
+        )}
       </div>
     </section>
   )

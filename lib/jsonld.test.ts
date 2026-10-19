@@ -38,8 +38,13 @@ test('restaurantJsonLd_koordinatNullken_geoyuHicYazmaz', () => {
   assert.equal('geo' in veri, false)
 })
 
-test('restaurantJsonLd_gercekVeriyle_telefonuYazar', () => {
+test('restaurantJsonLd_telefonGizliyken_telephoneYazmaz', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
+  assert.equal('telephone' in veri, false)
+})
+
+test('restaurantJsonLd_telefonVarken_telefonuYazar', () => {
+  const veri = restaurantJsonLd({ ...isletme, telefon: '+90 533 888 74 24' }) as Record<string, unknown>
   assert.equal(veri.telephone, '+90 533 888 74 24')
 })
 
