@@ -22,7 +22,7 @@ export const menuUrunler: Urun[] = [
   },
   {
     id: 'terbiyesiz-tavuk-sis',
-    fiyatlar: { porsiyon: 450, durum: 450 },
+    fiyatlar: { porsiyon: 550, durum: 450 },
     fotoId: 'tavuk-sis',
   },
   { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850 }, fotoId: 'terbiyeli-kusbasi' },

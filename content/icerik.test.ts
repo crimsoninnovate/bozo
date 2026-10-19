@@ -232,7 +232,7 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
     dalak: { porsiyon: 550, durum: 400 },
     yurek: { porsiyon: 550, durum: 400 },
     'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 350 },
-    'terbiyesiz-tavuk-sis': { porsiyon: 450, durum: 450 },
+    'terbiyesiz-tavuk-sis': { porsiyon: 550, durum: 450 },
     'terbiyeli-kusbasi': { porsiyon: 850 },
     'bozo-karisik': { porsiyon: 600 },
   }
