@@ -234,7 +234,7 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
     'terbiyeli-tavuk-sis': { porsiyon: 450, durum: 350 },
     'terbiyesiz-tavuk-sis': { porsiyon: 550, durum: 450 },
     'terbiyeli-kusbasi': { porsiyon: 850 },
-    'bozo-karisik': { porsiyon: 600 },
+    'bozo-karisik': { porsiyon: 700 },
   }
   for (const urun of menuUrunler) {
     assert.deepEqual(urun.fiyatlar, beklenen[urun.id], `${urun.id} fiyatı kaymış`)

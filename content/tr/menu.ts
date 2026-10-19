@@ -41,7 +41,7 @@ export const menu = {
       },
       'bozo-karisik': {
         ad: 'Bozo Karışık',
-        aciklama: 'Ciğer, dalak ve yürek bir arada.',
+        aciklama: 'Üç şiş ciğer, üç şiş dalak, üç şiş yürek, bir şiş kuyruk yağı.',
       },
     },
     // "Her üründen iki şiş · 10 şiş" yerine gramaj: 250 gr (8 Ekim 2026), 190 gr (11 Ekim 2026).

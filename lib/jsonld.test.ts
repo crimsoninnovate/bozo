@@ -152,7 +152,7 @@ test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
 test('menuJsonLd_karisikKalemi_yalnizPorsiyonOfferiTasir', () => {
   const veri = menuJsonLd('tr') as Record<string, unknown>
   const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozo Karışık')
-  assert.deepEqual(karisik?.offers, [{ '@type': 'Offer', name: 'Porsiyon', price: '600', priceCurrency: 'TRY' }])
+  assert.deepEqual(karisik?.offers, [{ '@type': 'Offer', name: 'Porsiyon', price: '700', priceCurrency: 'TRY' }])
 })
 
 test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {

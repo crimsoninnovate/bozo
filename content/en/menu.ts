@@ -38,7 +38,7 @@ export const menu = {
       },
       'bozo-karisik': {
         ad: 'Bozo Mixed (Bozo Karışık)',
-        aciklama: 'Liver, spleen and heart together.',
+        aciklama: 'Three skewers of liver, three of spleen, three of heart and one of tail fat.',
       },
     },
     ozel: { ad: 'Bozo Special', miktarNotu: '190 g' },
