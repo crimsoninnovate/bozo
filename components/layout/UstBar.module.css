@@ -135,8 +135,10 @@
   height: var(--bar-boy-daralmis);
 }
 
+/* `background-color`, kısaltma değil: kısaltma `no-repeat`i sıfırlıyor ve 1px'lik saç çizgisi
+   bütün barı dolduruyordu (logonun sağı açık, solu koyu; ölçüldü 20 Ekim 2026). */
 .daralmis {
-  background: var(--panel-daralmis);
+  background-color: var(--panel-daralmis);
 }
 
 .sol,
