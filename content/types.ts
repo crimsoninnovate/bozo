@@ -22,6 +22,10 @@ export type Isletme = {
   whatsapp: string | null
   eposta: string | null
   instagram: string | null
+  facebook: string | null
+  tiktok: string | null
+  /** Google yorum bağlantısının kısa kodu (`g.page/r/<kod>/review`); adresi `lib/site.ts` kurar. */
+  googleYorumKodu: string | null
   /** Google'daki işletme kartının Place ID'si (`ChIJ...`); linkleri `lib/site.ts` kurar. */
   googlePlaceId: string | null
   alkolServisi: false

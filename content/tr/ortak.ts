@@ -70,6 +70,13 @@ export const ortak = {
     bozoSofrasi: 'Bozo Sofrası',
     telefon: 'Telefon',
     instagram: 'Instagram',
+    facebook: 'Facebook',
+    tiktok: 'TikTok',
+  },
+  yorum: {
+    baslik: 'Sofranız nasıldı?',
+    satir: 'Bir cümle bile bize yol gösterir.',
+    buton: "Google'da Yorum Yaz",
   },
   durum: {
     acik: 'Şu an açığız',
@@ -101,7 +108,7 @@ export const ortak = {
     tanim: 'Urfa usulü ciğer, meşe korunda.',
     adresBaslik: 'Adres',
     saatlerBaslik: 'Saatler',
-    iletisimBaslik: 'İletişim',
+    takipBaslik: 'Bizi Takip Edin',
   },
   /**
    * Rota başına sayfa başlığı ve açıklaması. Anahtarlar RotaAnahtari ile birebir eşleşir.

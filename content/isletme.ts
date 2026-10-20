@@ -33,8 +33,13 @@ export const isletme: Isletme = {
   // Kullanıcı adı, tam URL değil: adresi `lib/site.ts` > `instagramUrl` kurar.
   // Sahibi 12 Ağustos 2026'da verdi; hesap henüz açılmadı, yayından önce açılmalı.
   instagram: 'cigercibozo',
+  // Kullanıcı adları; adresleri `lib/site.ts` kurar. Sahibi 20 Ekim 2026'da verdi.
+  facebook: 'cigercibozo',
+  tiktok: 'cigercibozo',
   // Sahibinin 8 Ekim 2026'da verdiği Maps linkindeki özellik kimliğinden türetildi;
   // "Ciğerci Bozo" kartını açtığı tarayıcıda doğrulandı (IYILESTIRMELER.md > Google Maps kaydı).
+  // Sahibinin 20 Ekim 2026'da verdiği g.page/r/.../review bağlantısının kodu.
+  googleYorumKodu: 'CTdnn1lSkPrHEBM',
   googlePlaceId: 'ChIJHzzKSYdt3hQRN2efWVKQ-sc',
   alkolServisi: false,
   // Sitenin ona seslendiği tek ad; nüfustaki ad artık hiçbir yüzeyde geçmiyor

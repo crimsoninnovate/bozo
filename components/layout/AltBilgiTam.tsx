@@ -1,8 +1,8 @@
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
-import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon } from '@/components/ui/Ikonlar'
+import { PinIkon, TelefonIkon, WhatsAppIkon, InstagramIkon, FacebookIkon, TikTokIkon } from '@/components/ui/Ikonlar'
 import { KelimeMarkasi } from '@/components/ui/KelimeMarkasi'
-import { instagramUrl, telefonUrl, whatsappUrl, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
+import { facebookUrl, instagramUrl, telefonUrl, tiktokUrl, whatsappUrl, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
 import { TelifSeridi } from './TelifSeridi'
 import stil from './AltBilgi.module.css'
 
@@ -19,6 +19,8 @@ export function AltBilgiTam({ dil, aktif }: Props) {
   const telefon = telefonUrl(isletme.telefon)
   const whatsapp = whatsappUrl(isletme.whatsapp)
   const instagram = instagramUrl(isletme.instagram)
+  const facebook = facebookUrl(isletme.facebook)
+  const tiktok = tiktokUrl(isletme.tiktok)
 
   return (
     <footer className={`${stil.zemin} ${stil.tam}`}>
@@ -60,7 +62,7 @@ export function AltBilgiTam({ dil, aktif }: Props) {
         </div>
 
         <div className={stil.kolon}>
-          <div className={stil.baslik}>{s.ortak.footer.iletisimBaslik}</div>
+          <div className={stil.baslik}>{s.ortak.footer.takipBaslik}</div>
 
           {telefon && (
             <a href={telefon} className={stil.iletisimSatiri}>
@@ -86,6 +88,20 @@ export function AltBilgiTam({ dil, aktif }: Props) {
               <InstagramIkon boy={15} />
               <span>{s.ortak.cta.instagram}</span>
             </span>
+          )}
+
+          {facebook && (
+            <a href={facebook} className={stil.iletisimSatiri} rel="noopener">
+              <FacebookIkon boy={15} />
+              <span>{s.ortak.cta.facebook}</span>
+            </a>
+          )}
+
+          {tiktok && (
+            <a href={tiktok} className={stil.iletisimSatiri} rel="noopener">
+              <TikTokIkon boy={15} />
+              <span>{s.ortak.cta.tiktok}</span>
+            </a>
           )}
         </div>
       </div>

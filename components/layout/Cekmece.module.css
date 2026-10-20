@@ -271,7 +271,8 @@
 
 .iletisim {
   display: flex;
-  gap: 18px;
+  flex-wrap: wrap;
+  gap: 0 18px;
 }
 
 /* İkon + etiket tek çift; meta satırlarının 20px sütun aralığı burada geçmez. */

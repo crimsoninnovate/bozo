@@ -1,7 +1,7 @@
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
-import { SITE_URL, yol, instagramUrl, haritaUrl, type RotaAnahtari } from './site.ts'
+import { SITE_URL, yol, instagramUrl, facebookUrl, tiktokUrl, haritaUrl, type RotaAnahtari } from './site.ts'
 import { sozluk, type Sozluk } from '../content/index.ts'
 import type { Dil, Icecek, Urun } from '../content/types.ts'
 import { icecekler, menuUrunler, ozelUrun, urunOlculeri } from '../content/urunler.ts'
@@ -94,7 +94,12 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
   const harita = haritaUrl(isletmeVerisi)
   if (harita) veri.hasMap = harita
   // Google kartı `sameAs`'te de durur: sitedeki varlığı Maps'teki kayda bağlar.
-  const sameAs = [instagramUrl(isletmeVerisi.instagram), harita].filter((url): url is string => url !== null)
+  const sameAs = [
+    instagramUrl(isletmeVerisi.instagram),
+    facebookUrl(isletmeVerisi.facebook),
+    tiktokUrl(isletmeVerisi.tiktok),
+    harita,
+  ].filter((url): url is string => url !== null)
   if (sameAs.length > 0) veri.sameAs = sameAs
 
   return veri

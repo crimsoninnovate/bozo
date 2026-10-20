@@ -13,6 +13,8 @@ import {
   whatsappUrl,
   telefonUrl,
   instagramUrl,
+  facebookUrl,
+  tiktokUrl,
   SITE_URL,
   type RotaAnahtari,
 } from './site.ts'
@@ -177,4 +179,14 @@ test('instagramUrl_kullaniciNullIken_nullDoner', () => {
 
 test('instagramUrl_kullaniciVarken_profilAdresiUretir', () => {
   assert.equal(instagramUrl('cigercibozo'), 'https://instagram.com/cigercibozo')
+})
+
+test('facebookUrl_kullaniciVarken_profilAdresiUretir', () => {
+  assert.equal(facebookUrl(null), null)
+  assert.equal(facebookUrl('cigercibozo'), 'https://facebook.com/cigercibozo')
+})
+
+test('tiktokUrl_kullaniciVarken_atIsaretliProfilAdresiUretir', () => {
+  assert.equal(tiktokUrl(null), null)
+  assert.equal(tiktokUrl('cigercibozo'), 'https://tiktok.com/@cigercibozo')
 })

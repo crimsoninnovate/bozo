@@ -7,6 +7,7 @@ import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
 import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun, urunOlculeri } from './urunler.ts'
+import { yorumUrl } from '../lib/site.ts'
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -165,6 +166,18 @@ test('isletme_googlePlaceId_dogrulanmisDegerTasir', () => {
 test('isletme_instagram_kullaniciAdiTasirUrlDegil', () => {
   assert.equal(isletme.instagram, 'cigercibozo')
   assert.equal(isletme.instagram?.includes('/'), false)
+})
+
+test('isletme_facebookVeTiktok_kullaniciAdiTasirUrlDegil', () => {
+  for (const kullanici of [isletme.facebook, isletme.tiktok]) {
+    assert.equal(kullanici, 'cigercibozo')
+    assert.equal(kullanici?.includes('/') || kullanici?.startsWith('@'), false)
+  }
+})
+
+test('isletme_googleYorumKodu_adresiDogruKurar', () => {
+  assert.equal(yorumUrl(isletme.googleYorumKodu), 'https://g.page/r/CTdnn1lSkPrHEBM/review')
+  assert.equal(yorumUrl(null), null)
 })
 
 // Telefon ve WhatsApp siteden gizli (sahibi, 19 Ekim 2026); null olunca hiçbir yüzey bağlantı basmaz.

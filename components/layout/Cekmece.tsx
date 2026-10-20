@@ -6,13 +6,13 @@ import { CanliSaat } from '@/components/saat/CanliSaat'
 import { DurumCipi } from '@/components/saat/DurumCipi'
 import { BolumCipi } from '@/components/ui/BolumCipi'
 import { Buton } from '@/components/ui/Buton'
-import { InstagramIkon, PinIkon, SaatIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
+import { FacebookIkon, InstagramIkon, PinIkon, SaatIkon, TelefonIkon, TikTokIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { Rozet } from '@/components/ui/Rozet'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
 import { hareketAzaltilmisMi, useHareketAzaltilmisMi } from '@/lib/hareket'
 import { cekmeceLinkleri, ustBarVaryanti, type CekmeceLinki } from '@/lib/kabuk'
-import { instagramUrl, telefonUrl, whatsappUrl, yol, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
+import { facebookUrl, instagramUrl, telefonUrl, tiktokUrl, whatsappUrl, yol, yolTarifiUrl, type SayfaAnahtari } from '@/lib/site'
 import { DilAnahtari } from './DilAnahtari'
 import stil from './Cekmece.module.css'
 
@@ -168,6 +168,8 @@ function Ayak({ dil }: { dil: Dil }) {
     <div className={stil.ayak}>
       <div className={stil.iletisim}>
         <IletisimOgesi href={instagramUrl(isletme.instagram)} ikon={<InstagramIkon boy={16} />} etiket={s.ortak.cta.instagram} />
+        {isletme.facebook && <IletisimOgesi href={facebookUrl(isletme.facebook)} ikon={<FacebookIkon boy={16} />} etiket={s.ortak.cta.facebook} />}
+        {isletme.tiktok && <IletisimOgesi href={tiktokUrl(isletme.tiktok)} ikon={<TikTokIkon boy={16} />} etiket={s.ortak.cta.tiktok} />}
         {telefon && <IletisimOgesi href={telefon} ikon={<TelefonIkon boy={16} />} etiket={s.ortak.cta.telefon} />}
       </div>
       <span>{s.ortak.alkolsuzKisa}</span>

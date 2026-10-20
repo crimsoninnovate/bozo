@@ -107,3 +107,15 @@ export function telefonUrl(numara: string | null): string | null {
 export function instagramUrl(kullanici: string | null): string | null {
   return kullanici ? `https://instagram.com/${kullanici}` : null
 }
+
+export function yorumUrl(kod: string | null): string | null {
+  return kod ? `https://g.page/r/${kod}/review` : null
+}
+
+export function facebookUrl(kullanici: string | null): string | null {
+  return kullanici ? `https://facebook.com/${kullanici}` : null
+}
+
+export function tiktokUrl(kullanici: string | null): string | null {
+  return kullanici ? `https://tiktok.com/@${kullanici}` : null
+}

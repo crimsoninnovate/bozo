@@ -62,6 +62,13 @@ export const ortak = {
     bozoSofrasi: "Bozo's Table",
     telefon: 'Phone',
     instagram: 'Instagram',
+    facebook: 'Facebook',
+    tiktok: 'TikTok',
+  },
+  yorum: {
+    baslik: 'How was your table?',
+    satir: 'One sentence helps us more than you think.',
+    buton: 'Write a Google Review',
   },
   durum: {
     acik: 'We are open',
@@ -92,7 +99,7 @@ export const ortak = {
     tanim: 'Urfa-style liver over oak embers.',
     adresBaslik: 'Address',
     saatlerBaslik: 'Hours',
-    iletisimBaslik: 'Contact',
+    takipBaslik: 'Follow Us',
   },
   /**
    * Titles/descriptions expanded for SEO (24 Aug 2026, spec:

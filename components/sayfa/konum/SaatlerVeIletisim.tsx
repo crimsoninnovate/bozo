@@ -1,9 +1,9 @@
 import { SaatTablosu } from '@/components/saat/SaatTablosu'
 import { CamPanel } from '@/components/ui/CamPanel'
-import { InstagramIkon, TelefonIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
+import { FacebookIkon, InstagramIkon, TelefonIkon, TikTokIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
-import { instagramUrl, telefonUrl, whatsappUrl } from '@/lib/site'
+import { facebookUrl, instagramUrl, telefonUrl, tiktokUrl, whatsappUrl } from '@/lib/site'
 import { AlkolsuzRozeti } from './AlkolsuzRozeti'
 import { IletisimSatiri } from './IletisimSatiri'
 import stil from './SaatlerVeIletisim.module.css'
@@ -30,6 +30,8 @@ type Props = { dil: Dil }
 export function SaatlerVeIletisim({ dil }: Props) {
   const s = sozluk(dil)
   const instagram = instagramUrl(isletme.instagram)
+  const facebook = facebookUrl(isletme.facebook)
+  const tiktok = tiktokUrl(isletme.tiktok)
   const telefon = telefonUrl(isletme.telefon)
   const whatsapp = whatsappUrl(isletme.whatsapp)
 
@@ -71,6 +73,26 @@ export function SaatlerVeIletisim({ dil }: Props) {
             href={instagram}
             hariciMi
           />
+          {facebook && (
+            <IletisimSatiri
+              ikon={<FacebookIkon boy={17} />}
+              etiket={s.ortak.cta.facebook}
+              alt={`@${isletme.facebook}`}
+              tur="aciklama"
+              href={facebook}
+              hariciMi
+            />
+          )}
+          {tiktok && (
+            <IletisimSatiri
+              ikon={<TikTokIkon boy={17} />}
+              etiket={s.ortak.cta.tiktok}
+              alt={`@${isletme.tiktok}`}
+              tur="aciklama"
+              href={tiktok}
+              hariciMi
+            />
+          )}
         </div>
       </CamPanel>
     </section>
