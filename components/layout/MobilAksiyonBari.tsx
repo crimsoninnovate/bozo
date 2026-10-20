@@ -1,24 +1,28 @@
-import { PinIkon, SofraIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
+import { InstagramIkon, PinIkon, SofraIkon, WhatsAppIkon } from '@/components/ui/Ikonlar'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
-import { whatsappUrl, yol, yolTarifiUrl } from '@/lib/site'
+import { instagramUrl, whatsappUrl, yol, yolTarifiUrl } from '@/lib/site'
 import stil from './MobilAksiyonBari.module.css'
 
 type Props = { dil: Dil }
 
 /**
- * Yüzen cam eylem barı: konum, Bozo Sofrası, WhatsApp.
+ * Yüzen cam eylem barı: konum, Bozo Sofrası, WhatsApp (kapalıyken Instagram).
  *
  * Sahibinin kararları, 13 Ağustos 2026: telefon çıktı (WhatsApp yeterli),
  * orta öğe "Menü" değil "Bozo Sofrası" ve barın üstüne taşan yuvarlak bir
  * düğme. Kalıp sahibinin verdiği referanstan (elaves.com mobil barı): yüzen
  * hap, cam zemin, ortada yükselen ana eylem.
  *
+ * WhatsApp 19 Ekim 2026'da siteden kalkınca bar iki öğeye düştü; sahibi 20 Ekim'de
+ * üçüncü yere Instagram'ı koydu. `isletme.whatsapp` dolarsa yine WhatsApp çıkar.
+ *
  * 1040px üstünde gizlenir; sıfırdan görünür (F4, 18 Ağustos 2026).
  */
 export function MobilAksiyonBari({ dil }: Props) {
   const s = sozluk(dil)
   const whatsapp = whatsappUrl(isletme.whatsapp)
+  const instagram = instagramUrl(isletme.instagram)
 
   return (
     <nav className={stil.bar} aria-label={s.ortak.erisim.hizliEylemler}>
@@ -38,6 +42,13 @@ export function MobilAksiyonBari({ dil }: Props) {
         <a href={whatsapp} className={stil.hedef} rel="noopener">
           <WhatsAppIkon boy={19} />
           <span className={stil.etiket}>{s.ortak.cta.whatsapp}</span>
+        </a>
+      )}
+
+      {!whatsapp && instagram && (
+        <a href={instagram} className={stil.hedef} rel="noopener">
+          <InstagramIkon boy={19} />
+          <span className={stil.etiket}>{s.ortak.cta.instagram}</span>
         </a>
       )}
     </nav>

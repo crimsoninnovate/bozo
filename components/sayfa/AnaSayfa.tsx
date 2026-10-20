@@ -1,4 +1,5 @@
 import { BeadRay } from '@/components/layout/BeadRay'
+import { YorumDaveti } from '@/components/ui/YorumDaveti'
 import type { Dil } from '@/content'
 import { Acilis } from './ana/Acilis'
 import { Bozo } from './ana/Bozo'
@@ -36,6 +37,7 @@ export function AnaSayfa({ dil }: Props) {
       <Gece dil={dil} />
       <Bozo dil={dil} />
       <Konum dil={dil} />
+      <YorumDaveti dil={dil} />
       <BeadRay bolumler={BOLUMLER} />
     </>
   )

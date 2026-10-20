@@ -3,6 +3,7 @@ import { Icecekler } from './menu/Icecekler'
 import { Ikramlar } from './menu/Ikramlar'
 import { MasaOkumasi } from './menu/MasaOkumasi'
 import { Ocakbasi } from './menu/Ocakbasi'
+import { YorumDaveti } from '@/components/ui/YorumDaveti'
 import type { Dil } from '@/content'
 
 type Props = { dil: Dil }
@@ -31,6 +32,7 @@ export function MenuSayfasi({ dil }: Props) {
       <Ocakbasi dil={dil} />
       <Ikramlar dil={dil} />
       <Icecekler dil={dil} />
+      <YorumDaveti dil={dil} />
       <MasaOkumasi />
     </>
   )

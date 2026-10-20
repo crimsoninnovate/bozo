@@ -97,15 +97,6 @@
   /* satır hover zemini. 12 kullanım, üç dosya: Ana:176-208, Konum, Mobil */
   --bakir-07: rgba(209, 158, 102, 0.07);
 
-  /* Üçüncü taraf markaları kendi renginde (sahibi, 18 Ağustos 2026: tanınırlık).
-     Sitenin paletine ait değil, yalnız o markanın işaretinde kullanılır. */
-  --marka-whatsapp: #25D366;
-  --marka-instagram-1: #FEDA75;
-  --marka-instagram-2: #FA7E1E;
-  --marka-instagram-3: #D62976;
-  --marka-instagram-4: #962FBF;
-  --marka-instagram-5: #4F5BD5;
-
   /* tipografi */
   /* Bevan slab; yedeği de serif olmalı, sans yedek başlıkları tanınmaz hale getirir.
      TEK AĞIRLIK 400. --font-baslik kullanan hiçbir kural 500+ yazmaz; yazarsa

@@ -1,0 +1,42 @@
+/* Menünün ve ana sayfanın en altında bir plaka: menü plakalarıyla aynı zemin, tane rayı, tek eylem. */
+.bolum {
+  position: relative;
+  padding: 0 var(--sayfa-yatay) 70px;
+}
+
+.kutu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px clamp(24px, 4vw, 56px);
+  padding: clamp(28px, 3.4vw, 46px);
+  background: var(--plaka-zemin);
+  border: 1px solid var(--cizgi-plaka);
+  border-radius: 3px;
+}
+
+.metin {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.baslik {
+  margin: 0;
+  font-family: var(--font-baslik);
+  font-weight: 400;
+  font-size: var(--ol-sofra-baslik);
+  line-height: 1.06;
+  letter-spacing: var(--iz-bolum);
+  color: var(--krem);
+}
+
+.satir {
+  margin: -4px 0 0;
+  font-size: var(--ol-govde);
+  line-height: 1.5;
+  color: var(--krem-70);
+}

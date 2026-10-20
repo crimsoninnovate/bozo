@@ -2567,3 +2567,7 @@ Plan: `docs/plans/2026-10-13-menu-iyilestirme-plani.md`.
   erken kaldırış eski öğeyi bırakmaz. Simülasyon ve sunucu aynı.
 - Ölçüldü (dokunmatik 390x844, üç deneme): domates eldeyken şiş tabağa iner, domates kaseye döner, iz
   kalmaz. Rehber (dokun, fare, azaltılmış, elde şiş), dokunmatik sürükleme yolları aynı. Testler 400.
+
+## 20 Ekim 2026: sosyal ikonlar tek renk
+
+Sahibi: Instagram renkli olunca Facebook ve TikTok'u da renklendirmek ya da hepsini tek renk yapmak seçenekti, tek rengi seçti. WhatsApp ve Instagram `currentColor` oldu, Facebook ve TikTok aynı kuralla eklendi. `--marka-*` tokenleri ve `Ikonlar.module.css` silindi; 18 Ağustos'taki marka rengi istisnası kalktı (yukarıdaki kayıt tarihsel).

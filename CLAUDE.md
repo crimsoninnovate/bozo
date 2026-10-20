@@ -154,11 +154,10 @@ halation level the black ground was rejected at: one section, deliberately the d
   its own either. As a button fill it is valid: cream on it measures 5.17:1 on bordo (AA), and
   the fill separates from the ground at 3.01:1, which clears the 3:1 floor by very little.
   Copper and ember never sit side by side in a large area.
-- **Third-party marks are the one exception to the closed list** (owner's decision, 18 August
-  2026, for recognition): the WhatsApp glyph is WhatsApp green and the Instagram glyph carries
-  Instagram's gradient, tokens `--marka-*` in `styles/tokens.css`, applied only inside
-  `components/ui/Ikonlar.tsx`. Nothing else on the site uses those colours.
-- **The game scene is the second exception** (owner's decision, 8 October 2026; spec
+- **Third-party marks are mono.** The WhatsApp, Instagram, Facebook and TikTok glyphs all take
+  `currentColor` (owner's decision, 20 October 2026; it replaced the 18 August brand-colour
+  exception). No `--marka-*` tokens exist any more: do not bring brand colours back.
+- **The game scene is the one exception to the closed list** (owner's decision, 8 October 2026; spec
   `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md` K1): the painted board under
   `components/oyun/Sahne*` (walnut, brass, steel, marble, raw and cooked meat, coal, ember
   `#FF7A1A`) carries the handoff's own warm palette as literals, with every stop that IS a
@@ -256,8 +255,8 @@ framework beyond `node:test`. Those three were architecture decisions, not budge
 
 Icons come from `lucide-react`, wrapped in `components/ui/Ikonlar.tsx` so call sites keep Turkish
 names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined from
-`lucide-static` and WhatsApp from `simple-icons` (CC0), both in their own brand colours (see
-Colors).
+`lucide-static`, WhatsApp, Facebook and TikTok from `simple-icons` (CC0), all single-colour
+(see Colors).
 
 ## Accessibility
 
