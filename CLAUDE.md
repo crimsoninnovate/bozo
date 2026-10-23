@@ -17,6 +17,9 @@ npm run preview    # serve the out/ export locally
 `tsconfig.json` sets `noUnusedLocals` and `noUnusedParameters`: one unused import fails
 `npm run typecheck`. Deploy is in `README.md` > Publishing.
 
+`npm run build` fetches Archivo and Bevan from fonts.googleapis.com (`next/font/google`); in the
+sandbox it fails with "Failed to fetch ... from Google Fonts", so build and deploy run unsandboxed.
+
 ## Architecture
 
 - App Router, `output: 'export'`. No server runtime after build; the site is plain static files
@@ -38,14 +41,18 @@ npm run preview    # serve the out/ export locally
   the palette, so `styles/palet.test.ts` rejects it.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
   business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
-- `lib/` is twelve small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
+  A price change is `content/urunler.ts` plus the expectation table in `content/icerik.test.ts`;
+  skewer counts are `porsiyonNotu` / `durumNotu` in `content/{tr,en}/menu.ts`. Menu rows and
+  JSON-LD follow on their own.
+- `lib/` is thirteen small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
   where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
   outbound URL), `kabuk` (the shell parts that change per route: top-bar variant, anchors,
   drawer links), `metadata` (page metadata and the social card), `jsonld`, `onay` (consent
   storage), `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame),
-  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention), `masa` (table
-  plate QRs: `/m/N` is redirected by `public/.htaccess` to `/menu/?masa=N`, counted first-party on
-  the score server, shown on the staff screen; the printed address never changes).
+  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention), `llmsTxt`
+  (the `/llms.txt` body), `masa` (table plate QRs: `/m/N` is redirected by `public/.htaccess` to
+  `/menu/?masa=N`, counted first-party on the score server, shown on the staff screen; the printed
+  address never changes).
   `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
   integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
   display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,
@@ -83,7 +90,9 @@ npm run preview    # serve the out/ export locally
   values written by a rAF loop as CSS variables the SVG layers read, instant reactions in
   WAAPI, `motion` only for screen transitions; pointer drags reduced to grab/drop inputs by
   `lib/oyun/surukle.ts`). Each component is `X.tsx` next to `X.module.css`.
-  Imports go through the `@/*` alias, not relative paths.
+  Components and `app/` import through the `@/*` alias. `lib/`, `content/` and `sunucu/` use
+  relative imports with the `.ts` extension: `node --test` runs them directly and cannot resolve
+  `@/` (`ERR_MODULE_NOT_FOUND`).
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
   keyframe sitting in a global file never resolves and the animation silently never runs. Measured
   once at 42 declarations and 0 running; `styles/animasyon.test.ts` guards it now.
@@ -134,16 +143,8 @@ is hardcoded anywhere outside them.
 | `--kor` ember | `#B82B27` | `#AD2624` |
 | `--kor-hover` | `#A02420` | `#8E1D1C` |
 
-The bordo ground replaced the black one because the black measured cold (R−B −4, the wrong
-direction for a fire brand) and its contrast was 16.20:1, over twice AAA and past the halation
-threshold. Ember was brightened one step with it: `#AD2624` measured 2.56:1 on the first bordo,
-so the button stopped separating from the page.
-
-**The whole ground family went two steps darker on 23 August 2026** (owner: "a bit too light").
-One multiplier, inner ratios kept, ember untouched: darkening the ground raises the button's
-separation on its own, measured 2.84:1 to 3.01:1. Cream text now measures 15.56:1 on `--zemin`,
-14.69:1 on `--komur`, 15.07:1 on `--plaka-zemin`, and exactly 16.20:1 on `--gece`, which is the
-halation level the black ground was rejected at: one section, deliberately the darkest surface.
+Why bordo (21 Aug), why two steps darker (23 Aug) and every measured ratio:
+`docs/surec/IYILESTIRMELER.md`. `--gece` sits at 16.20:1 on purpose, the one darkest surface.
 
 - Ground-independent, identical in both palettes, in `styles/tokens.css`: cream text `#F9E9D5`
   with its alpha ladder, the `--cizgi*` line family, copper (bakır) `#D19E66` with light
