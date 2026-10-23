@@ -161,13 +161,15 @@ Verify after every deploy:
 ```bash
 ssh plesk-206 'plesk repair fs cigercibozo.com -n'          # expect: [OK], 0 errors
 curl -sI https://cigercibozo.com/ | grep -ci x-robots-tag   # expect: 0, the site is indexed
-rsync -az --delete --checksum --dry-run --itemize-changes \
+rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemize-changes \
   out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/  # expect: no file lines
 ```
 
 That last line is the only honest "is the deploy complete" check. A plain dry-run is not:
 `rsync` compares mtime by default, and a clean rebuild resets every timestamp, so it reports
-changes that are not there. `--checksum` compares content. Note also that a clean rebuild
+changes that are not there. `--checksum` compares content. `--no-owner --no-group --no-perms`
+keep the `chown` above from listing every file as `.f....og...` (measured 23 October 2026: 171
+such lines, zero content changes). Note also that a clean rebuild
 mints a new Next build ID, which every HTML file embeds in its asset paths: after a
 `rm -rf out && npm run build` all twelve routes genuinely differ even when nothing changed.
 
