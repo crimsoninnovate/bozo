@@ -8,100 +8,62 @@ kebab restaurant in Girne, Northern Cyprus, in Turkish and English. Production d
 
 ```bash
 npm run dev        # local dev server
-npm run build      # static export to out/
-npm run typecheck  # tsc --noEmit
+npm run build      # static export to out/; fetches Google Fonts, so it fails in the sandbox
+npm run typecheck  # tsc --noEmit; noUnusedLocals/Parameters are on, so one unused import fails
 npm run test       # node --test (bare, no shell glob; discovers *.test.ts itself)
 npm run preview    # serve the out/ export locally
 ```
 
-`tsconfig.json` sets `noUnusedLocals` and `noUnusedParameters`: one unused import fails
-`npm run typecheck`. Deploy is in `README.md` > Publishing.
-
-`npm run build` fetches Archivo and Bevan from fonts.googleapis.com (`next/font/google`); in the
-sandbox it fails with "Failed to fetch ... from Google Fonts", so build and deploy run unsandboxed.
+Deploy is in `README.md` > Publishing.
 
 ## Architecture
 
-- App Router, `output: 'export'`. No server runtime after build; the site is plain static files
-  served from a Plesk document root on the arc server. Server behaviour that the site needs
-  (the designed 404, security and cache headers) is in `public/.htaccess`, which the build
-  copies into `out/`. The
-  `noindex` header that used to live there was deleted on 24 August 2026; the site is indexed.
+- App Router, `output: 'export'`, `trailingSlash: true` (so `/menu` resolves to `menu/index.html`):
+  plain static files from a Plesk document root on the arc server. What the server must do (the
+  designed 404, security and cache headers) is in `public/.htaccess`, which the build copies into
+  `out/`. The site is indexed: no `noindex` header since 24 August 2026.
 - **Two root layouts, no root `app/layout.tsx`.** `app/(tr)/layout.tsx` renders `<html lang="tr">`
   and keeps Turkish routes at the site root. `app/(en)/layout.tsx` renders `<html lang="en">` and
   nests English routes under `en/`. A root `app/layout.tsx` breaks this: do not add one.
 - `experimental.globalNotFound: true` in `next.config.ts` pairs with `app/global-not-found.tsx`.
   Without that file the flag is inert; do not remove it.
-- Fonts are defined once in `lib/fontlar.ts`, shared by both root layouts and
-  `global-not-found.tsx`, so every `<html>` gets the same font classes.
 - Design tokens are CSS custom properties, imported through `app/globals.css`: one palette from
-  `styles/palet/` (the ground-dependent colours), then `styles/tokens.css` (everything else),
-  `styles/reset.css` and `styles/animasyonlar.css`. Styling is CSS Modules on top of those
-  tokens, no CSS framework. A palette colour written as a literal in a module does not follow
-  the palette, so `styles/palet.test.ts` rejects it.
-- Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX. The one
-  business rule, the overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
-  A price change is `content/urunler.ts` plus the expectation table in `content/icerik.test.ts`;
-  skewer counts are `porsiyonNotu` / `durumNotu` in `content/{tr,en}/menu.ts`. Menu rows and
-  JSON-LD follow on their own.
+  `styles/palet/` (the ground-dependent colours), then `styles/tokens.css`, `styles/reset.css`
+  and `styles/animasyonlar.css`. Styling is CSS Modules on those tokens, no CSS framework; a
+  palette colour written as a literal in a module is rejected by `styles/palet.test.ts`.
+- Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX; the binding
+  copy rules and the price-change steps are in `content/CLAUDE.md`. The one business rule, the
+  overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
 - `lib/` is thirteen small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
   where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
-  outbound URL), `kabuk` (the shell parts that change per route: top-bar variant, anchors,
-  drawer links), `metadata` (page metadata and the social card), `jsonld`, `onay` (consent
-  storage), `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame),
-  `hareket` (reduced-motion preference and rAF throttling), `metin` (widow prevention), `llmsTxt`
-  (the `/llms.txt` body), `masa` (table plate QRs: `/m/N` is redirected by `public/.htaccess` to
-  `/menu/?masa=N`, counted first-party on the score server, shown on the staff screen; the printed
-  address never changes).
-  `lib/oyun/` is the opening-period game (spec `docs/specs/2026-10-08-oyun-design.md`): an
-  integer-only deterministic simulation pinned by golden records in `motor.test.ts`, plus
-  display-only modules (`gosterim`, `gorsel`, `zamanlayici`, `defter`, `klavye`, `duyuru`,
-  `ses`, `tarih`, `surukle` (gesture machine), `rehber` (guided round)) that never feed values back
-  into it, and the server-facing modules shared
-  with `sunucu/`: `aktarim` (the wire contract), `api` (browser client), `tavan` (per-seed score
-  ceiling), `tohum` (uint32 seed bounds), `takmaAd` (nickname format and folding), `yonetim` (staff
-  screen `/oyun/yonetim/`: prior period, replay check).
-- **`sunucu/` is the game's score server** (spec §10): Node 24, `node:http`, one dependency
-  (`mariadb`) in its own `package.json`, wired in as an npm workspace so the root `npm install`,
-  `npm run typecheck` and `npm test` cover it. It imports `lib/oyun/` directly and replays every
-  round with `simule`; it never reads a claimed score. Storage is behind `sunucu/depo.ts`:
-  `bellekDepo` for tests and local runs, `mariaDepo` for production (`sema.sql`). The MariaDB
-  contract test is opt-in (`BOZO_TEST_DB_URL`), so bare `npm test` stays hermetic. Run locally
-  with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`; the site reads the API base
-  from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`). **Live
-  since 10 October 2026** at `api.cigercibozo.com` (systemd `bozo-oyun` on arc, Node 24, MariaDB
-  `bozo_oyun`, nginx proxy; runbook and secrets locations in `docs/surec/SUNUCU-CANLIYA-ALMA.md`).
-  The privacy page describes the game data; the owner declined a lawyer review and took the
-  decision himself (10 October 2026).
+  outbound URL), `kabuk` (the shell parts that change per route), `metadata` (page metadata and
+  the social card), `jsonld`, `onay` (consent storage), `fontlar`, `sis` (the locked mark
+  geometry), `cerceve` (shared scroll frame), `hareket` (reduced-motion preference and rAF
+  throttling), `metin` (widow prevention), `llmsTxt` (the `/llms.txt` body), `masa` (table plate
+  QRs: `/m/N` is redirected by `public/.htaccess` to `/menu/?masa=N` and counted on the score
+  server; the printed address never changes).
+- **The game** (`/oyun`, opening period) spans `lib/oyun/` (simulation and shared contract),
+  `components/oyun/` (the screen) and `sunucu/` (the score server, live at `api.cigercibozo.com`
+  since 10 October 2026). Each of the three has its own `CLAUDE.md`, loaded when you work there.
 - **Every third-party runtime request sits behind consent.** `components/layout/CerezOnayi.tsx`
-  is the gate and `Olcumleme` (GA4) is only rendered once the stored answer is `kabul`; KKTC law
+  is the gate and `Olcumleme` (GA4) renders only once the stored answer is `kabul`; KKTC law
   89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
-  that loads when the page opens is the same cross-border transfer, so it needs the same gate,
-  and behind a gate most visitors never see it. Prefer a build-time equivalent: both map plates
-  are OpenStreetMap geometry baked into SVG (`components/sayfa/haritaYollari.ts`, ODbL
-  attribution required on every surface that shows it) for exactly this reason. The game
-  routes (`/oyun`, `/en/oyun`) talk only to the first-party score API and make no third-party
-  request, so `CerezOnayi`
-  renders nothing there (`onayGerekirMi` in `lib/onay.ts`): no banner, no GA.
-- `trailingSlash: true` so `/menu` resolves to `menu/index.html` under a plain static file server.
+  loaded on page open is the same transfer and needs the same gate, so prefer a build-time
+  equivalent: both map plates are OpenStreetMap SVG (`components/sayfa/haritaYollari.ts`, ODbL
+  attribution wherever shown). On the game routes `CerezOnayi` renders nothing (`onayGerekirMi`).
 - `components/` has six buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
-  `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen
-  (DOM + painted inline SVG from the handoff, `Sahne*` modules and one `SahneDefs`; per-frame
-  values written by a rAF loop as CSS variables the SVG layers read, instant reactions in
-  WAAPI, `motion` only for screen transitions; pointer drags reduced to grab/drop inputs by
-  `lib/oyun/surukle.ts`). Each component is `X.tsx` next to `X.module.css`.
-  Components and `app/` import through the `@/*` alias. `lib/`, `content/` and `sunucu/` use
-  relative imports with the `.ts` extension: `node --test` runs them directly and cannot resolve
-  `@/` (`ERR_MODULE_NOT_FOUND`).
-- Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so a
-  keyframe sitting in a global file never resolves and the animation silently never runs. Measured
-  once at 42 declarations and 0 running; `styles/animasyon.test.ts` guards it now.
+  `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen.
+  Each component is `X.tsx` next to `X.module.css`. Components and `app/` import through the
+  `@/*` alias. `lib/`, `content/` and `sunucu/` use relative imports with the `.ts` extension:
+  `node --test` runs them directly and cannot resolve `@/` (`ERR_MODULE_NOT_FOUND`).
+- Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so
+  a keyframe in a global file never resolves and the animation silently never runs
+  (`styles/animasyon.test.ts` guards it).
 
 ## Design source of truth
 
-The handoff is the base. Three surfaces have been superseded by owner decisions, so a parity
-round reading the `.dc.html` files will see the difference as a defect. It is intended; each
-one's measurements are in `docs/surec/IYILESTIRMELER.md`.
+The handoff is the base, except where an owner decision superseded it (below). A parity round will
+see these as defects; they are intended, measurements in `docs/surec/IYILESTIRMELER.md`.
 
 | Surface | Source since | What it changed |
 |---|---|---|
@@ -114,25 +76,21 @@ one's measurements are in `docs/surec/IYILESTIRMELER.md`.
 - Cheaper structural extract of the same handoff, read this first: `docs/tasarim/*.json`
 - Copy, terminology and forbidden phrases: `docs/tasarim/metin-envanteri.json`
 - Screenshots: `/Users/mk/Desktop/Bozo/design_handoff_bozo_website/screenshots/`
-- Architecture spec: `docs/specs/2026-08-11-web-mimarisi.md`
-- Implementation plan: `docs/plans/2026-08-11-web-uygulama-plani.md`
+- Spec and plan: `docs/specs/2026-08-11-web-mimarisi.md`, `docs/plans/2026-08-11-web-uygulama-plani.md`
 - `support.js` from the handoff never ships to production.
 
 ## Process files
 
-- `docs/surec/DEVAM.md` is the entry point after a context reset: current state and pointers
-  only, kept short. The dated log lives in `DEVAM-ARSIV.md`. `README.md` > Project docs maps
-  every question to its one home.
-- `docs/surec/KISITLAR.md` splits constraints into hard (never deviate) and soft. Anything
-  traceable to the handoff gets reported in `docs/surec/IYILESTIRMELER.md` with its measurement,
-  not silently fixed.
+`docs/surec/DEVAM.md` is the entry point after a context reset and stays short (dated log:
+`DEVAM-ARSIV.md`); `README.md` > Project docs maps every question to its one home.
+`docs/surec/KISITLAR.md` splits constraints into hard and soft. Anything traceable to the handoff
+is reported in `docs/surec/IYILESTIRMELER.md` with its measurement, not silently fixed.
 
 ## Colors (complete list, do not add others)
 
-**Two palettes, one active.** Every colour whose correct value depends on the ground lives in
-`styles/palet/*.css`; `app/globals.css` imports exactly one. Switching is that one line and
-nothing else. `styles/palet.test.ts` fails if the two files drift apart, or if a palette colour
-is hardcoded anywhere outside them.
+**Two palettes, one active.** Ground-dependent colours live in `styles/palet/*.css` and
+`app/globals.css` imports exactly one: switching is that one line. `styles/palet.test.ts` fails
+if the two files drift apart or a palette colour is hardcoded anywhere outside them.
 
 | Token | Bordo (active, owner's decision 21 Aug 2026) | Siyah (kept, switchable) |
 |---|---|---|
@@ -149,139 +107,84 @@ Why bordo (21 Aug), why two steps darker (23 Aug) and every measured ratio:
 - Ground-independent, identical in both palettes, in `styles/tokens.css`: cream text `#F9E9D5`
   with its alpha ladder, the `--cizgi*` line family, copper (bakır) `#D19E66` with light
   `#E8C08A` and dark `#C08A57`.
-- Nar, pumpkin and oak were deleted on 20 August 2026: no consumers, and the palette no longer
-  goes outside the logo. Do not reintroduce them.
+- Nar, pumpkin and oak were deleted on 20 August 2026 (no consumers): do not reintroduce them.
 - Ember is never body text on any surface, and under 3:1 it cannot carry a graphic element on
   its own either. As a button fill it is valid: cream on it measures 5.17:1 on bordo (AA), and
   the fill separates from the ground at 3.01:1, which clears the 3:1 floor by very little.
   Copper and ember never sit side by side in a large area.
-- **Third-party marks are mono.** The WhatsApp, Instagram, Facebook and TikTok glyphs all take
-  `currentColor` (owner's decision, 20 October 2026; it replaced the 18 August brand-colour
-  exception). No `--marka-*` tokens exist any more: do not bring brand colours back.
-- **The game scene is the one exception to the closed list** (owner's decision, 8 October 2026; spec
-  `docs/specs/2026-10-08-oyun-sahne-birlestirme-design.md` K1): the painted board under
-  `components/oyun/Sahne*` (walnut, brass, steel, marble, raw and cooked meat, coal, ember
-  `#FF7A1A`) carries the handoff's own warm palette as literals, with every stop that IS a
-  palette colour bound to its token (`stop-color: var(--kor)`, `fill: var(--kor)`). The UI
-  layer on top of it (HUD, section labels, buttons, pause curtain, ticket strike line, ×2 and
-  combo text) stays on tokens, and no palette rgb is written as a literal anywhere
-  (`styles/palet.test.ts`). All gradients and filters live in one `SahneDefs` bound once;
-  `components/oyun/SahneDefs.test.ts` fails on a second `<defs>` or an undefined `url(#…)`.
+- **Third-party marks are mono** (owner, 20 October 2026): the WhatsApp, Instagram, Facebook and
+  TikTok glyphs take `currentColor`. No `--marka-*` tokens: do not bring brand colours back.
+- **The game scene is the one exception to the closed list**: see `components/oyun/CLAUDE.md`.
 
 ## Typography
 
 - Headings, wordmark and numerals: Bevan, `font-variant-numeric: tabular-nums`. **Bevan ships
-  one weight, 400.** Writing 500+ on a `--font-baslik` rule makes the browser synthesise bold;
-  23 such escapes were found and removed on 20 August 2026.
-- Body and UI: Archivo 400/500/600/700.
-- Bricolage Grotesque and Inter were the previous pair, dropped 20 August 2026 with the header
-  and hero v2. Do not reintroduce them; see `lib/fontlar.ts`.
-- Corner radius 0-3px, with one recorded exception: the mobile action bar
-  (`MobilAksiyonBari`) is a fully rounded floating glass pill with a raised circular
-  centre button. Owner's decision 13 August 2026, taken after seeing the 3px version
-  and rejecting it. Do not "fix" it back to 3px.
-- The 16px floor binds reading text only, not UI micro text;
-  the three tiers are decided once in `docs/surec/KISITLAR.md`. Do not "fix" a
-  14.5px chip or frame label up to 16px.
-- Both fonts require `subsets: ['latin', 'latin-ext']`: `ğ Ğ ş Ş İ` live in latin-ext, `ı ç ö ü`
-  live in latin. Dropping latin-ext silently breaks Turkish rendering.
-
-## Copy rules (binding, a violation is a bug)
-
-- No em dash (U+2014) as punctuation; use a colon, comma, or period. No circumflex accents. No
-  all-caps sentences. Exclamation marks are rare.
-- Hours are written `10:00 - 05:00`.
-- **Case, owner's decision 12 August 2026.** Title case on three things only: product names
-  (`Terbiyesiz Tavuk Şiş`), section and menu labels (`Ocakbaşı`, `From the Fire`), CTA and nav
-  labels (`Yol Tarifi Al`, `See the Menu`). Page headings and body copy stay sentence case:
-  `Girne uyurken ocak yanıyor` is a sentence, not a label. English keeps its own title case, so
-  short words stay lowercase (`On the House`). Screen-reader-only labels are untouched.
-- **The owner's name, owner's decision 23 August 2026.** The site says `Bozo Çağlar` and
-  nothing else (`isletme.sahip`, the überlines, his signature). `Engin Çağlar` was removed from
-  the last two sentences that carried it; the handoff and `metin-envanteri.json` still contain
-  it, so a parity round will see the difference. `content/icerik.test.ts` fails if it returns.
-- Locked terminology: misafir (never müşteri), ikram (never bedava), ocak/kor (never mangal),
-  usta (never şef), tane (never parça), şiş/porsiyon (never adet), sofra (never masa), "gece
-  açığız" (never 7/24).
-- **Never invent new marketing copy.** Text comes verbatim from `docs/tasarim/metin-envanteri.json`
-  or the `.dc.html` files. One exception: copy the owner writes himself (`hikaye.lakap`, 19 August
-  2026). Such a block needs the record `IYILESTIRMELER.md` > "lakap bölümü" has: source, what was
-  edited, what was deliberately left out.
+  one weight, 400.** Writing 500+ on a `--font-baslik` rule makes the browser synthesise bold.
+- Body and UI: Archivo 400/500/600/700. The previous pair, Bricolage Grotesque and Inter, stays out.
+- Both are defined once in `lib/fontlar.ts`, shared by both root layouts and
+  `global-not-found.tsx`, and require `subsets: ['latin', 'latin-ext']`: `ğ Ğ ş Ş İ` live in
+  latin-ext, `ı ç ö ü` in latin. Dropping latin-ext silently breaks Turkish rendering.
+- Corner radius 0-3px. One exception: the mobile action bar (`MobilAksiyonBari`) is a fully
+  rounded floating glass pill with a raised circular centre button (owner, 13 August 2026, after
+  seeing and rejecting the 3px version). Do not "fix" it back to 3px.
+- The 16px floor binds reading text only, not UI micro text; the three tiers are decided once in
+  `docs/surec/KISITLAR.md`. Do not "fix" a 14.5px chip or frame label up to 16px.
 
 ## Owner deletions, do not restore
 
-The design still contains these; the owner removed them on 13 August 2026. A parity round reading
-the handoff will see them as missing. They are not. Measurements and reasoning are in
-`docs/surec/IYILESTIRMELER.md`.
+The handoff still contains these; the owner removed them on 13 August 2026, so a parity round
+will see them as missing. They are not. Reasoning and measurements: `docs/surec/IYILESTIRMELER.md`.
 
-- The pumpkin packaging strip (`PaketSeridi`), from every page. The service never launched, so the
-  band promised a "coming soon" for something that did not exist.
-- The menu page's "Gece Menüsü" card and its "Çekim Listesi" section. The first announced that its
-  own contents were undecided; the second was a note addressed to the photographer, not a guest.
+- The pumpkin packaging strip (`PaketSeridi`), from every page: the service never launched.
+- The menu page's "Gece Menüsü" card and its "Çekim Listesi" section (a note to the photographer).
 - Two of the three footer variants. Every page now carries the home page's four-column footer.
 - `html { scroll-behavior: smooth }`. It turned Next's route-change scroll correction into a visible
-  slide in from the bottom of the target page. Measured: 82 scroll events from y=3356 down to 0,
-  against one event at 0 without it. Bead rail easing is unaffected, it lives in its own JS call.
+  slide in from the bottom of the target page. Bead rail easing lives in its own JS call.
 
 ## Comments
 
-Comment density here has drifted into essays. Keep them short.
-
-- A comment earns its place by recording something the code cannot say: a design
-  source (`Ana:176`), a measured value, a decision that looks wrong without context.
-- One or two lines. Not a paragraph, and never a rationale essay.
-- Do not restate what the line does, do not narrate the process that produced it,
-  do not argue with a hypothetical reader.
-- The reasoning belongs in `docs/surec/`, not in the file.
+Keep them short: one or two lines, never a rationale essay; the reasoning belongs in
+`docs/surec/`. A comment earns its place by recording what the code cannot say: a design source
+(`Ana:176`), a measured value, a decision that looks wrong without context. Do not restate the
+line, narrate the process that produced it, or argue with a hypothetical reader.
 
 ## Naming
 
-- Domain concepts in Turkish: `TaneDizilimi`, `KorSahnesi`, `FotoYuvasi`, `urunler.ts`,
-  `data-yogunluk`.
-- Technical scaffolding in English: `lib/`, `components/`, `content/`, `types.ts`, `layout.tsx`.
+- Domain concepts in Turkish (`TaneDizilimi`, `KorSahnesi`, `FotoYuvasi`, `urunler.ts`,
+  `data-yogunluk`); technical scaffolding in English (`lib/`, `components/`, `types.ts`).
 - Turkish identifiers stay ASCII; Turkish characters only appear in user-facing text.
 - Route names are Turkish in both languages: `/menu`, `/en/menu`.
 
 ## Dependencies
 
-Runtime: `next`, `react`, `react-dom`, `lucide-react`, `motion` (imported only under
-`components/oyun/`, so it ships only in the `/oyun` chunks; spec §10). Dev: `typescript` and the three
-`@types` packages. The `sunucu` workspace adds `mariadb` for the score server only; it is not
-imported by the site.
-
-**Owner's decision, 13 August 2026.** The old "those three packages only" rule is lifted: this
-is a small restaurant brand with a launch to make, not a bundle-budget project. Add a dependency
-when it buys the look or saves real work. Still out: CSS framework, i18n package, and any test
-framework beyond `node:test`. Those three were architecture decisions, not budget ones.
+Runtime: `next`, `react`, `react-dom`, `lucide-react`, `motion` (only under `components/oyun/`,
+so it ships only in the `/oyun` chunks). Dev: `typescript` and the three `@types` packages.
+`sunucu/` adds `mariadb` for the score server only. Add a dependency when it buys the look or
+saves real work (owner, 13 August 2026). Still out, as architecture decisions: a CSS framework,
+an i18n package, any test framework beyond `node:test`.
 
 Icons come from `lucide-react`, wrapped in `components/ui/Ikonlar.tsx` so call sites keep Turkish
 names and a `boy` prop. Lucide v1 carries no brand marks; Instagram is inlined from
-`lucide-static`, WhatsApp, Facebook and TikTok from `simple-icons` (CC0), all single-colour
-(see Colors).
+`lucide-static`, WhatsApp, Facebook and TikTok from `simple-icons` (CC0), all single-colour.
 
 ## Accessibility
 
 - Touch targets at least 44px. Contrast target WCAG AA.
 - `prefers-reduced-motion: reduce` turns off every CSS animation and transition through the
-  global rule in `styles/animasyonlar.css`, with ONE recorded exception: the ember density
-  wrappers keep an opacity-only cross-fade (`KorSahnesi.module.css`), because without it the
-  full-viewport glow hard-cuts by up to 45% at every section boundary; measured 18 August 2026.
-  The rule does NOT reach canvas loops, SMIL, Web Animations API calls or Motion: those read
-  the preference themselves (see `components/ember/KorKivilcimi.tsx`; the game's
-  `components/oyun/tepkiler.ts` keeps opacity-only keyframes when `useHareketAzaltilmisMi()` is
-  true, and `OyunSayfasi` wraps Motion in `MotionConfig reducedMotion="user"`). Any new non-CSS
-  animation must do the same, or the guarantee is silently broken.
+  global rule in `styles/animasyonlar.css`. One exception: the ember density wrappers keep an
+  opacity-only cross-fade (`KorSahnesi.module.css`), or the full-viewport glow hard-cuts by up to
+  45% at every section boundary. The rule does NOT reach canvas loops, SMIL, Web Animations API
+  or Motion: those read the preference themselves (`components/ember/KorKivilcimi.tsx`; the game's
+  pattern is in `components/oyun/CLAUDE.md`). Any new non-CSS animation must do the same.
 - The design mockups use `<div>` for buttons and links; the port uses real `<a>` or `<button>`.
 - Decorative layers (ember scene, smoke, grill, tane pattern) get `aria-hidden="true"`.
 
 ## Git
 
-Commit at the end of each task. Message: imperative mood, English, first line under 72 chars.
-
-**No assistant signature.** Do not add `Co-Authored-By: Claude ...`, a `Claude-Session:`
-line, a "Generated with Claude Code" footer, or any equivalent trailer to commits, PR
-bodies or file headers. Owner's decision, 12 August 2026. This overrides the default
-harness convention.
+Commit at the end of each task (imperative, English, first line under 72 chars). **No assistant
+signature** (owner, 12 August 2026; overrides the harness default): no
+`Co-Authored-By: Claude ...`, `Claude-Session:` line, "Generated with Claude Code" footer or any
+equivalent trailer in commits, PR bodies or file headers.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

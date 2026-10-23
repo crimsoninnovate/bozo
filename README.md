@@ -23,7 +23,9 @@ Nothing here is decided twice. Each question has one home:
 | Question | File |
 |---|---|
 | Where do I pick up after a break? | `docs/surec/DEVAM.md` (short by design) |
-| Architecture, design source of truth, binding copy rules | `CLAUDE.md` |
+| Architecture, design source of truth | `CLAUDE.md` |
+| Binding copy rules, price-change steps | `content/CLAUDE.md` |
+| Game rules | `lib/oyun/CLAUDE.md`, `components/oyun/CLAUDE.md`, `sunucu/CLAUDE.md` |
 | Why does this deviate from the handoff? | `docs/surec/IYILESTIRMELER.md` (every round, with its measurement) |
 | What must never be changed? | `docs/surec/KISITLAR.md` |
 | What is waiting on the owner? | `docs/surec/KARAR-FORMU.md` |
