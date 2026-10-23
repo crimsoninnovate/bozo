@@ -18,7 +18,11 @@ export const menu = {
       'terbiyeli-kusbasi': '7 skewers',
       'bozo-karisik': '10 skewers',
     } as Record<string, string>,
-    durumNotu: { varsayilan: '5 skewers', ciger: '6 skewers' } as Record<string, string>,
+    durumNotu: {
+      varsayilan: '5 skewers',
+      ciger: '6 skewers',
+      'terbiyeli-tavuk-sis': '7 skewers',
+    } as Record<string, string>,
     urunler: {
       ciger: {
         ad: 'Urfa Liver Kebab (Ciğer)',
