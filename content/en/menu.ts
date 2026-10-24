@@ -20,8 +20,12 @@ export const menu = {
     } as Record<string, string>,
     durumNotu: {
       varsayilan: '5 skewers',
-      ciger: '6 skewers',
+      ciger: '10 skewers',
+      dalak: '7 skewers',
+      yurek: '7 skewers',
       'terbiyeli-tavuk-sis': '7 skewers',
+      'terbiyesiz-tavuk-sis': '7 skewers',
+      'terbiyeli-kusbasi': '7 skewers',
     } as Record<string, string>,
     urunler: {
       ciger: {

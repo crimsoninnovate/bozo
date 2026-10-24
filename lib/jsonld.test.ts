@@ -145,7 +145,7 @@ test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
   assert.ok(ciger)
   assert.deepEqual(ciger.offers, [
     { '@type': 'Offer', name: 'Porsiyon', price: '690', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Dürüm', price: '400', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Dürüm', price: '690', priceCurrency: 'TRY' },
   ])
 })
 

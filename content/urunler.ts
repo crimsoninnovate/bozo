@@ -5,16 +5,17 @@ import type { Icecek, IkramGrubu, Ikram, Olcu, OzelUrun, Urun } from './types.ts
  * fotoğraf bağı vardır. Böylece EN menü aynı listeyi kullanır.
  *
  * Fiyatlar ve sıra sahibinin 8 Ekim 2026 fiyat listesinden, kuruşsuz TL. Yarım
- * porsiyon o listeyle kalktı, 1,5 porsiyon ve 1,5 dürüm 19 Ekim 2026'da; listede olmayan ölçü (kuşbaşı dürümü gibi) yazılmaz.
+ * porsiyon o listeyle kalktı, 1,5 porsiyon ve 1,5 dürüm 19 Ekim 2026'da; listede olmayan ölçü yazılmaz.
+ * 24 Ekim 2026 el yazısı listesi: servis ve dürüm aynı fiyat ve aynı şiş sayısı.
  */
 export const menuUrunler: Urun[] = [
   {
     id: 'ciger',
-    fiyatlar: { porsiyon: 690, durum: 400 },
+    fiyatlar: { porsiyon: 690, durum: 690 },
     fotoId: 'tane-yakin-cekim',
   },
-  { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 400 }, fotoId: 'dalak' },
-  { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 400 }, fotoId: 'yurek' },
+  { id: 'dalak', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'dalak' },
+  { id: 'yurek', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'yurek' },
   {
     id: 'terbiyeli-tavuk-sis',
     fiyatlar: { porsiyon: 550, durum: 550 },
@@ -22,10 +23,10 @@ export const menuUrunler: Urun[] = [
   },
   {
     id: 'terbiyesiz-tavuk-sis',
-    fiyatlar: { porsiyon: 550, durum: 450 },
+    fiyatlar: { porsiyon: 550, durum: 550 },
     fotoId: 'tavuk-sis',
   },
-  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850 }, fotoId: 'terbiyeli-kusbasi' },
+  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'terbiyeli-kusbasi' },
   { id: 'bozo-karisik', fiyatlar: { porsiyon: 700 }, fotoId: 'bozo-karisik' },
 ]
 

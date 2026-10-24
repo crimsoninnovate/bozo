@@ -10,7 +10,7 @@ export const menu = {
     cigerSpec: { sis: '10 şiş', dagilim: '4 ciğer, 2 kuyruk yağı', sure: '3 dakika' },
     /** Sahibinin fiyat listesinin ölçüleri (8 Ekim 2026); yalnız fiyatı olan basılır. */
     olculer: { porsiyon: 'Porsiyon', durum: 'Dürüm' },
-    /** Dürümdeki şiş sayısı; ciğer 19, terbiyeli tavuk 23 Ekim 2026'da sahibinden, ötekiler teyitsiz. */
+    /** Dürümdeki şiş sayısı; sahibinden (24 Ekim 2026): dürüm servisle aynı şiş sayısında. */
     /** Porsiyondaki şiş sayısı, sahibinden (19 Ekim 2026); karışık 3+3+3+1. */
     porsiyonNotu: {
       ciger: '10 şiş',
@@ -23,8 +23,12 @@ export const menu = {
     } as Record<string, string>,
     durumNotu: {
       varsayilan: '5 şiş',
-      ciger: '6 şiş',
+      ciger: '10 şiş',
+      dalak: '7 şiş',
+      yurek: '7 şiş',
       'terbiyeli-tavuk-sis': '7 şiş',
+      'terbiyesiz-tavuk-sis': '7 şiş',
+      'terbiyeli-kusbasi': '7 şiş',
     } as Record<string, string>,
     urunler: {
       ciger: {

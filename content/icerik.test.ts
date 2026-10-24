@@ -237,16 +237,16 @@ test('urunler_menuListesiFiyatListesininSirasiniTasir', () => {
 
 /**
  * Fiyat listesi sahibinden 8 Ekim 2026'da geldi; 1,5 porsiyon ve 1,5 dürüm 19 Ekim 2026'da
- * kalktı. Listede olmayan ölçü (kuşbaşı dürümü) yok.
+ * kalktı. 24 Ekim 2026 el yazısı listesi dürümü servisle aynı fiyata çekti, kuşbaşı dürümü ekledi.
  */
 test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   const beklenen: Record<string, Record<string, number>> = {
-    ciger: { porsiyon: 690, durum: 400 },
-    dalak: { porsiyon: 550, durum: 400 },
-    yurek: { porsiyon: 550, durum: 400 },
+    ciger: { porsiyon: 690, durum: 690 },
+    dalak: { porsiyon: 550, durum: 550 },
+    yurek: { porsiyon: 550, durum: 550 },
     'terbiyeli-tavuk-sis': { porsiyon: 550, durum: 550 },
-    'terbiyesiz-tavuk-sis': { porsiyon: 550, durum: 450 },
-    'terbiyeli-kusbasi': { porsiyon: 850 },
+    'terbiyesiz-tavuk-sis': { porsiyon: 550, durum: 550 },
+    'terbiyeli-kusbasi': { porsiyon: 550, durum: 550 },
     'bozo-karisik': { porsiyon: 700 },
   }
   for (const urun of menuUrunler) {
@@ -256,10 +256,10 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
 })
 
 test('urunOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {
-  const kusbasi = menuUrunler.find((u) => u.id === 'terbiyeli-kusbasi')
-  assert.ok(kusbasi)
-  assert.deepEqual(urunOlculeri(kusbasi), [
-    { olcu: 'porsiyon', fiyat: 850 },
+  const bozo = menuUrunler.find((u) => u.id === 'bozo-karisik')
+  assert.ok(bozo)
+  assert.deepEqual(urunOlculeri(bozo), [
+    { olcu: 'porsiyon', fiyat: 700 },
   ])
 })
 
