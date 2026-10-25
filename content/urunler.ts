@@ -26,7 +26,7 @@ export const menuUrunler: Urun[] = [
     fiyatlar: { porsiyon: 550, durum: 550 },
     fotoId: 'tavuk-sis',
   },
-  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 550, durum: 550 }, fotoId: 'terbiyeli-kusbasi' },
+  { id: 'terbiyeli-kusbasi', fiyatlar: { porsiyon: 850, durum: 850 }, fotoId: 'terbiyeli-kusbasi' },
   { id: 'bozo-karisik', fiyatlar: { porsiyon: 700 }, fotoId: 'bozo-karisik' },
 ]
 

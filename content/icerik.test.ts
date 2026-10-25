@@ -246,7 +246,7 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
     yurek: { porsiyon: 550, durum: 550 },
     'terbiyeli-tavuk-sis': { porsiyon: 550, durum: 550 },
     'terbiyesiz-tavuk-sis': { porsiyon: 550, durum: 550 },
-    'terbiyeli-kusbasi': { porsiyon: 550, durum: 550 },
+    'terbiyeli-kusbasi': { porsiyon: 850, durum: 850 },
     'bozo-karisik': { porsiyon: 700 },
   }
   for (const urun of menuUrunler) {
