@@ -244,7 +244,6 @@ export function MenuYonetimi({ baz }: { baz: MenuBelgesi }) {
       {api ? (
         <>
           <div className={stil.ust}>
-            <a className={ortak.ikincil} href="/oyun/yonetim/">{m.menu.oyuna}</a>
             <button type="button" className={ortak.ikincil} onClick={cik}>{m.cikis}</button>
           </div>
           <Calisma api={api} cik={cik} baz={baz} />

@@ -63,7 +63,6 @@ export const yonetim = {
     baslik: 'Menü Yönetimi',
     sekmeler: 'Menü bölümleri',
     sekme: { ocakbasi: 'Ocakbaşı', ozel: 'Bozo Special', icecekler: 'İçecekler', gecmis: 'Geçmiş' },
-    oyuna: 'Oyun Yönetimi',
     tr: 'Türkçe',
     en: 'İngilizce',
     kalem: {
