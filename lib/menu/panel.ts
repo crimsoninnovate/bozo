@@ -58,6 +58,45 @@ export function hataSekmesi(yol: string): Sekme | null {
   return YOL_SEKMELERI[/^[a-z]+/.exec(yol)?.[0] ?? ''] ?? null
 }
 
+/** Hata taşıyan sekmeler (sekme satırındaki işaret); hiçbir sekmeye bağlanmayan yol sayılmaz. */
+export function hataSekmeleri(yollar: Iterable<string>): ReadonlySet<Sekme> {
+  const sekmeler = new Set<Sekme>()
+  for (const yol of yollar) {
+    const sekme = hataSekmesi(yol)
+    if (sekme) sekmeler.add(sekme)
+  }
+  return sekmeler
+}
+
+/**
+ * `kok` kaydının ("kalemler[2]") altında `gorunen` dışında bir hata yolu varsa `true`: kapalı kartta
+ * görünmeyen alandaki hata kartı açar, kapalıyken de görünen fiyat hatası açmaz.
+ */
+export function kayitHatali(yollar: Iterable<string>, kok: string, gorunen: readonly string[] = []): boolean {
+  for (const yol of yollar) {
+    const altinda = yol === kok || yol.startsWith(`${kok}.`) || yol.startsWith(`${kok}[`)
+    if (altinda && !gorunen.includes(yol)) return true
+  }
+  return false
+}
+
+const y = yonetim.menu.durum
+
+type YayinGirdisi = { hataSayisi: number; ilkHata: Sekme | null; degisiklik: number; eski: boolean }
+type YayinDurumu = { metin: string; kapali: boolean }
+
+/** Alt barın tek satırı ve Yayınla'nın kapalı olup olmadığı. `eski`: yayındaki sürüm 1. sürüm biçiminde. */
+export function yayinDurumu({ hataSayisi, ilkHata, degisiklik, eski }: YayinGirdisi): YayinDurumu {
+  if (hataSayisi > 0) {
+    const metin = ilkHata
+      ? doldur(y.hataSekmede, { sayi: hataSayisi, sekme: yonetim.menu.sekme[ilkHata] })
+      : doldur(y.hata, { sayi: hataSayisi })
+    return { metin, kapali: true }
+  }
+  if (degisiklik > 0) return { metin: doldur(y.degisiklik, { sayi: degisiklik }), kapali: false }
+  return eski ? { metin: y.eski, kapali: false } : { metin: y.yok, kapali: true }
+}
+
 /** Anahtar sırasından bağımsız, alan alan eşitlik (diziler sıralı). */
 function esit(a: unknown, b: unknown): boolean {
   if (a === b) return true
@@ -81,15 +120,24 @@ export function siteSurumuOku(ham: string | undefined): number {
 
 const s = yonetim.menu.site
 
-/** Yayındaki sürümle sitenin build'e gömdüğü sürümü karşılaştırır; `siteSurum <= 0` tohum demektir. */
-export function siteDurumu(yayinSurum: number | null, siteSurum: number): { guncel: boolean; metin: string } {
+type SiteDurumu = { guncel: boolean; metin: string; kisa: string }
+
+/**
+ * Yayındaki sürümle sitenin build'e gömdüğü sürümü karşılaştırır; `siteSurum <= 0` tohum demektir.
+ * `kisa`: üst barın tek satırı, `metin`: neyin site yayını beklediğini de söyleyen tam cümle.
+ */
+export function siteDurumu(yayinSurum: number | null, siteSurum: number): SiteDurumu {
+  const k = s.kisa
   if (siteSurum <= 0) {
-    return yayinSurum === null ? { guncel: true, metin: s.tohum } : { guncel: false, metin: `${s.tohum} ${s.fark}` }
+    return yayinSurum === null
+      ? { guncel: true, metin: s.tohum, kisa: k.tohum }
+      : { guncel: false, metin: `${s.tohum} ${s.fark}`, kisa: doldur(k.tohumFark, { panel: yayinSurum }) }
   }
   if (yayinSurum === null || yayinSurum === siteSurum) {
-    return { guncel: true, metin: doldur(s.guncel, { site: siteSurum }) }
+    return { guncel: true, metin: doldur(s.guncel, { site: siteSurum }), kisa: doldur(k.guncel, { site: siteSurum }) }
   }
-  return { guncel: false, metin: doldur(s.farkli, { site: siteSurum, panel: yayinSurum }) }
+  const surumler = { site: siteSurum, panel: yayinSurum }
+  return { guncel: false, metin: doldur(s.farkli, surumler), kisa: doldur(k.farkli, surumler) }
 }
 
 /** Fark satırı telefonun sitede görünür olmasına geçiyorsa `true` (onay ekranı satırı vurgular). */

@@ -156,6 +156,13 @@ export const yonetim = {
     yayinla: 'Yayınla',
     hatali: 'Hatalar düzeltilmeden yayınlanamaz: {sayi} hata var.',
     hataSekmede: 'İlk hata {sekme} sekmesinde.',
+    durum: {
+      degisiklik: '{sayi} değişiklik',
+      yok: 'Değişiklik yok',
+      hata: '{sayi} hata',
+      hataSekmede: '{sayi} hata · {sekme}',
+      eski: 'Eski biçim, bir kez yayınlayın',
+    },
     at: {
       dugme: 'Değişiklikleri At',
       soru: 'Kaydedilmemiş değişiklikler silinir, yayındaki menü geri gelir. Emin misiniz?',
@@ -188,6 +195,12 @@ export const yonetim = {
       farkli:
         'Sitede #{site}, panelde #{panel}: iletişim bilgisi, arama motoru verisi ve ikram metinleri '
         + 'siteyi yeniden yayınlayınca güncellenir.',
+      kisa: {
+        tohum: 'Site tohum menüyle basılı',
+        tohumFark: 'Sitede tohum menü, panelde #{panel}',
+        guncel: 'Site güncel (#{site})',
+        farkli: 'Sitede #{site}, panelde #{panel}',
+      },
     },
     degisiklikYok: 'Yayındaki menüyle aynı, yayınlanacak bir şey yok.',
     yukleniyor: 'Yayındaki menü okunuyor.',

@@ -5,7 +5,8 @@ import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi,
-  hataSekmesi, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz, telefonAciliyor,
+  hataSekmeleri, hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz,
+  telefonAciliyor, yayinDurumu,
 } from './panel.ts'
 import type { Duyuru } from './tipler.ts'
 
@@ -138,6 +139,14 @@ test('siteDurumu_siteTohumYayinYok_guncel', () => {
   assert.match(d.metin, /tohum menüyle basılmış/)
 })
 
+test('siteDurumu_kisaMetin_tekSatirlikOzet', () => {
+  assert.equal(siteDurumu(7, 7).kisa, 'Site güncel (#7)')
+  assert.equal(siteDurumu(null, 7).kisa, 'Site güncel (#7)')
+  assert.equal(siteDurumu(9, 7).kisa, 'Sitede #7, panelde #9')
+  assert.equal(siteDurumu(4, 0).kisa, 'Sitede tohum menü, panelde #4')
+  assert.equal(siteDurumu(null, 0).kisa, 'Site tohum menüyle basılı')
+})
+
 test('siteSurumuOku_eksikYaDaBozuk_sifirDoner', () => {
   assert.equal(siteSurumuOku(undefined), 0)
   assert.equal(siteSurumuOku(''), 0)
@@ -180,6 +189,77 @@ test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
   assert.equal(hataSekmesi('duyuru.bitis'), 'duyuru')
   assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
   assert.equal(hataSekmesi('belge'), null)
+})
+
+test('hataSekmeleri_birkacYol_herSekmeBirKezTanimsizYolYok', () => {
+  const sekmeler = hataSekmeleri(['kalemler[0].ad.tr', 'kalemler[3].fiyatlar.porsiyon', 'iletisim.eposta', 'belge'])
+  assert.deepEqual([...sekmeler].sort(), ['iletisim', 'ocakbasi'])
+})
+
+test('hataSekmeleri_hataYok_bosKume', () => {
+  assert.equal(hataSekmeleri([]).size, 0)
+})
+
+test('hataSekmeleri_dogrulamaSonucu_hataliSekmeleriVerir', () => {
+  const b = structuredClone(tohum)
+  b.iletisim.eposta = 'bozuk'
+  const icecek = b.icecekler[1]
+  if (icecek) icecek.ad.en = ''
+  const sonuc = menuBelgesiDogrula(b)
+  const yollar = sonuc.tamam ? [] : sonuc.hatalar.map((h) => h.yol)
+  assert.deepEqual([...hataSekmeleri(yollar)].sort(), ['icecekler', 'iletisim'])
+})
+
+test('kayitHatali_kayitAltindaHata_dogru', () => {
+  assert.equal(kayitHatali(['kalemler[2].ad.tr'], 'kalemler[2]'), true)
+  assert.equal(kayitHatali(['kalemler[2]'], 'kalemler[2]'), true)
+  assert.equal(kayitHatali(['icecekler[0].olculer[1].ad.en'], 'icecekler[0]'), true)
+})
+
+test('kayitHatali_baskaKayit_yanlis', () => {
+  // "kalemler[1]" önekiyle başlayan "kalemler[12]" aynı kayıt değildir.
+  assert.equal(kayitHatali(['kalemler[12].ad.tr', 'kalemler[0].ad.tr'], 'kalemler[1]'), false)
+  assert.equal(kayitHatali([], 'kalemler[1]'), false)
+})
+
+test('kayitHatali_yalnizGorunenAlandaHata_yanlis', () => {
+  const gorunen = ['kalemler[1].fiyatlar.porsiyon', 'kalemler[1].fiyatlar.durum']
+  assert.equal(kayitHatali(['kalemler[1].fiyatlar.porsiyon'], 'kalemler[1]', gorunen), false)
+  assert.equal(kayitHatali(['kalemler[1].fiyatlar.porsiyon', 'kalemler[1].ad.en'], 'kalemler[1]', gorunen), true)
+})
+
+test('yayinDurumu_hataVeSekme_kapaliSekmeAdiyla', () => {
+  assert.deepEqual(
+    yayinDurumu({ hataSayisi: 2, ilkHata: 'iletisim', degisiklik: 3, eski: false }),
+    { metin: '2 hata · İletişim', kapali: true },
+  )
+})
+
+test('yayinDurumu_hataSekmesiz_yalnizSayi', () => {
+  assert.deepEqual(
+    yayinDurumu({ hataSayisi: 1, ilkHata: null, degisiklik: 0, eski: true }),
+    { metin: '1 hata', kapali: true },
+  )
+})
+
+test('yayinDurumu_degisiklikYok_kapali', () => {
+  assert.deepEqual(
+    yayinDurumu({ hataSayisi: 0, ilkHata: null, degisiklik: 0, eski: false }),
+    { metin: 'Değişiklik yok', kapali: true },
+  )
+})
+
+test('yayinDurumu_eskiBelgeDegisiklikYok_acik', () => {
+  const d = yayinDurumu({ hataSayisi: 0, ilkHata: null, degisiklik: 0, eski: true })
+  assert.equal(d.kapali, false)
+  assert.match(d.metin, /bir kez yayınlayın/)
+})
+
+test('yayinDurumu_degisiklikVar_sayiyiSoyler', () => {
+  assert.deepEqual(
+    yayinDurumu({ hataSayisi: 0, ilkHata: null, degisiklik: 3, eski: false }),
+    { metin: '3 değişiklik', kapali: false },
+  )
 })
 
 test('telefonAciliyor_kapaliykenAcilir_dogru', () => {
