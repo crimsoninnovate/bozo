@@ -13,7 +13,7 @@ Son güncelleme: 26 Ekim 2026
 - **`main` GitHub'da `5e4a709` (25 Ekim):** aşağıdaki fiyat ve şiş turları dahil her şey canlıda.
   Push her seferinde kullanıcının onayıyla yapılır.
 - **Menü yönetim paneli, 26 Ekim (`feat/menu-yonetim`, push edilmedi, canlıda değil):** fiyat ve menü
-  metni artık personel panelinden (`/oyun/yonetim/`, Menü sekmesi) yayınlanır; belge `menu_surum`
+  metni artık personel panelinden (`/yonetim/`, ayrı sayfa; oyun yönetimi bağlantısı sahibi tarafından bilerek gizli) yayınlanır; belge `menu_surum`
   tablosunda, build öncesi `scripts/menuCek.ts` son sürümü çeker. Plan
   `docs/plans/2026-10-26-menu-yonetim-plani.md`, tasarım `docs/specs/2026-10-26-menu-yonetim-design.md`,
   sunucu ve geri alma `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri. Canlıya alma (T9) sırayla ve her

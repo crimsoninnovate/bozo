@@ -49,7 +49,7 @@ herkes aynı IP'den çıkar. Geri alma: `systemctl stop bozo-oyun`; site çevrim
 
 ## Menü sürümleri (26 Ekim 2026, canlıya alınması sahibinin adımı)
 
-Fiyat ve menü metni personel panelinden (`/oyun/yonetim/`, Menü sekmesi) yayınlanır; her yayın
+Fiyat ve menü metni personel panelinden (`/yonetim/`) yayınlanır; her yayın
 `menu_surum` tablosuna yeni bir sürüm olarak eklenir, hiçbiri silinmez. Tablo `sunucu/sema.sql`'de, şemayı
 uygulama komutu yukarıdaki. Uçlar (`sunucu/uygulama.ts`):
 

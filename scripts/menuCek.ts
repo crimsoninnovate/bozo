@@ -1,4 +1,4 @@
-import { mkdirSync, renameSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, renameSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { canliMenuGetir } from '../lib/menu/canli.ts'
 
@@ -36,11 +36,13 @@ export async function menuCek(kok: string, getir: typeof fetch, hedef: string): 
 /** `basarisiz` çıkış kodunu bozmaz: build ağsız ortamda da derlenmiş menüyle çalışır. */
 async function main(): Promise<void> {
   const kok = process.env['BOZO_MENU_API'] ?? VARSAYILAN_API
-  const sonuc = await menuCek(kok, fetch, join('content', 'menu.canli.json'))
+  const hedef = join('content', 'menu.canli.json')
+  const sonuc = await menuCek(kok, fetch, hedef)
   if (sonuc === 'basarisiz') {
     console.warn(`menuCek: CANLI MENU ALINAMADI (${kok}); site derlenmis menuyle (ya da eski canli dosyayla) basilacak`)
   } else if (sonuc === 'sunucudaYok') {
-    console.log('menuCek: sunucuda yayinlanmis surum yok, derlenmis menu kullanilacak')
+    const kullanilan = existsSync(hedef) ? `mevcut ${hedef} (silinirse tohum)` : 'content/menu.varsayilan.json'
+    console.log(`menuCek: sunucuda yayinlanmis surum yok, build ${kullanilan} dosyasini kullanacak`)
   }
 }
 

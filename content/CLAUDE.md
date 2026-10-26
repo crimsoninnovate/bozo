@@ -6,17 +6,25 @@ hardcoded in JSX.
 ## Prices
 
 Prices, names, descriptions and skewer counts live in the menu document and change through the
-staff panel (`/oyun/yonetim/`, Menü tab); nothing in code moves for a price change. The build
-bakes the live version in (`scripts/menuCek.ts` writes the gitignored `content/menu.canli.json`).
-The code path is only the seed `content/menu.varsayilan.json`, which the site falls back to, plus
-its expectation table in `content/icerik.test.ts` and `lib/menu/varsayilan.test.ts`: change all
-three together. Ikram items and chip texts stay in the `content/{tr,en}` dictionary and
-`content/urunler.ts`, outside the panel. The panel pins Ciğer as the first item (the signature
-slot): it cannot be deleted or moved.
+staff panel (`/yonetim/`, Menü tab, once the menu API is live; until then change
+`content/menu.varsayilan.json` and the expectation tests). The build bakes the live version in
+(`scripts/menuCek.ts` writes the gitignored `content/menu.canli.json`); the menu page also
+refreshes prices in the browser, but JSON-LD, `llms.txt` and meta only change on a manual build
+and deploy. A stale but valid `menu.canli.json` from an earlier build wins over a newer seed:
+delete it to force the seed. The code path is only the seed `content/menu.varsayilan.json`, which
+the site falls back to, plus its expectation table in `content/icerik.test.ts` and
+`lib/menu/varsayilan.test.ts`: change all three together. Ikram items and chip texts stay in the
+`content/{tr,en}` dictionary and `content/urunler.ts`, outside the panel. The panel pins Ciğer as
+the first item (the signature slot): it cannot be deleted or moved.
 
 Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 October 2026, wraps
 24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow
 the document on their own.
+
+The count "Yedi porsiyon" / "Seven portions" is hardcoded copy in `content/{tr,en}/menu.ts` (menu
+spot) and `content/{tr,en}/ortak.ts` (menu meta description). Adding or deleting items in the
+panel makes it wrong; only `menu_porsiyonSayisi_metindekiSayiylaAyni` in `content/icerik.test.ts`
+guards it, and only against the seed. Owner decision pending: do not change that copy.
 
 ## Copy rules (binding, a violation is a bug)
 

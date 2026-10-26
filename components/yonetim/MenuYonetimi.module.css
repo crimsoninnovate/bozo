@@ -22,11 +22,6 @@
   gap: 8px;
 }
 
-.ust a {
-  display: inline-flex;
-  align-items: center;
-}
-
 .sekmeler {
   display: flex;
   flex-wrap: wrap;

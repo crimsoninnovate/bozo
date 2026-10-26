@@ -50,12 +50,12 @@ Deploy is in `README.md` > Publishing.
   89/2007 Md. 11(2)(A) makes opt-in the only route for sending data abroad. A map, video or font
   loaded on page open is the same transfer and needs the same gate, so prefer a build-time
   equivalent: both map plates are OpenStreetMap SVG (`components/sayfa/haritaYollari.ts`, ODbL
-  attribution wherever shown). On the game routes `CerezOnayi` renders nothing (`onayGerekirMi`).
-- `components/` has six buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
-  `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen.
-  Each component is `X.tsx` next to `X.module.css`. Components and `app/` import through the
-  `@/*` alias. `lib/`, `content/` and `sunucu/` use relative imports with the `.ts` extension:
-  `node --test` runs them directly and cannot resolve `@/` (`ERR_MODULE_NOT_FOUND`).
+  attribution wherever shown). On the game and `/yonetim/` routes `CerezOnayi` renders nothing (`onayGerekirMi`).
+- `components/` has seven buckets: `ui/` primitives, `sayfa/` page bodies (a subfolder per page),
+  `layout/` shell, `saat/` opening hours, `ember/` decorative scene, `oyun/` the game screen,
+  `yonetim/` the `/yonetim/` panel. Each component is `X.tsx` next to `X.module.css`. Components and
+  `app/` import through the `@/*` alias. `lib/`, `content/` and `sunucu/` use relative imports with the
+  `.ts` extension: `node --test` runs them directly and cannot resolve `@/` (`ERR_MODULE_NOT_FOUND`).
 - Keyframes live INSIDE the `.module.css` that uses them. CSS Modules hashes `animation-name`, so
   a keyframe in a global file never resolves and the animation silently never runs
   (`styles/animasyon.test.ts` guards it).

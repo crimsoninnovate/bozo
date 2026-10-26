@@ -144,7 +144,7 @@ at the edge. Two consequences:
 `content/menu.canli.json`, and the site bakes that version in. Offline or on a server error it
 prints a loud `CANLI MENU ALINAMADI` warning and the build carries on with the previous fetch
 or the seed `content/menu.varsayilan.json`: read the build log. A price published in the staff
-panel reaches the menu page at once, but search engines and the JSON-LD only see it after a
+panel reaches the menu page within a few seconds, but search engines and the JSON-LD only see it after a
 manual build and deploy (automatic rebuild on publish is not built).
 
 ```bash
