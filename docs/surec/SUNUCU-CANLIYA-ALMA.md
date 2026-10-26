@@ -71,7 +71,7 @@ basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise 
 için yalnız `PUT /yonetim/menu` 256 KB okur (`sunucu/menu.ts` > `MENU_GOVDE_SINIRI`). Her yerde 3 baytlık karakterden
 oluşan bir belge yine aşabilir; panel o zaman "Menü çok büyük, kaydedilemedi." der. Sunucu kodu bu daldaki panel genişletmesiyle
 değiştiği (v2 doğrulayıcı dahil: eski sunucu `duyuru`, `ikramlar`, `iletisim` alanlarını reddeder) için
-yukarıdaki "Sunucu güncellemesi" ile yeniden dağıtılmalı; bu sahibin kararı. Nginx'in varsayılan gövde
+yukarıdaki "Sunucu güncellemesi" ile 26 Ekim 2026'da yeniden dağıtıldı. Nginx'in varsayılan gövde
 sınırı 1 MB, bu boyutların çok üstünde; arc'ta `client_max_body_size` ayrıca denenmedi.
 
 **Dağıtım sırası:** önce skor sunucusu (yukarıdaki "Sunucu güncellemesi"), sonra site (`npm run yayinla`). Ters

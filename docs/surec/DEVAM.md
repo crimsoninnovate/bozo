@@ -8,17 +8,17 @@ Son güncelleme: 26 Ekim 2026
 
 ## Durum
 
-- **Panel genişletmesi hazır, `feat/panel-genisletme` dalında: birleştirilmedi, push edilmedi, canlıya
-  alınmadı.** Menü belgesi v2: tükendi işareti, duyuru bandı, ikramlar ve iletişim bilgileri artık
+- **Panel genişletmesi canlıda (26 Ekim, önce skor sunucusu, sonra `npm run yayinla`; `main`'e
+  birleştirildi).** Menü belgesi v2: tükendi işareti, duyuru bandı, ikramlar ve iletişim bilgileri artık
   panelden düzenlenir. Hangisi menü sayfasında anında görünür, hangisi site yayını ister:
   `README.md` > Publishing > Deploy tablosu. Tasarım `docs/specs/2026-10-26-panel-genisletme-design.md`,
   plan `docs/plans/2026-10-26-panel-genisletme-plani.md`. Yayın tek komut: `npm run yayinla`
-  (`scripts/yayinla.sh`), sahibin onayıyla çalıştırılır. Skor sunucusu kodu da değişti (v2 doğrulayıcı, `PUT /yonetim/menu`
-  gövde sınırı 256 KB, `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri): eski sunucu v2 belgesini kabul etmez.
+  (`scripts/yayinla.sh`), sahibin onayıyla çalıştırılır. Telefon kapalıyken numara hiçbir herkese açık
+  çıktıda yok (`lib/menu/herkeseAcik.ts`; canlıda sayfa ve JS paketlerinde aranıp 0 bulundu).
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **`main` GitHub'da, `feat/menu-yonetim` ile eşit; canlı site menü panelini içeren build'de (26 Ekim).**
+- **`main` GitHub'da, panel genişletmesini içeriyor; canlı site bu build'de (26 Ekim).**
   Push her seferinde kullanıcının onayıyla yapılır.
 - **Menü yönetim paneli, 26 Ekim (canlıda):** fiyat ve menü metni artık personel
   panelinden (`/yonetim/`, ayrı sayfa; oyun yönetimi bağlantısı sahibi tarafından bilerek gizli)
@@ -60,7 +60,7 @@ Son güncelleme: 26 Ekim 2026
   Brifteki GA4 `menu_scan` olayı kullanılmadı: GA onaysız çalışmaz, okumaların küçük bir kısmını sayardı.
 - **Masa QR'ı** (11 Ekim, tek ortak QR) üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
   QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
-- Testler 694 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `feat/panel-genisletme`).
+- Testler 722 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `main`).
 
 ## Bekleyen iş
 
@@ -98,9 +98,9 @@ Son güncelleme: 26 Ekim 2026
 
 ## Bir sonraki deploy'da hatırlanacak
 
-- **Sıra (sahibin onayıyla):** önce skor sunucusu (`SUNUCU-CANLIYA-ALMA.md` > Sunucu güncellemesi; sunucu
-  v2 belgesini doğrular, gövde sınırı değişti), sonra `npm run yayinla`.
-- **v1 geri alma tuzağı:** canlıdaki geçerli sürüm hâlâ v1 biçiminde olduğundan, ilk v2 yayınına kadar
+- **Sıra (sahibin onayıyla):** sunucu kodu değiştiyse önce skor sunucusu (`SUNUCU-CANLIYA-ALMA.md` >
+  Sunucu güncellemesi), sonra `npm run yayinla`.
+- **v1 geri alma tuzağı:** canlıdaki geçerli sürüm hala v1 biçiminde olduğundan, ilk v2 yayınına kadar
   geri alma 409 `gecerliSurumEski` döner. Panelden bir kez yayınlamak yeter.
 - `npm run yayinla` canlı menü alınamazsa yüklemeden durur (`CANLI MENU ALINAMADI`): eski menüyle
   yayın iletişim bilgilerini geri alırdı.

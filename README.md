@@ -194,8 +194,8 @@ rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemi
   out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/  # expect: no file lines
 ```
 
-`npm run yayinla` looks for the `Error messages: 0` line in that output and fails without it; the
-exact wording is unverified until the first real run.
+`npm run yayinla` looks for the `Error messages: 0` line in that output and fails without it. The
+first run (26 October 2026) printed `Error messages: 0; Warnings: 0; Errors resolved: 0`.
 
 The `rsync` line is the only honest "is the deploy complete" check. A plain dry-run is not:
 `rsync` compares mtime by default, and a clean rebuild resets every timestamp, so it reports
