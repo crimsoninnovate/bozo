@@ -10,18 +10,19 @@ Son güncelleme: 26 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **`main` GitHub'da `19b248a` (26 Ekim), `feat/menu-yonetim` ile eşit:** canlı site `5e4a709`'daki
-  halde, menü paneli koda girdi ama canlıya alınmadı. Push her seferinde kullanıcının onayıyla yapılır.
-- **Menü yönetim paneli, 26 Ekim (`main`'de, canlıda değil):** fiyat ve menü metni artık personel
+- **`main` GitHub'da, `feat/menu-yonetim` ile eşit; canlı site menü panelini içeren build'de (26 Ekim).**
+  Push her seferinde kullanıcının onayıyla yapılır.
+- **Menü yönetim paneli, 26 Ekim (canlıda):** fiyat ve menü metni artık personel
   panelinden (`/yonetim/`, ayrı sayfa; oyun yönetimi bağlantısı sahibi tarafından bilerek gizli)
   yayınlanır; belge `menu_surum` tablosunda, build öncesi `scripts/menuCek.ts` son sürümü çeker. Plan
   `docs/plans/2026-10-26-menu-yonetim-plani.md`, tasarım `docs/specs/2026-10-26-menu-yonetim-design.md`,
-  sunucu ve geri alma `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri. Canlıya alma (T9) sırayla ve her
-  adımda sahibin onayıyla: şema, sunucu, site, uçtan uca deneme. Fiyat artık kodda değil panelde.
-  T9 durumu (26 Ekim): kontroller temiz (REPEATABLE-READ, deadlock algılama açık, yetki yeterli). Üretim DB'si
-  `bozo_oyun` -> `bozo_site` (kullanıcı `bozo_site_k`, Plesk'ten oluşturuldu), `menu_surum` şeması uygulandı,
-  servis yeni DB'de. Eski `bozo_oyun` DB'si ve kullanıcısı silinmedi (yedek `/root/.bozo/bozo_oyun.*.sql`).
-  Kalan: sunucu kodunu gönder (şu an eski, `/menu` 404), MariaDB sözleşme testi, site build ve deploy.
+  sunucu ve geri alma `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri. Fiyat artık kodda değil panelde.
+  T9 (26 Ekim, canlıya alındı): üretim DB'si `bozo_oyun` -> `bozo_site` (kullanıcı `bozo_site_k`, Plesk'ten),
+  eski DB ve kullanıcısı kaldırıldı (yedek `/root/.bozo/bozo_oyun.*.sql`, eski dist `/root/.bozo/dist.*.eski`).
+  `menu_surum` şeması uygulandı, MariaDB sözleşme testi gerçek MariaDB 10.11'de 18/18 geçti
+  (REPEATABLE-READ, deadlock algılama açık), sunucu ve site deploy edildi, uçtan uca PUT/GET/409/401
+  denendi, 1. sürüm tohum menüyle aynı içerikle yayınlandı. Panelin tarayıcıdan girişi sahibin
+  eline kaldı. Açık: gizlilik cümlesinin gözden geçirilmesi, "Yedi porsiyon" metni, Aşama 2.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede

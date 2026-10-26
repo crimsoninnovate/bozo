@@ -6,8 +6,8 @@ hardcoded in JSX.
 ## Prices
 
 Prices, names, descriptions and skewer counts live in the menu document and change through the
-staff panel (`/yonetim/`, Menü tab, once the menu API is live; until then change
-`content/menu.varsayilan.json` and the expectation tests). The build bakes the live version in
+staff panel (`/yonetim/`, Menü tab; the menu API has been live since 26 October 2026).
+The build bakes the live version in
 (`scripts/menuCek.ts` writes the gitignored `content/menu.canli.json`); the menu page also
 refreshes prices in the browser, but JSON-LD, `llms.txt` and meta only change on a manual build
 and deploy. A stale but valid `menu.canli.json` from an earlier build wins over a newer seed:

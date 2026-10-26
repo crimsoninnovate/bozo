@@ -47,7 +47,7 @@ bugün, son 7 gün ve toplam okunma sayısını gösterir (`POST /tarama/N`, tab
 veri yok). Yönetim uçlarına IP başına saatte 60 istek: mekandaki
 herkes aynı IP'den çıkar. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
 
-## Menü sürümleri (26 Ekim 2026, canlıya alınması sahibinin adımı)
+## Menü sürümleri (26 Ekim 2026, canlıda)
 
 Fiyat ve menü metni personel panelinden (`/yonetim/`) yayınlanır; her yayın
 `menu_surum` tablosuna yeni bir sürüm olarak eklenir, hiçbiri silinmez. Tablo `sunucu/sema.sql`'de, şemayı
@@ -69,8 +69,8 @@ basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise 
 **Geri alma:** `systemctl stop bozo-oyun`. `GET /menu` yanıt vermez, menü sayfası derlenmiş menüye
 döner; sunucu açılınca kaldığı yerden devam eder (sürümler veritabanında durur).
 
-**Canlıya alırken sahibinin yapacağı kontroller.** MariaDB kodu (`sunucu/mariaDepo.ts`) bugüne dek
-hiç çalıştırılmadı, yalnız bellek deposuyla test edildi:
+**Canlıya alırken yapılan kontroller (26 Ekim 2026, üçü de temiz).** MariaDB kodu (`sunucu/mariaDepo.ts`)
+bundan önce yalnız bellek deposuyla test edilmişti:
 
 1. arc'ta `SELECT @@global.tx_isolation, @@global.innodb_deadlock_detect;` (yayın yarışı `taban`
    sınaması ve deadlock kurbanı varsayımına dayanıyor).
