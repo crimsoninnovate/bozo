@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mock, test } from 'node:test'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
-import { menuCek } from './menuCek.ts'
+import { menuCek, tohumuOku } from './menuCek.ts'
 
 const KOK = 'https://api.test'
 const varsayilan = JSON.parse(
@@ -84,4 +84,23 @@ test('menuCek_gecersizBelge_dosyayaYazmaz', async () => {
     uyari.mock.restore()
     sil()
   }
+})
+
+test('tohumuOku_okunamayanDosya_undefinedDonerVeUyarirLoglar', () => {
+  const { hedef, sil } = geciciHedef()
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    assert.equal(tohumuOku(hedef), undefined, 'dosya yok')
+    writeFileSync(hedef, '{ bozuk json')
+    assert.equal(tohumuOku(hedef), undefined, 'bozuk json')
+    assert.equal(uyari.mock.callCount(), 2)
+    assert.match(String(uyari.mock.calls[0]?.arguments[0]), /menu\.canli\.json/)
+  } finally {
+    uyari.mock.restore()
+    sil()
+  }
+})
+
+test('tohumuOku_gecerliDosya_belgeDoner', () => {
+  assert.deepEqual(tohumuOku(new URL('../content/menu.varsayilan.json', import.meta.url).pathname), varsayilan)
 })

@@ -26,7 +26,8 @@ const ENFAZLA_OGE = 10
 const BITIS = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/
 const KULLANICI_ADI = /^[A-Za-z0-9._]{1,40}$/
 const EPOSTA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const TELEFON = /^\+[0-9 ]{8,20}$/
+// En az 7 rakam: yalnız boşluktan oluşan gövde geçmesin.
+const TELEFON = /^\+(?=(?:\s*[0-9]){7})[0-9 ]{8,20}$/
 const YORUM_KODU = /^[A-Za-z0-9_-]{6,40}$/
 const YASAK = /(?<![\p{L}])(müşteri|bedava|mangal|şef|parça|adet|masa)|7\/24/iu
 const ONERI: Record<string, string> = {

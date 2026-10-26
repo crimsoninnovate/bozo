@@ -58,6 +58,7 @@ export const yonetim = {
     belgeGecersiz: 'Sunucu menüyü kabul etmedi, alanlardaki hataları düzeltin.',
     govdeBuyuk: 'Menü çok büyük, kaydedilemedi.',
     surumYok: 'Bu sürüm bulunamadı.',
+    gecerliSurumEski: 'Yayındaki sürüm eski kalmış, önce bir kez yayınlayın, sonra geri alın.',
   },
   menu: {
     baslik: 'Menü Yönetimi',

@@ -423,6 +423,13 @@ test('menuBelgesiDogrula_telefon_artisizNumara_hataVerir', () => {
   assert.equal(menuBelgesiDogrula(ham(iletisimAyarla('telefon', '+90 533 888 74 24'))).tamam, true)
 })
 
+test('menuBelgesiDogrula_telefonSadeceBosluk_hataVerir', () => {
+  for (const kotu of ['+        ', '+ 1 2 3', '+9 5 3 3 8 8 ']) {
+    assert.equal(hataKodu(ham(iletisimAyarla('telefon', kotu)), 'iletisim.telefon'), 'telefon', kotu)
+  }
+  assert.equal(menuBelgesiDogrula(ham(iletisimAyarla('telefon', '+90533888'))).tamam, true)
+})
+
 test('menuBelgesiDogrula_kullaniciAdiBosluklu_hataVerir', () => {
   for (const alan of ['instagram', 'facebook', 'tiktok']) {
     for (const kotu of ['ciger bozo', '@cigercibozo', '', 'a'.repeat(41)]) {

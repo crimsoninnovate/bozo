@@ -37,11 +37,21 @@ export async function menuCek(
   return 'yazildi'
 }
 
+/** Tamamlama için tohum belge; okunamazsa uyarır ve `undefined` döner (prebuild çökmez). */
+export function tohumuOku(yol: string): MenuBelgesi | undefined {
+  try {
+    return JSON.parse(readFileSync(yol, 'utf8')) as MenuBelgesi
+  } catch (hata) {
+    console.warn(`menuCek: tohum belge okunamadi (${yol}), 1. surum belgeler tamamlanmayacak`, hata)
+    return undefined
+  }
+}
+
 /** `basarisiz` çıkış kodunu bozmaz: build ağsız ortamda da derlenmiş menüyle çalışır. */
 async function main(): Promise<void> {
   const kok = process.env['BOZO_MENU_API'] ?? VARSAYILAN_API
   const hedef = join('content', 'menu.canli.json')
-  const tohum = JSON.parse(readFileSync(join('content', 'menu.varsayilan.json'), 'utf8')) as MenuBelgesi
+  const tohum = tohumuOku(join('content', 'menu.varsayilan.json'))
   const sonuc = await menuCek(kok, fetch, hedef, tohum)
   if (sonuc === 'basarisiz') {
     console.warn(`menuCek: CANLI MENU ALINAMADI (${kok}); site derlenmis menuyle (ya da eski canli dosyayla) basilacak`)

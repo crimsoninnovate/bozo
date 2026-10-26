@@ -62,6 +62,11 @@ const belge = (fiyat: number): MenuBelgesi => ({
   ...SEED,
   kalemler: SEED.kalemler.map((k, i) => (i === 0 ? { ...k, fiyatlar: { ...k.fiyatlar, porsiyon: fiyat } } : k)),
 })
+/** 1. sürüm biçimi: duyuru, ikramlar ve iletisim bölümleri yok (depo belgeyi doğrulamadan saklar). */
+const birinciSurum = (b: MenuBelgesi): MenuBelgesi => {
+  const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(b)
+  return eski as unknown as MenuBelgesi
+}
 const yayinla = (taban: number | null, b: unknown) =>
   istek('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge: b }, basliklar: yonetim })
 const yonetimMenu = async () =>
@@ -199,9 +204,9 @@ test('getYonetimMenuSurum_kayitliSurum_200VeSaklananBelge', async () => {
 
 test('postGeriAl_bolumsuzBirinciSurum_tamamlanmisYayinlanir', async () => {
   const taban = (await yonetimMenu()).gecerli?.surum ?? null
-  const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(SEED)
+  const eski = birinciSurum(SEED)
   eski.kalemler[0]!.fiyatlar.porsiyon = 640
-  const birinci = await depo.menuYayinla(eski as unknown as MenuBelgesi, 'panel', saat, taban)
+  const birinci = await depo.menuYayinla(eski, 'panel', saat, taban)
   assert.ok(birinci !== null)
   const guncel = menuBelgesiDogrula({
     ...SEED, iletisim: { ...SEED.iletisim, eposta: 'yeni@cigercibozo.com' },
@@ -218,6 +223,23 @@ test('postGeriAl_bolumsuzBirinciSurum_tamamlanmisYayinlanir', async () => {
   assert.equal(sonra.kalemler[0]?.fiyatlar.porsiyon, 640, 'eski sürümün fiyatı döner')
   assert.equal(sonra.iletisim.eposta, 'yeni@cigercibozo.com', 'bölümler şu anki sürümden gelir')
   assert.deepEqual(sonra.ikramlar, SEED.ikramlar)
+})
+
+test('postGeriAl_gecerliSurumBolumsuz_409GecerliSurumEski', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  const eski = await depo.menuYayinla(birinciSurum(SEED), 'panel', saat, taban)
+  assert.ok(eski !== null)
+  const guncel = await depo.menuYayinla(birinciSurum(SEED), 'panel', saat, eski)
+  assert.ok(guncel !== null)
+  const oncesi = (await yonetimMenu()).surumler.length
+  const y = await istek(`/yonetim/menu/${eski}/geri-al`, {
+    yontem: 'POST', govde: { taban: guncel }, basliklar: yonetim,
+  })
+  assert.deepEqual([y.durum, y.govde?.hata], [409, 'gecerliSurumEski'])
+  assert.equal((await yonetimMenu()).surumler.length, oncesi, 'sürüm yayınlanmaz')
+  assert.equal(hatalar.length, 0, '500 değil, beklenen durum')
+  // Sonraki testler v2 bir güncel sürüm ister: panelden bir kez tam belge yayınlanır.
+  assert.equal((await yayinla(guncel, SEED)).durum, 200)
 })
 
 test('postGeriAl_olmayanId_404', async () => {

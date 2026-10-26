@@ -46,6 +46,13 @@ test('tamamla_kalemlereDokunmaz', () => {
   assert.deepEqual(sonuc['kalemler'], girdi['kalemler'])
 })
 
+test('tamamla_tamdaBolumYok_anahtarYazmaz', () => {
+  const eksikTam = birinciSurum() as unknown as MenuBelgesi
+  const sonuc = menuBelgesiTamamla(birinciSurum(), eksikTam) as Record<string, unknown>
+  for (const bolum of ['duyuru', 'ikramlar', 'iletisim']) assert.equal(bolum in sonuc, false, bolum)
+  assert.equal(menuBelgesiDogrula(sonuc).tamam, false)
+})
+
 test('tamamla_nesneDegil_oldugGibiDoner', () => {
   assert.equal(menuBelgesiTamamla(null, tam), null)
   assert.deepEqual(menuBelgesiTamamla([1], tam), [1])
