@@ -34,23 +34,10 @@ export type Isletme = {
 
 export type Olcu = 'porsiyon' | 'durum'
 
-export type Urun = {
-  id: string
-  /** Kuruşsuz TL. Porsiyon her üründe var; fiyat listesinde olmayan ölçünün alanı yok. */
-  fiyatlar: { porsiyon: number } & Partial<Record<Exclude<Olcu, 'porsiyon'>, number>>
-  fotoId: FotoId | null
-}
-
-/** Tek ölçüsü olan kombinasyon: yarımı ve dürümü yoktur. */
-export type OzelUrun = { id: string; fiyat: number }
-
 export type Ikram = { id: string; fotoId: FotoId | null }
 
 /** Plakasız ikram kümesi; `ogeler` sözlükteki `menu.ikramlar.ogeler` anahtarlarıdır. */
 export type IkramGrubu = { id: string; ogeler: string[] }
-
-/** `olcu` sözlükteki `menu.icecekler.olculer` anahtarı; fiyat kuruşsuz TL. */
-export type Icecek = { id: string; olculer: { olcu: string; fiyat: number }[] }
 
 export type Foto = {
   /** Çekim listesindeki kadraj etiketi, plaka üstünde görünür. */

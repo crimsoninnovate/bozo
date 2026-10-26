@@ -1,9 +1,11 @@
 /**
- * Oyun metinleri. TASLAK: sahibinin onayını bekliyor (spec §19, karar 4). Ürün adları
- * menüden, gece cümleleri ana sayfadan okunur; burada tekrar yazılmaz.
+ * Oyun metinleri. TASLAK: sahibinin onayını bekliyor (spec §19, karar 4). Eşlikçi adları
+ * menüden, gece cümleleri ana sayfadan okunur; burada tekrar yazılmaz. Şiş adları menü belgesinde
+ * de durur ama oyun istemcide çalışır, belgeyi okuyamaz; `content/icerik.test.ts` ikisini eşler.
  */
 export const oyun = {
   baslik: 'Sofra Yetiştir',
+  kalemAdlari: { ciger: 'Ciğer', dalak: 'Dalak', yurek: 'Yürek' },
   oyna: 'Oyna',
   nasil: 'Nasıl Oynanır',
   tekrar: 'Tekrar Oyna',

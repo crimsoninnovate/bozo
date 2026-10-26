@@ -1,13 +1,21 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
-import { anaUrunler, icecekler, ikramGruplari, ikramlar, menuUrunler, ozelUrun, urunOlculeri } from './urunler.ts'
+import { ikramGruplari, ikramlar } from './urunler.ts'
+import { anaSayfaKalemleri } from '../lib/menu/belgeYukle.ts'
+import { kalemOlculeri } from '../lib/menu/kalemOlculeri.ts'
+import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { yorumUrl } from '../lib/site.ts'
+
+/** Fiyatlar, kalemler ve içecekler artık belgede yaşar; bu testler tohum belgeyi okur. */
+const belge = JSON.parse(
+  readFileSync(new URL('./menu.varsayilan.json', import.meta.url), 'utf8'),
+) as MenuBelgesi
 
 /** İç içe nesnenin tüm yaprak yollarını sıralı liste olarak döner. */
 function yollar(nesne: unknown, onek = ''): string[] {
@@ -222,15 +230,16 @@ test('adres_yapisalVeGorunenAyniDegeriTasir', () => {
  */
 test('urunler_anaSayfaBesKalemdeKalir', () => {
   assert.deepEqual(
-    anaUrunler.map((u) => u.id),
+    anaSayfaKalemleri(belge, Object.keys(tr.ana.ocakbasi.urunler)).map((k) => k.id),
     ['ciger', 'dalak', 'yurek', 'terbiyesiz-tavuk-sis', 'terbiyeli-kusbasi'],
   )
+  assert.deepEqual(Object.keys(en.ana.ocakbasi.urunler).sort(), Object.keys(tr.ana.ocakbasi.urunler).sort())
 })
 
 // Sıra sahibinin fiyat listesinin sırası (8 Ekim 2026).
 test('urunler_menuListesiFiyatListesininSirasiniTasir', () => {
   assert.deepEqual(
-    menuUrunler.map((u) => u.id),
+    belge.kalemler.map((k) => k.id),
     ['ciger', 'dalak', 'yurek', 'terbiyeli-tavuk-sis', 'terbiyesiz-tavuk-sis', 'terbiyeli-kusbasi', 'bozo-karisik'],
   )
 })
@@ -249,18 +258,39 @@ test('urunler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
     'terbiyeli-kusbasi': { porsiyon: 850, durum: 850 },
     'bozo-karisik': { porsiyon: 700 },
   }
-  for (const urun of menuUrunler) {
-    assert.deepEqual(urun.fiyatlar, beklenen[urun.id], `${urun.id} fiyatı kaymış`)
+  for (const kalem of belge.kalemler) {
+    assert.deepEqual(kalem.fiyatlar, beklenen[kalem.id], `${kalem.id} fiyatı kaymış`)
   }
-  assert.equal(ozelUrun.fiyat, 900)
+  assert.equal(belge.ozel.fiyat, 900)
 })
 
-test('urunOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {
-  const bozo = menuUrunler.find((u) => u.id === 'bozo-karisik')
+/** Dürüm satırı notsuz basılmaz: sözlükteki "5 şiş" yedeği kalktı, not belgede durur. */
+test('kalemler_olcuSatiriOlanHerKalemSisNotuTasir', () => {
+  for (const kalem of belge.kalemler) {
+    assert.ok(kalem.porsiyonNotu, `${kalem.id} porsiyon notu yok`)
+    if (kalem.fiyatlar.durum !== undefined) assert.ok(kalem.durumNotu, `${kalem.id} dürüm notu yok`)
+  }
+  const ciger = belge.kalemler.find((k) => k.id === 'ciger')
+  assert.deepEqual(ciger?.porsiyonNotu, { tr: '10 şiş', en: '10 skewers' })
+  assert.deepEqual(ciger?.durumNotu, { tr: '10 şiş', en: '10 skewers' })
+})
+
+test('kalemOlculeri_yalnizFiyatiOlanOlculeriMenuSirasiylaDoner', () => {
+  const bozo = belge.kalemler.find((k) => k.id === 'bozo-karisik')
   assert.ok(bozo)
-  assert.deepEqual(urunOlculeri(bozo), [
+  assert.deepEqual(kalemOlculeri(bozo), [
     { olcu: 'porsiyon', fiyat: 700 },
   ])
+})
+
+/** Oyun istemcide çalışır, menü belgesini okuyamaz; üç şiş adı sözlükte durur ve belgeyle aynı kalmalı. */
+test('oyun_sisAdlari_menuBelgesiyleAyni', () => {
+  for (const dil of ['tr', 'en'] as const) {
+    for (const id of ['ciger', 'dalak', 'yurek'] as const) {
+      const kalem = belge.kalemler.find((k) => k.id === id)
+      assert.equal(({ tr, en })[dil].oyun.kalemAdlari[id], kalem?.ad[dil], `${dil} ${id} oyun adı kaymış`)
+    }
+  }
 })
 
 test('ikramlar_fiyatTasimaz', () => {
@@ -271,36 +301,28 @@ test('ikramlar_fiyatTasimaz', () => {
 /** Fiyat listesinde olmayan içecekler menüden kalktı (sahibi, 8 Ekim 2026). */
 test('icecekler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
   const ozet = Object.fromEntries(
-    icecekler.map((i) => [i.id, Object.fromEntries(i.olculer.map((o) => [o.olcu, o.fiyat]))]),
+    belge.icecekler.map((i) => [i.id, Object.fromEntries(i.olculer.map((o) => [o.ad.tr, o.fiyat]))]),
   )
   assert.deepEqual(ozet, {
-    kola: { kutu: 60, sise: 70 },
-    kolaZero: { kutu: 60, sise: 70 },
-    fanta: { kutu: 60 },
-    cappy: { kutu: 60 },
-    ayran: { buyuk: 40, kucuk: 30, acikYayik: 50 },
-    su: { pet: 25, cam: 50 },
+    kola: { Kutu: 60, Şişe: 70 },
+    kolaZero: { Kutu: 60, Şişe: 70 },
+    fanta: { Kutu: 60 },
+    cappy: { Kutu: 60 },
+    ayran: { Büyük: 40, Küçük: 30, 'Açık Yayık': 50 },
+    su: { Pet: 25, Cam: 50 },
   })
 })
 
 /**
  * Kimlikler sözlükte karşılığı olmayınca bileşenler derleme sırasında patlıyor.
- * Bu test aynı hatayı testte, iki dil için birden yakalar: bir ürün yeniden
- * adlandırılıp yalnız bir sözlük güncellenirse burada görünür.
+ * Bu test aynı hatayı testte, iki dil için birden yakalar: ana sayfa sözlüğü belgede
+ * olmayan bir kalemi, ikram kümeleri sözlükte olmayan bir öğeyi gösteremez.
  */
 test('kimlikler_ikiDildeDeSozluktedir', () => {
   for (const s of [tr, en]) {
-    for (const urun of menuUrunler) {
-      assert.ok(urun.id in s.menu.ocakbasi.urunler, `${urun.id} menü sözlüğünde yok`)
-    }
-    for (const urun of anaUrunler) {
-      assert.ok(urun.id in s.ana.ocakbasi.urunler, `${urun.id} ana sayfa sözlüğünde yok`)
-    }
-    for (const icecek of icecekler) {
-      assert.ok(icecek.id in s.menu.icecekler.urunler, `${icecek.id} içecek sözlüğünde yok`)
-      for (const { olcu } of icecek.olculer) {
-        assert.ok(olcu in s.menu.icecekler.olculer, `${olcu} ölçüsü sözlükte yok`)
-      }
+    const belgeKimlikleri = new Set(belge.kalemler.map((k) => k.id))
+    for (const id of Object.keys(s.ana.ocakbasi.urunler)) {
+      assert.ok(belgeKimlikleri.has(id), `${id} ana sayfa sözlüğünde var, menü belgesinde yok`)
     }
     for (const grup of ikramGruplari) {
       assert.ok(grup.id in s.menu.ikramlar.gruplar, `${grup.id} kümesi sözlükte yok`)
@@ -452,8 +474,8 @@ test('menu_porsiyonSayisi_metindekiSayiylaAyni', () => {
     7: { tr: 'yedi', en: 'seven' },
     8: { tr: 'sekiz', en: 'eight' },
   }
-  const sozcuk = sayiSozcugu[menuUrunler.length]
-  assert.ok(sozcuk, `${menuUrunler.length} porsiyon için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
+  const sozcuk = sayiSozcugu[belge.kalemler.length]
+  assert.ok(sozcuk, `${belge.kalemler.length} porsiyon için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
   for (const [dil, s, beklenen] of [
     ['tr', tr, `${sozcuk.tr} porsiyon`],
     ['en', en, `${sozcuk.en} portions`],

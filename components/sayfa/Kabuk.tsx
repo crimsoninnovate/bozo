@@ -4,6 +4,7 @@ import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
 import { breadcrumbJsonLd, jsonLdMetni, menuJsonLd } from '@/lib/jsonld'
+import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
 import { dizindeMi, type SayfaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
@@ -53,7 +54,7 @@ export function Kabuk({ dil, aktif, children }: Props) {
       {aktif === 'menu' && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdMetni(menuJsonLd(dil)) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdMetni(menuJsonLd(dil, menuBelgesiYukle())) }}
         />
       )}
       <KorSahnesi varyant={anaSayfaMi ? 'ana' : 'ic'} />

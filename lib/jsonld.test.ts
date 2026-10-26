@@ -1,9 +1,15 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
+import type { MenuBelgesi } from './menu/tipler.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { restaurantJsonLd, menuJsonLd, breadcrumbJsonLd, jsonLdMetni } from './jsonld.ts'
+
+const belge = JSON.parse(
+  readFileSync(new URL('../content/menu.varsayilan.json', import.meta.url), 'utf8'),
+) as MenuBelgesi
 
 type Adres = {
   '@type': string
@@ -132,14 +138,23 @@ type Offer = { '@type': string; name?: string; price: string; priceCurrency: str
 type MenuItem = { '@type': string; name: string; offers: Offer[] }
 type MenuSection = { '@type': string; name: string; hasMenuItem: MenuItem[] }
 
+test('menuJsonLd_varsayilanBelge_altinDosyayaEsit', () => {
+  for (const dil of ['tr', 'en'] as const) {
+    const altin: unknown = JSON.parse(
+      readFileSync(new URL(`./__altin__/menu-jsonld-${dil}.json`, import.meta.url), 'utf8'),
+    )
+    assert.deepEqual(JSON.parse(JSON.stringify(menuJsonLd(dil, belge))), altin, `${dil} JSON-LD kaymış`)
+  }
+})
+
 test('menuJsonLd_ocakbasiBolumu_yediKalemTasir', () => {
-  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
   assert.equal(bolumler[0]?.hasMenuItem.length, 7)
 })
 
 test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
-  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
   const ciger = bolumler[0]?.hasMenuItem.find((k) => k.name === 'Ciğer')
   assert.ok(ciger)
@@ -150,13 +165,13 @@ test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
 })
 
 test('menuJsonLd_karisikKalemi_yalnizPorsiyonOfferiTasir', () => {
-  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozo Karışık')
   assert.deepEqual(karisik?.offers, [{ '@type': 'Offer', name: 'Porsiyon', price: '700', priceCurrency: 'TRY' }])
 })
 
 test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
-  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   const bolumler = veri.hasMenuSection as MenuSection[]
   assert.equal(bolumler[1]?.name, 'Bozo Special')
   assert.equal(bolumler[1]?.hasMenuItem.length, 1)
@@ -166,8 +181,8 @@ test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
 })
 
 test('menuJsonLd_urunAdlari_dileGoreDegisir', () => {
-  const trVeri = menuJsonLd('tr') as Record<string, unknown>
-  const enVeri = menuJsonLd('en') as Record<string, unknown>
+  const trVeri = menuJsonLd('tr', belge) as Record<string, unknown>
+  const enVeri = menuJsonLd('en', belge) as Record<string, unknown>
   const trAd = (trVeri.hasMenuSection as MenuSection[])[0]?.hasMenuItem[0]?.name
   const enAd = (enVeri.hasMenuSection as MenuSection[])[0]?.hasMenuItem[0]?.name
   assert.equal(trAd, 'Ciğer')
@@ -175,13 +190,13 @@ test('menuJsonLd_urunAdlari_dileGoreDegisir', () => {
 })
 
 test('menuJsonLd_ikramAdlari_hicGecmez', () => {
-  const metin = JSON.stringify(menuJsonLd('tr'))
+  const metin = JSON.stringify(menuJsonLd('tr', belge))
   assert.equal(metin.includes('Lebeni'), false)
   assert.equal(metin.includes('Bostana'), false)
 })
 
 test('menuJsonLd_icecekBolumu_herOlcuyuFiyatiylaTasir', () => {
-  const bolumler = (menuJsonLd('tr') as Record<string, unknown>).hasMenuSection as MenuSection[]
+  const bolumler = (menuJsonLd('tr', belge) as Record<string, unknown>).hasMenuSection as MenuSection[]
   const icecek = bolumler.find((b) => b.name === 'İçecekler')
   assert.equal(icecek?.hasMenuItem.length, 6)
   assert.deepEqual(icecek?.hasMenuItem.find((k) => k.name === 'Su')?.offers, [
@@ -191,7 +206,7 @@ test('menuJsonLd_icecekBolumu_herOlcuyuFiyatiylaTasir', () => {
 })
 
 test('menuJsonLd_temelAlanlar_dogruBasar', () => {
-  const veri = menuJsonLd('tr') as Record<string, unknown>
+  const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   assert.equal(veri['@context'], 'https://schema.org')
   assert.equal(veri['@type'], 'Menu')
   assert.equal(veri.url, 'https://cigercibozo.com/menu/')

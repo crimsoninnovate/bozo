@@ -4,7 +4,7 @@ import { TelefonIkon } from '@/components/ui/Ikonlar'
 import { MenuSatiri } from '@/components/ui/MenuSatiri'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import { isletme } from '@/content/isletme'
-import { anaUrunler } from '@/content/urunler'
+import { anaSayfaKalemleri, menuBelgesiYukle } from '@/lib/menu/belgeYukle'
 import { telefonUrl, yol } from '@/lib/site'
 import stil from './Ocakbasi.module.css'
 
@@ -20,7 +20,7 @@ type UrunMetni = { ad: string; aciklama: string }
  */
 
 /**
- * `Urun.id` paylaşılan tipte `string`, sözlük ise sabit anahtarlı. Eşleşmeyen bir
+ * Kalem kimliği paylaşılan tipte `string`, sözlük ise sabit anahtarlı. Eşleşmeyen bir
  * kimlik sessizce boş satır basmasın diye derleme sırasında patlar.
  */
 function urunMetni(s: Sozluk, id: string): UrunMetni {
@@ -40,6 +40,7 @@ export function Ocakbasi({ dil }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
   const { fiyat } = s.ana.ocakbasi
+  const kalemler = anaSayfaKalemleri(menuBelgesiYukle(), Object.keys(s.ana.ocakbasi.urunler))
 
   return (
     <Bolum id="ocakbasi" yogunluk={0.4} className={stil.bolum} eritClassName={stil.erit}>
@@ -50,10 +51,10 @@ export function Ocakbasi({ dil }: Props) {
 
       {/* `ul`, `ol` değil: beş ürünün sırası anlamlı değil (20 Ağustos 2026). */}
       <ul className={stil.liste}>
-        {anaUrunler.map((urun) => {
-          const metin = urunMetni(s, urun.id)
+        {kalemler.map((kalem) => {
+          const metin = urunMetni(s, kalem.id)
           return (
-            <MenuSatiri key={urun.id} ad={metin.ad} aciklama={metin.aciklama} />
+            <MenuSatiri key={kalem.id} ad={metin.ad} aciklama={metin.aciklama} />
           )
         })}
       </ul>

@@ -2,18 +2,16 @@ import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { Cip } from '@/components/ui/Cip'
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
-import { sozluk, type Dil, type Sozluk } from '@/content'
+import { sozluk, type Dil } from '@/content'
 import { fotograflar } from '@/content/fotograflar'
 import { fiyatMetni } from '@/content/isletme'
-import type { FotoId, Urun } from '@/content/types'
-import { menuUrunler, ozelUrun } from '@/content/urunler'
+import type { FotoId } from '@/content/types'
+import type { MenuBelgesi, MenuKalemi } from '@/lib/menu/tipler'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import { UrunKarti } from './UrunKarti'
 import stil from './Ocakbasi.module.css'
 
-type Props = { dil: Dil }
-
-type UrunMetni = { ad: string; aciklama?: string }
+type Props = { dil: Dil; menu: MenuBelgesi }
 
 const IMZA_KARESI: FotoId = 'tane-yakin-cekim-yatay'
 
@@ -32,22 +30,6 @@ const KART_NEFESLERI: KorNefesi[] = [
   { sure: 11.5, gecikme: 3.6 },
 ]
 
-/**
- * `Urun.id` paylaşılan tipte `string`, sözlük ise sabit anahtarlı. Eşleşmeyen
- * bir kimlik sessizce boş kart basmasın diye burada patlar.
- */
-function urunMetni(s: Sozluk, id: string): UrunMetni {
-  const kayit: Record<string, UrunMetni | undefined> = s.menu.ocakbasi.urunler
-  const metin = kayit[id]
-  if (!metin) throw new Error(`Menü ürünü sözlükte yok: ${id}`)
-  return metin
-}
-
-function fotoIdGerekli(urun: Urun): FotoId {
-  if (!urun.fotoId) throw new Error(`Menü ürününün foto yuvası yok: ${urun.id}`)
-  return urun.fotoId
-}
-
 /** Tasarımın iki haneli statik indeksi (Menu:106, 131, 149, 167, 185). Sözlüğe girmez. */
 function indeksMetni(sira: number): string {
   return String(sira + 1).padStart(2, '0')
@@ -55,9 +37,8 @@ function indeksMetni(sira: number): string {
 
 /** İmza ürün paneli: ızgaradaki kart değil, spread plakasının yanındaki panel. Menu:104-120.
     Telefonda listenin ilk satırı: porsiyon fiyatı adın hizasında (`anaFiyat`, masaüstünde gizli). */
-function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
+function ImzaPaneli({ dil, kalem }: { dil: Dil; kalem: MenuKalemi }) {
   const s = sozluk(dil)
-  const metin = urunMetni(s, urun.id)
   const spec = s.menu.ocakbasi.cigerSpec
   // Spread karesi yokken panel satırın tamamını alır; ölçüler sağ sütuna geçer.
   const genis = !fotograflar[IMZA_KARESI].dosya
@@ -71,19 +52,19 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
         <Cip tur="outline">{s.menu.ocakbasi.imzaRozeti}</Cip>
       </div>
       <div className={stil.imzaAdSatiri}>
-        <h3 className={stil.imzaAd}>{metin.ad}</h3>
+        <h3 className={stil.imzaAd}>{kalem.ad[dil]}</h3>
         <span aria-hidden="true" className={stil.anaFiyat}>
-          {fiyatMetni(urun.fiyatlar.porsiyon)}
+          {fiyatMetni(kalem.fiyatlar.porsiyon)}
         </span>
       </div>
-      <p className={stil.imzaAciklama}>{metin.aciklama}</p>
+      {kalem.aciklama && <p className={stil.imzaAciklama}>{kalem.aciklama[dil]}</p>}
       <div className={stil.specSatiri}>
         <Cip tur="dolu">{spec.sis}</Cip>
         <Cip tur="dolu">{spec.dagilim}</Cip>
         <Cip tur="dolu">{spec.sure}</Cip>
       </div>
       <div className={stil.olcuBlogu}>
-        <OlcuSatirlari dil={dil} urun={urun} />
+        <OlcuSatirlari dil={dil} kalem={kalem} />
       </div>
     </div>
   )
@@ -93,19 +74,18 @@ function ImzaPaneli({ dil, urun }: { dil: Dil; urun: Urun }) {
  * Bozo Special: tek ölçüsü olan kombinasyon, o yüzden ızgarada değil ızgaranın
  * altında kendi şeridinde.
  */
-function OzelSerit({ dil }: { dil: Dil }) {
-  const { ozel } = sozluk(dil).menu.ocakbasi
+function OzelSerit({ dil, ozel }: { dil: Dil; ozel: MenuBelgesi['ozel'] }) {
 
   return (
     <article className={stil.ozel}>
       <div className={stil.ozelGovde}>
         <div className={stil.ozelUst}>
-          <h3 className={stil.ozelAd}>{ozel.ad}</h3>
-          <Cip tur="dolu">{ozel.miktarNotu}</Cip>
+          <h3 className={stil.ozelAd}>{ozel.ad[dil]}</h3>
+          <Cip tur="dolu">{ozel.miktarNotu[dil]}</Cip>
         </div>
-        <p className={stil.ozelAciklama}>{ozel.aciklama}</p>
+        <p className={stil.ozelAciklama}>{ozel.aciklama[dil]}</p>
       </div>
-      <span className={stil.ozelFiyat}>{fiyatMetni(ozelUrun.fiyat)}</span>
+      <span className={stil.ozelFiyat}>{fiyatMetni(ozel.fiyat)}</span>
     </article>
   )
 }
@@ -121,9 +101,9 @@ function OzelSerit({ dil }: { dil: Dil }) {
  * kaydındaki `fotoId` (dikey `tane-yakin-cekim`) çekim listesinin ilk karosuna
  * ait; iki kadraj tek anahtarla anlatılamıyor, o yüzden manifestte iki kayıt var.
  */
-export function Ocakbasi({ dil }: Props) {
+export function Ocakbasi({ dil, menu }: Props) {
   const s = sozluk(dil)
-  const [imza, ...kartlar] = menuUrunler
+  const [imza, ...kartlar] = menu.kalemler
   if (!imza) throw new Error('Ocakbasi ürün listesi boş')
 
   return (
@@ -136,28 +116,25 @@ export function Ocakbasi({ dil }: Props) {
 
       <div className={stil.imzaSatiri}>
         <FotoYuvasi id={IMZA_KARESI} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
-        <ImzaPaneli dil={dil} urun={imza} />
+        <ImzaPaneli dil={dil} kalem={imza} />
       </div>
 
       <div className={stil.izgara}>
-        {kartlar.map((urun, sira) => {
-          const metin = urunMetni(s, urun.id)
-          return (
-            <UrunKarti
-              key={urun.id}
-              dil={dil}
-              fotoId={fotoIdGerekli(urun)}
-              indeks={indeksMetni(sira + 1)}
-              ad={metin.ad}
-              aciklama={metin.aciklama}
-              urun={urun}
-              korNefesi={KART_NEFESLERI[sira]}
-            />
-          )
-        })}
+        {kartlar.map((kalem, sira) => (
+          <UrunKarti
+            key={kalem.id}
+            dil={dil}
+            fotoId={kalem.fotoId}
+            indeks={indeksMetni(sira + 1)}
+            ad={kalem.ad[dil]}
+            aciklama={kalem.aciklama?.[dil]}
+            kalem={kalem}
+            korNefesi={KART_NEFESLERI[sira % KART_NEFESLERI.length]}
+          />
+        ))}
       </div>
 
-      <OzelSerit dil={dil} />
+      <OzelSerit dil={dil} ozel={menu.ozel} />
     </section>
   )
 }

@@ -94,9 +94,9 @@ export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
   )
 }
 
-/** Kalem adı menüden: şişler ocakbaşı ürünleri, eşlikçiler ikram öğeleri (sumaklı soğan `sumakli`). */
+/** Kalem adı: şişler `oyun.kalemAdlari`, eşlikçiler menünün ikram öğeleri (sumaklı soğan `sumakli`). */
 function kalemAdi(s: Sozluk, k: Kalem): string {
   if (k === 'domates') return s.menu.ikramlar.ogeler.domates
   if (k === 'sogan') return s.menu.ikramlar.ogeler.sumakli
-  return s.menu.ocakbasi.urunler[k].ad
+  return s.oyun.kalemAdlari[k]
 }

@@ -3,8 +3,9 @@ import type { Isletme } from '../content/types.ts'
 import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
 import { SITE_URL, yol, instagramUrl, facebookUrl, tiktokUrl, haritaUrl, type RotaAnahtari } from './site.ts'
 import { sozluk, type Sozluk } from '../content/index.ts'
-import type { Dil, Icecek, Urun } from '../content/types.ts'
-import { icecekler, menuUrunler, ozelUrun, urunOlculeri } from '../content/urunler.ts'
+import type { Dil } from '../content/types.ts'
+import { kalemOlculeri } from './menu/kalemOlculeri.ts'
+import type { IcecekKalemi, MenuBelgesi, MenuKalemi } from './menu/tipler.ts'
 
 /** `<script type="application/ld+json">` gövdesi: `<` kaçar, içerik bloğu kapatamaz. */
 export function jsonLdMetni(veri: object): string {
@@ -105,32 +106,17 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
   return veri
 }
 
-function urunAdi(s: Sozluk, id: string): string {
-  const urunler = s.menu.ocakbasi.urunler as Record<string, { ad: string }>
-  const kayit = urunler[id]
-  if (!kayit) throw new Error(`menuJsonLd: "${id}" için ürün adı sözlükte yok`)
-  return kayit.ad
-}
-
 function offer(name: string, fiyat: number): Offer {
   return { '@type': 'Offer', name, price: String(fiyat), priceCurrency: 'TRY' }
 }
 
-function urunOfferleri(s: Sozluk, urun: Urun): Offer[] {
-  return urunOlculeri(urun).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat))
+function kalemOfferleri(s: Sozluk, kalem: MenuKalemi): Offer[] {
+  return kalemOlculeri(kalem).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat))
 }
 
-function icecekKalemi(s: Sozluk, icecek: Icecek): object {
-  const adlar: Record<string, string | undefined> = s.menu.icecekler.urunler
-  const olcuAdlari: Record<string, string | undefined> = s.menu.icecekler.olculer
-  const ad = adlar[icecek.id]
-  if (!ad) throw new Error(`menuJsonLd: "${icecek.id}" için içecek adı sözlükte yok`)
-  const offers = icecek.olculer.map(({ olcu, fiyat }) => {
-    const olcuAdi = olcuAdlari[olcu]
-    if (!olcuAdi) throw new Error(`menuJsonLd: "${olcu}" için içecek ölçüsü sözlükte yok`)
-    return offer(olcuAdi, fiyat)
-  })
-  return { '@type': 'MenuItem', name: ad, offers }
+function icecekKalemi(dil: Dil, icecek: IcecekKalemi): object {
+  const offers = icecek.olculer.map(({ ad, fiyat }) => offer(ad[dil], fiyat))
+  return { '@type': 'MenuItem', name: icecek.ad[dil], offers }
 }
 
 type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
@@ -138,15 +124,15 @@ type Offer = { '@type': string; name?: string; price: string; priceCurrency: str
 /**
  * schema.org `Menu` yapısal verisi: fiyatı olan her kalem; ikramlar fiyatsız olduğu için
  * görünmez. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`), görünmeyen sayfada
- * işaretlenmiş içerik olmasın diye.
+ * işaretlenmiş içerik olmasın diye. Kalem adları ve fiyatlar belgeden gelir.
  */
-export function menuJsonLd(dil: Dil): object {
+export function menuJsonLd(dil: Dil, belge: MenuBelgesi): object {
   const s = sozluk(dil)
 
-  const ocakbasiKalemleri = menuUrunler.map((urun) => ({
+  const ocakbasiKalemleri = belge.kalemler.map((kalem) => ({
     '@type': 'MenuItem',
-    name: urunAdi(s, urun.id),
-    offers: urunOfferleri(s, urun),
+    name: kalem.ad[dil],
+    offers: kalemOfferleri(s, kalem),
   }))
 
   return {
@@ -162,19 +148,19 @@ export function menuJsonLd(dil: Dil): object {
       },
       {
         '@type': 'MenuSection',
-        name: s.menu.ocakbasi.ozel.ad,
+        name: belge.ozel.ad[dil],
         hasMenuItem: [
           {
             '@type': 'MenuItem',
-            name: s.menu.ocakbasi.ozel.ad,
-            offers: [{ '@type': 'Offer', price: String(ozelUrun.fiyat), priceCurrency: 'TRY' }],
+            name: belge.ozel.ad[dil],
+            offers: [{ '@type': 'Offer', price: String(belge.ozel.fiyat), priceCurrency: 'TRY' }],
           },
         ],
       },
       {
         '@type': 'MenuSection',
         name: s.menu.icecekler.baslik,
-        hasMenuItem: icecekler.map((icecek) => icecekKalemi(s, icecek)),
+        hasMenuItem: belge.icecekler.map((icecek) => icecekKalemi(dil, icecek)),
       },
     ],
   }

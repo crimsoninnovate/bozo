@@ -1,31 +1,17 @@
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
-import { sozluk, type Dil, type Sozluk } from '@/content'
+import { sozluk, type Dil } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
-import { icecekler } from '@/content/urunler'
+import type { MenuBelgesi } from '@/lib/menu/tipler'
 import stil from './Icecekler.module.css'
 
-type Props = { dil: Dil }
+type Props = { dil: Dil; menu: MenuBelgesi }
 
 /**
  * QR glifinin 3x3 deseni: dört köşe krem, merkez tangerine, kenar ortaları boş.
  * Menu:255-257
  */
 const QR_DESENI = ['dolu', 'bos', 'dolu', 'bos', 'merkez', 'bos', 'dolu', 'bos', 'dolu'] as const
-
-function icecekAdi(s: Sozluk, id: string): string {
-  const kayit: Record<string, string | undefined> = s.menu.icecekler.urunler
-  const ad = kayit[id]
-  if (!ad) throw new Error(`İçecek sözlükte yok: ${id}`)
-  return ad
-}
-
-function olcuAdi(s: Sozluk, id: string): string {
-  const kayit: Record<string, string | undefined> = s.menu.icecekler.olculer
-  const ad = kayit[id]
-  if (!ad) throw new Error(`İçecek ölçüsü sözlükte yok: ${id}`)
-  return ad
-}
 
 function qrHucreSinifi(hucre: (typeof QR_DESENI)[number]): string | undefined {
   if (hucre === 'dolu') return stil.qrDolu
@@ -41,7 +27,7 @@ function qrHucreSinifi(hucre: (typeof QR_DESENI)[number]): string | undefined {
  * taşıyor, sözlükteki anahtar taşımıyor; fark rapora yazıldı, sözlüğe elle
  * nokta eklenmedi.
  */
-export function Icecekler({ dil }: Props) {
+export function Icecekler({ dil, menu }: Props) {
   const s = sozluk(dil)
 
   return (
@@ -52,13 +38,13 @@ export function Icecekler({ dil }: Props) {
         <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosGizli />
         <div className={stil.kolon}>
           <ul className={stil.liste}>
-            {icecekler.map((icecek) => (
+            {menu.icecekler.map((icecek) => (
               <li key={icecek.id} className={stil.kalem}>
-                <span className={stil.ad}>{icecekAdi(s, icecek.id)}</span>
+                <span className={stil.ad}>{icecek.ad[dil]}</span>
                 <span className={stil.olculer}>
-                  {icecek.olculer.map(({ olcu, fiyat }) => (
-                    <span key={olcu} className={stil.olcu}>
-                      {olcuAdi(s, olcu)}
+                  {icecek.olculer.map(({ ad, fiyat }, sira) => (
+                    <span key={sira} className={stil.olcu}>
+                      {ad[dil]}
                       <span className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
                     </span>
                   ))}
