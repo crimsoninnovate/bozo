@@ -15,24 +15,28 @@ let saat = Date.parse('2026-10-26T12:00:00Z')
 let sunucu: Server
 let kok = ''
 
-before(async () => {
+async function sunucuAc(yonetim: typeof KIMLIK | null): Promise<{ sunucu: Server; kok: string }> {
   const uygulama = uygulamaKur(
     bellekDepoKur(),
     {
       kokenler: ['https://cigercibozo.com'],
       tuz: TUZ,
-      yonetim: KIMLIK,
+      yonetim,
       guvenilirVekil: listeKur(['127.0.0.1', '::1']),
       kampanyaBitis: null,
     },
     () => saat,
     { warn() {}, error: console.error },
   )
-  sunucu = createServer((req, res) => void uygulama.isle(req, res))
-  await new Promise<void>((coz) => sunucu.listen(0, '127.0.0.1', coz))
-  const adres = sunucu.address()
+  const s = createServer((req, res) => void uygulama.isle(req, res))
+  await new Promise<void>((coz) => s.listen(0, '127.0.0.1', coz))
+  const adres = s.address()
   if (!adres || typeof adres === 'string') throw new Error('adres yok')
-  kok = `http://127.0.0.1:${adres.port}`
+  return { sunucu: s, kok: `http://127.0.0.1:${adres.port}` }
+}
+
+before(async () => {
+  ;({ sunucu, kok } = await sunucuAc(KIMLIK))
 })
 
 after(() => sunucu.close())
@@ -134,4 +138,27 @@ test('oturum_eskiSifreyleImzali_401', async () => {
   assert.equal((await bearerIle(baskaTuz)).durum, 401)
   const baskaKullanici = oturumAnahtariUret(TUZ, { ...KIMLIK, kullanici: 'baska' }, saat + OTURUM_SURESI_MS)
   assert.equal((await bearerIle(baskaKullanici)).durum, 401)
+})
+
+test('oturum_yonetimKapaliyken_bearer_503', async () => {
+  const { anahtar } = await anahtarAl()
+  const kapali = await sunucuAc(null)
+  try {
+    const yanit = await fetch(`${kapali.kok}/yonetim/tarama`, { headers: { Authorization: `Bearer ${anahtar}` } })
+    assert.equal(yanit.status, 503)
+    assert.deepEqual(await yanit.json(), { hata: 'yonetimKapali' })
+  } finally {
+    kapali.sunucu.close()
+  }
+})
+
+test('oturum_oyuncuAnahtariBearerOlarak_yonetimUcunda401', async () => {
+  const oyuncuAnahtari = 'a1'.repeat(16)
+  assert.match(oyuncuAnahtari, /^[0-9a-f]{32}$/)
+  assert.equal((await bearerIle(oyuncuAnahtari)).durum, 401)
+})
+
+test('oturum_personelAnahtariOyuncuUcunda_401', async () => {
+  const { anahtar } = await anahtarAl()
+  assert.equal((await istek('/ben', `Bearer ${anahtar}`)).durum, 401)
 })
