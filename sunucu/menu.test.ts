@@ -3,11 +3,12 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createServer, type Server } from 'node:http'
 import type { MenuYayinYaniti, MenuYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
+import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { bellekDepoKur } from './bellekDepo.ts'
 import type { Depo } from './depo.ts'
 import { listeKur } from './ip.ts'
-import { uygulamaKur } from './uygulama.ts'
+import { uygulamaKur, type Ayar } from './uygulama.ts'
 
 /* Menü uçları (bellek depo, kendi sunucusu ve saati): yayın, sürüm denetimi, geri alma, IP istisnası. */
 const KOKEN = 'https://cigercibozo.com'
@@ -22,25 +23,26 @@ let depo: Depo
 let sunucu: Server
 let kok = ''
 
+const AYAR: Ayar = {
+  kokenler: [KOKEN],
+  tuz: 'test-tuzu',
+  yonetim: { kullanici: 'personel', sifre: 'gizli' },
+  guvenilirVekil: listeKur(['127.0.0.1', '::1']),
+  kampanyaBitis: null,
+}
+
+async function sunucuAc(ayar: Ayar, depoyu: Depo, simdi: () => number): Promise<{ sunucu: Server; kok: string }> {
+  const uygulama = uygulamaKur(depoyu, ayar, simdi, { warn() {}, error: (...a: unknown[]) => void hatalar.push(a) })
+  const s = createServer((req, res) => void uygulama.isle(req, res))
+  await new Promise<void>((coz) => s.listen(0, '127.0.0.1', coz))
+  const adres = s.address()
+  if (!adres || typeof adres === 'string') throw new Error('adres yok')
+  return { sunucu: s, kok: `http://127.0.0.1:${adres.port}` }
+}
+
 before(async () => {
   depo = bellekDepoKur()
-  const uygulama = uygulamaKur(
-    depo,
-    {
-      kokenler: [KOKEN],
-      tuz: 'test-tuzu',
-      yonetim: { kullanici: 'personel', sifre: 'gizli' },
-      guvenilirVekil: listeKur(['127.0.0.1', '::1']),
-      kampanyaBitis: null,
-    },
-    () => saat,
-    { warn() {}, error: (...a: unknown[]) => void hatalar.push(a) },
-  )
-  sunucu = createServer((req, res) => void uygulama.isle(req, res))
-  await new Promise<void>((coz) => sunucu.listen(0, '127.0.0.1', coz))
-  const adres = sunucu.address()
-  if (!adres || typeof adres === 'string') throw new Error('adres yok')
-  kok = `http://127.0.0.1:${adres.port}`
+  ;({ sunucu, kok } = await sunucuAc(AYAR, depo, () => saat))
 })
 
 after(() => sunucu.close())
@@ -121,6 +123,22 @@ test('getMenu_onbellek_onBesSaniyeSonraDepodanYenilenir', async () => {
   assert.equal(await gecerliFiyat(), 715)
 })
 
+test('getMenu_yayindan_sonra_200VeBelge', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  // Ayrık (NFD) yazılmış ad: dönen belge ham gövde değil, doğrulayıcının normalleştirdiği belge olmalı.
+  const girdi = {
+    ...SEED,
+    kalemler: SEED.kalemler.map((k, i) => (i === 0 ? { ...k, ad: { tr: 's\u0327is', en: 'Skewer' } } : k)),
+  }
+  const beklenen = menuBelgesiDogrula(girdi)
+  assert.ok(beklenen.tamam)
+  const y = await yayinla(taban, girdi)
+  assert.equal(y.durum, 200)
+  const get = await istek('/menu')
+  assert.equal(get.durum, 200)
+  assert.deepEqual(get.govde, { surum: (y.govde as unknown as MenuYayinYaniti).surum, belge: beklenen.belge })
+})
+
 test('putYonetimMenu_tabanEski_409', async () => {
   const guncel = (await yonetimMenu()).gecerli?.surum ?? -1
   const y = await yayinla(guncel - 1, belge(720))
@@ -190,11 +208,26 @@ test('getMenu_700IstekSonrasi_hala200', async () => {
 })
 
 test('ipSiniri_menuIstisnasiDigerUclariKorur', async () => {
-  // Menü istekleri sayılmadı; öbür uçlar 600/saatte kesilir (önceki testler de pencerede sayılır).
+  // Menü istekleri genel kovaya girmedi; öbür uçlar 600/saatte kesilir (önceki testler de pencerede sayılır).
   let durum = 0
   for (let i = 0; i < 700 && durum !== 429; i++) durum = (await istek('/yok')).durum
   assert.equal(durum, 429)
   assert.equal((await istek('/menu')).durum, 200)
+})
+
+test('getMenu_ayriKovaLimitiAsilinca_429_pencereGecinceYeniden', async () => {
+  let an = Date.parse('2026-10-26T12:00:00+03:00')
+  const kucuk = await sunucuAc({ ...AYAR, menuSaatlik: 5 }, bellekDepoKur(), () => an)
+  try {
+    const al = (yol: string) => fetch(kucuk.kok + yol).then(async (y) => (await y.arrayBuffer(), y.status))
+    for (let i = 0; i < 5; i++) assert.equal(await al('/menu'), 204, `istek ${i}`)
+    assert.equal(await al('/menu'), 429)
+    assert.equal(await al('/yok'), 404, 'menü kovası genel kovadan ayrı')
+    an += 60 * 60_000 + 1
+    assert.equal(await al('/menu'), 204)
+  } finally {
+    kucuk.sunucu.close()
+  }
 })
 
 test('optionsMenu_corsPutIzinli', async () => {

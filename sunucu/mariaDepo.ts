@@ -334,7 +334,14 @@ function taramalar(q: Sorgu): Parca<'taramaArtir' | 'taramaOzeti'> {
   }
 }
 
-const menuOku = (r: Satir) => ({ id: sayi(r.id), belge: JSON.parse(String(r.belge)) as MenuBelgesi })
+function menuOku(r: Satir): { id: number; belge: MenuBelgesi } {
+  const id = sayi(r.id)
+  try {
+    return { id, belge: JSON.parse(String(r.belge)) as MenuBelgesi }
+  } catch (hata) {
+    throw new Error(`menu_surum ${id}: kayıtlı belge okunamadı (bozuk JSON)`, { cause: hata })
+  }
+}
 
 function menuler(q: Sorgu): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumleri' | 'menuSurumBul'> {
   return {

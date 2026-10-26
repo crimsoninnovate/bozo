@@ -11,8 +11,8 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
 - Storage is behind `depo.ts`: `bellekDepo` for tests and local runs, `mariaDepo` for production
   (`sema.sql`). The MariaDB contract test is opt-in (`BOZO_TEST_DB_URL`), so bare `npm test`
   stays hermetic.
-- Menu versions (`menu.ts`, table `menu_surum`): `GET /menu` is public, 15 s cached and exempt from the per-IP
-  limit (the restaurant wifi is one IP); `PUT /yonetim/menu` validates with `lib/menu/dogrulama.ts`, stores
+- Menu versions (`menu.ts`, table `menu_surum`): `GET /menu` is public, 15 s cached and on its own generous per-IP
+  bucket (6000/hour, outside the general 600; the restaurant wifi is one IP); `PUT /yonetim/menu` validates with `lib/menu/dogrulama.ts`, stores
   the normalized document and answers 409 `surumEskidi` when `taban` is not the latest version id.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads

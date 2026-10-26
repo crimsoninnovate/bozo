@@ -33,17 +33,40 @@ export const TABLO_ONBELLEK_MS = 20_000
 
 export type Onbellek<T> = { al(simdi: number, uret: () => Promise<T>): Promise<T>; bosalt(): void }
 
+/**
+ * Tek uçuşlu önbellek: süre dolunca eşzamanlı çağrılar tek `uret` okumasını paylaşır. `bosalt()` nesli
+ * artırır; boşaltmadan önce başlayan okuma sonucunu saklamaz ve boşaltmadan sonraki çağrıya paylaşılmaz.
+ * Hata önbelleğe girmez.
+ */
 export function onbellekKur<T>(sureMs: number): Onbellek<T> {
   let kayit: { zaman: number; deger: T } | null = null
+  let ucusta: Promise<T> | null = null
+  let nesil = 0
   return {
-    async al(simdi, uret) {
-      if (kayit && simdi - kayit.zaman < sureMs) return kayit.deger
-      const deger = await uret()
-      kayit = { zaman: simdi, deger }
-      return deger
+    al(simdi, uret) {
+      if (kayit && simdi - kayit.zaman < sureMs) return Promise.resolve(kayit.deger)
+      if (ucusta) return ucusta
+      const bu = nesil
+      const okuma: Promise<T> = Promise.resolve()
+        .then(uret)
+        .then(
+          (deger) => {
+            if (ucusta === okuma) ucusta = null
+            if (nesil === bu) kayit = { zaman: simdi, deger }
+            return deger
+          },
+          (hata: unknown) => {
+            if (ucusta === okuma) ucusta = null
+            throw hata
+          },
+        )
+      ucusta = okuma
+      return okuma
     },
     bosalt() {
       kayit = null
+      ucusta = null
+      nesil++
     },
   }
 }

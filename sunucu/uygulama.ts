@@ -35,6 +35,8 @@ export type Ayar = {
   yonetim: YonetimKimligi | null
   guvenilirVekil: BlockList
   kampanyaBitis: number | null
+  /** Yalnız test: `GET /menu` IP başına saatlik sınırı (varsayılan `MENU_SAATLIK`). */
+  menuSaatlik?: number
 }
 
 export type Gunluk = Pick<Console, 'warn' | 'error'>
@@ -51,6 +53,8 @@ const SAAT_MS = 60 * 60_000
 const OYUNCU_SAATLIK = 40
 const IP_SAATLIK = 600
 const YONETIM_SAATLIK = 60
+/** `GET /menu` için ayrı, geniş kova: restoranın wifi'si tek IP, genel 600'lük kovayı yemez. */
+const MENU_SAATLIK = 6000
 
 type Rota = { yontem: string; desen: RegExp; isle: (istek: Istek, es: string[]) => Promise<Yanit> }
 
@@ -103,6 +107,7 @@ export function uygulamaKur(
 ): Uygulama {
   const ipSiniri = hizSiniriKur(IP_SAATLIK, SAAT_MS)
   const yonetimSiniri = hizSiniriKur(YONETIM_SAATLIK, SAAT_MS)
+  const menuSiniri = hizSiniriKur(ayar.menuSaatlik ?? MENU_SAATLIK, SAAT_MS)
   const b: Baglam = {
     depo,
     tuz: ayar.tuz,
@@ -114,9 +119,10 @@ export function uygulamaKur(
   const liste = rotalar(b, ayar.yonetim)
 
   async function yonlendir(istek: Istek): Promise<Yanit> {
-    // Restoranın wifi'si tek IP: misafirlerin menü okumaları IP sınırına girmez (yanıt 15 sn önbellekli).
+    // Menü okumaları genel 600/saat kovasına girmez (restoran wifi'si tek IP); kendi geniş kovaları var.
     const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
-    if (!menuOkuma && !ipSiniri.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
+    const kova = menuOkuma ? menuSiniri : ipSiniri
+    if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !yonetimSiniri.izinVar(istek.ip, simdi())) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
     }
@@ -153,6 +159,7 @@ export function uygulamaKur(
     isler: islerKur(depo, ayar.tuz, ayar.kampanyaBitis),
     temizle(an) {
       ipSiniri.temizle(an)
+      menuSiniri.temizle(an)
       yonetimSiniri.temizle(an)
       b.oyuncuSiniri.temizle(an)
     },

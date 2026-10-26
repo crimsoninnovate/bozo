@@ -228,6 +228,16 @@ function menuTestleri(t: Testci): void {
     assert.ok(ilk !== null && ikinci !== null && ikinci > ilk)
   })
 
+  t('menuYayinla_ayniTabanEsZamanli_yalnizBiriYazar', async (depo) => {
+    const ilk = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    const sonuclar = await Promise.all([
+      depo.menuYayinla(menuBelgesi('b'), 'panel', 2000, ilk),
+      depo.menuYayinla(menuBelgesi('c'), 'panel', 2000, ilk),
+    ])
+    assert.equal(sonuclar.filter((id) => id !== null).length, 1)
+    assert.equal((await depo.menuSurumleri(10)).length, 2)
+  })
+
   t('menuSurumleri_enYeniBasta_adetKadar', async (depo) => {
     const a = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
     const b = await depo.menuYayinla(menuBelgesi('b'), 'geriAl', 2000, a)
