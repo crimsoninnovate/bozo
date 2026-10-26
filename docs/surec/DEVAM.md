@@ -8,11 +8,13 @@ Son güncelleme: 26 Ekim 2026
 
 ## Durum
 
-- **`feat/panel-mobil`, deploy sırası (26 Ekim):** önce skor sunucusu, sonra site. Yeni giriş formu
-  `POST /yonetim/oturum` çağırır ("Beni hatırla", 30 günlük imzalı anahtar); sunucu eski sürümdeyken
-  giriş 404 verir. Kimlik bilgisi değişince tüm oturumlar düşer.
+- **Panel mobil tasarımı ve "Beni hatırla" canlıda (26 Ekim, önce skor sunucusu, sonra site; `main`'e
+  birleştirildi).** Giriş formu `POST /yonetim/oturum` çağırır (30 günlük imzalı anahtar); sunucu
+  geri alınırsa site de geri alınmalı, yoksa giriş 404 verir. Kimlik bilgisi değişince tüm oturumlar düşer.
   Panel telefon önce yeniden tasarlandı (sekmeli tek sütun, sabit alt eylem çubuğu); iki metin taşındı:
-  sitenin tam durum cümlesi artık Geçmiş sekmesinde, dürüm ipucu Ocakbaşı sekmesinin notunda.
+  sitenin tam durum cümlesi artık Geçmiş sekmesinde, dürüm ipucu Ocakbaşı sekmesinin notunda. Giriş
+  kartında rozet logo ve "Yönetim Ekranı" başlığı var (sahibin isteği). Sahibin telefonda gerçek
+  şifreyle girişi henüz denenmedi.
 
 - **Panel genişletmesi canlıda (26 Ekim, önce skor sunucusu, sonra `npm run yayinla`; `main`'e
   birleştirildi).** Menü belgesi v2: tükendi işareti, duyuru bandı, ikramlar ve iletişim bilgileri artık
@@ -26,7 +28,7 @@ Son güncelleme: 26 Ekim 2026
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
-- **`main` GitHub'da, panel genişletmesini içeriyor; canlı site bu build'de (26 Ekim).**
+- **`main` GitHub'da, panel mobil tasarımını içeriyor; canlı site bu build'de (26 Ekim).**
   Push her seferinde kullanıcının onayıyla yapılır.
 - **Menü yönetim paneli, 26 Ekim (canlıda):** fiyat ve menü metni artık personel
   panelinden (`/yonetim/`, ayrı sayfa; oyun yönetimi bağlantısı sahibi tarafından bilerek gizli)
