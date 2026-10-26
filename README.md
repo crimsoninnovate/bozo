@@ -102,7 +102,7 @@ BOZO_TEST_DB_URL=mariadb://root:sifre@127.0.0.1:3399/bozo_test node --test sunuc
 
 Deployed 10 October 2026: `api.cigercibozo.com` (Plesk subdomain, Let's Encrypt, nginx proxy to
 `127.0.0.1:8402`), systemd unit `bozo-oyun` running `/opt/bozo-oyun/dist/sunucu/ana.js` under Node 24
-as `engincaglar`, MariaDB `bozo_oyun`. Steps, secrets and redeploy in
+as `engincaglar`, MariaDB `bozo_site`. Steps, secrets and redeploy in
 `docs/surec/SUNUCU-CANLIYA-ALMA.md`.
 
 `GUVENILIR_VEKIL` must cover every local hop in front of Node (Plesk: nginx, then Apache); the

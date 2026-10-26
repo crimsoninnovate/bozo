@@ -18,6 +18,10 @@ Son güncelleme: 26 Ekim 2026
   `docs/plans/2026-10-26-menu-yonetim-plani.md`, tasarım `docs/specs/2026-10-26-menu-yonetim-design.md`,
   sunucu ve geri alma `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri. Canlıya alma (T9) sırayla ve her
   adımda sahibin onayıyla: şema, sunucu, site, uçtan uca deneme. Fiyat artık kodda değil panelde.
+  T9 durumu (26 Ekim): kontroller temiz (REPEATABLE-READ, deadlock algılama açık, yetki yeterli). Üretim DB'si
+  `bozo_oyun` -> `bozo_site` (kullanıcı `bozo_site_k`, Plesk'ten oluşturuldu), `menu_surum` şeması uygulandı,
+  servis yeni DB'de. Eski `bozo_oyun` DB'si ve kullanıcısı silinmedi (yedek `/root/.bozo/bozo_oyun.*.sql`).
+  Kalan: sunucu kodunu gönder (şu an eski, `/menu` 404), MariaDB sözleşme testi, site build ve deploy.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede

@@ -17,7 +17,7 @@ altındaki taslakla yayında. DNS sahibi tarafından yönlendirildi.
 | Vekil | `/var/www/vhosts/system/api.cigercibozo.com/conf/vhost_nginx.conf`: `location ~ ^/` ile `127.0.0.1:8402`, `X-Forwarded-For $remote_addr` |
 | Uygulama | `/opt/bozo-oyun/{dist,node_modules,package.json}`, sahip `engincaglar:psacln`, Node `/opt/plesk/node/24/bin/node` |
 | Servis | `systemctl status bozo-oyun` (systemd, `Restart=always`, yalnız `127.0.0.1` dinler) |
-| Veritabanı | MariaDB `bozo_oyun`, kullanıcı `bozo_oyun_k`; şema `sunucu/sema.sql` |
+| Veritabanı | MariaDB `bozo_site`, kullanıcı `bozo_site_k` (Plesk'te cigercibozo.com abonelikte); şema `sunucu/sema.sql`. 26 Ekim 2026'ya dek `bozo_oyun` / `bozo_oyun_k` idi, menü tablosu da girince adı genelleştirildi |
 | Sırlar | `/etc/bozo-oyun.env` ve yedeği `/root/.bozo/oyun.env` (0600, root): `GIZLI_TUZ`, `DB_URL`, `YONETIM_KULLANICI` / `YONETIM_SIFRE`. `GIZLI_TUZ` kaybolursa ödül kodları doğrulanamaz; yedeği saklayın. |
 
 Sunucu güncellemesi:
@@ -32,7 +32,7 @@ ssh plesk-206 'chown -R engincaglar:psacln /opt/bozo-oyun && systemctl restart b
 yeniden başlatmadan önce:
 
 ```bash
-ssh plesk-206 'MYSQL_PWD=$(cat /etc/psa/.psa.shadow) mariadb -uadmin bozo_oyun' < sunucu/sema.sql
+ssh plesk-206 'MYSQL_PWD=$(cat /etc/psa/.psa.shadow) mariadb -uadmin bozo_site' < sunucu/sema.sql
 ```
 
 Doğrulandı: `/tablo` 200 (Cloudflare üzerinden), CORS yalnız `https://cigercibozo.com`, `/yonetim/*`
@@ -76,8 +76,8 @@ hiç çalıştırılmadı, yalnız bellek deposuyla test edildi:
    sınaması ve deadlock kurbanı varsayımına dayanıyor).
 2. Boş bir deneme veritabanına karşı `BOZO_TEST_DB_URL=mariadb://... node --test sunucu/mariaDepo.test.ts`
    (üretim veritabanına karşı koşma; kurulum için dosyanın başındaki docker komutu).
-3. `bozo_oyun_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
-   (`SHOW GRANTS FOR bozo_oyun_k`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
+3. `bozo_site_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
+   (`SHOW GRANTS FOR bozo_site_k@'%'`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
 
 ## Yayındaki gizlilik metninin kaynağı
 

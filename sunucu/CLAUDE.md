@@ -20,7 +20,7 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).
 - **Live since 10 October 2026** at `api.cigercibozo.com`: systemd `bozo-oyun` on arc, Node 24,
-  MariaDB `bozo_oyun`, nginx proxy. Runbook and secrets locations:
+  MariaDB `bozo_site`, nginx proxy. Runbook and secrets locations:
   `docs/surec/SUNUCU-CANLIYA-ALMA.md`.
 - The privacy page describes the game data; the owner declined a lawyer review and took the
   decision himself (10 October 2026).
