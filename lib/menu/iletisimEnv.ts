@@ -1,16 +1,17 @@
 import type { Isletme } from '../../content/types.ts'
+import { herkeseAcik } from './herkeseAcik.ts'
 import type { Iletisim, MenuBelgesi } from './tipler.ts'
 
 /*
  * Menü belgesinin iletişim bölümü, statik build'e `NEXT_PUBLIC_ILETISIM` ile gömülür.
- * İçerik herkese açık site verisidir (doğrulayıcıdan geçmiş alanlar), sır taşımaz.
+ * İçerik herkese açık site verisidir (`herkeseAcik`: kapalı telefonun numarası girmez), sır taşımaz.
  */
 
 const METIN_ALANLARI = ['telefon', 'eposta', 'instagram', 'facebook', 'tiktok', 'googleYorumKodu'] as const
 
 /** `surum` canlı belge sürümüdür (belgenin kendisi taşımaz); yoksa `0` = tohum. */
 export function iletisimiEnveCevir(b: MenuBelgesi, surum: number = 0): { iletisim: string; surum: string } {
-  const { telefonAcik, telefon, eposta, instagram, facebook, tiktok, googleYorumKodu } = b.iletisim
+  const { telefonAcik, telefon, eposta, instagram, facebook, tiktok, googleYorumKodu } = herkeseAcik(b).iletisim
   const iletisim: Iletisim = { telefonAcik, telefon, eposta, instagram, facebook, tiktok, googleYorumKodu }
   return { iletisim: JSON.stringify(iletisim), surum: String(surum) }
 }

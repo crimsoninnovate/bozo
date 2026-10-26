@@ -322,6 +322,8 @@ function desenli(
 }
 
 const KULLANICI_METNI = 'Kullanıcı adı 1-40 karakter; harf, rakam, nokta ve alt çizgi olmalı, @ ve boşluk olmaz.'
+// Örnek gerçek bir numara değil: bu metin istemci paketine girer.
+const TELEFON_METNI = 'Telefon "+90 5xx xxx xx xx" gibi, + ile başlamalı.'
 
 function iletisim(c: Ctx, v: unknown): Iletisim | undefined {
   if (v === undefined) return bolumEksik(c, 'iletisim')
@@ -331,11 +333,14 @@ function iletisim(c: Ctx, v: unknown): Iletisim | undefined {
   if (!o) return undefined
   const kullanici = (alan: string) =>
     desenli(c, o[alan], `iletisim.${alan}`, KULLANICI_ADI, 'kullaniciAdi', KULLANICI_METNI)
+  const telefonAcik = mantik(c, o.telefonAcik, 'iletisim.telefonAcik')
+  // Kapalı telefonun numarası boş olabilir: herkese açık çıkış onu boşaltır (`herkeseAcik.ts`).
+  const telefon = telefonAcik === false && o.telefon === ''
+    ? ''
+    : desenli(c, o.telefon, 'iletisim.telefon', TELEFON, 'telefon', TELEFON_METNI)
   return tamsa<Iletisim>({
-    telefonAcik: mantik(c, o.telefonAcik, 'iletisim.telefonAcik'),
-    telefon: desenli(
-      c, o.telefon, 'iletisim.telefon', TELEFON, 'telefon', 'Telefon "+90 533 888 74 24" gibi, + ile başlamalı.',
-    ),
+    telefonAcik,
+    telefon,
     eposta: desenli(c, o.eposta, 'iletisim.eposta', EPOSTA, 'eposta', 'E-posta adresi geçerli değil.', 100),
     instagram: kullanici('instagram'),
     facebook: kullanici('facebook'),
@@ -344,6 +349,13 @@ function iletisim(c: Ctx, v: unknown): Iletisim | undefined {
       c, o.googleYorumKodu, 'iletisim.googleYorumKodu', YORUM_KODU, 'yorumKodu', 'Yorum kodu 6-40 karakter olmalı.',
     ),
   })
+}
+
+/** Yalnız duyuru bölümü: kabuktaki bant belgenin geri kalanını taşımaz. Bölüm yoksa pasif duyuru. */
+export function duyuruDogrula(girdi: unknown): { tamam: true; duyuru: Duyuru } | { tamam: false; hatalar: Sorun[] } {
+  const c: Ctx = { hatalar: [], uyarilar: [] }
+  const d = duyuru(c, girdi)
+  return d && c.hatalar.length === 0 ? { tamam: true, duyuru: d } : { tamam: false, hatalar: c.hatalar }
 }
 
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {

@@ -2,7 +2,7 @@ import type { MenuBelgesi } from './tipler.ts'
 
 const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim'] as const
 
-/** Eksik bölümlerin kaynağı: tam belge ya da yalnız bu üç bölüm (kabuktaki duyuru bandı küçüğünü taşır). */
+/** Eksik bölümlerin kaynağı: bu üç bölümü taşıyan herhangi bir belge. */
 export type Tamamlayici = Pick<MenuBelgesi, (typeof BOLUMLER)[number]>
 
 /**

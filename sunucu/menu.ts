@@ -1,5 +1,6 @@
 import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
+import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
 import { menuBelgesiTamamla } from '../lib/menu/tamamla.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { MenuKaynagi } from './depo.ts'
@@ -13,11 +14,11 @@ const GECMIS_ADET = 20
 /** Her metni azami uzunlukta Türkçe (2 baytlık) harfli en büyük geçerli belge ölçüldü (`menu.test.ts`). */
 export const MENU_GOVDE_SINIRI = 256 * 1024
 
-/** Herkese açık güncel menü; sürüm yoksa 204 (istemci derlenmiş menüyle kalır). */
+/** Herkese açık güncel menü (`herkeseAcik`); sürüm yoksa 204 (istemci derlenmiş menüyle kalır). */
 export async function menuAl(b: Baglam): Promise<Yanit> {
   const govde = await b.menu.al(b.simdi(), async () => {
     const gecerli = await b.depo.menuGecerli()
-    return gecerli && { surum: gecerli.id, belge: gecerli.belge }
+    return gecerli && { surum: gecerli.id, belge: herkeseAcik(gecerli.belge) }
   })
   const basliklar = { 'Cache-Control': `public, max-age=${MENU_ONBELLEK_MS / 1000}` }
   return govde ? { durum: 200, govde, basliklar } : { durum: 204, basliklar }

@@ -1,7 +1,7 @@
-import { menuBelgesiDogrula } from './dogrulama.ts'
+import { duyuruDogrula, menuBelgesiDogrula } from './dogrulama.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from './tamamla.ts'
 import type { MenuYaniti } from './aktarim.ts'
-import type { MenuBelgesi } from './tipler.ts'
+import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
 type Ham = { surum: number; belge: unknown }
 
@@ -71,6 +71,29 @@ export async function canliMenuGetir(
     return null
   }
   return { surum: ham.surum, belge: sonuc.belge }
+}
+
+/**
+ * Kabuktaki duyuru bandının okuması: menü sağlayıcısıyla aynı istek, ama yalnız `duyuru` doğrulanır;
+ * bant belgenin geri kalanını taşımaz. Bölüm yoksa (1. sürüm) pasif duyuru döner.
+ */
+export async function canliDuyuruGetir(
+  kok: string,
+  getir: typeof fetch,
+  zamanAsimiMs: number,
+): Promise<Duyuru | null> {
+  const ham = await ortakHamGetir(kok, getir, zamanAsimiMs)
+  if (ham === null) return null
+  const { belge } = ham
+  if (typeof belge !== 'object' || belge === null || Array.isArray(belge)) {
+    console.warn('canli duyuru yok sayildi: belge nesne degil', ham.surum)
+    return null
+  }
+  const sonuc = duyuruDogrula((belge as Record<string, unknown>)['duyuru'])
+  if (sonuc.tamam) return sonuc.duyuru
+  const ozet = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
+  console.warn('canli duyuru yok sayildi: duyuru gecersiz', ham.surum, ozet)
+  return null
 }
 
 /** Canlı belge varsa o, yoksa derlenmiş `baz`. */

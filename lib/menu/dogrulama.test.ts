@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { menuBelgesiDogrula } from './dogrulama.ts'
+import { duyuruDogrula, menuBelgesiDogrula } from './dogrulama.ts'
 import type { Sonuc } from './dogrulama.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -294,6 +294,22 @@ test('menuBelgesiDogrula_duyuruAktifMetinBos_hataVerir', () => {
   assert.equal(hataKodu(b, 'duyuru.metin.tr'), 'bos')
 })
 
+test('duyuruDogrula_gecerli_duyuruyuDoner', () => {
+  const d = duyuruYaz({ bitis: '2026-12-31T23:59' })
+  assert.deepEqual(duyuruDogrula(d), { tamam: true, duyuru: d })
+})
+
+test('duyuruDogrula_bolumYok_pasifDuyuru', () => {
+  const pasif = { aktif: false, metin: { tr: '', en: '' }, bitis: null }
+  assert.deepEqual(duyuruDogrula(undefined), { tamam: true, duyuru: pasif })
+})
+
+test('duyuruDogrula_aktifMetinBos_hataVerir', () => {
+  const sonuc = duyuruDogrula(duyuruYaz({ metin: { tr: ' ', en: 'Open' } }))
+  assert.equal(sonuc.tamam, false)
+  assert.equal(!sonuc.tamam && sonuc.hatalar[0]?.yol, 'duyuru.metin.tr')
+})
+
 test('menuBelgesiDogrula_duyuruPasifMetinBos_gecerli', () => {
   const b = ham((x) => duyuruAyarla(x, duyuruYaz({ aktif: false, metin: { tr: '', en: '' } })))
   assert.equal(menuBelgesiDogrula(b).tamam, true)
@@ -431,6 +447,30 @@ test('menuBelgesiDogrula_telefon_artisizNumara_hataVerir', () => {
     assert.equal(hataKodu(ham(iletisimAyarla('telefon', kotu)), 'iletisim.telefon'), 'telefon', kotu)
   }
   assert.equal(menuBelgesiDogrula(ham(iletisimAyarla('telefon', '+90 533 888 74 24'))).tamam, true)
+})
+
+test('menuBelgesiDogrula_telefonKapaliNumaraBos_gecerli', () => {
+  const b = ham((x) => { x['iletisim'] = { ...(x['iletisim'] as Ham), telefonAcik: false, telefon: '' } })
+  const sonuc = menuBelgesiDogrula(b)
+  assert.equal(sonuc.tamam, true)
+  assert.equal(sonuc.tamam && sonuc.belge.iletisim.telefon, '')
+})
+
+test('menuBelgesiDogrula_telefonAcikNumaraBos_hataVerir', () => {
+  const b = ham((x) => { x['iletisim'] = { ...(x['iletisim'] as Ham), telefonAcik: true, telefon: '' } })
+  assert.equal(hataKodu(b, 'iletisim.telefon'), 'telefon')
+})
+
+test('menuBelgesiDogrula_telefonKapaliBosluk_hataVerir', () => {
+  const b = ham((x) => { x['iletisim'] = { ...(x['iletisim'] as Ham), telefonAcik: false, telefon: ' ' } })
+  assert.equal(hataKodu(b, 'iletisim.telefon'), 'telefon')
+})
+
+test('menuBelgesiDogrula_telefonHataMetni_gercekNumaraTasimaz', () => {
+  const b = ham(iletisimAyarla('telefon', '0533'))
+  const metin = reddedilen(menuBelgesiDogrula(b)).find((h) => h.yol === 'iletisim.telefon')?.metin ?? ''
+  assert.ok(metin.length > 0)
+  assert.equal(/\d{3} \d{3} \d{2} \d{2}/.test(metin), false, metin)
 })
 
 test('menuBelgesiDogrula_telefonSadeceBosluk_hataVerir', () => {

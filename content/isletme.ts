@@ -23,7 +23,7 @@ const varsayilanIsletme: Isletme = {
   // (20.62z), posta kodunu OpenStreetMap bağımsız teyit etti.
   postaKodu: '99300',
   koordinat: { enlem: 35.3370065, boylam: 33.3057253 },
-  // Telefon ve WhatsApp aynı hat (+90 533 888 74 24); sahibi 19 Ekim 2026'da siteden kaldırdı.
+  // Telefon ve WhatsApp aynı hat (numara menü belgesinde); sahibi 19 Ekim 2026'da siteden kaldırdı.
   // Açıp kapatmak panelde (menü belgesi > iletisim.telefonAcik); kapalıyken ikisi null.
   telefon: null,
   whatsapp: null,

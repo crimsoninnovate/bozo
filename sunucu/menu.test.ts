@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { createServer, type Server } from 'node:http'
 import type { MenuYayinYaniti, MenuYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
+import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { bellekDepoKur } from './bellekDepo.ts'
 import type { Depo } from './depo.ts'
@@ -142,7 +143,26 @@ test('getMenu_yayindan_sonra_200VeBelge', async () => {
   assert.equal(y.durum, 200)
   const get = await istek('/menu')
   assert.equal(get.durum, 200)
-  assert.deepEqual(get.govde, { surum: (y.govde as unknown as MenuYayinYaniti).surum, belge: beklenen.belge })
+  const surum = (y.govde as unknown as MenuYayinYaniti).surum
+  assert.deepEqual(get.govde, { surum, belge: herkeseAcik(beklenen.belge) })
+})
+
+test('getMenu_telefonKapali_numaraYok', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  assert.equal(SEED.iletisim.telefonAcik, false)
+  assert.equal((await yayinla(taban, SEED)).durum, 200)
+  const herkese = ((await istek('/menu')).govde as unknown as MenuYaniti).belge.iletisim
+  assert.deepEqual([herkese.telefonAcik, herkese.telefon], [false, ''])
+  const yonetimde = (await yonetimMenu()).gecerli?.belge.iletisim
+  assert.equal(yonetimde?.telefon, SEED.iletisim.telefon, 'panel saklanan numarayı görür')
+})
+
+test('getMenu_telefonAcik_numaraGorunur', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  const acik = { ...SEED, iletisim: { ...SEED.iletisim, telefonAcik: true } }
+  assert.equal((await yayinla(taban, acik)).durum, 200)
+  const herkese = ((await istek('/menu')).govde as unknown as MenuYaniti).belge.iletisim
+  assert.equal(herkese.telefon, SEED.iletisim.telefon)
 })
 
 test('putYonetimMenu_tabanEski_409', async () => {

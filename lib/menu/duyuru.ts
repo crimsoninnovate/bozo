@@ -1,5 +1,5 @@
 import { ZAMAN_DILIMI } from '../saat.ts'
-import type { Duyuru, MenuBelgesi } from './tipler.ts'
+import type { Duyuru } from './tipler.ts'
 
 const bicim = new Intl.DateTimeFormat('en-CA', {
   timeZone: ZAMAN_DILIMI, hourCycle: 'h23',
@@ -18,9 +18,9 @@ export function duyuruGoster(d: Duyuru, simdi: Date): boolean {
   return d.bitis === null || girneAnlik(simdi) < d.bitis
 }
 
-/** Canlı belge varsa onun duyurusu, yoksa derlenmiş `baz`; gösterilmeyecekse `aktif: false` döner. */
-export function duyuruKarari(baz: Duyuru, canli: MenuBelgesi | null, simdi: Date): Duyuru {
-  const secilen = canli === null ? baz : canli.duyuru
+/** Canlı duyuru varsa o, yoksa derlenmiş `baz`; gösterilmeyecekse `aktif: false` döner. */
+export function duyuruKarari(baz: Duyuru, canli: Duyuru | null, simdi: Date): Duyuru {
+  const secilen = canli ?? baz
   return duyuruGoster(secilen, simdi) ? secilen : { ...secilen, aktif: false }
 }
 
@@ -34,19 +34,19 @@ export function metinOzeti(d: Duyuru): string {
 const EN_FAZLA_DENEME = 2
 
 /**
- * Bir sayfa oturumunun (tam yükleme) son canlı belgesi: istemci tarafı gezintide kabuk yeniden
+ * Bir sayfa oturumunun (tam yükleme) son canlı duyurusu: istemci tarafı gezintide kabuk yeniden
  * kurulur, bu yüzden bant ilk durumunu buradan alır ve belge bir daha istenmez. Başarısız istek
  * canlı sayılmaz; bir kez daha denenir, sonra durur.
  */
 export function canliOturumu() {
-  let son: MenuBelgesi | null = null
+  let son: Duyuru | null = null
   let basarisiz = 0
   return {
-    belge: (): MenuBelgesi | null => son,
+    duyuru: (): Duyuru | null => son,
     getirmeli: (): boolean => son === null && basarisiz < EN_FAZLA_DENEME,
-    kaydet(belge: MenuBelgesi | null): void {
-      if (belge === null) basarisiz += 1
-      else son = belge
+    kaydet(duyuru: Duyuru | null): void {
+      if (duyuru === null) basarisiz += 1
+      else son = duyuru
     },
   }
 }

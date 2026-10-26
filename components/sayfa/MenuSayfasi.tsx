@@ -7,6 +7,7 @@ import { MenuVerisiSaglayici } from './menu/MenuVerisi'
 import { YorumDaveti } from '@/components/ui/YorumDaveti'
 import type { Dil } from '@/content'
 import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
+import { herkeseAcik } from '@/lib/menu/herkeseAcik'
 
 type Props = { dil: Dil }
 
@@ -29,7 +30,7 @@ type Props = { dil: Dil }
  */
 export function MenuSayfasi({ dil }: Props) {
   return (
-    <MenuVerisiSaglayici baz={menuBelgesiYukle()}>
+    <MenuVerisiSaglayici baz={herkeseAcik(menuBelgesiYukle())}>
       <Acilis dil={dil} />
       <Ocakbasi dil={dil} />
       <Ikramlar dil={dil} />

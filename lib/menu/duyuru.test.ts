@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { canliOturumu, duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
-import type { Duyuru, MenuBelgesi } from './tipler.ts'
+import type { Duyuru } from './tipler.ts'
 
 const duyuru = (degisiklik: Partial<Duyuru> = {}): Duyuru => ({
   aktif: true,
@@ -55,7 +55,6 @@ test('duyuruGoster_bitisGirneGecesindeUtcFarkli_dogruKarar', () => {
 })
 
 const ZAMAN = new Date('2026-10-26T09:00:00Z')
-const belge = (d: Duyuru): MenuBelgesi => ({ duyuru: d }) as MenuBelgesi
 
 test('duyuruKarari_canliYok_bazKalir', () => {
   const baz = duyuru()
@@ -64,11 +63,11 @@ test('duyuruKarari_canliYok_bazKalir', () => {
 
 test('duyuruKarari_canliVar_canliKazanir', () => {
   const canli = duyuru({ metin: { tr: 'Erken kapanıyoruz', en: 'Closing early' } })
-  assert.deepEqual(duyuruKarari(duyuru(), belge(canli), ZAMAN), canli)
+  assert.deepEqual(duyuruKarari(duyuru(), canli, ZAMAN), canli)
 })
 
 test('duyuruKarari_canliPasif_bantYok', () => {
-  const karar = duyuruKarari(duyuru(), belge(duyuru({ aktif: false })), ZAMAN)
+  const karar = duyuruKarari(duyuru(), duyuru({ aktif: false }), ZAMAN)
   assert.equal(duyuruGoster(karar, ZAMAN), false)
   assert.equal(karar.aktif, false)
 })
@@ -87,15 +86,15 @@ test('metinOzeti_metinDegisince_degisir', () => {
 test('canliOturumu_basariliBelge_sonrakiGezintideTekrarDenenmez', () => {
   const o = canliOturumu()
   assert.equal(o.getirmeli(), true)
-  o.kaydet(belge(duyuru()))
+  o.kaydet(duyuru())
   assert.equal(o.getirmeli(), false)
-  assert.deepEqual(o.belge()?.duyuru, duyuru())
+  assert.deepEqual(o.duyuru(), duyuru())
 })
 
 test('canliOturumu_ilkIstekBasarisiz_birKezDahaDenerSonraDurur', () => {
   const o = canliOturumu()
   o.kaydet(null)
-  assert.equal(o.belge(), null)
+  assert.equal(o.duyuru(), null)
   assert.equal(o.getirmeli(), true)
   o.kaydet(null)
   assert.equal(o.getirmeli(), false)
@@ -104,14 +103,14 @@ test('canliOturumu_ilkIstekBasarisiz_birKezDahaDenerSonraDurur', () => {
 test('canliOturumu_oncedenBasarisiz_sonraBasarili_canliKalir', () => {
   const o = canliOturumu()
   o.kaydet(null)
-  o.kaydet(belge(duyuru()))
+  o.kaydet(duyuru())
   assert.equal(o.getirmeli(), false)
-  assert.notEqual(o.belge(), null)
+  assert.notEqual(o.duyuru(), null)
 })
 
 test('canliOturumu_onbellektekiSuresiDolmusDuyuru_karardaGizlenir', () => {
   const o = canliOturumu()
-  o.kaydet(belge(duyuru({ bitis: '2026-10-26T10:00' })))
+  o.kaydet(duyuru({ bitis: '2026-10-26T10:00' }))
   const sonra = new Date('2026-10-26T08:00:00Z')
-  assert.equal(duyuruKarari(duyuru(), o.belge(), sonra).aktif, false)
+  assert.equal(duyuruKarari(duyuru(), o.duyuru(), sonra).aktif, false)
 })

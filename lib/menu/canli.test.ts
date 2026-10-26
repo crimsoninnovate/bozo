@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { canliMenuGetir, menuKarar } from './canli.ts'
+import { canliDuyuruGetir, canliMenuGetir, menuKarar } from './canli.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const varsayilan = JSON.parse(
@@ -144,4 +144,52 @@ test('canliMenuGetir_oncekiBitince_yeniIstekAtilir', async () => {
   await canliMenuGetir('http://x', getir, 1000)
   await canliMenuGetir('http://x', getir, 1000)
   assert.equal(istek, 2)
+})
+
+test('canliDuyuruGetir_gecerli_yalnizDuyuruyuDoner', async () => {
+  const b = structuredClone(varsayilan)
+  b.duyuru = { aktif: true, metin: { tr: 'Bayramda açığız', en: 'Open on the holiday' }, bitis: null }
+  const govde = JSON.stringify({ surum: 4, belge: b })
+  const { sonuc, uyarilar } = await uyarilarla(() => canliDuyuruGetir('http://x', yanitla(200, govde), 1000))
+  assert.deepEqual(sonuc, b.duyuru)
+  assert.equal(uyarilar.length, 0)
+})
+
+test('canliDuyuruGetir_belgeninGeriKalaniGecersiz_duyuruYineGelir', async () => {
+  const duyuru = { aktif: true, metin: { tr: 'Erken kapanıyoruz', en: 'Closing early' }, bitis: null }
+  const govde = JSON.stringify({ surum: 4, belge: { kalemler: 'yok', duyuru } })
+  const { sonuc } = await uyarilarla(() => canliDuyuruGetir('http://x', yanitla(200, govde), 1000))
+  assert.deepEqual(sonuc, duyuru)
+})
+
+test('canliDuyuruGetir_birinciSurum_pasifDuyuru', async () => {
+  const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(varsayilan)
+  const govde = JSON.stringify({ surum: 3, belge: eski })
+  const { sonuc } = await uyarilarla(() => canliDuyuruGetir('http://x', yanitla(200, govde), 1000))
+  assert.deepEqual(sonuc, { aktif: false, metin: { tr: '', en: '' }, bitis: null })
+})
+
+test('canliDuyuruGetir_duyuruGecersizYaDaBelgeNesneDegil_nullVeLoglar', async () => {
+  const bozuk = { aktif: true, metin: { tr: '', en: 'x' }, bitis: null }
+  for (const belge of [{ ...varsayilan, duyuru: bozuk }, 'metin', null]) {
+    const govde = JSON.stringify({ surum: 5, belge })
+    const { sonuc, uyarilar } = await uyarilarla(() => canliDuyuruGetir('http://x', yanitla(200, govde), 1000))
+    assert.equal(sonuc, null, JSON.stringify(belge).slice(0, 30))
+    assert.equal(uyarilar.length, 1)
+  }
+})
+
+test('canliDuyuruGetir_menuIleAyniAnda_tekIstekAtilir', async () => {
+  let istek = 0
+  const getir: typeof fetch = async () => {
+    istek += 1
+    return new Response(JSON.stringify({ surum: 3, belge: varsayilan }), { status: 200 })
+  }
+  const [menu, duyuru] = await Promise.all([
+    canliMenuGetir('http://x', getir, 1000, varsayilan),
+    canliDuyuruGetir('http://x', getir, 1000),
+  ])
+  assert.equal(istek, 1)
+  assert.equal(menu?.surum, 3)
+  assert.deepEqual(duyuru, varsayilan.duyuru)
 })

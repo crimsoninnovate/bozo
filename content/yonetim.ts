@@ -165,7 +165,7 @@ export const yonetim = {
       not: 'Bu alanlar bir sonraki site yayınında görünür.',
       telefonAcik: 'Telefon numarasını sitede göster',
       telefonAcikNot: 'Açıkken numara sitedeki herkese görünür.',
-      telefon: 'Telefon, + ile başlayın, örnek: +90 533 888 74 24',
+      telefon: 'Telefon, + ile başlayın, örnek: +90 5xx xxx xx xx',
       eposta: 'E-posta',
       kullaniciNot: 'Kullanıcı adını yazın, başında @ ya da adres olmadan.',
       instagram: 'Instagram kullanıcı adı',

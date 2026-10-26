@@ -69,7 +69,6 @@ export function Kabuk({ dil, aktif, children }: Props) {
         <DuyuruBandi
           dil={dil}
           baz={duyuruKarari(belge.duyuru, null, new Date())}
-          tam={{ duyuru: belge.duyuru, ikramlar: belge.ikramlar, iletisim: belge.iletisim }}
         />
       )}
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>

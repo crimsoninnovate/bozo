@@ -63,6 +63,18 @@ test('iletisimiEnvdenOku_eposta_ustuneYazar', () => {
   assert.equal(sonuc.ad, varsayilan.ad, 'iletişim dışındaki alanlara dokunmaz')
 })
 
+test('iletisimiEnveCevir_telefonKapali_numaraTasimaz', () => {
+  const ham = envIle({ telefonAcik: false, telefon: '+90 533 111 22 33' })
+  assert.equal(ham.includes('111 22 33'), false)
+  assert.equal((JSON.parse(ham) as MenuBelgesi['iletisim']).telefon, '')
+  assert.equal(iletisimiEnvdenOku(ham, varsayilan).telefon, null)
+})
+
+test('iletisimiEnveCevir_telefonAcik_numarayiTasir', () => {
+  const ham = envIle({ telefonAcik: true, telefon: '+90 533 111 22 33' })
+  assert.equal((JSON.parse(ham) as MenuBelgesi['iletisim']).telefon, '+90 533 111 22 33')
+})
+
 test('iletisimiEnveCevir_surum_metinOlarakDoner', () => {
   assert.equal(iletisimiEnveCevir(belge, 7).surum, '7')
   assert.equal(iletisimiEnveCevir(belge).surum, '0')
