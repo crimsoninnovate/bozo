@@ -74,6 +74,9 @@ değiştiği (v2 doğrulayıcı dahil: eski sunucu `duyuru`, `ikramlar`, `iletis
 yukarıdaki "Sunucu güncellemesi" ile yeniden dağıtılmalı; bu sahibin kararı. Nginx'in varsayılan gövde
 sınırı 1 MB, bu boyutların çok üstünde; arc'ta `client_max_body_size` ayrıca denenmedi.
 
+**Dağıtım sırası:** önce skor sunucusu (yukarıdaki "Sunucu güncellemesi"), sonra site (`npm run yayinla`). Ters
+sırada yeni panel eski sunucudan alan hatası göstermeyen bir 400 alır. Gerisi `DEVAM.md` > "Bir sonraki deploy'da".
+
 **Geri alma:** `systemctl stop bozo-oyun`. `GET /menu` yanıt vermez, menü sayfası derlenmiş menüye
 döner; sunucu açılınca kaldığı yerden devam eder (sürümler veritabanında durur).
 

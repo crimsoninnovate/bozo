@@ -43,7 +43,9 @@ grep -q 'Error messages: 0' <<<"$REPAIR" ||
   dur "plesk repair fs did not report 'Error messages: 0'; could not confirm a clean result (output above)."
 
 adim "Verifying: no x-robots-tag header (the site is indexed)"
-ROBOTS="$(curl -sI https://cigercibozo.com/ | grep -ci x-robots-tag || true)"
+# Bare assignment: set -e aborts if curl fails, so an unreachable site cannot read as "0 headers".
+BASLIKLAR="$(curl -fsSI https://cigercibozo.com/)"
+ROBOTS="$(grep -ci x-robots-tag <<<"$BASLIKLAR" || true)"
 [ "$ROBOTS" = 0 ] || dur "the site sends an x-robots-tag header ($ROBOTS). It must stay indexable."
 
 adim "Verifying: checksum dry run, no file lines expected"
