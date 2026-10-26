@@ -16,6 +16,8 @@ newer seed: delete it to force the seed. The seed `content/menu.varsayilan.json`
 plus its expectation table in `content/icerik.test.ts` and `lib/menu/varsayilan.test.ts`: change
 all three together. The panel pins Ciğer as the first item (the signature slot): it cannot be
 deleted or moved. Chip texts stay in the `content/{tr,en}` dictionaries, outside the panel.
+The panel keeps an unsaved working copy in `localStorage` under `bozo-yonetim-taslak`: first-party
+storage of the owner's own draft, so it needs no consent gate on `/yonetim/`.
 
 Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 October 2026, wraps
 24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow

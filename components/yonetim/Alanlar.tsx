@@ -126,9 +126,9 @@ export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur,
   )
 }
 
-/** Fiyat alanı: tanımsız ve `NaN` boş görünür; 0 "0" kalır, doğrulama hatası yerinde durur. */
-export const fiyatGirdisi = (f: number | undefined): string =>
-  f === undefined || Number.isNaN(f) ? '' : String(f)
+/** Fiyat alanı: tanımsız, `null` (taslakta `NaN` böyle döner) ve `NaN` boş görünür; 0 "0" kalır. */
+export const fiyatGirdisi = (f: number | null | undefined): string =>
+  f === undefined || f === null || Number.isNaN(f) ? '' : String(f)
 
 type YeniProps = { etiket: string; dugme: string; onEkle: (ad: string) => void }
 

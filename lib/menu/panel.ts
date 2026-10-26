@@ -97,3 +97,42 @@ export const telefonAciliyor = (d: Degisiklik): boolean => d.yol === 'iletisim.t
 
 /** Duyuru açık ama şu an sitede görünmeyecek (bitiş geçmiş ya da metin boş); saate bağlı, doğrulayıcıda değil. */
 export const duyuruGorunmeyecek = (d: Duyuru, simdi: Date): boolean => d.aktif && !duyuruGoster(d, simdi)
+
+/** Kaydedilmemiş çalışma kopyasının `localStorage` anahtarı. */
+export const TASLAK_ANAHTARI = 'bozo-yonetim-taslak'
+
+/** `taban`: çalışma kopyasının dayandığı yayın sürümü (yayın yoksa `null`). */
+export function taslakYaz(taban: number | null, belge: MenuBelgesi): string {
+  return JSON.stringify({ taban, belge })
+}
+
+export type TaslakSonucu =
+  | { tur: 'yok' }
+  | { tur: 'geri'; belge: MenuBelgesi }
+  | { tur: 'eski' }
+  | { tur: 'bozuk'; neden: string }
+
+/**
+ * Saklı taslağı okur. Taban `taban` ile aynıysa belge döner; yayın araya girdiyse `eski`. Taslak yarım
+ * iş olabilir (boş EN, 0 fiyat): içerik hataları geri yüklemeyi engellemez, yalnız yapı hatası (`sema`).
+ */
+export function taslakOku(ham: string | null, taban: number | null, tam: Tamamlayici): TaslakSonucu {
+  if (ham === null) return { tur: 'yok' }
+  let kayit: unknown
+  try {
+    kayit = JSON.parse(ham)
+  } catch {
+    return { tur: 'bozuk', neden: 'JSON okunamadı' }
+  }
+  if (typeof kayit !== 'object' || kayit === null || !('belge' in kayit) || !('taban' in kayit)) {
+    return { tur: 'bozuk', neden: 'taban ya da belge yok' }
+  }
+  if (kayit.taban !== null && typeof kayit.taban !== 'number') return { tur: 'bozuk', neden: 'taban sayı değil' }
+  if (kayit.taban !== taban) return { tur: 'eski' }
+  const girdi = menuBelgesiTamamla(kayit.belge, tam)
+  const sonuc = menuBelgesiDogrula(girdi)
+  if (sonuc.tamam) return { tur: 'geri', belge: sonuc.belge }
+  const yapi = sonuc.hatalar.filter((h) => h.kod === 'sema')
+  if (yapi.length === 0) return { tur: 'geri', belge: girdi as MenuBelgesi }
+  return { tur: 'bozuk', neden: yapi.map((h) => `${h.yol} (${h.metin})`).join('; ') }
+}

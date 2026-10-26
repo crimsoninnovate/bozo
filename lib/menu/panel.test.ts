@@ -5,7 +5,7 @@ import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi,
-  hataSekmesi, panelBelgesi, siteDurumu, siteSurumuOku, telefonAciliyor,
+  hataSekmesi, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz, telefonAciliyor,
 } from './panel.ts'
 import type { Duyuru } from './tipler.ts'
 
@@ -210,4 +210,56 @@ test('duyuruGorunmeyecek_acikVeGorunur_yanlis', () => {
 
 test('duyuruGorunmeyecek_kapali_yanlis', () => {
   assert.equal(duyuruGorunmeyecek(duyuruIle({ aktif: false, bitis: '2026-10-26T11:00' }), SIMDI), false)
+})
+
+const taslakBelge = (): typeof tohum => {
+  const b = structuredClone(tohum)
+  b.kalemler[1] = { ...b.kalemler[1]!, ad: { tr: 'Değişti', en: 'Changed' } }
+  return b
+}
+
+test('taslakOku_kayitYok_yokDoner', () => {
+  assert.deepEqual(taslakOku(null, 4, tohum), { tur: 'yok' })
+})
+
+test('taslakOku_ayniTaban_belgeyiGeriVerir', () => {
+  const sonuc = taslakOku(taslakYaz(4, taslakBelge()), 4, tohum)
+  assert.equal(sonuc.tur, 'geri')
+  assert.deepEqual(sonuc.tur === 'geri' && sonuc.belge, taslakBelge())
+})
+
+test('taslakOku_tabanNull_nullTabanlaEslesir', () => {
+  assert.equal(taslakOku(taslakYaz(null, taslakBelge()), null, tohum).tur, 'geri')
+  assert.equal(taslakOku(taslakYaz(null, taslakBelge()), 4, tohum).tur, 'eski')
+})
+
+test('taslakOku_baskaTaban_eskiDoner', () => {
+  assert.deepEqual(taslakOku(taslakYaz(3, taslakBelge()), 4, tohum), { tur: 'eski' })
+})
+
+test('taslakOku_yarimKalmisBelge_hataliAlanlarlaGeriGelir', () => {
+  const b = taslakBelge()
+  b.kalemler[1] = { ...b.kalemler[1]!, ad: { tr: 'Yeni', en: '' }, fiyatlar: { porsiyon: Number.NaN } }
+  const sonuc = taslakOku(taslakYaz(4, b), 4, tohum)
+  assert.equal(sonuc.tur, 'geri')
+  assert.equal(menuBelgesiDogrula(sonuc.tur === 'geri' ? sonuc.belge : null).tamam, false)
+})
+
+test('taslakOku_jsonDegil_bozukDoner', () => {
+  const sonuc = taslakOku('{bozuk', 4, tohum)
+  assert.equal(sonuc.tur, 'bozuk')
+})
+
+test('taslakOku_sekilYanlis_bozukDoner', () => {
+  for (const ham of ['null', '[]', '{"taban":"4","belge":{}}', '{"taban":4}', '{"belge":{}}']) {
+    assert.equal(taslakOku(ham, 4, tohum).tur, 'bozuk', ham)
+  }
+})
+
+test('taslakOku_belgeninYapisiBozuk_hataYoluylaBozukDoner', () => {
+  const b = taslakBelge() as unknown as Record<string, unknown>
+  b['kalemler'] = 'liste degil'
+  const sonuc = taslakOku(JSON.stringify({ taban: 4, belge: b }), 4, tohum)
+  assert.equal(sonuc.tur, 'bozuk')
+  assert.match(sonuc.tur === 'bozuk' ? sonuc.neden : '', /kalemler/)
 })

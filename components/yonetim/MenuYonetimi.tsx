@@ -23,6 +23,7 @@ import { IletisimFormu } from './IletisimFormu'
 import { KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
 import { SiteDurumu } from './SiteDurumu'
+import { taslagiYukle, useTaslakKaydi } from './taslak'
 import { YayinOnayi } from './YayinOnayi'
 import ortak from './oturum.module.css'
 import stil from './MenuYonetimi.module.css'
@@ -95,6 +96,7 @@ function useCalisma({ api, cik, baz }: PanelProps) {
   const [belge, setBelge] = useState<MenuBelgesi>(baz)
   const [mesgul, setMesgul] = useState(false)
   const [mesaj, setMesaj] = useState<Mesaj | null>(null)
+  const [hazir, setHazir] = useState(false)
 
   /** Sunucudaki yayındaki sürüm 1. sürüm biçimindeyse `eski` olur; panel belgeyi 2. sürüme tamamlar. */
   const yukle = useCallback(async () => {
@@ -107,7 +109,12 @@ function useCalisma({ api, cik, baz }: PanelProps) {
   }, [api, baz])
   useEffect(() => {
     yukle().then(
-      (y) => setBelge(y.gecerli?.belge ?? baz),
+      (y) => {
+        const t = taslagiYukle(y.gecerli?.surum ?? null, y.gecerli?.belge ?? baz)
+        setBelge(t.belge)
+        if (t.mesaj) setMesaj({ metin: t.mesaj, hata: false })
+        setHazir(true)
+      },
       (h: unknown) => setMesaj({ metin: hataIsle(h, cik), hata: true }),
     )
   }, [yukle, baz, cik])
@@ -147,12 +154,12 @@ function useCalisma({ api, cik, baz }: PanelProps) {
       setMesgul(false)
     }
   }
-  return { canli, eski, belge, mesgul, mesaj, duzenle, bitir, surumGetir }
+  return { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir }
 }
 
 function Calisma(props: PanelProps) {
   const { api, baz } = props
-  const { canli, eski, belge, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
+  const { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
   const [sekme, setSekme] = useState<Sekme>('ocakbasi')
   const [onay, setOnay] = useState<Onay | null>(null)
 
@@ -163,6 +170,7 @@ function Calisma(props: PanelProps) {
   const taban = canli?.gecerli?.surum ?? null
   const degisiklikVar = degisiklikVarMi(yayindaki, belge)
   useKaydedilmemisUyari(degisiklikVar)
+  useTaslakKaydi(hazir, taban, belge, degisiklikVar)
   const ilkHata = sonuc.tamam ? null : hataSekmesi(sonuc.hatalar[0]?.yol ?? '')
 
   const onayla = async () => {
