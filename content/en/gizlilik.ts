@@ -49,7 +49,7 @@ export const gizlilik = {
     'The only recipients are Google Ireland Limited and Google LLC, who run the ' +
     'measurement service. Game data is kept on the Istanbul server of the ' +
     'business\'s hosting provider, DH Bulut Bilişim; your nickname and score ' +
-    'appear in the public leaderboard. The menu page requests the current menu from ' +
+    'appear in the public leaderboard. The pages of the site request menu and announcement data from ' +
     'api.cigercibozo.com; with that request your IP address reaches the server the site is ' +
     'already hosted on. No data is passed to any other third party.',
 

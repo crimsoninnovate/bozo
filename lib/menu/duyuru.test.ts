@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { duyuruGoster, girneAnlik } from './duyuru.ts'
-import type { Duyuru } from './tipler.ts'
+import { duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
+import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
 const duyuru = (degisiklik: Partial<Duyuru> = {}): Duyuru => ({
   aktif: true,
@@ -52,4 +52,34 @@ test('duyuruGoster_bitisGirneGecesindeUtcFarkli_dogruKarar', () => {
   const d = duyuru({ bitis: '2026-07-02T00:30' })
   assert.equal(duyuruGoster(d, new Date('2026-07-01T21:29:00Z')), true)
   assert.equal(duyuruGoster(d, new Date('2026-07-01T21:30:00Z')), false)
+})
+
+const ZAMAN = new Date('2026-10-26T09:00:00Z')
+const belge = (d: Duyuru): MenuBelgesi => ({ duyuru: d }) as MenuBelgesi
+
+test('duyuruKarari_canliYok_bazKalir', () => {
+  const baz = duyuru()
+  assert.deepEqual(duyuruKarari(baz, null, ZAMAN), baz)
+})
+
+test('duyuruKarari_canliVar_canliKazanir', () => {
+  const canli = duyuru({ metin: { tr: 'Erken kapanıyoruz', en: 'Closing early' } })
+  assert.deepEqual(duyuruKarari(duyuru(), belge(canli), ZAMAN), canli)
+})
+
+test('duyuruKarari_canliPasif_bantYok', () => {
+  const karar = duyuruKarari(duyuru(), belge(duyuru({ aktif: false })), ZAMAN)
+  assert.equal(duyuruGoster(karar, ZAMAN), false)
+  assert.equal(karar.aktif, false)
+})
+
+test('duyuruKarari_bazSuresiDolmus_canliYokken_bantYok', () => {
+  const karar = duyuruKarari(duyuru({ bitis: '2026-10-26T10:00' }), null, new Date('2026-10-26T08:00:00Z'))
+  assert.equal(karar.aktif, false)
+})
+
+test('metinOzeti_metinDegisince_degisir', () => {
+  const a = metinOzeti(duyuru())
+  assert.equal(a, metinOzeti(duyuru({ bitis: '2026-12-01T10:00' })))
+  assert.notEqual(a, metinOzeti(duyuru({ metin: { tr: 'Bayramda açığız', en: 'Open on holidays' } })))
 })

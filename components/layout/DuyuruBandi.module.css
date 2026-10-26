@@ -1,0 +1,67 @@
+/*
+ * Duyuru bandı. Sabit üst bar akış dışında ve her sayfa altında kendi payını tutuyor (--bar-boy +
+ * --rozet-sarkma), bu yüzden bant akışta yalnız kendi yüksekliğini kaplar ve `translateY` ile barın
+ * ve rozetin altındaki o paya oturur: sayfa tasarımdaki boşluğu korur, yalnız bant kadar aşağı iner.
+ * Yükseklik 0fr > 1fr ile açılır; azaltılmış harekette geçişi `styles/animasyonlar.css` kapatır.
+ * Krem metin kömür zeminde 13.35:1 (bordo palet).
+ */
+.sarmal {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transform: translateY(calc(var(--bar-boy) + var(--rozet-sarkma)));
+  transition: grid-template-rows var(--gecis-orta);
+}
+
+.sarmal[data-acik='true'] {
+  grid-template-rows: 1fr;
+}
+
+.ic {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 20px;
+  min-height: 44px;
+  padding: 4px var(--sayfa-yatay);
+  background: var(--komur);
+  border-block: 1px solid var(--cizgi);
+  color: var(--krem);
+}
+
+.metin {
+  margin: 0;
+  min-width: 0;
+  font: 500 16px/1.4 var(--font-govde);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.kapat {
+  flex: 0 0 auto;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  font: 600 15px/1 var(--font-govde);
+  color: var(--bakir);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.kapat:hover {
+  color: var(--bakir-acik);
+}
+
+.kapat:focus-visible {
+  outline: 2px solid var(--bakir);
+  outline-offset: 2px;
+}

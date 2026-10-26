@@ -119,3 +119,29 @@ test('canliMenuGetir_birinciSurumBelgesi_tamIleTamamlanir', async () => {
   const { sonuc } = await uyarilarla(() => canliMenuGetir('http://x', yanitla(200, govde), 1000, varsayilan))
   assert.deepEqual(sonuc, { surum: 3, belge: varsayilan })
 })
+
+test('canliMenuGetir_ayniAndaIkiCagri_tekIstekAtilir', async () => {
+  let istek = 0
+  const getir: typeof fetch = async () => {
+    istek += 1
+    return new Response(JSON.stringify({ surum: 3, belge: varsayilan }), { status: 200 })
+  }
+  const [a, b] = await Promise.all([
+    canliMenuGetir('http://x', getir, 1000, varsayilan),
+    canliMenuGetir('http://x', getir, 1000, varsayilan),
+  ])
+  assert.equal(istek, 1)
+  assert.equal(a?.surum, 3)
+  assert.equal(b?.surum, 3)
+})
+
+test('canliMenuGetir_oncekiBitince_yeniIstekAtilir', async () => {
+  let istek = 0
+  const getir: typeof fetch = async () => {
+    istek += 1
+    return new Response(null, { status: 204 })
+  }
+  await canliMenuGetir('http://x', getir, 1000)
+  await canliMenuGetir('http://x', getir, 1000)
+  assert.equal(istek, 2)
+})

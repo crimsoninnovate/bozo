@@ -515,3 +515,15 @@ test('gizlilik_bantDugmeleriniGuncelAdlariylaAnar', () => {
     assert.ok(s.gizlilik.geriAlmaMetni.includes(`"${s.ortak.cerez.ret}"`), s.gizlilik.geriAlmaMetni)
   }
 })
+
+/** Her sayfa menü ve duyuru için api.cigercibozo.com'a istek atar; gizlilik metni bunu söylemek zorunda. */
+test('gizlilik_aliciMetni_duyuruyuAnar', () => {
+  assert.match(tr.gizlilik.aliciMetni, /api\.cigercibozo\.com/)
+  assert.match(tr.gizlilik.aliciMetni, /menü ve duyuru/)
+  assert.match(tr.gizlilik.aliciMetni, /IP adresiniz/)
+  assert.match(en.gizlilik.aliciMetni, /api\.cigercibozo\.com/)
+  assert.match(en.gizlilik.aliciMetni, /menu and announcement/)
+  assert.match(en.gizlilik.aliciMetni, /IP address/)
+  assert.match(tr.gizlilik.guncellemeMetni, /26 Ekim 2026/)
+  assert.match(en.gizlilik.guncellemeMetni, /26 October 2026/)
+})

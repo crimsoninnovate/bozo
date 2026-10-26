@@ -1,10 +1,12 @@
 import { KorSahnesi } from '@/components/ember/KorSahnesi'
 import { AltBilgi } from '@/components/layout/AltBilgi'
+import { DuyuruBandi } from '@/components/layout/DuyuruBandi'
 import { MobilAksiyonBari } from '@/components/layout/MobilAksiyonBari'
 import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
 import { breadcrumbJsonLd, jsonLdMetni, menuJsonLd } from '@/lib/jsonld'
 import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
+import { duyuruKarari } from '@/lib/menu/duyuru'
 import { dizindeMi, type SayfaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
@@ -31,6 +33,9 @@ type Props = {
  * `<main>`'in iç sayfa sınıfı yalnız çapa payını taşır (bkz. Kabuk.module.css);
  * ana sayfa payını `Bolum` kendi içinde verir.
  *
+ * Duyuru bandı üst barın hemen altındadır ve oyun rotalarında (`oyun`, `siralama`) yoktur: oyun
+ * kendi ekranını kurar, bant ona ait değil. `/yonetim/` ve 404 kabuk taşımaz, bant da yoktur.
+ *
  * Atlanan blok bağlantısı ilk odak durağıdır ve üst barın yedi hedefini atlar.
  * `tabIndex={-1}` olmadan Safari fragman bağlantısında sıralı odak başlangıcını
  * taşımaz, yani bağlantı kaydırır ama sonraki Tab yine bara döner.
@@ -38,6 +43,7 @@ type Props = {
 export function Kabuk({ dil, aktif, children }: Props) {
   const anaSayfaMi = aktif === 'ana'
   const s = sozluk(dil)
+  const belge = dizindeMi(aktif) ? menuBelgesiYukle() : null
 
   return (
     <>
@@ -59,6 +65,13 @@ export function Kabuk({ dil, aktif, children }: Props) {
       )}
       <KorSahnesi varyant={anaSayfaMi ? 'ana' : 'ic'} />
       <UstBar dil={dil} aktif={aktif} />
+      {belge && (
+        <DuyuruBandi
+          dil={dil}
+          baz={duyuruKarari(belge.duyuru, null, new Date())}
+          tam={{ duyuru: belge.duyuru, ikramlar: belge.ikramlar, iletisim: belge.iletisim }}
+        />
+      )}
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>
         {children}
       </main>

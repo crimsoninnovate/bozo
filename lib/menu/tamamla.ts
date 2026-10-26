@@ -2,12 +2,15 @@ import type { MenuBelgesi } from './tipler.ts'
 
 const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim'] as const
 
+/** Eksik bölümlerin kaynağı: tam belge ya da yalnız bu üç bölüm (kabuktaki duyuru bandı küçüğünü taşır). */
+export type Tamamlayici = Pick<MenuBelgesi, (typeof BOLUMLER)[number]>
+
 /**
  * Eski (1. sürüm) belgede olmayan bölümleri `tam`dan alır; başka hiçbir şeye dokunmaz.
  * `tam`da olmayan bölüm yazılmaz (`undefined` anahtar bırakmaz). Girdi nesne değilse olduğu gibi döner,
  * doğrulayıcı reddeder.
  */
-export function menuBelgesiTamamla(girdi: unknown, tam: MenuBelgesi): unknown {
+export function menuBelgesiTamamla(girdi: unknown, tam: Tamamlayici): unknown {
   if (typeof girdi !== 'object' || girdi === null || Array.isArray(girdi)) return girdi
   const sonuc: Record<string, unknown> = { ...girdi }
   for (const bolum of BOLUMLER) {

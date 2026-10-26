@@ -50,7 +50,10 @@ export const ortak = {
     gezinmeCekmecesi: 'Navigation drawer',
     /** Skip link. Interface text, not marketing copy. */
     icerigeAtla: 'Skip to content',
+    duyuruKapat: 'Close announcement',
   },
+  /** Visible button of the announcement bar; the bar text comes from the panel. */
+  duyuru: { kapat: 'Close' },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
     yolTarifiAl: 'Get Directions',

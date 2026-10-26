@@ -56,7 +56,10 @@ export const ortak = {
     gezinmeCekmecesi: 'Gezinme çekmecesi',
     /** Atlanan blok bağlantısı. Arayüz metni, pazarlama metni değil. */
     icerigeAtla: 'İçeriğe atla',
+    duyuruKapat: 'Duyuruyu kapat',
   },
+  /** Duyuru bandının görünen düğmesi; bandın metni panelden gelir. */
+  duyuru: { kapat: 'Kapat' },
   dil: { tr: 'TR', en: 'EN', ayirici: '/' },
   cta: {
     yolTarifiAl: 'Yol Tarifi Al',

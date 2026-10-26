@@ -1,5 +1,5 @@
 import { ZAMAN_DILIMI } from '../saat.ts'
-import type { Duyuru } from './tipler.ts'
+import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
 const bicim = new Intl.DateTimeFormat('en-CA', {
   timeZone: ZAMAN_DILIMI, hourCycle: 'h23',
@@ -16,4 +16,17 @@ export function girneAnlik(simdi: Date): string {
 export function duyuruGoster(d: Duyuru, simdi: Date): boolean {
   if (!d.aktif || d.metin.tr.trim() === '' || d.metin.en.trim() === '') return false
   return d.bitis === null || girneAnlik(simdi) < d.bitis
+}
+
+/** Canlı belge varsa onun duyurusu, yoksa derlenmiş `baz`; gösterilmeyecekse `aktif: false` döner. */
+export function duyuruKarari(baz: Duyuru, canli: MenuBelgesi | null, simdi: Date): Duyuru {
+  const secilen = canli === null ? baz : canli.duyuru
+  return duyuruGoster(secilen, simdi) ? secilen : { ...secilen, aktif: false }
+}
+
+/** Kapatma anahtarı: metin değişince özet değişir, önceki kapatma geçersiz olur (FNV-1a, 32 bit). */
+export function metinOzeti(d: Duyuru): string {
+  let h = 0x811c9dc5
+  for (const c of `${d.metin.tr}\u0000${d.metin.en}`) h = Math.imul(h ^ c.codePointAt(0)!, 0x01000193) >>> 0
+  return h.toString(36)
 }
