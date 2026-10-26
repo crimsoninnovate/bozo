@@ -1,4 +1,5 @@
 import { menuBelgesiDogrula } from './dogrulama.ts'
+import { menuBelgesiTamamla } from './tamamla.ts'
 import type { MenuYaniti } from './aktarim.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -6,11 +7,13 @@ import type { MenuBelgesi } from './tipler.ts'
  * Herkese açık canlı menü okuması (spec: Review Focus 2). Hiçbir hata menüyü bozmaz: her başarısızlık
  * `null` döner, sayfa derlenmiş belgeyle kalır. 204 beklenen durumdur; geri kalanı `console.warn` ile
  * yazılır. Kimlik başlığı ve çerez yok. Tarayıcıdan içe aktarılır: `node:fs` ya da sunucu modülü alınmaz.
+ * `tam`: 1. sürüm belgenin eksik bölümlerini doğrulamadan önce `tam`dan tamamlar.
  */
 export async function canliMenuGetir(
   kok: string,
   getir: typeof fetch,
   zamanAsimiMs: number,
+  tam?: MenuBelgesi,
 ): Promise<MenuYaniti | null> {
   let yanit: Response
   try {
@@ -40,7 +43,8 @@ export async function canliMenuGetir(
     console.warn('canli menu yok sayildi: surum sayi degil', surum)
     return null
   }
-  const sonuc = menuBelgesiDogrula((girdi as { belge?: unknown }).belge)
+  const ham = (girdi as { belge?: unknown }).belge
+  const sonuc = menuBelgesiDogrula(tam ? menuBelgesiTamamla(ham, tam) : ham)
   if (!sonuc.tamam) {
     const ozet = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
     console.warn('canli menu yok sayildi: belge gecersiz', surum, ozet)

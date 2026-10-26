@@ -197,6 +197,29 @@ test('getYonetimMenuSurum_kayitliSurum_200VeSaklananBelge', async () => {
   assert.equal(govde.belge.kalemler[0]?.fiyatlar.porsiyon, 700)
 })
 
+test('postGeriAl_bolumsuzBirinciSurum_tamamlanmisYayinlanir', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(SEED)
+  eski.kalemler[0]!.fiyatlar.porsiyon = 640
+  const birinci = await depo.menuYayinla(eski as unknown as MenuBelgesi, 'panel', saat, taban)
+  assert.ok(birinci !== null)
+  const guncel = menuBelgesiDogrula({
+    ...SEED, iletisim: { ...SEED.iletisim, eposta: 'yeni@cigercibozo.com' },
+  })
+  assert.ok(guncel.tamam)
+  const sonTaban = await depo.menuYayinla(guncel.belge, 'panel', saat, birinci)
+  assert.ok(sonTaban !== null)
+  const y = await istek(`/yonetim/menu/${birinci}/geri-al`, {
+    yontem: 'POST', govde: { taban: sonTaban }, basliklar: yonetim,
+  })
+  assert.equal(y.durum, 200)
+  saat += 16_000
+  const sonra = ((await istek('/menu')).govde as unknown as MenuYaniti).belge
+  assert.equal(sonra.kalemler[0]?.fiyatlar.porsiyon, 640, 'eski sürümün fiyatı döner')
+  assert.equal(sonra.iletisim.eposta, 'yeni@cigercibozo.com', 'bölümler şu anki sürümden gelir')
+  assert.deepEqual(sonra.ikramlar, SEED.ikramlar)
+})
+
 test('postGeriAl_olmayanId_404', async () => {
   const taban = (await yonetimMenu()).gecerli?.surum ?? null
   const y = await istek('/yonetim/menu/999999/geri-al', { yontem: 'POST', govde: { taban }, basliklar: yonetim })

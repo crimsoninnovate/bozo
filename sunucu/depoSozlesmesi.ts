@@ -194,10 +194,16 @@ function menuBelgesi(ad: string): MenuBelgesi {
   return {
     kalemler: [{
       id: 'ciger', ad: cift, aciklama: null, fiyatlar: { porsiyon: 690 }, porsiyonNotu: null, durumNotu: null,
-      fotoId: null,
+      fotoId: null, tukendi: false,
     }],
     ozel: { ad: cift, miktarNotu: cift, aciklama: cift, fiyat: 850 },
     icecekler: [],
+    duyuru: { aktif: false, metin: { tr: '', en: '' }, bitis: null },
+    ikramlar: { altMetin: cift, urunler: [], gruplar: [] },
+    iletisim: {
+      telefonAcik: false, telefon: '+90 533 888 74 24', eposta: 'a@b.co', instagram: 'bozo', facebook: 'bozo',
+      tiktok: 'bozo', googleYorumKodu: 'abcdef',
+    },
   }
 }
 

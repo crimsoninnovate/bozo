@@ -21,7 +21,7 @@ export function MenuVerisiSaglayici({ baz, children }: { baz: MenuBelgesi; child
   useEffect(() => {
     const sinir = setTimeout(() => setBekliyor(false), BEKLEME_SINIRI_MS)
     let iptal = false
-    void canliMenuGetir(API_KOKU, fetch, ZAMAN_ASIMI_MS).then((yanit) => {
+    void canliMenuGetir(API_KOKU, fetch, ZAMAN_ASIMI_MS, baz).then((yanit) => {
       if (iptal) return
       setMenu(menuKarar(baz, yanit))
       setBekliyor(false)

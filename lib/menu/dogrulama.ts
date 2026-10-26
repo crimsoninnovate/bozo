@@ -1,5 +1,8 @@
 import { fotograflar } from '../../content/fotograflar.ts'
-import type { Cift, IcecekKalemi, IcecekOlcusu, MenuBelgesi, MenuKalemi, OzelKalem } from './tipler.ts'
+import type {
+  Cift, Duyuru, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, Ikramlar, IkramUrunu, Iletisim,
+  MenuBelgesi, MenuKalemi, OzelKalem,
+} from './tipler.ts'
 
 /** `yol`: "kalemler[2].fiyatlar.porsiyon". */
 export type Sorun = { yol: string; kod: string; metin: string }
@@ -16,6 +19,15 @@ const KALEM_KIMLIK = /^[a-z0-9-]{2,40}$/
 const ICECEK_KIMLIK = /^[a-zA-Z0-9-]{2,40}$/
 const ENFAZLA_KALEM = 40
 const ENFAZLA_ICECEK = 30
+const DUYURU_EN_FAZLA = 140
+const ENFAZLA_IKRAM = 12
+const ENFAZLA_KUME = 8
+const ENFAZLA_OGE = 10
+const BITIS = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/
+const KULLANICI_ADI = /^[A-Za-z0-9._]{1,40}$/
+const EPOSTA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const TELEFON = /^\+[0-9 ]{8,20}$/
+const YORUM_KODU = /^[A-Za-z0-9_-]{6,40}$/
 const YASAK = /(?<![\p{L}])(müşteri|bedava|mangal|şef|parça|adet|masa)|7\/24/iu
 const ONERI: Record<string, string> = {
   müşteri: 'misafir', bedava: 'ikram', mangal: 'ocak veya kor', şef: 'usta',
@@ -116,7 +128,16 @@ function foto(c: Ctx, v: unknown, yol: string): MenuKalemi['fotoId'] | undefined
   return hata(c, yol, 'foto', 'Bilinmeyen fotoğraf kimliği.')
 }
 
-const KALEM_ALANLARI = ['id', 'ad', 'aciklama', 'fiyatlar', 'porsiyonNotu', 'durumNotu', 'fotoId']
+function mantik(c: Ctx, v: unknown, yol: string): boolean | undefined {
+  return typeof v === 'boolean' ? v : hata(c, yol, 'sema', 'Evet ya da hayır bekleniyordu.')
+}
+
+/** Eski belgede yok: eksikse `false`. */
+function tukendi(c: Ctx, v: unknown, yol: string): boolean | undefined {
+  return v === undefined ? false : mantik(c, v, yol)
+}
+
+const KALEM_ALANLARI = ['id', 'ad', 'aciklama', 'fiyatlar', 'porsiyonNotu', 'durumNotu', 'fotoId', 'tukendi']
 
 function kalem(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): MenuKalemi | undefined {
   const o = nesne(c, v, yol, KALEM_ALANLARI)
@@ -129,6 +150,7 @@ function kalem(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): MenuKalem
     porsiyonNotu: ciftVeyaNull(c, o.porsiyonNotu, `${yol}.porsiyonNotu`, 40),
     durumNotu: ciftVeyaNull(c, o.durumNotu, `${yol}.durumNotu`, 40),
     fotoId: foto(c, o.fotoId, `${yol}.fotoId`),
+    tukendi: tukendi(c, o.tukendi, `${yol}.tukendi`),
   }
   return Object.values(sonuc).includes(undefined) ? undefined : (sonuc as MenuKalemi)
 }
@@ -166,15 +188,16 @@ function olcu(c: Ctx, v: unknown, yol: string): IcecekOlcusu | undefined {
 }
 
 function icecek(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): IcecekKalemi | undefined {
-  const o = nesne(c, v, yol, ['id', 'ad', 'olculer'])
+  const o = nesne(c, v, yol, ['id', 'ad', 'olculer', 'tukendi'])
   if (!o) return undefined
   const id = kimlik(c, o.id, `${yol}.id`, gorulen, ICECEK_KIMLIK, 'harf')
   const ad = cift(c, o.ad, `${yol}.ad`, 60)
   const liste = dizi(c, o.olculer, `${yol}.olculer`, Number.POSITIVE_INFINITY)
   if (liste?.length === 0) hata(c, `${yol}.olculer`, 'olcuYok', 'En az bir ölçü olmalı.')
   const olculer = liste?.map((x, n) => olcu(c, x, `${yol}.olculer[${n}]`))
+  const yok = tukendi(c, o.tukendi, `${yol}.tukendi`)
   if (id === undefined || ad === undefined || !olculer?.length || olculer.includes(undefined)) return undefined
-  return { id, ad, olculer: olculer as IcecekOlcusu[] }
+  return yok === undefined ? undefined : { id, ad, olculer: olculer as IcecekOlcusu[], tukendi: yok }
 }
 
 function icecekler(c: Ctx, v: unknown): IcecekKalemi[] | undefined {
@@ -185,15 +208,154 @@ function icecekler(c: Ctx, v: unknown): IcecekKalemi[] | undefined {
   return cikti.every((i) => i !== undefined) ? cikti : undefined
 }
 
+/** Yeni bölümlerin metni düz metindir: HTML işareti yok. `bosOlur`: pasif duyuruda boş metin geçerli. */
+function duzMetin(c: Ctx, v: unknown, yol: string, en: number, bosOlur = false): string | undefined {
+  if (bosOlur && typeof v === 'string' && v.trim() === '') return ''
+  const s = metin(c, v, yol, en)
+  if (s !== undefined && /[<>]/.test(s)) return hata(c, yol, 'htmlIsareti', 'Metinde < ve > kullanılmaz.')
+  return s
+}
+
+function duzCift(c: Ctx, v: unknown, yol: string, en: number, bosOlur = false): Cift | undefined {
+  const o = nesne(c, v, yol, ['tr', 'en'])
+  if (!o) return undefined
+  const tr = duzMetin(c, o.tr, `${yol}.tr`, en, bosOlur)
+  const eng = duzMetin(c, o.en, `${yol}.en`, en, bosOlur)
+  return tr !== undefined && eng !== undefined ? { tr, en: eng } : undefined
+}
+
+function tamsa<T>(sonuc: Record<string, unknown>): T | undefined {
+  return Object.values(sonuc).includes(undefined) ? undefined : (sonuc as T)
+}
+
+function bolumEksik(c: Ctx, yol: string): undefined {
+  return hata(c, yol, 'bolumEksik', 'Bu bölüm belgede yok.')
+}
+
+function bitisGecerliMi(e: RegExpExecArray): boolean {
+  const [y = 0, ay = 0, g = 0, saat = 99, dk = 99] = e.slice(1).map(Number)
+  const t = new Date(Date.UTC(y, ay - 1, g))
+  return t.getUTCFullYear() === y && t.getUTCMonth() === ay - 1 && t.getUTCDate() === g && saat < 24 && dk < 60
+}
+
+function bitis(c: Ctx, v: unknown): string | null | undefined {
+  if (v === null) return null
+  const e = typeof v === 'string' ? BITIS.exec(v) : null
+  if (typeof v === 'string' && e && bitisGecerliMi(e)) return v
+  return hata(c, 'duyuru.bitis', 'bitis', 'Bitiş "YYYY-AA-GGTSS:DD" biçiminde ve gerçek bir an olmalı.')
+}
+
+/** Eksikse pasif duyuru: eski belge geçerli kalır. */
+function duyuru(c: Ctx, v: unknown): Duyuru | undefined {
+  if (v === undefined) return { aktif: false, metin: { tr: '', en: '' }, bitis: null }
+  const o = nesne(c, v, 'duyuru', ['aktif', 'metin', 'bitis'])
+  if (!o) return undefined
+  const aktif = mantik(c, o.aktif, 'duyuru.aktif')
+  const m = duzCift(c, o.metin, 'duyuru.metin', DUYURU_EN_FAZLA, aktif === false)
+  return tamsa<Duyuru>({ aktif, metin: m, bitis: bitis(c, o.bitis) })
+}
+
+type Tek<T> = (v: unknown, yol: string) => T | undefined
+
+function kayitlar<T>(c: Ctx, v: unknown, yol: string, en: number, tek: Tek<T>): T[] | undefined {
+  const liste = dizi(c, v, yol, en)
+  if (!liste) return undefined
+  const cikti = liste.map((x, n) => tek(x, `${yol}[${n}]`))
+  return cikti.every((x) => x !== undefined) ? cikti : undefined
+}
+
+function ikramUrunu(c: Ctx, gorulen: Set<string>): Tek<IkramUrunu> {
+  return (v, yol) => {
+    const o = nesne(c, v, yol, ['id', 'ad', 'aciklama', 'fotoId'])
+    if (!o) return undefined
+    return tamsa<IkramUrunu>({
+      id: kimlik(c, o.id, `${yol}.id`, gorulen, KALEM_KIMLIK, 'küçük harf'),
+      ad: duzCift(c, o.ad, `${yol}.ad`, 60),
+      aciklama: duzCift(c, o.aciklama, `${yol}.aciklama`, 240),
+      fotoId: foto(c, o.fotoId, `${yol}.fotoId`),
+    })
+  }
+}
+
+function ikramOgesi(c: Ctx, gorulen: Set<string>): Tek<IkramOgesi> {
+  return (v, yol) => {
+    const o = nesne(c, v, yol, ['id', 'ad'])
+    if (!o) return undefined
+    return tamsa<IkramOgesi>({
+      id: kimlik(c, o.id, `${yol}.id`, gorulen, KALEM_KIMLIK, 'küçük harf'),
+      ad: duzCift(c, o.ad, `${yol}.ad`, 60),
+    })
+  }
+}
+
+function ikramGrubu(c: Ctx, gorulen: Set<string>, ogeGorulen: Set<string>): Tek<IkramGrubu> {
+  return (v, yol) => {
+    const o = nesne(c, v, yol, ['id', 'ad', 'not', 'ogeler'])
+    if (!o) return undefined
+    return tamsa<IkramGrubu>({
+      id: kimlik(c, o.id, `${yol}.id`, gorulen, KALEM_KIMLIK, 'küçük harf'),
+      ad: duzCift(c, o.ad, `${yol}.ad`, 60),
+      not: o.not === null ? null : duzCift(c, o.not, `${yol}.not`, 60),
+      ogeler: kayitlar(c, o.ogeler, `${yol}.ogeler`, ENFAZLA_OGE, ikramOgesi(c, ogeGorulen)),
+    })
+  }
+}
+
+function ikramlar(c: Ctx, v: unknown): Ikramlar | undefined {
+  if (v === undefined) return bolumEksik(c, 'ikramlar')
+  const o = nesne(c, v, 'ikramlar', ['altMetin', 'urunler', 'gruplar'])
+  if (!o) return undefined
+  return tamsa<Ikramlar>({
+    altMetin: duzCift(c, o.altMetin, 'ikramlar.altMetin', 120),
+    urunler: kayitlar(c, o.urunler, 'ikramlar.urunler', ENFAZLA_IKRAM, ikramUrunu(c, new Set())),
+    gruplar: kayitlar(c, o.gruplar, 'ikramlar.gruplar', ENFAZLA_KUME, ikramGrubu(c, new Set(), new Set())),
+  })
+}
+
+function desenli(
+  c: Ctx, v: unknown, yol: string, desen: RegExp, kod: string, metni: string, en = Number.POSITIVE_INFINITY,
+): string | undefined {
+  if (typeof v === 'string' && v.length <= en && desen.test(v)) return v
+  return hata(c, yol, kod, metni)
+}
+
+const KULLANICI_METNI = 'Kullanıcı adı 1-40 karakter; harf, rakam, nokta ve alt çizgi olmalı, @ ve boşluk olmaz.'
+
+function iletisim(c: Ctx, v: unknown): Iletisim | undefined {
+  if (v === undefined) return bolumEksik(c, 'iletisim')
+  const o = nesne(c, v, 'iletisim', [
+    'telefonAcik', 'telefon', 'eposta', 'instagram', 'facebook', 'tiktok', 'googleYorumKodu',
+  ])
+  if (!o) return undefined
+  const kullanici = (alan: string) =>
+    desenli(c, o[alan], `iletisim.${alan}`, KULLANICI_ADI, 'kullaniciAdi', KULLANICI_METNI)
+  return tamsa<Iletisim>({
+    telefonAcik: mantik(c, o.telefonAcik, 'iletisim.telefonAcik'),
+    telefon: desenli(
+      c, o.telefon, 'iletisim.telefon', TELEFON, 'telefon', 'Telefon "+90 533 888 74 24" gibi, + ile başlamalı.',
+    ),
+    eposta: desenli(c, o.eposta, 'iletisim.eposta', EPOSTA, 'eposta', 'E-posta adresi geçerli değil.', 100),
+    instagram: kullanici('instagram'),
+    facebook: kullanici('facebook'),
+    tiktok: kullanici('tiktok'),
+    googleYorumKodu: desenli(
+      c, o.googleYorumKodu, 'iletisim.googleYorumKodu', YORUM_KODU, 'yorumKodu', 'Yorum kodu 6-40 karakter olmalı.',
+    ),
+  })
+}
+
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {
   const c: Ctx = { hatalar: [], uyarilar: [] }
-  const kok = nesne(c, girdi, 'belge', ['kalemler', 'ozel', 'icecekler'])
+  const kok = nesne(c, girdi, 'belge', ['kalemler', 'ozel', 'icecekler', 'duyuru', 'ikramlar', 'iletisim'])
   const belge = kok && {
     kalemler: kalemler(c, kok.kalemler),
     ozel: ozel(c, kok.ozel),
     icecekler: icecekler(c, kok.icecekler),
+    duyuru: duyuru(c, kok.duyuru),
+    ikramlar: ikramlar(c, kok.ikramlar),
+    iletisim: iletisim(c, kok.iletisim),
   }
-  if (c.hatalar.length > 0 || !belge || !belge.kalemler || !belge.ozel || !belge.icecekler) {
+  if (c.hatalar.length > 0 || !belge || Object.values(belge).includes(undefined)) {
     return { tamam: false, hatalar: c.hatalar }
   }
   return { tamam: true, belge: belge as MenuBelgesi, uyarilar: c.uyarilar }

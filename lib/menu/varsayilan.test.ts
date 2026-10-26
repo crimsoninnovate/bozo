@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
+import { isletme } from '../../content/isletme.ts'
+import { menu as enMenu } from '../../content/en/menu.ts'
+import { menu as trMenu } from '../../content/tr/menu.ts'
+import { ikramGruplari, ikramlar } from '../../content/urunler.ts'
+import { menuBelgesiDogrula } from './dogrulama.ts'
 import type { Cift, MenuBelgesi } from './tipler.ts'
 
 const belge = JSON.parse(
@@ -49,5 +54,57 @@ test('varsayilan_trVeEnAlanlariDoludur', () => {
   for (const i of belge.icecekler) {
     dolu(i.ad, `${i.id}.ad`)
     i.olculer.forEach((o, n) => dolu(o.ad, `${i.id}.olculer[${n}].ad`))
+  }
+})
+
+test('varsayilan_v2Belgesi_gecerli', () => {
+  const sonuc = menuBelgesiDogrula(structuredClone(belge))
+  assert.equal(sonuc.tamam, true)
+  if (sonuc.tamam) {
+    assert.deepEqual(sonuc.uyarilar, [])
+    assert.deepEqual(sonuc.belge, belge)
+  }
+})
+
+test('varsayilan_v2Bolumleri_bugunkuDegerleriTasir', () => {
+  assert.deepEqual(belge.duyuru, { aktif: false, metin: { tr: '', en: '' }, bitis: null })
+  assert.ok([...belge.kalemler, ...belge.icecekler].every((k) => k.tukendi === false))
+  assert.deepEqual(belge.iletisim, {
+    telefonAcik: false,
+    telefon: '+90 533 888 74 24',
+    eposta: isletme.eposta,
+    instagram: isletme.instagram,
+    facebook: isletme.facebook,
+    tiktok: isletme.tiktok,
+    googleYorumKodu: isletme.googleYorumKodu,
+  })
+})
+
+// Task 3 sözlüğü siler; o zaman bu test de kalkar (seed tek kaynak olur).
+test('varsayilan_ikramMetinleri_sozluklerleAyni', () => {
+  const { urunler, gruplar, altMetin } = belge.ikramlar
+  assert.deepEqual(altMetin, { tr: trMenu.ikramlar.altMetin, en: enMenu.ikramlar.altMetin })
+  assert.deepEqual(urunler.map((u) => u.id), ikramlar.map((i) => i.id))
+  assert.deepEqual(urunler.map((u) => u.fotoId), ikramlar.map((i) => i.fotoId))
+  for (const u of urunler) {
+    const tr = trMenu.ikramlar.urunler[u.id as 'lebeni']
+    const en = enMenu.ikramlar.urunler[u.id as 'lebeni']
+    assert.deepEqual(u.ad, { tr: tr.ad, en: en.ad })
+    assert.deepEqual(u.aciklama, { tr: tr.aciklama, en: en.aciklama })
+  }
+  assert.deepEqual(gruplar.map((g) => g.id), ikramGruplari.map((g) => g.id))
+  for (const [n, g] of gruplar.entries()) {
+    const kaynak = ikramGruplari[n]
+    assert.ok(kaynak)
+    const anahtar = g.id as 'yesillik'
+    assert.deepEqual(g.ad, { tr: trMenu.ikramlar.gruplar[anahtar], en: enMenu.ikramlar.gruplar[anahtar] })
+    assert.deepEqual(g.not, g.id === 'yesillik'
+      ? { tr: trMenu.ikramlar.yesillikNotu, en: enMenu.ikramlar.yesillikNotu }
+      : null)
+    assert.equal(g.ogeler.length, kaynak.ogeler.length)
+    for (const [s, o] of g.ogeler.entries()) {
+      const sozluk = kaynak.ogeler[s] as keyof typeof trMenu.ikramlar.ogeler
+      assert.deepEqual(o.ad, { tr: trMenu.ikramlar.ogeler[sozluk], en: enMenu.ikramlar.ogeler[sozluk] })
+    }
   }
 })

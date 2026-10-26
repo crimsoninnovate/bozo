@@ -30,6 +30,18 @@ test('menuCek_gecerliYanit_dosyayaYazar', async () => {
   }
 })
 
+test('menuCek_birinciSurumYaniti_tamIleTamamlanipYazilir', async () => {
+  const { hedef, sil } = geciciHedef()
+  try {
+    const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(varsayilan)
+    const sonuc = await menuCek(KOK, json({ surum: 2, belge: eski }), hedef, varsayilan)
+    assert.equal(sonuc, 'yazildi')
+    assert.deepEqual(JSON.parse(readFileSync(hedef, 'utf8')), varsayilan)
+  } finally {
+    sil()
+  }
+})
+
 test('menuCek_204_dosyaYazmaz', async () => {
   const { hedef, sil } = geciciHedef()
   try {

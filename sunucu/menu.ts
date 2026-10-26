@@ -1,5 +1,6 @@
 import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
+import { menuBelgesiTamamla } from '../lib/menu/tamamla.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { MenuKaynagi } from './depo.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
@@ -60,12 +61,16 @@ export async function yonetimMenuYayinla(b: Baglam, istek: Istek): Promise<Yanit
   return yayinla(b, sonuc.belge, 'panel', taban)
 }
 
-/** Eski sürümü yeni sürüm olarak yayınlar; eski kayıt artık doğrulanmıyorsa 500 ile durur (loglanır). */
+/**
+ * Eski sürümü yeni sürüm olarak yayınlar; eski kayıt artık doğrulanmıyorsa 500 ile durur (loglanır).
+ * 1. sürümde olmayan bölümler şu an geçerli sürümden alınır (seed sunucu paketinde yok).
+ */
 export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string): Promise<Yanit> {
   const { taban } = tabanCoz(await istek.govde())
   const eski = await b.depo.menuSurumBul(Number(id))
   if (!eski) throw new IstekHatasi(404, 'surumYok')
-  const sonuc = menuBelgesiDogrula(eski.belge)
+  const gecerli = await b.depo.menuGecerli()
+  const sonuc = menuBelgesiDogrula(gecerli ? menuBelgesiTamamla(eski.belge, gecerli.belge) : eski.belge)
   if (!sonuc.tamam) {
     const nedenler = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
     throw new Error(`menü sürümü ${id} geri alınamadı, kayıtlı belge artık geçersiz: ${nedenler}`)

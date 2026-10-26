@@ -82,3 +82,19 @@ test('anaSayfaKalemleri_varsayilanBelge_bugunkuBesKalemiSiraylaDoner', () => {
     ANA_KIMLIKLER,
   )
 })
+
+test('menuBelgesiYukle_birinciSurumCanliDosya_bolumleriSeedtenTamamlar', () => {
+  const { kok, sil } = geciciKok()
+  try {
+    const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(varsayilan)
+    eski.kalemler[0]!.fiyatlar.porsiyon = 720
+    writeFileSync(join(kok, 'content', 'menu.canli.json'), JSON.stringify(eski))
+    const belge = menuBelgesiYukle(kok)
+    assert.equal(belge.kalemler[0]?.fiyatlar.porsiyon, 720)
+    assert.deepEqual(belge.ikramlar, varsayilan.ikramlar)
+    assert.deepEqual(belge.iletisim, varsayilan.iletisim)
+    assert.deepEqual(belge.duyuru, varsayilan.duyuru)
+  } finally {
+    sil()
+  }
+})

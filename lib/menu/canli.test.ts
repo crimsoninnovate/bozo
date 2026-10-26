@@ -110,3 +110,12 @@ test('menuKarar_getirilenGecerli_getirileniDoner', () => {
   const baska = structuredClone(varsayilan)
   assert.equal(menuKarar(varsayilan, { surum: 2, belge: baska }), baska)
 })
+
+test('canliMenuGetir_birinciSurumBelgesi_tamIleTamamlanir', async () => {
+  const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(varsayilan)
+  const govde = JSON.stringify({ surum: 3, belge: eski })
+  const { sonuc: yok } = await uyarilarla(() => canliMenuGetir('http://x', yanitla(200, govde), 1000))
+  assert.equal(yok, null, 'tam verilmezse v1 belge geçersiz sayılır')
+  const { sonuc } = await uyarilarla(() => canliMenuGetir('http://x', yanitla(200, govde), 1000, varsayilan))
+  assert.deepEqual(sonuc, { surum: 3, belge: varsayilan })
+})

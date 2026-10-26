@@ -263,3 +263,185 @@ test('dogrulama_ayrisikMetin_belgedeBirlesikSaklanir', () => {
   assert.ok(sonuc.tamam)
   if (sonuc.tamam) assert.equal(al(sonuc.belge.kalemler, 1).ad.tr, 'Dalak \u015Fi\u015F')
 })
+
+/* Belge v2: duyuru, tukendi, ikramlar, iletisim. */
+
+type Ham = Record<string, unknown>
+const ham = (degisiklik?: (b: Ham) => void): Ham => {
+  const kopya = structuredClone(varsayilan) as unknown as Ham
+  degisiklik?.(kopya)
+  return kopya
+}
+const duyuruAyarla = (b: Ham, d: Ham) => { b['duyuru'] = d }
+const duyuruYaz = (d: Ham): Ham => ({
+  aktif: true, metin: { tr: 'Bayramda açığız', en: 'Open' }, bitis: null, ...d,
+})
+const hataKodu = (b: Ham, yol: string): string | undefined =>
+  reddedilen(menuBelgesiDogrula(b)).find((h) => h.yol === yol)?.kod
+
+test('menuBelgesiDogrula_duyuruAktifMetinBos_hataVerir', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ metin: { tr: ' ', en: 'Open' } })))
+  assert.equal(hataKodu(b, 'duyuru.metin.tr'), 'bos')
+})
+
+test('menuBelgesiDogrula_duyuruPasifMetinBos_gecerli', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ aktif: false, metin: { tr: '', en: '' } })))
+  assert.equal(menuBelgesiDogrula(b).tamam, true)
+})
+
+test('menuBelgesiDogrula_duyuruMetin140Karakter_gecerli', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ metin: { tr: 'a'.repeat(140), en: 'a'.repeat(140) } })))
+  assert.equal(menuBelgesiDogrula(b).tamam, true)
+})
+
+test('menuBelgesiDogrula_duyuruMetin141Karakter_hataVerir', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ metin: { tr: 'a'.repeat(141), en: 'Open' } })))
+  assert.equal(hataKodu(b, 'duyuru.metin.tr'), 'uzun')
+})
+
+test('menuBelgesiDogrula_duyuruHtmlIsareti_hataVerir', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ metin: { tr: 'Açığız <b>bugün</b>', en: 'Open' } })))
+  assert.equal(hataKodu(b, 'duyuru.metin.tr'), 'htmlIsareti')
+})
+
+test('menuBelgesiDogrula_bitisBicimiYanlis_hataVerir', () => {
+  const kotular = ['2026-10-27', '2026-10-27 00:30', '2026-13-01T00:30', '2026-02-30T10:00', '2026-10-27T24:00', 5]
+  for (const kotu of kotular) {
+    const b = ham((x) => duyuruAyarla(x, duyuruYaz({ bitis: kotu })))
+    assert.equal(hataKodu(b, 'duyuru.bitis'), 'bitis', String(kotu))
+  }
+  const iyi = ham((x) => duyuruAyarla(x, duyuruYaz({ bitis: '2026-10-27T00:30' })))
+  assert.equal(menuBelgesiDogrula(iyi).tamam, true)
+})
+
+test('menuBelgesiDogrula_duyuruAktifBoolDegil_hataVerir', () => {
+  const b = ham((x) => duyuruAyarla(x, duyuruYaz({ aktif: 'evet' })))
+  assert.equal(hataKodu(b, 'duyuru.aktif'), 'sema')
+})
+
+test('menuBelgesiDogrula_ikramlarEksik_bolumEksikKodu', () => {
+  assert.equal(hataKodu(ham((b) => { delete b['ikramlar'] }), 'ikramlar'), 'bolumEksik')
+})
+
+test('menuBelgesiDogrula_iletisimEksik_bolumEksikKodu', () => {
+  assert.equal(hataKodu(ham((b) => { delete b['iletisim'] }), 'iletisim'), 'bolumEksik')
+})
+
+test('menuBelgesiDogrula_duyuruveTukendiEksik_varsayilanlarlaTamamlar', () => {
+  const b = ham((x) => {
+    delete x['duyuru']
+    for (const k of [...(x['kalemler'] as Ham[]), ...(x['icecekler'] as Ham[])]) delete k['tukendi']
+  })
+  const sonuc = menuBelgesiDogrula(b)
+  assert.ok(sonuc.tamam)
+  if (!sonuc.tamam) return
+  assert.deepEqual(sonuc.belge.duyuru, { aktif: false, metin: { tr: '', en: '' }, bitis: null })
+  assert.ok([...sonuc.belge.kalemler, ...sonuc.belge.icecekler].every((k) => k.tukendi === false))
+})
+
+test('menuBelgesiDogrula_tukendiBoolDegil_hataVerir', () => {
+  const kalemde = ham((b) => { (b['kalemler'] as Ham[])[1]!['tukendi'] = 'evet' })
+  const icecekte = ham((b) => { (b['icecekler'] as Ham[])[0]!['tukendi'] = 1 })
+  assert.equal(hataKodu(kalemde, 'kalemler[1].tukendi'), 'sema')
+  assert.equal(hataKodu(icecekte, 'icecekler[0].tukendi'), 'sema')
+})
+
+test('menuBelgesiDogrula_tukendiTrue_korunur', () => {
+  const sonuc = menuBelgesiDogrula(ham((b) => { (b['kalemler'] as Ham[])[1]!['tukendi'] = true }))
+  assert.ok(sonuc.tamam)
+  if (sonuc.tamam) assert.equal(al(sonuc.belge.kalemler, 1).tukendi, true)
+})
+
+test('menuBelgesiDogrula_ikramUrunuIkiKezAyniId_hataVerir', () => {
+  const b = ham((x) => {
+    const urunler = (x['ikramlar'] as { urunler: Ham[] }).urunler
+    urunler.push({ ...structuredClone(al(urunler, 0)) })
+  })
+  assert.equal(hataKodu(b, 'ikramlar.urunler[2].id'), 'tekrar')
+})
+
+test('menuBelgesiDogrula_ikramKimligiBicimi_hataVerir', () => {
+  const b = ham((x) => { (x['ikramlar'] as { urunler: Ham[] }).urunler[0]!['id'] = 'Lebeni Corbasi' })
+  assert.equal(hataKodu(b, 'ikramlar.urunler[0].id'), 'kimlik')
+})
+
+test('menuBelgesiDogrula_ikram12Urun_gecerli13Urun_hataVerir', () => {
+  const urunler = (n: number) => (x: Ham) => {
+    const o = x['ikramlar'] as { urunler: Ham[] }
+    o.urunler = Array.from({ length: n }, (_, s) => ({ ...structuredClone(al(o.urunler, 0)), id: `ikram-${s}` }))
+  }
+  assert.equal(menuBelgesiDogrula(ham(urunler(12))).tamam, true)
+  assert.equal(hataKodu(ham(urunler(13)), 'ikramlar.urunler'), 'cokFazla')
+})
+
+test('menuBelgesiDogrula_kume9VeKumedeOge11_hataVerir', () => {
+  const kumeler = (x: Ham) => {
+    const o = x['ikramlar'] as { gruplar: Ham[] }
+    o.gruplar = Array.from({ length: 9 }, (_, s) => ({ ...structuredClone(al(o.gruplar, 0)), id: `kume-${s}` }))
+  }
+  assert.equal(hataKodu(ham(kumeler), 'ikramlar.gruplar'), 'cokFazla')
+  const oge = (x: Ham) => {
+    const g = al((x['ikramlar'] as { gruplar: { ogeler: Ham[] }[] }).gruplar, 0)
+    g.ogeler = Array.from({ length: 11 }, (_, s) => ({ id: `oge-${s}`, ad: { tr: 'Roka', en: 'Rocket' } }))
+  }
+  assert.equal(hataKodu(ham(oge), 'ikramlar.gruplar[0].ogeler'), 'cokFazla')
+})
+
+test('menuBelgesiDogrula_ikramAyniOgeIkiKume_hataVerir', () => {
+  const b = ham((x) => {
+    const g = (x['ikramlar'] as { gruplar: { ogeler: Ham[] }[] }).gruplar
+    al(g, 1).ogeler.push(structuredClone(al(al(g, 0).ogeler, 0)))
+  })
+  assert.equal(hataKodu(b, 'ikramlar.gruplar[1].ogeler[2].id'), 'tekrar')
+})
+
+test('menuBelgesiDogrula_ikramNotNull_serbest', () => {
+  const b = ham((x) => { (x['ikramlar'] as { gruplar: Ham[] }).gruplar[0]!['not'] = null })
+  assert.equal(menuBelgesiDogrula(b).tamam, true)
+})
+
+test('menuBelgesiDogrula_ikramBilinmeyenFoto_hataVerir', () => {
+  const b = ham((x) => { (x['ikramlar'] as { urunler: Ham[] }).urunler[0]!['fotoId'] = 'yok-boyle' })
+  assert.equal(hataKodu(b, 'ikramlar.urunler[0].fotoId'), 'foto')
+})
+
+const iletisimAyarla = (alan: string, deger: unknown) => (b: Ham) => {
+  (b['iletisim'] as Ham)[alan] = deger
+}
+
+test('menuBelgesiDogrula_eposta_gecersiz_hataVerir', () => {
+  for (const kotu of ['bozo', 'bozo@', 'bozo@cigercibozo', 'bo zo@a.com', `${'a'.repeat(95)}@a.com`]) {
+    assert.equal(hataKodu(ham(iletisimAyarla('eposta', kotu)), 'iletisim.eposta'), 'eposta', kotu)
+  }
+  assert.equal(menuBelgesiDogrula(ham(iletisimAyarla('eposta', 'a.b@c.com'))).tamam, true)
+})
+
+test('menuBelgesiDogrula_telefon_artisizNumara_hataVerir', () => {
+  for (const kotu of ['905338887424', '+90533', '+90 533 888 74 24 99 99 99 99', '+90-533-888', '0533 888 74 24']) {
+    assert.equal(hataKodu(ham(iletisimAyarla('telefon', kotu)), 'iletisim.telefon'), 'telefon', kotu)
+  }
+  assert.equal(menuBelgesiDogrula(ham(iletisimAyarla('telefon', '+90 533 888 74 24'))).tamam, true)
+})
+
+test('menuBelgesiDogrula_kullaniciAdiBosluklu_hataVerir', () => {
+  for (const alan of ['instagram', 'facebook', 'tiktok']) {
+    for (const kotu of ['ciger bozo', '@cigercibozo', '', 'a'.repeat(41)]) {
+      assert.equal(hataKodu(ham(iletisimAyarla(alan, kotu)), `iletisim.${alan}`), 'kullaniciAdi', `${alan} ${kotu}`)
+    }
+    assert.equal(menuBelgesiDogrula(ham(iletisimAyarla(alan, 'ciger.bozo_1'))).tamam, true)
+  }
+})
+
+test('menuBelgesiDogrula_googleYorumKodu_gecersiz_hataVerir', () => {
+  for (const kotu of ['abc', 'a b c d e f', 'a'.repeat(41), 'ab/cdef']) {
+    assert.equal(hataKodu(ham(iletisimAyarla('googleYorumKodu', kotu)), 'iletisim.googleYorumKodu'), 'yorumKodu', kotu)
+  }
+})
+
+test('menuBelgesiDogrula_telefonAcikBoolDegil_hataVerir', () => {
+  assert.equal(hataKodu(ham(iletisimAyarla('telefonAcik', 'evet')), 'iletisim.telefonAcik'), 'sema')
+})
+
+test('menuBelgesiDogrula_iletisimBilinmeyenAlan_hataVerir', () => {
+  assert.equal(hataKodu(ham(iletisimAyarla('whatsapp', '+90 533 888 74 24')), 'iletisim.whatsapp'), 'bilinmeyenAlan')
+})

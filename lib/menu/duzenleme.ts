@@ -51,6 +51,7 @@ export function kalemEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
     porsiyonNotu: null,
     durumNotu: null,
     fotoId: null,
+    tukendi: false,
   }
   return { ...b, kalemler: [...b.kalemler, kalem] }
 }
@@ -78,6 +79,7 @@ export function icecekEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
     id: kimlikUret(adTr, b.icecekler.map((i) => i.id)),
     ad: { tr: adTr, en: '' },
     olculer: [bosOlcu()],
+    tukendi: false,
   }
   return { ...b, icecekler: [...b.icecekler, icecek] }
 }

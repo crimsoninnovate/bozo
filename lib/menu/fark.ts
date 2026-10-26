@@ -1,5 +1,5 @@
 import { fiyatMetni } from '../../content/isletme.ts'
-import type { Cift, IcecekKalemi, MenuBelgesi, MenuKalemi } from './tipler.ts'
+import type { Cift, IcecekKalemi, IkramGrubu, IkramOgesi, IkramUrunu, MenuBelgesi, MenuKalemi } from './tipler.ts'
 
 export type Degisiklik = { yol: string; etiket: string; once: string; sonra: string; buyukSicrama: boolean }
 
@@ -21,8 +21,8 @@ function fiyatSatiri(yol: string, etiket: string, once: Fiyat, sonra: Fiyat): De
 
 function metinSatirlari(yol: string, etiket: string, once: Cift | null, sonra: Cift | null): Degisiklik[] {
   return (['tr', 'en'] as const).flatMap((dil) => {
-    const a = once?.[dil] ?? YOK
-    const b = sonra?.[dil] ?? YOK
+    const a = once?.[dil] || YOK
+    const b = sonra?.[dil] || YOK
     const ek = dil === 'tr' ? 'TR' : 'EN'
     return a === b ? [] : [satir(`${yol}.${dil}`, `${etiket} (${ek})`, a, b)]
   })
@@ -32,6 +32,15 @@ function fotoSatiri(yol: string, etiket: string, once: string | null, sonra: str
   if (once === sonra) return []
   return [satir(yol, etiket, once ?? YOK, sonra ?? YOK)]
 }
+
+function anahtarSatiri(
+  yol: string, etiket: string, once: boolean, sonra: boolean, adlar: [string, string],
+): Degisiklik[] {
+  const ad = (b: boolean) => adlar[b ? 1 : 0]
+  return once === sonra ? [] : [satir(yol, etiket, ad(once), ad(sonra))]
+}
+
+const TUKENDI: [string, string] = ['var', 'tükendi']
 
 function kalemFarki(eski: MenuKalemi, yeni: MenuKalemi): Degisiklik[] {
   const yol = `kalemler.${yeni.id}`
@@ -46,6 +55,7 @@ function kalemFarki(eski: MenuKalemi, yeni: MenuKalemi): Degisiklik[] {
     ...metinSatirlari(`${yol}.porsiyonNotu`, `${ad}: porsiyon notu`, eski.porsiyonNotu, yeni.porsiyonNotu),
     ...metinSatirlari(`${yol}.durumNotu`, `${ad}: dürüm notu`, eski.durumNotu, yeni.durumNotu),
     ...fotoSatiri(`${yol}.fotoId`, `${ad}: fotoğraf`, eski.fotoId, yeni.fotoId),
+    ...anahtarSatiri(`${yol}.tukendi`, `${ad}: bugün`, eski.tukendi, yeni.tukendi, TUKENDI),
   ]
 }
 
@@ -66,7 +76,8 @@ function icecekFarki(eski: IcecekKalemi, yeni: IcecekKalemi): Degisiklik[] {
     cikti.push(...fiyatSatiri(`${olcuYol}.fiyat`, etiket, a?.fiyat, b?.fiyat))
     if (a && b) cikti.push(...metinSatirlari(`${olcuYol}.ad`, `${etiket}: ad`, a.ad, b.ad))
   }
-  return cikti
+  const bugun = `İçecekler: ${eski.ad.tr}: bugün`
+  return [...cikti, ...anahtarSatiri(`${yol}.tukendi`, bugun, eski.tukendi, yeni.tukendi, TUKENDI)]
 }
 
 function icecekOzeti(i: IcecekKalemi): string {
@@ -113,11 +124,77 @@ function ozelFarki(eski: MenuBelgesi['ozel'], yeni: MenuBelgesi['ozel']): Degisi
   ]
 }
 
+const bitisSatiri = (once: string | null, sonra: string | null) =>
+  satir('duyuru.bitis', 'Duyuru: bitiş', once ?? YOK, sonra ?? YOK)
+
+function duyuruFarki(eski: MenuBelgesi['duyuru'], yeni: MenuBelgesi['duyuru']): Degisiklik[] {
+  return [
+    ...anahtarSatiri('duyuru.aktif', 'Duyuru: bant', eski.aktif, yeni.aktif, ['kapalı', 'açık']),
+    ...metinSatirlari('duyuru.metin', 'Duyuru: metin', eski.metin, yeni.metin),
+    ...(eski.bitis === yeni.bitis ? [] : [bitisSatiri(eski.bitis, yeni.bitis)]),
+  ]
+}
+
+const ILETISIM_ETIKETLERI = {
+  telefon: 'telefon', eposta: 'e-posta', instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok',
+  googleYorumKodu: 'Google yorum kodu',
+} as const
+
+function iletisimFarki(eski: MenuBelgesi['iletisim'], yeni: MenuBelgesi['iletisim']): Degisiklik[] {
+  const kapali: [string, string] = ['kapalı', 'açık']
+  const acik = anahtarSatiri(
+    'iletisim.telefonAcik', 'İletişim: telefonla iletişim', eski.telefonAcik, yeni.telefonAcik, kapali,
+  )
+  const alanlar = (Object.keys(ILETISIM_ETIKETLERI) as (keyof typeof ILETISIM_ETIKETLERI)[]).flatMap((k) =>
+    eski[k] === yeni[k] ? [] : [satir(`iletisim.${k}`, `İletişim: ${ILETISIM_ETIKETLERI[k]}`, eski[k], yeni[k])],
+  )
+  return [...acik, ...alanlar]
+}
+
+function ikramUrunuFarki(eski: IkramUrunu, yeni: IkramUrunu): Degisiklik[] {
+  const yol = `ikramlar.urunler.${yeni.id}`
+  const ad = eski.ad.tr
+  return [
+    ...metinSatirlari(`${yol}.ad`, `${ad}: ad`, eski.ad, yeni.ad),
+    ...metinSatirlari(`${yol}.aciklama`, `${ad}: açıklama`, eski.aciklama, yeni.aciklama),
+    ...fotoSatiri(`${yol}.fotoId`, `${ad}: fotoğraf`, eski.fotoId, yeni.fotoId),
+  ]
+}
+
+function ikramOgesiFarki(yolOn: string): (a: IkramOgesi, b: IkramOgesi) => Degisiklik[] {
+  return (a, b) => metinSatirlari(`${yolOn}.${b.id}.ad`, `${a.ad.tr}: ad`, a.ad, b.ad)
+}
+
+function ikramGrubuFarki(eski: IkramGrubu, yeni: IkramGrubu): Degisiklik[] {
+  const yol = `ikramlar.gruplar.${yeni.id}`
+  const ad = eski.ad.tr
+  return [
+    ...metinSatirlari(`${yol}.ad`, `${ad}: küme adı`, eski.ad, yeni.ad),
+    ...metinSatirlari(`${yol}.not`, `${ad}: küme notu`, eski.not, yeni.not),
+    ...listeFarki(
+      `${yol}.ogeler`, `${ad} öğesi`, eski.ogeler, yeni.ogeler, (o) => o.ad.en, ikramOgesiFarki(`${yol}.ogeler`),
+    ),
+  ]
+}
+
+function ikramlarFarki(eski: MenuBelgesi['ikramlar'], yeni: MenuBelgesi['ikramlar']): Degisiklik[] {
+  return [
+    ...metinSatirlari('ikramlar.altMetin', 'İkramlar: alt metin', eski.altMetin, yeni.altMetin),
+    ...listeFarki('ikramlar.urunler', 'ikram', eski.urunler, yeni.urunler, (u) => u.ad.en, ikramUrunuFarki),
+    ...listeFarki(
+      'ikramlar.gruplar', 'küme', eski.gruplar, yeni.gruplar, (g) => `${g.ogeler.length} öğe`, ikramGrubuFarki,
+    ),
+  ]
+}
+
 /** İki belge arasındaki değişiklikler; `buyukSicrama`: fiyat eskiye göre %50'den fazla oynadı. */
 export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
   return [
     ...listeFarki('kalemler', 'kalem', eski.kalemler, yeni.kalemler, kalemOzeti, kalemFarki),
     ...ozelFarki(eski.ozel, yeni.ozel),
     ...listeFarki('icecekler', 'içecek', eski.icecekler, yeni.icecekler, icecekOzeti, icecekFarki),
+    ...duyuruFarki(eski.duyuru, yeni.duyuru),
+    ...ikramlarFarki(eski.ikramlar, yeni.ikramlar),
+    ...iletisimFarki(eski.iletisim, yeni.iletisim),
   ]
 }

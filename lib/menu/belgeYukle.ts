@@ -1,13 +1,17 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { menuBelgesiDogrula } from './dogrulama.ts'
+import { menuBelgesiTamamla } from './tamamla.ts'
 import type { MenuBelgesi, MenuKalemi } from './tipler.ts'
 
 const CANLI_DOSYA = join('content', 'menu.canli.json')
 const VARSAYILAN_DOSYA = join('content', 'menu.varsayilan.json')
 
-/** Dosyayı okuyup doğrular; geçersizse nedenini `console.warn` ile yazar ve `null` döner. */
-function dosyadanOku(yol: string): MenuBelgesi | null {
+/**
+ * Dosyayı okuyup doğrular; geçersizse nedenini `console.warn` ile yazar ve `null` döner.
+ * `tam`: 1. sürüm belgenin eksik bölümlerini tamamlar.
+ */
+function dosyadanOku(yol: string, tam?: MenuBelgesi): MenuBelgesi | null {
   let girdi: unknown
   try {
     girdi = JSON.parse(readFileSync(yol, 'utf8'))
@@ -15,7 +19,7 @@ function dosyadanOku(yol: string): MenuBelgesi | null {
     console.warn(`menuBelgesiYukle: ${yol} okunamadı, varsayılan belge kullanılıyor`, hata)
     return null
   }
-  const sonuc = menuBelgesiDogrula(girdi)
+  const sonuc = menuBelgesiDogrula(tam ? menuBelgesiTamamla(girdi, tam) : girdi)
   if (sonuc.tamam) return sonuc.belge
   const ozet = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
   console.warn(`menuBelgesiYukle: ${yol} geçersiz, varsayılan belge kullanılıyor: ${ozet}`)
@@ -28,15 +32,11 @@ function dosyadanOku(yol: string): MenuBelgesi | null {
  * modülünden içe aktarılmaz.
  */
 export function menuBelgesiYukle(kok: string = process.cwd()): MenuBelgesi {
-  const canli = join(kok, CANLI_DOSYA)
-  if (existsSync(canli)) {
-    const belge = dosyadanOku(canli)
-    if (belge) return belge
-  }
   const varsayilan = join(kok, VARSAYILAN_DOSYA)
-  const belge = dosyadanOku(varsayilan)
-  if (!belge) throw new Error(`menuBelgesiYukle: varsayılan belge geçersiz: ${varsayilan}`)
-  return belge
+  const tohum = dosyadanOku(varsayilan)
+  if (!tohum) throw new Error(`menuBelgesiYukle: varsayılan belge geçersiz: ${varsayilan}`)
+  const canli = join(kok, CANLI_DOSYA)
+  return (existsSync(canli) && dosyadanOku(canli, tohum)) || tohum
 }
 
 /**

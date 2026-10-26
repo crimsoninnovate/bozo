@@ -22,7 +22,8 @@
         "tr": "10 şiş",
         "en": "10 skewers"
       },
-      "fotoId": "tane-yakin-cekim"
+      "fotoId": "tane-yakin-cekim",
+      "tukendi": false
     },
     {
       "id": "dalak",
@@ -46,7 +47,8 @@
         "tr": "7 şiş",
         "en": "7 skewers"
       },
-      "fotoId": "dalak"
+      "fotoId": "dalak",
+      "tukendi": false
     },
     {
       "id": "yurek",
@@ -70,7 +72,8 @@
         "tr": "7 şiş",
         "en": "7 skewers"
       },
-      "fotoId": "yurek"
+      "fotoId": "yurek",
+      "tukendi": false
     },
     {
       "id": "terbiyeli-tavuk-sis",
@@ -91,7 +94,8 @@
         "tr": "7 şiş",
         "en": "7 skewers"
       },
-      "fotoId": "terbiyeli-tavuk-sis"
+      "fotoId": "terbiyeli-tavuk-sis",
+      "tukendi": false
     },
     {
       "id": "terbiyesiz-tavuk-sis",
@@ -115,7 +119,8 @@
         "tr": "7 şiş",
         "en": "7 skewers"
       },
-      "fotoId": "tavuk-sis"
+      "fotoId": "tavuk-sis",
+      "tukendi": false
     },
     {
       "id": "terbiyeli-kusbasi",
@@ -139,7 +144,8 @@
         "tr": "7 şiş",
         "en": "7 skewers"
       },
-      "fotoId": "terbiyeli-kusbasi"
+      "fotoId": "terbiyeli-kusbasi",
+      "tukendi": false
     },
     {
       "id": "bozo-karisik",
@@ -159,7 +165,8 @@
         "en": "10 skewers"
       },
       "durumNotu": null,
-      "fotoId": "bozo-karisik"
+      "fotoId": "bozo-karisik",
+      "tukendi": false
     }
   ],
   "ozel": {
@@ -199,7 +206,8 @@
           },
           "fiyat": 70
         }
-      ]
+      ],
+      "tukendi": false
     },
     {
       "id": "kolaZero",
@@ -222,7 +230,8 @@
           },
           "fiyat": 70
         }
-      ]
+      ],
+      "tukendi": false
     },
     {
       "id": "fanta",
@@ -238,7 +247,8 @@
           },
           "fiyat": 60
         }
-      ]
+      ],
+      "tukendi": false
     },
     {
       "id": "cappy",
@@ -254,7 +264,8 @@
           },
           "fiyat": 60
         }
-      ]
+      ],
+      "tukendi": false
     },
     {
       "id": "ayran",
@@ -284,7 +295,8 @@
           },
           "fiyat": 50
         }
-      ]
+      ],
+      "tukendi": false
     },
     {
       "id": "su",
@@ -307,7 +319,134 @@
           },
           "fiyat": 50
         }
-      ]
+      ],
+      "tukendi": false
     }
-  ]
+  ],
+  "duyuru": {
+    "aktif": false,
+    "metin": {
+      "tr": "",
+      "en": ""
+    },
+    "bitis": null
+  },
+  "ikramlar": {
+    "altMetin": {
+      "tr": "Sofra kurulu gelir, istemenize gerek yok",
+      "en": "The table comes set, you do not need to ask."
+    },
+    "urunler": [
+      {
+        "id": "lebeni",
+        "ad": {
+          "tr": "Lebeni Çorbası",
+          "en": "Lebeni Soup"
+        },
+        "aciklama": {
+          "tr": "Yoğurt ve kekik, nohutsuz. Şişlerden önce gelir.",
+          "en": "Yoghurt and thyme, no chickpeas. Served before the skewers."
+        },
+        "fotoId": "lebeni"
+      },
+      {
+        "id": "bostana",
+        "ad": {
+          "tr": "Bostana",
+          "en": "Bostana"
+        },
+        "aciklama": {
+          "tr": "İnce doğranmış, sulu. Vişne suyu ve nar ekşisiyle.",
+          "en": "Finely chopped and juicy, with sour cherry juice and pomegranate molasses."
+        },
+        "fotoId": "bostana"
+      }
+    ],
+    "gruplar": [
+      {
+        "id": "yesillik",
+        "ad": {
+          "tr": "Yeşillik",
+          "en": "Greens"
+        },
+        "not": {
+          "tr": "temizlenmiş ve ayıklanmış",
+          "en": "washed and picked over"
+        },
+        "ogeler": [
+          {
+            "id": "nane",
+            "ad": {
+              "tr": "Taze Nane",
+              "en": "Fresh Mint"
+            }
+          },
+          {
+            "id": "maydanoz",
+            "ad": {
+              "tr": "Maydanoz",
+              "en": "Parsley"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sogan",
+        "ad": {
+          "tr": "Soğan",
+          "en": "Onion"
+        },
+        "not": null,
+        "ogeler": [
+          {
+            "id": "sumakli",
+            "ad": {
+              "tr": "Sumaklı Soğan",
+              "en": "Sumac Onion"
+            }
+          },
+          {
+            "id": "kozde-sogan",
+            "ad": {
+              "tr": "Közde Soğan",
+              "en": "Ember-Roasted Onion"
+            }
+          }
+        ]
+      },
+      {
+        "id": "kozde",
+        "ad": {
+          "tr": "Közde",
+          "en": "From the Embers"
+        },
+        "not": null,
+        "ogeler": [
+          {
+            "id": "domates",
+            "ad": {
+              "tr": "Domates",
+              "en": "Tomato"
+            }
+          },
+          {
+            "id": "biber",
+            "ad": {
+              "tr": "Acılı ve Acısız Biber",
+              "en": "Hot and Mild Peppers"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "iletisim": {
+    "telefonAcik": false,
+    "telefon": "+90 533 888 74 24",
+    "eposta": "bozo@cigercibozo.com",
+    "instagram": "cigercibozo",
+    "facebook": "cigercibozo",
+    "tiktok": "cigercibozo",
+    "googleYorumKodu": "CTdnn1lSkPrHEBM"
+  }
 }

@@ -126,3 +126,95 @@ test('fark_icecekSirasiDegisti_siraSatiriVerir', () => {
   const yeni = varsayilanKopya((b) => { b.icecekler.push(al(b.icecekler.splice(0, 1), 0)) })
   assert.deepEqual(menuFarki(varsayilan, yeni).map((d) => d.etiket), ['İçecek sırası'])
 })
+
+test('fark_duyuruAcildi_aktifVeMetinSatiri', () => {
+  const yeni = varsayilanKopya((b) => {
+    b.duyuru = { aktif: true, metin: { tr: 'Bayramda açığız', en: 'Open today' }, bitis: '2026-10-27T00:30' }
+  })
+  const fark = menuFarki(varsayilan, yeni)
+  const aktif = fark.find((d) => d.yol === 'duyuru.aktif')
+  assert.deepEqual(aktif && [aktif.once, aktif.sonra], ['kapalı', 'açık'])
+  assert.deepEqual(
+    fark.map((d) => d.yol),
+    ['duyuru.aktif', 'duyuru.metin.tr', 'duyuru.metin.en', 'duyuru.bitis'],
+  )
+  assert.equal(fark.find((d) => d.yol === 'duyuru.bitis')?.once, 'yok')
+  assert.ok(fark.every((d) => !d.buyukSicrama))
+})
+
+test('fark_iletisimEpostaDegisti_etiketliSatir', () => {
+  const yeni = varsayilanKopya((b) => { b.iletisim.eposta = 'yeni@cigercibozo.com' })
+  assert.deepEqual(menuFarki(varsayilan, yeni), [{
+    yol: 'iletisim.eposta', etiket: 'İletişim: e-posta', once: 'bozo@cigercibozo.com',
+    sonra: 'yeni@cigercibozo.com', buyukSicrama: false,
+  }])
+})
+
+test('fark_telefonAcildi_kapaliAcikSatiri', () => {
+  const yeni = varsayilanKopya((b) => { b.iletisim.telefonAcik = true })
+  const fark = menuFarki(varsayilan, yeni)
+  assert.deepEqual(fark.map((d) => [d.yol, d.once, d.sonra]), [['iletisim.telefonAcik', 'kapalı', 'açık']])
+})
+
+test('fark_tukendiIsaretlendi_kalemVeIcecekte', () => {
+  const yeni = varsayilanKopya((b) => {
+    al(b.kalemler, 1).tukendi = true
+    al(b.icecekler, 0).tukendi = true
+  })
+  const fark = menuFarki(varsayilan, yeni)
+  assert.deepEqual(fark.map((d) => d.yol), ['kalemler.dalak.tukendi', 'icecekler.kola.tukendi'])
+  assert.deepEqual([al(fark, 0).once, al(fark, 0).sonra], ['var', 'tükendi'])
+  assert.equal(al(fark, 0).etiket, 'Dalak: bugün')
+  assert.ok(fark.every((d) => !d.buyukSicrama))
+})
+
+test('fark_ikramUrunuDegisti_ikramlarYolunda', () => {
+  const yeni = varsayilanKopya((b) => {
+    al(b.ikramlar.urunler, 0).ad.tr = 'Lebeni'
+    al(b.ikramlar.urunler, 1).fotoId = null
+  })
+  const fark = menuFarki(varsayilan, yeni)
+  assert.deepEqual(fark.map((d) => d.yol), ['ikramlar.urunler.lebeni.ad.tr', 'ikramlar.urunler.bostana.fotoId'])
+  assert.equal(al(fark, 0).etiket, 'Lebeni Çorbası: ad (TR)')
+})
+
+test('fark_ikramUrunuEklendiVeSilindi_satirVerir', () => {
+  const yeni = varsayilanKopya((b) => {
+    b.ikramlar.urunler.splice(0, 1)
+    b.ikramlar.urunler.push({
+      id: 'cacik', ad: { tr: 'Cacık', en: 'Cacik' }, aciklama: { tr: 'Soğuk.', en: 'Cold.' }, fotoId: null,
+    })
+  })
+  const fark = menuFarki(varsayilan, yeni)
+  assert.deepEqual(fark.map((d) => [d.yol, d.sonra.split(',')[0]]), [
+    ['ikramlar.urunler.lebeni', 'silindi'],
+    ['ikramlar.urunler.cacik', 'eklendi'],
+  ])
+})
+
+test('fark_ikramKumesiVeOgesi_degisenAlanlariListeler', () => {
+  const yeni = varsayilanKopya((b) => {
+    const kume = al(b.ikramlar.gruplar, 0)
+    kume.not = null
+    al(kume.ogeler, 0).ad.en = 'Mint'
+    kume.ogeler.push({ id: 'roka', ad: { tr: 'Roka', en: 'Rocket' } })
+    b.ikramlar.altMetin.tr = 'Sofra hazır gelir'
+  })
+  const yollar = menuFarki(varsayilan, yeni).map((d) => d.yol)
+  assert.deepEqual(yollar, [
+    'ikramlar.altMetin.tr',
+    'ikramlar.gruplar.yesillik.not.tr',
+    'ikramlar.gruplar.yesillik.not.en',
+    'ikramlar.gruplar.yesillik.ogeler.nane.ad.en',
+    'ikramlar.gruplar.yesillik.ogeler.roka',
+  ])
+})
+
+test('fark_yalnizFiyatBuyukSicramaOlur', () => {
+  const yeni = varsayilanKopya((b) => {
+    b.duyuru.aktif = true
+    b.iletisim.eposta = 'x@y.com'
+    al(b.kalemler, 1).tukendi = true
+  })
+  assert.ok(menuFarki(varsayilan, yeni).every((d) => !d.buyukSicrama))
+})
