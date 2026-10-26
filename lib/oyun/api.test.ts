@@ -123,3 +123,48 @@ test('taramaBildir_govdesizPost_keepalive_hataYutulmazGunluge', async () => {
   assert.equal(uyarilar.length, 1)
   assert.equal(uyarilar[0]?.[1], 7)
 })
+
+const BELGE_ORNEGI = { surum: 1 } as unknown as Parameters<ReturnType<typeof yonetimApiKur>['menuYayinla']>[1]
+
+test('yonetimApi_menuYayinla_putVeTabanGonderir', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, { surum: 4 }, kayit), 'Basic abc')
+  assert.deepEqual(await yonetim.menuYayinla(3, BELGE_ORNEGI), { surum: 4 })
+  assert.equal(kayit.url, 'http://x/yonetim/menu')
+  assert.equal(kayit.secenek?.method, 'PUT')
+  assert.equal(kayit.secenek?.body, JSON.stringify({ taban: 3, belge: BELGE_ORNEGI }))
+  assert.equal((kayit.secenek?.headers as Record<string, string>).Authorization, 'Basic abc')
+  await yonetim.menuYayinla(null, BELGE_ORNEGI)
+  assert.equal(kayit.secenek?.body, JSON.stringify({ taban: null, belge: BELGE_ORNEGI }))
+})
+
+test('yonetimApi_menuGeriAl_postGonderir', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, { surum: 9 }, kayit), 'Basic abc')
+  assert.deepEqual(await yonetim.menuGeriAl(5, 8), { surum: 9 })
+  assert.equal(kayit.url, 'http://x/yonetim/menu/5/geri-al')
+  assert.equal(kayit.secenek?.method, 'POST')
+  assert.equal(kayit.secenek?.body, '{"taban":8}')
+})
+
+test('yonetimApi_menuOkuma_getVeYaniti', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yanit = { gecerli: null, surumler: [] }
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, yanit, kayit), 'Basic abc')
+  assert.deepEqual(await yonetim.menu(), yanit)
+  assert.equal(kayit.url, 'http://x/yonetim/menu')
+  assert.equal(kayit.secenek?.method, 'GET')
+})
+
+test('yonetimApi_menuHatalari_durumVeKodlaYuzeyeCikar', async () => {
+  const durumlar: [number, string][] = [
+    [400, 'belgeGecersiz'], [400, 'tabanGecersiz'], [401, 'yetkisiz'], [404, 'surumYok'],
+    [409, 'surumEskidi'], [413, 'govdeBuyuk'], [429, 'cokIstek'],
+  ]
+  for (const [durum, kod] of durumlar) {
+    const yonetim = yonetimApiKur('http://x', sahteGetir(durum, { hata: kod }), 'Basic abc')
+    const bekle = (h: unknown) => h instanceof ApiHatasi && h.durum === durum && h.kod === kod
+    await assert.rejects(yonetim.menuYayinla(1, BELGE_ORNEGI), bekle, `PUT ${durum} ${kod}`)
+    await assert.rejects(yonetim.menuGeriAl(1, 1), bekle, `POST ${durum} ${kod}`)
+  }
+})

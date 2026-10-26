@@ -11,6 +11,8 @@ import {
   type TabloYaniti,
 } from './aktarim.ts'
 import type { YonetimTaramaYaniti } from '../masa.ts'
+import type { MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
+import type { MenuBelgesi } from '../menu/tipler.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
 
@@ -53,7 +55,7 @@ export function jetonCoz(yanit: unknown): JetonYaniti | null {
   return { turId, tohum, sonaErme }
 }
 
-type Secenek = { yontem?: 'GET' | 'POST' | 'DELETE'; govde?: unknown; anahtar?: string; yetki?: string }
+type Secenek = { yontem?: 'GET' | 'POST' | 'PUT' | 'DELETE'; govde?: unknown; anahtar?: string; yetki?: string }
 
 function istekKur(kok: string, getir: typeof fetch) {
   return async function istek<T>(yol: string, { yontem = 'GET', govde, anahtar, yetki }: Secenek = {}): Promise<T> {
@@ -110,7 +112,7 @@ export function temelYetki(kullanici: string, sifre: string): string {
   return `Basic ${btoa(String.fromCharCode(...baytlar))}`
 }
 
-/** Personel ekranının istemcisi (spec §7, §9): sıralama, izleyici verisi, kod onayı, ad gizleme. */
+/** Personel ekranının istemcisi (spec §7, §9): sıralama, izleyici verisi, kod onayı, ad gizleme, menü. */
 export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
   const istek = istekKur(kok, getir)
   return {
@@ -121,6 +123,11 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
     gizle: (oyuncuId: number, gizli: boolean) =>
       istek<null>(`/yonetim/oyuncu/${oyuncuId}/gizle`, { yontem: 'POST', govde: { gizli }, yetki }),
     tarama: () => istek<YonetimTaramaYaniti>('/yonetim/tarama', { yetki }),
+    menu: () => istek<YonetimMenuYaniti>('/yonetim/menu', { yetki }),
+    menuYayinla: (taban: number | null, belge: MenuBelgesi) =>
+      istek<MenuYayinYaniti>('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge }, yetki }),
+    menuGeriAl: (id: number, taban: number | null) =>
+      istek<MenuYayinYaniti>(`/yonetim/menu/${id}/geri-al`, { yontem: 'POST', govde: { taban }, yetki }),
   }
 }
 
