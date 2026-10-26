@@ -134,7 +134,9 @@ test('restaurantJsonLd_bilinenVeriyle_koordinatVeTelefonuYazar', () => {
   assert.deepEqual(veri.sameAs, ['https://instagram.com/cigercibozo', 'https://facebook.com/cigercibozo', 'https://tiktok.com/@cigercibozo'])
 })
 
-type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
+const STOKTA = 'https://schema.org/InStock'
+
+type Offer = { '@type': string; name?: string; price: string; priceCurrency: string; availability: string }
 type MenuItem = { '@type': string; name: string; offers: Offer[] }
 type MenuSection = { '@type': string; name: string; hasMenuItem: MenuItem[] }
 
@@ -159,15 +161,17 @@ test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
   const ciger = bolumler[0]?.hasMenuItem.find((k) => k.name === 'Ciğer')
   assert.ok(ciger)
   assert.deepEqual(ciger.offers, [
-    { '@type': 'Offer', name: 'Porsiyon', price: '690', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Dürüm', price: '690', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Porsiyon', price: '690', priceCurrency: 'TRY', availability: STOKTA },
+    { '@type': 'Offer', name: 'Dürüm', price: '690', priceCurrency: 'TRY', availability: STOKTA },
   ])
 })
 
 test('menuJsonLd_karisikKalemi_yalnizPorsiyonOfferiTasir', () => {
   const veri = menuJsonLd('tr', belge) as Record<string, unknown>
   const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozo Karışık')
-  assert.deepEqual(karisik?.offers, [{ '@type': 'Offer', name: 'Porsiyon', price: '700', priceCurrency: 'TRY' }])
+  assert.deepEqual(karisik?.offers, [
+    { '@type': 'Offer', name: 'Porsiyon', price: '700', priceCurrency: 'TRY', availability: STOKTA },
+  ])
 })
 
 test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
@@ -176,7 +180,7 @@ test('menuJsonLd_ozelBolumu_tekKalemTekOfferTasir', () => {
   assert.equal(bolumler[1]?.name, 'Bozo Special')
   assert.equal(bolumler[1]?.hasMenuItem.length, 1)
   assert.deepEqual(bolumler[1]?.hasMenuItem[0]?.offers, [
-    { '@type': 'Offer', price: '900', priceCurrency: 'TRY' },
+    { '@type': 'Offer', price: '900', priceCurrency: 'TRY', availability: STOKTA },
   ])
 })
 
@@ -200,8 +204,8 @@ test('menuJsonLd_icecekBolumu_herOlcuyuFiyatiylaTasir', () => {
   const icecek = bolumler.find((b) => b.name === 'İçecekler')
   assert.equal(icecek?.hasMenuItem.length, 6)
   assert.deepEqual(icecek?.hasMenuItem.find((k) => k.name === 'Su')?.offers, [
-    { '@type': 'Offer', name: 'Pet', price: '25', priceCurrency: 'TRY' },
-    { '@type': 'Offer', name: 'Cam', price: '50', priceCurrency: 'TRY' },
+    { '@type': 'Offer', name: 'Pet', price: '25', priceCurrency: 'TRY', availability: STOKTA },
+    { '@type': 'Offer', name: 'Cam', price: '50', priceCurrency: 'TRY', availability: STOKTA },
   ])
 })
 
@@ -257,4 +261,20 @@ test('jsonLdMetni_scriptKapanisiIceren_veriyleKucuktureYerVermez', () => {
   const metin = jsonLdMetni(veri)
   assert.equal(metin.includes('<'), false)
   assert.deepEqual(JSON.parse(metin), veri)
+})
+
+test('menuJsonLd_tukendiKalem_outOfStock', () => {
+  const b = structuredClone(belge)
+  const ciger = b.kalemler[0]
+  const su = b.icecekler.find((i) => i.id === 'su')
+  assert.ok(ciger && su)
+  ciger.tukendi = true
+  su.tukendi = true
+  const bolumler = (menuJsonLd('tr', b) as Record<string, unknown>).hasMenuSection as MenuSection[]
+  const durum = (k: MenuItem | undefined) => k?.offers.map((o) => o.availability)
+  const OUT = 'https://schema.org/OutOfStock'
+  assert.deepEqual(durum(bolumler[0]?.hasMenuItem[0]), [OUT, OUT])
+  assert.deepEqual(durum(bolumler[0]?.hasMenuItem[1]), [STOKTA, STOKTA])
+  assert.deepEqual(durum(bolumler[2]?.hasMenuItem.find((k) => k.name === 'Su')), [OUT, OUT])
+  assert.deepEqual(durum(bolumler[2]?.hasMenuItem.find((k) => k.name === 'Cola')), [STOKTA, STOKTA])
 })

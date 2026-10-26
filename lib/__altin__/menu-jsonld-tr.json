@@ -16,13 +16,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "690",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "690",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -34,13 +36,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -52,13 +56,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -70,13 +76,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -88,13 +96,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -106,13 +116,15 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "850",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Dürüm",
               "price": "850",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -124,7 +136,8 @@
               "@type": "Offer",
               "name": "Porsiyon",
               "price": "700",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }
@@ -141,7 +154,8 @@
             {
               "@type": "Offer",
               "price": "900",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }
@@ -159,13 +173,15 @@
               "@type": "Offer",
               "name": "Kutu",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Şişe",
               "price": "70",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -177,13 +193,15 @@
               "@type": "Offer",
               "name": "Kutu",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Şişe",
               "price": "70",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -195,7 +213,8 @@
               "@type": "Offer",
               "name": "Kutu",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -207,7 +226,8 @@
               "@type": "Offer",
               "name": "Kutu",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -219,19 +239,22 @@
               "@type": "Offer",
               "name": "Büyük",
               "price": "40",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Küçük",
               "price": "30",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Açık Yayık",
               "price": "50",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -243,13 +266,15 @@
               "@type": "Offer",
               "name": "Pet",
               "price": "25",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Cam",
               "price": "50",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }

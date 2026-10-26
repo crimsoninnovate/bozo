@@ -117,7 +117,7 @@ export const ortak = {
     menu: {
       baslik: 'Menu · Ciğerci Bozo, Kyrenia',
       aciklama:
-        'Seven portions from the fire, wraps, eight on the house, and drinks. Kyrenia, every ' +
+        '{kalem} portions from the fire, wraps, {ikram} on the house, and drinks. Kyrenia, every ' +
         'day 10:00 - 05:00.',
     },
     galeri: {

@@ -1,46 +1,18 @@
+'use client'
+
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { Cip } from '@/components/ui/Cip'
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
-import { sozluk, type Dil, type Sozluk } from '@/content'
-import type { FotoId, Ikram } from '@/content/types'
-import { ikramGruplari, ikramlar } from '@/content/urunler'
+import { sozluk, type Dil } from '@/content'
+import type { FotoId } from '@/content/types'
+import { ikramGorunumu } from '@/lib/menu/ikramGorunumu'
+import { useMenu } from './MenuVerisi'
 import stil from './Ikramlar.module.css'
 
 type Props = { dil: Dil }
 
-type IkramMetni = { ad: string; aciklama: string }
-
-/** "temizlenmiş ve ayıklanmış" notu yalnız bu kümeye ait; sahibinin ifadesi. */
-const NOTLU_GRUP = 'yesillik'
-
 /** Lebeni 11s/0 (biçimin varsayılanı), bostana 12s/1.5s. Menu:208, 220 */
 const IKRAM_NEFESLERI: KorNefesi[] = [{ sure: 11 }, { sure: 12, gecikme: 1.5 }]
-
-function ikramMetni(s: Sozluk, id: string): IkramMetni {
-  const kayit: Record<string, IkramMetni | undefined> = s.menu.ikramlar.urunler
-  const metin = kayit[id]
-  if (!metin) throw new Error(`İkram sözlükte yok: ${id}`)
-  return metin
-}
-
-function fotoIdGerekli(ikram: Ikram): FotoId {
-  if (!ikram.fotoId) throw new Error(`İkramın foto yuvası yok: ${ikram.id}`)
-  return ikram.fotoId
-}
-
-function grupBasligi(s: Sozluk, id: string): string {
-  const kayit: Record<string, string | undefined> = s.menu.ikramlar.gruplar
-  const baslik = kayit[id]
-  if (!baslik) throw new Error(`İkram kümesi sözlükte yok: ${id}`)
-  return baslik
-}
-
-function ogeAdi(s: Sozluk, id: string): string {
-  const kayit: Record<string, string | undefined> = s.menu.ikramlar.ogeler
-  const ad = kayit[id]
-  if (!ad) throw new Error(`İkram kalemi sözlükte yok: ${id}`)
-  return ad
-}
 
 /**
  * İkram kartı: plaka solda, gövde sağda, ikisi aynı kutunun içinde sarmalı.
@@ -49,7 +21,7 @@ function ogeAdi(s: Sozluk, id: string): string {
  */
 function IkramKarti(props: {
   dil: Dil
-  fotoId: FotoId
+  fotoId: FotoId | null
   ad: string
   aciklama: string
   rozet: string
@@ -59,13 +31,7 @@ function IkramKarti(props: {
 
   return (
     <article className={stil.kart}>
-      <FotoYuvasi
-        id={fotoId}
-        dil={dil}
-        bicim="ikram"
-        korNefesi={korNefesi}
-        bosGizli
-      />
+      {fotoId && <FotoYuvasi id={fotoId} dil={dil} bicim="ikram" korNefesi={korNefesi} bosGizli />}
       <div className={stil.govde}>
         <h3 className={stil.ad}>{ad}</h3>
         <p className={stil.aciklama}>{aciklama}</p>
@@ -75,53 +41,42 @@ function IkramKarti(props: {
   )
 }
 
-/** Menü sayfasının ikramlar bölümü. Menu Sayfasi.dc.html:200-231 */
+/** Menü sayfasının ikramlar bölümü; metinler menü belgesinden gelir. Menu Sayfasi.dc.html:200-231 */
 export function Ikramlar({ dil }: Props) {
   const s = sozluk(dil)
+  const { altMetin, urunler, gruplar } = ikramGorunumu(useMenu(), dil)
 
   return (
     <section id="ikramlar" tabIndex={-1} className={stil.bolum}>
-      <BolumBasligi
-        olcek="sayfa"
-        vurguCizgi
-        baslik={s.menu.ikramlar.baslik}
-        not={s.menu.ikramlar.altMetin}
-        notTonu="krem72"
-      />
+      <BolumBasligi olcek="sayfa" vurguCizgi baslik={s.ortak.nav.ikramlar} not={altMetin} notTonu="krem72" />
 
       <div className={stil.satir}>
-        {ikramlar.map((ikram, sira) => {
-          const metin = ikramMetni(s, ikram.id)
-          return (
-            <IkramKarti
-              key={ikram.id}
-              dil={dil}
-              fotoId={fotoIdGerekli(ikram)}
-              ad={metin.ad}
-              aciklama={metin.aciklama}
-              rozet={s.ortak.ikramRozeti}
-              korNefesi={IKRAM_NEFESLERI[sira]}
-            />
-          )
-        })}
+        {urunler.map((urun, sira) => (
+          <IkramKarti
+            key={urun.id}
+            dil={dil}
+            fotoId={urun.fotoId}
+            ad={urun.ad}
+            aciklama={urun.aciklama}
+            rozet={s.ortak.ikramRozeti}
+            korNefesi={IKRAM_NEFESLERI[sira]}
+          />
+        ))}
       </div>
 
-      {/* Plakası olmayan ikramlar: iki kart taşıyamayacağı kadar çok kalem var,
-          hazırlanışa göre üç kümede toplandı (content/urunler.ts). */}
+      {/* Plakası olmayan ikramlar: hazırlanışa göre kümeler (menü belgesi). */}
       <div className={stil.gruplar}>
-        {ikramGruplari.map((grup) => (
+        {gruplar.map((grup) => (
           <div key={grup.id} className={stil.grup}>
-            <h3 className={stil.grupBaslik}>{grupBasligi(s, grup.id)}</h3>
+            <h3 className={stil.grupBaslik}>{grup.ad}</h3>
             <ul className={stil.grupListesi}>
               {grup.ogeler.map((oge) => (
-                <li key={oge} className={stil.oge}>
-                  {ogeAdi(s, oge)}
+                <li key={oge.id} className={stil.oge}>
+                  {oge.ad}
                 </li>
               ))}
             </ul>
-            {grup.id === NOTLU_GRUP && (
-              <p className={stil.grupNotu}>{s.menu.ikramlar.yesillikNotu}</p>
-            )}
+            {grup.not && <p className={stil.grupNotu}>{grup.not}</p>}
           </div>
         ))}
       </div>

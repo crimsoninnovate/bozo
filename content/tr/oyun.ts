@@ -5,7 +5,7 @@
  */
 export const oyun = {
   baslik: 'Sofra Yetiştir',
-  kalemAdlari: { ciger: 'Ciğer', dalak: 'Dalak', yurek: 'Yürek' },
+  kalemAdlari: { ciger: 'Ciğer', dalak: 'Dalak', yurek: 'Yürek', domates: 'Domates', sogan: 'Sumaklı Soğan' },
   oyna: 'Oyna',
   nasil: 'Nasıl Oynanır',
   tekrar: 'Tekrar Oyna',

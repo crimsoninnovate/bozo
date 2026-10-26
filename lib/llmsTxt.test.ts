@@ -1,6 +1,14 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { llmsTxt } from './llmsTxt.ts'
+import { readFileSync } from 'node:fs'
+import { llmsTxt as llmsTxtBelgeli } from './llmsTxt.ts'
+import type { MenuBelgesi } from './menu/tipler.ts'
+
+const belge = JSON.parse(
+  readFileSync(new URL('../content/menu.varsayilan.json', import.meta.url), 'utf8'),
+) as MenuBelgesi
+
+const llmsTxt = () => llmsTxtBelgeli(belge)
 
 test('llmsTxt_baslikIsletmeAdiTasir', () => {
   const metin = llmsTxt()
@@ -33,4 +41,25 @@ test('llmsTxt_ozetSatiri_saatVeAdresiTasir', () => {
   const metin = llmsTxt()
   assert.ok(metin.includes('Naci Talat Caddesi No:4'))
   assert.ok(metin.includes("10:00'dan ertesi sabah 05:00'e kadar"))
+})
+
+test('llmsTxt_tukendiKalem_bugunYokNotu', () => {
+  const b = structuredClone(belge)
+  const ciger = b.kalemler[0]
+  const su = b.icecekler.find((i) => i.id === 'su')
+  assert.ok(ciger && su)
+  ciger.tukendi = true
+  su.tukendi = true
+  const satirlar = llmsTxtBelgeli(b).split('\n')
+  assert.ok(satirlar.includes('- Ciğer (bugün yok)'))
+  assert.ok(satirlar.includes('- Su (bugün yok)'))
+  assert.ok(satirlar.includes('- Dalak'))
+  assert.ok(satirlar.includes('- Cola'))
+})
+
+test('llmsTxt_menuAciklamasi_sayilarBelgedenGelir', () => {
+  const metin = llmsTxt()
+  assert.equal(metin.includes('{'), false)
+  assert.ok(metin.includes('Yedi porsiyon, dürümler, bir özel, sekiz ikram ve içecekler.'))
+  assert.ok(metin.includes('Seven portions from the fire, wraps, eight on the house, and drinks.'))
 })

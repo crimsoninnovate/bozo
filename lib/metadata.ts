@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { sozluk } from '../content/index.ts'
 import type { Dil } from '../content/types.ts'
+import { acilisSpotu } from './menu/sayilar.ts'
+import type { MenuBelgesi } from './menu/tipler.ts'
 import { SITE_URL, yol, type RotaAnahtari } from './site.ts'
 
 /**
@@ -47,10 +49,15 @@ export const IKONLAR = {
  * Rota ve dil başına `Metadata` üretir: sözlükten başlık/açıklama, `SITE_URL`
  * üzerinden canonical ve üç dilli (`tr`, `en`, `x-default`) hreflang alternatifleri.
  * `x-default` Türkçeye işaret eder; site kökü Türkçe barındığı için varsayılan budur.
+ * Menü açıklaması sayı şablonudur; sayılar `belge`den gelir, o yüzden menü için `belge` şart.
  */
-export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil): Metadata {
+export function sayfaMetadata(anahtar: RotaAnahtari, dil: Dil, belge?: MenuBelgesi): Metadata {
   const s = sozluk(dil)
-  const meta = s.ortak.sayfaMeta[anahtar]
+  const meta = { ...s.ortak.sayfaMeta[anahtar] }
+  if (anahtar === 'menu') {
+    if (!belge) throw new Error('sayfaMetadata: menü açıklaması şablon, menü belgesi gerekli')
+    meta.aciklama = acilisSpotu(meta.aciklama, belge, dil)
+  }
   // Kartın alt metni kartın ÜSTÜNDEKİ metni anlatır, sayfa başlığını değil.
   const kart = sosyalKart(dil, `${s.ortak.marka.ad}: ${s.ana.hero.baslikSatir1} ${s.ana.hero.baslikSatir2}`)
 

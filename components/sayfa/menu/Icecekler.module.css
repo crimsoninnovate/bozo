@@ -148,3 +148,13 @@
     padding-top: 18px;
   }
 }
+
+/* Tükendi: ad soluk (0.55, krem AA üstünde kalır), ölçülerin yerine tek "Bugün yok". */
+.tukendi .ad {
+  opacity: 0.55;
+}
+
+.tukendiMetin {
+  font: 500 13.5px/1.3 var(--font-govde);
+  color: var(--krem-70);
+}

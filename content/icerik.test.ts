@@ -6,9 +6,9 @@ import { en } from './en/index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
-import { ikramGruplari, ikramlar } from './urunler.ts'
 import { anaSayfaKalemleri } from '../lib/menu/belgeYukle.ts'
 import { kalemOlculeri } from '../lib/menu/kalemOlculeri.ts'
+import { acilisSpotu, ikramSayisi, sayiYaz } from '../lib/menu/sayilar.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { yorumUrl } from '../lib/site.ts'
 
@@ -293,9 +293,23 @@ test('oyun_sisAdlari_menuBelgesiyleAyni', () => {
   }
 })
 
+/** Eşlikçi adları (domates, sumaklı soğan) oyun sözlüğünde durur; belgedeki ikram adıyla aynı kalmalı. */
+test('oyun_eslikciAdlari_ikramOgeleriyleAyni', () => {
+  const oge = (id: string) => belge.ikramlar.gruplar.flatMap((g) => g.ogeler).find((o) => o.id === id)
+  for (const dil of ['tr', 'en'] as const) {
+    const ad = ({ tr, en })[dil].oyun.kalemAdlari
+    assert.equal(ad.domates, oge('domates')?.ad[dil], `${dil} domates oyun adı kaymış`)
+    assert.equal(ad.sogan, oge('sumakli')?.ad[dil], `${dil} sogan oyun adı kaymış`)
+  }
+})
+
+test('sozluk_ikramMetinleri_belgedeYasar', () => {
+  for (const s of [tr, en]) assert.equal('ikramlar' in s.menu, false)
+})
+
 test('ikramlar_fiyatTasimaz', () => {
-  assert.equal(ikramlar.length, 2)
-  for (const i of ikramlar) assert.equal('fiyat' in i, false)
+  assert.equal(belge.ikramlar.urunler.length, 2)
+  for (const i of belge.ikramlar.urunler) assert.equal('fiyat' in i, false)
 })
 
 /** Fiyat listesinde olmayan içecekler menüden kalktı (sahibi, 8 Ekim 2026). */
@@ -316,19 +330,13 @@ test('icecekler_fiyatlarIsletmedenGelenDegerleriTasir', () => {
 /**
  * Kimlikler sözlükte karşılığı olmayınca bileşenler derleme sırasında patlıyor.
  * Bu test aynı hatayı testte, iki dil için birden yakalar: ana sayfa sözlüğü belgede
- * olmayan bir kalemi, ikram kümeleri sözlükte olmayan bir öğeyi gösteremez.
+ * olmayan bir kalemi gösteremez.
  */
 test('kimlikler_ikiDildeDeSozluktedir', () => {
   for (const s of [tr, en]) {
     const belgeKimlikleri = new Set(belge.kalemler.map((k) => k.id))
     for (const id of Object.keys(s.ana.ocakbasi.urunler)) {
       assert.ok(belgeKimlikleri.has(id), `${id} ana sayfa sözlüğünde var, menü belgesinde yok`)
-    }
-    for (const grup of ikramGruplari) {
-      assert.ok(grup.id in s.menu.ikramlar.gruplar, `${grup.id} kümesi sözlükte yok`)
-      for (const oge of grup.ogeler) {
-        assert.ok(oge in s.menu.ikramlar.ogeler, `${oge} ikramı sözlükte yok`)
-      }
     }
   }
 })
@@ -427,31 +435,15 @@ test('lakaplar_kisaltmalarin_notuYoktur', () => {
 })
 
 /**
- * İkram sayısı iki dilde üç yerde harfle yazılı (ana sayfa alt notu, menü spotu, menü
- * meta açıklaması). Ana sayfa "iki ikram" diyordu, veri sekiz taşıyordu: iki plakalı ikram
- * sayılmış, üç kümenin altı kalemi sayılmamıştı (sahibinin geri bildirimi, 19 Ağustos 2026).
+ * Ana sayfanın alt notu (statik, panelden bağımsız) ikram sayısını harfle yazar; seed sekiz taşır.
+ * Menü spotu ve meta açıklaması şablon, sayı belgeden gelir (aşağıdaki iki test).
  */
-test('ikram_sayisi_metindekiSayiylaAyni', () => {
-  const sayiSozcugu: Record<number, { tr: string; en: string }> = {
-    8: { tr: 'sekiz', en: 'eight' },
-    9: { tr: 'dokuz', en: 'nine' },
-    10: { tr: 'on', en: 'ten' },
-  }
-  const adet = ikramlar.length + ikramGruplari.reduce((t, g) => t + g.ogeler.length, 0)
-  const sozcuk = sayiSozcugu[adet]
-  assert.ok(sozcuk, `${adet} ikram için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
-
-  for (const [dil, s, beklenen] of [
-    ['tr', tr, sozcuk.tr],
-    ['en', en, sozcuk.en],
-  ] as const) {
-    for (const [ad, metin] of [
-      ['ana.ocakbasi.altNot', s.ana.ocakbasi.altNot],
-      ['menu.acilis.spot', s.menu.acilis.spot],
-      ['sayfaMeta.menu.aciklama', s.ortak.sayfaMeta.menu.aciklama],
-    ] as const) {
-      assert.ok(metin.toLowerCase().includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor`)
-    }
+test('ikram_sayisi_anaSayfaAltNotuylaAyni', () => {
+  const adet = ikramSayisi(belge)
+  for (const dil of ['tr', 'en'] as const) {
+    const metin = ({ tr, en })[dil].ana.ocakbasi.altNot
+    const sozcuk = sayiYaz(adet, dil)
+    assert.ok(metin.toLowerCase().includes(sozcuk), `${dil} ana.ocakbasi.altNot: "${sozcuk}" geçmiyor`)
   }
 })
 
@@ -467,24 +459,27 @@ test('sozluk_cigerPorsiyonu_heryerdeOnSistir', () => {
   }
 })
 
-/** Menü spotu ve meta açıklaması porsiyon sayısını harfle yazar; ürün eklenince ikisi de kayar. */
-test('menu_porsiyonSayisi_metindekiSayiylaAyni', () => {
-  const sayiSozcugu: Record<number, { tr: string; en: string }> = {
-    6: { tr: 'altı', en: 'six' },
-    7: { tr: 'yedi', en: 'seven' },
-    8: { tr: 'sekiz', en: 'eight' },
+/** Menü spotu ve meta açıklaması sayı yer tutucuları taşır; kalem ve ikram sayısı belgeden gelir. */
+test('menu_sayilar_metinlerBelgedekiSayilaraUyar', () => {
+  const kopya = (adet: number): MenuBelgesi => {
+    const b = structuredClone(belge)
+    const ilk = b.kalemler[0]
+    assert.ok(ilk)
+    b.kalemler = Array.from({ length: adet }, (_, n) => ({ ...ilk, id: `k${n}` }))
+    return b
   }
-  const sozcuk = sayiSozcugu[belge.kalemler.length]
-  assert.ok(sozcuk, `${belge.kalemler.length} porsiyon için sayı sözcüğü tanımlı değil, bu tabloya ekle`)
-  for (const [dil, s, beklenen] of [
-    ['tr', tr, `${sozcuk.tr} porsiyon`],
-    ['en', en, `${sozcuk.en} portions`],
-  ] as const) {
-    for (const [ad, metin] of [
-      ['menu.acilis.spot', s.menu.acilis.spot],
-      ['sayfaMeta.menu.aciklama', s.ortak.sayfaMeta.menu.aciklama],
-    ] as const) {
-      assert.ok(metin.toLowerCase().includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor`)
+  for (const adet of [6, 7, 8]) {
+    for (const [dil, s, birim] of [['tr', tr, 'porsiyon'], ['en', en, 'portions']] as const) {
+      for (const [ad, sablon] of [
+        ['menu.acilis.spot', s.menu.acilis.spot],
+        ['sayfaMeta.menu.aciklama', s.ortak.sayfaMeta.menu.aciklama],
+      ] as const) {
+        assert.ok(sablon.includes('{kalem}') && sablon.includes('{ikram}'), `${dil} ${ad}: yer tutucu yok`)
+        const metin = acilisSpotu(sablon, kopya(adet), dil).toLowerCase()
+        const beklenen = `${sayiYaz(adet, dil)} ${birim}`
+        assert.ok(metin.includes(beklenen), `${dil} ${ad}: "${beklenen}" geçmiyor: ${metin}`)
+        assert.ok(metin.includes(sayiYaz(ikramSayisi(belge), dil)), `${dil} ${ad}: ikram sayısı geçmiyor`)
+      }
     }
   }
 })

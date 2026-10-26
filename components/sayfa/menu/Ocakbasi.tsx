@@ -45,9 +45,12 @@ function ImzaPaneli({ dil, kalem }: { dil: Dil; kalem: MenuKalemi }) {
   const spec = s.menu.ocakbasi.cigerSpec
   // Spread karesi yokken panel satırın tamamını alır; ölçüler sağ sütuna geçer.
   const genis = !fotograflar[IMZA_KARESI].dosya
+  const anaFiyatSinifi = kalem.tukendi ? `${stil.anaFiyat} ${stil.tukendiMetin}` : stil.anaFiyat
 
   return (
-    <div className={genis ? `${stil.imzaPaneli} ${stil.imzaGenis}` : stil.imzaPaneli}>
+    <div
+      className={[stil.imzaPaneli, genis && stil.imzaGenis, kalem.tukendi && stil.tukendi].filter(Boolean).join(' ')}
+    >
       <div className={stil.imzaUst}>
         <span aria-hidden="true" className={stil.indeks}>
           {indeksMetni(0)}
@@ -56,8 +59,8 @@ function ImzaPaneli({ dil, kalem }: { dil: Dil; kalem: MenuKalemi }) {
       </div>
       <div className={stil.imzaAdSatiri}>
         <h3 className={stil.imzaAd}>{kalem.ad[dil]}</h3>
-        <span aria-hidden="true" data-fiyat className={stil.anaFiyat}>
-          {fiyatMetni(kalem.fiyatlar.porsiyon)}
+        <span aria-hidden="true" data-fiyat className={anaFiyatSinifi}>
+          {kalem.tukendi ? s.menu.tukendi : fiyatMetni(kalem.fiyatlar.porsiyon)}
         </span>
       </div>
       {kalem.aciklama && <p className={stil.imzaAciklama}>{kalem.aciklama[dil]}</p>}

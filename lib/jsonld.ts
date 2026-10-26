@@ -106,25 +106,34 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
   return veri
 }
 
-function offer(name: string, fiyat: number): Offer {
-  return { '@type': 'Offer', name, price: String(fiyat), priceCurrency: 'TRY' }
+const STOKTA = 'https://schema.org/InStock'
+const TUKENDI = 'https://schema.org/OutOfStock'
+
+function offer(name: string, fiyat: number, tukendi: boolean): Offer {
+  return {
+    '@type': 'Offer',
+    name,
+    price: String(fiyat),
+    priceCurrency: 'TRY',
+    availability: tukendi ? TUKENDI : STOKTA,
+  }
 }
 
 function kalemOfferleri(s: Sozluk, kalem: MenuKalemi): Offer[] {
-  return kalemOlculeri(kalem).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat))
+  return kalemOlculeri(kalem).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat, kalem.tukendi))
 }
 
 function icecekKalemi(dil: Dil, icecek: IcecekKalemi): object {
-  const offers = icecek.olculer.map(({ ad, fiyat }) => offer(ad[dil], fiyat))
+  const offers = icecek.olculer.map(({ ad, fiyat }) => offer(ad[dil], fiyat, icecek.tukendi))
   return { '@type': 'MenuItem', name: icecek.ad[dil], offers }
 }
 
-type Offer = { '@type': string; name?: string; price: string; priceCurrency: string }
+type Offer = { '@type': string; name?: string; price: string; priceCurrency: string; availability: string }
 
 /**
  * schema.org `Menu` yapısal verisi: fiyatı olan her kalem; ikramlar fiyatsız olduğu için
- * görünmez. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`), görünmeyen sayfada
- * işaretlenmiş içerik olmasın diye. Kalem adları ve fiyatlar belgeden gelir.
+ * görünmez; tükendi kalem `OutOfStock` taşır. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`),
+ * görünmeyen sayfada işaretlenmiş içerik olmasın diye. Kalem adları ve fiyatlar belgeden gelir.
  */
 export function menuJsonLd(dil: Dil, belge: MenuBelgesi): object {
   const s = sozluk(dil)
@@ -153,7 +162,9 @@ export function menuJsonLd(dil: Dil, belge: MenuBelgesi): object {
           {
             '@type': 'MenuItem',
             name: belge.ozel.ad[dil],
-            offers: [{ '@type': 'Offer', price: String(belge.ozel.fiyat), priceCurrency: 'TRY' }],
+            offers: [
+              { '@type': 'Offer', price: String(belge.ozel.fiyat), priceCurrency: 'TRY', availability: STOKTA },
+            ],
           },
         ],
       },

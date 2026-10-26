@@ -9,10 +9,13 @@ type Props = { dil: Dil; kalem: MenuKalemi }
 /**
  * Porsiyon / Dürüm. Fiyat listesinde olmayan ölçü hiç basılmaz (sahibi, 8 Ekim 2026).
  *
+ * Tükenen kalemde fiyat yerine `menu.tukendi` basılır.
+ *
  * `dl` seçildi: ölçü ile fiyat terim/tanım çiftidir, iki bağımsız metin değil.
  */
 export function OlcuSatirlari({ dil, kalem }: Props) {
-  const { olculer } = sozluk(dil).menu.ocakbasi
+  const { menu } = sozluk(dil)
+  const { olculer } = menu.ocakbasi
 
   return (
     <dl className={stil.liste}>
@@ -25,7 +28,9 @@ export function OlcuSatirlari({ dil, kalem }: Props) {
             {olcu === 'porsiyon' && kalem.porsiyonNotu && <span className={stil.not}>{kalem.porsiyonNotu[dil]}</span>}
             {olcu === 'durum' && kalem.durumNotu && <span className={stil.not}>{kalem.durumNotu[dil]}</span>}
           </dt>
-          <dd data-fiyat className={stil.fiyat}>{fiyatMetni(fiyat)}</dd>
+          <dd data-fiyat className={kalem.tukendi ? `${stil.fiyat} ${stil.tukendi}` : stil.fiyat}>
+            {kalem.tukendi ? menu.tukendi : fiyatMetni(fiyat)}
+          </dd>
         </div>
       ))}
     </dl>

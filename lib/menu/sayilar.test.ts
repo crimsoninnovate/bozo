@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { ikramSayisi, sayiYaz } from './sayilar.ts'
+import { tr } from '../../content/tr/index.ts'
+import { en } from '../../content/en/index.ts'
+import { acilisSpotu, ikramSayisi, sayiYaz } from './sayilar.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const seed = JSON.parse(
@@ -26,4 +28,35 @@ test('ikramSayisi_ogeEklenince_artar', () => {
   assert.ok(kume)
   kume.ogeler.push({ id: 'roka', ad: { tr: 'Roka', en: 'Rocket' } })
   assert.equal(ikramSayisi(b), 9)
+})
+
+test('acilisSpotu_yediKalemSekizIkram_tr', () => {
+  assert.equal(
+    acilisSpotu(tr.menu.acilis.spot, seed, 'tr'),
+    'Hepsi tek ocakta pişer. Yedi porsiyon, bir özel, sekiz ikram.',
+  )
+})
+
+test('acilisSpotu_sekizKalem_en', () => {
+  const b = structuredClone(seed)
+  const ilk = b.kalemler[0]
+  assert.ok(ilk)
+  b.kalemler.push({ ...ilk, id: 'sekizinci' })
+  assert.equal(
+    acilisSpotu(en.menu.acilis.spot, b, 'en'),
+    'Everything comes off the fire. Eight portions, one special, eight on the house.',
+  )
+})
+
+test('acilisSpotu_metaSablonu_basindaVeCumleBasindaBuyukHarf', () => {
+  assert.equal(
+    acilisSpotu('{kalem} ve {ikram}. {ikram} sonra', seed, 'en'),
+    'Seven ve eight. Eight sonra',
+  )
+  const bos = { ...seed, ikramlar: { ...seed.ikramlar, urunler: [], gruplar: [] } }
+  assert.equal(acilisSpotu('{ikram} ikram', bos, 'tr'), 'Sıfır ikram')
+})
+
+test('acilisSpotu_sablonsuzMetin_oldugunGibiDoner', () => {
+  assert.equal(acilisSpotu('Menü', seed, 'tr'), 'Menü')
 })

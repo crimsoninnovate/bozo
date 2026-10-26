@@ -1,7 +1,13 @@
 /** Game copy. DRAFT: awaiting the owner's approval (spec §19, decision 4). */
 export const oyun = {
   baslik: 'Sofra Yetiştir',
-  kalemAdlari: { ciger: 'Urfa Liver Kebab (Ciğer)', dalak: 'Spleen (Dalak)', yurek: 'Heart (Yürek)' },
+  kalemAdlari: {
+    ciger: 'Urfa Liver Kebab (Ciğer)',
+    dalak: 'Spleen (Dalak)',
+    yurek: 'Heart (Yürek)',
+    domates: 'Tomato',
+    sogan: 'Sumac Onion',
+  },
   oyna: 'Play',
   nasil: 'How to Play',
   tekrar: 'Play Again',

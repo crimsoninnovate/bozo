@@ -1,5 +1,6 @@
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
+import { sozluk } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
 import type { Dil, FotoId } from '@/content/types'
 import type { MenuKalemi } from '@/lib/menu/tipler'
@@ -25,8 +26,10 @@ type Props = {
  * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini.
  */
 export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, kalem, korNefesi }: Props) {
+  const tukendi = kalem.tukendi
+  const anaFiyatSinifi = tukendi ? `${stil.anaFiyat} ${stil.tukendiMetin}` : stil.anaFiyat
   return (
-    <article className={stil.kart}>
+    <article className={tukendi ? `${stil.kart} ${stil.tukendi}` : stil.kart}>
       {fotoId && (
         <FotoYuvasi
           id={fotoId}
@@ -42,8 +45,8 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, kalem, korNefesi 
       <div className={stil.govde}>
         <div className={stil.adSatiri}>
           <h3 className={stil.ad}>{dulOnle(ad)}</h3>
-          <span aria-hidden="true" data-fiyat className={stil.anaFiyat}>
-            {fiyatMetni(kalem.fiyatlar.porsiyon)}
+          <span aria-hidden="true" data-fiyat className={anaFiyatSinifi}>
+            {tukendi ? sozluk(dil).menu.tukendi : fiyatMetni(kalem.fiyatlar.porsiyon)}
           </span>
         </div>
         {aciklama && <p className={stil.aciklama}>{aciklama}</p>}

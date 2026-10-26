@@ -58,7 +58,7 @@ function Zemin() {
 /** Oyun alanı. Yalnız istemci `OyunSayfasi`'ndan çağrılır, kendi sınırı yoktur. */
 export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
   const s = sozluk(dil)
-  const ad = (k: Kalem): string => kalemAdi(s, k)
+  const ad = (k: Kalem): string => s.oyun.kalemAdlari[k]
   const kok = useRef<HTMLDivElement>(null)
   const { goruntu, duraklatildi, duraklat, devam, azalt, ses, rehber } = useOyunAlani({
     kok,
@@ -92,11 +92,4 @@ export function Saha({ dil, tohum, rehberli, bitince, cik }: Props) {
       {duraklatildi && <Perde metin={s.oyun} devam={devam} cik={cik} />}
     </div>
   )
-}
-
-/** Kalem adı: şişler `oyun.kalemAdlari`, eşlikçiler menünün ikram öğeleri (sumaklı soğan `sumakli`). */
-function kalemAdi(s: Sozluk, k: Kalem): string {
-  if (k === 'domates') return s.menu.ikramlar.ogeler.domates
-  if (k === 'sogan') return s.menu.ikramlar.ogeler.sumakli
-  return s.oyun.kalemAdlari[k]
 }

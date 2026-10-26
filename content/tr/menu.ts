@@ -2,7 +2,7 @@
 export const menu = {
   acilis: {
     baslik: 'Menü',
-    spot: 'Hepsi tek ocakta pişer. Yedi porsiyon, bir özel, sekiz ikram.',
+    spot: 'Hepsi tek ocakta pişer. {kalem} porsiyon, bir özel, {ikram} ikram.',
   },
   ocakbasi: {
     baslik: 'Ocakbaşı',
@@ -11,28 +11,11 @@ export const menu = {
     /** Sahibinin fiyat listesinin ölçüleri (8 Ekim 2026); yalnız fiyatı olan basılır. */
     olculer: { porsiyon: 'Porsiyon', durum: 'Dürüm' },
   },
-  ikramlar: {
-    baslik: 'İkramlar',
-    altMetin: 'Sofra kurulu gelir, istemenize gerek yok',
-    urunler: {
-      lebeni: { ad: 'Lebeni Çorbası', aciklama: 'Yoğurt ve kekik, nohutsuz. Şişlerden önce gelir.' },
-      bostana: { ad: 'Bostana', aciklama: 'İnce doğranmış, sulu. Vişne suyu ve nar ekşisiyle.' },
-    },
-    gruplar: { yesillik: 'Yeşillik', sogan: 'Soğan', kozde: 'Közde' },
-    /** Yalnız yeşillik kümesinin altına düşer; sahibinin kendi ifadesi. */
-    yesillikNotu: 'temizlenmiş ve ayıklanmış',
-    ogeler: {
-      nane: 'Taze Nane',
-      maydanoz: 'Maydanoz',
-      sumakli: 'Sumaklı Soğan',
-      kozdeSogan: 'Közde Soğan',
-      domates: 'Domates',
-      biber: 'Acılı ve Acısız Biber',
-    },
-  },
   icecekler: {
     baslik: 'İçecekler',
     // Handoff "Masadaki" yazıyor; sofra/masa kilidi sert kural, kilit kazanır.
     qrNotu: 'Sofradaki QR menü aynı listeyi gösterir',
   },
+  /** Tükenen kalemin fiyatı yerine basılır. */
+  tukendi: 'Bugün yok',
 }

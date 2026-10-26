@@ -126,7 +126,7 @@ export const ortak = {
     menu: {
       baslik: 'Menü · Ciğerci Bozo, Girne',
       aciklama:
-        'Hepsi tek ocakta pişer. Yedi porsiyon, dürümler, bir özel, sekiz ikram ve içecekler. ' +
+        'Hepsi tek ocakta pişer. {kalem} porsiyon, dürümler, bir özel, {ikram} ikram ve içecekler. ' +
         'Girne, her gün 10:00 - 05:00.',
     },
     /**

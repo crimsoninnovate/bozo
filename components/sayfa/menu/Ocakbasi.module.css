@@ -283,3 +283,13 @@
     font-size: 20px;
   }
 }
+
+/* Tükendi: ad soluk (0.55, krem AA üstünde kalır), fiyatın yerine "Bugün yok". */
+.tukendi .imzaAd {
+  opacity: 0.55;
+}
+
+.tukendiMetin {
+  font: 500 13.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}

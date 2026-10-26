@@ -42,15 +42,19 @@ export function Icecekler({ dil }: Props) {
         <div className={stil.kolon}>
           <ul className={stil.liste}>
             {menu.icecekler.map((icecek) => (
-              <li key={icecek.id} className={stil.kalem}>
+              <li key={icecek.id} className={icecek.tukendi ? `${stil.kalem} ${stil.tukendi}` : stil.kalem}>
                 <span className={stil.ad}>{icecek.ad[dil]}</span>
                 <span className={stil.olculer}>
-                  {icecek.olculer.map(({ ad, fiyat }, sira) => (
-                    <span key={sira} className={stil.olcu}>
-                      {ad[dil]}
-                      <span data-fiyat className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
-                    </span>
-                  ))}
+                  {icecek.tukendi ? (
+                    <span data-fiyat className={stil.tukendiMetin}>{s.menu.tukendi}</span>
+                  ) : (
+                    icecek.olculer.map(({ ad, fiyat }, sira) => (
+                      <span key={sira} className={stil.olcu}>
+                        {ad[dil]}
+                        <span data-fiyat className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
+                      </span>
+                    ))
+                  )}
                 </span>
               </li>
             ))}

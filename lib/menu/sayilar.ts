@@ -18,3 +18,18 @@ export function sayiYaz(n: number, dil: 'tr' | 'en'): string {
 export function ikramSayisi(b: MenuBelgesi): number {
   return b.ikramlar.urunler.length + b.ikramlar.gruplar.reduce((t, g) => t + g.ogeler.length, 0)
 }
+
+const CUMLE_BASI = /(?:^|[.!?]\s+)$/
+
+/**
+ * Şablondaki `{kalem}` ve `{ikram}` yerine belgenin sayılarını yazar; cümle başına düşen sayının
+ * ilk harfi büyür. Menü açılış spotu ve meta açıklaması bu şablonlarla kurulur.
+ */
+export function acilisSpotu(sablon: string, b: MenuBelgesi, dil: 'tr' | 'en'): string {
+  const sayilar = { kalem: sayiYaz(b.kalemler.length, dil), ikram: sayiYaz(ikramSayisi(b), dil) }
+  return sablon.replace(/\{(kalem|ikram)\}/g, (_, ad: 'kalem' | 'ikram', konum: number) => {
+    const sayi = sayilar[ad]
+    if (!CUMLE_BASI.test(sablon.slice(0, konum))) return sayi
+    return sayi.charAt(0).toLocaleUpperCase(dil) + sayi.slice(1)
+  })
+}

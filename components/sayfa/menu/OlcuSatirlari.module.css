@@ -85,3 +85,9 @@
     color: var(--krem-80);
   }
 }
+
+/* Tükendi: fiyat yerine metin; telefon kuralından sonra gelir, ikisini de ezer. */
+.tukendi {
+  font: 500 13.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}

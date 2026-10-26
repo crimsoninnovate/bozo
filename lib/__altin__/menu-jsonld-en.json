@@ -16,13 +16,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "690",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "690",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -34,13 +36,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -52,13 +56,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -70,13 +76,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -88,13 +96,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "550",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -106,13 +116,15 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "850",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Wrap",
               "price": "850",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -124,7 +136,8 @@
               "@type": "Offer",
               "name": "Portion",
               "price": "700",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }
@@ -141,7 +154,8 @@
             {
               "@type": "Offer",
               "price": "900",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }
@@ -159,13 +173,15 @@
               "@type": "Offer",
               "name": "Can",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Bottle",
               "price": "70",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -177,13 +193,15 @@
               "@type": "Offer",
               "name": "Can",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Bottle",
               "price": "70",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -195,7 +213,8 @@
               "@type": "Offer",
               "name": "Can",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -207,7 +226,8 @@
               "@type": "Offer",
               "name": "Can",
               "price": "60",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -219,19 +239,22 @@
               "@type": "Offer",
               "name": "Large",
               "price": "40",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Small",
               "price": "30",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Churned, by the Glass",
               "price": "50",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         },
@@ -243,13 +266,15 @@
               "@type": "Offer",
               "name": "Plastic",
               "price": "25",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             },
             {
               "@type": "Offer",
               "name": "Glass",
               "price": "50",
-              "priceCurrency": "TRY"
+              "priceCurrency": "TRY",
+              "availability": "https://schema.org/InStock"
             }
           ]
         }

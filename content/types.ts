@@ -34,11 +34,6 @@ export type Isletme = {
 
 export type Olcu = 'porsiyon' | 'durum'
 
-export type Ikram = { id: string; fotoId: FotoId | null }
-
-/** Plakasız ikram kümesi; `ogeler` sözlükteki `menu.ikramlar.ogeler` anahtarlarıdır. */
-export type IkramGrubu = { id: string; ogeler: string[] }
-
 export type Foto = {
   /** Çekim listesindeki kadraj etiketi, plaka üstünde görünür. */
   etiket: string
