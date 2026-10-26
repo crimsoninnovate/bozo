@@ -36,3 +36,6 @@ next-env.d.ts
 .playwright-mcp/
 .gstack/
 .superpowers/
+
+# menü: canlı sürüm derlemeye çekilir, depoya girmez
+/content/menu.canli.json
