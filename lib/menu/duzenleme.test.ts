@@ -3,8 +3,8 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
-  fiyatYaz, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramOgesiEkle, ikramOgesiSil,
-  ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
+  fiyatYaz, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil,
+  ikramOgesiTasi, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
   olcuSil,
 } from './duzenleme.ts'
 import type { MenuBelgesi } from './tipler.ts'
@@ -217,4 +217,51 @@ test('ikramOgesiSil_olmayanId_hataFirlatir', () => {
   const grup = varsayilan.ikramlar.gruplar[0]?.id ?? ''
   assert.throws(() => ikramOgesiSil(varsayilan, grup, 'yok'))
   assert.throws(() => ikramOgesiSil(varsayilan, 'yok', 'yok'))
+})
+
+const grupKimlikleri = (b: MenuBelgesi) => b.ikramlar.gruplar.map((g) => g.id)
+const ogeKimlikleri = (b: MenuBelgesi, grup: number) => b.ikramlar.gruplar[grup]?.ogeler.map((o) => o.id)
+
+test('ikramGrubuTasi_ikinciyiYukari_yerDegistirirGirdiyiDegistirmez', () => {
+  const [a, b, c] = grupKimlikleri(varsayilan)
+  const once = structuredClone(varsayilan)
+  assert.deepEqual(grupKimlikleri(ikramGrubuTasi(varsayilan, b ?? '', -1)), [b, a, c])
+  assert.deepEqual(varsayilan, once)
+})
+
+test('ikramGrubuTasi_ilkiAsagi_ogeleriyleBirlikteTasinir', () => {
+  const ilk = varsayilan.ikramlar.gruplar[0]
+  const t = ikramGrubuTasi(varsayilan, ilk?.id ?? '', 1)
+  assert.deepEqual(t.ikramlar.gruplar[1], ilk)
+})
+
+test('ikramGrubuTasi_uctakiKume_hataFirlatmaz_yerindeKalir', () => {
+  const ids = grupKimlikleri(varsayilan)
+  assert.deepEqual(grupKimlikleri(ikramGrubuTasi(varsayilan, ids[0] ?? '', -1)), ids)
+  assert.deepEqual(grupKimlikleri(ikramGrubuTasi(varsayilan, ids.at(-1) ?? '', 1)), ids)
+})
+
+test('ikramGrubuTasi_olmayanId_hataFirlatir', () => {
+  assert.throws(() => ikramGrubuTasi(varsayilan, 'yok', 1))
+})
+
+test('ikramOgesiTasi_ikinciyiYukari_yalnizKendiKumesindeYerDegistirir', () => {
+  const [a, b] = ogeKimlikleri(varsayilan, 1) ?? []
+  const t = ikramOgesiTasi(varsayilan, varsayilan.ikramlar.gruplar[1]?.id ?? '', b ?? '', -1)
+  assert.deepEqual(ogeKimlikleri(t, 1), [b, a])
+  assert.deepEqual(ogeKimlikleri(t, 0), ogeKimlikleri(varsayilan, 0))
+  assert.deepEqual(ogeKimlikleri(t, 2), ogeKimlikleri(varsayilan, 2))
+})
+
+test('ikramOgesiTasi_uctakiOge_hataFirlatmaz_yerindeKalir', () => {
+  const g = varsayilan.ikramlar.gruplar[0]
+  const ids = ogeKimlikleri(varsayilan, 0)
+  assert.deepEqual(ogeKimlikleri(ikramOgesiTasi(varsayilan, g?.id ?? '', ids?.[0] ?? '', -1), 0), ids)
+  assert.deepEqual(ogeKimlikleri(ikramOgesiTasi(varsayilan, g?.id ?? '', ids?.at(-1) ?? '', 1), 0), ids)
+})
+
+test('ikramOgesiTasi_olmayanKumeVeyaOge_hataFirlatir', () => {
+  const g = varsayilan.ikramlar.gruplar[0]?.id ?? ''
+  assert.throws(() => ikramOgesiTasi(varsayilan, g, 'yok', 1))
+  assert.throws(() => ikramOgesiTasi(varsayilan, 'yok', 'yok', 1))
 })

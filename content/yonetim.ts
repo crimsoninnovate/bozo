@@ -122,6 +122,7 @@ export const yonetim = {
       ogeEkle: 'Öğe Ekle',
       ogeSil: 'Öğeyi Sil',
       ogeler: 'Öğeler',
+      tasiAdli: '{yon}: {ad}',
     },
     kalem: {
       ad: 'Ad',

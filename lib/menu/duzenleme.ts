@@ -144,6 +144,16 @@ export function ikramUrunuTasi(b: MenuBelgesi, id: string, yon: -1 | 1): MenuBel
   return ikramGuncelle(b, (i) => ({ ...i, urunler: liste }))
 }
 
+/** `n`. öğe `yon` kadar kaydırılmış kopya; uçta kalırsa sıra değişmez. */
+function kaydir<T>(liste: readonly T[], n: number, yon: -1 | 1): T[] {
+  const kopya = [...liste]
+  const hedef = n + yon
+  if (hedef < 0 || hedef >= kopya.length) return kopya
+  const [oge] = kopya.splice(n, 1)
+  kopya.splice(hedef, 0, oge as T)
+  return kopya
+}
+
 export function ikramGrubuEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
   const grup: IkramGrubu = {
     id: kimlikUret(adTr, b.ikramlar.gruplar.map((g) => g.id)),
@@ -152,6 +162,12 @@ export function ikramGrubuEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
     ogeler: [],
   }
   return ikramGuncelle(b, (i) => ({ ...i, gruplar: [...i.gruplar, grup] }))
+}
+
+/** Uçtaki küme yerinde kalır, hata atılmaz (ürünlerdeki gibi). */
+export function ikramGrubuTasi(b: MenuBelgesi, id: string, yon: -1 | 1): MenuBelgesi {
+  const gruplar = b.ikramlar.gruplar
+  return ikramGuncelle(b, (i) => ({ ...i, gruplar: kaydir(gruplar, indeks(gruplar, id), yon) }))
 }
 
 /** En az bir küme kalmalı. */
@@ -173,6 +189,11 @@ export function ikramOgesiSil(b: MenuBelgesi, grupId: string, ogeId: string): Me
     const n = indeks(g.ogeler, ogeId)
     return { ...g, ogeler: g.ogeler.filter((_, s) => s !== n) }
   })
+}
+
+/** Yalnız o kümenin içinde taşınır; uçtaki öğe yerinde kalır. */
+export function ikramOgesiTasi(b: MenuBelgesi, grupId: string, ogeId: string, yon: -1 | 1): MenuBelgesi {
+  return grupGuncelle(b, grupId, (g) => ({ ...g, ogeler: kaydir(g.ogeler, indeks(g.ogeler, ogeId), yon) }))
 }
 
 /**

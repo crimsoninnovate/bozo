@@ -2,7 +2,8 @@
 
 import { yonetim as m } from '@/content/yonetim'
 import {
-  ikramGrubuEkle, ikramGrubuSil, ikramOgesiEkle, ikramOgesiSil, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi,
+  ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil, ikramOgesiTasi,
+  ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi,
 } from '@/lib/menu/duzenleme'
 import { ikramSayisi, sayiYaz } from '@/lib/menu/sayilar'
 import type { IkramGrubu, IkramUrunu, MenuBelgesi } from '@/lib/menu/tipler'
@@ -43,9 +44,24 @@ function UrunKarti({ urun, sira, son, hatalar, duzenle }: UrunProps) {
   )
 }
 
-type GrupProps = Ortak & { grup: IkramGrubu; sira: number; tek: boolean }
+type TasiProps = { ad: string; ilk: boolean; son: boolean; tasi: (yon: -1 | 1) => void }
 
-function GrupKarti({ grup, sira, tek, hatalar, duzenle }: GrupProps) {
+/** Yukarı/aşağı düğmeleri; erişilebilir ad hangi kaydı taşıdığını söyler. */
+function TasiDugmeleri({ ad, ilk, son, tasi }: TasiProps) {
+  const etiket = (yon: string) => doldur(k.tasiAdli, { yon, ad })
+  return (
+    <>
+      <button type="button" className={ortak.ikincil} disabled={ilk} aria-label={etiket(k.yukari)}
+        onClick={() => tasi(-1)}>{k.yukari}</button>
+      <button type="button" className={ortak.ikincil} disabled={son} aria-label={etiket(k.asagi)}
+        onClick={() => tasi(1)}>{k.asagi}</button>
+    </>
+  )
+}
+
+type GrupProps = Ortak & { grup: IkramGrubu; sira: number; son: boolean; tek: boolean }
+
+function GrupKarti({ grup, sira, son, tek, hatalar, duzenle }: GrupProps) {
   const yol = `ikramlar.gruplar[${sira}]`
   const duz = (fn: (g: IkramGrubu) => void) =>
     duzenle((b) => { const g = b.ikramlar.gruplar.find((x) => x.id === grup.id); if (g) fn(g) })
@@ -61,8 +77,12 @@ function GrupKarti({ grup, sira, tek, hatalar, duzenle }: GrupProps) {
           <li key={oge.id} className={stil.oge}>
             <CiftAlani etiket={k.ogeAd} deger={oge.ad} yol={`${yol}.ogeler[${n}].ad`} hatalar={hatalar}
               onDegis={(c) => c && duz((x) => { const o = x.ogeler[n]; if (o) o.ad = c })} />
-            <button type="button" className={ortak.ikincil}
-              onClick={() => duzenle((b) => ikramOgesiSil(b, grup.id, oge.id))}>{k.ogeSil}</button>
+            <div className={ortak.dugmeler}>
+              <TasiDugmeleri ad={oge.ad.tr || oge.id} ilk={n === 0} son={n === grup.ogeler.length - 1}
+                tasi={(yon) => duzenle((b) => ikramOgesiTasi(b, grup.id, oge.id, yon))} />
+              <button type="button" className={ortak.ikincil}
+                onClick={() => duzenle((b) => ikramOgesiSil(b, grup.id, oge.id))}>{k.ogeSil}</button>
+            </div>
           </li>
         ))}
       </ul>
@@ -70,6 +90,8 @@ function GrupKarti({ grup, sira, tek, hatalar, duzenle }: GrupProps) {
       <YeniKayit etiket={k.yeniOge} dugme={k.ogeEkle}
         onEkle={(ad) => duzenle((b) => ikramOgesiEkle(b, grup.id, ad))} />
       <div className={ortak.dugmeler}>
+        <TasiDugmeleri ad={grup.ad.tr || grup.id} ilk={sira === 0} son={son}
+          tasi={(yon) => duzenle((b) => ikramGrubuTasi(b, grup.id, yon))} />
         <button type="button" className={ortak.ikincil} disabled={tek}
           onClick={() => duzenle((b) => ikramGrubuSil(b, grup.id))}>{k.grupSil}</button>
         {tek && <p className={ortak.not}>{k.sonGrup}</p>}
@@ -100,7 +122,7 @@ export function IkramFormu({ belge, hatalar, duzenle }: Props) {
       <section className={stil.liste} aria-label={k.gruplar}>
         <h3 className={stil.altBaslik}>{k.gruplar}</h3>
         {gruplar.map((grup, n) => (
-          <GrupKarti key={grup.id} grup={grup} sira={n} tek={gruplar.length <= 1}
+          <GrupKarti key={grup.id} grup={grup} sira={n} son={n === gruplar.length - 1} tek={gruplar.length <= 1}
             hatalar={hatalar} duzenle={duzenle} />
         ))}
         <ListeHatasi metin={hatalar.get('ikramlar.gruplar')} />
