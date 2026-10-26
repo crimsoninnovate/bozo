@@ -24,7 +24,7 @@ export function oturumAnahtariGecerliMi(
   yetki: string | undefined,
   simdi: number,
 ): boolean {
-  const es = /^Bearer (\d{1,15})\.([0-9a-f]{64})$/.exec(yetki ?? '')
+  const es = /^Bearer ([1-9]\d{0,14})\.([0-9a-f]{64})$/.exec(yetki ?? '')
   if (!es?.[1] || !es[2]) return false
   const bitis = Number(es[1])
   if (!Number.isSafeInteger(bitis) || bitis <= simdi || bitis > simdi + OTURUM_SURESI_MS + SAAT_FARKI_MS) return false

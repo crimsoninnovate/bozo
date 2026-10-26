@@ -112,6 +112,13 @@ test('oturum_biciminBozuk_401', async () => {
   }
 })
 
+test('oturum_basiSifirli_bitis_401', () => {
+  const bitis = saat + OTURUM_SURESI_MS
+  const [, imza] = oturumAnahtariUret(TUZ, KIMLIK, bitis).split('.')
+  assert.equal(oturumAnahtariGecerliMi(TUZ, KIMLIK, `Bearer ${bitis}.${imza}`, saat), true)
+  assert.equal(oturumAnahtariGecerliMi(TUZ, KIMLIK, `Bearer 0${bitis}.${imza}`, saat), false)
+})
+
 test('oturum_gelecekteFazlaUzak_401', () => {
   const uzak = saat + OTURUM_SURESI_MS + 2 * DAKIKA_MS
   const anahtar = oturumAnahtariUret(TUZ, KIMLIK, uzak)

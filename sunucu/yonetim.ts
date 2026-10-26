@@ -7,7 +7,10 @@ import { OTURUM_SURESI_MS, oturumAnahtariGecerliMi, oturumAnahtariUret } from '.
 import { enIyiler } from './siralama.ts'
 import type { Baglam } from './uclar.ts'
 
-/* Yönetim uçları (spec §10): temel kimlik doğrulama; kod onayı, izleyici verisi, ad gizleme, sayaç. */
+/*
+ * Yönetim uçları (spec §10): temel kimlik ya da GIZLI_TUZ ile imzalı oturum anahtarı;
+ * kod onayı, izleyici verisi, ad gizleme, sayaç.
+ */
 
 export type YonetimKimligi = { kullanici: string; sifre: string }
 

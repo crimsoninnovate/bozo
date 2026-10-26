@@ -63,9 +63,10 @@ uygulama komutu yukarıdaki. Uçlar (`sunucu/uygulama.ts`):
 | `POST /yonetim/menu/N/geri-al` | personel | N. sürümü yeni sürüm olarak yeniden yayınlar (`kaynak = geriAl`) |
 
 Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. Oturum anahtarı (`sunucu/oturum.ts`,
-"Beni hatırla") `bitisMs.HMAC(GIZLI_TUZ, kullanici:sifre:bitisMs)` biçimindedir: durumsuz, 30 gün geçerli;
-`YONETIM_SIFRE`, `YONETIM_KULLANICI` ya da `GIZLI_TUZ` değişince hepsi düşer (iptal yolu budur). Site her build öncesi son sürümü
-çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın siteyi kendiliğinden yeniden
+"Beni hatırla") `bitisMs.HMAC(GIZLI_TUZ, kullanici:sifre:bitisMs)` biçimindedir: durumsuz, 30 gün geçerli.
+Hepsini iptal etmek için `YONETIM_SIFRE` değiştirilir (anahtarlar kimlik bilgisiyle imzalıdır). `GIZLI_TUZ`
+bunun için döndürülmez: kullanılmamış ödül kodlarının özeti de aynı tuzla alındığından hepsini geçersiz kılar.
+Site her build öncesi son sürümü çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın siteyi kendiliğinden yeniden
 basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
 çağırıp fiyatları anında tazeler.
 

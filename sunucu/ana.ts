@@ -9,7 +9,7 @@ import { uygulamaKur, type Ayar } from './uygulama.ts'
  * Giriş noktası. Gizli değerler ortam değişkenlerinden (spec §10):
  *   PORT              dinlenen port, varsayılan 8402
  *   KOKEN             CORS'a izinli kökenler, virgülle; varsayılan https://cigercibozo.com
- *   GIZLI_TUZ         ödül kodu HMAC tuzu, zorunlu
+ *   GIZLI_TUZ         ödül kodu ve personel oturum anahtarı HMAC tuzu, zorunlu
  *   DB_URL            mariadb://kullanici:sifre@sunucu:3306/veritabani; yoksa bellek deposu (yalnız yerel)
  *   YONETIM_KULLANICI, YONETIM_SIFRE   /yonetim temel kimliği; biri yoksa yönetim uçları 503 döner
  *   GUVENILIR_VEKIL   önündeki yerel vekilin adresleri, virgülle; varsayılan 127.0.0.1,::1

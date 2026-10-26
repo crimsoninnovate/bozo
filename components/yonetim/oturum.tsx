@@ -100,7 +100,10 @@ export function useOturum(): {
   const api = useMemo(() => (yetki ? apiAl(yetki) : null), [yetki])
   const gir = useCallback((y: string, bitis: string, hatirla: boolean) => {
     const [yaz, sil]: [Depo, Depo] = hatirla ? ['localStorage', 'sessionStorage'] : ['sessionStorage', 'localStorage']
-    depoIsle(yaz, 'yazılamadı', (s) => s.setItem(ANAHTAR, oturumYaz(y, bitis)), undefined)
+    const yazildi = (d: Depo) =>
+      depoIsle(d, 'yazılamadı', (s) => (s.setItem(ANAHTAR, oturumYaz(y, bitis)), true), false)
+    // Kalıcı yazım düşerse sekme deposuna in: en azından bu sekme yenilemede oturumu korur.
+    if (!yazildi(yaz) && yaz === 'localStorage') yazildi('sessionStorage')
     depoIsle(sil, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
     setYetki(y)
   }, [])
