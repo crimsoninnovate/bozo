@@ -1,0 +1,313 @@
+{
+  "kalemler": [
+    {
+      "id": "ciger",
+      "ad": {
+        "tr": "Ciğer",
+        "en": "Urfa Liver Kebab (Ciğer)"
+      },
+      "aciklama": {
+        "tr": "Urfa usulü. Tavla zarı büyüklüğünde doğranmış ciğer, aralarda ondan bir tık küçük kuyruk yağı; yerken ağza yağ gelmesin diye.",
+        "en": "Urfa style. Cut to the size of a backgammon die, tail fat a touch smaller so no fat meets the tongue."
+      },
+      "fiyatlar": {
+        "porsiyon": 690,
+        "durum": 690
+      },
+      "porsiyonNotu": {
+        "tr": "10 şiş",
+        "en": "10 skewers"
+      },
+      "durumNotu": {
+        "tr": "10 şiş",
+        "en": "10 skewers"
+      },
+      "fotoId": "tane-yakin-cekim"
+    },
+    {
+      "id": "dalak",
+      "ad": {
+        "tr": "Dalak",
+        "en": "Spleen (Dalak)"
+      },
+      "aciklama": {
+        "tr": "Urfa sakatat hattının klasiği. İri doğranır, yüksek ateşte kısa tutulur.",
+        "en": "A classic of the Urfa offal line. Cut coarse, kept short over a high fire."
+      },
+      "fiyatlar": {
+        "porsiyon": 550,
+        "durum": 550
+      },
+      "porsiyonNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "durumNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "fotoId": "dalak"
+    },
+    {
+      "id": "yurek",
+      "ad": {
+        "tr": "Yürek",
+        "en": "Heart (Yürek)"
+      },
+      "aciklama": {
+        "tr": "Urfa sakatat hattının klasiği. Sıkı dokulu; ısırınca dağılmayan tane.",
+        "en": "A classic of the Urfa offal line. Firm-textured; the cut that holds its bite."
+      },
+      "fiyatlar": {
+        "porsiyon": 550,
+        "durum": 550
+      },
+      "porsiyonNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "durumNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "fotoId": "yurek"
+    },
+    {
+      "id": "terbiyeli-tavuk-sis",
+      "ad": {
+        "tr": "Terbiyeli Tavuk Şiş",
+        "en": "Marinated Chicken Skewer (Terbiyeli Tavuk Şiş)"
+      },
+      "aciklama": null,
+      "fiyatlar": {
+        "porsiyon": 550,
+        "durum": 550
+      },
+      "porsiyonNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "durumNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "fotoId": "terbiyeli-tavuk-sis"
+    },
+    {
+      "id": "terbiyesiz-tavuk-sis",
+      "ad": {
+        "tr": "Terbiyesiz Tavuk Şiş",
+        "en": "Chicken Skewer (Terbiyesiz Tavuk Şiş)"
+      },
+      "aciklama": {
+        "tr": "Buttan, Urfa'ya özgü marineyle. Aralara kuyruk yağı konur.",
+        "en": "From the thigh, with an Urfa marinade, tail fat between the pieces."
+      },
+      "fiyatlar": {
+        "porsiyon": 550,
+        "durum": 550
+      },
+      "porsiyonNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "durumNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "fotoId": "tavuk-sis"
+    },
+    {
+      "id": "terbiyeli-kusbasi",
+      "ad": {
+        "tr": "Terbiyeli Kuşbaşı",
+        "en": "Marinated Cubes (Terbiyeli Kuşbaşı)"
+      },
+      "aciklama": {
+        "tr": "Terbiyesinde beklemiş kuşbaşı. Sakatat yemeyen misafir için ana alternatif.",
+        "en": "Rested in its marinade. The main alternative for guests who skip offal."
+      },
+      "fiyatlar": {
+        "porsiyon": 850,
+        "durum": 850
+      },
+      "porsiyonNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "durumNotu": {
+        "tr": "7 şiş",
+        "en": "7 skewers"
+      },
+      "fotoId": "terbiyeli-kusbasi"
+    },
+    {
+      "id": "bozo-karisik",
+      "ad": {
+        "tr": "Bozo Karışık",
+        "en": "Bozo Mixed (Bozo Karışık)"
+      },
+      "aciklama": {
+        "tr": "Üç şiş ciğer, üç şiş dalak, üç şiş yürek, bir şiş kuyruk yağı.",
+        "en": "Three skewers of liver, three of spleen, three of heart and one of tail fat."
+      },
+      "fiyatlar": {
+        "porsiyon": 700
+      },
+      "porsiyonNotu": {
+        "tr": "10 şiş",
+        "en": "10 skewers"
+      },
+      "durumNotu": null,
+      "fotoId": "bozo-karisik"
+    }
+  ],
+  "ozel": {
+    "ad": {
+      "tr": "Bozo Special",
+      "en": "Bozo Special"
+    },
+    "miktarNotu": {
+      "tr": "200 gr",
+      "en": "200 g"
+    },
+    "aciklama": {
+      "tr": "2 şiş 200 gr Urfa haşhaş kebabı",
+      "en": "Two skewers, 200 g, of Urfa haşhaş kebab"
+    },
+    "fiyat": 900
+  },
+  "icecekler": [
+    {
+      "id": "kola",
+      "ad": {
+        "tr": "Cola",
+        "en": "Cola"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Kutu",
+            "en": "Can"
+          },
+          "fiyat": 60
+        },
+        {
+          "ad": {
+            "tr": "Şişe",
+            "en": "Bottle"
+          },
+          "fiyat": 70
+        }
+      ]
+    },
+    {
+      "id": "kolaZero",
+      "ad": {
+        "tr": "Cola Zero",
+        "en": "Cola Zero"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Kutu",
+            "en": "Can"
+          },
+          "fiyat": 60
+        },
+        {
+          "ad": {
+            "tr": "Şişe",
+            "en": "Bottle"
+          },
+          "fiyat": 70
+        }
+      ]
+    },
+    {
+      "id": "fanta",
+      "ad": {
+        "tr": "Fanta",
+        "en": "Fanta"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Kutu",
+            "en": "Can"
+          },
+          "fiyat": 60
+        }
+      ]
+    },
+    {
+      "id": "cappy",
+      "ad": {
+        "tr": "Cappy Çeşitleri",
+        "en": "Cappy Flavours"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Kutu",
+            "en": "Can"
+          },
+          "fiyat": 60
+        }
+      ]
+    },
+    {
+      "id": "ayran",
+      "ad": {
+        "tr": "Ayran",
+        "en": "Ayran"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Büyük",
+            "en": "Large"
+          },
+          "fiyat": 40
+        },
+        {
+          "ad": {
+            "tr": "Küçük",
+            "en": "Small"
+          },
+          "fiyat": 30
+        },
+        {
+          "ad": {
+            "tr": "Açık Yayık",
+            "en": "Churned, by the Glass"
+          },
+          "fiyat": 50
+        }
+      ]
+    },
+    {
+      "id": "su",
+      "ad": {
+        "tr": "Su",
+        "en": "Water"
+      },
+      "olculer": [
+        {
+          "ad": {
+            "tr": "Pet",
+            "en": "Plastic"
+          },
+          "fiyat": 25
+        },
+        {
+          "ad": {
+            "tr": "Cam",
+            "en": "Glass"
+          },
+          "fiyat": 50
+        }
+      ]
+    }
+  ]
+}
