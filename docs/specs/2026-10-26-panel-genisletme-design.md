@@ -48,7 +48,7 @@ neyin sitede anında, neyin bir sonraki site yayınında göründüğünü dür�
   çalışıyordu; duyuru için kabuğa küçük bir `DuyuruBandi` bileşeni gelir, aynı `canliMenuGetir`'i
   çağırır (kimlik bilgisi yok, 15 sn önbellek, saatte 6000 IP kovası: mekan wifi'si için yeterli).
   Yeni istek her sayfa açılışında atılır; gizlilik cümlesi buna göre "menü ve duyuru" diye genişler
-  (sahibi ya da hukukçu gözden geçirmeli, T8'deki cümleyle aynı durum).
+  (sahibi karar verdi, 26 Ekim: ayrı gözden geçirme adımı yok; metin veri akışıyla tutarlı kalmalı).
 - **Yerleşim kayması.** Derlenmiş duyuru varsa bant ilk boyamada yerindedir; canlıda yeni çıkarsa
   yükseklik geçişiyle açılır (`prefers-reduced-motion`'da anında). Canlıda kalkarsa kapanır.
 - **Çalışma saatleri kapsam dışı.** 10:00 - 05:00 bir marka cümlesi: ortak sözlükte, hikaye çizelgesinde,

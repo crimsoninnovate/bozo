@@ -66,6 +66,13 @@ Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. 
 basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
 çağırıp fiyatları anında tazeler.
 
+**Gövde sınırı (26 Ekim 2026, panel genişletmesi).** En büyük geçerli menü belgesi 99,8 KB (ASCII)
+ile 171,7 KB (Türkçe harfler) tutuyor; ortak 64 KB sınırı yetmediği için yalnız `PUT /yonetim/menu`
+128 KB okur (`sunucu/menu.ts` > `MENU_GOVDE_SINIRI`). Sunucu kodu bu daldaki panel genişletmesiyle
+değiştiği (v2 doğrulayıcı dahil: eski sunucu `duyuru`, `ikramlar`, `iletisim` alanlarını reddeder) için
+yukarıdaki "Sunucu güncellemesi" ile yeniden dağıtılmalı; bu sahibin kararı. Nginx'in varsayılan gövde
+sınırı 1 MB, bu boyutların çok üstünde; arc'ta `client_max_body_size` ayrıca denenmedi.
+
 **Geri alma:** `systemctl stop bozo-oyun`. `GET /menu` yanıt vermez, menü sayfası derlenmiş menüye
 döner; sunucu açılınca kaldığı yerden devam eder (sürümler veritabanında durur).
 

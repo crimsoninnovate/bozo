@@ -8,6 +8,7 @@ import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { bellekDepoKur } from './bellekDepo.ts'
 import type { Depo } from './depo.ts'
 import { listeKur } from './ip.ts'
+import { MENU_GOVDE_SINIRI } from './menu.ts'
 import { uygulamaKur, type Ayar } from './uygulama.ts'
 
 /* Menü uçları (bellek depo, kendi sunucusu ve saati): yayın, sürüm denetimi, geri alma, IP istisnası. */
@@ -302,4 +303,75 @@ test('optionsMenu_corsPutIzinli', async () => {
   assert.equal(on.status, 204)
   assert.match(on.headers.get('access-control-allow-methods') ?? '', /\bPUT\b/)
   assert.equal(on.headers.get('access-control-allow-origin'), KOKEN)
+})
+
+/** Her sınırda en uzun geçerli belge; `harf` bir UTF-8 baytı (a), iki (ş) ya da üç (€) tutar. */
+function enBuyukBelge(harf: string, olcuSayisi: number): MenuBelgesi {
+  const m = (n: number) => harf.repeat(n)
+  const c = (n: number) => ({ tr: m(n), en: m(n) })
+  const kimlik40 = (on: string, n: number) => `${on}${String(n).padStart(3, '0')}`.padEnd(40, 'x')
+  const foto = SEED.kalemler.find((k) => k.fotoId !== null)?.fotoId ?? null
+  return {
+    kalemler: Array.from({ length: 40 }, (_, n) => ({
+      id: n === 0 ? 'ciger' : kimlik40('k', n), ad: c(60), aciklama: c(240),
+      fiyatlar: { porsiyon: 99999, durum: 99999 },
+      porsiyonNotu: c(40), durumNotu: c(40), fotoId: foto, tukendi: true,
+    })),
+    ozel: { ad: c(60), miktarNotu: c(40), aciklama: c(240), fiyat: 99999 },
+    icecekler: Array.from({ length: 30 }, (_, n) => ({
+      id: kimlik40('i', n), ad: c(60), tukendi: true,
+      olculer: Array.from({ length: olcuSayisi }, () => ({ ad: c(60), fiyat: 99999 })),
+    })),
+    duyuru: { aktif: true, metin: c(140), bitis: '2026-12-31T23:59' },
+    ikramlar: {
+      altMetin: c(120),
+      urunler: Array.from({ length: 12 }, (_, n) => (
+        { id: kimlik40('u', n), ad: c(60), aciklama: c(240), fotoId: foto }
+      )),
+      gruplar: Array.from({ length: 8 }, (_, g) => ({
+        id: kimlik40('g', g), ad: c(60), not: c(60),
+        ogeler: Array.from({ length: 10 }, (_, o) => ({ id: kimlik40(`o${g}`, o), ad: c(60) })),
+      })),
+    },
+    iletisim: {
+      telefonAcik: true, telefon: '+90 533 888 74 24', eposta: `${'a'.repeat(90)}@bozo.com`,
+      instagram: 'a'.repeat(40), facebook: 'a'.repeat(40), tiktok: 'a'.repeat(40), googleYorumKodu: 'a'.repeat(40),
+    },
+  }
+}
+
+// Ölçüm (26 Ekim 2026, tüm alanlar azami uzunlukta, 5 ölçü): ASCII 99,8 KB, Türkçe harfle 171,7 KB. 64 KB yetmez.
+test('putYonetimMenu_enBuyukGecerliBelge_64KBiAsar', () => {
+  const belge = enBuyukBelge('a', 5)
+  assert.equal(menuBelgesiDogrula(belge).tamam, true, 'belge sınırlarda geçerli olmalı')
+  const bayt = Buffer.byteLength(JSON.stringify({ taban: 1_000_000, belge }))
+  assert.ok(bayt > 64 * 1024 && bayt < MENU_GOVDE_SINIRI, `gövde ${bayt} bayt`)
+})
+
+/** Önceki testler IP kovasını doldurdu: gövde sınırı testleri kendi sunucusunda koşar. */
+async function tazeSunucudaPost(
+  yol: string, yontem: string, govde: unknown,
+): Promise<{ durum: number; hata: unknown }> {
+  const taze = await sunucuAc(AYAR, bellekDepoKur(), () => saat)
+  try {
+    const y = await fetch(taze.kok + yol, {
+      method: yontem, body: JSON.stringify(govde), headers: { ...yonetim, 'Content-Type': 'application/json' },
+    })
+    const okunan = (await y.json()) as { hata?: unknown }
+    return { durum: y.status, hata: okunan.hata }
+  } finally {
+    taze.sunucu.close()
+  }
+}
+
+test('putYonetimMenu_100KBGovde_200_128KBUstu_413', async () => {
+  const yuz = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, belge: enBuyukBelge('a', 5) })
+  assert.equal(yuz.durum, 200)
+  const yuzYetmis = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, belge: enBuyukBelge('ş', 5) })
+  assert.deepEqual([yuzYetmis.durum, yuzYetmis.hata], [413, 'govdeBuyuk'])
+})
+
+test('postGeriAl_65KBGovde_413_menuSiniriYalnizPutta', async () => {
+  const y = await tazeSunucudaPost('/yonetim/menu/1/geri-al', 'POST', { taban: null, x: 'a'.repeat(65 * 1024) })
+  assert.deepEqual([y.durum, y.hata], [413, 'govdeBuyuk'])
 })

@@ -5,7 +5,6 @@
  * Article 4(2) of that regulation. 24 August 2026 (round 2): added the right to
  * escalate to the Board (Article 34) and the storage-limitation principle
  * (Article 5(1)(Ç)) from the Law's official text, see IYILESTIRMELER.md.
- * NOT REVIEWED BY A LAWYER.
  */
 export const gizlilik = {
   baslik: 'Privacy',

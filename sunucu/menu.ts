@@ -10,6 +10,8 @@ import type { Baglam } from './uclar.ts'
 
 export const MENU_ONBELLEK_MS = 15_000
 const GECMIS_ADET = 20
+/** En büyük geçerli belge ASCII ile 99,8 KB, Türkçe harfle 171,7 KB (`menu.test.ts`); yayın gövdesi 128 KB'a kadar. */
+export const MENU_GOVDE_SINIRI = 128 * 1024
 
 /** Herkese açık güncel menü; sürüm yoksa 204 (istemci derlenmiş menüyle kalır). */
 export async function menuAl(b: Baglam): Promise<Yanit> {
@@ -55,7 +57,7 @@ async function yayinla(b: Baglam, belge: MenuBelgesi, kaynak: MenuKaynagi, taban
 
 /** Gövdedeki belge doğrulanır; saklanan, doğrulayıcının normalleştirdiği belgedir, ham gövde değil. */
 export async function yonetimMenuYayinla(b: Baglam, istek: Istek): Promise<Yanit> {
-  const { taban, belge } = tabanCoz(await istek.govde())
+  const { taban, belge } = tabanCoz(await istek.govde(MENU_GOVDE_SINIRI))
   const sonuc = menuBelgesiDogrula(belge)
   if (!sonuc.tamam) throw new IstekHatasi(400, 'belgeGecersiz')
   return yayinla(b, sonuc.belge, 'panel', taban)

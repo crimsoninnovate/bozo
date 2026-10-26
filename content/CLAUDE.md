@@ -3,28 +3,36 @@
 The root `CLAUDE.md` applies here too. Everything a guest reads lives in this folder, never
 hardcoded in JSX.
 
-## Prices
+## Prices and panel data
 
-Prices, names, descriptions and skewer counts live in the menu document and change through the
-staff panel (`/yonetim/`, Menü tab; the menu API has been live since 26 October 2026).
-The build bakes the live version in
-(`scripts/menuCek.ts` writes the gitignored `content/menu.canli.json`); the menu page also
-refreshes prices in the browser, but JSON-LD, `llms.txt` and meta only change on a manual build
-and deploy. A stale but valid `menu.canli.json` from an earlier build wins over a newer seed:
-delete it to force the seed. The code path is only the seed `content/menu.varsayilan.json`, which
-the site falls back to, plus its expectation table in `content/icerik.test.ts` and
-`lib/menu/varsayilan.test.ts`: change all three together. Ikram items and chip texts stay in the
-`content/{tr,en}` dictionary and `content/urunler.ts`, outside the panel. The panel pins Ciğer as
-the first item (the signature slot): it cannot be deleted or moved.
+Prices, names, descriptions, skewer counts, sold-out flags, the announcement, the treats and the
+contact details all live in the menu document and change through the staff panel (`/yonetim/`;
+the menu API has been live since 26 October 2026). What shows at once and what needs a deploy is
+the table in `README.md` > Publishing > Deploy.
+
+The build bakes the live version in (`scripts/menuCek.ts` writes the gitignored
+`content/menu.canli.json`). A stale but valid `menu.canli.json` from an earlier build wins over a
+newer seed: delete it to force the seed. The seed `content/menu.varsayilan.json` is the fallback,
+plus its expectation table in `content/icerik.test.ts` and `lib/menu/varsayilan.test.ts`: change
+all three together. The panel pins Ciğer as the first item (the signature slot): it cannot be
+deleted or moved. Chip texts stay in the `content/{tr,en}` dictionaries, outside the panel.
 
 Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 October 2026, wraps
 24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow
 the document on their own.
 
-The count "Yedi porsiyon" / "Seven portions" is hardcoded copy in `content/{tr,en}/menu.ts` (menu
-spot) and `content/{tr,en}/ortak.ts` (menu meta description). Adding or deleting items in the
-panel makes it wrong; only `menu_porsiyonSayisi_metindekiSayiylaAyni` in `content/icerik.test.ts`
-guards it, and only against the seed. Owner decision pending: do not change that copy.
+Three places hold copy that the document can outdate:
+
+- The menu opening sentence and meta description take their counts from the document
+  (`{kalem}`, `{ikram}`, `lib/menu/sayilar.ts`), so adding items is safe.
+- `ana.ocakbasi.altNot` in `content/{tr,en}/ana.ts` hardcodes "sekiz ikram" / "eight on the house":
+  it goes stale if the owner changes the treat count in the panel. Edit it by hand with the deploy.
+- `kalemAdlari` in `content/tr/oyun.ts` (the game's item names, now including domates and sogan)
+  is a copy of the document's names. The game runs in the browser and cannot read the document,
+  so it can drift; `content/icerik.test.ts` compares it with the seed only.
+
+`llms.txt` (`lib/llmsTxt.ts`) has a `## Menü` section: item names only, Turkish only, no prices,
+and a sold-out item stays listed with "(bugün yok)". It changes on a deploy.
 
 ## Copy rules (binding, a violation is a bug)
 

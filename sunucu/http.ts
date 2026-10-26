@@ -19,7 +19,8 @@ export type Istek = {
   sorgu: URLSearchParams
   basliklar: IncomingMessage['headers']
   ip: string
-  govde(): Promise<unknown>
+  /** `sinir`: bayt; verilmezse `GOVDE_SINIRI`. */
+  govde(sinir?: number): Promise<unknown>
 }
 
 export type Yanit = { durum: number; govde?: unknown; basliklar?: Record<string, string> }

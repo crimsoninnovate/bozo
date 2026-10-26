@@ -13,6 +13,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/menuCek.ts",
     "build": "next build",
+    "yayinla": "bash scripts/yayinla.sh",
     "preview": "npx serve out",
     "typecheck": "tsc --noEmit",
     "test": "node --test"

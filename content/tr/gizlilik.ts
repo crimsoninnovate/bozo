@@ -19,7 +19,6 @@
  * çözülemeyen iki madde: sahibine bildirildi, aynı dosyada.
  *
  * 10 Ekim 2026: oyun sıralaması eklendi (amaç, yöntem, dayanak, alıcı, aktarım, saklama, haklar).
- * Sahibi hukukçu incelemesi istemedi, kararı kendisi üstlendi. METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
  * 26 Ekim 2026: sayfaların menü ve duyuru için api.cigercibozo.com'a attığı istek alıcı cümlesine eklendi.
  */
 export const gizlilik = {

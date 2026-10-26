@@ -147,6 +147,25 @@ or the seed `content/menu.varsayilan.json`: read the build log. A price publishe
 panel reaches the menu page within a few seconds, but search engines and the JSON-LD only see it after a
 manual build and deploy (automatic rebuild on publish is not built).
 
+**One command: `npm run yayinla`** (`scripts/yayinla.sh`) runs the steps below in order and stops
+at the first failure. It checks `plesk-206` is reachable before building, and stops without
+uploading if the build prints `CANLI MENU ALINAMADI`: a deploy that bakes the seed or an old
+`menu.canli.json` would roll the panel's contact details back. It holds no secrets (the access is
+the `plesk-206` alias in `~/.ssh/config`). Run it only with the owner's approval.
+
+What the panel changes, and when it shows:
+
+| Panel change | Where it shows at once (about 15 s) | Needs `npm run yayinla` |
+|---|---|---|
+| Prices, names, descriptions | Menu page | JSON-LD, `llms.txt`, meta description |
+| Sold-out flag | Menu page | nothing else shows it |
+| Announcement bar | Every page | the baked HTML carries the version built last |
+| Treats (names, texts, groups) | Menu page, the opening sentence's counts | Home page treat copy (`ana.ikram`, `ana.ocakbasi.altNot`, see `content/CLAUDE.md`) |
+| Contact, phone toggle, social accounts, review code | nothing | everywhere (footer, top bar, JSON-LD, privacy page) |
+| Opening hours | not a panel field | brand copy in about forty strings |
+
+The panel's "site version" line shows which menu version the live site was built from.
+
 ```bash
 npm run build
 rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/

@@ -14,7 +14,7 @@ type Props = { dil: Dil }
  * Metnin tamamı sözlükten gelir. 24 Ağustos 2026'da Google Analytics eklenince
  * sayfa yeniden yazıldı: eski üç iddiadan ikisi (çerez yok, ölçüm aracı yok)
  * yanlış hale gelmişti. Aynı turda KKTC için dört bölüm eklendi (yurt dışına
- * aktarım, saklama, haklar, veri sorumlusu). METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
+ * aktarım, saklama, haklar, veri sorumlusu).
  *
  * `soruMetni` 24 Ağustos 2026'da `mailto:` aldı: `isletme.eposta` o gün geldi.
  * Adres metne yazılmaz, `isletme.eposta`dan basılır; değişirse tek yerde değişir.

@@ -146,7 +146,7 @@ export function uygulamaKur(
         sorgu: url.searchParams,
         basliklar: req.headers,
         ip: gercekIp(req.socket.remoteAddress, req.headers as Record<string, string | undefined>, ayar.guvenilirVekil),
-        govde: () => govdeOku(req),
+        govde: (sinir) => govdeOku(req, sinir),
       }
       const cors = corsBasliklari(req.headers.origin, ayar.kokenler)
       if (istek.yontem === 'OPTIONS') return yanitYaz(res, { durum: 204 }, cors)

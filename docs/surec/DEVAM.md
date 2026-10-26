@@ -8,6 +8,14 @@ Son güncelleme: 26 Ekim 2026
 
 ## Durum
 
+- **Panel genişletmesi hazır, `feat/panel-genisletme` dalında: birleştirilmedi, push edilmedi, canlıya
+  alınmadı.** Menü belgesi v2: tükendi işareti, duyuru bandı, ikramlar ve iletişim bilgileri artık
+  panelden düzenlenir. Hangisi menü sayfasında anında görünür, hangisi site yayını ister:
+  `README.md` > Publishing > Deploy tablosu. Tasarım `docs/specs/2026-10-26-panel-genisletme-design.md`,
+  plan `docs/plans/2026-10-26-panel-genisletme-plani.md`. Yayın tek komut: `npm run yayinla`
+  (`scripts/yayinla.sh`), sahibin onayıyla çalıştırılır. Skor sunucusu kodu da değişti (v2 doğrulayıcı, `PUT /yonetim/menu`
+  gövde sınırı 128 KB, `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri): eski sunucu v2 belgesini kabul etmez.
+
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
 - **`main` GitHub'da, `feat/menu-yonetim` ile eşit; canlı site menü panelini içeren build'de (26 Ekim).**
@@ -22,7 +30,7 @@ Son güncelleme: 26 Ekim 2026
   `menu_surum` şeması uygulandı, MariaDB sözleşme testi gerçek MariaDB 10.11'de 18/18 geçti
   (REPEATABLE-READ, deadlock algılama açık), sunucu ve site deploy edildi, uçtan uca PUT/GET/409/401
   denendi, 1. sürüm tohum menüyle aynı içerikle yayınlandı. Panelin tarayıcıdan girişi sahibin
-  eline kaldı. Açık: gizlilik cümlesinin gözden geçirilmesi, "Yedi porsiyon" metni, Aşama 2.
+  eline kaldı. Açık: Aşama 2.
 - **Oyun `/oyun/` ve `/en/oyun/` canlı, `noindex`, sitede bağlantısı yok.** Skor sunucusu
   `api.cigercibozo.com` 10 Ekim'den beri canlı (`SUNUCU-CANLIYA-ALMA.md`), personel ekranı
   `/oyun/yonetim/`. 10 Ekim'deki his turları, ses karışımı, sade giriş, arcade Oyna düğmesi ve sahnede
@@ -37,8 +45,9 @@ Son güncelleme: 26 Ekim 2026
   panelde; ciğer 690; dalak, yürek, terbiyeli ve terbiyesiz tavuk şiş 550; terbiyeli kuşbaşı 850, 25 Ekim; karışık 700; Bozo Special 900), şiş sayıları
   belgede `porsiyonNotu` / `durumNotu`. Bozo Special "2 şiş 200 gr", menüde şiş sayısı porsiyonun yanında,
   kolalar "Cola" ve "Cola Zero".
-- **Telefon ve WhatsApp siteden gizli (19 Ekim, sahibi):** `content/isletme.ts` > `TELEFONLA_ILETISIM_ACIK`
-  `false`; geri açmak için `true` yapmak yeter, test ve JSON-LD buna bağlı. Sosyal ikonlar tek renk
+- **Telefon ve WhatsApp siteden gizli (19 Ekim, sahibi):** anahtar menü belgesinde `iletisim.telefonAcik`
+  (panelde "telefonla iletişim açık"), build'de gömülür; geri açmak için paneldeki anahtarı açıp siteyi
+  yeniden yayınlamak yeter, test ve JSON-LD buna bağlı. Sosyal ikonlar tek renk
   (`currentColor`), Facebook ve TikTok bağlantıları ile Google yorum daveti eklendi, mobil çubukta
   WhatsApp yerine Instagram var (20 Ekim).
 - **Süreç, 23 Ekim:** kök `CLAUDE.md` 197 satıra indi; oyun kuralları `lib/oyun/`, `components/oyun/` ve
@@ -51,17 +60,19 @@ Son güncelleme: 26 Ekim 2026
   Brifteki GA4 `menu_scan` olayı kullanılmadı: GA onaysız çalışmaz, okumaların küçük bir kısmını sayardı.
 - **Masa QR'ı** (11 Ekim, tek ortak QR) üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
   QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
-- Testler 541 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `feat/menu-yonetim`).
+- Testler 693 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `feat/panel-genisletme`).
 
 ## Bekleyen iş
 
 ### Sahibinden gelecek (sorulmadan uygulanmaz)
 
-0. **Menü paneli (26 Ekim):** Dalak fiyatı (19 Ekim notundan açık kalan soru, şimdilik 550); gizlilik
-   metnindeki yeni menü cümlesi (`content/{tr,en}/gizlilik.ts`, `aliciMetni`) sahibin ya da hukukçunun
-   gözünden geçmedi; panel Ciğer'i ilk kalem olarak sabitliyor (imza alanı bu kuralı bekliyor, silinemez
-   ve taşınamaz): kural doğru mu; Aşama 2 (panelden yayında siteyi kendiliğinden yeniden basmak) yapılmadı,
-   şimdilik elle build ve deploy.
+0. **Menü paneli (26 Ekim):** Dalak fiyatı (19 Ekim notundan açık kalan soru, şimdilik 550); panel Ciğer'i
+   ilk kalem olarak sabitliyor (imza alanı bu kuralı bekliyor, silinemez ve taşınamaz): kural doğru mu;
+   Aşama 2 (panelden yayında siteyi kendiliğinden yeniden basmak) yapılmadı, şimdilik `npm run yayinla`;
+   fotoğraf yükleme panelde yok (foto yalnız `content/fotograflar.ts` kimliklerinden seçilir); çalışma
+   saatleri bilerek panel alanı değil (10:00 - 05:00 bir marka cümlesi, kırka yakın metinde yazılı; geçici
+   kapanış için duyuru bandı var); "Sekiz ikram" (`ana.ocakbasi.altNot`) elle yazılı, ikram sayısı değişirse
+   elle düzeltilir.
 1. **Menü metinleri:** Bozo Special rozetindeki gramaj 200 mü 190 mı (şu an 200 gr, 19 Ekim'de 190'dan
    çekildi, geri alınabilir), Terbiyeli Tavuk Şiş açıklaması (tavuk şişlerin İngilizce adları da buna
    bağlı), `priceRange` yayımlansın mı.
@@ -72,8 +83,9 @@ Son güncelleme: 26 Ekim 2026
    > Ayran); sesler kulakla dinlenmedi (`~/Desktop/Bozo/ses-dinleme/`); gerçek telefonda kare ölçümü;
    paylaşım kartı ve kurallar sayfası sahibin metnini bekliyor; raster varlıklar
    (`docs/surec/OYUN-VARLIK-BRIEFI.md`).
-4. **Hukuk:** KKTC 89/2007 Md. 8 Başkana Bildirim ve Md. 11 Transfer Ruhsatı yapılmadı; gizlilik
-   metni hukukçudan geçmedi (sahibi incelemeyi istemedi, 10 Ekim).
+4. **Hukuk:** KKTC 89/2007 Md. 8 Başkana Bildirim ve Md. 11 Transfer Ruhsatı yapılmadı (sahibi
+   üstlendi, 10 Ekim). Gizlilik metni için ayrı inceleme adımı yok (sahibi, 26 Ekim); metin veri
+   akışıyla tutarlı kalmalı.
 5. **Eski açık kararlar:** `KARAR-FORMU.md` A1-A12; "Yol Tarifi Al" etiketinin `#harita` hedefiyle
    çelişkisi; Konum hero'sunun boş sağ yarısı; genel kontrolün soruları ("Bozo's Table", "Beş ürün",
    galeri ve boş plakalar, onayı geri alma, EN "piece", tanımsız `--krem-84`) `IYILESTIRMELER.md` >
@@ -85,6 +97,13 @@ Son güncelleme: 26 Ekim 2026
 8. `X-Powered-By` başlığı sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler: kullanıcının kararı.
 
 ## Bir sonraki deploy'da hatırlanacak
+
+- **Sıra (sahibin onayıyla):** önce skor sunucusu (`SUNUCU-CANLIYA-ALMA.md` > Sunucu güncellemesi; sunucu
+  v2 belgesini doğrular, gövde sınırı değişti), sonra `npm run yayinla`.
+- **v1 geri alma tuzağı:** canlıdaki geçerli sürüm hâlâ v1 biçiminde olduğundan, ilk v2 yayınına kadar
+  geri alma 409 `gecerliSurumEski` döner. Panelden bir kez yayınlamak yeter.
+- `npm run yayinla` canlı menü alınamazsa yüklemeden durur (`CANLI MENU ALINAMADI`): eski menüyle
+  yayın iletişim bilgilerini geri alırdı.
 
 - Cloudflare kenarı varlıkları dört saat tutuyor. 23 Ağustos deploy'unda `marka/rozet.svg`,
   `favicon.svg` ve `favicon.ico` bayat kaldı (aynı ad, yeni içerik) ve panelden purge istedi.
