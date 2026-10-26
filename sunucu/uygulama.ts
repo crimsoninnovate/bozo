@@ -24,6 +24,7 @@ import {
   yonetimDenetle,
   yonetimGizle,
   yonetimKod,
+  yonetimOturum,
   yonetimSayac,
   yonetimSiralama,
   yonetimTarama,
@@ -62,7 +63,7 @@ type Rota = { yontem: string; desen: RegExp; isle: (istek: Istek, es: string[]) 
 
 function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
   const y = (isle: (istek: Istek, es: string[]) => Promise<Yanit>) => async (istek: Istek, es: string[]) => {
-    yonetimDenetle(yonetim, istek)
+    yonetimDenetle(yonetim, istek, b.tuz, b.simdi())
     return isle(istek, es)
   }
   return [
@@ -73,6 +74,7 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'GET', desen: /^\/ben$/, isle: (i) => benAl(b, i) },
     { yontem: 'DELETE', desen: /^\/oyuncu$/, isle: (i) => hesabiSil(b, i) },
     { yontem: 'POST', desen: /^\/tarama\/(\d{1,3})$/, isle: (_, [masa]) => taramaKaydet(b, masa ?? '') },
+    { yontem: 'POST', desen: /^\/yonetim\/oturum$/, isle: async (i) => yonetimOturum(b, yonetim, i) },
     { yontem: 'GET', desen: /^\/yonetim\/siralama$/, isle: y((i) => yonetimSiralama(b, i)) },
     { yontem: 'GET', desen: /^\/yonetim\/tur\/(\d+)$/, isle: y((_, [id]) => yonetimTur(b, id ?? '')) },
     { yontem: 'POST', desen: /^\/yonetim\/kod$/, isle: y((i) => yonetimKod(b, i)) },

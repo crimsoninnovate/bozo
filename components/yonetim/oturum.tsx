@@ -5,11 +5,10 @@ import { yonetim as m } from '@/content/yonetim'
 import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
+import { OTURUM_ANAHTARI as ANAHTAR, oturumOku, oturumYaz } from '@/lib/oyun/oturumDeposu'
 import stil from './oturum.module.css'
 
 /* Personel girişi ve oturumu: `/oyun/yonetim/` ve `/yonetim/` aynı anahtarı okur, tek girişle iki ekran. */
-
-const ANAHTAR = 'bozo-yonetim'
 
 export const apiAl = (yetki: string) => yonetimApiKur(API_KOKU, (girdi, secenek) => fetch(girdi, secenek), yetki)
 
@@ -34,15 +33,15 @@ export function hataIsle(hata: unknown, cik: () => void): string {
   return hataMetni(hata)
 }
 
-export function Giris({ gir }: { gir: (yetki: string) => void }) {
+export function Giris({ gir }: { gir: (yetki: string, bitis: string, hatirla: boolean) => void }) {
   const [hata, setHata] = useState<string | null>(null)
   const gonder = async (olay: SubmitEvent<HTMLFormElement>) => {
     olay.preventDefault()
     const veri = new FormData(olay.currentTarget)
-    const yetki = temelYetki(String(veri.get('kullanici')), String(veri.get('sifre')))
+    const temel = temelYetki(String(veri.get('kullanici')), String(veri.get('sifre')))
     try {
-      await apiAl(yetki).siralama()
-      gir(yetki)
+      const { anahtar, bitis } = await apiAl(temel).oturumAl()
+      gir(`Bearer ${anahtar}`, bitis, veri.get('hatirla') === 'on')
     } catch (h) {
       setHata(h instanceof ApiHatasi && h.durum === 401 ? m.giris.hata : hataMetni(h))
     }
@@ -57,22 +56,58 @@ export function Giris({ gir }: { gir: (yetki: string) => void }) {
         {m.giris.sifre}
         <input name="sifre" type="password" autoComplete="current-password" required />
       </label>
+      <label className={stil.isaret}>
+        <input name="hatirla" type="checkbox" defaultChecked />
+        {m.giris.hatirla}
+      </label>
       <button type="submit" className={stil.ana}>{m.giris.dugme}</button>
       {hata && <p className={stil.hata} role="alert">{hata}</p>}
     </form>
   )
 }
 
-export function useOturum(): { api: YonetimApi | null; gir: (yetki: string) => void; cik: () => void } {
+type Depo = 'localStorage' | 'sessionStorage'
+
+/** Depo hataları (gizli sekme, dolu kota) girişi bozmaz; yalnız konsola düşer, anahtar yazılmaz. */
+function depoIsle<T>(depo: Depo, ne: string, is: (s: Storage) => T, yedek: T): T {
+  try {
+    return is(window[depo])
+  } catch (hata) {
+    console.warn(`oturum deposu ${ne}`, depo, hata)
+    return yedek
+  }
+}
+
+/** Önce kalıcı, sonra sekme deposu; geçersiz kaydı siler. Çıplak `Basic` yalnız sekme deposundan. */
+function oturumBul(): string | null {
+  const simdi = Date.now()
+  for (const depo of ['localStorage', 'sessionStorage'] as const) {
+    const ham = depoIsle(depo, 'okunamadı', (s) => s.getItem(ANAHTAR), null)
+    const yetki = oturumOku(ham, simdi, depo === 'sessionStorage')
+    if (yetki) return yetki
+    if (ham !== null) depoIsle(depo, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
+  }
+  return null
+}
+
+export function useOturum(): {
+  api: YonetimApi | null
+  gir: (yetki: string, bitis: string, hatirla: boolean) => void
+  cik: () => void
+} {
   const [yetki, setYetki] = useState<string | null>(null)
-  useEffect(() => setYetki(sessionStorage.getItem(ANAHTAR)), [])
+  useEffect(() => setYetki(oturumBul()), [])
   const api = useMemo(() => (yetki ? apiAl(yetki) : null), [yetki])
-  const gir = useCallback((y: string) => {
-    sessionStorage.setItem(ANAHTAR, y)
+  const gir = useCallback((y: string, bitis: string, hatirla: boolean) => {
+    const [yaz, sil]: [Depo, Depo] = hatirla ? ['localStorage', 'sessionStorage'] : ['sessionStorage', 'localStorage']
+    depoIsle(yaz, 'yazılamadı', (s) => s.setItem(ANAHTAR, oturumYaz(y, bitis)), undefined)
+    depoIsle(sil, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
     setYetki(y)
   }, [])
   const cik = useCallback(() => {
-    sessionStorage.removeItem(ANAHTAR)
+    for (const depo of ['localStorage', 'sessionStorage'] as const) {
+      depoIsle(depo, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
+    }
     setYetki(null)
   }, [])
   return { api, gir, cik }

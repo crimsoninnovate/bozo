@@ -20,6 +20,8 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   letters at every maximum and 6 sizes per drink, measures 180,067 bytes), so `PUT /yonetim/menu` alone reads
   up to `MENU_GOVDE_SINIRI` (256 KB, `menu.ts`). A document of 3-byte characters everywhere could still exceed
   it; the panel then shows "Menü çok büyük, kaydedilemedi." `menu.test.ts` holds the measurement.
+- Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
+  30 days, stateless, `oturum.ts`); changing `YONETIM_*` or `GIZLI_TUZ` revokes every token.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

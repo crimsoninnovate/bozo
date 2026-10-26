@@ -1,8 +1,9 @@
 import { MASA_SAYISI, yediGunlukBaslangic, type YonetimTaramaYaniti } from '../lib/masa.ts'
-import type { KodYaniti, YonetimSiralamaYaniti, YonetimTurYaniti } from '../lib/oyun/aktarim.ts'
+import type { KodYaniti, YonetimOturumYaniti, YonetimSiralamaYaniti, YonetimTurYaniti } from '../lib/oyun/aktarim.ts'
 import { donemAnahtari, girneGunu } from './donem.ts'
 import { IstekHatasi, temelKimlik, type Istek, type Yanit } from './http.ts'
 import { esitMi, kodOzeti } from './kod.ts'
+import { OTURUM_SURESI_MS, oturumAnahtariGecerliMi, oturumAnahtariUret } from './oturum.ts'
 import { enIyiler } from './siralama.ts'
 import type { Baglam } from './uclar.ts'
 
@@ -10,12 +11,33 @@ import type { Baglam } from './uclar.ts'
 
 export type YonetimKimligi = { kullanici: string; sifre: string }
 
-export function yonetimDenetle(kimlik: YonetimKimligi | null, istek: Istek): void {
+function temelDenetle(kimlik: YonetimKimligi | null, istek: Istek): asserts kimlik is YonetimKimligi {
   if (!kimlik) throw new IstekHatasi(503, 'yonetimKapali')
   const gelen = temelKimlik(istek.basliklar.authorization)
   if (!gelen || !esitMi(gelen.kullanici, kimlik.kullanici) || !esitMi(gelen.sifre, kimlik.sifre)) {
     throw new IstekHatasi(401, 'kimlikGerekli')
   }
+}
+
+/** Temel kimlik ya da `POST /yonetim/oturum`'un verdiği Bearer anahtarı. */
+export function yonetimDenetle(kimlik: YonetimKimligi | null, istek: Istek, tuz: string, simdi: number): void {
+  const yetki = istek.basliklar.authorization
+  if (kimlik && yetki?.startsWith('Bearer ')) {
+    if (!oturumAnahtariGecerliMi(tuz, kimlik, yetki, simdi)) throw new IstekHatasi(401, 'kimlikGerekli')
+    return
+  }
+  temelDenetle(kimlik, istek)
+}
+
+/** Yalnız temel kimlikle: çalınan anahtar yeni anahtar üretemez, süresi dolunca biter. */
+export function yonetimOturum(b: Baglam, kimlik: YonetimKimligi | null, istek: Istek): Yanit {
+  temelDenetle(kimlik, istek)
+  const bitis = b.simdi() + OTURUM_SURESI_MS
+  const govde: YonetimOturumYaniti = {
+    anahtar: oturumAnahtariUret(b.tuz, kimlik, bitis),
+    bitis: new Date(bitis).toISOString(),
+  }
+  return { durum: 200, govde }
 }
 
 const iso = (ms: number | null) => (ms === null ? null : new Date(ms).toISOString())

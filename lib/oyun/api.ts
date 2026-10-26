@@ -2,6 +2,7 @@ import {
   KANALLAR,
   type BenYaniti,
   type KodYaniti,
+  type YonetimOturumYaniti,
   type YonetimSiralamaYaniti,
   type YonetimTurYaniti,
   type BitirYaniti,
@@ -123,6 +124,8 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
     gizle: (oyuncuId: number, gizli: boolean) =>
       istek<null>(`/yonetim/oyuncu/${oyuncuId}/gizle`, { yontem: 'POST', govde: { gizli }, yetki }),
     tarama: () => istek<YonetimTaramaYaniti>('/yonetim/tarama', { yetki }),
+    /** Yalnız temel kimlikle çağrılır: Bearer anahtarı yeni anahtar üretemez. */
+    oturumAl: () => istek<YonetimOturumYaniti>('/yonetim/oturum', { yontem: 'POST', yetki }),
     menu: () => istek<YonetimMenuYaniti>('/yonetim/menu', { yetki }),
     menuSurumu: (id: number) => istek<MenuYaniti>(`/yonetim/menu/${id}`, { yetki }),
     menuYayinla: (taban: number | null, belge: MenuBelgesi) =>

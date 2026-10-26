@@ -90,6 +90,7 @@ test('yonetimApi_yollarYontemlerVeTemelKimlik', async () => {
     [() => yonetim.kod('123456'), 'http://x/yonetim/kod', 'POST', '{"kod":"123456"}'],
     [() => yonetim.gizle(7, true), 'http://x/yonetim/oyuncu/7/gizle', 'POST', '{"gizli":true}'],
     [() => yonetim.tarama(), 'http://x/yonetim/tarama', 'GET', undefined],
+    [() => yonetim.oturumAl(), 'http://x/yonetim/oturum', 'POST', undefined],
   ]
   for (const [cagri, url, yontem, govde] of cagrilar) {
     await cagri()

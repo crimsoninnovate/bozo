@@ -56,12 +56,15 @@ uygulama komutu yukarıdaki. Uçlar (`sunucu/uygulama.ts`):
 | Uç | Kim | Ne yapar |
 |---|---|---|
 | `GET /menu` | herkese açık | son sürüm (200) ya da hiç sürüm yoksa 204; 15 sn tek uçuşlu önbellek, IP başına saatte 6000'lik ayrı kova (genel 600'e girmez, mekanın wifi'si tek IP) |
+| `POST /yonetim/oturum` | yalnız temel kimlik | `{ anahtar, bitis }`: 30 günlük imzalı oturum anahtarı (`Authorization: Bearer`), Bearer ile çağrılırsa 401 |
 | `GET /yonetim/menu` | personel | geçerli sürüm ve son 20 sürümün özeti |
 | `GET /yonetim/menu/N` | personel | tek sürümün belgesi (geri alma farkı için), yoksa 404 `surumYok` |
 | `PUT /yonetim/menu` | personel | `{ taban, belge }`: belgeyi doğrular ve yeni sürüm yazar; `taban` son sürüm değilse 409 `surumEskidi` |
 | `POST /yonetim/menu/N/geri-al` | personel | N. sürümü yeni sürüm olarak yeniden yayınlar (`kaynak = geriAl`) |
 
-Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. Site her build öncesi son sürümü
+Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. Oturum anahtarı (`sunucu/oturum.ts`,
+"Beni hatırla") `bitisMs.HMAC(GIZLI_TUZ, kullanici:sifre:bitisMs)` biçimindedir: durumsuz, 30 gün geçerli;
+`YONETIM_SIFRE`, `YONETIM_KULLANICI` ya da `GIZLI_TUZ` değişince hepsi düşer (iptal yolu budur). Site her build öncesi son sürümü
 çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın siteyi kendiliğinden yeniden
 basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
 çağırıp fiyatları anında tazeler.

@@ -4,6 +4,7 @@ export const yonetim = {
   giris: {
     kullanici: 'Kullanıcı',
     sifre: 'Şifre',
+    hatirla: 'Beni hatırla',
     dugme: 'Giriş Yap',
     hata: 'Kullanıcı adı ya da şifre yanlış.',
   },
