@@ -9,7 +9,7 @@ import {
 import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
 import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
 import {
-  SEKMELER, degisiklikVarMi, eskiBelgeMi, hataSekmesi, panelBelgesi, type Sekme,
+  SEKMELER, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi, hataSekmesi, panelBelgesi, type Sekme,
 } from '@/lib/menu/panel'
 import type { Duyuru, IcecekKalemi, Iletisim, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
@@ -243,6 +243,7 @@ function OnayEkrani({ onay, fark, yayindaki, sonuc, belge, mesgul, onayla, vazge
       not={geriAl ? doldur(o.geriAlNot, { tarih: surumTarihi(geriAl.surum.olusturma) }) : undefined}
       uyarilar={sonuc.tamam && !geriAl ? sonuc.uyarilar : []}
       belge={belge}
+      duyuruGorunmez={duyuruGorunmeyecek((geriAl?.belge ?? belge).duyuru, new Date())}
       onayEtiketi={geriAl ? o.geriAl : o.onayla}
       mesgul={mesgul}
       onayla={onayla}
@@ -281,7 +282,10 @@ function YayinBari({ hataSayisi, ilkHata, degisiklik, eski, onYayinla }: BarProp
 function useKaydedilmemisUyari(degisiklikVar: boolean) {
   useEffect(() => {
     if (!degisiklikVar) return
-    const uyar = (o: BeforeUnloadEvent) => o.preventDefault()
+    const uyar = (o: BeforeUnloadEvent) => {
+      o.preventDefault()
+      o.returnValue = '' // eski tarayıcılar yalnız bunu tanır
+    }
     window.addEventListener('beforeunload', uyar)
     return () => window.removeEventListener('beforeunload', uyar)
   }, [degisiklikVar])

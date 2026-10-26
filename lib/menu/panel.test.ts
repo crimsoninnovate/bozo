@@ -4,9 +4,10 @@ import { menuBelgesiYukle } from './belgeYukle.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
 import {
-  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, eskiBelgeMi, hataSekmesi,
-  panelBelgesi, siteDurumu, siteSurumuOku, telefonAciliyor,
+  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi,
+  hataSekmesi, panelBelgesi, siteDurumu, siteSurumuOku, telefonAciliyor,
 } from './panel.ts'
+import type { Duyuru } from './tipler.ts'
 
 const tohum = menuBelgesiYukle()
 /** 1. sürüm biçimi: yeni bölümler ve `tukendi` yok. */
@@ -187,4 +188,26 @@ test('telefonAciliyor_kapaliykenAcilir_dogru', () => {
   const fark = menuFarki(tohum, b).filter(telefonAciliyor)
   assert.equal(fark.length, 1)
   assert.equal(menuFarki(b, tohum).filter(telefonAciliyor).length, 0)
+})
+
+const SIMDI = new Date('2026-10-26T09:00:00Z')
+const duyuruIle = (d: Partial<Duyuru>): Duyuru => (
+  { aktif: true, metin: { tr: 'Açığız', en: 'Open' }, bitis: null, ...d }
+)
+
+test('duyuruGorunmeyecek_acikBitisGecmis_dogru', () => {
+  assert.equal(duyuruGorunmeyecek(duyuruIle({ bitis: '2026-10-26T11:00' }), SIMDI), true)
+})
+
+test('duyuruGorunmeyecek_acikMetinBos_dogru', () => {
+  assert.equal(duyuruGorunmeyecek(duyuruIle({ metin: { tr: '', en: 'Open' } }), SIMDI), true)
+})
+
+test('duyuruGorunmeyecek_acikVeGorunur_yanlis', () => {
+  assert.equal(duyuruGorunmeyecek(duyuruIle({ bitis: '2026-10-26T13:00' }), SIMDI), false)
+  assert.equal(duyuruGorunmeyecek(duyuruIle({}), SIMDI), false)
+})
+
+test('duyuruGorunmeyecek_kapali_yanlis', () => {
+  assert.equal(duyuruGorunmeyecek(duyuruIle({ aktif: false, bitis: '2026-10-26T11:00' }), SIMDI), false)
 })

@@ -1,9 +1,10 @@
 import { yonetim } from '../../content/yonetim.ts'
 import { doldur } from '../metin.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
+import { duyuruGoster } from './duyuru.ts'
 import type { Degisiklik } from './fark.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from './tamamla.ts'
-import type { MenuBelgesi } from './tipler.ts'
+import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
 /* Panelin saf yardımcıları: bitiş alanı dönüşümü ve sunucudan gelen belgenin panel biçimine getirilmesi. */
 
@@ -93,3 +94,6 @@ export function siteDurumu(yayinSurum: number | null, siteSurum: number): { gunc
 
 /** Fark satırı telefonun sitede görünür olmasına geçiyorsa `true` (onay ekranı satırı vurgular). */
 export const telefonAciliyor = (d: Degisiklik): boolean => d.yol === 'iletisim.telefonAcik' && d.sonra === 'açık'
+
+/** Duyuru açık ama şu an sitede görünmeyecek (bitiş geçmiş ya da metin boş); saate bağlı, doğrulayıcıda değil. */
+export const duyuruGorunmeyecek = (d: Duyuru, simdi: Date): boolean => d.aktif && !duyuruGoster(d, simdi)

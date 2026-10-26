@@ -198,6 +198,7 @@ export const yonetim = {
       vazgec: 'Vazgeç',
       fark: 'Değişiklikler',
       farksiz: 'Yayındaki menüyle aynı içerik.',
+      duyuruGorunmez: 'Duyuru açık ama sitede görünmeyecek: bitiş geçmişte ya da metin boş.',
       geriAlNot:
         'Yayındaki menü, {tarih} sürümünün içeriğiyle değiştirilir; geri alma da geçmişe yeni bir sürüm '
         + 'olarak eklenir. Ekrandaki kaydedilmemiş değişiklikler kapanır.',

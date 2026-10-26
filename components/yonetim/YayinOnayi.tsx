@@ -18,6 +18,8 @@ type Props = {
   not?: string
   uyarilar: Sorun[]
   belge: MenuBelgesi
+  /** Yayınlanacak duyuru açık ama şu an görünmeyecek (`duyuruGorunmeyecek`). */
+  duyuruGorunmez: boolean
   onayEtiketi: string
   mesgul: boolean
   onayla: () => void
@@ -33,13 +35,16 @@ function yolAdi(belge: MenuBelgesi, yol: string): string {
   return ad ?? yol
 }
 
-export function YayinOnayi({ baslik, fark, not, uyarilar, belge, onayEtiketi, mesgul, onayla, vazgec }: Props) {
+export function YayinOnayi(
+  { baslik, fark, not, uyarilar, belge, duyuruGorunmez, onayEtiketi, mesgul, onayla, vazgec }: Props,
+) {
   const baslikRef = useRef<HTMLHeadingElement>(null)
   useEffect(() => baslikRef.current?.focus(), [])
   return (
     <section className={stil.onay} aria-labelledby="onay-baslik">
       <h2 id="onay-baslik" ref={baslikRef} tabIndex={-1} className={stil.baslik}>{baslik}</h2>
       {not && <p className={ortak.not}>{not}</p>}
+      {duyuruGorunmez && <p className={stil.sicrama}><strong className={stil.uyari}>{o.duyuruGorunmez}</strong></p>}
       <h3 className={stil.altBaslik}>{o.fark}</h3>
       {fark.length === 0 && <p className={ortak.not}>{o.farksiz}</p>}
       <ul className={stil.liste}>

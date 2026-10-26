@@ -40,7 +40,8 @@
   border-left: 3px solid transparent;
 }
 
-/* Büyük fiyat sıçraması ve telefonun herkese açılması: ember çubuk, kalın uyarı metniyle birlikte (renk tek başına taşımaz). */
+/* Büyük fiyat sıçraması, telefonun herkese açılması ve görünmeyecek açık duyuru: ember çubuk,
+   kalın uyarı metniyle birlikte (renk tek başına taşımaz). */
 .sicrama {
   border-left-color: var(--kor);
   background: color-mix(in srgb, var(--kor) 22%, transparent);
