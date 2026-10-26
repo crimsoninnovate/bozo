@@ -11,7 +11,7 @@ import {
   type TabloYaniti,
 } from './aktarim.ts'
 import type { YonetimTaramaYaniti } from '../masa.ts'
-import type { MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
+import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
 import type { MenuBelgesi } from '../menu/tipler.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
@@ -124,6 +124,7 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
       istek<null>(`/yonetim/oyuncu/${oyuncuId}/gizle`, { yontem: 'POST', govde: { gizli }, yetki }),
     tarama: () => istek<YonetimTaramaYaniti>('/yonetim/tarama', { yetki }),
     menu: () => istek<YonetimMenuYaniti>('/yonetim/menu', { yetki }),
+    menuSurumu: (id: number) => istek<MenuYaniti>(`/yonetim/menu/${id}`, { yetki }),
     menuYayinla: (taban: number | null, belge: MenuBelgesi) =>
       istek<MenuYayinYaniti>('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge }, yetki }),
     menuGeriAl: (id: number, taban: number | null) =>

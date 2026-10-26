@@ -1,4 +1,4 @@
-import type { MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
+import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { MenuKaynagi } from './depo.ts'
@@ -27,6 +27,13 @@ export async function yonetimMenuAl(b: Baglam): Promise<Yanit> {
     surumler: surumler.map((s) => ({ id: s.id, olusturma: new Date(s.olusturma).toISOString(), kaynak: s.kaynak })),
   }
   return { durum: 200, govde }
+}
+
+/** Tek sürümün belgesi: panel geri almadan önce farkı gösterebilsin diye. */
+export async function yonetimMenuSurumAl(b: Baglam, id: string): Promise<Yanit> {
+  const eski = await b.depo.menuSurumBul(Number(id))
+  if (!eski) throw new IstekHatasi(404, 'surumYok')
+  return { durum: 200, govde: { surum: eski.id, belge: eski.belge } satisfies MenuYaniti }
 }
 
 /** `taban`: son sürümün kimliği, hiç sürüm yoksa açıkça null; eksik ya da başka tür 400. */

@@ -13,8 +13,7 @@ const o = m.menu.onay
 
 type Props = {
   baslik: string
-  /** `null`: fark yok (geri alma); `not` onun yerine gösterilir. */
-  fark: Degisiklik[] | null
+  fark: Degisiklik[]
   not?: string
   uyarilar: Sorun[]
   belge: MenuBelgesi
@@ -40,19 +39,16 @@ export function YayinOnayi({ baslik, fark, not, uyarilar, belge, onayEtiketi, me
     <section className={stil.onay} aria-labelledby="onay-baslik">
       <h2 id="onay-baslik" ref={baslikRef} tabIndex={-1} className={stil.baslik}>{baslik}</h2>
       {not && <p className={ortak.not}>{not}</p>}
-      {fark && (
-        <>
-          <h3 className={stil.altBaslik}>{o.fark}</h3>
-          <ul className={stil.liste}>
-            {fark.map((d) => (
-              <li key={d.yol} className={d.buyukSicrama ? stil.sicrama : stil.satir}>
-                {doldur(o.satir, { etiket: d.etiket, once: d.once, sonra: d.sonra })}
-                {d.buyukSicrama && <strong className={stil.uyari}>{o.sicrama}</strong>}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <h3 className={stil.altBaslik}>{o.fark}</h3>
+      {fark.length === 0 && <p className={ortak.not}>{o.farksiz}</p>}
+      <ul className={stil.liste}>
+        {fark.map((d) => (
+          <li key={d.yol} className={d.buyukSicrama ? stil.sicrama : stil.satir}>
+            {doldur(o.satir, { etiket: d.etiket, once: d.once, sonra: d.sonra })}
+            {d.buyukSicrama && <strong className={stil.uyari}>{o.sicrama}</strong>}
+          </li>
+        ))}
+      </ul>
       {uyarilar.length > 0 && (
         <>
           <h3 className={stil.altBaslik}>{o.uyarilar}</h3>

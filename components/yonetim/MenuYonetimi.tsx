@@ -7,7 +7,7 @@ import {
   icecekEkle, icecekSil, kalemEkle, kalemSil, kalemTasi, olcuEkle, olcuSil,
 } from '@/lib/menu/duzenleme'
 import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
-import type { SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
+import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
 import type { IcecekKalemi, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import type { YonetimApi } from '@/lib/oyun/api'
@@ -25,7 +25,8 @@ import stil from './MenuYonetimi.module.css'
 
 const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'gecmis'] as const
 type Sekme = (typeof SEKMELER)[number]
-type Onay = { geriAl: SurumOzeti | null }
+/** `geriAl`: dönülecek sürüm ve içeriği (farkı göstermek için önceden okunur). */
+type Onay = { geriAl: { surum: SurumOzeti; belge: MenuBelgesi } | null }
 export type Duzenle = (fn: (kopya: MenuBelgesi) => MenuBelgesi | void) => void
 
 function Sekmeler({ sekme, sec }: { sekme: Sekme; sec: (s: Sekme) => void }) {
@@ -104,25 +105,39 @@ function useCalisma({ api, cik, baz }: PanelProps) {
     setBelge(fn(kopya) ?? kopya)
     setMesaj(null)
   }
-  const bitir = async (is: () => Promise<unknown>) => {
+  /** Yayın ya da geri alma; sunucunun verdiği sürüm hemen `taban` olur, liste sonra tazelenir. */
+  const bitir = async (is: () => Promise<MenuYayinYaniti>, yeni: MenuBelgesi) => {
     setMesgul(true)
     try {
-      await is()
-      const y = await yukle()
-      setBelge(y.gecerli?.belge ?? baz)
+      const { surum } = await is()
+      setCanli((c) => ({ surumler: c?.surumler ?? [], gecerli: { surum, belge: yeni } }))
+      setBelge(yeni)
       setMesaj({ metin: m.menu.yayinda, hata: false })
+      await yukle().catch((h: unknown) => console.warn('sürüm listesi tazelenemedi', hataIsle(h, cik)))
     } catch (h) {
       setMesaj({ metin: hataIsle(h, cik), hata: true })
     } finally {
       setMesgul(false)
     }
   }
-  return { canli, belge, mesgul, mesaj, duzenle, bitir }
+  /** Geri almadan önce eski sürümün belgesi okunur; olmazsa hata yazılır ve `null` döner. */
+  const surumGetir = async (id: number): Promise<MenuBelgesi | null> => {
+    setMesgul(true)
+    try {
+      return (await api.menuSurumu(id)).belge
+    } catch (h) {
+      setMesaj({ metin: hataIsle(h, cik), hata: true })
+      return null
+    } finally {
+      setMesgul(false)
+    }
+  }
+  return { canli, belge, mesgul, mesaj, duzenle, bitir, surumGetir }
 }
 
 function Calisma(props: PanelProps) {
   const { api, baz } = props
-  const { canli, belge, mesgul, mesaj, duzenle, bitir } = useCalisma(props)
+  const { canli, belge, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
   const [sekme, setSekme] = useState<Sekme>('ocakbasi')
   const [onay, setOnay] = useState<Onay | null>(null)
 
@@ -134,9 +149,13 @@ function Calisma(props: PanelProps) {
 
   const onayla = async () => {
     const geriAl = onay?.geriAl
-    if (geriAl) await bitir(() => api.menuGeriAl(geriAl.id, taban))
-    else if (sonuc.tamam) await bitir(() => api.menuYayinla(taban, sonuc.belge))
+    if (geriAl) await bitir(() => api.menuGeriAl(geriAl.surum.id, taban), geriAl.belge)
+    else if (sonuc.tamam) await bitir(() => api.menuYayinla(taban, sonuc.belge), sonuc.belge)
     setOnay(null)
+  }
+  const surumeDon = async (surum: SurumOzeti) => {
+    const eski = await surumGetir(surum.id)
+    if (eski) setOnay({ geriAl: { surum, belge: eski } })
   }
 
   if (!canli) {
@@ -150,7 +169,7 @@ function Calisma(props: PanelProps) {
         <p className={mesaj.hata ? ortak.hata : stil.tamam} role={mesaj.hata ? 'alert' : 'status'}>{mesaj.metin}</p>
       )}
       {onay ? (
-        <OnayEkrani onay={onay} fark={fark} sonuc={sonuc} belge={belge} mesgul={mesgul}
+        <OnayEkrani onay={onay} fark={fark} yayindaki={yayindaki} sonuc={sonuc} belge={belge} mesgul={mesgul}
           onayla={onayla} vazgec={() => setOnay(null)} />
       ) : (
         <>
@@ -161,7 +180,7 @@ function Calisma(props: PanelProps) {
           )}
           {sekme === 'icecekler' && <Icecekler belge={belge} hatalar={hatalar} duzenle={duzenle} />}
           {sekme === 'gecmis' ? (
-            <Gecmis surumler={canli.surumler} yayindaki={taban} onDon={(surum) => setOnay({ geriAl: surum })} />
+            <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={surumeDon} />
           ) : (
             <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} degisiklik={fark.length}
               onYayinla={() => setOnay({ geriAl: null })} />
@@ -175,6 +194,7 @@ function Calisma(props: PanelProps) {
 type OnayProps = {
   onay: Onay
   fark: Degisiklik[]
+  yayindaki: MenuBelgesi
   sonuc: Sonuc
   belge: MenuBelgesi
   mesgul: boolean
@@ -182,14 +202,14 @@ type OnayProps = {
   vazgec: () => void
 }
 
-function OnayEkrani({ onay, fark, sonuc, belge, mesgul, onayla, vazgec }: OnayProps) {
+function OnayEkrani({ onay, fark, yayindaki, sonuc, belge, mesgul, onayla, vazgec }: OnayProps) {
   const o = m.menu.onay
   const geriAl = onay.geriAl
   return (
     <YayinOnayi
       baslik={geriAl ? o.geriAlBaslik : o.baslik}
-      fark={geriAl ? null : fark}
-      not={geriAl ? doldur(o.geriAlNot, { tarih: surumTarihi(geriAl.olusturma) }) : undefined}
+      fark={geriAl ? menuFarki(yayindaki, geriAl.belge) : fark}
+      not={geriAl ? doldur(o.geriAlNot, { tarih: surumTarihi(geriAl.surum.olusturma) }) : undefined}
       uyarilar={sonuc.tamam && !geriAl ? sonuc.uyarilar : []}
       belge={belge}
       onayEtiketi={geriAl ? o.geriAl : o.onayla}

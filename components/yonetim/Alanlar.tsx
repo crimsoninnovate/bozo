@@ -19,7 +19,8 @@ export function hatalariEsle(hatalar: readonly Sorun[]): Hatalar {
 type AlanProps = {
   etiket: string
   deger: string
-  onDegis: (v: string) => void
+  /** `bozuk`: sayı alanında tarayıcının sayı saymadığı metin (boş görünür). */
+  onDegis: (v: string, bozuk: boolean) => void
   hata?: string
   uzun?: boolean
   sayi?: boolean
@@ -29,7 +30,8 @@ export function Alan({ etiket, deger, onDegis, hata, uzun, sayi }: AlanProps) {
   const hataKimlik = useId()
   const ortakOzellik = {
     value: deger,
-    onChange: (o: { target: { value: string } }) => onDegis(o.target.value),
+    onChange: (o: { target: { value: string; validity: ValidityState } }) =>
+      onDegis(o.target.value, o.target.validity.badInput),
     'aria-invalid': hata ? true : undefined,
     'aria-describedby': hata ? hataKimlik : undefined,
   }
@@ -79,8 +81,9 @@ export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur 
   )
 }
 
-/** Fiyat alanı: 0 ve tanımsız boş görünür. */
-export const fiyatGirdisi = (f: number | undefined): string => (f ? String(f) : '')
+/** Fiyat alanı: tanımsız ve `NaN` boş görünür; 0 "0" kalır, doğrulama hatası yerinde durur. */
+export const fiyatGirdisi = (f: number | undefined): string =>
+  f === undefined || Number.isNaN(f) ? '' : String(f)
 
 type YeniProps = { etiket: string; dugme: string; onEkle: (ad: string) => void }
 

@@ -178,6 +178,25 @@ test('postGeriAl_eskiSurum_yeniSurumOlarakYayinlanir', async () => {
   assert.deepEqual([bayat.durum, bayat.govde?.hata], [409, 'surumEskidi'])
 })
 
+test('getYonetimMenuSurum_kimliksiz_401', async () => {
+  assert.equal((await istek('/yonetim/menu/1')).durum, 401)
+})
+
+test('getYonetimMenuSurum_olmayanId_404', async () => {
+  const y = await istek('/yonetim/menu/999999', { basliklar: yonetim })
+  assert.deepEqual([y.durum, y.govde?.hata], [404, 'surumYok'])
+})
+
+test('getYonetimMenuSurum_kayitliSurum_200VeSaklananBelge', async () => {
+  const eski = (await yonetimMenu()).surumler.at(-1)
+  assert.ok(eski)
+  const y = await istek(`/yonetim/menu/${eski.id}`, { basliklar: yonetim })
+  const govde = y.govde as unknown as MenuYaniti
+  assert.equal(y.durum, 200)
+  assert.equal(govde.surum, eski.id)
+  assert.equal(govde.belge.kalemler[0]?.fiyatlar.porsiyon, 700)
+})
+
 test('postGeriAl_olmayanId_404', async () => {
   const taban = (await yonetimMenu()).gecerli?.surum ?? null
   const y = await istek('/yonetim/menu/999999/geri-al', { yontem: 'POST', govde: { taban }, basliklar: yonetim })

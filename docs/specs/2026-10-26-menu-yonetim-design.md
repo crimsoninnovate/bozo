@@ -52,8 +52,9 @@ Fiyat ve menü metni değişikliği bugün koddan, build'den ve deploy'dan geçi
   üretilir). Build öncesi `scripts/menuCek.ts` canlı sürümü `content/menu.canli.json`'a (gitignore)
   çeker; bulunursa site onu, yoksa varsayılanı basar. Yerel bir deploy panelde girilen fiyatı bu
   yüzden ezmez.
-- Skor sunucusu (`sunucu/`) tabloya `menu_surum` ekler ve dört uç: `GET /menu` (herkese açık, 15 sn
-  önbellek, IP sınırı dışında: restoranın wifi'si tek IP), `GET /yonetim/menu`, `PUT /yonetim/menu`,
+- Skor sunucusu (`sunucu/`) tabloya `menu_surum` ekler ve beş uç: `GET /menu` (herkese açık, 15 sn
+  önbellek, genel kovanın dışında ayrı 6000/saat kovası: restoranın wifi'si tek IP), `GET /yonetim/menu`,
+  `PUT /yonetim/menu`, `GET /yonetim/menu/N` (tek sürümün belgesi, geri alma farkı için),
   `POST /yonetim/menu/N/geri-al`.
 - Menü sayfası derlenmiş belgeyle basılır (arama motorları görür). Tarayıcıda sağlayıcı canlı belgeyi
   çeker, doğrular, farklıysa değiştirir. Çekilene kadar (en çok 1,5 sn) fiyatlar gizlenir, sunucu

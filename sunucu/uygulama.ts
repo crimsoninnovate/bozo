@@ -5,7 +5,9 @@ import { hizSiniriKur } from './hiz.ts'
 import { corsBasliklari, govdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
 import { gercekIp } from './ip.ts'
 import { islerKur, type Isler } from './isler.ts'
-import { MENU_ONBELLEK_MS, menuAl, yonetimMenuAl, yonetimMenuGeriAl, yonetimMenuYayinla } from './menu.ts'
+import {
+  MENU_ONBELLEK_MS, menuAl, yonetimMenuAl, yonetimMenuGeriAl, yonetimMenuSurumAl, yonetimMenuYayinla,
+} from './menu.ts'
 import {
   benAl,
   hesabiSil,
@@ -79,6 +81,7 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'GET', desen: /^\/yonetim\/tarama$/, isle: y(() => yonetimTarama(b)) },
     { yontem: 'GET', desen: /^\/menu$/, isle: () => menuAl(b) },
     { yontem: 'GET', desen: /^\/yonetim\/menu$/, isle: y(() => yonetimMenuAl(b)) },
+    { yontem: 'GET', desen: /^\/yonetim\/menu\/(\d{1,9})$/, isle: y((_, [id]) => yonetimMenuSurumAl(b, id ?? '')) },
     { yontem: 'PUT', desen: /^\/yonetim\/menu$/, isle: y((i) => yonetimMenuYayinla(b, i)) },
     {
       yontem: 'POST',

@@ -13,7 +13,8 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   stays hermetic.
 - Menu versions (`menu.ts`, table `menu_surum`): `GET /menu` is public, 15 s cached and on its own generous per-IP
   bucket (6000/hour, outside the general 600; the restaurant wifi is one IP); `PUT /yonetim/menu` validates with `lib/menu/dogrulama.ts`, stores
-  the normalized document and answers 409 `surumEskidi` when `taban` is not the latest version id.
+  the normalized document and answers 409 `surumEskidi` when `taban` is not the latest version id;
+  `GET /yonetim/menu/N` returns one stored version (the panel's rollback diff), 404 `surumYok`.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

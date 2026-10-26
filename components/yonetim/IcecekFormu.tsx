@@ -1,6 +1,7 @@
 'use client'
 
 import { yonetim as m } from '@/content/yonetim'
+import { fiyatYaz } from '@/lib/menu/duzenleme'
 import { doldur } from '@/lib/metin'
 import type { IcecekKalemi } from '@/lib/menu/tipler'
 import { Alan, CiftAlani, fiyatGirdisi, type Hatalar } from './Alanlar'
@@ -33,7 +34,10 @@ export function IcecekFormu({ icecek, sira, hatalar, duz, onOlcuEkle, onOlcuSil,
             onDegis={(v) => v && duz((x) => { const o = x.olculer[n]; if (o) o.ad = v })} />
           <Alan sayi etiket={c.olcuFiyat} deger={fiyatGirdisi(olcu.fiyat)}
             hata={hatalar.get(`${yol}.olculer[${n}].fiyat`)}
-            onDegis={(v) => duz((x) => { const o = x.olculer[n]; if (o) o.fiyat = v === '' ? 0 : Number(v) })} />
+            onDegis={(v, bozuk) => duz((x) => {
+              const o = x.olculer[n]
+              if (o) o.fiyat = fiyatYaz(v, bozuk) ?? Number.NaN
+            })} />
           <button type="button" className={ortak.ikincil} disabled={icecek.olculer.length <= 1}
             onClick={() => onOlcuSil(n)}>
             {c.olcuSil}

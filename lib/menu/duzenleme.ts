@@ -99,3 +99,12 @@ export function olcuSil(b: MenuBelgesi, icecekId: string, sira: number): MenuBel
     return { ...i, olculer: i.olculer.filter((_, s) => s !== sira) }
   })
 }
+
+/**
+ * Sayı alanındaki girdiyi fiyata çevirir: boş `null`, tarayıcının sayı saymadığı metin (`bozuk`) `NaN`,
+ * ki doğrulama reddetsin; sessizce "fiyat yok" sayılmasın.
+ */
+export function fiyatYaz(girdi: string, bozuk: boolean): number | null {
+  if (bozuk) return Number.NaN
+  return girdi === '' ? null : Number(girdi)
+}

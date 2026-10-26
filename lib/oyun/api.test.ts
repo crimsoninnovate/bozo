@@ -156,6 +156,15 @@ test('yonetimApi_menuOkuma_getVeYaniti', async () => {
   assert.equal(kayit.secenek?.method, 'GET')
 })
 
+test('yonetimApi_menuSurumu_getVeYaniti', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yanit = { surum: 5, belge: BELGE_ORNEGI }
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, yanit, kayit), 'Basic abc')
+  assert.deepEqual(await yonetim.menuSurumu(5), yanit)
+  assert.equal(kayit.url, 'http://x/yonetim/menu/5')
+  assert.equal(kayit.secenek?.method, 'GET')
+})
+
 test('yonetimApi_menuHatalari_durumVeKodlaYuzeyeCikar', async () => {
   const durumlar: [number, string][] = [
     [400, 'belgeGecersiz'], [400, 'tabanGecersiz'], [401, 'yetkisiz'], [404, 'surumYok'],

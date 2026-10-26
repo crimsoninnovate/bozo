@@ -19,10 +19,11 @@ type Props = {
   surumler: SurumOzeti[]
   /** Şu an yayındaki sürümün kimliği. */
   yayindaki: number | null
+  mesgul: boolean
   onDon: (surum: SurumOzeti) => void
 }
 
-export function Gecmis({ surumler, yayindaki, onDon }: Props) {
+export function Gecmis({ surumler, yayindaki, mesgul, onDon }: Props) {
   return (
     <section aria-labelledby="gecmis-baslik" className={stil.bolum}>
       <h2 id="gecmis-baslik" className={stil.baslik}>{g.baslik}</h2>
@@ -39,7 +40,9 @@ export function Gecmis({ surumler, yayindaki, onDon }: Props) {
             {s.id === yayindaki ? (
               <em className={stil.etiket}>{g.yayinda}</em>
             ) : (
-              <button type="button" className={ortak.ikincil} onClick={() => onDon(s)}>{g.don}</button>
+              <button type="button" className={ortak.ikincil} disabled={mesgul} onClick={() => onDon(s)}>
+                {g.don}
+              </button>
             )}
           </li>
         ))}

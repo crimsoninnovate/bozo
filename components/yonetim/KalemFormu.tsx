@@ -3,6 +3,7 @@
 import { fotograflar } from '@/content/fotograflar'
 import { yonetim as m } from '@/content/yonetim'
 import type { FotoId } from '@/content/types'
+import { fiyatYaz } from '@/lib/menu/duzenleme'
 import type { MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { Alan, CiftAlani, fiyatGirdisi, type Hatalar } from './Alanlar'
 import ortak from './oturum.module.css'
@@ -29,16 +30,17 @@ function Fiyatlar({ kalem, yol, hatalar, duz }: Pick<KalemProps, 'kalem' | 'hata
         sayi
         etiket={k.porsiyonFiyati}
         deger={fiyatGirdisi(kalem.fiyatlar.porsiyon)}
-        onDegis={(v) => duz((x) => { x.fiyatlar.porsiyon = v === '' ? 0 : Number(v) })}
+        onDegis={(v, bozuk) => duz((x) => { x.fiyatlar.porsiyon = fiyatYaz(v, bozuk) ?? Number.NaN })}
         hata={hatalar.get(`${yol}.fiyatlar.porsiyon`)}
       />
       <Alan
         sayi
         etiket={k.durumFiyati}
         deger={fiyatGirdisi(kalem.fiyatlar.durum)}
-        onDegis={(v) => duz((x) => {
-          if (v === '') delete x.fiyatlar.durum
-          else x.fiyatlar.durum = Number(v)
+        onDegis={(v, bozuk) => duz((x) => {
+          const f = fiyatYaz(v, bozuk)
+          if (f === null) delete x.fiyatlar.durum
+          else x.fiyatlar.durum = f
         })}
         hata={hatalar.get(`${yol}.fiyatlar.durum`)}
       />
@@ -110,7 +112,7 @@ export function OzelFormu({ ozel, hatalar, duz }: OzelProps) {
         onDegis={(c) => c && duz((x) => { x.aciklama = c })} />
       <div className={stil.fiyatlar}>
         <Alan sayi etiket={o.fiyat} deger={fiyatGirdisi(ozel.fiyat)} hata={hatalar.get('ozel.fiyat')}
-          onDegis={(v) => duz((x) => { x.fiyat = v === '' ? 0 : Number(v) })} />
+          onDegis={(v, bozuk) => duz((x) => { x.fiyat = fiyatYaz(v, bozuk) ?? Number.NaN })} />
       </div>
     </fieldset>
   )

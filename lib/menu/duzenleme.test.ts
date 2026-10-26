@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
-  icecekEkle, icecekSil, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle, olcuSil,
+  fiyatYaz, icecekEkle, icecekSil, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle, olcuSil,
 } from './duzenleme.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -107,4 +107,23 @@ test('icecekIslemleri_bilinmeyenKimlik_hataFirlatir', () => {
   assert.throws(() => icecekSil(varsayilan, 'yok'))
   assert.throws(() => olcuEkle(varsayilan, 'yok'))
   assert.throws(() => kalemSil(varsayilan, 'yok'))
+})
+
+test('fiyatYaz_bosGirdi_null', () => {
+  assert.equal(fiyatYaz('', false), null)
+})
+
+test('fiyatYaz_sifir_sifirdirBosDegil', () => {
+  assert.equal(fiyatYaz('0', false), 0)
+})
+
+test('fiyatYaz_tarayiciSayiSaymadi_nanDonerVeDogrulamaReddeder', () => {
+  assert.ok(Number.isNaN(fiyatYaz('', true)))
+  for (const alan of ['porsiyon', 'durum'] as const) {
+    const b = structuredClone(varsayilan)
+    const kalem = b.kalemler[0]
+    assert.ok(kalem)
+    kalem.fiyatlar[alan] = fiyatYaz('', true) ?? 0
+    assert.equal(menuBelgesiDogrula(b).tamam, false, alan)
+  }
 })

@@ -111,6 +111,7 @@ export const yonetim = {
       geriAl: 'Onayla ve Geri Al',
       vazgec: 'Vazgeç',
       fark: 'Değişiklikler',
+      farksiz: 'Yayındaki menüyle aynı içerik.',
       geriAlNot:
         'Yayındaki menü, {tarih} sürümünün içeriğiyle değiştirilir; geri alma da geçmişe yeni bir sürüm '
         + 'olarak eklenir. Ekrandaki kaydedilmemiş değişiklikler kapanır.',
