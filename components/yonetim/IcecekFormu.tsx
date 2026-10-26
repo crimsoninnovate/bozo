@@ -24,7 +24,7 @@ type Props = {
   onSil: () => void
 }
 
-/** Her ölçünün fiyatı, ölçünün adıyla ("Kutu fiyatı (TL)"); kart kapalıyken de düzenlenir. */
+/** Her ölçünün fiyatı, ölçünün adıyla ("Kutu (TL)"); kart kapalıyken de düzenlenir. */
 function OlcuFiyatlari({ icecek, yol, hatalar, duz }: Pick<Props, 'icecek' | 'hatalar' | 'duz'> & { yol: string }) {
   return (
     <>

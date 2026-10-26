@@ -85,7 +85,7 @@ const y = yonetim.menu.durum
 type YayinGirdisi = { hataSayisi: number; ilkHata: Sekme | null; degisiklik: number; eski: boolean }
 type YayinDurumu = { metin: string; kapali: boolean }
 
-/** Alt barın tek satırı ve Yayınla'nın kapalı olup olmadığı. `eski`: yayındaki sürüm 1. sürüm biçiminde. */
+/** Alt barın tek satırı ve Yayınla'nın durumu. `eski`: yayındaki sürüm 1. sürüm biçiminde. */
 export function yayinDurumu({ hataSayisi, ilkHata, degisiklik, eski }: YayinGirdisi): YayinDurumu {
   if (hataSayisi > 0) {
     const metin = ilkHata

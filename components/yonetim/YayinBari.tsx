@@ -48,12 +48,12 @@ export function YayinBari({ durum, degisiklikVar, onYayinla, onAt }: Props) {
     setSoruluyor(false)
     requestAnimationFrame(() => atDugmesi.current?.focus())
   }
-  const soru = soruluyor && degisiklikVar
+  if (soruluyor && !degisiklikVar) setSoruluyor(false) // atılacak bir şey kalmadı: onay sıfırlanır
   return (
-    <AltBar ust={soru && <AtSorusu onEvet={() => { onAt(); setSoruluyor(false) }} onVazgec={vazgec} />}>
+    <AltBar ust={soruluyor && <AtSorusu onEvet={() => { onAt(); setSoruluyor(false) }} onVazgec={vazgec} />}>
       <div className={stil.sol}>
         <p id={durumKimlik} className={stil.durum}>{durum.metin}</p>
-        {degisiklikVar && !soru && (
+        {degisiklikVar && !soruluyor && (
           <button ref={atDugmesi} type="button" className={stil.at} onClick={() => setSoruluyor(true)}>
             {m.menu.at.dugme}
           </button>

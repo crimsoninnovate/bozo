@@ -1,5 +1,5 @@
 /* Alt eylem çubuğu: sütun genişliğinde sabit, iPhone'un ev çizgisinin üstünde. İçeriğin alt payı
-   (MenuYonetimi.module.css) en yüksek hâlinden (~80px) büyük tutulur ki son alanı örtmesin. */
+   (MenuYonetimi.module.css) normal barı (~80px) aşar; onay açıkken (~190px) bar son alanı geçici örter. */
 .alt {
   position: fixed;
   right: 0;

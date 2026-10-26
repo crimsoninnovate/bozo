@@ -149,7 +149,7 @@ export const yonetim = {
     icecek: {
       ad: 'İçecek adı',
       olcuAd: 'Ölçü adı',
-      olcuFiyat: '{ad} fiyatı (TL)',
+      olcuFiyat: '{ad} (TL)',
       olcu: 'Ölçü {n}',
       olcuEkle: 'Ölçü Ekle',
       olcuSil: 'Ölçüyü Sil',
