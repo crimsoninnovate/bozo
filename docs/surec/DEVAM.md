@@ -11,6 +11,8 @@ Son güncelleme: 26 Ekim 2026
 - **`feat/panel-mobil`, deploy sırası (26 Ekim):** önce skor sunucusu, sonra site. Yeni giriş formu
   `POST /yonetim/oturum` çağırır ("Beni hatırla", 30 günlük imzalı anahtar); sunucu eski sürümdeyken
   giriş 404 verir. Kimlik bilgisi değişince tüm oturumlar düşer.
+  Panel telefon önce yeniden tasarlandı (sekmeli tek sütun, sabit alt eylem çubuğu); iki metin taşındı:
+  sitenin tam durum cümlesi artık Geçmiş sekmesinde, dürüm ipucu Ocakbaşı sekmesinin notunda.
 
 - **Panel genişletmesi canlıda (26 Ekim, önce skor sunucusu, sonra `npm run yayinla`; `main`'e
   birleştirildi).** Menü belgesi v2: tükendi işareti, duyuru bandı, ikramlar ve iletişim bilgileri artık
