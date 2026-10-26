@@ -1,0 +1,259 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  "name": "Ocakbaşı",
+  "url": "https://cigercibozo.com/menu/",
+  "hasMenuSection": [
+    {
+      "@type": "MenuSection",
+      "name": "Ocakbaşı",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Ciğer",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "690",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "690",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Dalak",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Yürek",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Terbiyeli Tavuk Şiş",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Terbiyesiz Tavuk Şiş",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Terbiyeli Kuşbaşı",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "850",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dürüm",
+              "price": "850",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Bozo Karışık",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Porsiyon",
+              "price": "700",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Bozo Special",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Bozo Special",
+          "offers": [
+            {
+              "@type": "Offer",
+              "price": "900",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "İçecekler",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Cola",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Kutu",
+              "price": "60",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Şişe",
+              "price": "70",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cola Zero",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Kutu",
+              "price": "60",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Şişe",
+              "price": "70",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Fanta",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Kutu",
+              "price": "60",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cappy Çeşitleri",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Kutu",
+              "price": "60",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Ayran",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Büyük",
+              "price": "40",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Küçük",
+              "price": "30",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Açık Yayık",
+              "price": "50",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Su",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Pet",
+              "price": "25",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Cam",
+              "price": "50",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

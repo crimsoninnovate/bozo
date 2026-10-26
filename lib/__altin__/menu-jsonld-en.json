@@ -1,0 +1,259 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  "name": "From the Fire",
+  "url": "https://cigercibozo.com/en/menu/",
+  "hasMenuSection": [
+    {
+      "@type": "MenuSection",
+      "name": "From the Fire",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Urfa Liver Kebab (Ciğer)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "690",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "690",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Spleen (Dalak)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Heart (Yürek)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Marinated Chicken Skewer (Terbiyeli Tavuk Şiş)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Chicken Skewer (Terbiyesiz Tavuk Şiş)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "550",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "550",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Marinated Cubes (Terbiyeli Kuşbaşı)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "850",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Wrap",
+              "price": "850",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Bozo Mixed (Bozo Karışık)",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Portion",
+              "price": "700",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Bozo Special",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Bozo Special",
+          "offers": [
+            {
+              "@type": "Offer",
+              "price": "900",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Drinks",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Cola",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Can",
+              "price": "60",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Bottle",
+              "price": "70",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cola Zero",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Can",
+              "price": "60",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Bottle",
+              "price": "70",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Fanta",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Can",
+              "price": "60",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cappy Flavours",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Can",
+              "price": "60",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Ayran",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Large",
+              "price": "40",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Small",
+              "price": "30",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Churned, by the Glass",
+              "price": "50",
+              "priceCurrency": "TRY"
+            }
+          ]
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Water",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Plastic",
+              "price": "25",
+              "priceCurrency": "TRY"
+            },
+            {
+              "@type": "Offer",
+              "name": "Glass",
+              "price": "50",
+              "priceCurrency": "TRY"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
