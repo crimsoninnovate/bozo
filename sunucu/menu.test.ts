@@ -340,12 +340,13 @@ function enBuyukBelge(harf: string, olcuSayisi: number): MenuBelgesi {
   }
 }
 
-// Ölçüm (26 Ekim 2026, tüm alanlar azami uzunlukta, 5 ölçü): ASCII 99,8 KB, Türkçe harfle 171,7 KB. 64 KB yetmez.
-test('putYonetimMenu_enBuyukGecerliBelge_64KBiAsar', () => {
-  const belge = enBuyukBelge('a', 5)
+// Ölçüm (26 Ekim 2026): her metin azami uzunlukta Türkçe harfle, içecek başına 6 ölçü: 64 KB yetmez, 256 KB yeter.
+test('putYonetimMenu_enBuyukGecerliBelge_menuGovdeSinirininAltinda', () => {
+  const belge = enBuyukBelge('ş', 6)
   assert.equal(menuBelgesiDogrula(belge).tamam, true, 'belge sınırlarda geçerli olmalı')
-  const bayt = Buffer.byteLength(JSON.stringify({ taban: 1_000_000, belge }))
-  assert.ok(bayt > 64 * 1024 && bayt < MENU_GOVDE_SINIRI, `gövde ${bayt} bayt`)
+  const bayt = Buffer.byteLength(JSON.stringify({ taban: 1_000_000, belge }), 'utf8')
+  assert.ok(bayt > 64 * 1024, `ortak sınır yetmediği için ölçüldü: ${bayt} bayt`)
+  assert.ok(bayt < MENU_GOVDE_SINIRI, `gövde ${bayt} bayt, sınır ${MENU_GOVDE_SINIRI}`)
 })
 
 /** Önceki testler IP kovasını doldurdu: gövde sınırı testleri kendi sunucusunda koşar. */
@@ -364,11 +365,11 @@ async function tazeSunucudaPost(
   }
 }
 
-test('putYonetimMenu_100KBGovde_200_128KBUstu_413', async () => {
-  const yuz = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, belge: enBuyukBelge('a', 5) })
-  assert.equal(yuz.durum, 200)
-  const yuzYetmis = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, belge: enBuyukBelge('ş', 5) })
-  assert.deepEqual([yuzYetmis.durum, yuzYetmis.hata], [413, 'govdeBuyuk'])
+test('putYonetimMenu_enBuyukBelge_200_256KBUstuGovde_413', async () => {
+  const buyuk = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, belge: enBuyukBelge('ş', 6) })
+  assert.equal(buyuk.durum, 200)
+  const cokBuyuk = await tazeSunucudaPost('/yonetim/menu', 'PUT', { taban: null, x: 'a'.repeat(257 * 1024) })
+  assert.deepEqual([cokBuyuk.durum, cokBuyuk.hata], [413, 'govdeBuyuk'])
 })
 
 test('postGeriAl_65KBGovde_413_menuSiniriYalnizPutta', async () => {

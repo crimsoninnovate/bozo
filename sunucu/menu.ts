@@ -10,8 +10,8 @@ import type { Baglam } from './uclar.ts'
 
 export const MENU_ONBELLEK_MS = 15_000
 const GECMIS_ADET = 20
-/** En büyük geçerli belge ASCII ile 99,8 KB, Türkçe harfle 171,7 KB (`menu.test.ts`); yayın gövdesi 128 KB'a kadar. */
-export const MENU_GOVDE_SINIRI = 128 * 1024
+/** Her metni azami uzunlukta Türkçe (2 baytlık) harfli en büyük geçerli belge ölçüldü (`menu.test.ts`). */
+export const MENU_GOVDE_SINIRI = 256 * 1024
 
 /** Herkese açık güncel menü; sürüm yoksa 204 (istemci derlenmiş menüyle kalır). */
 export async function menuAl(b: Baglam): Promise<Yanit> {

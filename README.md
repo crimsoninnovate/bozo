@@ -188,13 +188,16 @@ own `755` onto it, hence the `chmod`.
 Verify after every deploy:
 
 ```bash
-ssh plesk-206 'plesk repair fs cigercibozo.com -n'          # expect: [OK], 0 errors
+ssh plesk-206 'plesk repair fs cigercibozo.com -n'          # expect: [OK], "Error messages: 0"
 curl -sI https://cigercibozo.com/ | grep -ci x-robots-tag   # expect: 0, the site is indexed
 rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemize-changes \
   out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/  # expect: no file lines
 ```
 
-That last line is the only honest "is the deploy complete" check. A plain dry-run is not:
+`npm run yayinla` looks for the `Error messages: 0` line in that output and fails without it; the
+exact wording is unverified until the first real run.
+
+The `rsync` line is the only honest "is the deploy complete" check. A plain dry-run is not:
 `rsync` compares mtime by default, and a clean rebuild resets every timestamp, so it reports
 changes that are not there. `--checksum` compares content. `--no-owner --no-group --no-perms`
 keep the `chown` above from listing every file as `.f....og...` (measured 23 October 2026: 171

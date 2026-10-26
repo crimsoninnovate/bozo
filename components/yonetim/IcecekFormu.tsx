@@ -1,6 +1,7 @@
 'use client'
 
 import { yonetim as m } from '@/content/yonetim'
+import { ENFAZLA_OLCU } from '@/lib/menu/dogrulama'
 import { fiyatYaz } from '@/lib/menu/duzenleme'
 import { doldur } from '@/lib/metin'
 import type { IcecekKalemi } from '@/lib/menu/tipler'
@@ -47,7 +48,8 @@ export function IcecekFormu({ icecek, sira, hatalar, duz, onOlcuEkle, onOlcuSil,
       <Isaret etiket={m.menu.tukendi} isaretli={icecek.tukendi}
         onDegis={(v) => duz((x) => { x.tukendi = v })} />
       <div className={ortak.dugmeler}>
-        <button type="button" className={ortak.ikincil} onClick={onOlcuEkle}>{c.olcuEkle}</button>
+        <button type="button" className={ortak.ikincil} disabled={icecek.olculer.length >= ENFAZLA_OLCU}
+          onClick={onOlcuEkle}>{c.olcuEkle}</button>
         <button type="button" className={ortak.ikincil} onClick={onSil}>{c.sil}</button>
       </div>
     </fieldset>

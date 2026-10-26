@@ -66,9 +66,10 @@ Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. 
 basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
 çağırıp fiyatları anında tazeler.
 
-**Gövde sınırı (26 Ekim 2026, panel genişletmesi).** En büyük geçerli menü belgesi 99,8 KB (ASCII)
-ile 171,7 KB (Türkçe harfler) tutuyor; ortak 64 KB sınırı yetmediği için yalnız `PUT /yonetim/menu`
-128 KB okur (`sunucu/menu.ts` > `MENU_GOVDE_SINIRI`). Sunucu kodu bu daldaki panel genişletmesiyle
+**Gövde sınırı (26 Ekim 2026, panel genişletmesi).** Her metin azami uzunlukta Türkçe harfle ve içecek başına
+6 ölçüyle (doğrulayıcının tavanı) en büyük geçerli menü belgesi 180.067 bayt tutuyor; ortak 64 KB sınırı yetmediği
+için yalnız `PUT /yonetim/menu` 256 KB okur (`sunucu/menu.ts` > `MENU_GOVDE_SINIRI`). Her yerde 3 baytlık karakterden
+oluşan bir belge yine aşabilir; panel o zaman "Menü çok büyük, kaydedilemedi." der. Sunucu kodu bu daldaki panel genişletmesiyle
 değiştiği (v2 doğrulayıcı dahil: eski sunucu `duyuru`, `ikramlar`, `iletisim` alanlarını reddeder) için
 yukarıdaki "Sunucu güncellemesi" ile yeniden dağıtılmalı; bu sahibin kararı. Nginx'in varsayılan gövde
 sınırı 1 MB, bu boyutların çok üstünde; arc'ta `client_max_body_size` ayrıca denenmedi.

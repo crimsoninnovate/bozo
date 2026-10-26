@@ -19,6 +19,7 @@ const KALEM_KIMLIK = /^[a-z0-9-]{2,40}$/
 const ICECEK_KIMLIK = /^[a-zA-Z0-9-]{2,40}$/
 const ENFAZLA_KALEM = 40
 const ENFAZLA_ICECEK = 30
+export const ENFAZLA_OLCU = 6
 export const DUYURU_EN_FAZLA = 140
 const ENFAZLA_IKRAM = 12
 const ENFAZLA_KUME = 8
@@ -193,7 +194,7 @@ function icecek(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): IcecekKa
   if (!o) return undefined
   const id = kimlik(c, o.id, `${yol}.id`, gorulen, ICECEK_KIMLIK, 'harf')
   const ad = cift(c, o.ad, `${yol}.ad`, 60)
-  const liste = dizi(c, o.olculer, `${yol}.olculer`, Number.POSITIVE_INFINITY)
+  const liste = dizi(c, o.olculer, `${yol}.olculer`, ENFAZLA_OLCU)
   if (liste?.length === 0) hata(c, `${yol}.olculer`, 'olcuYok', 'En az bir ölçü olmalı.')
   const olculer = liste?.map((x, n) => olcu(c, x, `${yol}.olculer[${n}]`))
   const yok = tukendi(c, o.tukendi, `${yol}.tukendi`)

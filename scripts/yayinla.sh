@@ -33,19 +33,24 @@ ssh "$SUNUCU" "D=$DIZIN;
   chown -R engincaglar:psacln \"\$D\" && chown engincaglar:psaserv \"\$D\" && chmod 750 \"\$D\""
 
 adim "Verifying: plesk repair fs"
-REPAIR="$(ssh "$SUNUCU" 'plesk repair fs cigercibozo.com -n')"
+REPAIR="$(ssh "$SUNUCU" 'plesk repair fs cigercibozo.com -n' 2>&1)" || {
+  printf '%s\n' "$REPAIR"
+  dur "plesk repair fs exited with an error (output above)."
+}
 printf '%s\n' "$REPAIR"
-if printf '%s\n' "$REPAIR" | grep -Eqi 'incorrect|\[error\]'; then
-  dur "plesk repair fs reported problems (see above)."
-fi
+# Fail closed: only Plesk's own summary line counts as a clean result.
+grep -q 'Error messages: 0' <<<"$REPAIR" ||
+  dur "plesk repair fs did not report 'Error messages: 0'; could not confirm a clean result (output above)."
 
 adim "Verifying: no x-robots-tag header (the site is indexed)"
 ROBOTS="$(curl -sI https://cigercibozo.com/ | grep -ci x-robots-tag || true)"
 [ "$ROBOTS" = 0 ] || dur "the site sends an x-robots-tag header ($ROBOTS). It must stay indexable."
 
 adim "Verifying: checksum dry run, no file lines expected"
-DIFF="$(rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemize-changes \
-  out/ "$SUNUCU:$DIZIN/" | grep -E '^(\*deleting|[<>ch.][fLDS])' || true)"
+# rsync runs on its own so a failure aborts the script instead of reading as "no differences".
+DRY="$(rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemize-changes \
+  out/ "$SUNUCU:$DIZIN/")"
+DIFF="$(grep -E '^(\*deleting|[<>ch.][fLDS])' <<<"$DRY" || true)"
 if [ -n "$DIFF" ]; then
   printf '%s\n' "$DIFF"
   dur "the server differs from out/ (files above). The deploy is not complete."

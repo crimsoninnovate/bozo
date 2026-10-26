@@ -201,6 +201,16 @@ test('dogrulama_kalemVeIcecekSayisi_sinirdaReddeder', () => {
   assert.ok(reddedilen(menuBelgesiDogrula(icecekEkle(31))).some((h) => h.kod === 'cokFazla'))
 })
 
+test('dogrulama_icecekOlcusuAltidanFazla_cokFazlaReddeder', () => {
+  const olcuEkle = (n: number) => varsayilanKopya((b) => {
+    const i = al(b.icecekler, 0)
+    i.olculer = Array.from({ length: n }, () => structuredClone(al(i.olculer, 0)))
+  })
+  assert.equal(menuBelgesiDogrula(olcuEkle(6)).tamam, true)
+  const hatalar = reddedilen(menuBelgesiDogrula(olcuEkle(7)))
+  assert.deepEqual([al(hatalar, 0).yol, al(hatalar, 0).kod], ['icecekler[0].olculer', 'cokFazla'])
+})
+
 test('dogrulama_icecekOlcusuYok_reddeder', () => {
   const hatalar = reddedilen(
     menuBelgesiDogrula(varsayilanKopya((b) => { al(b.icecekler, 0).olculer = [] })),

@@ -16,9 +16,10 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   is one IP). `PUT /yonetim/menu` validates with `lib/menu/dogrulama.ts`, stores the normalized
   document and answers 409 `surumEskidi` when `taban` is not the latest version id;
   `GET /yonetim/menu/N` returns one stored version (the panel's rollback diff), 404 `surumYok`.
-- Body limits: the shared `GOVDE_SINIRI` is 64 KB, but the largest valid menu document measures 99.8 KB
-  (ASCII) to 171.7 KB (Turkish letters), so `PUT /yonetim/menu` alone reads up to `MENU_GOVDE_SINIRI`
-  (128 KB, `menu.ts`). Every other route keeps 64 KB; `menu.test.ts` holds the measurement.
+- Body limits: the shared `GOVDE_SINIRI` is 64 KB, too small for a menu document (the largest valid one, Turkish
+  letters at every maximum and 6 sizes per drink, measures 180,067 bytes), so `PUT /yonetim/menu` alone reads
+  up to `MENU_GOVDE_SINIRI` (256 KB, `menu.ts`). A document of 3-byte characters everywhere could still exceed
+  it; the panel then shows "Menü çok büyük, kaydedilemedi." `menu.test.ts` holds the measurement.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

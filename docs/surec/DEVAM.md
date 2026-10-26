@@ -14,7 +14,7 @@ Son güncelleme: 26 Ekim 2026
   `README.md` > Publishing > Deploy tablosu. Tasarım `docs/specs/2026-10-26-panel-genisletme-design.md`,
   plan `docs/plans/2026-10-26-panel-genisletme-plani.md`. Yayın tek komut: `npm run yayinla`
   (`scripts/yayinla.sh`), sahibin onayıyla çalıştırılır. Skor sunucusu kodu da değişti (v2 doğrulayıcı, `PUT /yonetim/menu`
-  gövde sınırı 128 KB, `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri): eski sunucu v2 belgesini kabul etmez.
+  gövde sınırı 256 KB, `SUNUCU-CANLIYA-ALMA.md` > Menü sürümleri): eski sunucu v2 belgesini kabul etmez.
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
@@ -60,7 +60,7 @@ Son güncelleme: 26 Ekim 2026
   Brifteki GA4 `menu_scan` olayı kullanılmadı: GA onaysız çalışmaz, okumaların küçük bir kısmını sayardı.
 - **Masa QR'ı** (11 Ekim, tek ortak QR) üretildi (`~/Desktop/Bozo/QR/`, `https://cigercibozo.com/menu/`, SVG ve PNG); masadaki
   QR'lar site menüsüne gidiyor, menüdeki QR glifi bu yüzden doğru ve dekoratif.
-- Testler 693 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `feat/panel-genisletme`).
+- Testler 694 geçer (18 atlanır: opt-in MariaDB sözleşmesi), typecheck temiz (26 Ekim, `feat/panel-genisletme`).
 
 ## Bekleyen iş
 
