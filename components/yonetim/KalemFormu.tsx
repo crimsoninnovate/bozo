@@ -1,15 +1,12 @@
 'use client'
 
-import { fotograflar } from '@/content/fotograflar'
 import { yonetim as m } from '@/content/yonetim'
-import type { FotoId } from '@/content/types'
 import { fiyatYaz } from '@/lib/menu/duzenleme'
 import type { MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
-import { Alan, CiftAlani, fiyatGirdisi, type Hatalar } from './Alanlar'
+import { Alan, CiftAlani, FotoSecimi, Isaret, fiyatGirdisi, type Hatalar } from './Alanlar'
 import ortak from './oturum.module.css'
 import stil from './KalemFormu.module.css'
 
-const FOTO_IDLERI = Object.keys(fotograflar) as FotoId[]
 const k = m.menu.kalem
 
 type KalemProps = {
@@ -48,21 +45,6 @@ function Fiyatlar({ kalem, yol, hatalar, duz }: Pick<KalemProps, 'kalem' | 'hata
   )
 }
 
-function FotoSecimi({ kalem, duz }: Pick<KalemProps, 'kalem' | 'duz'>) {
-  return (
-    <label className={ortak.alan}>
-      {k.foto}
-      <select
-        value={kalem.fotoId ?? ''}
-        onChange={(o) => duz((x) => { x.fotoId = o.target.value === '' ? null : (o.target.value as FotoId) })}
-      >
-        <option value="">{k.fotoYok}</option>
-        {FOTO_IDLERI.map((id) => <option key={id} value={id}>{fotograflar[id].etiket}</option>)}
-      </select>
-    </label>
-  )
-}
-
 export function KalemFormu({ kalem, sira, son, hatalar, duz, onTasi, onSil }: KalemProps) {
   const yol = `kalemler[${sira}]`
   const ciger = kalem.id === 'ciger'
@@ -78,7 +60,10 @@ export function KalemFormu({ kalem, sira, son, hatalar, duz, onTasi, onSil }: Ka
         hatalar={hatalar} onDegis={(c) => duz((x) => { x.porsiyonNotu = c })} />
       <CiftAlani bosOlur etiket={k.durumNotu} deger={kalem.durumNotu} yol={`${yol}.durumNotu`}
         hatalar={hatalar} onDegis={(c) => duz((x) => { x.durumNotu = c })} />
-      <FotoSecimi kalem={kalem} duz={duz} />
+      <FotoSecimi etiket={k.foto} yok={k.fotoYok} deger={kalem.fotoId}
+        onDegis={(v) => duz((x) => { x.fotoId = v })} />
+      <Isaret etiket={m.menu.tukendi} isaretli={kalem.tukendi}
+        onDegis={(v) => duz((x) => { x.tukendi = v })} />
       {ciger ? (
         <p className={ortak.not}>{k.ciger}</p>
       ) : (

@@ -1,0 +1,46 @@
+.duyuru {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.baslik {
+  padding: 0 8px;
+  font: 400 18px/1.2 var(--font-baslik);
+  color: var(--krem);
+}
+
+.bitis {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+
+.bitis > label {
+  flex: 1 1 260px;
+}
+
+.onizleme {
+  display: grid;
+  gap: 8px;
+}
+
+.altBaslik {
+  margin: 0;
+  font: 400 16px/1.2 var(--font-baslik);
+}
+
+.dilSatiri {
+  display: grid;
+  gap: 4px;
+}
+
+/* Sitede görünmeyecek duyuru soluk gösterilir. */
+.dilSatiri[data-pasif='true'] {
+  opacity: 0.55;
+}

@@ -1,7 +1,9 @@
 'use client'
 
 import { useId, useState, type SubmitEvent } from 'react'
+import { fotograflar } from '@/content/fotograflar'
 import { yonetim as m } from '@/content/yonetim'
+import type { FotoId } from '@/content/types'
 import type { Sorun } from '@/lib/menu/dogrulama'
 import type { Cift } from '@/lib/menu/tipler'
 import ortak from './oturum.module.css'
@@ -24,16 +26,22 @@ type AlanProps = {
   hata?: string
   uzun?: boolean
   sayi?: boolean
+  /** Verilirse alanın altında `n/enFazla` sayacı çıkar ve alana bağlanır. */
+  enFazla?: number
 }
 
-export function Alan({ etiket, deger, onDegis, hata, uzun, sayi }: AlanProps) {
+export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, enFazla }: AlanProps) {
   const hataKimlik = useId()
+  const sayacKimlik = useId()
+  const bagli = [enFazla !== undefined && sayacKimlik, hata && hataKimlik].filter(Boolean).join(' ')
   const ortakOzellik = {
     value: deger,
     onChange: (o: { target: { value: string; validity: ValidityState } }) =>
       onDegis(o.target.value, o.target.validity.badInput),
+    // Baştaki ve sondaki boşluk yazarken değil alandan çıkınca kırpılır, kelime arası boşluk bozulmaz.
+    onBlur: () => { if (!sayi && deger !== deger.trim()) onDegis(deger.trim(), false) },
     'aria-invalid': hata ? true : undefined,
-    'aria-describedby': hata ? hataKimlik : undefined,
+    'aria-describedby': bagli || undefined,
   }
   return (
     <label className={ortak.alan}>
@@ -43,7 +51,37 @@ export function Alan({ etiket, deger, onDegis, hata, uzun, sayi }: AlanProps) {
       ) : (
         <input {...ortakOzellik} {...(sayi ? { type: 'number', inputMode: 'numeric', min: 1, step: 1 } : {})} />
       )}
+      {enFazla !== undefined && <span id={sayacKimlik} className={ortak.not}>{deger.length}/{enFazla}</span>}
       {hata && <span id={hataKimlik} className={ortak.alanHata}>{hata}</span>}
+    </label>
+  )
+}
+
+type IsaretProps = { etiket: string; isaretli: boolean; onDegis: (v: boolean) => void }
+
+/** Etiketli onay kutusu; tüm satır 44px yüksekliğinde dokunma alanıdır. */
+export function Isaret({ etiket, isaretli, onDegis }: IsaretProps) {
+  return (
+    <label className={ortak.isaret}>
+      <input type="checkbox" checked={isaretli} onChange={(o) => onDegis(o.target.checked)} />
+      {etiket}
+    </label>
+  )
+}
+
+const FOTO_IDLERI = Object.keys(fotograflar) as FotoId[]
+
+type FotoProps = { etiket: string; yok: string; deger: FotoId | null; onDegis: (v: FotoId | null) => void }
+
+/** Sitenin kullandığı fotoğraf kimliklerinden seçim; boş seçim fotoğrafsız demektir. */
+export function FotoSecimi({ etiket, yok, deger, onDegis }: FotoProps) {
+  return (
+    <label className={ortak.alan}>
+      {etiket}
+      <select value={deger ?? ''} onChange={(o) => onDegis(o.target.value === '' ? null : (o.target.value as FotoId))}>
+        <option value="">{yok}</option>
+        {FOTO_IDLERI.map((id) => <option key={id} value={id}>{fotograflar[id].etiket}</option>)}
+      </select>
     </label>
   )
 }
@@ -57,10 +95,11 @@ type CiftProps = {
   uzun?: boolean
   /** Boş bırakılabilen alan: iki dil de boşsa `null` yazılır. */
   bosOlur?: boolean
+  enFazla?: number
 }
 
 /** Türkçe ve İngilizce yan yana. */
-export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur }: CiftProps) {
+export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur, enFazla }: CiftProps) {
   const degistir = (dil: 'tr' | 'en', v: string) => {
     const sonraki = { tr: deger?.tr ?? '', en: deger?.en ?? '', [dil]: v }
     onDegis(bosOlur && sonraki.tr === '' && sonraki.en === '' ? null : sonraki)
@@ -75,6 +114,7 @@ export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur 
           onDegis={(v) => degistir(dil, v)}
           hata={hatalar.get(`${yol}.${dil}`) ?? hatalar.get(yol)}
           uzun={uzun}
+          enFazla={enFazla}
         />
       ))}
     </div>

@@ -1,0 +1,55 @@
+.sayfa,
+.liste {
+  display: grid;
+  gap: 16px;
+}
+
+.sayfa {
+  gap: 24px;
+}
+
+.ana {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
+}
+
+.altBaslik {
+  margin: 0;
+  font: 400 18px/1.2 var(--font-baslik);
+}
+
+.kart {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.baslik {
+  padding: 0 8px;
+  font: 400 18px/1.2 var(--font-baslik);
+  color: var(--krem);
+}
+
+.ogeler {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oge {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding-top: 12px;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.oge > :first-child {
+  width: 100%;
+}

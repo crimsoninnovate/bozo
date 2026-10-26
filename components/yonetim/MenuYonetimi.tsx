@@ -8,12 +8,15 @@ import {
 } from '@/lib/menu/duzenleme'
 import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
 import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
-import type { IcecekKalemi, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
+import { eskiBelgeMi, panelBelgesi } from '@/lib/menu/panel'
+import type { Duyuru, IcecekKalemi, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import type { YonetimApi } from '@/lib/oyun/api'
 import { YeniKayit, hatalariEsle, type Hatalar } from './Alanlar'
+import { DuyuruFormu } from './DuyuruFormu'
 import { Gecmis, surumTarihi } from './Gecmis'
 import { IcecekFormu } from './IcecekFormu'
+import { IkramFormu } from './IkramFormu'
 import { KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
 import { YayinOnayi } from './YayinOnayi'
@@ -23,7 +26,7 @@ import stil from './MenuYonetimi.module.css'
 /* Menü paneli (spec 2026-10-26): çalışma kopyası düzenlenir, hata anında görünür, yayın farkla onaylanır.
    Sürüm kimliği (`taban`) yayında sunucuya gider; başkası araya girdiyse 409 döner. */
 
-const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'gecmis'] as const
+const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'gecmis'] as const
 type Sekme = (typeof SEKMELER)[number]
 /** `geriAl`: dönülecek sürüm ve içeriği (farkı göstermek için önceden okunur). */
 type Onay = { geriAl: { surum: SurumOzeti; belge: MenuBelgesi } | null }
@@ -49,6 +52,7 @@ function Ocakbasi({ belge, hatalar, duzenle }: ListeProps) {
     duzenle((b) => { const k = b.kalemler.find((x) => x.id === id); if (k) fn(k) })
   return (
     <div className={stil.liste}>
+      <p className={ortak.not}>{m.menu.tukendiNot}</p>
       {belge.kalemler.map((kalem, n) => (
         <KalemFormu key={kalem.id} kalem={kalem} sira={n} son={n === belge.kalemler.length - 1}
           hatalar={hatalar} duz={duz(kalem.id)}
@@ -66,6 +70,7 @@ function Icecekler({ belge, hatalar, duzenle }: ListeProps) {
     duzenle((b) => { const i = b.icecekler.find((x) => x.id === id); if (i) fn(i) })
   return (
     <div className={stil.liste}>
+      <p className={ortak.not}>{m.menu.tukendiNot}</p>
       {belge.icecekler.map((icecek, n) => (
         <IcecekFormu key={icecek.id} icecek={icecek} sira={n} hatalar={hatalar} duz={duz(icecek.id)}
           onOlcuEkle={() => duzenle((b) => olcuEkle(b, icecek.id))}
@@ -84,15 +89,20 @@ type Mesaj = { metin: string; hata: boolean }
 /** Sunucudaki menü, çalışma kopyası ve yayın/geri alma işlemleri. */
 function useCalisma({ api, cik, baz }: PanelProps) {
   const [canli, setCanli] = useState<YonetimMenuYaniti | null>(null)
+  const [eski, setEski] = useState(false)
   const [belge, setBelge] = useState<MenuBelgesi>(baz)
   const [mesgul, setMesgul] = useState(false)
   const [mesaj, setMesaj] = useState<Mesaj | null>(null)
 
+  /** Sunucudaki yayındaki sürüm 1. sürüm biçimindeyse `eski` olur; panel belgeyi 2. sürüme tamamlar. */
   const yukle = useCallback(async () => {
     const yanit = await api.menu()
-    setCanli(yanit)
-    return yanit
-  }, [api])
+    const gecerli = yanit.gecerli && { ...yanit.gecerli, belge: panelBelgesi(yanit.gecerli.belge, baz) }
+    const tam = { ...yanit, gecerli }
+    setEski(yanit.gecerli !== null && eskiBelgeMi(yanit.gecerli.belge))
+    setCanli(tam)
+    return tam
+  }, [api, baz])
   useEffect(() => {
     yukle().then(
       (y) => setBelge(y.gecerli?.belge ?? baz),
@@ -120,11 +130,14 @@ function useCalisma({ api, cik, baz }: PanelProps) {
       setMesgul(false)
     }
   }
-  /** Geri almadan önce eski sürümün belgesi okunur; olmazsa hata yazılır ve `null` döner. */
+  /**
+   * Geri almadan önce eski sürümün belgesi okunur; olmazsa hata yazılır ve `null` döner. Eksik bölümler
+   * yayındaki sürümden gelir (sunucu geri almada da böyle tamamlar), böylece fark gerçek sonucu gösterir.
+   */
   const surumGetir = async (id: number): Promise<MenuBelgesi | null> => {
     setMesgul(true)
     try {
-      return (await api.menuSurumu(id)).belge
+      return panelBelgesi((await api.menuSurumu(id)).belge, canli?.gecerli?.belge ?? baz)
     } catch (h) {
       setMesaj({ metin: hataIsle(h, cik), hata: true })
       return null
@@ -132,12 +145,12 @@ function useCalisma({ api, cik, baz }: PanelProps) {
       setMesgul(false)
     }
   }
-  return { canli, belge, mesgul, mesaj, duzenle, bitir, surumGetir }
+  return { canli, eski, belge, mesgul, mesaj, duzenle, bitir, surumGetir }
 }
 
 function Calisma(props: PanelProps) {
   const { api, baz } = props
-  const { canli, belge, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
+  const { canli, eski, belge, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
   const [sekme, setSekme] = useState<Sekme>('ocakbasi')
   const [onay, setOnay] = useState<Onay | null>(null)
 
@@ -179,10 +192,15 @@ function Calisma(props: PanelProps) {
               duz={(fn: (o: OzelKalem) => void) => duzenle((b) => fn(b.ozel))} />
           )}
           {sekme === 'icecekler' && <Icecekler belge={belge} hatalar={hatalar} duzenle={duzenle} />}
+          {sekme === 'ikramlar' && <IkramFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />}
+          {sekme === 'duyuru' && (
+            <DuyuruFormu duyuru={belge.duyuru} hatalar={hatalar}
+              duz={(fn: (d: Duyuru) => void) => duzenle((b) => fn(b.duyuru))} />
+          )}
           {sekme === 'gecmis' ? (
             <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={surumeDon} />
           ) : (
-            <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} degisiklik={fark.length}
+            <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} degisiklik={fark.length} eski={eski}
               onYayinla={() => setOnay({ geriAl: null })} />
           )}
         </>
@@ -220,18 +238,19 @@ function OnayEkrani({ onay, fark, yayindaki, sonuc, belge, mesgul, onayla, vazge
   )
 }
 
-type BarProps = { hataSayisi: number; degisiklik: number; onYayinla: () => void }
+/** `eski`: yayındaki sürüm 1. sürüm biçiminde; değişiklik olmasa da bir kez yayınlanabilir. */
+type BarProps = { hataSayisi: number; degisiklik: number; eski: boolean; onYayinla: () => void }
 
-function YayinBari({ hataSayisi, degisiklik, onYayinla }: BarProps) {
-  const neden = hataSayisi > 0
-    ? doldur(m.menu.hatali, { sayi: hataSayisi })
-    : degisiklik === 0 ? m.menu.degisiklikYok : null
+function YayinBari({ hataSayisi, degisiklik, eski, onYayinla }: BarProps) {
+  const bos = degisiklik === 0 && !eski
+  const neden = hataSayisi > 0 ? doldur(m.menu.hatali, { sayi: hataSayisi }) : bos ? m.menu.degisiklikYok : null
   return (
     <div className={stil.bar}>
       <button type="button" className={ortak.ana} disabled={neden !== null} onClick={onYayinla}>
         {m.menu.yayinla}
       </button>
       {neden && <p className={ortak.not}>{neden}</p>}
+      {!neden && degisiklik === 0 && eski && <p className={ortak.not}>{m.menu.eskiSurum}</p>}
     </div>
   )
 }

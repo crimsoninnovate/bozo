@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { yonetim as m } from '@/content/yonetim'
+import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
 import stil from './oturum.module.css'
@@ -14,6 +15,10 @@ export const apiAl = (yetki: string) => yonetimApiKur(API_KOKU, (girdi, secenek)
 
 /** ApiHatasi dışındaki her hata (örn. JSON olmayan gövde) genel mesaja düşer; ayrıntı konsola yazılır. */
 export function hataMetni(hata: unknown): string {
+  if (hata instanceof BelgeHatasi) {
+    console.error('sunucudaki menü panele açılamadı', hata)
+    return m.menu.belgeOkunamadi
+  }
   if (!(hata instanceof ApiHatasi)) {
     console.error('yönetim isteği beklenmedik hatayla bitti', hata)
     return doldur(m.hata.genel, { kod: 'bilinmeyen' })

@@ -80,3 +80,28 @@
   font-size: 14.5px;
   color: var(--krem-70);
 }
+
+/* Onay kutusu: etiketin tamamı tıklanır, 44px'ten alçak değil. */
+.isaret {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  color: var(--krem);
+  font: 500 16px/1.3 var(--font-govde);
+  cursor: pointer;
+}
+
+.isaret input {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--bakir);
+  cursor: pointer;
+}
+
+.isaret input:focus-visible {
+  outline: 2px solid var(--bakir);
+  outline-offset: 2px;
+}
