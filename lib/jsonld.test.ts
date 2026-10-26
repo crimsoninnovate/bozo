@@ -263,18 +263,18 @@ test('jsonLdMetni_scriptKapanisiIceren_veriyleKucuktureYerVermez', () => {
   assert.deepEqual(JSON.parse(metin), veri)
 })
 
-test('menuJsonLd_tukendiKalem_outOfStock', () => {
+// Tükendi bayrağı aynı güne ait; statik JSON-LD onu taşımaz, yalnız menü sayfasının canlı okuması gösterir.
+test('menuJsonLd_tukendiKalem_stoktaKalir', () => {
   const b = structuredClone(belge)
   const ciger = b.kalemler[0]
   const su = b.icecekler.find((i) => i.id === 'su')
   assert.ok(ciger && su)
   ciger.tukendi = true
   su.tukendi = true
+  const metin = jsonLdMetni(menuJsonLd('tr', b))
+  assert.equal(metin.includes('OutOfStock'), false)
   const bolumler = (menuJsonLd('tr', b) as Record<string, unknown>).hasMenuSection as MenuSection[]
   const durum = (k: MenuItem | undefined) => k?.offers.map((o) => o.availability)
-  const OUT = 'https://schema.org/OutOfStock'
-  assert.deepEqual(durum(bolumler[0]?.hasMenuItem[0]), [OUT, OUT])
-  assert.deepEqual(durum(bolumler[0]?.hasMenuItem[1]), [STOKTA, STOKTA])
-  assert.deepEqual(durum(bolumler[2]?.hasMenuItem.find((k) => k.name === 'Su')), [OUT, OUT])
-  assert.deepEqual(durum(bolumler[2]?.hasMenuItem.find((k) => k.name === 'Cola')), [STOKTA, STOKTA])
+  assert.deepEqual(durum(bolumler[0]?.hasMenuItem[0]), [STOKTA, STOKTA])
+  assert.deepEqual(durum(bolumler[2]?.hasMenuItem.find((k) => k.name === 'Su')), [STOKTA, STOKTA])
 })

@@ -20,14 +20,10 @@ function rotaSatirlari(dil: Dil, menu: MenuBelgesi): string[] {
   })
 }
 
-/** Menü kalemleri adlarıyla; tükenmiş kalem listede kalır ama "(bugün yok)" taşır. Fiyat yazılmaz. */
+/** Menü kalemleri yalnız adlarıyla; fiyat ve aynı güne ait tükendi bayrağı yazılmaz (dosya deploy'la donar). */
 function menuSatirlari(b: MenuBelgesi): string[] {
-  const satir = (ad: string, tukendi: boolean) => `- ${ad}${tukendi ? ' (bugün yok)' : ''}`
-  return [
-    ...b.kalemler.map((k) => satir(k.ad.tr, k.tukendi)),
-    satir(b.ozel.ad.tr, false),
-    ...b.icecekler.map((i) => satir(i.ad.tr, i.tukendi)),
-  ]
+  const satir = (ad: string) => `- ${ad}`
+  return [...b.kalemler.map((k) => satir(k.ad.tr)), satir(b.ozel.ad.tr), ...b.icecekler.map((i) => satir(i.ad.tr))]
 }
 
 /**

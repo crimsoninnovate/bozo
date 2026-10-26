@@ -31,8 +31,10 @@ Three places hold copy that the document can outdate:
   is a copy of the document's names. The game runs in the browser and cannot read the document,
   so it can drift; `content/icerik.test.ts` compares it with the seed only.
 
-`llms.txt` (`lib/llmsTxt.ts`) has a `## Menü` section: item names only, Turkish only, no prices,
-and a sold-out item stays listed with "(bugün yok)". It changes on a deploy.
+`llms.txt` (`lib/llmsTxt.ts`) has a `## Menü` section: item names only, Turkish only, no prices.
+It changes on a deploy. The sold-out flag is same-day, so static outputs ignore it: `llms.txt`
+lists a sold-out item like any other, the JSON-LD keeps `InStock`, and the menu page's baked HTML
+has every item in stock (`tukendisiz`). Only the menu page's live fetch shows it.
 
 ## Copy rules (binding, a violation is a bug)
 

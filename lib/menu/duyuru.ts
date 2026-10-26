@@ -24,6 +24,11 @@ export function duyuruKarari(baz: Duyuru, canli: Duyuru | null, simdi: Date): Du
   return duyuruGoster(secilen, simdi) ? secilen : { ...secilen, aktif: false }
 }
 
+/** Derleme anı kararı: gösterilmeyecek duyurunun metni HTML'e girmez; canlı okuma yeni duyuruyu yine açar. */
+export function derlenmisDuyuru(d: Duyuru, simdi: Date): Duyuru {
+  return duyuruGoster(d, simdi) ? d : { aktif: false, metin: { tr: '', en: '' }, bitis: null }
+}
+
 /** Kapatma anahtarı: metin değişince özet değişir, önceki kapatma geçersiz olur (FNV-1a, 32 bit). */
 export function metinOzeti(d: Duyuru): string {
   let h = 0x811c9dc5

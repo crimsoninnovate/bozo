@@ -107,24 +107,24 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
 }
 
 const STOKTA = 'https://schema.org/InStock'
-const TUKENDI = 'https://schema.org/OutOfStock'
 
-function offer(name: string, fiyat: number, tukendi: boolean): Offer {
+/** Tükendi bayrağı aynı güne ait: deploy'la donan JSON-LD onu taşımaz, her teklif stokta. */
+function offer(name: string, fiyat: number): Offer {
   return {
     '@type': 'Offer',
     name,
     price: String(fiyat),
     priceCurrency: 'TRY',
-    availability: tukendi ? TUKENDI : STOKTA,
+    availability: STOKTA,
   }
 }
 
 function kalemOfferleri(s: Sozluk, kalem: MenuKalemi): Offer[] {
-  return kalemOlculeri(kalem).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat, kalem.tukendi))
+  return kalemOlculeri(kalem).map(({ olcu, fiyat }) => offer(s.menu.ocakbasi.olculer[olcu], fiyat))
 }
 
 function icecekKalemi(dil: Dil, icecek: IcecekKalemi): object {
-  const offers = icecek.olculer.map(({ ad, fiyat }) => offer(ad[dil], fiyat, icecek.tukendi))
+  const offers = icecek.olculer.map(({ ad, fiyat }) => offer(ad[dil], fiyat))
   return { '@type': 'MenuItem', name: icecek.ad[dil], offers }
 }
 
@@ -132,7 +132,7 @@ type Offer = { '@type': string; name?: string; price: string; priceCurrency: str
 
 /**
  * schema.org `Menu` yapısal verisi: fiyatı olan her kalem; ikramlar fiyatsız olduğu için
- * görünmez; tükendi kalem `OutOfStock` taşır. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`),
+ * görünmez; tükendi bayrağı yok sayılır. Yalnız `/menu`'de basılır (`components/sayfa/Kabuk.tsx`),
  * görünmeyen sayfada işaretlenmiş içerik olmasın diye. Kalem adları ve fiyatlar belgeden gelir.
  */
 export function menuJsonLd(dil: Dil, belge: MenuBelgesi): object {

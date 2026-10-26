@@ -43,16 +43,19 @@ test('llmsTxt_ozetSatiri_saatVeAdresiTasir', () => {
   assert.ok(metin.includes("10:00'dan ertesi sabah 05:00'e kadar"))
 })
 
-test('llmsTxt_tukendiKalem_bugunYokNotu', () => {
+// Tükendi bayrağı aynı güne ait; deploy'la donan dosya onu taşımaz, kalem adıyla listede kalır.
+test('llmsTxt_tukendiKalem_notTasimaz', () => {
   const b = structuredClone(belge)
   const ciger = b.kalemler[0]
   const su = b.icecekler.find((i) => i.id === 'su')
   assert.ok(ciger && su)
   ciger.tukendi = true
   su.tukendi = true
-  const satirlar = llmsTxtBelgeli(b).split('\n')
-  assert.ok(satirlar.includes('- Ciğer (bugün yok)'))
-  assert.ok(satirlar.includes('- Su (bugün yok)'))
+  const metin = llmsTxtBelgeli(b)
+  assert.equal(metin.includes('bugün yok'), false)
+  const satirlar = metin.split('\n')
+  assert.ok(satirlar.includes('- Ciğer'))
+  assert.ok(satirlar.includes('- Su'))
   assert.ok(satirlar.includes('- Dalak'))
   assert.ok(satirlar.includes('- Cola'))
 })

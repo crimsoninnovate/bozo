@@ -6,7 +6,7 @@ import { UstBar } from '@/components/layout/UstBar'
 import { sozluk, type Dil } from '@/content'
 import { breadcrumbJsonLd, jsonLdMetni, menuJsonLd } from '@/lib/jsonld'
 import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
-import { duyuruKarari } from '@/lib/menu/duyuru'
+import { derlenmisDuyuru } from '@/lib/menu/duyuru'
 import { dizindeMi, type SayfaAnahtari } from '@/lib/site'
 import stil from './Kabuk.module.css'
 
@@ -68,7 +68,7 @@ export function Kabuk({ dil, aktif, children }: Props) {
       {belge && (
         <DuyuruBandi
           dil={dil}
-          baz={duyuruKarari(belge.duyuru, null, new Date())}
+          baz={derlenmisDuyuru(belge.duyuru, new Date())}
         />
       )}
       <main id={ICERIK_ID} tabIndex={-1} className={anaSayfaMi ? undefined : stil.icSayfa}>

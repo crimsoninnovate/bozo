@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { canliOturumu, duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
+import { canliOturumu, derlenmisDuyuru, duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
 import type { Duyuru } from './tipler.ts'
 
 const duyuru = (degisiklik: Partial<Duyuru> = {}): Duyuru => ({
@@ -75,6 +75,20 @@ test('duyuruKarari_canliPasif_bantYok', () => {
 test('duyuruKarari_bazSuresiDolmus_canliYokken_bantYok', () => {
   const karar = duyuruKarari(duyuru({ bitis: '2026-10-26T10:00' }), null, new Date('2026-10-26T08:00:00Z'))
   assert.equal(karar.aktif, false)
+})
+
+const BOS = { aktif: false, metin: { tr: '', en: '' }, bitis: null }
+
+test('derlenmisDuyuru_gorunur_aynenKalir', () => {
+  assert.deepEqual(derlenmisDuyuru(duyuru(), ZAMAN), duyuru())
+})
+
+test('derlenmisDuyuru_pasif_metinHtmlGirmez', () => {
+  assert.deepEqual(derlenmisDuyuru(duyuru({ aktif: false }), ZAMAN), BOS)
+})
+
+test('derlenmisDuyuru_suresiGecmis_metinHtmlGirmez', () => {
+  assert.deepEqual(derlenmisDuyuru(duyuru({ bitis: '2026-10-26T10:00' }), new Date('2026-10-26T08:00:00Z')), BOS)
 })
 
 test('metinOzeti_metinDegisince_degisir', () => {
