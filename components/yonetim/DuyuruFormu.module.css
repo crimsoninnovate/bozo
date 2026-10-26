@@ -42,7 +42,7 @@
   gap: 4px;
 }
 
-/* Sitede görünmeyecek duyuru soluk gösterilir. */
-.dilSatiri[data-pasif='true'] {
+/* Sitede görünmeyecek duyuru soluk gösterilir; yalnız bant, dil etiketi AA'da kalır (tüm satır 3.21:1'di). */
+.dilSatiri[data-pasif='true'] > :last-child {
   opacity: 0.55;
 }
