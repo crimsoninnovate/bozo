@@ -28,7 +28,7 @@
 2. Canlı yanıt yavaş, boş, bozuk JSON ya da şemaya uymuyorsa menü derlenmiş haliyle kalır, sayfa boşalmaz (T5, T6).
 3. Fiyat yazım hatası: `8500`, `0`, `-5`, `85.5`, `"850 TL"`; yüzde 50'yi aşan değişim onay ekranında kırmızı (T2, T7).
 4. Kalem silinince ya da eklenince ana sayfa çökmez, yeni kalem ana sayfada çıkmaz (T3).
-5. Restoranın wifi'sindeki misafirler tek IP'dir: `GET /menu` IP sınırına takılmaz (T4).
+5. Restoranın wifi'sindeki misafirler tek IP'dir: `GET /menu` genel IP sınırına takılmaz, kendi ayrı 6000/saat kovası vardır (T4).
 
 ---
 
@@ -152,12 +152,12 @@ menuYayinla(belge: MenuBelgesi, kaynak: 'panel' | 'geriAl', simdi: number, taban
 menuSurumleri(adet: number): Promise<{ id: number; olusturma: number; kaynak: 'panel' | 'geriAl' }[]>
 menuSurumBul(id: number): Promise<{ id: number; belge: MenuBelgesi } | null>
 ```
-Uçlar: `GET /menu` (200 `MenuYaniti` ya da 204 sürüm yoksa; `Cache-Control: public, max-age=15`; `ipSiniri` dışında), `GET /yonetim/menu` (`YonetimMenuYaniti`, son 20), `PUT /yonetim/menu` gövde `{ taban: number | null, belge: unknown }` (200 `MenuYayinYaniti`; 400 `belgeGecersiz`; 409 `surumEskidi`), `POST /yonetim/menu/N/geri-al` gövde `{ taban }` (404 `surumYok`, 409 `surumEskidi`). `taban` "son sürümün id'si, hiç sürüm yoksa `null`". CORS izinli yöntemlere `PUT` eklenir.
+Uçlar: `GET /menu` (200 `MenuYaniti` ya da 204 sürüm yoksa; `Cache-Control: public, max-age=15`; genel `ipSiniri` yerine ayrı 6000/saat kovası), `GET /yonetim/menu` (`YonetimMenuYaniti`, son 20), `PUT /yonetim/menu` gövde `{ taban: number | null, belge: unknown }` (200 `MenuYayinYaniti`; 400 `belgeGecersiz`; 409 `surumEskidi`), `POST /yonetim/menu/N/geri-al` gövde `{ taban }` (404 `surumYok`, 409 `surumEskidi`). `taban` "son sürümün id'si, hiç sürüm yoksa `null`". CORS izinli yöntemlere `PUT` eklenir.
 
 - [ ] **Step 1: Failing testler.** `depoSozlesmesi.ts`'e (bellek ve MariaDB aynı sözleşmeyi koşar): `menuYayinla_ilkSurumTabanNull_idDoner`, `menuYayinla_tabanEski_nullDoner`, `menuYayinla_tabanGuncel_yeniIdDoner`, `menuGecerli_hicSurumYoksa_nullDoner`, `menuSurumleri_enYeniBasta_adetKadar`, `menuSurumBul_olmayanId_nullDoner`, `menuYayinla_turkceVeEmojiMetni_ayniDonerRoundTrip`. `uygulama.test.ts`'e: `getMenu_surumYok_204`, `getMenu_yayindan_sonra_200VeBelge`, `getMenu_700IstekSonrasi_hala200` (Review Focus 5), `putYonetimMenu_kimliksiz_401`, `putYonetimMenu_gecersizBelge_400`, `putYonetimMenu_tabanEski_409` (Review Focus 1), `putYonetimMenu_gecerli_200VeGetteGorunur` (önbellek 15 sn: testte `simdi` ilerletilir), `postGeriAl_eskiSurum_yeniSurumOlarakYayinlanir` (`surumler[0].kaynak === 'geriAl'`), `postGeriAl_olmayanId_404`, `optionsMenu_corsPutIzinli`.
 - [ ] **Step 2: Run**, FAIL.
 - [ ] **Step 3: Implement** bellek depo; `sema.sql`'e `menu_surum (id INT UNSIGNED AUTO_INCREMENT PK, belge LONGTEXT NOT NULL, kaynak ENUM('panel','geriAl') NOT NULL, olusturma_ms BIGINT NOT NULL)` (`utf8mb4`); `mariaDepo.menuYayinla` taban denetimini ve eklemeyi tek deyimle yapar (`INSERT ... SELECT ... WHERE (SELECT COALESCE(MAX(id),0) FROM menu_surum) = ?`, `affectedRows === 0` ise `null`), böylece yarış penceresi kalmaz.
-- [ ] **Step 4: Implement** `sunucu/menu.ts` işleyicileri ve `uygulama.ts` rotaları. `yonlendir` içinde `GET /menu` için `ipSiniri` atlanır (tek satırlık istisna, yorumuyla). Genel yanıt önbelleği `onbellekKur(15_000)`; başarılı yayın sonrası `bosalt()`.
+- [ ] **Step 4: Implement** `sunucu/menu.ts` işleyicileri ve `uygulama.ts` rotaları. `yonlendir` içinde `GET /menu` genel `ipSiniri` yerine ayrı `menuSiniri` kovasından (6000/saat) geçer. Yanıt önbelleği tek uçuşlu (single-flight) `onbellekKur(15_000)`; başarılı yayın sonrası `bosalt()`.
 - [ ] **Step 5: Run** tüm testler; `BOZO_TEST_DB_URL` yoksa MariaDB sözleşmesi atlanır (bilinen).
 - [ ] **Step 6: Commit** `Add menu versions, public menu endpoint and staff publish endpoints`.
 

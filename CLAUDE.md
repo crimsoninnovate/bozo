@@ -34,8 +34,8 @@ Deploy is in `README.md` > Publishing.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX; the binding
   copy rules and the price-change steps are in `content/CLAUDE.md`. The one business rule, the
   overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
-- `lib/` is thirteen small modules plus the game's `lib/oyun/`, each with a `.test.ts` beside it
-  where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
+- `lib/` is thirteen small modules plus the game's `lib/oyun/` and the menu's `lib/menu/`, each
+  with a `.test.ts` beside it where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
   outbound URL), `kabuk` (the shell parts that change per route), `metadata` (page metadata and
   the social card), `jsonld`, `onay` (consent storage), `fontlar`, `sis` (the locked mark
   geometry), `cerceve` (shared scroll frame), `hareket` (reduced-motion preference and rAF

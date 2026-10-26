@@ -5,9 +5,18 @@ hardcoded in JSX.
 
 ## Prices
 
-A price change is `content/urunler.ts` plus the expectation table in `content/icerik.test.ts`;
-skewer counts are `porsiyonNotu` / `durumNotu` in `content/{tr,en}/menu.ts`. Menu rows and
-JSON-LD follow on their own.
+Prices, names, descriptions and skewer counts live in the menu document and change through the
+staff panel (`/oyun/yonetim/`, Menü tab); nothing in code moves for a price change. The build
+bakes the live version in (`scripts/menuCek.ts` writes the gitignored `content/menu.canli.json`).
+The code path is only the seed `content/menu.varsayilan.json`, which the site falls back to, plus
+its expectation table in `content/icerik.test.ts` and `lib/menu/varsayilan.test.ts`: change all
+three together. Ikram items and chip texts stay in the `content/{tr,en}` dictionary and
+`content/urunler.ts`, outside the panel. The panel pins Ciğer as the first item (the signature
+slot): it cannot be deleted or moved.
+
+Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 October 2026, wraps
+24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow
+the document on their own.
 
 ## Copy rules (binding, a violation is a bug)
 

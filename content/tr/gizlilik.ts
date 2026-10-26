@@ -20,6 +20,7 @@
  *
  * 10 Ekim 2026: oyun sıralaması eklendi (amaç, yöntem, dayanak, alıcı, aktarım, saklama, haklar).
  * Sahibi hukukçu incelemesi istemedi, kararı kendisi üstlendi. METİN HUKUKÇU ONAYINDAN GEÇMEDİ.
+ * 26 Ekim 2026: menü sayfasının menü okuma isteği alıcı cümlesine eklendi; sahibin gözünden geçmedi.
  */
 export const gizlilik = {
   baslik: 'Gizlilik',
@@ -62,7 +63,9 @@ export const gizlilik = {
     'Tek alıcı Google Ireland Limited ve Google LLC\'dir; ölçüm hizmetini onlar ' +
     'yürütür. Oyun verisi, işletmenin barındırma sağlayıcısı DH Bulut Bilişim\'in ' +
     'İstanbul\'daki sunucusunda tutulur; takma adınız ve puanınız herkese açık ' +
-    'sıralamada görünür. Başka hiçbir üçüncü tarafa veri iletilmez.',
+    'sıralamada görünür. Menü sayfası güncel menüyü api.cigercibozo.com ' +
+    'adresinden ister; bu istekle IP adresiniz, sitenin zaten barındığı sunucuya ulaşır. ' +
+    'Başka hiçbir üçüncü tarafa veri iletilmez.',
 
   aktarimBaslik: 'Yurt dışına aktarım',
   aktarimMetni:
@@ -103,6 +106,6 @@ export const gizlilik = {
   soruBaslik: 'Başvuru',
   soruMetni: 'Bu haklara ilişkin taleplerinizi bu adrese yazabilirsiniz:',
   guncellemeMetni:
-    'Son güncelleme: 10 Ekim 2026. Dayanak: KKTC Kişisel Verilerin Korunması ' +
+    'Son güncelleme: 26 Ekim 2026. Dayanak: KKTC Kişisel Verilerin Korunması ' +
     'Yasası (89/2007) ve Bilgilendirme Yükümlülüğü Tüzüğü.',
 }

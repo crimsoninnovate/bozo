@@ -47,6 +47,38 @@ bugün, son 7 gün ve toplam okunma sayısını gösterir (`POST /tarama/N`, tab
 veri yok). Yönetim uçlarına IP başına saatte 60 istek: mekandaki
 herkes aynı IP'den çıkar. Geri alma: `systemctl stop bozo-oyun`; site çevrimdışı tura döner, ad alanı gizlenir.
 
+## Menü sürümleri (26 Ekim 2026, canlıya alınması sahibinin adımı)
+
+Fiyat ve menü metni personel panelinden (`/oyun/yonetim/`, Menü sekmesi) yayınlanır; her yayın
+`menu_surum` tablosuna yeni bir sürüm olarak eklenir, hiçbiri silinmez. Tablo `sunucu/sema.sql`'de, şemayı
+uygulama komutu yukarıdaki. Uçlar (`sunucu/uygulama.ts`):
+
+| Uç | Kim | Ne yapar |
+|---|---|---|
+| `GET /menu` | herkese açık | son sürüm (200) ya da hiç sürüm yoksa 204; 15 sn tek uçuşlu önbellek, IP başına saatte 6000'lik ayrı kova (genel 600'e girmez, mekanın wifi'si tek IP) |
+| `GET /yonetim/menu` | personel | geçerli sürüm ve son 20 sürümün özeti |
+| `GET /yonetim/menu/N` | personel | tek sürümün belgesi (geri alma farkı için), yoksa 404 `surumYok` |
+| `PUT /yonetim/menu` | personel | `{ taban, belge }`: belgeyi doğrular ve yeni sürüm yazar; `taban` son sürüm değilse 409 `surumEskidi` |
+| `POST /yonetim/menu/N/geri-al` | personel | N. sürümü yeni sürüm olarak yeniden yayınlar (`kaynak = geriAl`) |
+
+Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. Site her build öncesi son sürümü
+çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın siteyi kendiliğinden yeniden
+basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
+çağırıp fiyatları anında tazeler.
+
+**Geri alma:** `systemctl stop bozo-oyun`. `GET /menu` yanıt vermez, menü sayfası derlenmiş menüye
+döner; sunucu açılınca kaldığı yerden devam eder (sürümler veritabanında durur).
+
+**Canlıya alırken sahibinin yapacağı kontroller.** MariaDB kodu (`sunucu/mariaDepo.ts`) bugüne dek
+hiç çalıştırılmadı, yalnız bellek deposuyla test edildi:
+
+1. arc'ta `SELECT @@global.tx_isolation, @@global.innodb_deadlock_detect;` (yayın yarışı `taban`
+   sınaması ve deadlock kurbanı varsayımına dayanıyor).
+2. Boş bir deneme veritabanına karşı `BOZO_TEST_DB_URL=mariadb://... node --test sunucu/mariaDepo.test.ts`
+   (üretim veritabanına karşı koşma; kurulum için dosyanın başındaki docker komutu).
+3. `bozo_oyun_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
+   (`SHOW GRANTS FOR bozo_oyun_k`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
+
 ## Yayındaki gizlilik metninin kaynağı
 
 Değişen alanlar. Diğerleri (sorumlu, haklar, onayı geri alma, başvuru) aynen kalır, yalnız
