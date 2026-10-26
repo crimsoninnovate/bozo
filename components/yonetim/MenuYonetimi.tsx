@@ -225,6 +225,7 @@ function Calisma(props: PanelProps) {
     if (geriAl) await bitir(() => api.menuGeriAl(geriAl.surum.id, taban), geriAl.belge)
     else if (sonuc.tamam) await bitir(() => api.menuYayinla(taban, sonuc.belge), sonuc.belge)
     setOnay(null)
+    window.scrollTo(0, 0) // sonuç mesajı içeriğin başında; uzun farktan sonra ekran dışında kalmasın
   }
   const surumeDon = async (surum: SurumOzeti) => {
     const eski = await surumGetir(surum.id)
@@ -337,6 +338,7 @@ function GirisBasligi() {
 
 export function MenuYonetimi({ baz }: { baz: MenuBelgesi }) {
   const { api, gir, cik } = useOturum()
+  if (api === undefined) return <main className={stil.girisSayfasi} />
   if (!api) {
     return (
       <main className={stil.girisSayfasi}>

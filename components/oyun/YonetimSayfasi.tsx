@@ -197,7 +197,7 @@ export function YonetimSayfasi() {
   return (
     <main className={stil.sayfa}>
       <h1 className={stil.baslik}>{m.baslik}</h1>
-      {api ? (
+      {api === undefined ? null : api ? (
         <>
           <button type="button" className={stil.cikis} onClick={cik}>{m.cikis}</button>
           <KodFormu api={api} cik={cik} />

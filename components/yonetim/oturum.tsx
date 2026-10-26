@@ -95,14 +95,15 @@ function oturumBul(): string | null {
   return null
 }
 
+/** `api`: `undefined` depo okunana kadar (statik HTML'de giriş kartı çakmasın), `null` oturum yok. */
 export function useOturum(): {
-  api: YonetimApi | null
+  api: YonetimApi | null | undefined
   gir: (yetki: string, bitis: string, hatirla: boolean) => void
   cik: () => void
 } {
-  const [yetki, setYetki] = useState<string | null>(null)
+  const [yetki, setYetki] = useState<string | null | undefined>(undefined)
   useEffect(() => setYetki(oturumBul()), [])
-  const api = useMemo(() => (yetki ? apiAl(yetki) : null), [yetki])
+  const api = useMemo(() => (yetki === undefined ? undefined : yetki ? apiAl(yetki) : null), [yetki])
   const gir = useCallback((y: string, bitis: string, hatirla: boolean) => {
     const yaz = (d: Depo) =>
       depoIsle(d, 'yazılamadı', (s) => (s.setItem(ANAHTAR, oturumYaz(y, bitis)), true), false)
