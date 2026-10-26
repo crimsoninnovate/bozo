@@ -162,7 +162,8 @@ export const yonetim = {
       vazgec: 'Vazgeç',
     },
     taslak: {
-      geriYuklendi: 'Kaydedilmemiş taslağınız geri yüklendi. Silmek için "Değişiklikleri At" düğmesini kullanın.',
+      geriYuklendi:
+        'Kaydedilmemiş taslağınız geri yüklendi. Silmek için "Değişiklikleri At" düğmesini kullanın.',
       eskiAtildi: 'Eski bir taslak atıldı, çünkü menü bu arada yayınlandı.',
     },
     iletisim: {

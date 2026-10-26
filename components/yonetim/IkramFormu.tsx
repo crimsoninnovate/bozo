@@ -33,10 +33,8 @@ function UrunKarti({ urun, sira, son, hatalar, duzenle }: UrunProps) {
       <FotoSecimi etiket={k.foto} yok={k.fotoYok} deger={urun.fotoId}
         onDegis={(v) => duz((x) => { x.fotoId = v })} />
       <div className={ortak.dugmeler}>
-        <button type="button" className={ortak.ikincil} disabled={sira === 0}
-          onClick={() => duzenle((b) => ikramUrunuTasi(b, urun.id, -1))}>{k.yukari}</button>
-        <button type="button" className={ortak.ikincil} disabled={son}
-          onClick={() => duzenle((b) => ikramUrunuTasi(b, urun.id, 1))}>{k.asagi}</button>
+        <TasiDugmeleri ad={urun.ad.tr || urun.id} ilk={sira === 0} son={son}
+          tasi={(yon) => duzenle((b) => ikramUrunuTasi(b, urun.id, yon))} />
         <button type="button" className={ortak.ikincil}
           onClick={() => duzenle((b) => ikramUrunuSil(b, urun.id))}>{k.urunSil}</button>
       </div>
