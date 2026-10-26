@@ -1,11 +1,13 @@
+'use client'
+
 import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { sozluk, type Dil } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
-import type { MenuBelgesi } from '@/lib/menu/tipler'
+import { useMenu } from './MenuVerisi'
 import stil from './Icecekler.module.css'
 
-type Props = { dil: Dil; menu: MenuBelgesi }
+type Props = { dil: Dil }
 
 /**
  * QR glifinin 3x3 deseni: dört köşe krem, merkez tangerine, kenar ortaları boş.
@@ -27,7 +29,8 @@ function qrHucreSinifi(hucre: (typeof QR_DESENI)[number]): string | undefined {
  * taşıyor, sözlükteki anahtar taşımıyor; fark rapora yazıldı, sözlüğe elle
  * nokta eklenmedi.
  */
-export function Icecekler({ dil, menu }: Props) {
+export function Icecekler({ dil }: Props) {
+  const menu = useMenu()
   const s = sozluk(dil)
 
   return (
@@ -45,7 +48,7 @@ export function Icecekler({ dil, menu }: Props) {
                   {icecek.olculer.map(({ ad, fiyat }, sira) => (
                     <span key={sira} className={stil.olcu}>
                       {ad[dil]}
-                      <span className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
+                      <span data-fiyat className={stil.fiyat}>{fiyatMetni(fiyat)}</span>
                     </span>
                   ))}
                 </span>

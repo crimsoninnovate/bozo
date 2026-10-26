@@ -1,3 +1,5 @@
+'use client'
+
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { Cip } from '@/components/ui/Cip'
 import { FotoYuvasi, type KorNefesi } from '@/components/ui/FotoYuvasi'
@@ -7,11 +9,12 @@ import { fotograflar } from '@/content/fotograflar'
 import { fiyatMetni } from '@/content/isletme'
 import type { FotoId } from '@/content/types'
 import type { MenuBelgesi, MenuKalemi } from '@/lib/menu/tipler'
+import { useMenu } from './MenuVerisi'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import { UrunKarti } from './UrunKarti'
 import stil from './Ocakbasi.module.css'
 
-type Props = { dil: Dil; menu: MenuBelgesi }
+type Props = { dil: Dil }
 
 const IMZA_KARESI: FotoId = 'tane-yakin-cekim-yatay'
 
@@ -53,7 +56,7 @@ function ImzaPaneli({ dil, kalem }: { dil: Dil; kalem: MenuKalemi }) {
       </div>
       <div className={stil.imzaAdSatiri}>
         <h3 className={stil.imzaAd}>{kalem.ad[dil]}</h3>
-        <span aria-hidden="true" className={stil.anaFiyat}>
+        <span aria-hidden="true" data-fiyat className={stil.anaFiyat}>
           {fiyatMetni(kalem.fiyatlar.porsiyon)}
         </span>
       </div>
@@ -85,7 +88,7 @@ function OzelSerit({ dil, ozel }: { dil: Dil; ozel: MenuBelgesi['ozel'] }) {
         </div>
         <p className={stil.ozelAciklama}>{ozel.aciklama[dil]}</p>
       </div>
-      <span className={stil.ozelFiyat}>{fiyatMetni(ozel.fiyat)}</span>
+      <span data-fiyat className={stil.ozelFiyat}>{fiyatMetni(ozel.fiyat)}</span>
     </article>
   )
 }
@@ -101,7 +104,8 @@ function OzelSerit({ dil, ozel }: { dil: Dil; ozel: MenuBelgesi['ozel'] }) {
  * kaydındaki `fotoId` (dikey `tane-yakin-cekim`) çekim listesinin ilk karosuna
  * ait; iki kadraj tek anahtarla anlatılamıyor, o yüzden manifestte iki kayıt var.
  */
-export function Ocakbasi({ dil, menu }: Props) {
+export function Ocakbasi({ dil }: Props) {
+  const menu = useMenu()
   const s = sozluk(dil)
   const [imza, ...kartlar] = menu.kalemler
   if (!imza) throw new Error('Ocakbasi ürün listesi boş')

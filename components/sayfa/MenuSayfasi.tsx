@@ -3,11 +3,12 @@ import { Icecekler } from './menu/Icecekler'
 import { Ikramlar } from './menu/Ikramlar'
 import { MasaOkumasi } from './menu/MasaOkumasi'
 import { Ocakbasi } from './menu/Ocakbasi'
+import { MenuVerisiSaglayici } from './menu/MenuVerisi'
 import { YorumDaveti } from '@/components/ui/YorumDaveti'
 import type { Dil } from '@/content'
-import type { MenuBelgesi } from '@/lib/menu/tipler'
+import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
 
-type Props = { dil: Dil; menu: MenuBelgesi }
+type Props = { dil: Dil }
 
 /**
  * Menü sayfasının gövdesi. Menu Sayfasi.dc.html:63-281
@@ -26,15 +27,15 @@ type Props = { dil: Dil; menu: MenuBelgesi }
  * Footer bu ağaçta değil: `Kabuk` > `AltBilgi` basıyor, her sayfada aynı dört
  * kolon (sahibi, 13 Ağustos 2026; tasarımın Menu:283-292 şeridi kalktı).
  */
-export function MenuSayfasi({ dil, menu }: Props) {
+export function MenuSayfasi({ dil }: Props) {
   return (
-    <>
+    <MenuVerisiSaglayici baz={menuBelgesiYukle()}>
       <Acilis dil={dil} />
-      <Ocakbasi dil={dil} menu={menu} />
+      <Ocakbasi dil={dil} />
       <Ikramlar dil={dil} />
-      <Icecekler dil={dil} menu={menu} />
+      <Icecekler dil={dil} />
       <YorumDaveti dil={dil} />
       <MasaOkumasi />
-    </>
+    </MenuVerisiSaglayici>
   )
 }

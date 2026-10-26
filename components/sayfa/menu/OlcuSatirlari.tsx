@@ -25,7 +25,7 @@ export function OlcuSatirlari({ dil, kalem }: Props) {
             {olcu === 'porsiyon' && kalem.porsiyonNotu && <span className={stil.not}>{kalem.porsiyonNotu[dil]}</span>}
             {olcu === 'durum' && kalem.durumNotu && <span className={stil.not}>{kalem.durumNotu[dil]}</span>}
           </dt>
-          <dd className={stil.fiyat}>{fiyatMetni(fiyat)}</dd>
+          <dd data-fiyat className={stil.fiyat}>{fiyatMetni(fiyat)}</dd>
         </div>
       ))}
     </dl>

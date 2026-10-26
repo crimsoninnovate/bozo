@@ -42,7 +42,7 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, kalem, korNefesi 
       <div className={stil.govde}>
         <div className={stil.adSatiri}>
           <h3 className={stil.ad}>{dulOnle(ad)}</h3>
-          <span aria-hidden="true" className={stil.anaFiyat}>
+          <span aria-hidden="true" data-fiyat className={stil.anaFiyat}>
             {fiyatMetni(kalem.fiyatlar.porsiyon)}
           </span>
         </div>

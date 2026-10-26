@@ -1,0 +1,8 @@
+.sarmal {
+  display: contents;
+}
+
+/* Canlı belge gelene kadar derlenmiş fiyat yanıp sönmesin; yer tutar, düzen kaymaz. */
+.sarmal[data-bekliyor='true'] [data-fiyat] {
+  visibility: hidden;
+}
