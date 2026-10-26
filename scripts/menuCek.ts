@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { canliMenuGetir } from '../lib/menu/canli.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
@@ -32,9 +32,12 @@ export async function menuCek(
   if (yanit === null) return durum === 204 ? 'sunucudaYok' : 'basarisiz'
   try {
     mkdirSync(dirname(hedef), { recursive: true })
+    // Eski meta önce silinir: yazma yarıda kalırsa yeni belge eski sürümle eşleşmez (sürüm 0 okunur).
+    const meta = hedef.replace(/\.json$/, '.meta.json')
+    rmSync(meta, { force: true })
     yazAtomik(hedef, yanit.belge)
     // Sürüm göstergesi için: `next.config.ts` bunu `NEXT_PUBLIC_MENU_SURUMU` yapar.
-    yazAtomik(hedef.replace(/\.json$/, '.meta.json'), { surum: yanit.surum, cekilme: new Date().toISOString() })
+    yazAtomik(meta, { surum: yanit.surum, cekilme: new Date().toISOString() })
   } catch (hata) {
     console.warn('menuCek: dosya yazilamadi', hedef, hata)
     return 'basarisiz'

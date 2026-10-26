@@ -3,7 +3,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSy
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mock, test } from 'node:test'
-import { anaSayfaKalemleri, menuBelgesiYukle } from './belgeYukle.ts'
+import { anaSayfaKalemleri, menuBelgesiKaynakla, menuBelgesiYukle } from './belgeYukle.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const VARSAYILAN_YOLU = new URL('../../content/menu.varsayilan.json', import.meta.url)
@@ -57,6 +57,43 @@ test('menuBelgesiYukle_canliDosyaBozuksa_varsayilanaDonerVeUyarirLoglar', () => 
     assert.match(String(uyari.mock.calls[1]?.arguments[0]), /kalemler\[0\]\.fiyatlar\.porsiyon/)
   } finally {
     uyari.mock.restore()
+    sil()
+  }
+})
+
+test('menuBelgesiKaynakla_canliDosyaYoksa_canliMiFalse', () => {
+  const { kok, sil } = geciciKok()
+  try {
+    assert.deepEqual(menuBelgesiKaynakla(kok), { belge: varsayilan, canliMi: false })
+  } finally {
+    sil()
+  }
+})
+
+test('menuBelgesiKaynakla_canliDosyaGecersizse_canliMiFalse', () => {
+  const { kok, sil } = geciciKok()
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const sema = structuredClone(varsayilan)
+    const ilk = sema.kalemler[0]
+    assert.ok(ilk)
+    ilk.fiyatlar.porsiyon = -5
+    writeFileSync(join(kok, 'content', 'menu.canli.json'), JSON.stringify(sema))
+    assert.deepEqual(menuBelgesiKaynakla(kok), { belge: varsayilan, canliMi: false })
+  } finally {
+    uyari.mock.restore()
+    sil()
+  }
+})
+
+test('menuBelgesiKaynakla_canliDosyaGecerliyse_canliMiTrue', () => {
+  const { kok, sil } = geciciKok()
+  try {
+    const canli = structuredClone(varsayilan)
+    canli.iletisim.eposta = 'canli@ornek.com'
+    writeFileSync(join(kok, 'content', 'menu.canli.json'), JSON.stringify(canli))
+    assert.deepEqual(menuBelgesiKaynakla(kok), { belge: canli, canliMi: true })
+  } finally {
     sil()
   }
 })

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mock, test } from 'node:test'
@@ -39,6 +39,23 @@ test('menuCek_yaziliyor_metaDosyasiSurumuTasir', async () => {
     assert.equal(typeof meta['cekilme'], 'string')
     assert.ok(!Number.isNaN(Date.parse(String(meta['cekilme']))))
   } finally {
+    sil()
+  }
+})
+
+test('menuCek_metaYazilamazsa_eskiMetaBelgeyleBirlikteKalmaz', async () => {
+  const { hedef, sil } = geciciHedef()
+  const uyari = mock.method(console, 'warn', () => {})
+  const meta = hedef.replace(/\.json$/, '.meta.json')
+  try {
+    await menuCek(KOK, json({ surum: 1, belge: varsayilan }), hedef)
+    assert.ok(existsSync(meta))
+    // Yeni meta için gereken geçici dosya yolu bir dizin: yazma başarısız olur.
+    mkdirSync(`${meta}.tmp`)
+    assert.equal(await menuCek(KOK, json({ surum: 2, belge: varsayilan }), hedef), 'basarisiz')
+    assert.equal(existsSync(meta), false, 'eski sürüm yeni belgenin yanında kalmamalı')
+  } finally {
+    uyari.mock.restore()
     sil()
   }
 })

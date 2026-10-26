@@ -27,16 +27,21 @@ function dosyadanOku(yol: string, tam?: MenuBelgesi): MenuBelgesi | null {
 }
 
 /**
- * Derleme zamanı menü belgesi: `content/menu.canli.json` varsa ve geçerliyse o, değilse
- * `content/menu.varsayilan.json`. Yalnız sunucu koduna aittir (`node:fs`); `'use client'`
- * modülünden içe aktarılmaz.
+ * Derleme zamanı menü belgesi ve kaynağı: `content/menu.canli.json` varsa ve geçerliyse o
+ * (`canliMi: true`), değilse `content/menu.varsayilan.json`. Yalnız sunucu koduna aittir
+ * (`node:fs`); `'use client'` modülünden içe aktarılmaz.
  */
-export function menuBelgesiYukle(kok: string = process.cwd()): MenuBelgesi {
+export function menuBelgesiKaynakla(kok: string = process.cwd()): { belge: MenuBelgesi; canliMi: boolean } {
   const varsayilan = join(kok, VARSAYILAN_DOSYA)
   const tohum = dosyadanOku(varsayilan)
   if (!tohum) throw new Error(`menuBelgesiYukle: varsayılan belge geçersiz: ${varsayilan}`)
   const canli = join(kok, CANLI_DOSYA)
-  return (existsSync(canli) && dosyadanOku(canli, tohum)) || tohum
+  const belge = existsSync(canli) ? dosyadanOku(canli, tohum) : null
+  return belge ? { belge, canliMi: true } : { belge: tohum, canliMi: false }
+}
+
+export function menuBelgesiYukle(kok: string = process.cwd()): MenuBelgesi {
+  return menuBelgesiKaynakla(kok).belge
 }
 
 /**
