@@ -34,7 +34,7 @@ export function AcilirKart({ ad, duzey: Baslik = 'h3', hizli, yan, soluk = false
       </div>
       {hizli && <div className={stil.hizli}>{hizli}</div>}
       <button type="button" className={stil.ac} aria-expanded={acik} aria-controls={govde}
-        onClick={() => setAcik(!acik)}>
+        aria-describedby={adKimlik} onClick={() => setAcik(!acik)}>
         {m.menu.ayrintilar}
         <AcilirOkIkon boy={20} />
       </button>

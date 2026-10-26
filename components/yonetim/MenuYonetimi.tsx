@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ROZET } from '@/components/ui/Rozet'
 import { yonetim as m } from '@/content/yonetim'
 import { menuBelgesiDogrula, type Sonuc } from '@/lib/menu/dogrulama'
 import {
@@ -21,7 +22,7 @@ import { Gecmis, surumTarihi } from './Gecmis'
 import { IcecekFormu } from './IcecekFormu'
 import { IkramFormu } from './IkramFormu'
 import { IletisimFormu } from './IletisimFormu'
-import { KalemFormu, OzelFormu } from './KalemFormu'
+import { DURUM_NOTU, KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
 import { SiteDurumu } from './SiteDurumu'
@@ -46,7 +47,7 @@ function Ocakbasi({ belge, hatalar, duzenle }: ListeProps) {
   return (
     <div className={stil.liste}>
       <h2 className={stil.bolumBaslik}>{m.menu.sekme.ocakbasi}</h2>
-      <p className={ortak.not}>{m.menu.tukendiNot} {m.menu.kalem.durumNot}</p>
+      <p className={ortak.not}>{m.menu.tukendiNot} <span id={DURUM_NOTU}>{m.menu.kalem.durumNot}</span></p>
       {belge.kalemler.map((kalem, n) => (
         <KalemFormu key={kalem.id} kalem={kalem} sira={n} son={n === belge.kalemler.length - 1}
           hatalar={hatalar} duz={duz(kalem.id)}
@@ -326,12 +327,12 @@ function useKaydedilmemisUyari(degisiklikVar: boolean) {
   }, [degisiklikVar])
 }
 
-/** Giriş kartının başı: sitenin kelime markası (süs) ve panelin adı. */
+/** Giriş kartının başı: sitenin rozet logosu (süs) ve ekranın adı. */
 function GirisBasligi() {
   return (
     <div className={stil.girisBasligi}>
-      <img src="/kelime-markasi.svg" alt="" width={150} height={64} />
-      <h1 className={stil.girisAdi}>{m.menu.baslik}</h1>
+      <img src={ROZET} alt="" width={1748} height={1999} />
+      <h1 className={stil.girisAdi}>{m.giris.baslik}</h1>
     </div>
   )
 }

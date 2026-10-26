@@ -39,12 +39,14 @@ type AlanProps = {
   enFazla?: number
   /** Etiket alanın solunda kısa dil işareti (`CiftAlani`). */
   dilli?: boolean
+  /** Alanı anlatan, başka yerde duran notun kimliği (örn. sekme notundaki dürüm cümlesi). */
+  aciklama?: string
 }
 
-export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, tip, enFazla, dilli }: AlanProps) {
+export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, tip, enFazla, dilli, aciklama }: AlanProps) {
   const hataKimlik = useId()
   const sayacKimlik = useId()
-  const bagli = [enFazla !== undefined && sayacKimlik, hata && hataKimlik].filter(Boolean).join(' ')
+  const bagli = [aciklama, enFazla !== undefined && sayacKimlik, hata && hataKimlik].filter(Boolean).join(' ')
   const ortakOzellik = {
     value: deger,
     onChange: (o: { target: { value: string; validity: ValidityState } }) =>
@@ -114,12 +116,13 @@ type CiftProps = {
   enFazla?: number
 }
 
-/** Görünen kısa dil işareti; ekran okuyucu alanın tam adını okur ("Ad (Türkçe)"). */
+/** Görünen dil işareti erişilebilir adın içinde kalır (WCAG 2.5.3); ekran okuyucu "Ad TR (Türkçe)" okur. */
 function DilEtiketi({ dil, etiket }: { dil: 'tr' | 'en'; etiket: string }) {
   return (
     <>
-      <span className={stil.dil} aria-hidden="true">{m.menu.dilKisa[dil]}</span>
-      <span className={stil.gizli}>{`${etiket} (${m.menu[dil]})`}</span>
+      <span className={stil.gizli}>{`${etiket} `}</span>
+      <span className={stil.dil}>{m.menu.dilKisa[dil]}</span>
+      <span className={stil.gizli}>{` (${m.menu[dil]})`}</span>
     </>
   )
 }

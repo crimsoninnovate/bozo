@@ -12,6 +12,9 @@ import stil from './KalemFormu.module.css'
 
 const k = m.menu.kalem
 
+/** Ocakbaşı sekme notundaki dürüm cümlesi; her kartın dürüm fiyatı ona bağlanır. */
+export const DURUM_NOTU = 'durum-notu'
+
 type KalemProps = {
   kalem: MenuKalemi
   sira: number
@@ -39,6 +42,7 @@ function Fiyatlar({ kalem, yol, hatalar, duz }: FiyatProps) {
       <Alan
         sayi
         etiket={k.durumFiyati}
+        aciklama={DURUM_NOTU}
         deger={fiyatGirdisi(kalem.fiyatlar.durum)}
         onDegis={(v, bozuk) => duz((x) => {
           const f = fiyatYaz(v, bozuk)

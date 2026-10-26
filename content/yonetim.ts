@@ -2,6 +2,7 @@
 export const yonetim = {
   baslik: 'Oyun Yönetimi',
   giris: {
+    baslik: 'Yönetim Ekranı',
     kullanici: 'Kullanıcı',
     sifre: 'Şifre',
     hatirla: 'Beni hatırla',
