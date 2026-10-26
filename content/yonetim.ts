@@ -69,6 +69,7 @@ export const yonetim = {
       icecekler: 'İçecekler',
       ikramlar: 'İkramlar',
       duyuru: 'Duyuru',
+      iletisim: 'İletişim',
       gecmis: 'Geçmiş',
     },
     tr: 'Türkçe',
@@ -152,6 +153,35 @@ export const yonetim = {
     },
     yayinla: 'Yayınla',
     hatali: 'Hatalar düzeltilmeden yayınlanamaz: {sayi} hata var.',
+    hataSekmede: 'İlk hata {sekme} sekmesinde.',
+    at: {
+      dugme: 'Değişiklikleri At',
+      soru: 'Kaydedilmemiş değişiklikler silinir, yayındaki menü geri gelir. Emin misiniz?',
+      evet: 'Evet, At',
+      vazgec: 'Vazgeç',
+    },
+    iletisim: {
+      baslik: 'İletişim bilgileri',
+      not: 'Bu alanlar bir sonraki site yayınında görünür.',
+      telefonAcik: 'Telefon numarasını sitede göster',
+      telefonAcikNot: 'Açıkken numara sitedeki herkese görünür.',
+      telefon: 'Telefon, + ile başlayın, örnek: +90 533 888 74 24',
+      eposta: 'E-posta',
+      kullaniciNot: 'Kullanıcı adını yazın, başında @ ya da adres olmadan.',
+      instagram: 'Instagram kullanıcı adı',
+      facebook: 'Facebook kullanıcı adı',
+      tiktok: 'TikTok kullanıcı adı',
+      googleYorumKodu: 'Google yorum kodu',
+      telefonVurgu: 'Numara sitede herkese görünür olacak',
+    },
+    site: {
+      tohum: 'Site tohum menüyle basılmış.',
+      fark: 'İletişim bilgisi, arama motoru verisi ve ikram metinleri siteyi yeniden yayınlayınca güncellenir.',
+      guncel: 'Site, yayındaki #{site} menüyle güncel.',
+      farkli:
+        'Sitede #{site}, panelde #{panel}: iletişim bilgisi, arama motoru verisi ve ikram metinleri '
+        + 'siteyi yeniden yayınlayınca güncellenir.',
+    },
     degisiklikYok: 'Yayındaki menüyle aynı, yayınlanacak bir şey yok.',
     yukleniyor: 'Yayındaki menü okunuyor.',
     yayinda:

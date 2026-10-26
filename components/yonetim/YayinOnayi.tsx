@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import type { Sorun } from '@/lib/menu/dogrulama'
 import type { Degisiklik } from '@/lib/menu/fark'
+import { telefonAciliyor } from '@/lib/menu/panel'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import ortak from './oturum.module.css'
@@ -43,9 +44,10 @@ export function YayinOnayi({ baslik, fark, not, uyarilar, belge, onayEtiketi, me
       {fark.length === 0 && <p className={ortak.not}>{o.farksiz}</p>}
       <ul className={stil.liste}>
         {fark.map((d) => (
-          <li key={d.yol} className={d.buyukSicrama ? stil.sicrama : stil.satir}>
+          <li key={d.yol} className={d.buyukSicrama || telefonAciliyor(d) ? stil.sicrama : stil.satir}>
             {doldur(o.satir, { etiket: d.etiket, once: d.once, sonra: d.sonra })}
             {d.buyukSicrama && <strong className={stil.uyari}>{o.sicrama}</strong>}
+            {telefonAciliyor(d) && <strong className={stil.uyari}>{m.menu.iletisim.telefonVurgu}</strong>}
           </li>
         ))}
       </ul>

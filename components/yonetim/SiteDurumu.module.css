@@ -1,0 +1,14 @@
+.durum,
+.fark {
+  margin: 0;
+  padding: 8px 0 8px 12px;
+  border-left: 3px solid var(--cizgi-guclu);
+  color: var(--krem-70);
+  font: 400 14.5px/1.4 var(--font-govde);
+}
+
+/* Site eski kalmış: bakır çubuk ve tam krem metin (renk tek başına taşımaz, metin farkı söyler). */
+.fark {
+  border-left-color: var(--bakir);
+  color: var(--krem);
+}

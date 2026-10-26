@@ -8,8 +8,10 @@ import {
 } from '@/lib/menu/duzenleme'
 import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
 import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
-import { eskiBelgeMi, panelBelgesi } from '@/lib/menu/panel'
-import type { Duyuru, IcecekKalemi, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
+import {
+  SEKMELER, degisiklikVarMi, eskiBelgeMi, hataSekmesi, panelBelgesi, type Sekme,
+} from '@/lib/menu/panel'
+import type { Duyuru, IcecekKalemi, Iletisim, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import type { YonetimApi } from '@/lib/oyun/api'
 import { YeniKayit, hatalariEsle, type Hatalar } from './Alanlar'
@@ -17,8 +19,10 @@ import { DuyuruFormu } from './DuyuruFormu'
 import { Gecmis, surumTarihi } from './Gecmis'
 import { IcecekFormu } from './IcecekFormu'
 import { IkramFormu } from './IkramFormu'
+import { IletisimFormu } from './IletisimFormu'
 import { KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
+import { SiteDurumu } from './SiteDurumu'
 import { YayinOnayi } from './YayinOnayi'
 import ortak from './oturum.module.css'
 import stil from './MenuYonetimi.module.css'
@@ -26,8 +30,6 @@ import stil from './MenuYonetimi.module.css'
 /* Menü paneli (spec 2026-10-26): çalışma kopyası düzenlenir, hata anında görünür, yayın farkla onaylanır.
    Sürüm kimliği (`taban`) yayında sunucuya gider; başkası araya girdiyse 409 döner. */
 
-const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'gecmis'] as const
-type Sekme = (typeof SEKMELER)[number]
 /** `geriAl`: dönülecek sürüm ve içeriği (farkı göstermek için önceden okunur). */
 type Onay = { geriAl: { surum: SurumOzeti; belge: MenuBelgesi } | null }
 export type Duzenle = (fn: (kopya: MenuBelgesi) => MenuBelgesi | void) => void
@@ -159,6 +161,9 @@ function Calisma(props: PanelProps) {
   const yayindaki = canli?.gecerli?.belge ?? baz
   const fark = useMemo(() => (sonuc.tamam ? menuFarki(yayindaki, sonuc.belge) : []), [sonuc, yayindaki])
   const taban = canli?.gecerli?.surum ?? null
+  const degisiklikVar = degisiklikVarMi(yayindaki, belge)
+  useKaydedilmemisUyari(degisiklikVar)
+  const ilkHata = sonuc.tamam ? null : hataSekmesi(sonuc.hatalar[0]?.yol ?? '')
 
   const onayla = async () => {
     const geriAl = onay?.geriAl
@@ -177,6 +182,7 @@ function Calisma(props: PanelProps) {
   }
   return (
     <>
+      <SiteDurumu yayinSurum={taban} />
       <Sekmeler sekme={sekme} sec={(s) => { setSekme(s); setOnay(null) }} />
       {mesaj && (
         <p className={mesaj.hata ? ortak.hata : stil.tamam} role={mesaj.hata ? 'alert' : 'status'}>{mesaj.metin}</p>
@@ -197,11 +203,18 @@ function Calisma(props: PanelProps) {
             <DuyuruFormu duyuru={belge.duyuru} hatalar={hatalar}
               duz={(fn: (d: Duyuru) => void) => duzenle((b) => fn(b.duyuru))} />
           )}
+          {sekme === 'iletisim' && (
+            <IletisimFormu iletisim={belge.iletisim} hatalar={hatalar}
+              duz={(fn: (i: Iletisim) => void) => duzenle((b) => fn(b.iletisim))} />
+          )}
           {sekme === 'gecmis' ? (
             <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={surumeDon} />
           ) : (
-            <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} degisiklik={fark.length} eski={eski}
-              onYayinla={() => setOnay({ geriAl: null })} />
+            <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} ilkHata={ilkHata}
+              degisiklik={fark.length} eski={eski} onYayinla={() => setOnay({ geriAl: null })} />
+          )}
+          {sekme !== 'gecmis' && degisiklikVar && (
+            <DegisiklikAt onAt={() => duzenle(() => structuredClone(yayindaki))} />
           )}
         </>
       )}
@@ -239,11 +252,20 @@ function OnayEkrani({ onay, fark, yayindaki, sonuc, belge, mesgul, onayla, vazge
 }
 
 /** `eski`: yayındaki sürüm 1. sürüm biçiminde; değişiklik olmasa da bir kez yayınlanabilir. */
-type BarProps = { hataSayisi: number; degisiklik: number; eski: boolean; onYayinla: () => void }
+type BarProps = {
+  hataSayisi: number
+  /** İlk hatanın düzenlendiği sekme; hata başka sekmedeyse kullanıcı nereye bakacağını bilir. */
+  ilkHata: Sekme | null
+  degisiklik: number
+  eski: boolean
+  onYayinla: () => void
+}
 
-function YayinBari({ hataSayisi, degisiklik, eski, onYayinla }: BarProps) {
+function YayinBari({ hataSayisi, ilkHata, degisiklik, eski, onYayinla }: BarProps) {
   const bos = degisiklik === 0 && !eski
-  const neden = hataSayisi > 0 ? doldur(m.menu.hatali, { sayi: hataSayisi }) : bos ? m.menu.degisiklikYok : null
+  const hatali = doldur(m.menu.hatali, { sayi: hataSayisi })
+  const konum = ilkHata ? ` ${doldur(m.menu.hataSekmede, { sekme: m.menu.sekme[ilkHata] })}` : ''
+  const neden = hataSayisi > 0 ? `${hatali}${konum}` : bos ? m.menu.degisiklikYok : null
   return (
     <div className={stil.bar}>
       <button type="button" className={ortak.ana} disabled={neden !== null} onClick={onYayinla}>
@@ -251,6 +273,34 @@ function YayinBari({ hataSayisi, degisiklik, eski, onYayinla }: BarProps) {
       </button>
       {neden && <p className={ortak.not}>{neden}</p>}
       {!neden && degisiklik === 0 && eski && <p className={ortak.not}>{m.menu.eskiSurum}</p>}
+    </div>
+  )
+}
+
+/** Sayfa kapanırken tarayıcı uyarısı; dinleyici yalnız kaydedilmemiş değişiklik varken durur. */
+function useKaydedilmemisUyari(degisiklikVar: boolean) {
+  useEffect(() => {
+    if (!degisiklikVar) return
+    const uyar = (o: BeforeUnloadEvent) => o.preventDefault()
+    window.addEventListener('beforeunload', uyar)
+    return () => window.removeEventListener('beforeunload', uyar)
+  }, [degisiklikVar])
+}
+
+/** Çalışma kopyasını yayındakine döndürür; silmeden önce sayfa içinde bir onay adımı vardır. */
+function DegisiklikAt({ onAt }: { onAt: () => void }) {
+  const [soruluyor, setSoruluyor] = useState(false)
+  const a = m.menu.at
+  if (!soruluyor) {
+    return <button type="button" className={ortak.ikincil} onClick={() => setSoruluyor(true)}>{a.dugme}</button>
+  }
+  return (
+    <div className={stil.at} role="alertdialog" aria-label={a.dugme}>
+      <p className={ortak.not}>{a.soru}</p>
+      <div className={ortak.dugmeler}>
+        <button type="button" className={ortak.ana} onClick={() => { onAt(); setSoruluyor(false) }}>{a.evet}</button>
+        <button type="button" className={ortak.ikincil} onClick={() => setSoruluyor(false)}>{a.vazgec}</button>
+      </div>
     </div>
   )
 }

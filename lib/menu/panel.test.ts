@@ -2,8 +2,10 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { menuBelgesiYukle } from './belgeYukle.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
+import { menuFarki } from './fark.ts'
 import {
-  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, eskiBelgeMi, panelBelgesi,
+  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, eskiBelgeMi, hataSekmesi,
+  panelBelgesi, siteDurumu, siteSurumuOku, telefonAciliyor,
 } from './panel.ts'
 
 const tohum = menuBelgesiYukle()
@@ -103,4 +105,86 @@ test('menuBelgesiDogrula_onbirinciOge_kumeninOgelerListesindeHataVerir', () => {
     if (kume) kume.ogeler = Array.from({ length: 11 }, (_, n) => ({ id: `oge-${n}`, ad: cift }))
   }, 'ikramlar.gruplar[0].ogeler')
   assert.match(h?.metin ?? '', /En çok 10 kayıt/)
+})
+
+test('siteDurumu_ayniSurum_guncel', () => {
+  const d = siteDurumu(7, 7)
+  assert.equal(d.guncel, true)
+  assert.match(d.metin, /#7/)
+})
+
+test('siteDurumu_farkli_metinSurumleriTasir', () => {
+  const d = siteDurumu(9, 7)
+  assert.equal(d.guncel, false)
+  assert.equal(
+    d.metin,
+    'Sitede #7, panelde #9: iletişim bilgisi, arama motoru verisi ve ikram metinleri '
+    + 'siteyi yeniden yayınlayınca güncellenir.',
+  )
+})
+
+test('siteDurumu_siteTohum_tohumMetni', () => {
+  for (const site of [0, -1]) {
+    const d = siteDurumu(4, site)
+    assert.equal(d.guncel, false)
+    assert.match(d.metin, /tohum menüyle basılmış/)
+  }
+})
+
+test('siteDurumu_siteTohumYayinYok_guncel', () => {
+  const d = siteDurumu(null, 0)
+  assert.equal(d.guncel, true)
+  assert.match(d.metin, /tohum menüyle basılmış/)
+})
+
+test('siteSurumuOku_eksikYaDaBozuk_sifirDoner', () => {
+  assert.equal(siteSurumuOku(undefined), 0)
+  assert.equal(siteSurumuOku(''), 0)
+  assert.equal(siteSurumuOku('abc'), 0)
+  assert.equal(siteSurumuOku('-3'), 0)
+  assert.equal(siteSurumuOku('12'), 12)
+})
+
+test('degisiklikVarMi_ayniBelge_false', () => {
+  assert.equal(degisiklikVarMi(tohum, structuredClone(tohum)), false)
+})
+
+test('degisiklikVarMi_anahtarSirasiFarkli_false', () => {
+  const ters = Object.fromEntries(Object.entries(structuredClone(tohum)).reverse()) as typeof tohum
+  assert.equal(degisiklikVarMi(tohum, ters), false)
+})
+
+test('degisiklikVarMi_alanDegisti_true', () => {
+  const b = structuredClone(tohum)
+  b.iletisim.eposta = 'baska@cigercibozo.com'
+  assert.equal(degisiklikVarMi(tohum, b), true)
+  const c = structuredClone(tohum)
+  c.kalemler.pop()
+  assert.equal(degisiklikVarMi(tohum, c), true)
+})
+
+test('iletisimDogrula_gecersizEposta_hata', () => {
+  const b = structuredClone(tohum)
+  b.iletisim.eposta = 'bozuk'
+  const sonuc = menuBelgesiDogrula(b)
+  assert.equal(sonuc.tamam, false)
+  assert.equal(sonuc.tamam ? '' : sonuc.hatalar[0]?.yol, 'iletisim.eposta')
+})
+
+test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
+  assert.equal(hataSekmesi('kalemler[2].ad.tr'), 'ocakbasi')
+  assert.equal(hataSekmesi('ozel.fiyat'), 'ozel')
+  assert.equal(hataSekmesi('icecekler[0].olculer[1]'), 'icecekler')
+  assert.equal(hataSekmesi('ikramlar.gruplar'), 'ikramlar')
+  assert.equal(hataSekmesi('duyuru.bitis'), 'duyuru')
+  assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
+  assert.equal(hataSekmesi('belge'), null)
+})
+
+test('telefonAciliyor_kapaliykenAcilir_dogru', () => {
+  const b = structuredClone(tohum)
+  b.iletisim.telefonAcik = true
+  const fark = menuFarki(tohum, b).filter(telefonAciliyor)
+  assert.equal(fark.length, 1)
+  assert.equal(menuFarki(b, tohum).filter(telefonAciliyor).length, 0)
 })
