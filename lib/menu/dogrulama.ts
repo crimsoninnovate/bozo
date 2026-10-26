@@ -59,10 +59,12 @@ function metinKurallari(c: Ctx, s: string, yol: string): void {
 
 function metin(c: Ctx, v: unknown, yol: string, en: number): string | undefined {
   if (typeof v !== 'string') return hata(c, yol, 'sema', 'Metin bekleniyordu.')
-  if (v.trim() === '') return hata(c, yol, 'bos', 'Boş bırakılamaz.')
-  if (v.length > en) return hata(c, yol, 'uzun', `En çok ${en} karakter olabilir.`)
-  metinKurallari(c, v, yol)
-  return v
+  // NFC: ayrık işaretler harf dizisini bölüp şapka ve büyük harf kurallarını atlatmasın.
+  const s = v.normalize('NFC')
+  if (s.trim() === '') return hata(c, yol, 'bos', 'Boş bırakılamaz.')
+  if (s.length > en) return hata(c, yol, 'uzun', `En çok ${en} karakter olabilir.`)
+  metinKurallari(c, s, yol)
+  return s
 }
 
 function cift(c: Ctx, v: unknown, yol: string, en: number): Cift | undefined {
@@ -85,9 +87,11 @@ function fiyat(c: Ctx, v: unknown, yol: string): number | undefined {
   return v
 }
 
-function kimlik(c: Ctx, v: unknown, yol: string, gorulen: Set<string>, desen: RegExp): string | undefined {
+function kimlik(
+  c: Ctx, v: unknown, yol: string, gorulen: Set<string>, desen: RegExp, harfler: string,
+): string | undefined {
   if (typeof v !== 'string' || !desen.test(v)) {
-    return hata(c, yol, 'kimlik', 'Kimlik 2-40 karakter, küçük harf, rakam ve tire olmalı.')
+    return hata(c, yol, 'kimlik', `Kimlik 2-40 karakter; ${harfler}, rakam ve tire olmalı.`)
   }
   if (gorulen.has(v)) return hata(c, yol, 'tekrar', 'Bu kimlik başka bir kayıtta var.')
   gorulen.add(v)
@@ -118,7 +122,7 @@ function kalem(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): MenuKalem
   const o = nesne(c, v, yol, KALEM_ALANLARI)
   if (!o) return undefined
   const sonuc = {
-    id: kimlik(c, o.id, `${yol}.id`, gorulen, KALEM_KIMLIK),
+    id: kimlik(c, o.id, `${yol}.id`, gorulen, KALEM_KIMLIK, 'küçük harf'),
     ad: cift(c, o.ad, `${yol}.ad`, 60),
     aciklama: ciftVeyaNull(c, o.aciklama, `${yol}.aciklama`, 240),
     fiyatlar: fiyatlar(c, o.fiyatlar, `${yol}.fiyatlar`),
@@ -164,7 +168,7 @@ function olcu(c: Ctx, v: unknown, yol: string): IcecekOlcusu | undefined {
 function icecek(c: Ctx, v: unknown, yol: string, gorulen: Set<string>): IcecekKalemi | undefined {
   const o = nesne(c, v, yol, ['id', 'ad', 'olculer'])
   if (!o) return undefined
-  const id = kimlik(c, o.id, `${yol}.id`, gorulen, ICECEK_KIMLIK)
+  const id = kimlik(c, o.id, `${yol}.id`, gorulen, ICECEK_KIMLIK, 'harf')
   const ad = cift(c, o.ad, `${yol}.ad`, 60)
   const liste = dizi(c, o.olculer, `${yol}.olculer`, Number.POSITIVE_INFINITY)
   if (liste?.length === 0) hata(c, `${yol}.olculer`, 'olcuYok', 'En az bir ölçü olmalı.')

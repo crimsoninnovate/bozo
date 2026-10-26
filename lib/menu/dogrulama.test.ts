@@ -241,3 +241,25 @@ test('dogrulama_nullVeUndefined_reddederCokmeden', () => {
     if (!sonuc.tamam) assert.ok(sonuc.hatalar.length > 0)
   }
 })
+
+test('dogrulama_ayrisikSapkaliHarf_reddeder', () => {
+  const hatalar = reddedilen(menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.kalemler, 1).ad.tr = 'Keba\u0302p'.normalize('NFD')
+  })))
+  assert.equal(al(hatalar, 0).kod, 'sapka')
+})
+
+test('dogrulama_ayrisikBuyukHarf_reddeder', () => {
+  const hatalar = reddedilen(menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.kalemler, 1).ad.tr = 'C\u0130GER'.normalize('NFD')
+  })))
+  assert.equal(al(hatalar, 0).kod, 'buyukHarf')
+})
+
+test('dogrulama_ayrisikMetin_belgedeBirlesikSaklanir', () => {
+  const sonuc = menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.kalemler, 1).ad.tr = 'Dalak \u015Fi\u015F'.normalize('NFD')
+  }))
+  assert.ok(sonuc.tamam)
+  if (sonuc.tamam) assert.equal(al(sonuc.belge.kalemler, 1).ad.tr, 'Dalak \u015Fi\u015F')
+})

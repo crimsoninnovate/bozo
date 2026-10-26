@@ -93,10 +93,13 @@ function listeFarki<T extends Kayit>(
       cikti.push(satir(`${yolOn}.${k.id}`, `${k.ad.tr}: ${baslik}`, YOK, `eklendi, ${ozet(k)}`))
     }
   }
-  const ortakSira = (liste: T[], diger: Map<string, T>) => liste.filter((k) => diger.has(k.id)).map((k) => k.ad.tr)
-  const a = ortakSira(eski, yeniler).join(', ')
-  const b = ortakSira(yeni, eskiler).join(', ')
-  if (a !== b) cikti.push(satir(yolOn, `${baslik.charAt(0).toLocaleUpperCase('tr')}${baslik.slice(1)} sırası`, a, b))
+  const ortakSira = (liste: T[], diger: Map<string, T>) => liste.filter((k) => diger.has(k.id))
+  const a = ortakSira(eski, yeniler)
+  const b = ortakSira(yeni, eskiler)
+  if (a.map((k) => k.id).join() !== b.map((k) => k.id).join()) {
+    const etiket = `${baslik.charAt(0).toLocaleUpperCase('tr')}${baslik.slice(1)} sırası`
+    cikti.push(satir(yolOn, etiket, a.map((k) => k.ad.tr).join(', '), b.map((k) => k.ad.tr).join(', ')))
+  }
   return cikti
 }
 

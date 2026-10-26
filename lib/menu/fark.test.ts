@@ -51,10 +51,7 @@ test('fark_icecekOlcusuFiyati_etiketiIcecekVeOlcuyuTasir', () => {
     al(ayran.olculer, 0).fiyat = 45
   })
   const fark = menuFarki(varsayilan, yeni)
-  const ayran = varsayilan.icecekler.find((i) => i.id === 'ayran')
-  assert.ok(ayran)
-  const olcuAdi = al(ayran.olculer, 0).ad.tr.toLocaleLowerCase('tr')
-  assert.equal(al(fark, 0).etiket, `İçecekler: Ayran, ${olcuAdi}`)
+  assert.equal(al(fark, 0).etiket, 'İçecekler: Ayran, büyük')
   assert.equal(al(fark, 0).once, '40 TL')
   assert.equal(al(fark, 0).sonra, '45 TL')
 })
@@ -113,4 +110,19 @@ test('fark_kalemSirasiDegisti_siraSatiriVerir', () => {
   const fark = menuFarki(varsayilan, yeni)
   assert.equal(fark.length, 1)
   assert.equal(al(fark, 0).etiket, 'Kalem sırası')
+})
+
+test('fark_kalemYenidenAdlandi_siraSatiriCikmaz', () => {
+  const yeni = varsayilanKopya((b) => { al(b.kalemler, 1).ad.tr = 'Dalak Special' })
+  assert.deepEqual(menuFarki(varsayilan, yeni).map((d) => d.etiket), ['Dalak: ad (TR)'])
+})
+
+test('fark_icecekYenidenAdlandi_siraSatiriCikmaz', () => {
+  const yeni = varsayilanKopya((b) => { al(b.icecekler, 0).ad.tr = 'Kola Special' })
+  assert.deepEqual(menuFarki(varsayilan, yeni).map((d) => d.etiket), ['İçecekler: Cola: ad (TR)'])
+})
+
+test('fark_icecekSirasiDegisti_siraSatiriVerir', () => {
+  const yeni = varsayilanKopya((b) => { b.icecekler.push(al(b.icecekler.splice(0, 1), 0)) })
+  assert.deepEqual(menuFarki(varsayilan, yeni).map((d) => d.etiket), ['İçecek sırası'])
 })
