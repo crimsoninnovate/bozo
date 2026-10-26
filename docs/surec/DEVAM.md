@@ -14,7 +14,9 @@ Son güncelleme: 26 Ekim 2026
   `README.md` > Publishing > Deploy tablosu. Tasarım `docs/specs/2026-10-26-panel-genisletme-design.md`,
   plan `docs/plans/2026-10-26-panel-genisletme-plani.md`. Yayın tek komut: `npm run yayinla`
   (`scripts/yayinla.sh`), sahibin onayıyla çalıştırılır. Telefon kapalıyken numara hiçbir herkese açık
-  çıktıda yok (`lib/menu/herkeseAcik.ts`; canlıda sayfa ve JS paketlerinde aranıp 0 bulundu).
+  çıktıda yok (`lib/menu/herkeseAcik.ts`; canlıda sayfa ve JS paketlerinde aranıp 0 bulundu). Aynı akşam
+  ikram kümeleri ve öğeleri sıralanabilir oldu, ana sayfadaki ikram sayısı belgeden gelir, panel
+  kaydedilmemiş çalışmayı cihazda taslak olarak tutar (`bozo-yonetim-taslak`).
 
 - **Site canlı ve arama motorlarına açık:** `https://cigercibozo.com`, arc sunucusunda Plesk, Cloudflare
   önünde. Yayın yordamı `README.md` > Publishing (yerel `out/` rsync ile gider, sonra `chown`).
