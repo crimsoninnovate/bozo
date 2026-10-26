@@ -7,7 +7,7 @@ import {
 import { ikramSayisi, sayiYaz } from '@/lib/menu/sayilar'
 import type { IkramGrubu, IkramUrunu, MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
-import { CiftAlani, FotoSecimi, YeniKayit, type Hatalar } from './Alanlar'
+import { CiftAlani, FotoSecimi, ListeHatasi, YeniKayit, type Hatalar } from './Alanlar'
 import type { Duzenle } from './MenuYonetimi'
 import ortak from './oturum.module.css'
 import stil from './IkramFormu.module.css'
@@ -66,6 +66,7 @@ function GrupKarti({ grup, sira, tek, hatalar, duzenle }: GrupProps) {
           </li>
         ))}
       </ul>
+      <ListeHatasi metin={hatalar.get(`${yol}.ogeler`)} />
       <YeniKayit etiket={k.yeniOge} dugme={k.ogeEkle}
         onEkle={(ad) => duzenle((b) => ikramOgesiEkle(b, grup.id, ad))} />
       <div className={ortak.dugmeler}>
@@ -93,6 +94,7 @@ export function IkramFormu({ belge, hatalar, duzenle }: Props) {
           <UrunKarti key={urun.id} urun={urun} sira={n} son={n === urunler.length - 1}
             hatalar={hatalar} duzenle={duzenle} />
         ))}
+        <ListeHatasi metin={hatalar.get('ikramlar.urunler')} />
         <YeniKayit etiket={k.yeniUrun} dugme={k.urunEkle} onEkle={(ad) => duzenle((b) => ikramUrunuEkle(b, ad))} />
       </section>
       <section className={stil.liste} aria-label={k.gruplar}>
@@ -101,6 +103,7 @@ export function IkramFormu({ belge, hatalar, duzenle }: Props) {
           <GrupKarti key={grup.id} grup={grup} sira={n} tek={gruplar.length <= 1}
             hatalar={hatalar} duzenle={duzenle} />
         ))}
+        <ListeHatasi metin={hatalar.get('ikramlar.gruplar')} />
         <YeniKayit etiket={k.yeniGrup} dugme={k.grupEkle} onEkle={(ad) => duzenle((b) => ikramGrubuEkle(b, ad))} />
       </section>
     </div>

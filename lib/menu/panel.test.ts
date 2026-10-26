@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { menuBelgesiYukle } from './belgeYukle.ts'
+import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, eskiBelgeMi, panelBelgesi,
 } from './panel.ts'
@@ -68,4 +69,38 @@ test('panelBelgesi_gecersizBelge_belgeHatasiFirlatir', () => {
     () => panelBelgesi(bozuk, tohum),
     (h: unknown) => h instanceof BelgeHatasi && /icecekler/.test(h.message),
   )
+})
+
+/** Panel bu yolları listenin altında gösterir (`IkramFormu`); yollar ve sınır metni burada sabitlenir. */
+const cift = { tr: 'A', en: 'A' }
+const sinirHatasi = (degis: (b: typeof tohum) => void, yol: string) => {
+  const b = structuredClone(tohum)
+  degis(b)
+  const sonuc = menuBelgesiDogrula(b)
+  assert.equal(sonuc.tamam, false, yol)
+  return sonuc.tamam ? undefined : sonuc.hatalar.find((x) => x.yol === yol)
+}
+
+test('menuBelgesiDogrula_onUcuncuIkram_urunlerListesindeHataVerir', () => {
+  const h = sinirHatasi((b) => {
+    b.ikramlar.urunler = Array.from({ length: 13 }, (_, n) => ({
+      id: `ikram-${n}`, ad: cift, aciklama: cift, fotoId: null,
+    }))
+  }, 'ikramlar.urunler')
+  assert.match(h?.metin ?? '', /En çok 12 kayıt/)
+})
+
+test('menuBelgesiDogrula_dokuzuncuKume_gruplarListesindeHataVerir', () => {
+  const h = sinirHatasi((b) => {
+    b.ikramlar.gruplar = Array.from({ length: 9 }, (_, n) => ({ id: `kume-${n}`, ad: cift, not: null, ogeler: [] }))
+  }, 'ikramlar.gruplar')
+  assert.match(h?.metin ?? '', /En çok 8 kayıt/)
+})
+
+test('menuBelgesiDogrula_onbirinciOge_kumeninOgelerListesindeHataVerir', () => {
+  const h = sinirHatasi((b) => {
+    const kume = b.ikramlar.gruplar[0]
+    if (kume) kume.ogeler = Array.from({ length: 11 }, (_, n) => ({ id: `oge-${n}`, ad: cift }))
+  }, 'ikramlar.gruplar[0].ogeler')
+  assert.match(h?.metin ?? '', /En çok 10 kayıt/)
 })

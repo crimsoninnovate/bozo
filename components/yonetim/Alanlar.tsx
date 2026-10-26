@@ -57,6 +57,11 @@ export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, enFazla }: Alan
   )
 }
 
+/** Liste düzeyindeki doğrulama hatası (örn. kayıt sınırı); alan hatasıyla aynı biçim, listenin altında durur. */
+export function ListeHatasi({ metin }: { metin: string | undefined }) {
+  return metin ? <p className={ortak.alanHata}>{metin}</p> : null
+}
+
 type IsaretProps = { etiket: string; isaretli: boolean; onDegis: (v: boolean) => void }
 
 /** Etiketli onay kutusu; tüm satır 44px yüksekliğinde dokunma alanıdır. */
