@@ -30,3 +30,23 @@ export function metinOzeti(d: Duyuru): string {
   for (const c of `${d.metin.tr}\u0000${d.metin.en}`) h = Math.imul(h ^ c.codePointAt(0)!, 0x01000193) >>> 0
   return h.toString(36)
 }
+
+const EN_FAZLA_DENEME = 2
+
+/**
+ * Bir sayfa oturumunun (tam yükleme) son canlı belgesi: istemci tarafı gezintide kabuk yeniden
+ * kurulur, bu yüzden bant ilk durumunu buradan alır ve belge bir daha istenmez. Başarısız istek
+ * canlı sayılmaz; bir kez daha denenir, sonra durur.
+ */
+export function canliOturumu() {
+  let son: MenuBelgesi | null = null
+  let basarisiz = 0
+  return {
+    belge: (): MenuBelgesi | null => son,
+    getirmeli: (): boolean => son === null && basarisiz < EN_FAZLA_DENEME,
+    kaydet(belge: MenuBelgesi | null): void {
+      if (belge === null) basarisiz += 1
+      else son = belge
+    },
+  }
+}

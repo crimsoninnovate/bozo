@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
+import { canliOturumu, duyuruGoster, duyuruKarari, girneAnlik, metinOzeti } from './duyuru.ts'
 import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
 const duyuru = (degisiklik: Partial<Duyuru> = {}): Duyuru => ({
@@ -82,4 +82,36 @@ test('metinOzeti_metinDegisince_degisir', () => {
   const a = metinOzeti(duyuru())
   assert.equal(a, metinOzeti(duyuru({ bitis: '2026-12-01T10:00' })))
   assert.notEqual(a, metinOzeti(duyuru({ metin: { tr: 'Bayramda açığız', en: 'Open on holidays' } })))
+})
+
+test('canliOturumu_basariliBelge_sonrakiGezintideTekrarDenenmez', () => {
+  const o = canliOturumu()
+  assert.equal(o.getirmeli(), true)
+  o.kaydet(belge(duyuru()))
+  assert.equal(o.getirmeli(), false)
+  assert.deepEqual(o.belge()?.duyuru, duyuru())
+})
+
+test('canliOturumu_ilkIstekBasarisiz_birKezDahaDenerSonraDurur', () => {
+  const o = canliOturumu()
+  o.kaydet(null)
+  assert.equal(o.belge(), null)
+  assert.equal(o.getirmeli(), true)
+  o.kaydet(null)
+  assert.equal(o.getirmeli(), false)
+})
+
+test('canliOturumu_oncedenBasarisiz_sonraBasarili_canliKalir', () => {
+  const o = canliOturumu()
+  o.kaydet(null)
+  o.kaydet(belge(duyuru()))
+  assert.equal(o.getirmeli(), false)
+  assert.notEqual(o.belge(), null)
+})
+
+test('canliOturumu_onbellektekiSuresiDolmusDuyuru_karardaGizlenir', () => {
+  const o = canliOturumu()
+  o.kaydet(belge(duyuru({ bitis: '2026-10-26T10:00' })))
+  const sonra = new Date('2026-10-26T08:00:00Z')
+  assert.equal(duyuruKarari(duyuru(), o.belge(), sonra).aktif, false)
 })
