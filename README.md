@@ -160,7 +160,7 @@ What the panel changes, and when it shows:
 | Prices, names, descriptions | Menu page | JSON-LD, `llms.txt`, meta description |
 | Sold-out flag | Menu page | nothing else shows it |
 | Announcement bar | Every page | the baked HTML carries the version built last |
-| Treats (names, texts, groups) | Menu page, the opening sentence's counts | meta description and `llms.txt` counts; home page treat copy (`ana.ikram`, `ana.ocakbasi.altNot`) needs a code edit, see `content/CLAUDE.md` |
+| Treats (names, texts, groups) | Menu page, the opening sentence's counts | meta description, `llms.txt` and home page note counts (`ana.ocakbasi.altNot`); home page treat copy (`ana.ikram`) needs a code edit, see `content/CLAUDE.md` |
 | Contact, phone toggle, social accounts, review code | nothing | everywhere (footer, top bar, JSON-LD, privacy page) |
 | Opening hours | not a panel field | brand copy in about forty strings |
 

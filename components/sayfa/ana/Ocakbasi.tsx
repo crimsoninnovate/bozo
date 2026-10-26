@@ -5,6 +5,7 @@ import { MenuSatiri } from '@/components/ui/MenuSatiri'
 import { sozluk, type Dil, type Sozluk } from '@/content'
 import { isletme } from '@/content/isletme'
 import { anaSayfaKalemleri, menuBelgesiYukle } from '@/lib/menu/belgeYukle'
+import { acilisSpotu } from '@/lib/menu/sayilar'
 import { telefonUrl, yol } from '@/lib/site'
 import stil from './Ocakbasi.module.css'
 
@@ -40,13 +41,14 @@ export function Ocakbasi({ dil }: Props) {
   const s = sozluk(dil)
   const telefon = telefonUrl(isletme.telefon)
   const { fiyat } = s.ana.ocakbasi
-  const kalemler = anaSayfaKalemleri(menuBelgesiYukle(), Object.keys(s.ana.ocakbasi.urunler))
+  const belge = menuBelgesiYukle()
+  const kalemler = anaSayfaKalemleri(belge, Object.keys(s.ana.ocakbasi.urunler))
 
   return (
     <Bolum id="ocakbasi" yogunluk={0.4} className={stil.bolum} eritClassName={stil.erit}>
       <div className={stil.baslikSatiri}>
         <h2 className={stil.baslik}>{s.ana.ocakbasi.baslik}</h2>
-        <p className={stil.altNot}>{s.ana.ocakbasi.altNot}</p>
+        <p className={stil.altNot}>{acilisSpotu(s.ana.ocakbasi.altNot, belge, dil)}</p>
       </div>
 
       {/* `ul`, `ol` değil: beş ürünün sırası anlamlı değil (20 Ağustos 2026). */}

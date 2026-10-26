@@ -50,7 +50,7 @@ export const ana = {
    */
   ocakbasi: {
     baslik: 'Ocakbaşı',
-    altNot: 'Beş ürün, sekiz ikram: sofra kurulu gelir',
+    altNot: 'Beş ürün, {ikram} ikram: sofra kurulu gelir',
     urunler: {
       ciger: {
         ad: 'Ciğer',

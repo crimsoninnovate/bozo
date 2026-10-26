@@ -36,7 +36,7 @@ export const ana = {
   },
   ocakbasi: {
     baslik: 'From the Fire',
-    altNot: 'Five dishes, eight on the house: the table comes set',
+    altNot: 'Five dishes, {ikram} on the house: the table comes set',
     urunler: {
       // Handoff "a dice" yazıyor; tekil "die" ve aynı dosyanın diğer üç satırı
       // "backgammon die" diyor (en/ana.ts:12, en/hikaye.ts:21).

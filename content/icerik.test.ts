@@ -443,15 +443,25 @@ test('lakaplar_kisaltmalarin_notuYoktur', () => {
 })
 
 /**
- * Ana sayfanın alt notu (statik, panelden bağımsız) ikram sayısını harfle yazar; seed sekiz taşır.
- * Menü spotu ve meta açıklaması şablon, sayı belgeden gelir (aşağıdaki iki test).
+ * Ana sayfanın alt notu ikram sayısını `{ikram}` yer tutucusuyla alır ve belgeden doldurulur
+ * (Ocakbasi.tsx `acilisSpotu` çağırır); bugünün belgesi eski sabit metni aynen üretir.
  */
-test('ikram_sayisi_anaSayfaAltNotuylaAyni', () => {
-  const adet = ikramSayisi(belge)
+test('anaSayfaAltNotu_ikramSayisi_belgedenGelir', () => {
+  const beklenen = {
+    tr: 'Beş ürün, sekiz ikram: sofra kurulu gelir',
+    en: 'Five dishes, eight on the house: the table comes set',
+  }
+  const fazla = structuredClone(belge)
+  const ilkUrun = fazla.ikramlar.urunler[0]
+  assert.ok(ilkUrun)
+  fazla.ikramlar.urunler.push({ ...ilkUrun, id: 'fazla' })
+  assert.equal(ikramSayisi(fazla), ikramSayisi(belge) + 1)
   for (const dil of ['tr', 'en'] as const) {
-    const metin = ({ tr, en })[dil].ana.ocakbasi.altNot
-    const sozcuk = sayiYaz(adet, dil)
-    assert.ok(metin.toLowerCase().includes(sozcuk), `${dil} ana.ocakbasi.altNot: "${sozcuk}" geçmiyor`)
+    const sablon = ({ tr, en })[dil].ana.ocakbasi.altNot
+    assert.ok(sablon.includes('{ikram}'), `${dil} ana.ocakbasi.altNot: {ikram} yok`)
+    assert.equal(acilisSpotu(sablon, belge, dil), beklenen[dil])
+    assert.notEqual(acilisSpotu(sablon, fazla, dil), beklenen[dil])
+    assert.ok(acilisSpotu(sablon, fazla, dil).includes(sayiYaz(9, dil)), `${dil}: dokuz geçmiyor`)
   }
 })
 

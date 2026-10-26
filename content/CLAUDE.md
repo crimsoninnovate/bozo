@@ -21,12 +21,11 @@ Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 Octobe
 24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow
 the document on their own.
 
-Three places hold copy that the document can outdate:
+Two places hold copy that the document can outdate:
 
-- The menu opening sentence and meta description take their counts from the document
-  (`{kalem}`, `{ikram}`, `lib/menu/sayilar.ts`), so adding items is safe.
-- `ana.ocakbasi.altNot` in `content/{tr,en}/ana.ts` hardcodes "sekiz ikram" / "eight on the house":
-  it goes stale if the owner changes the treat count in the panel. Edit it by hand with the deploy.
+- The menu opening sentence, meta description and the home page note `ana.ocakbasi.altNot` take
+  their counts from the document (`{kalem}`, `{ikram}`, `acilisSpotu` in `lib/menu/sayilar.ts`),
+  so adding items is safe. The note's "Beş ürün" / "Five dishes" is still hand-written.
 - `kalemAdlari` in `content/tr/oyun.ts` (the game's item names, now including domates and sogan)
   is a copy of the document's names. The game runs in the browser and cannot read the document,
   so it can drift; `content/icerik.test.ts` compares it with the seed only.

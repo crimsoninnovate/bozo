@@ -71,8 +71,8 @@ Son güncelleme: 26 Ekim 2026
    Aşama 2 (panelden yayında siteyi kendiliğinden yeniden basmak) yapılmadı, şimdilik `npm run yayinla`;
    fotoğraf yükleme panelde yok (foto yalnız `content/fotograflar.ts` kimliklerinden seçilir); çalışma
    saatleri bilerek panel alanı değil (10:00 - 05:00 bir marka cümlesi, kırka yakın metinde yazılı; geçici
-   kapanış için duyuru bandı var); "Sekiz ikram" (`ana.ocakbasi.altNot`) elle yazılı, ikram sayısı değişirse
-   elle düzeltilir.
+   kapanış için duyuru bandı var); ana sayfadaki "sekiz ikram" (`ana.ocakbasi.altNot`) belgeden doldurulur, bir
+   sonraki `npm run yayinla` ile güncellenir.
 1. **Menü metinleri:** Bozo Special rozetindeki gramaj 200 mü 190 mı (şu an 200 gr, 19 Ekim'de 190'dan
    çekildi, geri alınabilir), Terbiyeli Tavuk Şiş açıklaması (tavuk şişlerin İngilizce adları da buna
    bağlı), `priceRange` yayımlansın mı.
