@@ -7,6 +7,7 @@ import { MenuVerisiSaglayici } from './menu/MenuVerisi'
 import { YorumDaveti } from '@/components/ui/YorumDaveti'
 import type { Dil } from '@/content'
 import { menuBelgesiYukle } from '@/lib/menu/belgeYukle'
+import { derlenmisDuyuru } from '@/lib/menu/duyuru'
 import { herkeseAcik, tukendisiz } from '@/lib/menu/herkeseAcik'
 
 type Props = { dil: Dil }
@@ -29,8 +30,11 @@ type Props = { dil: Dil }
  * kolon (sahibi, 13 Ağustos 2026; tasarımın Menu:283-292 şeridi kalktı).
  */
 export function MenuSayfasi({ dil }: Props) {
+  const belge = tukendisiz(herkeseAcik(menuBelgesiYukle()))
+  // Duyuruyu bant kendi okur; gösterilmeyecek metin bu sayfanın HTML'ine de girmez.
+  const baz = { ...belge, duyuru: derlenmisDuyuru(belge.duyuru, new Date()) }
   return (
-    <MenuVerisiSaglayici baz={tukendisiz(herkeseAcik(menuBelgesiYukle()))}>
+    <MenuVerisiSaglayici baz={baz}>
       <Acilis dil={dil} />
       <Ocakbasi dil={dil} />
       <Ikramlar dil={dil} />
