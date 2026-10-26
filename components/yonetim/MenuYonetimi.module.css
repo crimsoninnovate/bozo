@@ -1,0 +1,66 @@
+/* Menü paneli: kabuksuz, tek sütun, telefonda da tablette de kullanılır. */
+.sayfa {
+  display: grid;
+  gap: 24px;
+  max-width: 880px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  color: var(--krem);
+  font: 400 16px/1.5 var(--font-govde);
+}
+
+.baslik {
+  margin: 0;
+  font: 400 28px/1.1 var(--font-baslik);
+}
+
+.ust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ust a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.sekmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sekme {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  color: var(--krem-70);
+  font: 500 14.5px/1 var(--font-govde);
+}
+
+.sekme[aria-pressed='true'] {
+  border-color: var(--bakir);
+  color: var(--krem);
+  background: var(--komur);
+}
+
+.liste {
+  display: grid;
+  gap: 24px;
+}
+
+.bar {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.tamam {
+  margin: 0;
+  font-weight: 600;
+}

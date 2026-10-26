@@ -28,7 +28,7 @@ export function onayYaz(durum: Exclude<OnayDurumu, 'karar-yok'>): void {
   }
 }
 
-/** Oyun rotalarında ne bant ne ölçüm: oyun birinci taraftır, dışarıya istek yapmaz (spec §10). */
+/** Oyun ve personel rotalarında ne bant ne ölçüm: ikisi birinci taraftır, dışarıya istek yapmaz (spec §10). */
 export function onayGerekirMi(yol: string): boolean {
-  return !/^\/(en\/)?oyun(\/|$)/.test(yol)
+  return !/^\/((en\/)?oyun|yonetim)(\/|$)/.test(yol)
 }

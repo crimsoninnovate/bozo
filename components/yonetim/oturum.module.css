@@ -1,0 +1,82 @@
+/* Giriş formu ve iki ekranın paylaştığı alan, düğme ve ileti biçimleri. */
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.alan {
+  display: grid;
+  gap: 6px;
+  font: 500 14.5px/1.2 var(--font-govde);
+  color: var(--krem-70);
+}
+
+.alan input,
+.alan select,
+.alan textarea {
+  min-height: 48px;
+  padding: 0 12px;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  color: var(--krem);
+  font: 400 16px/1.4 var(--font-govde);
+}
+
+.alan textarea {
+  min-height: 96px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.ana {
+  min-height: 48px;
+  padding: 0 16px;
+  background: var(--kor);
+  border-radius: 3px;
+  color: var(--krem);
+  font: 600 16px/1 var(--font-govde);
+}
+
+.ana:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ikincil {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  color: var(--krem);
+  font: 500 14.5px/1 var(--font-govde);
+}
+
+.ikincil:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hata {
+  margin: 0;
+  color: var(--bakir-acik);
+  font-weight: 600;
+}
+
+.alanHata {
+  color: var(--bakir-acik);
+  font: 600 14.5px/1.3 var(--font-govde);
+}
+
+.not {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--krem-70);
+}

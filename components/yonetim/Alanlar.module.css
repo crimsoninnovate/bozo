@@ -1,0 +1,25 @@
+/* Türkçe ve İngilizce alanları dar ekranda alt alta, geniş ekranda yan yana. */
+.cift {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .cift {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.yeni {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  align-items: end;
+}
+
+@media (min-width: 560px) {
+  .yeni {
+    grid-template-columns: 1fr auto;
+  }
+}

@@ -1,0 +1,32 @@
+.bolum {
+  display: grid;
+  gap: 12px;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 20px/1.2 var(--font-baslik);
+}
+
+.liste {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.satir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 8px 0;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.etiket {
+  font: 500 14.5px/1 var(--font-govde);
+  font-style: normal;
+  color: var(--bakir-acik);
+}

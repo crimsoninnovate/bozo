@@ -72,6 +72,13 @@ test('yol_siralama_oyunAltinda', () => {
   assert.equal(yol('siralama', 'en'), '/en/oyun/siralama/')
 })
 
+/** Menü paneli `/yonetim/` noindex ve hiçbir yerden bağlantısız: sitemap `tumYollar`'dan türer, panel girmez. */
+test('sitemap_yonetimRotasiIcermez', () => {
+  const yollar = tumYollar().flatMap((g) => [g.tr, g.en])
+  assert.equal(yollar.some((y) => y.includes('yonetim')), false)
+  assert.equal(yollar.includes('/yonetim/'), false)
+})
+
 /** Oyun prototipi noindex: sitemap ve llms.txt `tumYollar`'dan türer, oyun ve sıralaması oraya girmez. */
 test('tumYollar_oyunuVeSiralamayiIcermez', () => {
   const anahtarlar = tumYollar().map((g) => g.anahtar as string)

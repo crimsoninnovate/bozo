@@ -1,0 +1,31 @@
+.icecek {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.baslik {
+  padding: 0 8px;
+  font: 400 18px/1.2 var(--font-baslik);
+  color: var(--krem);
+}
+
+.olcu {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  padding-top: 12px;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+.olcu > * {
+  width: 100%;
+}
+
+.olcu > button {
+  width: auto;
+}

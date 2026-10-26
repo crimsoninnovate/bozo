@@ -1,0 +1,27 @@
+.kalem {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.baslik {
+  padding: 0 8px;
+  font: 400 18px/1.2 var(--font-baslik);
+  color: var(--krem);
+}
+
+.fiyatlar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .fiyatlar {
+    grid-template-columns: 1fr 1fr;
+  }
+}

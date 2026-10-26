@@ -1,0 +1,51 @@
+.onay {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  background: var(--komur);
+}
+
+.baslik {
+  margin: 0;
+  font: 400 20px/1.2 var(--font-baslik);
+}
+
+.baslik:focus-visible {
+  outline-offset: 4px;
+}
+
+.altBaslik {
+  margin: 0;
+  font: 600 14.5px/1.2 var(--font-govde);
+  letter-spacing: 0.04em;
+  color: var(--krem-70);
+}
+
+.liste {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.satir,
+.sicrama {
+  display: grid;
+  gap: 4px;
+  padding: 8px 0 8px 12px;
+  border-top: 1px solid var(--cizgi-kart);
+  border-left: 3px solid transparent;
+}
+
+/* Büyük fiyat sıçraması: ember çubuk, kalın uyarı metniyle birlikte (renk tek başına taşımaz). */
+.sicrama {
+  border-left-color: var(--kor);
+  background: color-mix(in srgb, var(--kor) 22%, transparent);
+}
+
+.uyari {
+  font-weight: 700;
+}

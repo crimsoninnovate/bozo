@@ -1,65 +1,22 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
+import { useEffect, useState, type SubmitEvent } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import type { YonetimTaramaYaniti } from '@/lib/masa'
 import { doldur } from '@/lib/metin'
 import type { YonetimSiralamaYaniti } from '@/lib/oyun/aktarim'
-import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
+import type { YonetimApi } from '@/lib/oyun/api'
 import { tarihMetni } from '@/lib/oyun/tarih'
 import { oncekiDonem, turuDogrula } from '@/lib/oyun/yonetim'
+import { Giris, hataIsle, useOturum } from '@/components/yonetim/oturum'
 import stil from './YonetimSayfasi.module.css'
 
 /* Personel ekranı (spec §7, §9): ödül kodu onayı, haftanın ilk 20'si, ad gizleme, turun yeniden oynatılması,
    masa plakası okumaları. */
 
-const ANAHTAR = 'bozo-yonetim'
 const sayi = (n: number) => n.toLocaleString('tr-TR')
-const apiAl = (yetki: string) => yonetimApiKur(API_KOKU, (girdi, secenek) => fetch(girdi, secenek), yetki)
-
-function hataMetni(hata: unknown): string {
-  if (!(hata instanceof ApiHatasi)) return doldur(m.hata.genel, { kod: String(hata) })
-  if (hata.durum === 0) return m.hata.ag
-  if (hata.durum === 429) return m.hata.cokIstek
-  return (m.hata as Record<string, string>)[hata.kod] ?? doldur(m.hata.genel, { kod: hata.kod })
-}
 
 type Panel = { api: YonetimApi; cik: () => void }
-
-/** 401 oturumu kapatır; diğer hatalar metne döner. */
-function hataIsle(hata: unknown, cik: () => void): string {
-  if (hata instanceof ApiHatasi && hata.durum === 401) cik()
-  return hataMetni(hata)
-}
-
-function Giris({ gir }: { gir: (yetki: string) => void }) {
-  const [hata, setHata] = useState<string | null>(null)
-  const gonder = async (olay: SubmitEvent<HTMLFormElement>) => {
-    olay.preventDefault()
-    const veri = new FormData(olay.currentTarget)
-    const yetki = temelYetki(String(veri.get('kullanici')), String(veri.get('sifre')))
-    try {
-      await apiAl(yetki).siralama()
-      gir(yetki)
-    } catch (h) {
-      setHata(h instanceof ApiHatasi && h.durum === 401 ? m.giris.hata : hataMetni(h))
-    }
-  }
-  return (
-    <form className={stil.form} onSubmit={gonder}>
-      <label className={stil.alan}>
-        {m.giris.kullanici}
-        <input name="kullanici" autoComplete="username" required />
-      </label>
-      <label className={stil.alan}>
-        {m.giris.sifre}
-        <input name="sifre" type="password" autoComplete="current-password" required />
-      </label>
-      <button type="submit" className={stil.ana}>{m.giris.dugme}</button>
-      {hata && <p className={stil.hata} role="alert">{hata}</p>}
-    </form>
-  )
-}
 
 function KodFormu({ api, cik }: Panel) {
   const [sonuc, setSonuc] = useState<{ metin: string; hata: boolean } | null>(null)
@@ -236,17 +193,7 @@ function Taramalar({ api, cik }: Panel) {
 }
 
 export function YonetimSayfasi() {
-  const [yetki, setYetki] = useState<string | null>(null)
-  useEffect(() => setYetki(sessionStorage.getItem(ANAHTAR)), [])
-  const api = useMemo(() => (yetki ? apiAl(yetki) : null), [yetki])
-  const gir = (y: string) => {
-    sessionStorage.setItem(ANAHTAR, y)
-    setYetki(y)
-  }
-  const cik = useCallback(() => {
-    sessionStorage.removeItem(ANAHTAR)
-    setYetki(null)
-  }, [])
+  const { api, gir, cik } = useOturum()
   return (
     <main className={stil.sayfa}>
       <h1 className={stil.baslik}>{m.baslik}</h1>

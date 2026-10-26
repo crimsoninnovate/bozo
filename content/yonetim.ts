@@ -1,4 +1,4 @@
-/** Personel ekranı `/oyun/yonetim/` (spec §7, §9); yalnız Türkçe, dizine girmez. */
+/** Personel ekranları `/oyun/yonetim/` (spec §7, §9) ve `/yonetim/` (menü); yalnız Türkçe, dizine girmez. */
 export const yonetim = {
   baslik: 'Oyun Yönetimi',
   giris: {
@@ -53,5 +53,76 @@ export const yonetim = {
     ag: 'Sunucuya ulaşılamadı.',
     cokIstek: 'Çok fazla deneme oldu, bir saat sonra tekrar deneyin.',
     genel: 'Bir hata oldu ({kod}).',
+    surumEskidi: 'Başkası menüyü değiştirmiş, sayfayı yenileyip tekrar deneyin.',
+    tabanGecersiz: 'Sürüm bilgisi geçersiz, sayfayı yenileyip tekrar deneyin.',
+    belgeGecersiz: 'Sunucu menüyü kabul etmedi, alanlardaki hataları düzeltin.',
+    govdeBuyuk: 'Menü çok büyük, kaydedilemedi.',
+    surumYok: 'Bu sürüm bulunamadı.',
+  },
+  menu: {
+    baslik: 'Menü Yönetimi',
+    sekmeler: 'Menü bölümleri',
+    sekme: { ocakbasi: 'Ocakbaşı', ozel: 'Bozo Special', icecekler: 'İçecekler', gecmis: 'Geçmiş' },
+    oyuna: 'Oyun Yönetimi',
+    tr: 'Türkçe',
+    en: 'İngilizce',
+    kalem: {
+      ad: 'Ad',
+      aciklama: 'Açıklama',
+      porsiyonFiyati: 'Porsiyon fiyatı (TL)',
+      durumFiyati: 'Dürüm fiyatı (TL), yoksa boş bırakın',
+      porsiyonNotu: 'Porsiyon notu, örnek: 10 şiş',
+      durumNotu: 'Dürüm notu, örnek: 10 şiş',
+      foto: 'Fotoğraf',
+      fotoYok: 'Fotoğraf yok',
+      yukari: 'Yukarı Taşı',
+      asagi: 'Aşağı Taşı',
+      sil: 'Sil',
+      ciger: 'Ciğer sabittir: silinmez, sırası değişmez.',
+      yeniAd: 'Yeni kalemin adı',
+      ekle: 'Kalem Ekle',
+    },
+    ozel: { ad: 'Ad', miktarNotu: 'Miktar notu', aciklama: 'Açıklama', fiyat: 'Fiyat (TL)' },
+    icecek: {
+      ad: 'İçecek adı',
+      olcuAd: 'Ölçü adı',
+      olcuFiyat: 'Fiyat (TL)',
+      olcu: 'Ölçü {n}',
+      olcuEkle: 'Ölçü Ekle',
+      olcuSil: 'Ölçüyü Sil',
+      sil: 'İçeceği Sil',
+      yeniAd: 'Yeni içeceğin adı',
+      ekle: 'İçecek Ekle',
+    },
+    yayinla: 'Yayınla',
+    hatali: 'Hatalar düzeltilmeden yayınlanamaz: {sayi} hata var.',
+    degisiklikYok: 'Yayındaki menüyle aynı, yayınlanacak bir şey yok.',
+    yukleniyor: 'Yayındaki menü okunuyor.',
+    yayinda:
+      'Yayında. Menü sayfası birkaç saniyede güncellenir; '
+      + 'arama motorlarındaki fiyat bir sonraki site yayınında güncellenir.',
+    onay: {
+      baslik: 'Yayın öncesi kontrol',
+      geriAlBaslik: 'Bu sürüme dönülecek',
+      satir: '{etiket}: {once} yerine {sonra}',
+      sicrama: 'Fiyat yüzde 50\'den fazla değişiyor, emin misiniz?',
+      uyarilar: 'Uyarılar',
+      onayla: 'Onayla ve Yayınla',
+      geriAl: 'Onayla ve Geri Al',
+      vazgec: 'Vazgeç',
+      fark: 'Değişiklikler',
+      geriAlNot:
+        'Yayındaki menü, {tarih} sürümünün içeriğiyle değiştirilir; geri alma da geçmişe yeni bir sürüm '
+        + 'olarak eklenir. Ekrandaki kaydedilmemiş değişiklikler kapanır.',
+    },
+    gecmis: {
+      baslik: 'Son sürümler',
+      bos: 'Henüz yayınlanmış sürüm yok.',
+      satir: '{tarih}, {kaynak}',
+      panel: 'panelden yayınlandı',
+      geriAl: 'geri alındı',
+      don: 'Bu Sürüme Dön',
+      yayinda: 'yayında',
+    },
   },
 } as const
