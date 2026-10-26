@@ -4,6 +4,18 @@
  */
 export const OTURUM_ANAHTARI = 'bozo-yonetim'
 
+export type Depo = 'localStorage' | 'sessionStorage'
+
+/**
+ * Oturumu hangi depo tutar, hangisi temizlenir. "Beni hatırla" açıkken kalıcı yazım düşerse (gizli sekme,
+ * dolu kota) oturum sekme deposunda kalır; temizlenen depo hep diğeridir, böylece eski kayıt kalmaz.
+ */
+export function oturumDepolari(hatirla: boolean, kaliciYazildi: boolean): { tut: Depo; sil: Depo } {
+  return hatirla && kaliciYazildi
+    ? { tut: 'localStorage', sil: 'sessionStorage' }
+    : { tut: 'sessionStorage', sil: 'localStorage' }
+}
+
 export function oturumYaz(yetki: string, bitis: string): string {
   return JSON.stringify({ yetki, bitis })
 }

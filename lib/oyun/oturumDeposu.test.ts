@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { oturumOku, oturumYaz } from './oturumDeposu.ts'
+import { oturumDepolari, oturumOku, oturumYaz } from './oturumDeposu.ts'
 
 const SIMDI = Date.parse('2026-10-26T12:00:00Z')
 const GELECEK = new Date(SIMDI + 60_000).toISOString()
@@ -37,4 +37,16 @@ test('oturumOku_bosBasicDizesi_yalnizEskiBicimdeKabulEdilir', () => {
   assert.equal(oturumOku('Basic eDp5', SIMDI, true), 'Basic eDp5')
   assert.equal(oturumOku('Basic eDp5', SIMDI, false), null)
   assert.equal(oturumOku('Bearer abc', SIMDI, true), null)
+})
+
+test('oturumDepolari_kaliciYazildi_localdaTutarSessionTemizler', () => {
+  assert.deepEqual(oturumDepolari(true, true), { tut: 'localStorage', sil: 'sessionStorage' })
+})
+
+test('oturumDepolari_kaliciYazimDustu_sessiondaTutarLocalTemizler', () => {
+  assert.deepEqual(oturumDepolari(true, false), { tut: 'sessionStorage', sil: 'localStorage' })
+})
+
+test('oturumDepolari_hatirlaKapali_sessiondaTutarLocalTemizler', () => {
+  assert.deepEqual(oturumDepolari(false, false), { tut: 'sessionStorage', sil: 'localStorage' })
 })

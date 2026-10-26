@@ -5,7 +5,7 @@ import { yonetim as m } from '@/content/yonetim'
 import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
-import { OTURUM_ANAHTARI as ANAHTAR, oturumOku, oturumYaz } from '@/lib/oyun/oturumDeposu'
+import { OTURUM_ANAHTARI as ANAHTAR, oturumDepolari, oturumOku, oturumYaz, type Depo } from '@/lib/oyun/oturumDeposu'
 import stil from './oturum.module.css'
 
 /* Personel girişi ve oturumu: `/oyun/yonetim/` ve `/yonetim/` aynı anahtarı okur, tek girişle iki ekran. */
@@ -66,8 +66,6 @@ export function Giris({ gir }: { gir: (yetki: string, bitis: string, hatirla: bo
   )
 }
 
-type Depo = 'localStorage' | 'sessionStorage'
-
 /** Depo hataları (gizli sekme, dolu kota) girişi bozmaz; yalnız konsola düşer, anahtar yazılmaz. */
 function depoIsle<T>(depo: Depo, ne: string, is: (s: Storage) => T, yedek: T): T {
   try {
@@ -99,11 +97,10 @@ export function useOturum(): {
   useEffect(() => setYetki(oturumBul()), [])
   const api = useMemo(() => (yetki ? apiAl(yetki) : null), [yetki])
   const gir = useCallback((y: string, bitis: string, hatirla: boolean) => {
-    const [yaz, sil]: [Depo, Depo] = hatirla ? ['localStorage', 'sessionStorage'] : ['sessionStorage', 'localStorage']
-    const yazildi = (d: Depo) =>
+    const yaz = (d: Depo) =>
       depoIsle(d, 'yazılamadı', (s) => (s.setItem(ANAHTAR, oturumYaz(y, bitis)), true), false)
-    // Kalıcı yazım düşerse sekme deposuna in: en azından bu sekme yenilemede oturumu korur.
-    if (!yazildi(yaz) && yaz === 'localStorage') yazildi('sessionStorage')
+    const { tut, sil } = oturumDepolari(hatirla, hatirla && yaz('localStorage'))
+    if (tut === 'sessionStorage') yaz(tut)
     depoIsle(sil, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
     setYetki(y)
   }, [])

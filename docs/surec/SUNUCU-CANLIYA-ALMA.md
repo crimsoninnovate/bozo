@@ -66,8 +66,8 @@ Yönetim uçları öncekiler gibi IP başına saatte 60 istekle sınırlıdır. 
 "Beni hatırla") `bitisMs.HMAC(GIZLI_TUZ, kullanici:sifre:bitisMs)` biçimindedir: durumsuz, 30 gün geçerli.
 Hepsini iptal etmek için `YONETIM_SIFRE` değiştirilir (anahtarlar kimlik bilgisiyle imzalıdır). `GIZLI_TUZ`
 bunun için döndürülmez: kullanılmamış ödül kodlarının özeti de aynı tuzla alındığından hepsini geçersiz kılar.
-Site her build öncesi son sürümü çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın siteyi kendiliğinden yeniden
-basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
+Site her build öncesi son sürümü çeker (`scripts/menuCek.ts`, `content/menu.canli.json`); panelden yayın
+siteyi kendiliğinden yeniden basmaz, elle build ve deploy gerekir (Aşama 2 yapılmadı). Menü sayfası ise tarayıcıda `GET /menu`'yü
 çağırıp fiyatları anında tazeler.
 
 **Gövde sınırı (26 Ekim 2026, panel genişletmesi).** Her metin azami uzunlukta Türkçe harfle ve içecek başına
