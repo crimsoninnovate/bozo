@@ -1,4 +1,5 @@
 import type { TaramaSatiri } from '../lib/masa.ts'
+import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Bitis, Girdi, Ozet } from '../lib/oyun/tipler.ts'
 
@@ -78,6 +79,8 @@ export type Kazanan = Omit<YeniKazanan, 'oyuncuId'> & {
   kullanildi: number | null
 }
 
+export type MenuKaynagi = 'panel' | 'geriAl'
+
 export type Depo = {
   jetonEkle(jeton: Jeton): Promise<void>
   jetonBul(id: string): Promise<Jeton | null>
@@ -121,6 +124,17 @@ export type Depo = {
   taramaArtir(gun: string, masa: number): Promise<void>
   /** Okunmuş her masa için bir satır, masa sırasıyla; `haftaBasi` dahil o günden bu yana. */
   taramaOzeti(bugun: string, haftaBasi: string): Promise<TaramaSatiri[]>
+
+  /** En son yayınlanan menü sürümü; hiç sürüm yoksa null. */
+  menuGecerli(): Promise<{ id: number; belge: MenuBelgesi } | null>
+  /**
+   * Yeni sürüm ekler ve kimliğini döner. `taban` son sürümün kimliği (hiç sürüm yoksa null); güncel
+   * değilse hiçbir şey yazılmaz ve null döner. Denetim ve ekleme tek adımdır.
+   */
+  menuYayinla(belge: MenuBelgesi, kaynak: MenuKaynagi, simdi: number, taban: number | null): Promise<number | null>
+  /** En yeniden eskiye, en çok `adet` sürüm (belgesiz özet). */
+  menuSurumleri(adet: number): Promise<{ id: number; olusturma: number; kaynak: MenuKaynagi }[]>
+  menuSurumBul(id: number): Promise<{ id: number; belge: MenuBelgesi } | null>
 
   kapat(): Promise<void>
 }

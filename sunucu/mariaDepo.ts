@@ -1,7 +1,8 @@
 import { createConnection, createPool, type Pool } from 'mariadb'
+import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Bitis, Girdi } from '../lib/oyun/tipler.ts'
-import type { Depo, Jeton, Kazanan, Oyuncu, SiraSatiri, Tur, YeniTur } from './depo.ts'
+import type { Depo, Jeton, Kazanan, MenuKaynagi, Oyuncu, SiraSatiri, Tur, YeniTur } from './depo.ts'
 
 /* MariaDB 10.11 deposu: hazır ifadeli sorgular (`execute`), zamanlar epoch ms (bkz. sema.sql). */
 
@@ -333,6 +334,39 @@ function taramalar(q: Sorgu): Parca<'taramaArtir' | 'taramaOzeti'> {
   }
 }
 
+const menuOku = (r: Satir) => ({ id: sayi(r.id), belge: JSON.parse(String(r.belge)) as MenuBelgesi })
+
+function menuler(q: Sorgu): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumleri' | 'menuSurumBul'> {
+  return {
+    async menuGecerli() {
+      const r = await q.ilk('SELECT id, belge FROM menu_surum ORDER BY id DESC LIMIT 1')
+      return r ? menuOku(r) : null
+    },
+    async menuYayinla(belge, kaynak, simdi, taban) {
+      // Taban denetimi ve ekleme tek deyim: yarışta kaybeden satır yazmaz (affectedRows 0).
+      const sql =
+        'INSERT INTO menu_surum (belge, kaynak, olusturma_ms) SELECT ?, ?, ? FROM DUAL ' +
+        'WHERE (SELECT COALESCE(MAX(id), 0) FROM menu_surum) = ?'
+      try {
+        const r = await q.yaz(sql, [JSON.stringify(belge), kaynak, simdi, taban ?? 0])
+        return r.affectedRows === 0 ? null : r.insertId
+      } catch (hata) {
+        // Aynı tabandan iki eşzamanlı yayında InnoDB birini deadlock kurbanı seçer: o da bayat tabandır.
+        if ((hata as { errno?: number }).errno === 1213) return null
+        throw hata
+      }
+    },
+    async menuSurumleri(adet) {
+      const satirlar = await q.sec('SELECT id, kaynak, olusturma_ms FROM menu_surum ORDER BY id DESC LIMIT ?', [adet])
+      return satirlar.map((r) => ({ id: sayi(r.id), olusturma: sayi(r.olusturma_ms), kaynak: r.kaynak as MenuKaynagi }))
+    },
+    async menuSurumBul(id) {
+      const r = await q.ilk('SELECT id, belge FROM menu_surum WHERE id = ?', [id])
+      return r ? menuOku(r) : null
+    },
+  }
+}
+
 export function mariaDepoKur(url: string): Depo {
   const havuz = createPool({ ...baglantiCoz(url), connectionLimit: 5, bigIntAsNumber: true, insertIdAsNumber: true })
   const q: Sorgu = {
@@ -348,6 +382,7 @@ export function mariaDepoKur(url: string): Depo {
     ...kazananlar(q),
     ...sayaclar(q),
     ...taramalar(q),
+    ...menuler(q),
     kapat: () => havuz.end(),
   }
 }

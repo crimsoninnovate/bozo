@@ -1,6 +1,7 @@
+import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { TaramaSatiri } from '../lib/masa.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
-import type { Depo, Donem, Jeton, Kazanan, Oyuncu, SiraSatiri, Tur } from './depo.ts'
+import type { Depo, Donem, Jeton, Kazanan, MenuKaynagi, Oyuncu, SiraSatiri, Tur } from './depo.ts'
 import { enIyiler } from './siralama.ts'
 
 /* Bellekte depo: uç testleri ve veritabanısız yerel geliştirme. Süreç bitince her şey gider. */
@@ -22,6 +23,7 @@ type Bellek = {
   sayac: Map<string, number>
   /** Anahtar `gun:masa`. */
   tarama: Map<string, number>
+  menu: { id: number; belge: MenuBelgesi; kaynak: MenuKaynagi; olusturma: number }[]
   sonId: number
 }
 
@@ -255,6 +257,29 @@ function sayaclar(b: Bellek): Parca<'sayacArtir' | 'sayaclar'> {
   }
 }
 
+function menuler(b: Bellek): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumleri' | 'menuSurumBul'> {
+  const kopya = (m: Bellek['menu'][number]) => ({ id: m.id, belge: structuredClone(m.belge) })
+  return {
+    async menuGecerli() {
+      const son = b.menu.at(-1)
+      return son ? kopya(son) : null
+    },
+    async menuYayinla(belge, kaynak, simdi, taban) {
+      if ((b.menu.at(-1)?.id ?? 0) !== (taban ?? 0)) return null
+      const id = (b.menu.at(-1)?.id ?? 0) + 1
+      b.menu.push({ id, belge: structuredClone(belge), kaynak, olusturma: simdi })
+      return id
+    },
+    async menuSurumleri(adet) {
+      return b.menu.slice(-adet).reverse().map((m) => ({ id: m.id, olusturma: m.olusturma, kaynak: m.kaynak }))
+    },
+    async menuSurumBul(id) {
+      const m = b.menu.find((x) => x.id === id)
+      return m ? kopya(m) : null
+    },
+  }
+}
+
 export function bellekDepoKur(): Depo {
   const b: Bellek = {
     jetonlar: new Map(),
@@ -264,6 +289,7 @@ export function bellekDepoKur(): Depo {
     kazananlar: new Map(),
     sayac: new Map(),
     tarama: new Map(),
+    menu: [],
     sonId: 0,
   }
   return {
@@ -274,6 +300,7 @@ export function bellekDepoKur(): Depo {
     ...kazananlar(b),
     ...sayaclar(b),
     ...taramalar(b),
+    ...menuler(b),
     async kapat() {
       /* bellek */
     },

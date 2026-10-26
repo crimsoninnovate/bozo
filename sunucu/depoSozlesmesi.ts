@@ -1,5 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { Depo, YeniTur } from './depo.ts'
 
 /*
@@ -187,6 +188,70 @@ function donemVeKazananTestleri(t: Testci): void {
   })
 }
 
+/** En küçük geçerli belge; depo belgeyi doğrulamaz, yalnız saklar. */
+function menuBelgesi(ad: string): MenuBelgesi {
+  const cift = { tr: ad, en: ad }
+  return {
+    kalemler: [{
+      id: 'ciger', ad: cift, aciklama: null, fiyatlar: { porsiyon: 690 }, porsiyonNotu: null, durumNotu: null,
+      fotoId: null,
+    }],
+    ozel: { ad: cift, miktarNotu: cift, aciklama: cift, fiyat: 850 },
+    icecekler: [],
+  }
+}
+
+function menuTestleri(t: Testci): void {
+  t('menuGecerli_hicSurumYoksa_nullDoner', async (depo) => {
+    assert.equal(await depo.menuGecerli(), null)
+  })
+
+  t('menuYayinla_ilkSurumTabanNull_idDoner', async (depo) => {
+    const id = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    assert.equal(typeof id, 'number')
+    assert.deepEqual(await depo.menuGecerli(), { id, belge: menuBelgesi('a') })
+  })
+
+  t('menuYayinla_tabanEski_nullDoner', async (depo) => {
+    const ilk = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    const ikinci = await depo.menuYayinla(menuBelgesi('b'), 'panel', 2000, ilk)
+    assert.notEqual(ikinci, null)
+    assert.equal(await depo.menuYayinla(menuBelgesi('c'), 'panel', 3000, ilk), null)
+    assert.equal(await depo.menuYayinla(menuBelgesi('c'), 'panel', 3000, null), null)
+    assert.deepEqual(await depo.menuGecerli(), { id: ikinci, belge: menuBelgesi('b') })
+    assert.equal((await depo.menuSurumleri(10)).length, 2, 'reddedilen yayın satır bırakmaz')
+  })
+
+  t('menuYayinla_tabanGuncel_yeniIdDoner', async (depo) => {
+    const ilk = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    const ikinci = await depo.menuYayinla(menuBelgesi('b'), 'geriAl', 2000, ilk)
+    assert.ok(ilk !== null && ikinci !== null && ikinci > ilk)
+  })
+
+  t('menuSurumleri_enYeniBasta_adetKadar', async (depo) => {
+    const a = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    const b = await depo.menuYayinla(menuBelgesi('b'), 'geriAl', 2000, a)
+    const c = await depo.menuYayinla(menuBelgesi('c'), 'panel', 3000, b)
+    assert.deepEqual(await depo.menuSurumleri(2), [
+      { id: c, olusturma: 3000, kaynak: 'panel' },
+      { id: b, olusturma: 2000, kaynak: 'geriAl' },
+    ])
+  })
+
+  t('menuSurumBul_olmayanId_nullDoner', async (depo) => {
+    const a = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null)
+    assert.deepEqual(await depo.menuSurumBul(a as number), { id: a, belge: menuBelgesi('a') })
+    assert.equal(await depo.menuSurumBul(999999), null)
+  })
+
+  t('menuYayinla_turkceVeEmojiMetni_ayniDonerRoundTrip', async (depo) => {
+    const metin = 'Ciğer şişi İÇİN öğle ıspanak 🔥🥩 Ş ğ ü, "tırnak" \\ yeni\nsatır'
+    const id = await depo.menuYayinla(menuBelgesi(metin), 'panel', 1000, null)
+    assert.deepEqual((await depo.menuSurumBul(id as number))?.belge, menuBelgesi(metin))
+    assert.deepEqual((await depo.menuGecerli())?.belge, menuBelgesi(metin))
+  })
+}
+
 export function depoSozlesmesi(ad: string, kur: DepoKurucu | null): void {
   const t: Testci = (isim, govde) =>
     test(`${ad}_${isim}`, { skip: kur ? false : 'BOZO_TEST_DB_URL tanımlı değil' }, async () => {
@@ -200,4 +265,5 @@ export function depoSozlesmesi(ad: string, kur: DepoKurucu | null): void {
   jetonVeOyuncuTestleri(t)
   turTestleri(t)
   donemVeKazananTestleri(t)
+  menuTestleri(t)
 }

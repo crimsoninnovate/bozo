@@ -89,3 +89,12 @@ CREATE TABLE IF NOT EXISTS masa_tarama (
   adet INT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (gun, masa)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Menü sürümleri (spec 2026-10-26): her yayın yeni satır, geri alma da yeni satır. Belge doğrulanmış
+-- JSON metni; utf8mb4 Türkçe harf ve emoji için. Satır silinmez, geçmiş budanmaz.
+CREATE TABLE IF NOT EXISTS menu_surum (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  belge LONGTEXT NOT NULL,
+  kaynak ENUM('panel', 'geriAl') NOT NULL,
+  olusturma_ms BIGINT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

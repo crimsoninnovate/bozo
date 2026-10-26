@@ -10,7 +10,7 @@ import { mariaDepoKur, semayiUygula } from './mariaDepo.ts'
  */
 const DB_URL = process.env.BOZO_TEST_DB_URL ?? null
 const SEMA = readFileSync(new URL('./sema.sql', import.meta.url), 'utf8')
-const TABLOLAR = ['kazanan', 'tur', 'donem', 'tur_jetonu', 'oyuncu', 'gunluk_sayac', 'masa_tarama']
+const TABLOLAR = ['kazanan', 'tur', 'donem', 'tur_jetonu', 'oyuncu', 'gunluk_sayac', 'masa_tarama', 'menu_surum']
 
 depoSozlesmesi(
   'mariaDepo',
