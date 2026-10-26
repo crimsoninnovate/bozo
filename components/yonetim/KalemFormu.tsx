@@ -1,9 +1,12 @@
 'use client'
 
+import { useId } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import { fiyatYaz } from '@/lib/menu/duzenleme'
+import { kayitHatali } from '@/lib/menu/panel'
 import type { MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { Alan, CiftAlani, FotoSecimi, Isaret, fiyatGirdisi, type Hatalar } from './Alanlar'
+import { AcilirKart } from './Kart'
 import ortak from './oturum.module.css'
 import stil from './KalemFormu.module.css'
 
@@ -20,9 +23,12 @@ type KalemProps = {
   onSil: () => void
 }
 
-function Fiyatlar({ kalem, yol, hatalar, duz }: Pick<KalemProps, 'kalem' | 'hatalar' | 'duz'> & { yol: string }) {
+type FiyatProps = Pick<KalemProps, 'kalem' | 'hatalar' | 'duz'> & { yol: string }
+
+/** Porsiyon ve dürüm fiyatı; kart kapalıyken de düzenlenir. */
+function Fiyatlar({ kalem, yol, hatalar, duz }: FiyatProps) {
   return (
-    <div className={stil.fiyatlar}>
+    <>
       <Alan
         sayi
         etiket={k.porsiyonFiyati}
@@ -41,30 +47,26 @@ function Fiyatlar({ kalem, yol, hatalar, duz }: Pick<KalemProps, 'kalem' | 'hata
         })}
         hata={hatalar.get(`${yol}.fiyatlar.durum`)}
       />
-    </div>
+    </>
   )
 }
 
-export function KalemFormu({ kalem, sira, son, hatalar, duz, onTasi, onSil }: KalemProps) {
+/** Kartın "Ayrıntılar" bölümü: adlar, açıklama, notlar, fotoğraf, sıra ve silme. */
+function Ayrintilar({ kalem, sira, son, hatalar, duz, onTasi, onSil }: KalemProps) {
   const yol = `kalemler[${sira}]`
-  const ciger = kalem.id === 'ciger'
   return (
-    <fieldset className={stil.kalem}>
-      <legend className={stil.baslik}>{kalem.ad.tr || kalem.id}</legend>
+    <>
       <CiftAlani etiket={k.ad} deger={kalem.ad} yol={`${yol}.ad`} hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.ad = c })} />
       <CiftAlani uzun bosOlur etiket={k.aciklama} deger={kalem.aciklama} yol={`${yol}.aciklama`}
         hatalar={hatalar} onDegis={(c) => duz((x) => { x.aciklama = c })} />
-      <Fiyatlar kalem={kalem} yol={yol} hatalar={hatalar} duz={duz} />
       <CiftAlani bosOlur etiket={k.porsiyonNotu} deger={kalem.porsiyonNotu} yol={`${yol}.porsiyonNotu`}
         hatalar={hatalar} onDegis={(c) => duz((x) => { x.porsiyonNotu = c })} />
       <CiftAlani bosOlur etiket={k.durumNotu} deger={kalem.durumNotu} yol={`${yol}.durumNotu`}
         hatalar={hatalar} onDegis={(c) => duz((x) => { x.durumNotu = c })} />
       <FotoSecimi etiket={k.foto} yok={k.fotoYok} deger={kalem.fotoId}
         onDegis={(v) => duz((x) => { x.fotoId = v })} />
-      <Isaret etiket={m.menu.tukendi} isaretli={kalem.tukendi}
-        onDegis={(v) => duz((x) => { x.tukendi = v })} />
-      {ciger ? (
+      {kalem.id === 'ciger' ? (
         <p className={ortak.not}>{k.ciger}</p>
       ) : (
         <div className={ortak.dugmeler}>
@@ -77,28 +79,44 @@ export function KalemFormu({ kalem, sira, son, hatalar, duz, onTasi, onSil }: Ka
           <button type="button" className={ortak.ikincil} onClick={onSil}>{k.sil}</button>
         </div>
       )}
-    </fieldset>
+    </>
+  )
+}
+
+export function KalemFormu(props: KalemProps) {
+  const { kalem, sira, hatalar, duz } = props
+  const yol = `kalemler[${sira}]`
+  const gorunen = [`${yol}.fiyatlar.porsiyon`, `${yol}.fiyatlar.durum`, `${yol}.tukendi`]
+  return (
+    <AcilirKart ad={kalem.ad.tr || kalem.id} soluk={kalem.tukendi}
+      hatali={kayitHatali(hatalar.keys(), yol, gorunen)}
+      yan={<Isaret etiket={m.menu.tukendi} isaretli={kalem.tukendi}
+        onDegis={(v) => duz((x) => { x.tukendi = v })} />}
+      hizli={<Fiyatlar kalem={kalem} yol={yol} hatalar={hatalar} duz={duz} />}>
+      <Ayrintilar {...props} />
+    </AcilirKart>
   )
 }
 
 type OzelProps = { ozel: OzelKalem; hatalar: Hatalar; duz: (fn: (ozel: OzelKalem) => void) => void }
 
-/** Bozo Special: tek kalem, silinmez ve taşınmaz. */
+/** Bozo Special: tek kalem, silinmez ve taşınmaz; açılmaz, fiyat en üstte. */
 export function OzelFormu({ ozel, hatalar, duz }: OzelProps) {
   const o = m.menu.ozel
+  const baslik = useId()
   return (
-    <fieldset className={stil.kalem}>
-      <legend className={stil.baslik}>{ozel.ad.tr || 'Bozo Special'}</legend>
+    <div role="group" aria-labelledby={baslik} className={stil.bolum}>
+      <h2 id={baslik} className={stil.baslik}>{ozel.ad.tr || 'Bozo Special'}</h2>
+      <div className={stil.fiyat}>
+        <Alan sayi etiket={o.fiyat} deger={fiyatGirdisi(ozel.fiyat)} hata={hatalar.get('ozel.fiyat')}
+          onDegis={(v, bozuk) => duz((x) => { x.fiyat = fiyatYaz(v, bozuk) ?? Number.NaN })} />
+      </div>
       <CiftAlani etiket={o.ad} deger={ozel.ad} yol="ozel.ad" hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.ad = c })} />
       <CiftAlani etiket={o.miktarNotu} deger={ozel.miktarNotu} yol="ozel.miktarNotu" hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.miktarNotu = c })} />
       <CiftAlani uzun etiket={o.aciklama} deger={ozel.aciklama} yol="ozel.aciklama" hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.aciklama = c })} />
-      <div className={stil.fiyatlar}>
-        <Alan sayi etiket={o.fiyat} deger={fiyatGirdisi(ozel.fiyat)} hata={hatalar.get('ozel.fiyat')}
-          onDegis={(v, bozuk) => duz((x) => { x.fiyat = fiyatYaz(v, bozuk) ?? Number.NaN })} />
-      </div>
-    </fieldset>
+    </div>
   )
 }

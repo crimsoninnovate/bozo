@@ -9,7 +9,9 @@
 
 .baslik {
   margin: 0;
-  font: 400 20px/1.2 var(--font-baslik);
+  font: 400 22px/1.2 var(--font-baslik);
+  /* Odak başlığa gelince yapışkan üstün altında kalmasın. */
+  scroll-margin-top: 128px;
 }
 
 .baslik:focus-visible {
@@ -49,4 +51,12 @@
 
 .uyari {
   font-weight: 700;
+}
+
+.vazgec {
+  min-height: 48px;
+}
+
+.onayla {
+  flex: 1 1 auto;
 }

@@ -6,12 +6,17 @@ import stil from './SiteDurumu.module.css'
 /** Sitenin build'e gömdüğü menü sürümü; derleme anında sabitlenir (`next.config.ts`). */
 const SITE_SURUMU = siteSurumuOku(process.env.NEXT_PUBLIC_MENU_SURUMU)
 
+type Props = {
+  yayinSurum: number | null
+  /** Üst barın tek satırı (canlı bölge); tam cümle Geçmiş sekmesinde durur. */
+  kisa?: boolean
+}
+
 /** Panelin yayındaki sürümüyle sitenin basıldığı sürümü yan yana söyler; fark varsa vurgulu. */
-export function SiteDurumu({ yayinSurum }: { yayinSurum: number | null }) {
+export function SiteDurumu({ yayinSurum, kisa = false }: Props) {
   const durum = siteDurumu(yayinSurum, SITE_SURUMU)
-  return (
-    <p className={durum.guncel ? stil.durum : stil.fark} role="status">
-      {durum.metin}
-    </p>
-  )
+  if (kisa) {
+    return <p className={durum.guncel ? stil.kisa : `${stil.kisa} ${stil.kisaFark}`} role="status">{durum.kisa}</p>
+  }
+  return <p className={durum.guncel ? stil.durum : stil.fark}>{durum.metin}</p>
 }

@@ -1,0 +1,89 @@
+/* Açılır kayıt kartı: kömür yüzey, saç çizgisi kenar; "Ayrıntılar" kartın tam enine yayılır. */
+.kart {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 16px 0;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.ust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+  min-height: 44px;
+}
+
+.ad {
+  margin: 0;
+  font: 400 18px/1.25 var(--font-baslik);
+  color: var(--krem);
+  overflow-wrap: anywhere;
+}
+
+/* Fiyatlar: 140px'lik sütunlar; subgrid etiket, alan ve hata satırlarını sütunlar arasında hizalar. */
+.hizli {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.hizli > label {
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 6px;
+}
+
+/* Tükenmiş kayıt kapalıyken: ad ve fiyat metni soluk; etiketler okunur kalır (kömürde 5.9:1). */
+.kart[data-soluk='true'] .ad,
+.kart[data-soluk='true'] .hizli input {
+  color: var(--krem-60);
+}
+
+.ac {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  margin: 0 -16px;
+  padding: 0 16px;
+  border-top: 1px solid var(--cizgi-kart);
+  color: var(--krem);
+  font: 500 15px/1 var(--font-govde);
+}
+
+.ac:active {
+  background: var(--bakir-07);
+}
+
+@media (hover: hover) {
+  .ac:hover {
+    background: var(--bakir-07);
+  }
+}
+
+.ac svg {
+  flex: 0 0 auto;
+  color: var(--bakir);
+  transition: transform var(--gecis-hizli);
+}
+
+.ac[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+
+.govde {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding-bottom: 16px;
+}
+
+.govde[hidden] {
+  display: none;
+}

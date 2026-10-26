@@ -1,17 +1,13 @@
+/* Düz bölüm: kart yok; açma anahtarı en üstte, önizleme sitedeki bandın aynısı. */
 .duyuru {
   display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 16px;
-  border: 1px solid var(--cizgi-kart);
-  border-radius: 3px;
+  gap: 12px;
   min-width: 0;
 }
 
 .baslik {
-  padding: 0 8px;
-  font: 400 18px/1.2 var(--font-baslik);
-  color: var(--krem);
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
 }
 
 .bitis {
@@ -25,14 +21,20 @@
   flex: 1 1 260px;
 }
 
+.bitis > button {
+  min-height: 48px;
+}
+
 .onizleme {
   display: grid;
   gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cizgi-kart);
 }
 
 .altBaslik {
   margin: 0;
-  font: 400 16px/1.2 var(--font-baslik);
+  font: 400 18px/1.2 var(--font-baslik);
 }
 
 .dilSatiri {

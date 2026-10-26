@@ -1,19 +1,4 @@
-.icecek {
-  display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 16px;
-  border: 1px solid var(--cizgi-kart);
-  border-radius: 3px;
-  min-width: 0;
-}
-
-.baslik {
-  padding: 0 8px;
-  font: 400 18px/1.2 var(--font-baslik);
-  color: var(--krem);
-}
-
+/* Ayrıntılardaki her ölçü: saç çizgisiyle ayrılır, silme düğmesi kendi genişliğinde. */
 .olcu {
   display: grid;
   gap: 12px;

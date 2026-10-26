@@ -1,0 +1,67 @@
+/* Alt eylem çubuğu: sütun genişliğinde sabit, iPhone'un ev çizgisinin üstünde. İçeriğin alt payı
+   (MenuYonetimi.module.css) en yüksek hâlinden (~80px) büyük tutulur ki son alanı örtmesin. */
+.alt {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+  background: var(--zemin);
+  border-top: 1px solid var(--cizgi-guclu);
+}
+
+.satir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+
+.sol {
+  display: grid;
+  flex: 1 1 auto;
+  justify-items: start;
+  min-width: 0;
+}
+
+.durum {
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  color: var(--krem);
+  font: 500 15px/1.3 var(--font-govde);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.at {
+  min-height: 44px;
+  color: var(--krem-70);
+  font: 500 14.5px/1 var(--font-govde);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.yayinla {
+  flex: 0 0 auto;
+  padding: 0 24px;
+}
+
+/* "Değişiklikleri At" onayı çubuğun hemen üstünde açılır. */
+.soru {
+  display: grid;
+  gap: 12px;
+  padding: 8px 0 12px;
+  border-bottom: 1px solid var(--cizgi-kart);
+}
+
+.soruMetni {
+  margin: 0;
+  color: var(--krem);
+  font: 400 16px/1.45 var(--font-govde);
+}

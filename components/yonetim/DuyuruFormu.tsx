@@ -62,9 +62,10 @@ function Onizleme({ duyuru }: { duyuru: Duyuru }) {
 }
 
 export function DuyuruFormu({ duyuru, hatalar, duz }: Props) {
+  const baslik = useId()
   return (
-    <fieldset className={stil.duyuru}>
-      <legend className={stil.baslik}>{d.baslik}</legend>
+    <div role="group" aria-labelledby={baslik} className={stil.duyuru}>
+      <h2 id={baslik} className={stil.baslik}>{d.baslik}</h2>
       <p className={ortak.not}>{d.not}</p>
       <Isaret etiket={d.aktif} isaretli={duyuru.aktif} onDegis={(v) => duz((x) => { x.aktif = v })} />
       <CiftAlani uzun etiket={d.metin} deger={duyuru.metin} yol="duyuru.metin" hatalar={hatalar}
@@ -72,6 +73,6 @@ export function DuyuruFormu({ duyuru, hatalar, duz }: Props) {
         onDegis={(c) => c && duz((x) => { x.metin = c })} />
       <Bitis duyuru={duyuru} hatalar={hatalar} duz={duz} />
       <Onizleme duyuru={duyuru} />
-    </fieldset>
+    </div>
   )
 }

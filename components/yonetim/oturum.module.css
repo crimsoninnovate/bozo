@@ -1,23 +1,37 @@
-/* Giriş formu ve iki ekranın paylaştığı alan, düğme ve ileti biçimleri. */
+/* Giriş kartı ve iki ekranın paylaştığı alan, düğme ve ileti biçimleri. */
 .form {
   display: grid;
-  gap: 12px;
+  gap: 16px;
+  width: min(100%, 400px);
+  padding: 24px 20px;
+  color-scheme: dark;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.form .ana {
+  margin-top: 8px;
 }
 
 .alan {
   display: grid;
   gap: 6px;
-  font: 500 14.5px/1.2 var(--font-govde);
+  min-width: 0;
+  font: 500 14.5px/1.3 var(--font-govde);
   color: var(--krem-70);
 }
 
+/* 16px metin iOS'un odakta yakınlaştırmasını önler; yüzde genişlik dar sütunda taşmayı önler. */
 .alan input,
 .alan select,
 .alan textarea {
+  width: 100%;
   min-height: 48px;
   padding: 0 12px;
-  background: var(--komur);
-  border: 1px solid var(--cizgi-guclu);
+  background: var(--zemin);
+  /* Alan sınırı kömür ve zemin üstünde yaklaşık 3:1 (1.4.11); --cizgi-guclu 1.8:1'de kalıyordu. */
+  border: 1px solid var(--cizgi-buton);
   border-radius: 3px;
   color: var(--krem);
   font: 400 16px/1.4 var(--font-govde);
@@ -25,17 +39,25 @@
 
 .alan textarea {
   min-height: 96px;
-  padding: 10px 12px;
+  padding: 12px;
   resize: vertical;
+}
+
+.alan [aria-invalid='true'] {
+  border-color: var(--bakir);
 }
 
 .ana {
   min-height: 48px;
-  padding: 0 16px;
+  padding: 0 20px;
   background: var(--kor);
   border-radius: 3px;
   color: var(--krem);
   font: 600 16px/1 var(--font-govde);
+}
+
+.ana:active:not(:disabled) {
+  background: var(--kor-hover);
 }
 
 .ana:disabled {
@@ -53,9 +75,23 @@
   font: 500 14.5px/1 var(--font-govde);
 }
 
+.ikincil:active:not(:disabled) {
+  background: var(--bakir-07);
+}
+
 .ikincil:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .ana:hover:not(:disabled) {
+    background: var(--kor-hover);
+  }
+
+  .ikincil:hover:not(:disabled) {
+    border-color: var(--bakir-60);
+  }
 }
 
 .dugmeler {

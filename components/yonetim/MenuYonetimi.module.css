@@ -1,69 +1,69 @@
-/* Menü paneli: kabuksuz, tek sütun, telefonda da tablette de kullanılır. */
+/* Menü paneli: telefon önce, tek sütun; genişte aynı sütun 720px'te ortalanır. */
 .sayfa {
-  display: grid;
-  gap: 24px;
-  max-width: 880px;
+  max-width: 720px;
   min-height: 100dvh;
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  /* Alt bar en çok ~80px: son alan ve ekleme formu onun üstünde kalır. */
+  padding: 0 16px calc(128px + env(safe-area-inset-bottom));
+  /* Yerel denetimler (onay kutusu, tarih seçici, açılır liste) koyu zeminde koyu çizilir. */
+  color-scheme: dark;
   color: var(--krem);
   font: 400 16px/1.5 var(--font-govde);
 }
 
-.baslik {
-  margin: 0;
-  font: 400 28px/1.1 var(--font-baslik);
+/* Klavyeyle odaklanan alan yapışkan üstün ya da alt barın altında kalmasın. */
+.sayfa :is(input, select, textarea, button) {
+  scroll-margin: 128px 0 112px;
 }
 
-.ust {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.sekmeler {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.sekme {
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid var(--cizgi-guclu);
-  border-radius: 3px;
-  color: var(--krem-70);
-  font: 500 14.5px/1 var(--font-govde);
-}
-
-.sekme[aria-pressed='true'] {
-  border-color: var(--bakir);
-  color: var(--krem);
-  background: var(--komur);
+.icerik {
+  display: grid;
+  gap: 16px;
+  padding-top: 16px;
 }
 
 .liste {
   display: grid;
-  gap: 24px;
+  gap: 16px;
 }
 
-.bar {
-  display: grid;
-  gap: 8px;
-  justify-items: start;
+.bolumBaslik {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
 }
 
 .tamam {
   margin: 0;
+  padding: 4px 0 4px 12px;
+  border-left: 3px solid var(--bakir);
   font-weight: 600;
 }
 
-.at {
+/* Giriş: kart zeminde dikey ortada. */
+.girisSayfasi {
   display: grid;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid var(--cizgi-guclu);
-  border-radius: 3px;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+  color: var(--krem);
+  font: 400 16px/1.5 var(--font-govde);
+}
+
+.girisBasligi {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.girisBasligi img {
+  width: 150px;
+  height: auto;
+  aspect-ratio: 1732.19 / 744.51;
+}
+
+.girisAdi {
+  margin: 0;
+  font: 400 26px/1.15 var(--font-baslik);
 }

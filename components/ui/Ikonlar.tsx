@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, Clock, MapPin, Phone, UtensilsCrossed } from 'lucide-react'
+import { ArrowDown, ArrowRight, ChevronDown, Clock, LogOut, MapPin, Phone, UtensilsCrossed } from 'lucide-react'
 
 type Props = {
   boy?: number
@@ -92,4 +92,13 @@ export function OkSagIkon({ boy = 16 }: Props) {
 
 export function OkAsagiIkon({ boy = 16 }: Props) {
   return <ArrowDown size={boy} aria-hidden="true" />
+}
+
+/** Menü panelinin (`/yonetim/`) açılır kart oku ve Çıkış düğmesi; ikisi de metnin yanında durur. */
+export function AcilirOkIkon({ boy = 16 }: Props) {
+  return <ChevronDown size={boy} aria-hidden="true" />
+}
+
+export function CikisIkon({ boy = 16 }: Props) {
+  return <LogOut size={boy} aria-hidden="true" />
 }

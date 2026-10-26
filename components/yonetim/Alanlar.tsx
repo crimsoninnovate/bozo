@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState, type SubmitEvent } from 'react'
+import { useId, useState, type InputHTMLAttributes, type ReactNode, type SubmitEvent } from 'react'
 import { fotograflar } from '@/content/fotograflar'
 import { yonetim as m } from '@/content/yonetim'
 import type { FotoId } from '@/content/types'
@@ -18,19 +18,30 @@ export function hatalariEsle(hatalar: readonly Sorun[]): Hatalar {
   return harita
 }
 
+/** Telefon klavyesini alana göre seçer: fiyat rakam, telefon ve e-posta kendi klavyesi, kullanıcı adı düz. */
+const GIRDILER = {
+  sayi: { type: 'number', inputMode: 'numeric', enterKeyHint: 'done', min: 1, step: 1 },
+  tel: { type: 'tel' },
+  email: { type: 'email' },
+  kullanici: { autoCapitalize: 'none', autoCorrect: 'off', spellCheck: false },
+} as const satisfies Record<string, InputHTMLAttributes<HTMLInputElement>>
+
 type AlanProps = {
-  etiket: string
+  etiket: ReactNode
   deger: string
   /** `bozuk`: sayı alanında tarayıcının sayı saymadığı metin (boş görünür). */
   onDegis: (v: string, bozuk: boolean) => void
   hata?: string
   uzun?: boolean
   sayi?: boolean
+  tip?: 'tel' | 'email' | 'kullanici'
   /** Verilirse alanın altında `n/enFazla` sayacı çıkar ve alana bağlanır. */
   enFazla?: number
+  /** Etiket alanın solunda kısa dil işareti (`CiftAlani`). */
+  dilli?: boolean
 }
 
-export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, enFazla }: AlanProps) {
+export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, tip, enFazla, dilli }: AlanProps) {
   const hataKimlik = useId()
   const sayacKimlik = useId()
   const bagli = [enFazla !== undefined && sayacKimlik, hata && hataKimlik].filter(Boolean).join(' ')
@@ -44,12 +55,12 @@ export function Alan({ etiket, deger, onDegis, hata, uzun, sayi, enFazla }: Alan
     'aria-describedby': bagli || undefined,
   }
   return (
-    <label className={ortak.alan}>
+    <label className={dilli ? `${ortak.alan} ${stil.dilli}` : ortak.alan}>
       {etiket}
       {uzun ? (
         <textarea {...ortakOzellik} />
       ) : (
-        <input {...ortakOzellik} {...(sayi ? { type: 'number', inputMode: 'numeric', min: 1, step: 1 } : {})} />
+        <input {...ortakOzellik} {...(sayi ? GIRDILER.sayi : tip ? GIRDILER[tip] : {})} />
       )}
       {enFazla !== undefined && <span id={sayacKimlik} className={ortak.not}>{deger.length}/{enFazla}</span>}
       {hata && <span id={hataKimlik} className={ortak.alanHata}>{hata}</span>}
@@ -103,7 +114,17 @@ type CiftProps = {
   enFazla?: number
 }
 
-/** Türkçe ve İngilizce yan yana. */
+/** Görünen kısa dil işareti; ekran okuyucu alanın tam adını okur ("Ad (Türkçe)"). */
+function DilEtiketi({ dil, etiket }: { dil: 'tr' | 'en'; etiket: string }) {
+  return (
+    <>
+      <span className={stil.dil} aria-hidden="true">{m.menu.dilKisa[dil]}</span>
+      <span className={stil.gizli}>{`${etiket} (${m.menu[dil]})`}</span>
+    </>
+  )
+}
+
+/** Türkçe ve İngilizce: telefonda alt alta, genişte yan yana; ortak etiket bir kez üstte. */
 export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur, enFazla }: CiftProps) {
   const degistir = (dil: 'tr' | 'en', v: string) => {
     const sonraki = { tr: deger?.tr ?? '', en: deger?.en ?? '', [dil]: v }
@@ -111,17 +132,21 @@ export function CiftAlani({ etiket, deger, yol, hatalar, onDegis, uzun, bosOlur,
   }
   return (
     <div className={stil.cift}>
-      {(['tr', 'en'] as const).map((dil) => (
-        <Alan
-          key={dil}
-          etiket={`${etiket} (${m.menu[dil]})`}
-          deger={deger?.[dil] ?? ''}
-          onDegis={(v) => degistir(dil, v)}
-          hata={hatalar.get(`${yol}.${dil}`) ?? hatalar.get(yol)}
-          uzun={uzun}
-          enFazla={enFazla}
-        />
-      ))}
+      <span className={stil.ciftEtiket} aria-hidden="true">{etiket}</span>
+      <div className={stil.diller}>
+        {(['tr', 'en'] as const).map((dil) => (
+          <Alan
+            key={dil}
+            dilli
+            etiket={<DilEtiketi dil={dil} etiket={etiket} />}
+            deger={deger?.[dil] ?? ''}
+            onDegis={(v) => degistir(dil, v)}
+            hata={hatalar.get(`${yol}.${dil}`) ?? hatalar.get(yol)}
+            uzun={uzun}
+            enFazla={enFazla}
+          />
+        ))}
+      </div>
     </div>
   )
 }

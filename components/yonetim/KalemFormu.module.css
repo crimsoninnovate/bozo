@@ -1,27 +1,15 @@
-.kalem {
+/* Bozo Special: açılmayan düz bölüm, başlık Bevan, fiyat alanı dar. */
+.bolum {
   display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 16px;
-  border: 1px solid var(--cizgi-kart);
-  border-radius: 3px;
+  gap: 12px;
   min-width: 0;
 }
 
 .baslik {
-  padding: 0 8px;
-  font: 400 18px/1.2 var(--font-baslik);
-  color: var(--krem);
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
 }
 
-.fiyatlar {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-@media (min-width: 560px) {
-  .fiyatlar {
-    grid-template-columns: 1fr 1fr;
-  }
+.fiyat {
+  max-width: 220px;
 }

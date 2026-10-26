@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode, type SubmitEvent } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
@@ -33,7 +33,13 @@ export function hataIsle(hata: unknown, cik: () => void): string {
   return hataMetni(hata)
 }
 
-export function Giris({ gir }: { gir: (yetki: string, bitis: string, hatirla: boolean) => void }) {
+type GirisProps = {
+  gir: (yetki: string, bitis: string, hatirla: boolean) => void
+  /** Kartın başı (menü panelinde marka ve başlık); `/oyun/yonetim/` başlığı kartın dışında basar. */
+  baslik?: ReactNode
+}
+
+export function Giris({ gir, baslik }: GirisProps) {
   const [hata, setHata] = useState<string | null>(null)
   const gonder = async (olay: SubmitEvent<HTMLFormElement>) => {
     olay.preventDefault()
@@ -48,6 +54,7 @@ export function Giris({ gir }: { gir: (yetki: string, bitis: string, hatirla: bo
   }
   return (
     <form className={stil.form} onSubmit={gonder}>
+      {baslik}
       <label className={stil.alan}>
         {m.giris.kullanici}
         <input name="kullanici" autoComplete="username" required />

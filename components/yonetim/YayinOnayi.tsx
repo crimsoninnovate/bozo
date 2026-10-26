@@ -7,6 +7,7 @@ import type { Degisiklik } from '@/lib/menu/fark'
 import { telefonAciliyor } from '@/lib/menu/panel'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
+import { AltBar } from './YayinBari'
 import ortak from './oturum.module.css'
 import stil from './YayinOnayi.module.css'
 
@@ -66,10 +67,15 @@ export function YayinOnayi(
           </ul>
         </>
       )}
-      <div className={ortak.dugmeler}>
-        <button type="button" className={ortak.ana} disabled={mesgul} onClick={onayla}>{onayEtiketi}</button>
-        <button type="button" className={ortak.ikincil} disabled={mesgul} onClick={vazgec}>{o.vazgec}</button>
-      </div>
+      {/* Fark uzun olsa da iki düğme kaydırmadan erişilir: Yayınla'nın sabit yerinde. */}
+      <AltBar>
+        <button type="button" className={`${ortak.ikincil} ${stil.vazgec}`} disabled={mesgul} onClick={vazgec}>
+          {o.vazgec}
+        </button>
+        <button type="button" className={`${ortak.ana} ${stil.onayla}`} disabled={mesgul} onClick={onayla}>
+          {onayEtiketi}
+        </button>
+      </AltBar>
     </section>
   )
 }

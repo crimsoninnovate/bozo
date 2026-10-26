@@ -1,14 +1,17 @@
 'use client'
 
+import { useId } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import {
   ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil, ikramOgesiTasi,
   ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi,
 } from '@/lib/menu/duzenleme'
+import { kayitHatali } from '@/lib/menu/panel'
 import { ikramSayisi, sayiYaz } from '@/lib/menu/sayilar'
 import type { IkramGrubu, IkramUrunu, MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import { CiftAlani, FotoSecimi, ListeHatasi, YeniKayit, type Hatalar } from './Alanlar'
+import { AcilirKart } from './Kart'
 import type { Duzenle } from './MenuYonetimi'
 import ortak from './oturum.module.css'
 import stil from './IkramFormu.module.css'
@@ -24,8 +27,7 @@ function UrunKarti({ urun, sira, son, hatalar, duzenle }: UrunProps) {
   const duz = (fn: (u: IkramUrunu) => void) =>
     duzenle((b) => { const u = b.ikramlar.urunler.find((x) => x.id === urun.id); if (u) fn(u) })
   return (
-    <fieldset className={stil.kart}>
-      <legend className={stil.baslik}>{urun.ad.tr || urun.id}</legend>
+    <AcilirKart duzey="h4" ad={urun.ad.tr || urun.id} hatali={kayitHatali(hatalar.keys(), yol)}>
       <CiftAlani etiket={k.ad} deger={urun.ad} yol={`${yol}.ad`} hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.ad = c })} />
       <CiftAlani uzun etiket={k.aciklama} deger={urun.aciklama} yol={`${yol}.aciklama`} hatalar={hatalar}
@@ -38,7 +40,7 @@ function UrunKarti({ urun, sira, son, hatalar, duzenle }: UrunProps) {
         <button type="button" className={ortak.ikincil}
           onClick={() => duzenle((b) => ikramUrunuSil(b, urun.id))}>{k.urunSil}</button>
       </div>
-    </fieldset>
+    </AcilirKart>
   )
 }
 
@@ -59,13 +61,15 @@ function TasiDugmeleri({ ad, ilk, son, tasi }: TasiProps) {
 
 type GrupProps = Ortak & { grup: IkramGrubu; sira: number; son: boolean; tek: boolean }
 
+/** Küme kartı açılmaz: öğeleri kısa ve hepsi bir bakışta görünmeli. */
 function GrupKarti({ grup, sira, son, tek, hatalar, duzenle }: GrupProps) {
   const yol = `ikramlar.gruplar[${sira}]`
+  const baslik = useId()
   const duz = (fn: (g: IkramGrubu) => void) =>
     duzenle((b) => { const g = b.ikramlar.gruplar.find((x) => x.id === grup.id); if (g) fn(g) })
   return (
-    <fieldset className={stil.kart}>
-      <legend className={stil.baslik}>{grup.ad.tr || grup.id}</legend>
+    <div role="group" aria-labelledby={baslik} className={stil.kart}>
+      <h4 id={baslik} className={stil.baslik}>{grup.ad.tr || grup.id}</h4>
       <CiftAlani etiket={k.grupAd} deger={grup.ad} yol={`${yol}.ad`} hatalar={hatalar}
         onDegis={(c) => c && duz((x) => { x.ad = c })} />
       <CiftAlani bosOlur etiket={k.grupNot} deger={grup.not} yol={`${yol}.not`} hatalar={hatalar}
@@ -94,7 +98,7 @@ function GrupKarti({ grup, sira, son, tek, hatalar, duzenle }: GrupProps) {
           onClick={() => duzenle((b) => ikramGrubuSil(b, grup.id))}>{k.grupSil}</button>
         {tek && <p className={ortak.not}>{k.sonGrup}</p>}
       </div>
-    </fieldset>
+    </div>
   )
 }
 

@@ -1,0 +1,110 @@
+/* Yapışkan üst: sütunun yan payına taşar ki altından kayan içerik kenarda görünmesin. */
+.ust {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: 0 -16px;
+  padding: 0 16px;
+  background: var(--zemin);
+  border-bottom: 1px solid var(--cizgi-kart);
+}
+
+.satir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cizgi-sac);
+}
+
+.kimlik {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 2px;
+  min-width: 0;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 20px/1.15 var(--font-baslik);
+}
+
+.cikis {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: 3px;
+  font: 500 14.5px/1 var(--font-govde);
+}
+
+.cikis svg {
+  color: var(--bakir);
+}
+
+/* Sarmayan, kayan satır; kenara taşan yarım düğme kaydırma ipucudur. */
+.sekmeler {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  margin: 0 -16px;
+  padding: 0 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 16px;
+  scrollbar-width: none;
+}
+
+.sekmeler::-webkit-scrollbar {
+  display: none;
+}
+
+/* Etkin sekme: krem metin ve bakır alt çizgi (dolu kutu değil). */
+.sekme {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 12px;
+  border-bottom: 2px solid transparent;
+  color: var(--krem-70);
+  font: 500 15px/1 var(--font-govde);
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+
+.sekme[aria-pressed='true'] {
+  border-bottom-color: var(--bakir);
+  color: var(--krem);
+}
+
+/* Kayan satır taşanı kırpar: odak halkası düğmenin içine çizilir. */
+.sekme:focus-visible {
+  outline-offset: -2px;
+}
+
+/* Hatalı sekmenin işareti; ekran okuyucuya yanındaki gizli metin söyler. */
+.isaret {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bakir);
+}
+
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

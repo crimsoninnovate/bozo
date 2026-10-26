@@ -73,8 +73,11 @@ export const yonetim = {
       iletisim: 'İletişim',
       gecmis: 'Geçmiş',
     },
+    sekmeHatali: '(hata var)',
     tr: 'Türkçe',
     en: 'İngilizce',
+    dilKisa: { tr: 'TR', en: 'EN' },
+    ayrintilar: 'Ayrıntılar',
     tukendi: 'Bugün yok',
     tukendiNot: 'İşaretli olan, menü sayfasında fiyat yerine "Bugün yok" yazar. Yayınlanınca kısa sürede görünür.',
     eskiSurum:
@@ -129,7 +132,8 @@ export const yonetim = {
       ad: 'Ad',
       aciklama: 'Açıklama',
       porsiyonFiyati: 'Porsiyon fiyatı (TL)',
-      durumFiyati: 'Dürüm fiyatı (TL), yoksa boş bırakın',
+      durumFiyati: 'Dürüm fiyatı (TL)',
+      durumNot: 'Dürümü olmayan kalemde dürüm fiyatını boş bırakın.',
       porsiyonNotu: 'Porsiyon notu, örnek: 10 şiş',
       durumNotu: 'Dürüm notu, örnek: 10 şiş',
       foto: 'Fotoğraf',
@@ -145,7 +149,7 @@ export const yonetim = {
     icecek: {
       ad: 'İçecek adı',
       olcuAd: 'Ölçü adı',
-      olcuFiyat: 'Fiyat (TL)',
+      olcuFiyat: '{ad} fiyatı (TL)',
       olcu: 'Ölçü {n}',
       olcuEkle: 'Ölçü Ekle',
       olcuSil: 'Ölçüyü Sil',
@@ -154,8 +158,6 @@ export const yonetim = {
       ekle: 'İçecek Ekle',
     },
     yayinla: 'Yayınla',
-    hatali: 'Hatalar düzeltilmeden yayınlanamaz: {sayi} hata var.',
-    hataSekmede: 'İlk hata {sekme} sekmesinde.',
     durum: {
       degisiklik: '{sayi} değişiklik',
       yok: 'Değişiklik yok',
@@ -202,7 +204,6 @@ export const yonetim = {
         farkli: 'Sitede #{site}, panelde #{panel}',
       },
     },
-    degisiklikYok: 'Yayındaki menüyle aynı, yayınlanacak bir şey yok.',
     yukleniyor: 'Yayındaki menü okunuyor.',
     yayinda:
       'Yayında. Menü sayfası birkaç saniyede güncellenir; '

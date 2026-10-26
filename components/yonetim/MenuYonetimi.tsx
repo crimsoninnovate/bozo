@@ -9,7 +9,8 @@ import {
 import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
 import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
 import {
-  SEKMELER, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi, hataSekmesi, panelBelgesi, type Sekme,
+  degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi, hataSekmeleri, hataSekmesi, panelBelgesi, yayinDurumu,
+  type Sekme,
 } from '@/lib/menu/panel'
 import type { Duyuru, IcecekKalemi, Iletisim, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
@@ -22,8 +23,10 @@ import { IkramFormu } from './IkramFormu'
 import { IletisimFormu } from './IletisimFormu'
 import { KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
+import { PanelUst } from './PanelUst'
 import { SiteDurumu } from './SiteDurumu'
 import { taslagiYukle, useTaslakKaydi } from './taslak'
+import { YayinBari } from './YayinBari'
 import { YayinOnayi } from './YayinOnayi'
 import ortak from './oturum.module.css'
 import stil from './MenuYonetimi.module.css'
@@ -35,19 +38,6 @@ import stil from './MenuYonetimi.module.css'
 type Onay = { geriAl: { surum: SurumOzeti; belge: MenuBelgesi } | null }
 export type Duzenle = (fn: (kopya: MenuBelgesi) => MenuBelgesi | void) => void
 
-function Sekmeler({ sekme, sec }: { sekme: Sekme; sec: (s: Sekme) => void }) {
-  return (
-    <div className={stil.sekmeler} role="group" aria-label={m.menu.sekmeler}>
-      {SEKMELER.map((s) => (
-        <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
-          onClick={() => sec(s)}>
-          {m.menu.sekme[s]}
-        </button>
-      ))}
-    </div>
-  )
-}
-
 type ListeProps = { belge: MenuBelgesi; hatalar: Hatalar; duzenle: Duzenle }
 
 function Ocakbasi({ belge, hatalar, duzenle }: ListeProps) {
@@ -55,7 +45,8 @@ function Ocakbasi({ belge, hatalar, duzenle }: ListeProps) {
     duzenle((b) => { const k = b.kalemler.find((x) => x.id === id); if (k) fn(k) })
   return (
     <div className={stil.liste}>
-      <p className={ortak.not}>{m.menu.tukendiNot}</p>
+      <h2 className={stil.bolumBaslik}>{m.menu.sekme.ocakbasi}</h2>
+      <p className={ortak.not}>{m.menu.tukendiNot} {m.menu.kalem.durumNot}</p>
       {belge.kalemler.map((kalem, n) => (
         <KalemFormu key={kalem.id} kalem={kalem} sira={n} son={n === belge.kalemler.length - 1}
           hatalar={hatalar} duz={duz(kalem.id)}
@@ -73,6 +64,7 @@ function Icecekler({ belge, hatalar, duzenle }: ListeProps) {
     duzenle((b) => { const i = b.icecekler.find((x) => x.id === id); if (i) fn(i) })
   return (
     <div className={stil.liste}>
+      <h2 className={stil.bolumBaslik}>{m.menu.sekme.icecekler}</h2>
       <p className={ortak.not}>{m.menu.tukendiNot}</p>
       {belge.icecekler.map((icecek, n) => (
         <IcecekFormu key={icecek.id} icecek={icecek} sira={n} hatalar={hatalar} duz={duz(icecek.id)}
@@ -157,24 +149,79 @@ function useCalisma({ api, cik, baz }: PanelProps) {
   return { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir }
 }
 
-function Calisma(props: PanelProps) {
-  const { api, baz } = props
-  const { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
-  const [sekme, setSekme] = useState<Sekme>('ocakbasi')
-  const [onay, setOnay] = useState<Onay | null>(null)
-
+/** Çalışma kopyasından türeyen her şey: doğrulama, fark, hatalı sekmeler ve alt barın durumu. */
+function useTuretilmis(belge: MenuBelgesi, canli: YonetimMenuYaniti | null, baz: MenuBelgesi, eski: boolean) {
   const sonuc = useMemo(() => menuBelgesiDogrula(belge), [belge])
   const hatalar = useMemo(() => hatalariEsle(sonuc.tamam ? [] : sonuc.hatalar), [sonuc])
+  const hataliSekmeler = useMemo(() => hataSekmeleri(hatalar.keys()), [hatalar])
   const yayindaki = canli?.gecerli?.belge ?? baz
   const fark = useMemo(() => (sonuc.tamam ? menuFarki(yayindaki, sonuc.belge) : []), [sonuc, yayindaki])
+  const durum = yayinDurumu({
+    hataSayisi: sonuc.tamam ? 0 : sonuc.hatalar.length,
+    ilkHata: sonuc.tamam ? null : hataSekmesi(sonuc.hatalar[0]?.yol ?? ''),
+    degisiklik: fark.length,
+    eski,
+  })
   const taban = canli?.gecerli?.surum ?? null
   const degisiklikVar = degisiklikVarMi(yayindaki, belge)
-  useKaydedilmemisUyari(degisiklikVar)
-  useTaslakKaydi(hazir, taban, belge, degisiklikVar)
-  const ilkHata = sonuc.tamam ? null : hataSekmesi(sonuc.hatalar[0]?.yol ?? '')
+  return { sonuc, hatalar, hataliSekmeler, yayindaki, fark, durum, taban, degisiklikVar }
+}
 
+type IcerikProps = ListeProps & {
+  sekme: Sekme
+  canli: YonetimMenuYaniti
+  taban: number | null
+  mesgul: boolean
+  onDon: (surum: SurumOzeti) => void
+}
+
+function SekmeIcerigi({ sekme, belge, hatalar, duzenle, canli, taban, mesgul, onDon }: IcerikProps) {
+  switch (sekme) {
+    case 'ocakbasi':
+      return <Ocakbasi belge={belge} hatalar={hatalar} duzenle={duzenle} />
+    case 'ozel':
+      return (
+        <OzelFormu ozel={belge.ozel} hatalar={hatalar}
+          duz={(fn: (o: OzelKalem) => void) => duzenle((b) => fn(b.ozel))} />
+      )
+    case 'icecekler':
+      return <Icecekler belge={belge} hatalar={hatalar} duzenle={duzenle} />
+    case 'ikramlar':
+      return <IkramFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
+    case 'duyuru':
+      return (
+        <DuyuruFormu duyuru={belge.duyuru} hatalar={hatalar}
+          duz={(fn: (d: Duyuru) => void) => duzenle((b) => fn(b.duyuru))} />
+      )
+    case 'iletisim':
+      return (
+        <IletisimFormu iletisim={belge.iletisim} hatalar={hatalar}
+          duz={(fn: (i: Iletisim) => void) => duzenle((b) => fn(b.iletisim))} />
+      )
+    case 'gecmis':
+      return (
+        <>
+          <SiteDurumu yayinSurum={taban} />
+          <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={onDon} />
+        </>
+      )
+  }
+}
+
+function Calisma(props: PanelProps) {
+  const { api, cik, baz } = props
+  const { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
+  const t = useTuretilmis(belge, canli, baz, eski)
+  const [sekme, setSekme] = useState<Sekme>('ocakbasi')
+  const [onay, setOnayDurumu] = useState<Onay | null>(null)
+  useKaydedilmemisUyari(t.degisiklikVar)
+  useTaslakKaydi(hazir, t.taban, belge, t.degisiklikVar)
+
+  /** Onay ekranı sayfanın başından açılır: fark ve uyarılar okunur, düğmeleri alt barda. */
+  const setOnay = (o: Onay | null) => { setOnayDurumu(o); if (o) window.scrollTo(0, 0) }
   const onayla = async () => {
     const geriAl = onay?.geriAl
+    const { sonuc, taban } = t
     if (geriAl) await bitir(() => api.menuGeriAl(geriAl.surum.id, taban), geriAl.belge)
     else if (sonuc.tamam) await bitir(() => api.menuYayinla(taban, sonuc.belge), sonuc.belge)
     setOnay(null)
@@ -184,48 +231,53 @@ function Calisma(props: PanelProps) {
     if (eski) setOnay({ geriAl: { surum, belge: eski } })
   }
 
-  if (!canli) {
-    if (!mesaj) return <p className={ortak.not}>{m.menu.yukleniyor}</p>
-    return <p className={ortak.hata} role="alert">{mesaj.metin}</p>
-  }
+  if (!canli) return <Yukleniyor cik={cik} mesaj={mesaj} />
+  const sec = (s: Sekme) => { setSekme(s); setOnay(null) }
+  const bar = !onay && sekme !== 'gecmis'
   return (
     <>
-      <SiteDurumu yayinSurum={taban} />
-      <Sekmeler sekme={sekme} sec={(s) => { setSekme(s); setOnay(null) }} />
+      <PanelUst cik={cik} calisma={{ taban: t.taban, sekme, hatali: t.hataliSekmeler, sec }} />
+      <div className={stil.icerik}>
+        <Mesajlar mesaj={mesaj} eskiNot={bar && eski && t.fark.length === 0 && !t.durum.kapali} />
+        {onay ? (
+          <OnayEkrani onay={onay} fark={t.fark} yayindaki={t.yayindaki} sonuc={t.sonuc} belge={belge}
+            mesgul={mesgul} onayla={onayla} vazgec={() => setOnay(null)} />
+        ) : (
+          <SekmeIcerigi sekme={sekme} belge={belge} hatalar={t.hatalar} duzenle={duzenle} canli={canli}
+            taban={t.taban} mesgul={mesgul} onDon={surumeDon} />
+        )}
+      </div>
+      {bar && (
+        <YayinBari durum={t.durum} degisiklikVar={t.degisiklikVar} onYayinla={() => setOnay({ geriAl: null })}
+          onAt={() => duzenle(() => structuredClone(t.yayindaki))} />
+      )}
+    </>
+  )
+}
+
+/** Yayındaki menü gelene kadar: üst bar (Çıkış) ve okuma notu ya da yükleme hatası. */
+function Yukleniyor({ cik, mesaj }: { cik: () => void; mesaj: Mesaj | null }) {
+  return (
+    <>
+      <PanelUst cik={cik} />
+      <div className={stil.icerik}>
+        {mesaj ? <Mesajlar mesaj={mesaj} /> : <p className={ortak.not}>{m.menu.yukleniyor}</p>}
+      </div>
+    </>
+  )
+}
+
+type MesajProps = { mesaj: Mesaj | null; eskiNot?: boolean }
+
+/** Sekmelerin hemen altındaki ileti satırı: yayın sonucu, hata, taslak ve eski biçim notu. */
+function Mesajlar({ mesaj, eskiNot = false }: MesajProps) {
+  if (!mesaj && !eskiNot) return null
+  return (
+    <>
       {mesaj && (
         <p className={mesaj.hata ? ortak.hata : stil.tamam} role={mesaj.hata ? 'alert' : 'status'}>{mesaj.metin}</p>
       )}
-      {onay ? (
-        <OnayEkrani onay={onay} fark={fark} yayindaki={yayindaki} sonuc={sonuc} belge={belge} mesgul={mesgul}
-          onayla={onayla} vazgec={() => setOnay(null)} />
-      ) : (
-        <>
-          {sekme === 'ocakbasi' && <Ocakbasi belge={belge} hatalar={hatalar} duzenle={duzenle} />}
-          {sekme === 'ozel' && (
-            <OzelFormu ozel={belge.ozel} hatalar={hatalar}
-              duz={(fn: (o: OzelKalem) => void) => duzenle((b) => fn(b.ozel))} />
-          )}
-          {sekme === 'icecekler' && <Icecekler belge={belge} hatalar={hatalar} duzenle={duzenle} />}
-          {sekme === 'ikramlar' && <IkramFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />}
-          {sekme === 'duyuru' && (
-            <DuyuruFormu duyuru={belge.duyuru} hatalar={hatalar}
-              duz={(fn: (d: Duyuru) => void) => duzenle((b) => fn(b.duyuru))} />
-          )}
-          {sekme === 'iletisim' && (
-            <IletisimFormu iletisim={belge.iletisim} hatalar={hatalar}
-              duz={(fn: (i: Iletisim) => void) => duzenle((b) => fn(b.iletisim))} />
-          )}
-          {sekme === 'gecmis' ? (
-            <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={surumeDon} />
-          ) : (
-            <YayinBari hataSayisi={sonuc.tamam ? 0 : sonuc.hatalar.length} ilkHata={ilkHata}
-              degisiklik={fark.length} eski={eski} onYayinla={() => setOnay({ geriAl: null })} />
-          )}
-          {sekme !== 'gecmis' && degisiklikVar && (
-            <DegisiklikAt onAt={() => duzenle(() => structuredClone(yayindaki))} />
-          )}
-        </>
-      )}
+      {eskiNot && <p className={ortak.not}>{m.menu.eskiSurum}</p>}
     </>
   )
 }
@@ -260,32 +312,6 @@ function OnayEkrani({ onay, fark, yayindaki, sonuc, belge, mesgul, onayla, vazge
   )
 }
 
-/** `eski`: yayındaki sürüm 1. sürüm biçiminde; değişiklik olmasa da bir kez yayınlanabilir. */
-type BarProps = {
-  hataSayisi: number
-  /** İlk hatanın düzenlendiği sekme; hata başka sekmedeyse kullanıcı nereye bakacağını bilir. */
-  ilkHata: Sekme | null
-  degisiklik: number
-  eski: boolean
-  onYayinla: () => void
-}
-
-function YayinBari({ hataSayisi, ilkHata, degisiklik, eski, onYayinla }: BarProps) {
-  const bos = degisiklik === 0 && !eski
-  const hatali = doldur(m.menu.hatali, { sayi: hataSayisi })
-  const konum = ilkHata ? ` ${doldur(m.menu.hataSekmede, { sekme: m.menu.sekme[ilkHata] })}` : ''
-  const neden = hataSayisi > 0 ? `${hatali}${konum}` : bos ? m.menu.degisiklikYok : null
-  return (
-    <div className={stil.bar}>
-      <button type="button" className={ortak.ana} disabled={neden !== null} onClick={onYayinla}>
-        {m.menu.yayinla}
-      </button>
-      {neden && <p className={ortak.not}>{neden}</p>}
-      {!neden && degisiklik === 0 && eski && <p className={ortak.not}>{m.menu.eskiSurum}</p>}
-    </div>
-  )
-}
-
 /** Sayfa kapanırken tarayıcı uyarısı; dinleyici yalnız kaydedilmemiş değişiklik varken durur. */
 function useKaydedilmemisUyari(degisiklikVar: boolean) {
   useEffect(() => {
@@ -299,39 +325,28 @@ function useKaydedilmemisUyari(degisiklikVar: boolean) {
   }, [degisiklikVar])
 }
 
-/** Çalışma kopyasını yayındakine döndürür; silmeden önce sayfa içinde bir onay adımı vardır. */
-function DegisiklikAt({ onAt }: { onAt: () => void }) {
-  const [soruluyor, setSoruluyor] = useState(false)
-  const a = m.menu.at
-  if (!soruluyor) {
-    return <button type="button" className={ortak.ikincil} onClick={() => setSoruluyor(true)}>{a.dugme}</button>
-  }
+/** Giriş kartının başı: sitenin kelime markası (süs) ve panelin adı. */
+function GirisBasligi() {
   return (
-    <div className={stil.at} role="alertdialog" aria-label={a.dugme}>
-      <p className={ortak.not}>{a.soru}</p>
-      <div className={ortak.dugmeler}>
-        <button type="button" className={ortak.ana} onClick={() => { onAt(); setSoruluyor(false) }}>{a.evet}</button>
-        <button type="button" className={ortak.ikincil} onClick={() => setSoruluyor(false)}>{a.vazgec}</button>
-      </div>
+    <div className={stil.girisBasligi}>
+      <img src="/kelime-markasi.svg" alt="" width={150} height={64} />
+      <h1 className={stil.girisAdi}>{m.menu.baslik}</h1>
     </div>
   )
 }
 
 export function MenuYonetimi({ baz }: { baz: MenuBelgesi }) {
   const { api, gir, cik } = useOturum()
+  if (!api) {
+    return (
+      <main className={stil.girisSayfasi}>
+        <Giris gir={gir} baslik={<GirisBasligi />} />
+      </main>
+    )
+  }
   return (
     <main className={stil.sayfa}>
-      <h1 className={stil.baslik}>{m.menu.baslik}</h1>
-      {api ? (
-        <>
-          <div className={stil.ust}>
-            <button type="button" className={ortak.ikincil} onClick={cik}>{m.cikis}</button>
-          </div>
-          <Calisma api={api} cik={cik} baz={baz} />
-        </>
-      ) : (
-        <Giris gir={gir} />
-      )}
+      <Calisma api={api} cik={cik} baz={baz} />
     </main>
   )
 }

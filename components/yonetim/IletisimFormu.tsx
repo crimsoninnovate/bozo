@@ -1,5 +1,6 @@
 'use client'
 
+import { useId } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import type { Iletisim } from '@/lib/menu/tipler'
 import { Alan, Isaret, type Hatalar } from './Alanlar'
@@ -9,6 +10,7 @@ import stil from './IletisimFormu.module.css'
 const i = m.menu.iletisim
 
 type Metinli = Exclude<keyof Iletisim, 'telefonAcik'>
+type Tip = 'tel' | 'email' | 'kullanici'
 const KULLANICILAR = ['instagram', 'facebook', 'tiktok'] as const
 
 type Props = {
@@ -19,22 +21,24 @@ type Props = {
 }
 
 export function IletisimFormu({ iletisim, hatalar, duz }: Props) {
-  const alan = (ad: Metinli, etiket: string) => (
-    <Alan etiket={etiket} deger={iletisim[ad]} hata={hatalar.get(`iletisim.${ad}`)}
+  const baslik = useId()
+  const alan = (ad: Metinli, etiket: string, tip: Tip) => (
+    <Alan etiket={etiket} tip={tip} deger={iletisim[ad]} hata={hatalar.get(`iletisim.${ad}`)}
       onDegis={(v) => duz((x) => { x[ad] = v })} />
   )
   return (
-    <fieldset className={stil.iletisim}>
-      <legend className={stil.baslik}>{i.baslik}</legend>
+    <div role="group" aria-labelledby={baslik} className={stil.iletisim}>
+      <h2 id={baslik} className={stil.baslik}>{i.baslik}</h2>
       <p className={ortak.not}>{i.not}</p>
       <Isaret etiket={i.telefonAcik} isaretli={iletisim.telefonAcik}
         onDegis={(v) => duz((x) => { x.telefonAcik = v })} />
       {iletisim.telefonAcik && <p className={ortak.not}>{i.telefonAcikNot}</p>}
-      {alan('telefon', i.telefon)}
-      {alan('eposta', i.eposta)}
+      {alan('telefon', i.telefon, 'tel')}
+      {alan('eposta', i.eposta, 'email')}
       <p className={ortak.not}>{i.kullaniciNot}</p>
-      {KULLANICILAR.map((k) => <div key={k}>{alan(k, i[k])}</div>)}
-      {alan('googleYorumKodu', i.googleYorumKodu)}
-    </fieldset>
+      {KULLANICILAR.map((k) => <div key={k}>{alan(k, i[k], 'kullanici')}</div>)}
+      {/* Yorum kodu büyük-küçük harfe duyarlı: otomatik düzeltme ve büyük harf kapalı. */}
+      {alan('googleYorumKodu', i.googleYorumKodu, 'kullanici')}
+    </div>
   )
 }

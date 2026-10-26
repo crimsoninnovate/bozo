@@ -12,3 +12,17 @@
   border-left-color: var(--bakir);
   color: var(--krem);
 }
+
+/* Üst barın tek satırı; sığmazsa üç noktayla kesilir, tam metin Geçmiş'te. */
+.kisa {
+  margin: 0;
+  overflow: hidden;
+  color: var(--krem-70);
+  font: 400 14px/1.3 var(--font-govde);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.kisaFark {
+  color: var(--bakir-acik);
+}

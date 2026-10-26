@@ -15,23 +15,25 @@
 
 .altBaslik {
   margin: 0;
-  font: 400 18px/1.2 var(--font-baslik);
+  font: 400 20px/1.2 var(--font-baslik);
 }
 
+/* Küme kartı: açılır kartlarla aynı kömür yüzey, ama hep açık. */
 .kart {
   display: grid;
-  gap: 16px;
-  margin: 0;
+  gap: 12px;
+  min-width: 0;
   padding: 16px;
+  background: var(--komur);
   border: 1px solid var(--cizgi-kart);
   border-radius: 3px;
-  min-width: 0;
 }
 
 .baslik {
-  padding: 0 8px;
-  font: 400 18px/1.2 var(--font-baslik);
+  margin: 0;
+  font: 400 18px/1.25 var(--font-baslik);
   color: var(--krem);
+  overflow-wrap: anywhere;
 }
 
 .ogeler {
