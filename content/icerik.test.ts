@@ -7,6 +7,7 @@ import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
 import { anaSayfaKalemleri } from '../lib/menu/belgeYukle.ts'
+import { iletisimiEnvdenOku, iletisimiEnveCevir } from '../lib/menu/iletisimEnv.ts'
 import { kalemOlculeri } from '../lib/menu/kalemOlculeri.ts'
 import { acilisSpotu, ikramSayisi, sayiYaz } from '../lib/menu/sayilar.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
@@ -189,9 +190,16 @@ test('isletme_googleYorumKodu_adresiDogruKurar', () => {
 })
 
 // Telefon ve WhatsApp siteden gizli (sahibi, 19 Ekim 2026); null olunca hiçbir yüzey bağlantı basmaz.
-test('isletme_telefonVeWhatsapp_gizliykenNullDur', () => {
+// Kaynak menü belgesi (`iletisim.telefonAcik`); tohumda kapalı, env'siz testte isletme tohumdur.
+test('isletme_telefonVeWhatsapp_tohumdaKapaliykenNullDur', () => {
+  assert.equal(belge.iletisim.telefonAcik, false)
   assert.equal(isletme.telefon, null)
   assert.equal(isletme.whatsapp, null)
+})
+
+test('isletme_iletisimAlanlari_belgeylaAyni', () => {
+  const env = iletisimiEnveCevir(belge).iletisim
+  assert.deepEqual(iletisimiEnvdenOku(env, isletme), isletme)
 })
 
 test('isletme_dogrulanmisAlanlarDoludur', () => {

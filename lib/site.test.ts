@@ -13,8 +13,10 @@ import {
   whatsappUrl,
   telefonUrl,
   instagramUrl,
+  yorumUrl,
   facebookUrl,
   tiktokUrl,
+  epostaUrl,
   SITE_URL,
   type RotaAnahtari,
 } from './site.ts'
@@ -196,4 +198,29 @@ test('facebookUrl_kullaniciVarken_profilAdresiUretir', () => {
 test('tiktokUrl_kullaniciVarken_atIsaretliProfilAdresiUretir', () => {
   assert.equal(tiktokUrl(null), null)
   assert.equal(tiktokUrl('cigercibozo'), 'https://tiktok.com/@cigercibozo')
+})
+
+test('epostaUrl_adresNullIken_nullDoner', () => {
+  assert.equal(epostaUrl(null), null)
+})
+
+test('epostaUrl_duzAdres_mailtoUretir', () => {
+  assert.equal(epostaUrl('bozo@cigercibozo.com'), 'mailto:bozo@cigercibozo.com')
+})
+
+test('epostaUrl_ozelKarakterler_kodlanirVeIkinciAlanEklenemez', () => {
+  const url = epostaUrl('a"<b>@x.co?bcc=kotu@y.co&subject=z#h')
+  assert.equal(url, 'mailto:a%22%3Cb%3E@x.co%3Fbcc%3Dkotu%40y.co%26subject%3Dz%23h')
+})
+
+test('kullaniciAdiUrlleri_ozelKarakterler_kodlanir', () => {
+  assert.equal(instagramUrl('a/b?c'), 'https://instagram.com/a%2Fb%3Fc')
+  assert.equal(facebookUrl('a/b?c'), 'https://facebook.com/a%2Fb%3Fc')
+  assert.equal(tiktokUrl('a/b?c'), 'https://tiktok.com/@a%2Fb%3Fc')
+  assert.equal(yorumUrl('a/b?c'), 'https://g.page/r/a%2Fb%3Fc/review')
+})
+
+test('kullaniciAdiUrlleri_gecerliAd_degismez', () => {
+  assert.equal(instagramUrl('cigerci.bozo_1'), 'https://instagram.com/cigerci.bozo_1')
+  assert.equal(yorumUrl('CTdnn1lSkPrHEBM'), 'https://g.page/r/CTdnn1lSkPrHEBM/review')
 })

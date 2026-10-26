@@ -1,6 +1,7 @@
 import { CamPanel } from '@/components/ui/CamPanel'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
+import { epostaUrl } from '@/lib/site'
 import stil from './GizlilikSayfasi.module.css'
 
 type Props = { dil: Dil }
@@ -54,7 +55,7 @@ export function GizlilikSayfasi({ dil }: Props) {
                 {bolum.eposta && isletme.eposta && (
                   <>
                     {' '}
-                    <a className={stil.eposta} href={`mailto:${isletme.eposta}`}>
+                    <a className={stil.eposta} href={epostaUrl(isletme.eposta) ?? undefined}>
                       {isletme.eposta}
                     </a>
                   </>

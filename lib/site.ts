@@ -105,17 +105,22 @@ export function telefonUrl(numara: string | null): string | null {
 
 /** `isletme.instagram` kullanıcı adıdır, tam URL değil; adres yalnız burada kurulur. */
 export function instagramUrl(kullanici: string | null): string | null {
-  return kullanici ? `https://instagram.com/${kullanici}` : null
+  return kullanici ? `https://instagram.com/${encodeURIComponent(kullanici)}` : null
 }
 
 export function yorumUrl(kod: string | null): string | null {
-  return kod ? `https://g.page/r/${kod}/review` : null
+  return kod ? `https://g.page/r/${encodeURIComponent(kod)}/review` : null
 }
 
 export function facebookUrl(kullanici: string | null): string | null {
-  return kullanici ? `https://facebook.com/${kullanici}` : null
+  return kullanici ? `https://facebook.com/${encodeURIComponent(kullanici)}` : null
 }
 
 export function tiktokUrl(kullanici: string | null): string | null {
-  return kullanici ? `https://tiktok.com/@${kullanici}` : null
+  return kullanici ? `https://tiktok.com/@${encodeURIComponent(kullanici)}` : null
+}
+
+/** Panelden gelen adres kodlanır: `?`, `&`, `#` mailto'ya ikinci alan ekleyemez. İlk `@` kalır. */
+export function epostaUrl(adres: string | null): string | null {
+  return adres ? `mailto:${encodeURIComponent(adres).replace('%40', '@')}` : null
 }

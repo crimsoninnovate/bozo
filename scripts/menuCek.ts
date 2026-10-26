@@ -8,9 +8,15 @@ const ZAMAN_ASIMI_MS = 10_000
 
 export type CekmeSonucu = 'yazildi' | 'sunucudaYok' | 'basarisiz'
 
+function yazAtomik(yol: string, veri: unknown): void {
+  const gecici = `${yol}.tmp`
+  writeFileSync(gecici, `${JSON.stringify(veri, null, 2)}\n`)
+  renameSync(gecici, yol)
+}
+
 /*
- * Build öncesi: canlı menü sürümünü `hedef`e (`content/menu.canli.json`, gitignore) yazar; site
- * dosya varsa onu basar. Doğrulamayı ve hata loglarını `canliMenuGetir` yapar. Hata hedefe dokunmaz.
+ * Build öncesi: canlı menü sürümünü `hedef`e (`content/menu.canli.json`, gitignore), sürüm numarasını
+ * yanındaki `menu.canli.meta.json`a yazar; site dosya varsa onu basar. Doğrulamayı ve hata loglarını `canliMenuGetir` yapar. Hata hedefe dokunmaz.
  * `tam`: 1. sürüm belgenin eksik bölümlerini tamamlar (yazılan dosya hep tam belgedir).
  */
 export async function menuCek(
@@ -26,9 +32,9 @@ export async function menuCek(
   if (yanit === null) return durum === 204 ? 'sunucudaYok' : 'basarisiz'
   try {
     mkdirSync(dirname(hedef), { recursive: true })
-    const gecici = `${hedef}.tmp`
-    writeFileSync(gecici, `${JSON.stringify(yanit.belge, null, 2)}\n`)
-    renameSync(gecici, hedef)
+    yazAtomik(hedef, yanit.belge)
+    // Sürüm göstergesi için: `next.config.ts` bunu `NEXT_PUBLIC_MENU_SURUMU` yapar.
+    yazAtomik(hedef.replace(/\.json$/, '.meta.json'), { surum: yanit.surum, cekilme: new Date().toISOString() })
   } catch (hata) {
     console.warn('menuCek: dosya yazilamadi', hedef, hata)
     return 'basarisiz'

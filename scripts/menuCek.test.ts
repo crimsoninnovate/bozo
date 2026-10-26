@@ -30,6 +30,19 @@ test('menuCek_gecerliYanit_dosyayaYazar', async () => {
   }
 })
 
+test('menuCek_yaziliyor_metaDosyasiSurumuTasir', async () => {
+  const { hedef, sil } = geciciHedef()
+  try {
+    assert.equal(await menuCek(KOK, json({ surum: 12, belge: varsayilan }), hedef), 'yazildi')
+    const meta = JSON.parse(readFileSync(hedef.replace(/\.json$/, '.meta.json'), 'utf8')) as Record<string, unknown>
+    assert.equal(meta['surum'], 12)
+    assert.equal(typeof meta['cekilme'], 'string')
+    assert.ok(!Number.isNaN(Date.parse(String(meta['cekilme']))))
+  } finally {
+    sil()
+  }
+})
+
 test('menuCek_birinciSurumYaniti_tamIleTamamlanipYazilir', async () => {
   const { hedef, sil } = geciciHedef()
   try {
