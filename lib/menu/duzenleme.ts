@@ -1,4 +1,6 @@
-import type { IcecekKalemi, IcecekOlcusu, MenuBelgesi, MenuKalemi } from './tipler.ts'
+import type {
+  IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, IkramUrunu, Ikramlar, MenuBelgesi, MenuKalemi,
+} from './tipler.ts'
 
 /* Panelin liste işlemleri: hepsi yeni belge döner, girdiyi değiştirmez. */
 
@@ -99,6 +101,77 @@ export function olcuSil(b: MenuBelgesi, icecekId: string, sira: number): MenuBel
     if (i.olculer.length <= 1) throw new Error(`son ölçü silinemez: ${icecekId}`)
     if (!Number.isInteger(sira) || sira < 0 || sira >= i.olculer.length) throw new Error(`ölçü yok: ${sira}`)
     return { ...i, olculer: i.olculer.filter((_, s) => s !== sira) }
+  })
+}
+
+function ikramGuncelle(b: MenuBelgesi, degis: (i: Ikramlar) => Ikramlar): MenuBelgesi {
+  return { ...b, ikramlar: degis(b.ikramlar) }
+}
+
+function grupGuncelle(
+  b: MenuBelgesi, id: string, degis: (g: IkramGrubu) => IkramGrubu,
+): MenuBelgesi {
+  return ikramGuncelle(b, (i) => {
+    const n = indeks(i.gruplar, id)
+    return { ...i, gruplar: i.gruplar.map((g, s) => (s === n ? degis(g) : g)) }
+  })
+}
+
+/** Sona eklenir; açıklama ve EN boş başlar, doğrulama doldurulana kadar yayını engeller. */
+export function ikramUrunuEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
+  const urun: IkramUrunu = {
+    id: kimlikUret(adTr, b.ikramlar.urunler.map((u) => u.id)),
+    ad: { tr: adTr, en: '' },
+    aciklama: { tr: '', en: '' },
+    fotoId: null,
+  }
+  return ikramGuncelle(b, (i) => ({ ...i, urunler: [...i.urunler, urun] }))
+}
+
+export function ikramUrunuSil(b: MenuBelgesi, id: string): MenuBelgesi {
+  const n = indeks(b.ikramlar.urunler, id)
+  return ikramGuncelle(b, (i) => ({ ...i, urunler: i.urunler.filter((_, s) => s !== n) }))
+}
+
+/** Uçtaki ürün dışarı taşınmaz: yerinde kalır, hata atılmaz (düğme zaten pasif olur). */
+export function ikramUrunuTasi(b: MenuBelgesi, id: string, yon: -1 | 1): MenuBelgesi {
+  const n = indeks(b.ikramlar.urunler, id)
+  const hedef = n + yon
+  if (hedef < 0 || hedef >= b.ikramlar.urunler.length) return b
+  const liste = [...b.ikramlar.urunler]
+  const [urun] = liste.splice(n, 1)
+  liste.splice(hedef, 0, urun as IkramUrunu)
+  return ikramGuncelle(b, (i) => ({ ...i, urunler: liste }))
+}
+
+export function ikramGrubuEkle(b: MenuBelgesi, adTr: string): MenuBelgesi {
+  const grup: IkramGrubu = {
+    id: kimlikUret(adTr, b.ikramlar.gruplar.map((g) => g.id)),
+    ad: { tr: adTr, en: '' },
+    not: null,
+    ogeler: [],
+  }
+  return ikramGuncelle(b, (i) => ({ ...i, gruplar: [...i.gruplar, grup] }))
+}
+
+/** En az bir küme kalmalı. */
+export function ikramGrubuSil(b: MenuBelgesi, id: string): MenuBelgesi {
+  const n = indeks(b.ikramlar.gruplar, id)
+  if (b.ikramlar.gruplar.length <= 1) throw new Error(`son küme silinemez: ${id}`)
+  return ikramGuncelle(b, (i) => ({ ...i, gruplar: i.gruplar.filter((_, s) => s !== n) }))
+}
+
+/** Öğe kimlikleri bütün kümelerde tekil olmalı (doğrulama böyle okur). */
+export function ikramOgesiEkle(b: MenuBelgesi, grupId: string, adTr: string): MenuBelgesi {
+  const tum = b.ikramlar.gruplar.flatMap((g) => g.ogeler.map((o) => o.id))
+  const oge: IkramOgesi = { id: kimlikUret(adTr, tum), ad: { tr: adTr, en: '' } }
+  return grupGuncelle(b, grupId, (g) => ({ ...g, ogeler: [...g.ogeler, oge] }))
+}
+
+export function ikramOgesiSil(b: MenuBelgesi, grupId: string, ogeId: string): MenuBelgesi {
+  return grupGuncelle(b, grupId, (g) => {
+    const n = indeks(g.ogeler, ogeId)
+    return { ...g, ogeler: g.ogeler.filter((_, s) => s !== n) }
   })
 }
 

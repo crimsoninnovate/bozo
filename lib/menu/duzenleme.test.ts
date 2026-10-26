@@ -3,7 +3,9 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
-  fiyatYaz, icecekEkle, icecekSil, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle, olcuSil,
+  fiyatYaz, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramOgesiEkle, ikramOgesiSil,
+  ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
+  olcuSil,
 } from './duzenleme.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -126,4 +128,93 @@ test('fiyatYaz_tarayiciSayiSaymadi_nanDonerVeDogrulamaReddeder', () => {
     kalem.fiyatlar[alan] = fiyatYaz('', true) ?? 0
     assert.equal(menuBelgesiDogrula(b).tamam, false, alan)
   }
+})
+
+const ikramKimlikleri = (b: MenuBelgesi) => b.ikramlar.urunler.map((u) => u.id)
+
+test('ikramUrunuEkle_girdiyiDegistirmez', () => {
+  const once = structuredClone(varsayilan)
+  const yeni = ikramUrunuEkle(varsayilan, 'Közlenmiş Biber')
+  assert.deepEqual(varsayilan, once)
+  assert.equal(yeni.ikramlar.urunler.length, once.ikramlar.urunler.length + 1)
+  const son = yeni.ikramlar.urunler.at(-1)
+  assert.equal(son?.id, 'kozlenmis-biber')
+  assert.equal(son?.ad.tr, 'Közlenmiş Biber')
+  assert.equal(son?.fotoId, null)
+})
+
+test('ikramUrunuEkle_ayniAd_sonekEkler', () => {
+  const b = ikramUrunuEkle(ikramUrunuEkle(varsayilan, 'Biber'), 'Biber')
+  assert.deepEqual(ikramKimlikleri(b).slice(-2), ['biber', 'biber-2'])
+})
+
+test('ikramUrunuSil_kimlik_listedenCikarir', () => {
+  const ilk = ikramKimlikleri(varsayilan)[0] ?? ''
+  assert.equal(ikramKimlikleri(ikramUrunuSil(varsayilan, ilk)).includes(ilk), false)
+  assert.throws(() => ikramUrunuSil(varsayilan, 'yok'))
+})
+
+test('ikramUrunuTasi_ikinciyiYukari_yerDegistirir', () => {
+  const [a, b] = ikramKimlikleri(varsayilan)
+  assert.deepEqual(ikramKimlikleri(ikramUrunuTasi(varsayilan, b ?? '', -1)).slice(0, 2), [b, a])
+})
+
+test('ikramUrunuTasi_ilkiYukari_hataFirlatmaz_yerindeKalir', () => {
+  const ilk = ikramKimlikleri(varsayilan)[0] ?? ''
+  const b = ikramUrunuTasi(varsayilan, ilk, -1)
+  assert.deepEqual(ikramKimlikleri(b), ikramKimlikleri(varsayilan))
+  const son = ikramKimlikleri(varsayilan).at(-1) ?? ''
+  assert.deepEqual(ikramKimlikleri(ikramUrunuTasi(varsayilan, son, 1)), ikramKimlikleri(varsayilan))
+})
+
+test('ikramGrubuEkle_yeniKume_ogesizVeNotsuzEklenir', () => {
+  const once = structuredClone(varsayilan)
+  const b = ikramGrubuEkle(varsayilan, 'Yanında')
+  assert.deepEqual(varsayilan, once)
+  assert.deepEqual(b.ikramlar.gruplar.at(-1), { id: 'yaninda', ad: { tr: 'Yanında', en: '' }, not: null, ogeler: [] })
+})
+
+test('ikramGrubuSil_kume_listedenCikarir', () => {
+  const ilk = varsayilan.ikramlar.gruplar[0]?.id ?? ''
+  const b = ikramGrubuSil(ikramGrubuEkle(varsayilan, 'Yanında'), ilk)
+  assert.equal(b.ikramlar.gruplar.some((g) => g.id === ilk), false)
+})
+
+test('ikramGrubuSil_sonKume_hataFirlatir', () => {
+  let b = varsayilan
+  for (const g of varsayilan.ikramlar.gruplar.slice(1)) b = ikramGrubuSil(b, g.id)
+  assert.equal(b.ikramlar.gruplar.length, 1)
+  assert.throws(() => ikramGrubuSil(b, b.ikramlar.gruplar[0]?.id ?? ''))
+})
+
+test('ikramOgesiEkle_kume_sonaEklerBaskaKumeyeDokunmaz', () => {
+  const grup = varsayilan.ikramlar.gruplar[0]
+  const b = ikramOgesiEkle(varsayilan, grup?.id ?? '', 'Sumak')
+  const yeni = b.ikramlar.gruplar[0]
+  assert.equal(yeni?.ogeler.length, (grup?.ogeler.length ?? 0) + 1)
+  assert.deepEqual(yeni?.ogeler.at(-1), { id: 'sumak', ad: { tr: 'Sumak', en: '' } })
+  assert.equal(varsayilan.ikramlar.gruplar[0]?.ogeler.length, grup?.ogeler.length)
+})
+
+test('ikramOgesiEkle_baskaKumedeAyniKimlik_sonekEkler', () => {
+  const [g1, g2] = varsayilan.ikramlar.gruplar
+  const b = ikramOgesiEkle(ikramOgesiEkle(varsayilan, g1?.id ?? '', 'Sumak'), g2?.id ?? '', 'Sumak')
+  assert.equal(b.ikramlar.gruplar[1]?.ogeler.at(-1)?.id, 'sumak-2')
+})
+
+test('ikramOgesiEkle_olmayanGrup_hataFirlatir', () => {
+  assert.throws(() => ikramOgesiEkle(varsayilan, 'yok', 'Sumak'))
+})
+
+test('ikramOgesiSil_oge_listedenCikarir', () => {
+  const grup = varsayilan.ikramlar.gruplar[0]
+  const oge = grup?.ogeler[0]?.id ?? ''
+  const b = ikramOgesiSil(varsayilan, grup?.id ?? '', oge)
+  assert.equal(b.ikramlar.gruplar[0]?.ogeler.some((o) => o.id === oge), false)
+})
+
+test('ikramOgesiSil_olmayanId_hataFirlatir', () => {
+  const grup = varsayilan.ikramlar.gruplar[0]?.id ?? ''
+  assert.throws(() => ikramOgesiSil(varsayilan, grup, 'yok'))
+  assert.throws(() => ikramOgesiSil(varsayilan, 'yok', 'yok'))
 })
