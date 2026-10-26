@@ -5,6 +5,7 @@ import { hizSiniriKur } from './hiz.ts'
 import { corsBasliklari, govdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
 import { gercekIp } from './ip.ts'
 import { islerKur, type Isler } from './isler.ts'
+import { MENU_ONBELLEK_MS, menuAl, yonetimMenuAl, yonetimMenuGeriAl, yonetimMenuYayinla } from './menu.ts'
 import {
   benAl,
   hesabiSil,
@@ -72,6 +73,14 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'POST', desen: /^\/yonetim\/oyuncu\/(\d+)\/gizle$/, isle: y((i, [id]) => yonetimGizle(b, i, id ?? '')) },
     { yontem: 'GET', desen: /^\/yonetim\/sayac$/, isle: y((i) => yonetimSayac(b, i)) },
     { yontem: 'GET', desen: /^\/yonetim\/tarama$/, isle: y(() => yonetimTarama(b)) },
+    { yontem: 'GET', desen: /^\/menu$/, isle: () => menuAl(b) },
+    { yontem: 'GET', desen: /^\/yonetim\/menu$/, isle: y(() => yonetimMenuAl(b)) },
+    { yontem: 'PUT', desen: /^\/yonetim\/menu$/, isle: y((i) => yonetimMenuYayinla(b, i)) },
+    {
+      yontem: 'POST',
+      desen: /^\/yonetim\/menu\/(\d{1,9})\/geri-al$/,
+      isle: y((i, [id]) => yonetimMenuGeriAl(b, i, id ?? '')),
+    },
   ]
 }
 
@@ -100,11 +109,14 @@ export function uygulamaKur(
     simdi,
     oyuncuSiniri: hizSiniriKur(OYUNCU_SAATLIK, SAAT_MS),
     tablo: onbellekKur(TABLO_ONBELLEK_MS),
+    menu: onbellekKur(MENU_ONBELLEK_MS),
   }
   const liste = rotalar(b, ayar.yonetim)
 
   async function yonlendir(istek: Istek): Promise<Yanit> {
-    if (!ipSiniri.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
+    // Restoranın wifi'si tek IP: misafirlerin menü okumaları IP sınırına girmez (yanıt 15 sn önbellekli).
+    const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
+    if (!menuOkuma && !ipSiniri.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !yonetimSiniri.izinVar(istek.ip, simdi())) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
     }

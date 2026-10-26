@@ -56,7 +56,7 @@ export function corsBasliklari(koken: string | undefined, izinliler: readonly st
   if (!koken || !izinliler.includes(koken)) return {}
   return {
     'Access-Control-Allow-Origin': koken,
-    'Access-Control-Allow-Methods': 'GET, POST, DELETE',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '600',
     Vary: 'Origin',

@@ -1,4 +1,5 @@
 import { masaGecerliMi } from '../lib/masa.ts'
+import type { MenuYaniti } from '../lib/menu/aktarim.ts'
 import {
   JETON_SURESI_MS,
   SURE_PAYI_MS,
@@ -53,6 +54,7 @@ export type Baglam = {
   simdi: () => number
   oyuncuSiniri: HizSiniri
   tablo: Onbellek<TabloYaniti>
+  menu: Onbellek<MenuYaniti | null>
 }
 
 export async function turAl(b: Baglam, istek: Istek): Promise<Yanit> {
