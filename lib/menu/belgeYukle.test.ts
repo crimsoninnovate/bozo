@@ -135,3 +135,17 @@ test('menuBelgesiYukle_birinciSurumCanliDosya_bolumleriSeedtenTamamlar', () => {
     sil()
   }
 })
+
+test('tamamla_eskiBelge_saatlerVeFotograflariTohumdanAlir', () => {
+  const { kok, sil } = geciciKok()
+  try {
+    const { saatler: _s, fotograflar: _f, ...eski } = structuredClone(varsayilan)
+    writeFileSync(join(kok, 'content', 'menu.canli.json'), JSON.stringify(eski))
+    const belge = menuBelgesiYukle(kok)
+    assert.deepEqual(belge.saatler, { acilis: 10, kapanis: 5 })
+    assert.deepEqual(belge.saatler, varsayilan.saatler)
+    assert.deepEqual(belge.fotograflar, varsayilan.fotograflar)
+  } finally {
+    sil()
+  }
+})

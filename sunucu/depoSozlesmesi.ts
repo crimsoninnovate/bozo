@@ -204,6 +204,8 @@ function menuBelgesi(ad: string): MenuBelgesi {
       telefonAcik: false, telefon: '+90 533 888 74 24', eposta: 'a@b.co', instagram: 'bozo', facebook: 'bozo',
       tiktok: 'bozo', googleYorumKodu: 'abcdef',
     },
+    saatler: { acilis: 10, kapanis: 5 },
+    fotograflar: {},
   }
 }
 

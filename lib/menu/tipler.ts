@@ -40,6 +40,12 @@ export type Iletisim = {
   googleYorumKodu: string
 }
 
+/** Açık olunan pencere, Girne saati, tam saat: `acilis` 6..18, `kapanis` ertesi sabah 2..8. */
+export type Saatler = { acilis: number; kapanis: number }
+
+/** `dosya`: sunucudaki `<16 hex>.webp`; `odak`: 'X% Y%' ya da `null` (ortalı). */
+export type FotoAtamasi = { dosya: string; odak: string | null }
+
 export type MenuBelgesi = {
   kalemler: MenuKalemi[]
   ozel: OzelKalem
@@ -47,4 +53,7 @@ export type MenuBelgesi = {
   duyuru: Duyuru
   ikramlar: Ikramlar
   iletisim: Iletisim
+  saatler: Saatler
+  /** Yalnız yüklenmiş yuvalar; olmayan yuva `content/fotograflar.ts` yolunu kullanır. */
+  fotograflar: Partial<Record<FotoId, FotoAtamasi>>
 }

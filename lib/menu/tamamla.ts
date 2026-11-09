@@ -1,12 +1,12 @@
 import type { MenuBelgesi } from './tipler.ts'
 
-const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim'] as const
+const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar'] as const
 
-/** Eksik bölümlerin kaynağı: bu üç bölümü taşıyan herhangi bir belge. */
+/** Eksik bölümlerin kaynağı: bu bölümleri taşıyan herhangi bir belge. */
 export type Tamamlayici = Pick<MenuBelgesi, (typeof BOLUMLER)[number]>
 
 /**
- * Eski (1. sürüm) belgede olmayan bölümleri `tam`dan alır; başka hiçbir şeye dokunmaz.
+ * Eski belgede olmayan bölümleri `tam`dan alır; başka hiçbir şeye dokunmaz.
  * `tam`da olmayan bölüm yazılmaz (`undefined` anahtar bırakmaz). Girdi nesne değilse olduğu gibi döner,
  * doğrulayıcı reddeder.
  */

@@ -2,6 +2,7 @@ import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createServer, type Server } from 'node:http'
+import { fotograflar } from '../content/fotograflar.ts'
 import type { MenuYayinYaniti, MenuYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
 import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
@@ -357,6 +358,10 @@ function enBuyukBelge(harf: string, olcuSayisi: number): MenuBelgesi {
       telefonAcik: true, telefon: '+90 533 888 74 24', eposta: `${'a'.repeat(90)}@bozo.com`,
       instagram: 'a'.repeat(40), facebook: 'a'.repeat(40), tiktok: 'a'.repeat(40), googleYorumKodu: 'a'.repeat(40),
     },
+    saatler: { acilis: 18, kapanis: 8 },
+    fotograflar: Object.fromEntries(
+      Object.keys(fotograflar).map((id) => [id, { dosya: 'abcdef0123456789.webp', odak: '100% 100%' }]),
+    ),
   }
 }
 

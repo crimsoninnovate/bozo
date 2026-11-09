@@ -76,3 +76,8 @@ test('varsayilan_v2Bolumleri_bugunkuDegerleriTasir', () => {
     googleYorumKodu: isletme.googleYorumKodu,
   })
 })
+
+test('varsayilan_saatlerVeFotograflar_bugunkuDegerleriTasir', () => {
+  assert.deepEqual(belge.saatler, { acilis: 10, kapanis: 5 })
+  assert.deepEqual(belge.fotograflar, {})
+})

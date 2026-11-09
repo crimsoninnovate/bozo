@@ -502,3 +502,76 @@ test('menuBelgesiDogrula_telefonAcikBoolDegil_hataVerir', () => {
 test('menuBelgesiDogrula_iletisimBilinmeyenAlan_hataVerir', () => {
   assert.equal(hataKodu(ham(iletisimAyarla('whatsapp', '+90 533 888 74 24')), 'iletisim.whatsapp'), 'bilinmeyenAlan')
 })
+
+const saatlerAyarla = (deger: unknown) => (b: Ham) => {
+  b['saatler'] = deger
+}
+const fotoAyarla = (anahtar: string, deger: unknown) => (b: Ham) => {
+  b['fotograflar'] = { [anahtar]: deger }
+}
+const FOTO_ANAHTARI = 'tane-yakin-cekim'
+
+test('saatler_gecerliPencere_kabulEdilir', () => {
+  assert.equal(menuBelgesiDogrula(ham(saatlerAyarla({ acilis: 10, kapanis: 5 }))).tamam, true)
+})
+
+test('saatler_kapanisGeceYarisindanOnce_reddedilir', () => {
+  for (const kapanis of [1, 0]) {
+    assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 10, kapanis })), 'saatler.kapanis'), 'saat', String(kapanis))
+  }
+})
+
+test('saatler_kapanis9_reddedilir', () => {
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 10, kapanis: 9 })), 'saatler.kapanis'), 'saat')
+})
+
+test('saatler_acilis19_reddedilir', () => {
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 19, kapanis: 5 })), 'saatler.acilis'), 'saat')
+})
+
+test('saatler_kesirli_reddedilir', () => {
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 10.5, kapanis: 5 })), 'saatler.acilis'), 'saat')
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 10, kapanis: 4.5 })), 'saatler.kapanis'), 'saat')
+})
+
+test('saatler_acilisKapanistanBuyukDegil_reddedilir', () => {
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 6, kapanis: 6 })), 'saatler.acilis'), 'saatSirasi')
+  assert.equal(menuBelgesiDogrula(ham(saatlerAyarla({ acilis: 6, kapanis: 5 }))).tamam, true)
+})
+
+test('saatler_bolumYokVeBilinmeyenAlan_reddedilir', () => {
+  assert.equal(hataKodu(ham((b) => { delete b['saatler'] }), 'saatler'), 'bolumEksik')
+  assert.equal(hataKodu(ham(saatlerAyarla({ acilis: 10, kapanis: 5, x: 1 })), 'saatler.x'), 'bilinmeyenAlan')
+})
+
+test('fotograflar_bilinmeyenAnahtar_reddedilir', () => {
+  const atama = { dosya: '0123456789abcdef.webp', odak: null }
+  assert.equal(hataKodu(ham(fotoAyarla('yok', atama)), 'fotograflar.yok'), 'foto')
+  assert.equal(menuBelgesiDogrula(ham(fotoAyarla(FOTO_ANAHTARI, atama))).tamam, true)
+})
+
+test('fotograflar_dosyaAdiBicimi_denetlenir', () => {
+  for (const kotu of ['../x.webp', 'ABCDEF0123456789.webp', '0123456789abcde.webp', '0123456789abcdef.png']) {
+    const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: kotu, odak: null }))
+    assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.dosya`), 'fotoDosya', kotu)
+  }
+  const iyi = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: '0123456789abcdef.webp', odak: null }))
+  assert.equal(menuBelgesiDogrula(iyi).tamam, true)
+})
+
+test('fotograflar_odak_nullYaDaYuzdeCifti', () => {
+  const dosya = '0123456789abcdef.webp'
+  for (const iyi of [null, '50% 70%', '0% 100%']) {
+    assert.equal(menuBelgesiDogrula(ham(fotoAyarla(FOTO_ANAHTARI, { dosya, odak: iyi }))).tamam, true, String(iyi))
+  }
+  for (const kotu of ['50%', '101% 0%', 'url(x)', '50% 70% ', '5.5% 1%', 5]) {
+    const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya, odak: kotu }))
+    assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.odak`), 'fotoOdak', String(kotu))
+  }
+})
+
+test('fotograflar_bolumYokVeBilinmeyenAlan_reddedilir', () => {
+  assert.equal(hataKodu(ham((b) => { delete b['fotograflar'] }), 'fotograflar'), 'bolumEksik')
+  const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: '0123456789abcdef.webp', odak: null, x: 1 }))
+  assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.x`), 'bilinmeyenAlan')
+})

@@ -189,6 +189,12 @@ test('isletme_googleYorumKodu_adresiDogruKurar', () => {
   assert.equal(yorumUrl(null), null)
 })
 
+// Tohum, bugünkü yazılı saatleri (10:00 - 05:00) taşır ve hiçbir yuvaya fotoğraf atamaz.
+test('isletme_saatlerVeFotograflar_tohumdaBugunkuDegerler', () => {
+  assert.deepEqual(belge.saatler, { acilis: 10, kapanis: 5 })
+  assert.deepEqual(belge.fotograflar, {})
+})
+
 // Telefon ve WhatsApp siteden gizli (sahibi, 19 Ekim 2026); null olunca hiçbir yüzey bağlantı basmaz.
 // Kaynak menü belgesi (`iletisim.telefonAcik`); tohumda kapalı, env'siz testte isletme tohumdur.
 test('isletme_telefonVeWhatsapp_tohumdaKapaliykenNullDur', () => {

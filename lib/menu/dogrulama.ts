@@ -1,7 +1,7 @@
 import { fotograflar } from '../../content/fotograflar.ts'
 import type {
-  Cift, Duyuru, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, Ikramlar, IkramUrunu, Iletisim,
-  MenuBelgesi, MenuKalemi, OzelKalem,
+  Cift, Duyuru, FotoAtamasi, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, Ikramlar, IkramUrunu, Iletisim,
+  MenuBelgesi, MenuKalemi, OzelKalem, Saatler,
 } from './tipler.ts'
 
 /** `yol`: "kalemler[2].fiyatlar.porsiyon". */
@@ -31,6 +31,8 @@ const EPOSTA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const TELEFON = /^\+(?=(?:\s*[0-9]){7})[0-9 ]{8,20}$/
 const YORUM_KODU = /^[A-Za-z0-9_-]{6,40}$/
 const YASAK = /(?<![\p{L}])(müşteri|bedava|mangal|şef|parça|adet|masa)|7\/24/iu
+const FOTO_DOSYASI = /^[0-9a-f]{16}\.webp$/
+const FOTO_ODAGI = /^(100|[1-9]?\d)% (100|[1-9]?\d)%$/
 const ONERI: Record<string, string> = {
   müşteri: 'misafir', bedava: 'ikram', mangal: 'ocak veya kor', şef: 'usta',
   parça: 'tane', adet: 'şiş veya porsiyon', masa: 'sofra', '7/24': 'gece açığız',
@@ -351,6 +353,51 @@ function iletisim(c: Ctx, v: unknown): Iletisim | undefined {
   })
 }
 
+function saat(c: Ctx, v: unknown, yol: string, en: number, ust: number): number | undefined {
+  if (typeof v === 'number' && Number.isInteger(v) && v >= en && v <= ust) return v
+  return hata(c, yol, 'saat', `Saat ${en} ile ${ust} arasında, tam sayı olmalı.`)
+}
+
+function saatPenceresi(c: Ctx, v: unknown): Saatler | undefined {
+  if (v === undefined) return bolumEksik(c, 'saatler')
+  const o = nesne(c, v, 'saatler', ['acilis', 'kapanis'])
+  if (!o) return undefined
+  const acilis = saat(c, o.acilis, 'saatler.acilis', 6, 18)
+  const kapanis = saat(c, o.kapanis, 'saatler.kapanis', 2, 8)
+  if (acilis !== undefined && kapanis !== undefined && acilis <= kapanis) {
+    return hata(c, 'saatler.acilis', 'saatSirasi', 'Açılış, ertesi sabahki kapanıştan geç olmalı.')
+  }
+  return tamsa<Saatler>({ acilis, kapanis })
+}
+
+function fotoAtamasi(c: Ctx, v: unknown, yol: string): FotoAtamasi | undefined {
+  const o = nesne(c, v, yol, ['dosya', 'odak'])
+  if (!o) return undefined
+  const odak = o.odak === null
+    ? null
+    : desenli(c, o.odak, `${yol}.odak`, FOTO_ODAGI, 'fotoOdak', 'Odak "50% 50%" biçiminde, 0-100 arası olmalı.')
+  return tamsa<FotoAtamasi>({
+    dosya: desenli(c, o.dosya, `${yol}.dosya`, FOTO_DOSYASI, 'fotoDosya', 'Dosya adı geçerli değil.'),
+    odak,
+  })
+}
+
+function fotoAtamalari(c: Ctx, v: unknown): MenuBelgesi['fotograflar'] | undefined {
+  if (v === undefined) return bolumEksik(c, 'fotograflar')
+  if (!nesneMi(v)) return hata(c, 'fotograflar', 'sema', 'Nesne bekleniyordu.')
+  const sonuc: MenuBelgesi['fotograflar'] = {}
+  let tamam = true
+  for (const [anahtar, atama] of Object.entries(v)) {
+    const yol = `fotograflar.${anahtar}`
+    const a = FOTO_IDLERI.has(anahtar)
+      ? fotoAtamasi(c, atama, yol)
+      : hata(c, yol, 'foto', 'Bilinmeyen fotoğraf kimliği.')
+    if (a === undefined) tamam = false
+    else sonuc[anahtar as keyof typeof sonuc] = a
+  }
+  return tamam ? sonuc : undefined
+}
+
 /** Yalnız duyuru bölümü: kabuktaki bant belgenin geri kalanını taşımaz. Bölüm yoksa pasif duyuru. */
 export function duyuruDogrula(girdi: unknown): { tamam: true; duyuru: Duyuru } | { tamam: false; hatalar: Sorun[] } {
   const c: Ctx = { hatalar: [], uyarilar: [] }
@@ -360,7 +407,9 @@ export function duyuruDogrula(girdi: unknown): { tamam: true; duyuru: Duyuru } |
 
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {
   const c: Ctx = { hatalar: [], uyarilar: [] }
-  const kok = nesne(c, girdi, 'belge', ['kalemler', 'ozel', 'icecekler', 'duyuru', 'ikramlar', 'iletisim'])
+  const kok = nesne(c, girdi, 'belge', [
+    'kalemler', 'ozel', 'icecekler', 'duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar',
+  ])
   const belge = kok && {
     kalemler: kalemler(c, kok.kalemler),
     ozel: ozel(c, kok.ozel),
@@ -368,6 +417,8 @@ export function menuBelgesiDogrula(girdi: unknown): Sonuc {
     duyuru: duyuru(c, kok.duyuru),
     ikramlar: ikramlar(c, kok.ikramlar),
     iletisim: iletisim(c, kok.iletisim),
+    saatler: saatPenceresi(c, kok.saatler),
+    fotograflar: fotoAtamalari(c, kok.fotograflar),
   }
   if (c.hatalar.length > 0 || !belge || Object.values(belge).includes(undefined)) {
     return { tamam: false, hatalar: c.hatalar }
