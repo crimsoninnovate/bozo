@@ -11,7 +11,7 @@ Son güncelleme: 10 Kasım 2026
 - **Canlıya alındı (10 Kasım gecesi).** Şema (`sema.sql`, öncesinde yedek `/root/.bozo/bozo_site-20261110-005907-sema-oncesi.sql.gz`),
   skor sunucusu (eski `dist` yedeği `/opt/bozo-oyun.dist-20261110-005919`) ve site (`npm run yayinla`, temiz). Kişi başına
   giriş, sayfa metinleri ve denetim düzeltmeleri canlıda. Kalan: sahibin panelde denetimi (`SUNUCU-CANLIYA-ALMA.md` >
-  Kişi başına panel girişi, adım 3-4). Ölçümde Cloudflare iki kez geçici 522 verdi, origin günlüğünde iz yok.
+  Kişi başına panel girişi, adım 3-4; takip listesi aşağıda). Ölçümde Cloudflare iki kez geçici 522 verdi, origin günlüğünde iz yok.
 
 - **Güvenlik denetimi (10 Kasım).** Tam denetim (`~/security-audit-skill/bozo/run-1/REPORT.md`):
   doğrulanmış açık yok, beş ipucu var. Dördü sunucuda kapandı: `/yonetim` 401'i `WWW-Authenticate` göndermez,
@@ -164,6 +164,27 @@ Son güncelleme: 10 Kasım 2026
    [issue #2](https://github.com/crimsoninnovate/bozo/issues/2)).
 7. **Performans adayları 2-5** (`IYILESTIRMELER.md` > "mobil performans teşhisi"); aday 1 yayında.
 8. `X-Powered-By` başlığı sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler: kullanıcının kararı.
+
+### 10 Kasım yayını ve denetim sonrası takip
+
+1. **Panel denetimi (sahibi):** `SUNUCU-CANLIYA-ALMA.md` > Kişi başına panel girişi, adım 3: admin girişi,
+   deneme hesabı, zorunlu şifre ekranı, bir yayın ve Geçmiş'te yazar, hesabı kapatınca öbür cihaz girişe döner.
+2. **Admin şifresi (sahibi):** personel admin şifresini biliyorsa her birine hesap açılır, sonra `YONETIM_SIFRE`
+   değişir (aynı belge, adım 4).
+3. **Root yayın adımı (denetim ipucu 2):** `sunucu/derleme/yukle.sh` ve `scripts/yayinla.sh` root olarak
+   `engincaglar`'ın httpdocs'una rsync, chown, chmod yapıyor. Önce arc'ta `stat -c '%U:%G %a'
+   /var/www/vhosts/cigercibozo.com` ve `systemctl show -p User bozo-oyun`; öneri root'a ait kardeş dizinde
+   hazırlayıp yer değiştirmek, sembolik httpdocs'u reddetmek, `chown -h`. Sahibinin kararı.
+4. **Cloudflare (salt okuma):** API anahtarının yeri bulunamadı; anahtar oturuma ortam değişkeniyle verilince
+   `api.cigercibozo.com` AAAA ve IPv6 ayarı, `/yonetim/*` hız ve WAF kuralları, `/menu` ve `/tablo` önbellek
+   kuralları okunur. 10 Kasım ölçümünde iki geçici 522 (origin günlüğünde iz yok): tekrarlarsa izle.
+5. **MariaDB sözleşme testi:** yeni `UPDATE ... JOIN` (`GIZLIYI_KAZANANA`) canlıda `EXPLAIN` ile geçti, ama
+   `BOZO_TEST_DB_URL` ile boş bir deneme veritabanında `sunucu/mariaDepo.test.ts` henüz koşmadı.
+6. **Denetimin açık iki birimi:** Plesk nginx `.htaccess`'i atlıyor mu (`curl -sI https://cigercibozo.com/` ve
+   `/m/1` başlıkları), GitHub'da `main` dal koruması var mı.
+7. **Yedek temizliği (17 Kasım'dan sonra):** `/opt/bozo-oyun.dist-20261110-005919` ve
+   `/root/.bozo/bozo_site-20261110-005907-sema-oncesi.sql.gz`.
+8. **15 Aralık 2026:** `sunucu/oturum.ts` > `ESKI_ANAHTAR_SONU` dalı silinir.
 
 ### `feat/panel-icerik` sonrası (birleşmeyi beklemez)
 
