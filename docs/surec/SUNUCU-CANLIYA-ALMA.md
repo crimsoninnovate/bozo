@@ -28,7 +28,8 @@ rsync -az --delete sunucu/dist/ plesk-206:/opt/bozo-oyun/dist/
 ssh plesk-206 'chown -R engincaglar:psacln /opt/bozo-oyun && systemctl restart bozo-oyun'
 ```
 
-Şema değişince (`sema.sql` yalnız `CREATE TABLE IF NOT EXISTS`, tekrar uygulamak zararsız), servisi
+Şema değişince (`sema.sql` yalnız `CREATE TABLE IF NOT EXISTS` ve `ADD COLUMN IF NOT EXISTS`, tekrar
+uygulamak zararsız), servisi
 yeniden başlatmadan önce:
 
 ```bash
@@ -93,6 +94,31 @@ bundan önce yalnız bellek deposuyla test edilmişti:
    (üretim veritabanına karşı koşma; kurulum için dosyanın başındaki docker komutu).
 3. `bozo_site_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
    (`SHOW GRANTS FOR bozo_site_k@'%'`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
+
+## Kişi başına panel girişi (9 Kasım 2026, henüz canlıda değil)
+
+Admin ortamda kalır (`YONETIM_KULLANICI`/`YONETIM_SIFRE`, veritabanında satırı yok); panelin Kullanıcılar
+sekmesinden açılan diğer hesaplar `yonetim_personel`'de, her işlem `yonetim_islem`'de (bir yıl tutulur), her
+menü sürümünün yayınlayanı `menu_surum.yazar`'da. Tasarım `docs/specs/2026-11-09-panel-kullanicilar-design.md`.
+Oturum anahtarı artık `k<id>.<surum>.<bitisMs>.<hmac>`: personelin `surum`'u hesap kapanınca, şifresi
+sıfırlanınca ya da kendisi değiştirince artar ve o hesabın bütün anahtarları düşer. Eski biçimli admin
+anahtarları (`<bitisMs>.<hmac>`, sahibin bugünkü "Beni hatırla"sı) 15 Aralık 2026'ya kadar geçer
+(`sunucu/oturum.ts` > `ESKI_ANAHTAR_SONU`); o tarihten sonra bu dal silinir.
+
+**Kurulum sırası:**
+
+1. Şema: yukarıdaki `sema.sql` komutu (iki `CREATE TABLE IF NOT EXISTS` ve `ALTER TABLE menu_surum ADD COLUMN
+   IF NOT EXISTS yazar`; tekrar uygulamak zararsız). Sonra `SHOW GRANTS FOR bozo_site_k@'%'` ile kullanıcının
+   yeni tablolarda `SELECT`, `INSERT`, `UPDATE`, `DELETE` yetkisi olduğunu doğrula (şifre ve kapatma `UPDATE`,
+   bir yıllık budama `DELETE` ister).
+2. Skor sunucusu ("Sunucu güncellemesi"), sonra site. Ters sırada yeni panel `GET /yonetim/ben`'den 404 alır
+   ve açılmaz. Sunucu geri alınırsa site de geri alınmalı.
+3. Denetim: admin girişi, Kullanıcılar sekmesinde deneme hesabı, o hesapla girişte zorunlu şifre ekranı,
+   bir yayın ve Geçmiş'te yazar adı, hesabı kapatınca öbür cihazın girişe dönmesi; sonra deneme hesabını kapat.
+4. Personel admin şifresini biliyorsa (oyun ekranına bugüne kadar adminin kimliğiyle giriliyordu): sahibi
+   her birine kendi hesabını açar, sonra `/etc/bozo-oyun.env` ve yedeğinde `YONETIM_SIFRE`'yi değiştirip
+   `systemctl restart bozo-oyun` çalıştırır. Bu, adminin bütün oturumlarını da düşürür; o güne kadar
+   personelin işlemleri kayıtta admin adıyla görünür.
 
 ## Panelden site yayını ve fotoğraflar (canlıda, 9 Kasım 2026)
 

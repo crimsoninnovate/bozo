@@ -8,6 +8,16 @@ Son güncelleme: 9 Kasım 2026
 
 ## Durum
 
+- **Kişi başına panel girişi (9 Kasım gecesi, `feat/panel-kullanicilar`, henüz birleştirilmedi).** Admin
+  ortamda kalır; panelin Kullanıcılar sekmesinden (yalnız admin) hesap açılır, kapatılır, geçici şifre verilir.
+  Geçici şifreli hesap önce kendi şifresini koyar; kapatma, sıfırlama ve şifre değişimi o hesabın bütün
+  oturumlarını düşürür. Her işlem kayda girer (bir yıl), Geçmiş her sürümün yayınlayanını gösterir, üst barda
+  giriş yapanın adı var. Tasarım `docs/specs/2026-11-09-panel-kullanicilar-design.md`, plan
+  `docs/plans/2026-11-09-panel-kullanicilar-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Kişi başına panel
+  girişi (şema, yetkiler, önce sunucu). Yerelde 390px ve masaüstünde uçtan uca denendi. Sırada: tüm dalın
+  gözden geçirilmesi, sonra sahibin onayıyla birleştirme ve kurulum. Ardından sayfa metinlerinin panelden
+  düzenlenmesi (önce beyin fırtınası).
+
 - **Panel iyileştirmeleri (9 Kasım akşamı).** Yayın onayı, Türkçesiyle aynı kalmış İngilizce metni uyarır
   (Türkçe harf ya da en az üç kelime varsa; Cola, Ayran gibi kısa adlar aynı kalabilir); uyarılar ikram ve
   duyuru kayıtlarını da adıyla gösterir. Derleme ya da yükleme `hata` ile biterse `bozo@cigercibozo.com`'a bir

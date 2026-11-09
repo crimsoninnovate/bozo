@@ -42,9 +42,17 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   `bozo-uyari.path`, `bozo-uyari.service` units, tested by `derleme.test.ts`. The scripts
   are installed to `/opt/bozo-derleme/`, not run from the repo. Env: `FOTO_DIZINI` and `DERLEME_DIZINI` are optional
   (unset means the matching endpoint answers 503). Setup: `docs/surec/SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
-- Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
-  30 days, stateless, `oturum.ts`); change `YONETIM_SIFRE` to revoke every token. Do not rotate
-  `GIZLI_TUZ` for this: it also breaks every unredeemed reward code (`kodOzeti` hashes with the same salt).
+- Staff auth (spec `2026-11-09-panel-kullanicilar-design.md`): every `/yonetim/*` request resolves to a
+  `Yetkili` (`yonetim.ts` > `yetkiliCoz`). The admin lives only in the env (`YONETIM_KULLANICI`/`YONETIM_SIFRE`),
+  never in the DB; other accounts are `yonetim_personel` rows (scrypt hashes, `parola.ts`) the admin opens from the
+  panel. Basic, or `Bearer k<id>.<surum>.<bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only, 30 days,
+  `oturum.ts`); a staff account's `surum` bumps on close, reset or own password change, which drops its tokens.
+  Changing `YONETIM_SIFRE` drops every admin token. Old `<bitisMs>.<hmac>` admin tokens pass until
+  `ESKI_ANAHTAR_SONU` (15 Dec 2026), then delete that branch. A temporary-password account gets 403
+  `sifreDegismeli` everywhere except `/yonetim/ben` and `/yonetim/sifre`; account routes are admin-only (403
+  `adminGerekli`). Panel actions go to `yonetim_islem` through `islemYaz` (a log failure never fails the action),
+  kept one year (`isler.ts`). Do not rotate `GIZLI_TUZ` to revoke sessions: it also breaks every unredeemed
+  reward code (`kodOzeti` hashes with the same salt).
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

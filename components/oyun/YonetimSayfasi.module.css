@@ -1,6 +1,7 @@
 /* Personel ekranı: kabuksuz, tek sütun, telefonda tezgahta kullanılır. */
 .sayfa {
   display: grid;
+  align-content: start;
   gap: 24px;
   max-width: 640px;
   min-height: 100dvh;
