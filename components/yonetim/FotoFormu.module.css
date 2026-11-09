@@ -1,0 +1,133 @@
+/* Fotoğraflar sekmesi: yuva başına kömür kart; küçük kare solda, ad ve yer sağda. */
+.liste {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
+}
+
+.kart {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.ust {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* Boş yuva sitedeki plakayla aynı zeminde. */
+.kucuk {
+  flex: 0 0 96px;
+  height: 72px;
+  overflow: hidden;
+  background: var(--plaka-zemin);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.kucuk img,
+.kirpim img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bilgi {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ad {
+  margin: 0;
+  font: 400 18px/1.25 var(--font-baslik);
+  color: var(--krem);
+  overflow-wrap: anywhere;
+}
+
+.yukle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.yukle:focus-within {
+  outline: 2px solid var(--bakir);
+  outline-offset: 2px;
+}
+
+.yukle[data-mesgul='true'] {
+  opacity: 0.45;
+  cursor: progress;
+}
+
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.odak {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  padding-top: 12px;
+  border-top: 1px solid var(--cizgi-kart);
+}
+
+/* Düğme karenin kendi boyutunda: dokunuşun konumu doğrudan karenin yüzdesi olur. */
+.secici {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+  line-height: 0;
+  cursor: crosshair;
+}
+
+.secici img {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+}
+
+.secici:focus-visible {
+  outline: 2px solid var(--bakir);
+  outline-offset: 2px;
+}
+
+.isaret {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--krem);
+  box-shadow: 0 0 0 1px var(--zemin), inset 0 0 0 1px var(--zemin);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.kirpim {
+  width: 100%;
+  overflow: hidden;
+  background: var(--plaka-zemin);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}

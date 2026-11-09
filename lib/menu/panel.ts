@@ -45,12 +45,12 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 }
 
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
-export const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'gecmis'] as const
+export const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'fotograflar', 'gecmis'] as const
 export type Sekme = (typeof SEKMELER)[number]
 
 const YOL_SEKMELERI: Record<string, Sekme> = {
   kalemler: 'ocakbasi', ozel: 'ozel', icecekler: 'icecekler', ikramlar: 'ikramlar', duyuru: 'duyuru',
-  iletisim: 'iletisim',
+  iletisim: 'iletisim', fotograflar: 'fotograflar',
 }
 
 /** "iletisim.eposta" gibi doğrulama yolunun düzenlendiği sekme; tanımsız yol `null`. */

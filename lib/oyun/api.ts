@@ -12,7 +12,7 @@ import {
   type TabloYaniti,
 } from './aktarim.ts'
 import type { YonetimTaramaYaniti } from '../masa.ts'
-import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
+import type { FotoYukleYaniti, MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
 import type { MenuBelgesi } from '../menu/tipler.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
@@ -56,12 +56,25 @@ export function jetonCoz(yanit: unknown): JetonYaniti | null {
   return { turId, tohum, sonaErme }
 }
 
-type Secenek = { yontem?: 'GET' | 'POST' | 'PUT' | 'DELETE'; govde?: unknown; anahtar?: string; yetki?: string }
+type Secenek = {
+  yontem?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  govde?: unknown
+  /** JSON yerine ham gövde (fotoğraf); `type` Content-Type olur. */
+  ham?: Blob
+  anahtar?: string
+  yetki?: string
+  sureMs?: number
+}
+
+/** Telefondan 3 MB'lık kare yavaş hatta 4 sn'ye sığmaz. */
+const YUKLEME_SURESI_MS = 60_000
 
 function istekKur(kok: string, getir: typeof fetch) {
-  return async function istek<T>(yol: string, { yontem = 'GET', govde, anahtar, yetki }: Secenek = {}): Promise<T> {
+  return async function istek<T>(yol: string, secenek: Secenek = {}): Promise<T> {
+    const { yontem = 'GET', govde, ham, anahtar, yetki, sureMs = ZAMAN_ASIMI_MS } = secenek
     const basliklar: Record<string, string> = {}
     if (govde !== undefined) basliklar['Content-Type'] = 'application/json'
+    if (ham) basliklar['Content-Type'] = ham.type
     if (anahtar) basliklar.Authorization = `Bearer ${anahtar}`
     if (yetki) basliklar.Authorization = yetki
     let yanit: Response
@@ -69,8 +82,8 @@ function istekKur(kok: string, getir: typeof fetch) {
       yanit = await getir(kok + yol, {
         method: yontem,
         headers: basliklar,
-        body: govde === undefined ? undefined : JSON.stringify(govde),
-        signal: AbortSignal.timeout(ZAMAN_ASIMI_MS),
+        body: ham ?? (govde === undefined ? undefined : JSON.stringify(govde)),
+        signal: AbortSignal.timeout(sureMs),
       })
     } catch {
       throw new ApiHatasi(0, 'ag')
@@ -132,6 +145,9 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
       istek<MenuYayinYaniti>('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge }, yetki }),
     menuGeriAl: (id: number, taban: number | null) =>
       istek<MenuYayinYaniti>(`/yonetim/menu/${id}/geri-al`, { yontem: 'POST', govde: { taban }, yetki }),
+    /** Gövde `webpHazirla` çıktısı; sunucu içerik adını verir, atama taslakta yapılır. */
+    fotoYukle: (webp: Blob) =>
+      istek<FotoYukleYaniti>('/yonetim/foto', { yontem: 'POST', ham: webp, yetki, sureMs: YUKLEME_SURESI_MS }),
   }
 }
 

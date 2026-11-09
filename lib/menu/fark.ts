@@ -1,4 +1,6 @@
+import { fotograflar } from '../../content/fotograflar.ts'
 import { fiyatMetni } from '../../content/isletme.ts'
+import type { FotoId } from '../../content/types.ts'
 import type { Cift, IcecekKalemi, IkramGrubu, IkramOgesi, IkramUrunu, MenuBelgesi, MenuKalemi } from './tipler.ts'
 
 export type Degisiklik = { yol: string; etiket: string; once: string; sonra: string; buyukSicrama: boolean }
@@ -187,6 +189,21 @@ function ikramlarFarki(eski: MenuBelgesi['ikramlar'], yeni: MenuBelgesi['ikramla
   ]
 }
 
+/** Yuva başına bir satır: yeni ya da değişen kare, kaldırılan kare, aynı karede odak. */
+function fotograflarFarki(eski: MenuBelgesi['fotograflar'], yeni: MenuBelgesi['fotograflar']): Degisiklik[] {
+  return (Object.keys(fotograflar) as FotoId[]).flatMap((id) => {
+    const a = eski[id]
+    const b = yeni[id]
+    const yol = `fotograflar.${id}`
+    const etiket = `Fotoğraf · ${fotograflar[id].etiket}`
+    if (!a && !b) return []
+    if (!b) return [satir(yol, etiket, 'kare', 'kaldırıldı')]
+    if (!a || a.dosya !== b.dosya) return [satir(yol, etiket, a ? 'önceki kare' : YOK, 'yeni kare')]
+    if (a.odak === b.odak) return []
+    return [satir(`${yol}.odak`, `${etiket}: odak`, a.odak ?? 'ortalı', b.odak ?? 'ortalı')]
+  })
+}
+
 /** İki belge arasındaki değişiklikler; `buyukSicrama`: fiyat eskiye göre %50'den fazla oynadı. */
 export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
   return [
@@ -196,5 +213,6 @@ export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
     ...duyuruFarki(eski.duyuru, yeni.duyuru),
     ...ikramlarFarki(eski.ikramlar, yeni.ikramlar),
     ...iletisimFarki(eski.iletisim, yeni.iletisim),
+    ...fotograflarFarki(eski.fotograflar, yeni.fotograflar),
   ]
 }

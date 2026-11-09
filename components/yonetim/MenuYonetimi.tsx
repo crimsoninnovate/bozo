@@ -18,6 +18,7 @@ import { doldur } from '@/lib/metin'
 import type { YonetimApi } from '@/lib/oyun/api'
 import { YeniKayit, hatalariEsle, type Hatalar } from './Alanlar'
 import { DuyuruFormu } from './DuyuruFormu'
+import { FotoFormu } from './FotoFormu'
 import { Gecmis, surumTarihi } from './Gecmis'
 import { IcecekFormu } from './IcecekFormu'
 import { IkramFormu } from './IkramFormu'
@@ -174,9 +175,12 @@ type IcerikProps = ListeProps & {
   taban: number | null
   mesgul: boolean
   onDon: (surum: SurumOzeti) => void
+  api: YonetimApi
+  cik: () => void
 }
 
-function SekmeIcerigi({ sekme, belge, hatalar, duzenle, canli, taban, mesgul, onDon }: IcerikProps) {
+function SekmeIcerigi(props: IcerikProps) {
+  const { sekme, belge, hatalar, duzenle, canli, taban, mesgul, onDon, api, cik } = props
   switch (sekme) {
     case 'ocakbasi':
       return <Ocakbasi belge={belge} hatalar={hatalar} duzenle={duzenle} />
@@ -199,6 +203,8 @@ function SekmeIcerigi({ sekme, belge, hatalar, duzenle, canli, taban, mesgul, on
         <IletisimFormu iletisim={belge.iletisim} hatalar={hatalar}
           duz={(fn: (i: Iletisim) => void) => duzenle((b) => fn(b.iletisim))} />
       )
+    case 'fotograflar':
+      return <FotoFormu belge={belge} hatalar={hatalar} duzenle={duzenle} api={api} cik={cik} />
     case 'gecmis':
       return (
         <>
@@ -246,7 +252,7 @@ function Calisma(props: PanelProps) {
             mesgul={mesgul} onayla={onayla} vazgec={() => setOnay(null)} />
         ) : (
           <SekmeIcerigi sekme={sekme} belge={belge} hatalar={t.hatalar} duzenle={duzenle} canli={canli}
-            taban={t.taban} mesgul={mesgul} onDon={surumeDon} />
+            taban={t.taban} mesgul={mesgul} onDon={surumeDon} api={api} cik={cik} />
         )}
       </div>
       {bar && (

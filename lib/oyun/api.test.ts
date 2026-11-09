@@ -178,3 +178,16 @@ test('yonetimApi_menuHatalari_durumVeKodlaYuzeyeCikar', async () => {
     await assert.rejects(yonetim.menuGeriAl(1, 1), bekle, `POST ${durum} ${kod}`)
   }
 })
+
+test('yonetimApi_fotoYukle_hamWebpGovdeVeYetki', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yanit = { dosya: '0123456789abcdef.webp', en: 2000, boy: 1500 }
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, yanit, kayit), 'Bearer k')
+  const veri = new Blob([new Uint8Array([1, 2, 3])], { type: 'image/webp' })
+  assert.deepEqual(await yonetim.fotoYukle(veri), yanit)
+  assert.equal(kayit.url, 'http://x/yonetim/foto')
+  assert.equal(kayit.secenek?.method, 'POST')
+  assert.equal(kayit.secenek?.body, veri)
+  const basliklar = kayit.secenek?.headers as Record<string, string>
+  assert.deepEqual(basliklar, { 'Content-Type': 'image/webp', Authorization: 'Bearer k' })
+})

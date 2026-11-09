@@ -13,7 +13,7 @@ export type Sonuc =
 type Ctx = { hatalar: Sorun[]; uyarilar: Sorun[] }
 type Nesne = Record<string, unknown>
 
-const FOTO_IDLERI = new Set(Object.keys(fotograflar))
+export const FOTO_IDLERI = new Set(Object.keys(fotograflar))
 const KALEM_KIMLIK = /^[a-z0-9-]{2,40}$/
 // Seed icecek kimlikleri camelCase (`kolaZero`); kalem kimligi kuraldan muaf degil.
 const ICECEK_KIMLIK = /^[a-zA-Z0-9-]{2,40}$/
@@ -31,8 +31,8 @@ const EPOSTA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const TELEFON = /^\+(?=(?:\s*[0-9]){7})[0-9 ]{8,20}$/
 const YORUM_KODU = /^[A-Za-z0-9_-]{6,40}$/
 const YASAK = /(?<![\p{L}])(müşteri|bedava|mangal|şef|parça|adet|masa)|7\/24/iu
-const FOTO_DOSYASI = /^[0-9a-f]{16}\.webp$/
-const FOTO_ODAGI = /^(100|[1-9]?\d)% (100|[1-9]?\d)%$/
+export const FOTO_DOSYASI = /^[0-9a-f]{16}\.webp$/
+export const FOTO_ODAGI = /^(100|[1-9]?\d)% (100|[1-9]?\d)%$/
 const ONERI: Record<string, string> = {
   müşteri: 'misafir', bedava: 'ikram', mangal: 'ocak veya kor', şef: 'usta',
   parça: 'tane', adet: 'şiş veya porsiyon', masa: 'sofra', '7/24': 'gece açığız',

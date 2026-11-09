@@ -218,3 +218,37 @@ test('fark_yalnizFiyatBuyukSicramaOlur', () => {
   })
   assert.ok(menuFarki(varsayilan, yeni).every((d) => !d.buyukSicrama))
 })
+
+const KARE = { dosya: '0123456789abcdef.webp', odak: null }
+const DIGER = { dosya: 'fedcba9876543210.webp', odak: null }
+
+test('fark_fotoYeniKare_satirVerir', () => {
+  const fark = menuFarki(varsayilan, varsayilanKopya((b) => { b.fotograflar.dalak = KARE }))
+  assert.deepEqual(fark, [{
+    yol: 'fotograflar.dalak', etiket: 'Fotoğraf · dalak karesi', once: 'yok', sonra: 'yeni kare', buyukSicrama: false,
+  }])
+})
+
+test('fark_fotoKareDegisti_yeniKare', () => {
+  const eski = varsayilanKopya((b) => { b.fotograflar.dalak = KARE })
+  const fark = menuFarki(eski, varsayilanKopya((b) => { b.fotograflar.dalak = { ...DIGER, odak: '10% 10%' } }))
+  assert.equal(fark.length, 1)
+  assert.equal(al(fark, 0).once, 'önceki kare')
+  assert.equal(al(fark, 0).sonra, 'yeni kare')
+})
+
+test('fark_fotoKaldirildi_satirVerir', () => {
+  const eski = varsayilanKopya((b) => { b.fotograflar.yurek = KARE })
+  const fark = menuFarki(eski, varsayilan)
+  assert.equal(fark.length, 1)
+  assert.deepEqual([al(fark, 0).etiket, al(fark, 0).sonra], ['Fotoğraf · yürek karesi', 'kaldırıldı'])
+})
+
+test('fark_fotoOdakDegisti_odakSatiri', () => {
+  const eski = varsayilanKopya((b) => { b.fotograflar.dalak = KARE })
+  const fark = menuFarki(eski, varsayilanKopya((b) => { b.fotograflar.dalak = { ...KARE, odak: '30% 70%' } }))
+  assert.deepEqual(fark, [{
+    yol: 'fotograflar.dalak.odak', etiket: 'Fotoğraf · dalak karesi: odak', once: 'ortalı', sonra: '30% 70%',
+    buyukSicrama: false,
+  }])
+})

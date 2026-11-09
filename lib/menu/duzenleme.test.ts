@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
-  fiyatYaz, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil,
+  fiyatYaz, fotoAta, fotoKaldir, fotoOdakAyarla, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil,
   ikramOgesiTasi, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
   olcuSil,
 } from './duzenleme.ts'
@@ -264,4 +264,44 @@ test('ikramOgesiTasi_olmayanKumeVeyaOge_hataFirlatir', () => {
   const g = varsayilan.ikramlar.gruplar[0]?.id ?? ''
   assert.throws(() => ikramOgesiTasi(varsayilan, g, 'yok', 1))
   assert.throws(() => ikramOgesiTasi(varsayilan, 'yok', 'yok', 1))
+})
+
+const KARE = { dosya: '0123456789abcdef.webp', odak: null }
+
+test('fotoAta_yeniAtama_yeniBelgeGirdiDegismez', () => {
+  const once = structuredClone(varsayilan)
+  const sonra = fotoAta(varsayilan, 'dalak', KARE)
+  assert.deepEqual(sonra.fotograflar.dalak, KARE)
+  assert.deepEqual(varsayilan, once)
+  assert.equal(menuBelgesiDogrula(sonra).tamam, true)
+})
+
+test('fotoAta_gecersizKimlikDosyaYaDaOdak_hataFirlatir', () => {
+  assert.throws(() => fotoAta(varsayilan, 'yok' as 'dalak', KARE))
+  assert.throws(() => fotoAta(varsayilan, 'dalak', { dosya: '../x.webp', odak: null }))
+  assert.throws(() => fotoAta(varsayilan, 'dalak', { dosya: KARE.dosya, odak: '101% 0%' }))
+})
+
+test('fotoKaldir_atamaSilinirDigerleriKalir', () => {
+  const iki = fotoAta(fotoAta(varsayilan, 'dalak', KARE), 'yurek', KARE)
+  const sonra = fotoKaldir(iki, 'dalak')
+  assert.deepEqual(Object.keys(sonra.fotograflar), ['yurek'])
+  assert.ok(iki.fotograflar.dalak)
+})
+
+test('fotoKaldir_atamaYok_hataFirlatir', () => {
+  assert.throws(() => fotoKaldir(varsayilan, 'dalak'))
+})
+
+test('fotoOdakAyarla_odakYazilirYaDaOrtalanir', () => {
+  const b = fotoAta(varsayilan, 'dalak', KARE)
+  const odakli = fotoOdakAyarla(b, 'dalak', '30% 70%')
+  assert.deepEqual(odakli.fotograflar.dalak, { dosya: KARE.dosya, odak: '30% 70%' })
+  assert.equal(b.fotograflar.dalak?.odak, null)
+  assert.equal(fotoOdakAyarla(odakli, 'dalak', null).fotograflar.dalak?.odak, null)
+})
+
+test('fotoOdakAyarla_atamaYokYaDaBicimBozuk_hataFirlatir', () => {
+  assert.throws(() => fotoOdakAyarla(varsayilan, 'dalak', '50% 50%'))
+  assert.throws(() => fotoOdakAyarla(fotoAta(varsayilan, 'dalak', KARE), 'dalak', '50%'))
 })

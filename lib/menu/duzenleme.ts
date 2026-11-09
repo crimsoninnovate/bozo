@@ -1,5 +1,7 @@
+import type { FotoId } from '../../content/types.ts'
+import { FOTO_DOSYASI, FOTO_IDLERI, FOTO_ODAGI } from './dogrulama.ts'
 import type {
-  IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, IkramUrunu, Ikramlar, MenuBelgesi, MenuKalemi,
+  FotoAtamasi, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, IkramUrunu, Ikramlar, MenuBelgesi, MenuKalemi,
 } from './tipler.ts'
 
 /* Panelin liste işlemleri: hepsi yeni belge döner, girdiyi değiştirmez. */
@@ -194,6 +196,35 @@ export function ikramOgesiSil(b: MenuBelgesi, grupId: string, ogeId: string): Me
 /** Yalnız o kümenin içinde taşınır; uçtaki öğe yerinde kalır. */
 export function ikramOgesiTasi(b: MenuBelgesi, grupId: string, ogeId: string, yon: -1 | 1): MenuBelgesi {
   return grupGuncelle(b, grupId, (g) => ({ ...g, ogeler: kaydir(g.ogeler, indeks(g.ogeler, ogeId), yon) }))
+}
+
+function fotoDenetle(id: FotoId, odak: string | null): void {
+  if (!FOTO_IDLERI.has(id)) throw new Error(`bilinmeyen fotoğraf kimliği: ${id}`)
+  if (odak !== null && !FOTO_ODAGI.test(odak)) throw new Error(`odak biçimi bozuk: ${odak}`)
+}
+
+/** Yuvaya yüklenmiş kareyi atar; önceki atama (odağıyla) yerini yeniye bırakır. */
+export function fotoAta(b: MenuBelgesi, id: FotoId, atama: FotoAtamasi): MenuBelgesi {
+  fotoDenetle(id, atama.odak)
+  if (!FOTO_DOSYASI.test(atama.dosya)) throw new Error(`dosya adı geçersiz: ${atama.dosya}`)
+  return { ...b, fotograflar: { ...b.fotograflar, [id]: { dosya: atama.dosya, odak: atama.odak } } }
+}
+
+/** Yuva tohum kareye ya da boş plakaya döner. */
+export function fotoKaldir(b: MenuBelgesi, id: FotoId): MenuBelgesi {
+  fotoDenetle(id, null)
+  if (!b.fotograflar[id]) throw new Error(`atama yok: ${id}`)
+  const kalan = { ...b.fotograflar }
+  delete kalan[id]
+  return { ...b, fotograflar: kalan }
+}
+
+/** `odak` null ise kare ortalanır (yerleşimin kendi odağı geçerli olur). */
+export function fotoOdakAyarla(b: MenuBelgesi, id: FotoId, odak: string | null): MenuBelgesi {
+  fotoDenetle(id, odak)
+  const atama = b.fotograflar[id]
+  if (!atama) throw new Error(`atama yok: ${id}`)
+  return { ...b, fotograflar: { ...b.fotograflar, [id]: { ...atama, odak } } }
 }
 
 /**

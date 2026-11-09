@@ -188,6 +188,7 @@ test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
   assert.equal(hataSekmesi('ikramlar.gruplar'), 'ikramlar')
   assert.equal(hataSekmesi('duyuru.bitis'), 'duyuru')
   assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
+  assert.equal(hataSekmesi('fotograflar.dalak.odak'), 'fotograflar')
   assert.equal(hataSekmesi('belge'), null)
 })
 
