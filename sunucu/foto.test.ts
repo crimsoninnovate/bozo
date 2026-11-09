@@ -176,6 +176,17 @@ test('postFoto_gecerliJpeg_200JpgAdliAyniBaytlar', async () => {
   assert.deepEqual(await readFile(join(dizin, ad(veri, 'jpg'))), veri)
 })
 
+test('postFoto_dar_umaskAltinda_dosyaHerkesceOkunur0644', async () => {
+  const onceki = process.umask(0o077)
+  try {
+    const veri = jpeg(320, 240)
+    assert.equal((await yukle(veri, { ...kimlik, ...JPEG })).durum, 200)
+    assert.equal((await stat(join(dizin, ad(veri, 'jpg')))).mode & 0o777, 0o644, 'nginx okuyabilsin')
+  } finally {
+    process.umask(onceki)
+  }
+})
+
 test('postFoto_asamaliJpegSof2_200', async () => {
   const y = await yukle(jpeg(800, 600, 0xc2), { ...kimlik, ...JPEG })
   assert.deepEqual([y.durum, y.govde?.en, y.govde?.boy], [200, 800, 600])

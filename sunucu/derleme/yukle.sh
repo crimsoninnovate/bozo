@@ -77,7 +77,8 @@ arsivi_denetle() {
 }
 
 # bozo-derleme reads CIKTI (so a hard link to a file it cannot read fails here); root only checks and unpacks.
-olarak_derleme tar -C "$CIKTI" -cf - . >"$SAHNE/cikti.tar" || dur "could not archive $CIKTI; nothing uploaded"
+# Root's cat writes the file, so no fd of the build user's survives into the listing (pipefail catches tar).
+olarak_derleme tar -C "$CIKTI" -cf - . | cat >"$SAHNE/cikti.tar" || dur "could not archive $CIKTI; nothing uploaded"
 kotu="$(arsivi_denetle "$SAHNE/cikti.tar")" || dur "could not list the build archive; nothing uploaded"
 [ -z "$kotu" ] || dur "the build holds a link, special file or unsafe path; nothing extracted: $kotu"
 AGAC="$SAHNE/agac"

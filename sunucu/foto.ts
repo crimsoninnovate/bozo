@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from 'node:crypto'
-import { access, mkdir, rename, rm, writeFile } from 'node:fs/promises'
+import { access, chmod, mkdir, rename, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { FotoYukleYaniti } from '../lib/menu/aktarim.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
@@ -64,6 +64,8 @@ async function atomikYaz(dizin: string, dosya: string, veri: Buffer): Promise<vo
   const gecici = join(dizin, `.${dosya}.${randomBytes(6).toString('hex')}.tmp`)
   try {
     await writeFile(gecici, veri)
+    // nginx başka kullanıcı: bozo-oyun'un umask'ı ne olursa olsun herkes okuyabilsin.
+    await chmod(gecici, 0o644)
     await rename(gecici, join(dizin, dosya))
   } catch (hata) {
     await rm(gecici, { force: true })

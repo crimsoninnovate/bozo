@@ -186,7 +186,9 @@ systemctl daemon-reload
 systemd-analyze verify /etc/systemd/system/bozo-derleme.{path,service} /etc/systemd/system/bozo-yukle.service
 systemctl enable --now bozo-derleme.path
 
-# 5. Fotoğraf dizini; OYUN_KULLANICISI = `systemctl show -p User --value bozo-oyun` (boşsa root)
+# 5. Fotoğraf dizini, skor sunucusunun kullanıcısına ait (birimde User= yoksa çıktı boştur, süreç root'tur)
+OYUN_KULLANICISI=$(systemctl show -p User --value bozo-oyun); OYUN_KULLANICISI=${OYUN_KULLANICISI:-root}
+echo "$OYUN_KULLANICISI"; id "$OYUN_KULLANICISI"    # boş satır ya da "no such user" ise burada dur
 install -d -o "$OYUN_KULLANICISI" -m 0755 /var/lib/bozo-oyun /var/lib/bozo-oyun/foto
 
 # 6. Skor sunucusuna iki dizini ver: systemctl edit bozo-oyun (drop-in)
@@ -244,7 +246,9 @@ location = /yonetim/foto {
 
 Doğrulama: `nginx -t`; `curl -sI https://api.cigercibozo.com/foto/0123456789abcdef.webp` 404,
 `/foto/` 404 (liste yok), `/foto/0123456789abcdef.png` 404; panelden bir fotoğraf yükledikten sonra adresi
-`200`, `content-type: image/webp` (ya da `image/jpeg`) ve `cache-control: ... immutable` döner.
+`200`, `content-type: image/webp` (ya da `image/jpeg`) ve `cache-control: ... immutable` döner. nginx başka
+kullanıcıyla çalışır: `foto.ts` her dosyayı umask'tan bağımsız 0644 yazar; `stat -c '%a %U' /var/lib/bozo-oyun/foto/*`
+`644` göstermeli ve dizinler 0755 olmalı, yoksa adres 403 verir.
 
 ### Deneme ve işletme
 
