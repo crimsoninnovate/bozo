@@ -8,6 +8,10 @@ import { yonetimDerlemeDurumu, yonetimDerlemeIste } from './derleme.ts'
 import { yonetimFotoYukle } from './foto.ts'
 import { islerKur, type Isler } from './isler.ts'
 import {
+  yonetimBen, yonetimIslemler, yonetimPersonelEkle, yonetimPersonelKapat, yonetimPersonelListe, yonetimPersonelSifre,
+  yonetimSifre,
+} from './personel.ts'
+import {
   MENU_ONBELLEK_MS, menuAl, yonetimMenuAl, yonetimMenuGeriAl, yonetimMenuSurumAl, yonetimMenuYayinla,
 } from './menu.ts'
 import {
@@ -82,7 +86,25 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
       return isle(istek, es, yetkili)
     }
   const y = (isle: YetkiliIsle) => korunan(isle)
+  const a = (isle: YetkiliIsle) => korunan(isle, { yalnizAdmin: true })
+  const s = (isle: YetkiliIsle) => korunan(isle, { serbest: true })
+  const admin = yonetim as YonetimKimligi
   return [
+    { yontem: 'GET', desen: /^\/yonetim\/ben$/, isle: s(async (_, __, k) => yonetimBen(k)) },
+    { yontem: 'POST', desen: /^\/yonetim\/sifre$/, isle: s((i, _, k) => yonetimSifre(b, yonetim, i, k)) },
+    { yontem: 'GET', desen: /^\/yonetim\/personel$/, isle: a(() => yonetimPersonelListe(b)) },
+    { yontem: 'POST', desen: /^\/yonetim\/personel$/, isle: a((i, _, k) => yonetimPersonelEkle(b, admin, i, k)) },
+    {
+      yontem: 'POST',
+      desen: /^\/yonetim\/personel\/(\d{1,9})\/kapat$/,
+      isle: a((i, [id], k) => yonetimPersonelKapat(b, i, id ?? '', k)),
+    },
+    {
+      yontem: 'POST',
+      desen: /^\/yonetim\/personel\/(\d{1,9})\/sifre$/,
+      isle: a((i, [id], k) => yonetimPersonelSifre(b, i, id ?? '', k)),
+    },
+    { yontem: 'GET', desen: /^\/yonetim\/islemler$/, isle: a((i) => yonetimIslemler(b, i)) },
     { yontem: 'POST', desen: /^\/tur$/, isle: (i) => turAl(b, i) },
     { yontem: 'POST', desen: /^\/oyuncu$/, isle: (i) => oyuncuOl(b, i) },
     { yontem: 'POST', desen: /^\/tur\/([0-9a-f]{32})\/bitir$/, isle: (i, [id]) => turBitir(b, i, id ?? '') },
