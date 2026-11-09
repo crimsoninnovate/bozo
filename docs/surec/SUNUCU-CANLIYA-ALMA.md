@@ -125,7 +125,9 @@ dosyaya sabit bağ varsa burada düşer), root akışı kendi özel geçici dizi
 olarak yazar. Açmadan önce listeler: her üye düz dosya ya da dizin, yolu göreli ve `..` içermiyor
 olmalı, yoksa hiçbir şey açılmadan reddedilir. Sonra yeni bir alt dizine açar; açılmış ağaçta yine düz
 dosya ve dizinden başka bir şey ya da birden çok bağlı dosya varsa yükleme reddedilir (ikinci ağ). Bekçi
-ve `rsync` bu ağaç üzerinde çalışır. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
+ve `rsync` bu ağaç üzerinde çalışır. Birimdeki `+` satırları (root) systemd 239'da `User=`'ın `HOME`'unu, yani derleme kullanıcısının ağacını
+taşır (9 Kasım'da arc'ta ölçüldü); bu yüzden üçü de `env -i ... HOME=/root` ile başlar, yoksa root'un `docker`
+istemcisi `bozo-derleme`'nin yazdığı bir `~/.docker/config.json`'u okurdu. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
 `chown`, `chmod` ve `plesk`.
 
 | Yol | Sahip, kip | Kim yazar |

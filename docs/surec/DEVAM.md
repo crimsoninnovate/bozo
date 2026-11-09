@@ -138,7 +138,7 @@ Son güncelleme: 9 Kasım 2026
   yok; elektrik kesintisinde `durum.json` diskte "derleniyor" kalır (panel 60 dakika sonra hata gösterir);
   `CLAUDE.md` 72-75 tablo satırları 120 karakteri aşıyor (tablo satırı bölünemez). 9 Kasım'da kapandı: odak
   seçici ok tuşlarıyla, şeffaf PNG JPEG'de beyaz zeminle, içecek ölçüsü ekleme/silme "unutmayın" notunu
-  veriyor, `fotoGoc.ts` hataları yakalıyor. Docker'a geçiş (`kap.sh`) bağımsız incelemeden geçmedi.
+  veriyor, `fotoGoc.ts` hataları yakalıyor. Docker'a geçiş incelendi; üç bulgu (root `docker`'ın `HOME`'u, başlamayan konteyner, SIGTERM) düzeltilip arc'ta denendi.
 
 ## Bir sonraki deploy'da hatırlanacak
 
