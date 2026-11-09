@@ -47,10 +47,11 @@ yazması gerekmez.
 - Dosyalar hiç silinmez (eski sürüme geri alma onları kullanabilir). Disk büyümesi küçük: kare başına
   birkaç yüz KB, yılda birkaç yüz kare.
 - **Site.** `FotoYuvasi` derlenmiş belgedeki karenin adresini basar (statik HTML'de doğru kare,
-  yerleşim kayması yok); canlı belge farklıysa sayfa açılışında güncellenir (menü ve duyurunun bugünkü
-  kanalı, ek istek yok). Belgede kare yoksa bugünkü `content/fotograflar.ts` `dosya` değeri, o da yoksa
+  yerleşim kayması yok). Fotoğraf değişikliği sitede **Siteyi güncelle** ile görünür, tarayıcıda canlı
+  takas yok (plan aşamasında değişti, 9 Kasım: canlı takas boş bir yuvayı dolduramıyordu, yarım bir
+  davranış olurdu; derleme birkaç dakika). Belgede kare yoksa bugünkü `content/fotograflar.ts` `dosya` değeri, o da yoksa
   boş plaka. Fotoğraflar `api.cigercibozo.com`'dan gelir: kendi sunucumuz, menü zaten oradan
-  okunuyor, onay kapısı gerekmez (gizlilik metni "menü, duyuru ve fotoğraflar" diye genişler).
+  okunuyor, onay kapısı gerekmez (gizlilik metni fotoğrafların bu alan adından geldiğini söyler).
 - Var olan tek kare (`public/foto/tane-yakin-cekim.webp`, 25e54fb'de geri getirildi) sunucuya da
   yüklenip belgeye yazılır; `public/` kopyası belge eksikken yedek olarak kalır.
 - **Odak.** Bugün odak yerleşimde yazılı (`Ocakbasi.tsx` `50% 70%`, `Portre.tsx` `50% 28%`). Panelde
@@ -60,7 +61,7 @@ yazması gerekmez.
 
 ### B. Çalışma saatleri
 
-- Belgeye yeni bölüm: `saatler: { acilis: string; kapanis: string }`, `HH:00` biçiminde, tam saat.
+- Belgeye yeni bölüm: `saatler: { acilis: number; kapanis: number }`, tam saat (0-23).
 - **Geçerli değerler (benim kararım):** kapanış 02:00 ile 08:00 arası, açılış 06:00 ile 18:00 arası ve
   kapanıştan sonra. 02:00 alt sınırı `GECE_BASLANGICI = 1` yüzünden: daha erken kapanışta "gece"
   durumu hiç oluşmaz. 18:00 üst sınırı "Gece vardiyası 21:00'den sonra" notunun (sabit kalır) doğru
