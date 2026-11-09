@@ -1,8 +1,8 @@
 # Panelden sayfa metinleri: uygulama planı
 
 Tasarım: `docs/specs/2026-11-09-panel-metinler-design.md`. Her adım TDD, adım sonunda `npm run typecheck`,
-`npm test` ve bir commit. Ölçüm (9 Kasım): beş sayfada 121 metin, iki dilde yollar aynı; yer tutucuları üç
-yolda dile göre farklı (`ana.hero.ocakSoner`, `ana.konum.saatNotu`, `hikaye.usul.saatMetni`).
+`npm test` ve bir commit. Ölçüm (9 Kasım): beş sayfada 121 metin (ikisi yalnız `{acilis}`/`{kapanis}`,
+listede değil: 119), iki dilde yollar aynı; yer tutucuları üç yolda dile göre farklı (`ana.hero.ocakSoner`, `ana.konum.saatNotu`, `hikaye.usul.saatMetni`).
 
 1. **`lib/menu/metinler.ts`**: `METIN_SAYFALARI`, `varsayilanMetinler(dil)` (yol -> metin, sözlükten),
    `yerTutuculari(s)`, `metinleriUygula(sozluk, degisiklik)` (saf, girdiyi değiştirmez, bilinmeyen yolu

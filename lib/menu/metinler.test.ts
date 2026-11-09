@@ -7,11 +7,17 @@ import { metinleriUygula, varsayilanMetinler, yerTutuculari } from './metinler.t
 test('varsayilanMetinler_besSayfa_ikiDildeAyniYollar', () => {
   const t = varsayilanMetinler('tr')
   const e = varsayilanMetinler('en')
-  assert.equal(t.size, 121)
+  assert.equal(t.size, 119)
   assert.deepEqual([...t.keys()].sort(), [...e.keys()].sort())
   assert.equal(t.get('ana.hero.baslikSatir1'), tr.ana.hero.baslikSatir1)
   assert.equal(e.get('ana.hero.kilometreTaslari.1.metin'), en.ana.hero.kilometreTaslari[1]?.metin)
   assert.equal([...t.keys()].some((y) => /^(ortak|gizlilik|hata|oyun)\./.test(y)), false)
+})
+
+test('varsayilanMetinler_yalnizYerTutucuOlanMetin_listedeYok', () => {
+  assert.equal(tr.ana.hero.kilometreTaslari[2]?.saat, '{kapanis}')
+  assert.equal(varsayilanMetinler('tr').has('ana.hero.kilometreTaslari.2.saat'), false)
+  assert.equal(varsayilanMetinler('tr').has('ana.hero.kilometreTaslari.1.saat'), true)
 })
 
 test('yerTutuculari_siraliVeTekil', () => {

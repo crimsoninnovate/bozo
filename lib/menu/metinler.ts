@@ -13,7 +13,8 @@ type Sozluk = typeof tr
 
 function yapraklar(v: unknown, yol: string, sonuc: Map<string, string>): void {
   if (typeof v === 'string') {
-    sonuc.set(yol, v)
+    // Yalnız yer tutucudan oluşan metinde ("{kapanis}") düzenlenecek bir şey yok.
+    if (v.replace(/\{[^{}]+\}/g, '').trim() !== '') sonuc.set(yol, v)
     return
   }
   if (typeof v === 'object' && v !== null) {
