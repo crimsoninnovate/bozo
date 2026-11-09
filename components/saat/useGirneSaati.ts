@@ -1,7 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { durumAyniMi, durumHesapla, type Durum } from '@/lib/saat'
+import { canliSaatleriGetir } from '@/lib/menu/canli'
+import { derlenmisSaatler } from '@/lib/menu/saatEnv'
+import type { Saatler } from '@/lib/menu/tipler'
+import { API_KOKU } from '@/lib/oyun/api'
 
 type Abone = (durum: Durum) => void
 
@@ -15,8 +19,29 @@ const aboneler = new Set<Abone>()
 let sonDurum: Durum | null = null
 let zamanlayici = 0
 
+/*
+ * Çalışma saatleri: sunucu ve ilk istemci render'ı build'e gömülü saatlerdir (hidrasyon uyuşur);
+ * canlı belge gelince tek seferde değişir. Okuma duyuru bandı ve menüyle aynı istektir (`canli.ts`).
+ */
+const DERLENMIS_SAATLER = derlenmisSaatler()
+const CANLI_ZAMAN_ASIMI_MS = 4000
+let saatler: Saatler = DERLENMIS_SAATLER
+let canliIstendi = false
+const saatAboneleri = new Set<() => void>()
+
+function canliSaatleriIste(): void {
+  if (canliIstendi) return
+  canliIstendi = true
+  void canliSaatleriGetir(API_KOKU, fetch, CANLI_ZAMAN_ASIMI_MS, DERLENMIS_SAATLER).then((canli) => {
+    if (canli.acilis === saatler.acilis && canli.kapanis === saatler.kapanis) return
+    saatler = canli
+    tikla()
+    for (const abone of saatAboneleri) abone()
+  })
+}
+
 function tikla(): void {
-  const durum = durumHesapla(new Date())
+  const durum = durumHesapla(new Date(), saatler)
   if (sonDurum && durumAyniMi(sonDurum, durum)) return
   sonDurum = durum
   for (const abone of aboneler) abone(durum)
@@ -31,9 +56,10 @@ function kur(): void {
 
 function aboneOl(abone: Abone): () => void {
   if (aboneler.size === 0) {
-    sonDurum = durumHesapla(new Date())
+    sonDurum = durumHesapla(new Date(), saatler)
     kur()
   }
+  canliSaatleriIste()
   aboneler.add(abone)
   abone(sonDurum as Durum)
   return () => {
@@ -54,4 +80,22 @@ export function useGirneSaati(): Durum | null {
   const [durum, setDurum] = useState<Durum | null>(null)
   useEffect(() => aboneOl(setDurum), [])
   return durum
+}
+
+function saatAboneOl(abone: () => void): () => void {
+  saatAboneleri.add(abone)
+  canliSaatleriIste()
+  return () => void saatAboneleri.delete(abone)
+}
+
+/**
+ * Geçerli çalışma saatleri: önce build'e gömülü, canlı belge gelince canlı.
+ * `lib/saat.ts` ve `lib/cizelge.ts` çağrılarına ve sözlüğün saat yer tutucularına bu verilir.
+ */
+export function useCanliSaatler(): Saatler {
+  return useSyncExternalStore(
+    saatAboneOl,
+    () => saatler,
+    () => DERLENMIS_SAATLER,
+  )
 }

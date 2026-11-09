@@ -405,6 +405,13 @@ export function duyuruDogrula(girdi: unknown): { tamam: true; duyuru: Duyuru } |
   return d && c.hatalar.length === 0 ? { tamam: true, duyuru: d } : { tamam: false, hatalar: c.hatalar }
 }
 
+/** Yalnız çalışma saatleri: canlı okuma ve build env'i aynı sınırları kullanır. */
+export function saatlerDogrula(girdi: unknown): { tamam: true; saatler: Saatler } | { tamam: false; hatalar: Sorun[] } {
+  const c: Ctx = { hatalar: [], uyarilar: [] }
+  const s = saatPenceresi(c, girdi)
+  return s && c.hatalar.length === 0 ? { tamam: true, saatler: s } : { tamam: false, hatalar: c.hatalar }
+}
+
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {
   const c: Ctx = { hatalar: [], uyarilar: [] }
   const kok = nesne(c, girdi, 'belge', [

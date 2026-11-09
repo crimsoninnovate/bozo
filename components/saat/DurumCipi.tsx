@@ -1,7 +1,8 @@
 'use client'
 
-import { useGirneSaati } from './useGirneSaati'
-import { sozluk, type Dil } from '@/content'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
+import { sozluk, sozlukHam, type Dil } from '@/content'
+import { saatleriDoldur } from '@/lib/saatMetni'
 import stil from './DurumCipi.module.css'
 
 type Props = {
@@ -25,9 +26,12 @@ type Props = {
  */
 export function DurumCipi({ dil, boy, canli = true, kisaKapali = false }: Props) {
   const durum = useGirneSaati()
+  const saatler = useCanliSaatler()
   const s = sozluk(dil)
   const acik = durum?.acik ?? false
-  const kapaliMetin = kisaKapali ? s.ortak.durum.kapaliKisa : s.ortak.durum.kapali
+  // Kapalı metni canlı saatle ham yer tutucudan dolar; `s` build saatleriyle dolu.
+  const ham = sozlukHam(dil).ortak.durum
+  const kapaliMetin = saatleriDoldur(kisaKapali ? ham.kapaliKisa : ham.kapali, saatler)
   const metin = durum === null ? s.ortak.satirlar.saatlerGunluk : acik ? s.ortak.durum.acik : kapaliMetin
 
   return (

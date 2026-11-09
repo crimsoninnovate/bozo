@@ -1,8 +1,9 @@
 'use client'
 
-import { useGirneSaati } from './useGirneSaati'
-import { sozluk, type Dil } from '@/content'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
+import { sozluk, sozlukHam, type Dil } from '@/content'
 import { vardiyaYuzdesi } from '@/lib/saat'
+import { saatleriDoldur } from '@/lib/saatMetni'
 import stil from './IlerlemeRayi.module.css'
 
 /**
@@ -15,11 +16,12 @@ import stil from './IlerlemeRayi.module.css'
  */
 export function IlerlemeRayi({ dil }: { dil: Dil }) {
   const durum = useGirneSaati()
+  const saatler = useCanliSaatler()
   const s = sozluk(dil)
-  const taslar = s.ana.hero.kilometreTaslari
-  const ilk = taslar[0]?.saat ?? ''
-  const son = taslar[taslar.length - 1]?.saat ?? ''
-  const yuzde = durum === null ? null : Math.round(vardiyaYuzdesi(new Date()))
+  const taslar = sozlukHam(dil).ana.hero.kilometreTaslari
+  const ilk = saatleriDoldur(taslar[0]?.saat ?? '', saatler)
+  const son = saatleriDoldur(taslar[taslar.length - 1]?.saat ?? '', saatler)
+  const yuzde = durum === null ? null : Math.round(vardiyaYuzdesi(new Date(), saatler))
 
   return (
     <div className={stil.kap}>

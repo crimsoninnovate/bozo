@@ -26,10 +26,13 @@ test('saatleriEnvdenOku_hamYok_sessizceVarsayilan', () => {
 test('saatleriEnvdenOku_bozukVeyaSinirDisi_uyarirVeVarsayilan', () => {
   const uyari = mock.method(console, 'warn', () => {})
   try {
-    for (const ham of ['{', '{"acilis":10}', '{"acilis":20,"kapanis":5}', '{"acilis":10.5,"kapanis":5}']) {
+    const bozuklar = [
+      '{', '{"acilis":10}', '{"acilis":20,"kapanis":5}', '{"acilis":10.5,"kapanis":5}', '{"acilis":6,"kapanis":8}',
+    ]
+    for (const ham of bozuklar) {
       assert.deepEqual(saatleriEnvdenOku(ham), VARSAYILAN_SAATLER, ham)
     }
-    assert.equal(uyari.mock.callCount(), 4)
+    assert.equal(uyari.mock.callCount(), 5)
   } finally {
     uyari.mock.restore()
   }

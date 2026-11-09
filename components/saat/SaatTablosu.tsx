@@ -1,6 +1,6 @@
 'use client'
 
-import { useGirneSaati } from './useGirneSaati'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
 import { gosterimGunIndeksi } from '@/lib/saat'
 import { sozluk, type Dil } from '@/content'
 import stil from './SaatTablosu.module.css'
@@ -26,11 +26,12 @@ type Props = {
 export function SaatTablosu({ dil, not, varyant = 'ana' }: Props) {
   // durum burada yalnız "mount oldu mu" sinyali olarak kullanılır (saniyede bir tetikler);
   // gün adı için durum.gunIndeksi DEĞİL, gece vardiyasını doğru güne bağlayan
-  // gosterimGunIndeksi(new Date()) çağrılır. 02:00 Çarşamba'da bu Salı'yı döner.
+  // gosterimGunIndeksi(new Date(), saatler) çağrılır. 02:00 Çarşamba'da bu Salı'yı döner.
   const durum = useGirneSaati()
+  const saatler = useCanliSaatler()
   const s = sozluk(dil)
   const gunAdi =
-    durum === null ? s.ortak.bugun : (s.ortak.gunler[gosterimGunIndeksi(new Date())] ?? s.ortak.bugun)
+    durum === null ? s.ortak.bugun : (s.ortak.gunler[gosterimGunIndeksi(new Date(), saatler)] ?? s.ortak.bugun)
   // Yedi günün saati aynı olduğu için gün satırı aralığı tekrar ediyordu; satır
   // artık tablodaki tek canlı bilgiyi taşır. Sahibi 12 Ağustos 2026.
   // Mount öncesi aralığa düşer: sunucu çıktısı böylece hiçbir zaman yanlış olmaz.

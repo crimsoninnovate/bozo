@@ -25,5 +25,10 @@ export function sozluk(dil: Dil): Sozluk {
   return dil === 'en' ? en : tr
 }
 
+/** Doldurulmamış sözlük: saat yer tutucuları durur. Canlı saatle istemcide `saatleriDoldur` doldurur. */
+export function sozlukHam(dil: Dil): Sozluk {
+  return dil === 'en' ? enHam : trHam
+}
+
 export { tr, en }
 export type { Dil }

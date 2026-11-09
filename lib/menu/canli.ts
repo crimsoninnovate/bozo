@@ -1,7 +1,8 @@
+import { canliSaatleriSec } from './canliSaatler.ts'
 import { duyuruDogrula, menuBelgesiDogrula } from './dogrulama.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from './tamamla.ts'
 import type { MenuYaniti } from './aktarim.ts'
-import type { Duyuru, MenuBelgesi } from './tipler.ts'
+import type { Duyuru, MenuBelgesi, Saatler } from './tipler.ts'
 
 type Ham = { surum: number; belge: unknown }
 
@@ -94,6 +95,20 @@ export async function canliDuyuruGetir(
   const ozet = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
   console.warn('canli duyuru yok sayildi: duyuru gecersiz', ham.surum, ozet)
   return null
+}
+
+/**
+ * Kabuktaki durum rozetinin okuması: menü sağlayıcısı ve duyuru bandıyla aynı istek, ama yalnız
+ * `saatler` doğrulanır. Her başarısızlıkta (ağ, 204, eski sürüm, bozuk bölüm) `derlenmis` döner.
+ */
+export async function canliSaatleriGetir(
+  kok: string,
+  getir: typeof fetch,
+  zamanAsimiMs: number,
+  derlenmis: Saatler,
+): Promise<Saatler> {
+  const ham = await ortakHamGetir(kok, getir, zamanAsimiMs)
+  return ham === null ? derlenmis : canliSaatleriSec(ham.belge, derlenmis)
 }
 
 /** Canlı belge varsa o, yoksa derlenmiş `baz`. */

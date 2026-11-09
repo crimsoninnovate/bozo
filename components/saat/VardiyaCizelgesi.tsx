@@ -1,10 +1,10 @@
 'use client'
 
-import { useGirneSaati } from './useGirneSaati'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
 import { saatMetni, saatYuzdesi, vardiyaYuzdesi } from '@/lib/saat'
 import { cizelgeSaatleri } from '@/lib/cizelge'
-import { derlenmisSaatler } from '@/lib/menu/saatEnv'
-import { sozluk, type Dil } from '@/content'
+import { saatleriDoldur } from '@/lib/saatMetni'
+import { sozluk, sozlukHam, type Dil } from '@/content'
 import stil from './VardiyaCizelgesi.module.css'
 
 type Props = { dil: Dil }
@@ -22,8 +22,10 @@ type Props = { dil: Dil }
  */
 export function VardiyaCizelgesi({ dil }: Props) {
   const durum = useGirneSaati()
+  const saatler = useCanliSaatler()
   const s = sozluk(dil)
-  const yuzde = durum === null ? null : vardiyaYuzdesi(new Date())
+  const notlar = sozlukHam(dil).ana.gece.cizelgeNotlari.map((not) => saatleriDoldur(not, saatler))
+  const yuzde = durum === null ? null : vardiyaYuzdesi(new Date(), saatler)
   const simdi = durum ? saatMetni(durum) : null
 
   return (
@@ -47,18 +49,18 @@ export function VardiyaCizelgesi({ dil }: Props) {
           yayıyor, imleç 19 saatlik pencerede; "şimdi 22:00" kendi tikinin
           21-26px solunda duruyordu (ölçüldü 1440). UYGULAMA-NOTLARI 4'ten sapma. */}
       <ol className={stil.saatler}>
-        {cizelgeSaatleri(derlenmisSaatler()).map((saat) => (
-          <li key={saat} style={{ left: `${saatYuzdesi(saat)}%` }}>
+        {cizelgeSaatleri(saatler).map((saat) => (
+          <li key={saat} style={{ left: `${saatYuzdesi(saat, saatler)}%` }}>
             {saat}
           </li>
         ))}
       </ol>
 
       <p className={stil.notlar}>
-        {s.ana.gece.cizelgeNotlari.map((not, sira) => (
+        {notlar.map((not, sira) => (
           <span
             key={not}
-            className={sira === s.ana.gece.cizelgeNotlari.length - 1 ? stil.notSon : stil.not}
+            className={sira === notlar.length - 1 ? stil.notSon : stil.not}
           >
             {not}
           </span>

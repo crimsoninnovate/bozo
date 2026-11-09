@@ -1,9 +1,10 @@
 'use client'
 
 import { useLayoutEffect, useRef, useState } from 'react'
-import { useGirneSaati } from './useGirneSaati'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
 import { saatYuzdesi, vardiyaYuzdesi } from '@/lib/saat'
-import { sozluk, type Dil } from '@/content'
+import { saatleriDoldur } from '@/lib/saatMetni'
+import { sozlukHam, type Dil } from '@/content'
 import stil from './GunMerdiveni.module.css'
 
 type Props = { dil: Dil }
@@ -24,8 +25,8 @@ type Props = { dil: Dil }
  */
 export function GunMerdiveni({ dil }: Props) {
   const durum = useGirneSaati()
-  const s = sozluk(dil)
-  const yuzde = durum === null ? null : vardiyaYuzdesi(new Date())
+  const saatler = useCanliSaatler()
+  const yuzde = durum === null ? null : vardiyaYuzdesi(new Date(), saatler)
   const rayRef = useRef<HTMLDivElement>(null)
   const listeRef = useRef<HTMLOListElement>(null)
   const [merkezler, setMerkezler] = useState<number[]>([])
@@ -48,11 +49,14 @@ export function GunMerdiveni({ dil }: Props) {
     return () => window.removeEventListener('resize', olc)
   }, [])
 
-  const taslar = s.ana.hero.kilometreTaslari
+  const taslar = sozlukHam(dil).ana.hero.kilometreTaslari.map((tas) => ({
+    ...tas,
+    saat: saatleriDoldur(tas.saat, saatler),
+  }))
   const imlecTop = (() => {
     if (yuzde === null) return null
     if (merkezler.length !== taslar.length) return `${yuzde}%`
-    const yuzdeler = taslar.map((tas) => saatYuzdesi(tas.saat))
+    const yuzdeler = taslar.map((tas) => saatYuzdesi(tas.saat, saatler))
     for (let i = 1; i < yuzdeler.length; i++) {
       const a = yuzdeler[i - 1]!
       const b = yuzdeler[i]!

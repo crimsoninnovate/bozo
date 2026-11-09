@@ -1,8 +1,9 @@
 'use client'
 
-import { useGirneSaati } from './useGirneSaati'
+import { useCanliSaatler, useGirneSaati } from './useGirneSaati'
 import { kalanSuresi, kapanisaKalan } from '@/lib/saat'
-import { sozluk, type Dil } from '@/content'
+import { saatleriDoldur } from '@/lib/saatMetni'
+import { sozluk, sozlukHam, type Dil } from '@/content'
 import stil from './KapanisNotu.module.css'
 
 type Props = { dil: Dil }
@@ -18,14 +19,16 @@ type Props = { dil: Dil }
  */
 export function KapanisNotu({ dil }: Props) {
   const durum = useGirneSaati()
+  const saatler = useCanliSaatler()
   const s = sozluk(dil)
-  const kalan = durum === null ? null : kapanisaKalan(new Date())
+  const ham = sozlukHam(dil)
+  const kalan = durum === null ? null : kapanisaKalan(new Date(), saatler)
 
   const ikinciSatir =
     kalan === null
       ? durum === null
         ? null
-        : s.ortak.durum.kapaliAlt
+        : saatleriDoldur(ham.ortak.durum.kapaliAlt, saatler)
       : s.ana.hero.kapanisaKalanKalibi.replace(
           '{sure}',
           kalanSuresi(kalan, s.ana.hero.kapanisaKalanBirimleri),
@@ -33,7 +36,7 @@ export function KapanisNotu({ dil }: Props) {
 
   return (
     <p className={stil.not}>
-      <span>{s.ana.hero.ocakSoner}</span>
+      <span>{saatleriDoldur(ham.ana.hero.ocakSoner, saatler)}</span>
       <span className={stil.kalan}>{ikinciSatir}</span>
     </p>
   )
