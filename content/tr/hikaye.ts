@@ -68,7 +68,7 @@ export const hikaye = {
     olcuPisirme: '3 dakika, yüksek meşe korunda',
     saatEtiketi: 'Saat',
     saatMetni:
-      "Ocak 10:00'da yanar, ertesi sabah 05:00'e kadar sönmez. " +
+      "Ocak {acilis-de} yanar, ertesi sabah {kapanis-e} kadar sönmez. " +
       'Vardiyadan çıkana da, geç kalana da aynı tane.',
   },
   sofra: {

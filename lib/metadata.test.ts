@@ -1,8 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { tr } from '../content/tr/index.ts'
-import { en } from '../content/en/index.ts'
+// Doldurulmuş sözlük: sayfa metası saat yer tutucularını derlemenin saatleriyle basar.
+import { tr, en } from '../content/index.ts'
 import { sayfaMetadata } from './metadata.ts'
 import { acilisSpotu } from './menu/sayilar.ts'
 import type { MenuBelgesi } from './menu/tipler.ts'

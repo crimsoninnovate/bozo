@@ -20,7 +20,7 @@ export const ana = {
     /* Sağ kolonun saat bloğu. UYGULAMA-NOTLARI 2, em dash ve şapkalı harf
        kurallara göre düzeltilerek alındı. */
     saatEtiketi: 'Girne · şu an',
-    ocakSoner: "Ocak 05:00'te söner.",
+    ocakSoner: "Ocak {kapanis-de} söner.",
     kapanisaKalanKalibi: 'Kapanışa {sure}.',
     // Türkçede sayıdan sonra çoğul eki gelmez; iki biçim bilerek aynı.
     kapanisaKalanBirimleri: {
@@ -28,9 +28,9 @@ export const ana = {
       dakika: { tekil: '{sayi} dakika', cogul: '{sayi} dakika' },
     },
     kilometreTaslari: [
-      { saat: '10:00', metin: 'ocak yanar, kapı açılır' },
+      { saat: '{acilis}', metin: 'ocak yanar, kapı açılır' },
       { saat: '21:00', metin: 'gece vardiyası başlar' },
-      { saat: '05:00', metin: 'son tane, ocak söner' },
+      { saat: '{kapanis}', metin: 'son tane, ocak söner' },
     ],
   },
   iddia: {
@@ -98,8 +98,7 @@ export const ana = {
     baslik: 'Girne uyurken ocak yanıyor',
     metin: 'Vardiyadan çıkana da, geç kalana da aynı tane.',
     simdi: 'şimdi',
-    cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
-    cizelgeNotlari: ['Ocak yanar', "Gece vardiyası 21:00'den sonra", '05:00 · ocak söner'],
+    cizelgeNotlari: ['Ocak yanar', "Gece vardiyası 21:00'den sonra", '{kapanis} · ocak söner'],
   },
   bozo: {
     kicker: 'Bozo Çağlar, her gün ocağın başında',
@@ -110,7 +109,7 @@ export const ana = {
     hikayeLinki: 'Hikayenin Tamamı',
   },
   konum: {
-    saatNotu: "Her gün 10:00'dan ertesi sabah 05:00'e kadar. Mekanımız alkolsüzdür.",
+    saatNotu: "Her gün {acilis-den} ertesi sabah {kapanis-e} kadar. Mekanımız alkolsüzdür.",
     haritaSokak: 'Naci Talat Caddesi',
     // ODbL 1.0 lisansının istediği atıf; pazarlama metni değil, yasal zorunluluk.
     haritaKaynak: '© OpenStreetMap katkıcıları',

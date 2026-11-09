@@ -13,7 +13,7 @@ export const konum = {
   },
   saatler: {
     baslik: 'Saatler',
-    not: 'Kapanış gece yarısını aşar, ertesi sabaha sarkar. Tek kapalı aralık 05:00 - 10:00.',
+    not: 'Kapanış gece yarısını aşar, ertesi sabaha sarkar. Tek kapalı aralık {kapanis} - {acilis}.',
   },
   iletisim: {
     baslik: 'İletişim',

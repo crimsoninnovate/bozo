@@ -61,7 +61,7 @@ export const hikaye = {
     olcuPisirme: '3 minutes over high oak embers',
     saatEtiketi: 'The hours',
     saatMetni:
-      'The fire is lit at 10:00 and burns until 05:00 the next morning. ' +
+      'The fire is lit at {acilis} and burns until {kapanis} the next morning. ' +
       'The same cut for the one leaving a shift and the one running late.',
   },
   sofra: {

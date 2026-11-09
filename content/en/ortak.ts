@@ -75,9 +75,9 @@ export const ortak = {
   },
   durum: {
     acik: 'We are open',
-    kapali: 'We are closed, opening at 10:00',
+    kapali: 'We are closed, opening at {acilis}',
     kapaliKisa: 'We are closed',
-    kapaliAlt: 'Closed only 05:00 - 10:00',
+    kapaliAlt: 'Closed only {kapanis} - {acilis}',
   },
   satirlar: {
     adresKisa: 'Kyrenia, Naci Talat Street No:20D',
@@ -85,11 +85,11 @@ export const ortak = {
     adresBina: 'No:20D',
     adresSehirUlke: 'Kyrenia / TRNC',
     adresTamSatir: 'Naci Talat Street No:20D',
-    saatlerGunluk: 'Every day 10:00 - 05:00',
-    saatlerUzun: 'Every day from 10:00 until 05:00 the next morning',
-    saatAraligi: '10:00 - 05:00',
+    saatlerGunluk: 'Every day {acilis} - {kapanis}',
+    saatlerUzun: 'Every day from {acilis} until {kapanis} the next morning',
+    saatAraligi: '{acilis} - {kapanis}',
     haftaAraligi: 'Monday to Sunday',
-    kapaliAralik: 'Closed only 05:00 - 10:00',
+    kapaliAralik: 'Closed only {kapanis} - {acilis}',
   },
   /** Same order as lib/saat.ts gunIndeksi: 0 = Sunday. */
   gunler: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -114,20 +114,20 @@ export const ortak = {
     ana: {
       baslik: 'Ciğerci Bozo · Urfa-Style Liver, Kyrenia',
       aciklama:
-        'Urfa-style liver over oak embers. Kyrenia, Naci Talat Street. Every day from 10:00 ' +
-        'until 05:00 the next morning. Our place is alcohol-free.',
+        'Urfa-style liver over oak embers. Kyrenia, Naci Talat Street. Every day from {acilis} ' +
+        'until {kapanis} the next morning. Our place is alcohol-free.',
     },
     menu: {
       baslik: 'Menu · Ciğerci Bozo, Kyrenia',
       aciklama:
         '{kalem} portions from the fire, wraps, {ikram} on the house, and drinks. Kyrenia, every ' +
-        'day 10:00 - 05:00.',
+        'day {acilis} - {kapanis}.',
     },
     galeri: {
       baslik: 'Gallery · Ciğerci Bozo, Kyrenia',
       aciklama:
         'Seventeen frames the site is waiting for: the place and the dishes. Kyrenia, Naci ' +
-        'Talat Street, every day 10:00 - 05:00.',
+        'Talat Street, every day {acilis} - {kapanis}.',
     },
     hikaye: {
       baslik: 'Story · Ciğerci Bozo, Kyrenia',
@@ -138,8 +138,8 @@ export const ortak = {
     konum: {
       baslik: 'Location · Ciğerci Bozo, Naci Talat Street, Kyrenia',
       aciklama:
-        'Naci Talat Street, Kyrenia. Every day from 10:00 until 05:00 the next morning. ' +
-        'Closed only 05:00 - 10:00.',
+        'Naci Talat Street, Kyrenia. Every day from {acilis} until {kapanis} the next morning. ' +
+        'Closed only {kapanis} - {acilis}.',
     },
     gizlilik: {
       baslik: 'Privacy · Ciğerci Bozo',

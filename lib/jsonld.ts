@@ -39,8 +39,8 @@ const HAFTA_GUNLERI = [
  *
  * `isletmeVerisi` varsayılan olarak tekil `isletme` kaynağını okur; parametre yalnız
  * testlerin bilinen-koordinat/telefon dallarını gerçek veriyi değiştirmeden
- * kapsayabilmesi için var (bkz. `lib/site.ts` `yolTarifiUrl` aynı desen), çağıranlar
- * `restaurantJsonLd()` ile sıfır argümanla çağırmaya devam eder.
+ * kapsayabilmesi için var (bkz. `lib/site.ts` `yolTarifiUrl` aynı desen). Kök layout'lar
+ * `saatler`e build'in saatlerini (`derlenmisSaatler()`) verir.
  */
 export function restaurantJsonLd(
   isletmeVerisi: Isletme = isletme,

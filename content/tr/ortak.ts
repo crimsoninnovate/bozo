@@ -83,10 +83,10 @@ export const ortak = {
   },
   durum: {
     acik: 'Şu an açığız',
-    kapali: "Şu an kapalıyız, 10:00'da açılıyoruz",
+    kapali: "Şu an kapalıyız, {acilis-de} açılıyoruz",
     /** Saat tablosunun dar hücresi için, `kapali`nin ilk cümleciği. Yeni metin değil. */
     kapaliKisa: 'Şu an kapalıyız',
-    kapaliAlt: 'Kapalı aralık: 05:00 - 10:00',
+    kapaliAlt: 'Kapalı aralık: {kapanis} - {acilis}',
   },
   satirlar: {
     adresKisa: 'Girne, Naci Talat Caddesi No:20D',
@@ -94,11 +94,11 @@ export const ortak = {
     adresBina: 'No:20D',
     adresSehirUlke: 'Girne / KKTC',
     adresTamSatir: 'Naci Talat Caddesi No:20D',
-    saatlerGunluk: 'Her gün 10:00 - 05:00',
-    saatlerUzun: "Her gün 10:00'dan ertesi sabah 05:00'e kadar",
-    saatAraligi: '10:00 - 05:00',
+    saatlerGunluk: 'Her gün {acilis} - {kapanis}',
+    saatlerUzun: "Her gün {acilis-den} ertesi sabah {kapanis-e} kadar",
+    saatAraligi: '{acilis} - {kapanis}',
     haftaAraligi: 'Pazartesi ile pazar',
-    kapaliAralik: 'Tek kapalı aralık 05:00 - 10:00',
+    kapaliAralik: 'Tek kapalı aralık {kapanis} - {acilis}',
   },
   /** Sıra lib/saat.ts içindeki gunIndeksi ile aynıdır: 0 = Pazar. */
   gunler: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
@@ -123,14 +123,14 @@ export const ortak = {
     ana: {
       baslik: 'Ciğerci Bozo · Urfa Usulü Ciğer, Girne',
       aciklama:
-        "Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün 10:00'dan ertesi " +
-        "sabah 05:00'e kadar açığız. Mekanımız alkolsüzdür.",
+        "Tavla zarı ciğer, meşe korunda. Girne, Naci Talat Caddesi. Her gün {acilis-den} ertesi " +
+        "sabah {kapanis-e} kadar açığız. Mekanımız alkolsüzdür.",
     },
     menu: {
       baslik: 'Menü · Ciğerci Bozo, Girne',
       aciklama:
         'Hepsi tek ocakta pişer. {kalem} porsiyon, dürümler, bir özel, {ikram} ikram ve içecekler. ' +
-        'Girne, her gün 10:00 - 05:00.',
+        'Girne, her gün {acilis} - {kapanis}.',
     },
     /**
      * Açıklama sayfanın kendi iki satırından kuruldu: kare sayısı (galeri.altMetin)
@@ -141,7 +141,7 @@ export const ortak = {
       baslik: 'Galeri · Ciğerci Bozo, Girne',
       aciklama:
         "Sitenin beklediği on yedi kare: mekan ve ürün fotoğrafları. Girne, Naci Talat " +
-        "Caddesi'nde, her gün 10:00 - 05:00 açık.",
+        "Caddesi'nde, her gün {acilis} - {kapanis} açık.",
     },
     hikaye: {
       baslik: 'Hikaye · Ciğerci Bozo, Girne',
@@ -152,7 +152,7 @@ export const ortak = {
     konum: {
       baslik: 'Konum · Ciğerci Bozo, Naci Talat Caddesi, Girne',
       aciklama:
-        "Naci Talat Caddesi, Girne. Her gün 10:00'dan ertesi sabah 05:00'e kadar açığız. " +
+        "Naci Talat Caddesi, Girne. Her gün {acilis-den} ertesi sabah {kapanis-e} kadar açığız. " +
         'Kapanış gece yarısını aşar, ertesi sabaha sarkar.',
     },
     gizlilik: {

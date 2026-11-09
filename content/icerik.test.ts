@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import { tr } from './tr/index.ts'
 import { en } from './en/index.ts'
+import { sozluk } from './index.ts'
 import { isletme } from './isletme.ts'
 import { fotograflar } from './fotograflar.ts'
 import { lakaplar } from './lakaplar.ts'
@@ -526,10 +527,25 @@ test('sozluk_kalkmisYarimPorsiyonaDegimez', () => {
 
 /** Saat aralığı kuralı: `10:00 - 05:00`. "between 05:00 and 10:00" İngilizcede üç yere sızmıştı. */
 test('sozluk_saatAraligiTireyleYazilir', () => {
-  const kirli = [...metinler(tr), ...metinler(en)].filter(([, m]) =>
+  const kirli = [...metinler(sozluk('tr')), ...metinler(sozluk('en'))].filter(([, m]) =>
     /\d{2}:\d{2}\s+(and|to|ile|ila)\s+\d{2}:\d{2}/i.test(m),
   )
   assert.deepEqual(kirli, [])
+})
+
+/** Saatler menü belgesinden gelir (panel); ham sözlükte açılış ve kapanış yalnız yer tutucudur. */
+test('sozluk_ham_oyunDisiMetinlerdeCiplakSaatYok', () => {
+  const { oyun: _trOyun, ...trHam } = tr
+  const { oyun: _enOyun, ...enHam } = en
+  const ham = [...metinler(trHam, 'tr'), ...metinler(enHam, 'en')]
+  const kirli = ham.filter(([, m]) => /\b(10|05):00\b/.test(m))
+  assert.deepEqual(kirli, [])
+})
+
+test('sozluk_dolu_varsayilanSaatlerleBugunkuMetniVerir', () => {
+  assert.equal(sozluk('tr').ortak.satirlar.saatlerUzun, "Her gün 10:00'dan ertesi sabah 05:00'e kadar")
+  assert.equal(sozluk('tr').ana.hero.ocakSoner, "Ocak 05:00'te söner.")
+  assert.equal(sozluk('en').ortak.satirlar.saatlerGunluk, 'Every day 10:00 - 05:00')
 })
 
 /** Gizlilik sayfası bandın düğmelerini adıyla anıyor; düğme adı değişirse metin yok bir düğmeyi tarif eder. */

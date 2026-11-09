@@ -13,16 +13,16 @@ export const ana = {
     servisEtiketi: 'service {yuzde}%',
     scrollIpucu: 'The proof is in the cut',
     saatEtiketi: 'Kyrenia · right now',
-    ocakSoner: 'The fire goes out at 05:00.',
+    ocakSoner: 'The fire goes out at {kapanis}.',
     kapanisaKalanKalibi: '{sure} to closing.',
     kapanisaKalanBirimleri: {
       saat: { tekil: '{sayi} hour', cogul: '{sayi} hours' },
       dakika: { tekil: '{sayi} minute', cogul: '{sayi} minutes' },
     },
     kilometreTaslari: [
-      { saat: '10:00', metin: 'the fire is lit, the door opens' },
+      { saat: '{acilis}', metin: 'the fire is lit, the door opens' },
       { saat: '21:00', metin: 'the night shift begins' },
-      { saat: '05:00', metin: 'the last cut, the fire goes out' },
+      { saat: '{kapanis}', metin: 'the last cut, the fire goes out' },
     ],
   },
   iddia: {
@@ -78,8 +78,7 @@ export const ana = {
     baslik: 'The fire burns while Kyrenia sleeps',
     metin: 'The same cut for the one leaving a shift and the one running late.',
     simdi: 'now',
-    cizelgeSaatleri: ['10:00', '13:00', '16:00', '19:00', '22:00', '01:00', '04:00'],
-    cizelgeNotlari: ['The fire is lit', 'Night shift after 21:00', '05:00 · the fire goes out'],
+    cizelgeNotlari: ['The fire is lit', 'Night shift after 21:00', '{kapanis} · the fire goes out'],
   },
   bozo: {
     kicker: 'Bozo Çağlar, at the fire every day',
@@ -90,7 +89,7 @@ export const ana = {
     hikayeLinki: 'Read the Full Story',
   },
   konum: {
-    saatNotu: 'Every day from 10:00 until 05:00 the next morning. Alcohol-free.',
+    saatNotu: 'Every day from {acilis} until {kapanis} the next morning. Alcohol-free.',
     haritaSokak: 'Naci Talat Street',
     // Attribution required by ODbL 1.0; a licence obligation, not marketing copy.
     haritaKaynak: '© OpenStreetMap contributors',

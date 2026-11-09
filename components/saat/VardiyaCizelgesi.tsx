@@ -2,6 +2,8 @@
 
 import { useGirneSaati } from './useGirneSaati'
 import { saatMetni, saatYuzdesi, vardiyaYuzdesi } from '@/lib/saat'
+import { cizelgeSaatleri } from '@/lib/cizelge'
+import { derlenmisSaatler } from '@/lib/menu/saatEnv'
 import { sozluk, type Dil } from '@/content'
 import stil from './VardiyaCizelgesi.module.css'
 
@@ -45,7 +47,7 @@ export function VardiyaCizelgesi({ dil }: Props) {
           yayıyor, imleç 19 saatlik pencerede; "şimdi 22:00" kendi tikinin
           21-26px solunda duruyordu (ölçüldü 1440). UYGULAMA-NOTLARI 4'ten sapma. */}
       <ol className={stil.saatler}>
-        {s.ana.gece.cizelgeSaatleri.map((saat) => (
+        {cizelgeSaatleri(derlenmisSaatler()).map((saat) => (
           <li key={saat} style={{ left: `${saatYuzdesi(saat)}%` }}>
             {saat}
           </li>

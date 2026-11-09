@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import type { NextConfig } from 'next'
 import { menuBelgesiKaynakla } from './lib/menu/belgeYukle.ts'
 import { iletisimiEnveCevir } from './lib/menu/iletisimEnv.ts'
+import { saatleriEnveCevir } from './lib/menu/saatEnv.ts'
 
 const META_DOSYA = 'content/menu.canli.meta.json'
 
@@ -17,13 +18,17 @@ function canliSurum(): number {
   }
 }
 
-/** İletişim ve sürüm build'e gömülür; hata build'i kırmaz, `content/isletme.ts` tohuma döner. */
+/** İletişim, saatler ve sürüm build'e gömülür; hata build'i kırmaz, okuyanlar tohuma döner. */
 function menuEnv(): Record<string, string> {
   try {
     const { belge, canliMi } = menuBelgesiKaynakla()
     // Sürüm yalnız build'e gömülen belge gerçekten canlı dosyadan geldiyse geçerlidir.
     const env = iletisimiEnveCevir(belge, canliMi ? canliSurum() : 0)
-    return { NEXT_PUBLIC_ILETISIM: env.iletisim, NEXT_PUBLIC_MENU_SURUMU: env.surum }
+    return {
+      NEXT_PUBLIC_ILETISIM: env.iletisim,
+      NEXT_PUBLIC_SAATLER: saatleriEnveCevir(belge),
+      NEXT_PUBLIC_MENU_SURUMU: env.surum,
+    }
   } catch (hata) {
     console.warn('next.config: menu belgesinden iletisim okunamadi, tohum iletisim kullanilacak', hata)
     return { NEXT_PUBLIC_MENU_SURUMU: '0' }
