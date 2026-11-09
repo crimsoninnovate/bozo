@@ -204,3 +204,15 @@ test('getDerleme_yonetimKovasiDoluyken_dogruParolaDa429_kimlikSizmaz', async () 
     a.sunucu.close()
   }
 })
+
+test('getDerleme_genelKovaDoluyken_dogruVeYanlisParola429_kimlikSizmaz', async () => {
+  const a = await sunucuAc(dizin)
+  try {
+    const yanlis = { Authorization: `Basic ${Buffer.from('personel:yanlis').toString('base64')}` }
+    for (let i = 0; i < 600; i++) assert.equal((await fetch(a.kok + '/yok').then((y) => y.status)), 404, `istek ${i}`)
+    assert.equal((await cagir('GET', KIMLIK, a.kok)).durum, 429, 'doğru parola')
+    assert.equal((await cagir('GET', yanlis, a.kok)).durum, 429, 'yanlış parola')
+  } finally {
+    a.sunucu.close()
+  }
+})

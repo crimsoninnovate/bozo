@@ -153,8 +153,10 @@ export function uygulamaKur(
     // Menü ve derleme durumu okumaları kendi geniş kovalarını kullanır (restoran wifi'si tek IP).
     const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
     const derlemeGet = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme'
-    // Yönetim kovası doluysa kimlikten bağımsız 429: geniş kova doğru parolayı ele vermesin.
-    if (derlemeGet && yonetimSiniri.dolu(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
+    // Yanlış parolayı reddedebilecek her kovaya kimlikten önce bakılır: yanıt kimlik sızdırmaz.
+    if (derlemeGet && (ipSiniri.dolu(istek.ip, simdi()) || yonetimSiniri.dolu(istek.ip, simdi()))) {
+      return { durum: 429, govde: { hata: 'cokIstek' } }
+    }
     const derlemeOkuma = derlemeGet && yetkiliMi(istek)
     const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
