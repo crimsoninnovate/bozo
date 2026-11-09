@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { CikisIkon } from '@/components/ui/Ikonlar'
 import { yonetim as m } from '@/content/yonetim'
-import { SEKMELER, type Sekme } from '@/lib/menu/panel'
+import { gorunurSekmeler, type Sekme } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import type { BenYaniti } from '@/lib/yonetim/personel'
 import { SiteDurumu } from './SiteDurumu'
@@ -14,10 +14,12 @@ type SekmeProps = {
   /** Doğrulama hatası taşıyan sekmeler (`hataSekmeleri`). */
   hatali: ReadonlySet<Sekme>
   sec: (s: Sekme) => void
+  /** Kullanıcılar sekmesi yalnız adminde görünür. */
+  admin: boolean
 }
 
 /** Kayan tek satır; seçilen düğme satırın ortasına gelir, sayfa içeriğin başına döner. */
-function Sekmeler({ sekme, hatali, sec }: SekmeProps) {
+function Sekmeler({ sekme, hatali, sec, admin }: SekmeProps) {
   const satir = useRef<HTMLDivElement>(null)
   const tikla = (s: Sekme, dugme: HTMLButtonElement) => {
     sec(s)
@@ -27,7 +29,7 @@ function Sekmeler({ sekme, hatali, sec }: SekmeProps) {
   }
   return (
     <div ref={satir} className={stil.sekmeler} role="group" aria-label={m.menu.sekmeler}>
-      {SEKMELER.map((s) => (
+      {gorunurSekmeler(admin).map((s) => (
         <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
           onClick={(o) => tikla(s, o.currentTarget)}>
           {m.menu.sekme[s]}
@@ -75,7 +77,7 @@ export function PanelUst({ cik, kim, sifreAc, calisma }: Props) {
           {m.cikis}
         </button>
       </div>
-      {calisma && <Sekmeler sekme={calisma.sekme} hatali={calisma.hatali} sec={calisma.sec} />}
+      {calisma && <Sekmeler {...calisma} />}
     </header>
   )
 }

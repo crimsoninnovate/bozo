@@ -35,6 +35,7 @@ export function Gecmis({ surumler, yayindaki, mesgul, onDon }: Props) {
               {doldur(g.satir, {
                 tarih: surumTarihi(s.olusturma),
                 kaynak: s.kaynak === 'geriAl' ? g.geriAl : g.panel,
+                yazar: s.yazar ?? g.yazarBilinmiyor,
               })}
             </span>
             {s.id === yayindaki ? (

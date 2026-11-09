@@ -1,8 +1,10 @@
 /* Personel hesapları ve işlem kaydı: sunucu ve panel aynı türleri ve kuralları kullanır. */
 
-export type IslemTuru =
-  | 'giris' | 'menuYayin' | 'menuGeriAl' | 'foto' | 'derleme' | 'kod' | 'gizle'
-  | 'personelEkle' | 'personelKapat' | 'personelAc' | 'sifreSifirla' | 'sifreDegistir'
+export const ISLEM_TURLERI = [
+  'giris', 'menuYayin', 'menuGeriAl', 'foto', 'derleme', 'kod', 'gizle',
+  'personelEkle', 'personelKapat', 'personelAc', 'sifreSifirla', 'sifreDegistir',
+] as const
+export type IslemTuru = (typeof ISLEM_TURLERI)[number]
 
 export const AD_DESENI = /^[a-z0-9][a-z0-9.-]{1,29}$/
 export const SIFRE_EN_AZ = 10

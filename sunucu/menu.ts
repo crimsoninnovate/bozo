@@ -30,7 +30,9 @@ export async function yonetimMenuAl(b: Baglam): Promise<Yanit> {
   const [gecerli, surumler] = await Promise.all([b.depo.menuGecerli(), b.depo.menuSurumleri(GECMIS_ADET)])
   const govde: YonetimMenuYaniti = {
     gecerli: gecerli && { surum: gecerli.id, belge: gecerli.belge },
-    surumler: surumler.map((s) => ({ id: s.id, olusturma: new Date(s.olusturma).toISOString(), kaynak: s.kaynak, yazar: s.yazar })),
+    surumler: surumler.map((s) => ({
+      id: s.id, olusturma: new Date(s.olusturma).toISOString(), kaynak: s.kaynak, yazar: s.yazar,
+    })),
   }
   return { durum: 200, govde }
 }

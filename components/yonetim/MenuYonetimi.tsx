@@ -24,6 +24,7 @@ import { Gecmis, surumTarihi } from './Gecmis'
 import { IcecekFormu } from './IcecekFormu'
 import { IkramFormu } from './IkramFormu'
 import { IletisimFormu } from './IletisimFormu'
+import { Kullanicilar } from './Kullanicilar'
 import { DURUM_NOTU, KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useBen, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
@@ -223,6 +224,8 @@ function SekmeIcerigi(props: IcerikProps) {
           <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={onDon} />
         </>
       )
+    case 'kullanicilar':
+      return <Kullanicilar api={api} cik={cik} />
   }
 }
 
@@ -255,12 +258,12 @@ function Calisma(props: PanelProps & Hesap) {
 
   if (!canli) return <Yukleniyor cik={cik} kim={kim} mesaj={mesaj} />
   const sec = (s: Sekme) => { setSekme(s); setOnay(null); setSifre(null) }
-  const bar = !onay && sekme !== 'gecmis' && sifre !== 'acik'
+  const bar = !onay && sekme !== 'gecmis' && sekme !== 'kullanicilar' && sifre !== 'acik'
   const sifreDegisti = (y: string, bitis: string) => { yenile(y, bitis); setSifre('degisti') }
   return (
     <>
       <PanelUst cik={cik} kim={kim} sifreAc={() => { setSifre('acik'); window.scrollTo(0, 0) }}
-        calisma={{ taban: t.taban, siteSurum, sekme, hatali: t.hataliSekmeler, sec }} />
+        calisma={{ taban: t.taban, siteSurum, sekme, hatali: t.hataliSekmeler, sec, admin: kim.admin }} />
       <div className={stil.icerik}>
         <Mesajlar mesaj={mesaj} eskiNot={bar && eski && t.fark.length === 0 && !t.durum.kapali} />
         {sifre === 'degisti' && <p className={stil.tamam} role="status">{m.sifre.tamam}</p>}

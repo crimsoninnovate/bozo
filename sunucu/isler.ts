@@ -55,7 +55,10 @@ export async function donemleriKapat(depo: Depo, tuz: string, simdi: number): Pr
   return kapananlar
 }
 
-/** Spec §8 saklama tablosu: ilk 20 dışı kayıt, 30 günlük kayıt, 90 günlük oyuncu, kampanya sonrası şampiyonlar, bir yıllık işlem kaydı. */
+/**
+ * Spec §8 saklama tablosu: ilk 20 dışı kayıt, 30 günlük kayıt, 90 günlük oyuncu, kampanya sonrası
+ * şampiyonlar; panelin işlem kaydı bir yıl.
+ */
 export async function suresiDolaniSil(depo: Depo, simdi: number, kampanyaBitis: number | null): Promise<void> {
   await depo.suresiDolanJetonlariSil(simdi)
   const donem = donemAnahtari(new Date(simdi))

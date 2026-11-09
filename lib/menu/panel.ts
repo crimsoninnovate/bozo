@@ -49,8 +49,14 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
 export const SEKMELER = [
   'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'saatler', 'fotograflar', 'gecmis',
+  'kullanicilar',
 ] as const
 export type Sekme = (typeof SEKMELER)[number]
+
+/** Kullanıcılar yalnız adminde; sunucu da 403 `adminGerekli` verir. */
+export function gorunurSekmeler(admin: boolean): readonly Sekme[] {
+  return admin ? SEKMELER : SEKMELER.filter((s) => s !== 'kullanicilar')
+}
 
 const YOL_SEKMELERI: Record<string, Sekme> = {
   kalemler: 'ocakbasi', ozel: 'ozel', icecekler: 'icecekler', ikramlar: 'ikramlar', duyuru: 'duyuru',

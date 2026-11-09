@@ -5,7 +5,8 @@ import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, derlemeGecici, derlemeGunlugu,
-  derlemeMetni, derlemeSuruyor, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, guncelleKapali, hataSekmeleri,
+  derlemeMetni, derlemeSuruyor, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, gorunurSekmeler, guncelleKapali,
+  hataSekmeleri, SEKMELER,
   hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, sorunYeri, taslakOku, taslakYaz,
   telefonAciliyor, yayinDurumu,
 } from './panel.ts'
@@ -417,4 +418,10 @@ test('sorunYeri_kayitYollari_turkceAdaCevrilir', () => {
 test('sorunYeri_olmayanKayit_yoluVerir', () => {
   assert.equal(sorunYeri(tohum, 'kalemler[99].ad.en'), 'kalemler[99].ad.en')
   assert.equal(sorunYeri(tohum, 'iletisim.eposta'), 'iletisim.eposta')
+})
+
+test('gorunurSekmeler_adminDegil_kullanicilarYok', () => {
+  assert.equal(gorunurSekmeler(false).includes('kullanicilar'), false)
+  assert.deepEqual(gorunurSekmeler(true), SEKMELER)
+  assert.deepEqual(gorunurSekmeler(false), SEKMELER.filter((s) => s !== 'kullanicilar'))
 })
