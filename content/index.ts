@@ -1,11 +1,13 @@
-import { tr as trHam } from './tr/index.ts'
-import { en as enHam } from './en/index.ts'
+import { tr as trKod } from './tr/index.ts'
+import { en as enKod } from './en/index.ts'
 import type { Dil } from './types.ts'
+import { metinleriUygula } from '../lib/menu/metinler.ts'
+import { derlenmisMetinler } from '../lib/menu/metinEnv.ts'
 import { derlenmisSaatler } from '../lib/menu/saatEnv.ts'
 import type { Saatler } from '../lib/menu/tipler.ts'
 import { saatleriDoldur } from '../lib/saatMetni.ts'
 
-export type Sozluk = typeof trHam
+export type Sozluk = typeof trKod
 
 /** Sözlüğün her metnindeki `{acilis}` / `{kapanis}` yer tutucularını doldurur; diziler dahil. */
 function doldur<T>(deger: T, saatler: Saatler): T {
@@ -18,6 +20,10 @@ function doldur<T>(deger: T, saatler: Saatler): T {
 }
 
 const saatler = derlenmisSaatler()
+// Panelden değişen metinler önce koda yazılır; saat yer tutucuları sonra dolar.
+const metinler = derlenmisMetinler()
+const trHam: Sozluk = metinleriUygula(trKod, metinler.tr)
+const enHam: Sozluk = metinleriUygula(enKod, metinler.en)
 const tr: Sozluk = doldur(trHam, saatler)
 const en: Sozluk = doldur(enHam, saatler)
 

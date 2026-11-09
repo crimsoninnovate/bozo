@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import type { NextConfig } from 'next'
 import { menuBelgesiKaynakla } from './lib/menu/belgeYukle.ts'
 import { iletisimiEnveCevir } from './lib/menu/iletisimEnv.ts'
+import { metinleriEnveCevir } from './lib/menu/metinEnv.ts'
 import { saatleriEnveCevir } from './lib/menu/saatEnv.ts'
 
 const META_DOSYA = 'content/menu.canli.meta.json'
@@ -18,7 +19,7 @@ function canliSurum(): number {
   }
 }
 
-/** İletişim, saatler ve sürüm build'e gömülür; hata build'i kırmaz, okuyanlar tohuma döner. */
+/** İletişim, saatler, sayfa metinleri ve sürüm build'e gömülür; hata build'i kırmaz, okuyanlar tohuma döner. */
 function menuEnv(): Record<string, string> {
   try {
     const { belge, canliMi } = menuBelgesiKaynakla()
@@ -27,6 +28,7 @@ function menuEnv(): Record<string, string> {
     return {
       NEXT_PUBLIC_ILETISIM: env.iletisim,
       NEXT_PUBLIC_SAATLER: saatleriEnveCevir(belge),
+      NEXT_PUBLIC_METINLER: metinleriEnveCevir(belge),
       NEXT_PUBLIC_MENU_SURUMU: env.surum,
     }
   } catch (hata) {

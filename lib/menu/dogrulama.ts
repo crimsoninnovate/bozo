@@ -475,6 +475,13 @@ export function saatlerDogrula(girdi: unknown): { tamam: true; saatler: Saatler 
   return s && c.hatalar.length === 0 ? { tamam: true, saatler: s } : { tamam: false, hatalar: c.hatalar }
 }
 
+/** Yalnız sayfa metinleri: build env'i belgeyle aynı kuralları kullanır. */
+export function metinlerDogrula(girdi: unknown): { tamam: true; metinler: Metinler } | { tamam: false; hatalar: Sorun[] } {
+  const c: Ctx = { hatalar: [], uyarilar: [] }
+  const m = sayfaMetinleri(c, girdi)
+  return m && c.hatalar.length === 0 ? { tamam: true, metinler: m } : { tamam: false, hatalar: c.hatalar }
+}
+
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {
   const c: Ctx = { hatalar: [], uyarilar: [] }
   const kok = nesne(c, girdi, 'belge', [
