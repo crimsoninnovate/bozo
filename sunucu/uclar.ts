@@ -80,6 +80,8 @@ export type Baglam = {
   menu: Onbellek<MenuYaniti | null>
   /** Yüklenen fotoğrafların dizini; null ise yükleme kapalı. */
   fotoDizini: string | null
+  /** Derleme istek ve durum dosyalarının dizini; null ise derleme uçları kapalı. */
+  derlemeDizini: string | null
 }
 
 export async function turAl(b: Baglam, istek: Istek): Promise<Yanit> {

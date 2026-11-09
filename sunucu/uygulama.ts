@@ -4,6 +4,7 @@ import type { Depo } from './depo.ts'
 import { hizSiniriKur } from './hiz.ts'
 import { corsBasliklari, govdeOku, hamGovdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
 import { gercekIp } from './ip.ts'
+import { yonetimDerlemeDurumu, yonetimDerlemeIste } from './derleme.ts'
 import { yonetimFotoYukle } from './foto.ts'
 import { islerKur, type Isler } from './isler.ts'
 import {
@@ -43,6 +44,8 @@ export type Ayar = {
   menuSaatlik?: number
   /** Yüklenen fotoğrafların dizini; yoksa `POST /yonetim/foto` 503 `fotoKapali` döner. */
   fotoDizini?: string | null
+  /** Derleme istek/durum dizini; yoksa `/yonetim/derleme` 503 `derlemeKapali` döner. */
+  derlemeDizini?: string | null
 }
 
 export type Gunluk = Pick<Console, 'warn' | 'error'>
@@ -55,12 +58,15 @@ export type Uygulama = {
 }
 
 const SAAT_MS = 60 * 60_000
-/** Spec §9: oyuncu 40 tur/saat, IP 600 istek/saat; yönetim ucuna IP başına 60/saat (kod tahmini). */
+/** Spec §9: oyuncu 40 tur/saat, IP 600 istek/saat; yönetim ucuna IP başına 60/saat (kod tahmini);
+ * `GET /yonetim/derleme` bunun dışında, kendi 1200/saat kovasında (yine personel kimliği ister). */
 const OYUNCU_SAATLIK = 40
 const IP_SAATLIK = 600
 const YONETIM_SAATLIK = 60
 /** `GET /menu` için ayrı, geniş kova: restoranın wifi'si tek IP, genel 600'lük kovayı yemez. */
 const MENU_SAATLIK = 6000
+/** `GET /yonetim/derleme`: panel 5 sn'de bir yoklar (~84 istek/derleme), 60'lık yönetim kovasına girmez. */
+const DERLEME_SAATLIK = 1200
 
 type Rota = { yontem: string; desen: RegExp; isle: (istek: Istek, es: string[]) => Promise<Yanit> }
 
@@ -89,6 +95,8 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'GET', desen: /^\/yonetim\/menu\/(\d{1,9})$/, isle: y((_, [id]) => yonetimMenuSurumAl(b, id ?? '')) },
     { yontem: 'PUT', desen: /^\/yonetim\/menu$/, isle: y((i) => yonetimMenuYayinla(b, i)) },
     { yontem: 'POST', desen: /^\/yonetim\/foto$/, isle: y((i) => yonetimFotoYukle(b, i)) },
+    { yontem: 'GET', desen: /^\/yonetim\/derleme$/, isle: y(() => yonetimDerlemeDurumu(b)) },
+    { yontem: 'POST', desen: /^\/yonetim\/derleme$/, isle: y(() => yonetimDerlemeIste(b)) },
     {
       yontem: 'POST',
       desen: /^\/yonetim\/menu\/(\d{1,9})\/geri-al$/,
@@ -117,6 +125,7 @@ export function uygulamaKur(
   const ipSiniri = hizSiniriKur(IP_SAATLIK, SAAT_MS)
   const yonetimSiniri = hizSiniriKur(YONETIM_SAATLIK, SAAT_MS)
   const menuSiniri = hizSiniriKur(ayar.menuSaatlik ?? MENU_SAATLIK, SAAT_MS)
+  const derlemeSiniri = hizSiniriKur(DERLEME_SAATLIK, SAAT_MS)
   const b: Baglam = {
     depo,
     tuz: ayar.tuz,
@@ -125,15 +134,17 @@ export function uygulamaKur(
     tablo: onbellekKur(TABLO_ONBELLEK_MS),
     menu: onbellekKur(MENU_ONBELLEK_MS),
     fotoDizini: ayar.fotoDizini ?? null,
+    derlemeDizini: ayar.derlemeDizini ?? null,
   }
   const liste = rotalar(b, ayar.yonetim)
 
   async function yonlendir(istek: Istek): Promise<Yanit> {
-    // Menü okumaları genel 600/saat kovasına girmez (restoran wifi'si tek IP); kendi geniş kovaları var.
+    // Menü ve derleme durumu okumaları kendi geniş kovalarını kullanır (restoran wifi'si tek IP).
     const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
-    const kova = menuOkuma ? menuSiniri : ipSiniri
+    const derlemeOkuma = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme'
+    const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
-    if (istek.yol.startsWith('/yonetim') && !yonetimSiniri.izinVar(istek.ip, simdi())) {
+    if (istek.yol.startsWith('/yonetim') && !derlemeOkuma && !yonetimSiniri.izinVar(istek.ip, simdi())) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
     }
     const adaylar = liste.filter((r) => r.desen.test(istek.yol))
@@ -171,6 +182,7 @@ export function uygulamaKur(
     temizle(an) {
       ipSiniri.temizle(an)
       menuSiniri.temizle(an)
+      derlemeSiniri.temizle(an)
       yonetimSiniri.temizle(an)
       b.oyuncuSiniri.temizle(an)
     },

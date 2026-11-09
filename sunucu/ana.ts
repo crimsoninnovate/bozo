@@ -14,6 +14,7 @@ import { uygulamaKur, type Ayar } from './uygulama.ts'
  *   YONETIM_KULLANICI, YONETIM_SIFRE   /yonetim temel kimliği; biri yoksa yönetim uçları 503 döner
  *   GUVENILIR_VEKIL   önündeki yerel vekilin adresleri, virgülle; varsayılan 127.0.0.1,::1
  *   FOTO_DIZINI       yüklenen fotoğrafların yazıldığı dizin; yoksa fotoğraf yükleme 503 döner
+ *   DERLEME_DIZINI    derleme isteği ve durum dosyalarının dizini; yoksa derleme uçları 503 döner
  *   KAMPANYA_BITIS    ISO tarih; şampiyon kayıtları bundan 90 gün sonra silinir (spec §8)
  */
 const ZAMANLAYICI_MS = 60_000
@@ -37,6 +38,7 @@ function ortamOku(): { port: number; ayar: Ayar; dbUrl: string | null } {
       guvenilirVekil: listeKur(liste(env.GUVENILIR_VEKIL ?? '127.0.0.1,::1')),
       kampanyaBitis: Number.isNaN(kampanya) ? null : kampanya,
       fotoDizini: env.FOTO_DIZINI || null,
+      derlemeDizini: env.DERLEME_DIZINI || null,
     },
   }
 }

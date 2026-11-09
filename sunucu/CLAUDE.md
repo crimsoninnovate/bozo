@@ -24,6 +24,12 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   `FOTO_GOVDE_SINIRI` 3 MB, long edge up to 2000 px, read from the VP8/VP8L/VP8X header) and writes
   `<sha256[0..16]>.webp` atomically into `FOTO_DIZINI`; existing files are never rewritten or deleted. Without
   `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job, not the server's.
+- Site rebuild (`derleme.ts`): `POST /yonetim/derleme` writes `DERLEME_DIZINI/istek` (ISO time; a second POST while it
+  exists keeps the one file) and answers 202; `GET` reads `durum.json` (written by the build unit; invalid shape ->
+  `bos` plus one `console.warn`, `gunluk` capped at 200 lines) and reports `sirada` when `istek` exists and the build is
+  not `derleniyor`. The web process never builds. Without `DERLEME_DIZINI` it answers 503 `derlemeKapali`. The panel
+  polls the GET every 5 s, so it has its own per-IP bucket (1200/hour, `DERLEME_SAATLIK`) and skips the 60/hour
+  `/yonetim/*` bucket; the POST stays in that one.
 - Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
   30 days, stateless, `oturum.ts`); change `YONETIM_SIFRE` to revoke every token. Do not rotate
   `GIZLI_TUZ` for this: it also breaks every unredeemed reward code (`kodOzeti` hashes with the same salt).
