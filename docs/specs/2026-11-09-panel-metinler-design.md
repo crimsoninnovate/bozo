@@ -67,6 +67,11 @@ metin değişikliklerini gösterir (`fark.ts`).
 Kod değişince geçersizleşen metin (silinen anahtar, değişen yer tutucu) okurken uyarıyla düşer
 (`metinleriAyikla`: panel, taslak, derleme, sunucunun tamamlaması); yazarken doğrulama katı kalır.
 
+**SEO ve AEO (10 Kasım 2026, sahibinin isteği).** Altı sayfanın başlık ve açıklaması (`ortak.sayfaMeta`, 12 metin)
+aynı mekanizmayla düzenlenir: panelde "Site içeriği" altında ayrı sekme, iki dilde arama sonucu önizlemesi
+(saatler ve menü sayıları dolmuş), önerilen uzunluk sayacı (başlık 60, açıklama 160) ve yayındaki `llms.txt`,
+`sitemap.xml`, `robots.txt` bağlantıları. Toplam 131 metin.
+
 ## Kurucuya kalanlar
 
 - Panelde alan etiketlerinin biçimi ve sayfa seçiminin görünümü (mevcut sekmelerin kalıbıyla).

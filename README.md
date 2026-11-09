@@ -165,6 +165,7 @@ What the panel changes, and when it shows:
 | Opening hours | the open/closed badge and its closed text | every other hour in the copy (filled from the document at build time), JSON-LD, meta descriptions |
 | Photos (upload, assign, focus) | nothing: the page is static | the baked slot images |
 | Page texts (home, menu, story, location, gallery) | nothing: the pages are static | the baked pages, metadata, JSON-LD and `llms.txt` that read them |
+| Page titles and descriptions (SEO ve AEO tab) | nothing | `<title>`, meta and social descriptions, `llms.txt` |
 
 The panel's "site version" line shows which menu version the live site was built from.
 

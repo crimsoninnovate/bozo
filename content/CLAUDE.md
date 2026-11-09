@@ -31,7 +31,9 @@ the text every test reads: an override never shows in `content/icerik.test.ts`. 
 changing a default's placeholders, orphans its override: readers (`metinleriAyikla`: panel, draft, build, the
 server's completion) drop it with a warning and the default prints, so check the live document's `metinler`
 before such an edit. Overrides keep the default's placeholders, never write an hour by hand, and pass the same
-copy rules (`lib/menu/dogrulama.ts`). `ortak`, `gizlilik`, `hata` and `oyun` stay code only.
+copy rules (`lib/menu/dogrulama.ts`). From `ortak` only the page titles and descriptions (`ortak.sayfaMeta`,
+the panel's SEO ve AEO tab; they also feed `llms.txt`) are editable; the rest of `ortak`, `gizlilik`, `hata`
+and `oyun` stay code only.
 
 Two places hold copy that the document can outdate:
 
