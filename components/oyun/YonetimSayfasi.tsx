@@ -8,7 +8,7 @@ import type { YonetimSiralamaYaniti } from '@/lib/oyun/aktarim'
 import type { YonetimApi } from '@/lib/oyun/api'
 import { tarihMetni } from '@/lib/oyun/tarih'
 import { oncekiDonem, turuDogrula } from '@/lib/oyun/yonetim'
-import { Giris, hataIsle, useBen, useOturum } from '@/components/yonetim/oturum'
+import { Giris, hataIsle, oturumuSil, useBen, useOturum } from '@/components/yonetim/oturum'
 import stil from './YonetimSayfasi.module.css'
 
 /* Personel ekranı (spec §7, §9): ödül kodu onayı, haftanın ilk 20'si, ad gizleme, turun yeniden oynatılması,
@@ -221,7 +221,9 @@ export function YonetimSayfasi() {
       <h1 className={stil.baslik}>{m.baslik}</h1>
       {api === undefined ? null : api ? (
         <>
-          <button type="button" className={stil.cikis} onClick={cik}>{m.cikis}</button>
+          <button type="button" className={stil.cikis} onClick={() => { oturumuSil(); cik() }}>
+            {m.cikis}
+          </button>
           <Bolumler api={api} cik={cik} />
         </>
       ) : (

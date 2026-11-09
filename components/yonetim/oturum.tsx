@@ -98,6 +98,13 @@ function oturumBul(): string | null {
   return null
 }
 
+/** "Çıkış" düğmesi: iki depodan da koşulsuz siler, başka sekmenin yeni anahtarı da paylaşılan cihazda kalmaz. */
+export function oturumuSil(): void {
+  for (const depo of ['localStorage', 'sessionStorage'] as const) {
+    depoIsle(depo, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
+  }
+}
+
 /** `api`: `undefined` depo okunana kadar (statik HTML'de giriş kartı çakmasın), `null` oturum yok. */
 export function useOturum(): {
   api: YonetimApi | null | undefined
@@ -118,7 +125,7 @@ export function useOturum(): {
     depoIsle(sil, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
     setYetki(y)
   }, [])
-  /** Yalnız bu sekmenin anahtarını siler: başka sekmenin şifre değişimiyle yazdığı yeni kayıt kalır. */
+  /** 401 yolu: yalnız bu sekmenin anahtarını siler, başka sekmenin şifre değişimiyle yazdığı kayıt kalır. */
   const cik = useCallback(() => {
     for (const depo of ['localStorage', 'sessionStorage'] as const) {
       depoIsle(depo, 'silinemedi', (s) => {

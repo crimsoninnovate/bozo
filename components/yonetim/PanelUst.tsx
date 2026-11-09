@@ -7,6 +7,7 @@ import { yonetim as m } from '@/content/yonetim'
 import { sekmeGruplari, type Sekme } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import type { BenYaniti } from '@/lib/yonetim/personel'
+import { oturumuSil } from './oturum'
 import { SiteDurumu } from './SiteDurumu'
 import stil from './PanelUst.module.css'
 
@@ -88,7 +89,7 @@ export function PanelUst({ cik, kim, sifreAc, calisma }: Props) {
             </div>
           )}
         </div>
-        <button type="button" className={stil.cikis} onClick={cik}>
+        <button type="button" className={stil.cikis} onClick={() => { oturumuSil(); cik() }}>
           <CikisIkon boy={18} />
           {m.cikis}
         </button>
