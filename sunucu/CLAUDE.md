@@ -33,6 +33,11 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   `/yonetim/*` bucket for valid staff credentials only (a wrong password counts against the 60/hour bucket like on any
   other route), and once that 60/hour bucket or the general 600/hour one is spent the GET answers 429 for every credential (no oracle); the POST
   stays in that bucket.
+- The build and upload that the rebuild request triggers live outside the Node process, in `sunucu/derleme/`:
+  `derle.sh` (user `bozo-derleme`, no root), `yukle.sh` (root, fixed paths, no input), `ortak.sh`, and the
+  `bozo-derleme.path`, `bozo-derleme.service`, `bozo-yukle.service` units, tested by `derleme.test.ts`. The scripts
+  are installed to `/opt/bozo-derleme/`, not run from the repo. Env: `FOTO_DIZINI` and `DERLEME_DIZINI` are optional
+  (unset means the matching endpoint answers 503). Setup: `docs/surec/SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
 - Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
   30 days, stateless, `oturum.ts`); change `YONETIM_SIFRE` to revoke every token. Do not rotate
   `GIZLI_TUZ` for this: it also breaks every unredeemed reward code (`kodOzeti` hashes with the same salt).

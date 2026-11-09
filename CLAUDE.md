@@ -32,8 +32,9 @@ Deploy is in `README.md` > Publishing.
   and `styles/animasyonlar.css`. Styling is CSS Modules on those tokens, no CSS framework; a
   palette colour written as a literal in a module is rejected by `styles/palet.test.ts`.
 - Copy, prices, hours and contact data live under `content/`, never hardcoded in JSX; the binding
-  copy rules and the price-change steps are in `content/CLAUDE.md`. The one business rule, the
-  overnight hours window, is pure functions in `lib/saat.ts` with unit tests.
+  copy rules and the price-change steps are in `content/CLAUDE.md`. The overnight hours window is
+  pure functions in `lib/saat.ts`; the hours (`saatler`) and photo slots (`fotograflar`) live in the
+  menu document, and "Siteyi Güncelle" rebuilds on arc (`sunucu/derleme/`, `README.md` > Publishing).
 - `lib/` is thirteen small modules plus the game's `lib/oyun/` and the menu's `lib/menu/`, each
   with a `.test.ts` beside it where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
   outbound URL), `kabuk` (the shell parts that change per route), `metadata` (page metadata and

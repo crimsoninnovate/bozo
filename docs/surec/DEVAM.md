@@ -8,6 +8,19 @@ Son güncelleme: 9 Kasım 2026
 
 ## Durum
 
+- **Panel: fotoğraflar, saatler, siteyi güncelle (9 Kasım, `feat/panel-icerik`, kod tamam, `main`'e
+  birleştirilmedi, canlıya alma sahibinin onayını bekliyor).** Menü belgesinde `saatler` ve `fotograflar`
+  bölümleri; metinlerdeki saatler derlemede belgeden dolar, rozet canlı saatle çalışır; yuvalar fotoğrafı
+  belgeden basar (`lib/fotoKaynagi.ts`); skor sunucusunda `POST /yonetim/foto` ve `GET/POST /yonetim/derleme`;
+  panelde Fotoğraflar ve Saatler sekmeleri ile "Siteyi Güncelle"; arc betikleri ve birimleri
+  `sunucu/derleme/`. Tasarım `docs/specs/2026-11-09-panel-icerik-design.md`, plan
+  `docs/plans/2026-11-09-panel-icerik-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
+  Testler 901 geçer (18 atlanır), typecheck temiz. Yerel uçtan uca derleme denetimi (saat 12/4, foto adresi,
+  JSON-LD) ayrıca yapılır. **Canlıya alma sırası:** GitHub deploy key; nginx (`/foto/`, `client_max_body_size 4m`
+  ve `bozo-oyun` ortamı: `FOTO_DIZINI`, `DERLEME_DIZINI`) + skor sunucusu; derleme kullanıcısı, depo klonu ve
+  birimler; site yayını; sonra mevcut kareyi `node scripts/fotoGoc.ts` ile yükleyip panelden atama.
+  Derleme `main`'in son halini kullandığı için önce birleştirme gerekir.
+
 - **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
   kaydına taşındı ve yollar yeni merkezde yeniden çekildi (`IYILESTIRMELER.md`, 9 Kasım). Bozo Karışık'ın
   yeni adı Bozani: canlı menüde sürüm 6 (veritabanına panelin taban kontrollü
@@ -84,16 +97,16 @@ Son güncelleme: 9 Kasım 2026
 
 0. **Menü paneli (26 Ekim):** Dalak fiyatı (19 Ekim notundan açık kalan soru, şimdilik 550); panel Ciğer'i
    ilk kalem olarak sabitliyor (imza alanı bu kuralı bekliyor, silinemez ve taşınamaz): kural doğru mu;
-   Aşama 2 (panelden yayında siteyi kendiliğinden yeniden basmak) yapılmadı, şimdilik `npm run yayinla`;
-   fotoğraf yükleme panelde yok (foto yalnız `content/fotograflar.ts` kimliklerinden seçilir); çalışma
-   saatleri bilerek panel alanı değil (10:00 - 05:00 bir marka cümlesi, kırka yakın metinde yazılı; geçici
-   kapanış için duyuru bandı var); ana sayfadaki "sekiz ikram" (`ana.ocakbasi.altNot`) belgeden doldurulur, bir
-   sonraki `npm run yayinla` ile güncellenir.
+   Aşama 2 (panelden siteyi yeniden basmak) ve fotoğraf yükleme `feat/panel-icerik` dalında yapıldı (yukarıda);
+   çalışma saatleri artık panel alanı (Saatler sekmesi). Saatler ileride güne göre ayrışabilir (sahibi, 9 Kasım):
+   yol `docs/specs/2026-11-09-panel-icerik-design.md` > Güne göre saatler (ileride). Ana sayfadaki "sekiz
+   ikram" (`ana.ocakbasi.altNot`) belgeden doldurulur, bir sonraki site güncellemesiyle yenilenir.
 1. **Menü metinleri:** Bozo Special rozetindeki gramaj 200 mü 190 mı (şu an 200 gr, 19 Ekim'de 190'dan
    çekildi, geri alınabilir), Terbiyeli Tavuk Şiş açıklaması (tavuk şişlerin İngilizce adları da buna
    bağlı), `priceRange` yayımlansın mı.
-2. **Fotoğraflar:** on altı boş kare (`content/fotograflar.ts`); geldikçe yalnız `dosya` yazılır,
-   plaka kendiliğinden döner. Yatay Ciğer çekimi gelirse imza alanındaki dikey kareyle değişir.
+2. **Fotoğraflar:** on altı boş kare (`content/fotograflar.ts`); geldikçe panelin Fotoğraflar sekmesinden
+   yüklenir (dal canlıya alınınca), plaka "Siteyi Güncelle" ile döner. Yatay Ciğer çekimi gelirse imza alanındaki dikey kareyle
+   değişir.
 3. **Oyun:** elde şiş varken başka kaynağa uzanılamıyor (simülasyon kuralı, değişirse Pazartesi
    05:00'te çıkar); ayran tek dokunuşlu içecek olarak dönsün mü (yol `docs/specs/2026-10-09-oyun-sade-design.md`
    > Ayran); sesler kulakla dinlenmedi (`~/Desktop/Bozo/ses-dinleme/`); gerçek telefonda kare ölçümü;

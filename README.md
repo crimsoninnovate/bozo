@@ -162,9 +162,18 @@ What the panel changes, and when it shows:
 | Announcement bar | Every page | the baked HTML carries the version built last |
 | Treats (names, texts, groups) | Menu page, the opening sentence's counts | meta description, `llms.txt` and home page note counts (`ana.ocakbasi.altNot`); home page treat copy (`ana.ikram`) needs a code edit, see `content/CLAUDE.md` |
 | Contact, phone toggle, social accounts, review code | nothing | everywhere (footer, top bar, JSON-LD, privacy page) |
-| Opening hours | not a panel field | brand copy in about forty strings |
+| Opening hours | the open/closed badge and its closed text | every other hour in the copy (filled from the document at build time), JSON-LD, meta descriptions |
+| Photos (upload, assign, focus) | nothing: the page is static | the baked slot images |
 
 The panel's "site version" line shows which menu version the live site was built from.
+
+**"Siteyi Güncelle" in the panel** does the build and upload of this section without the developer:
+it writes a request file, systemd on arc builds `main` as `bozo-derleme` and a root unit uploads the
+result (units in `sunucu/derleme/`, setup in `docs/surec/SUNUCU-CANLIYA-ALMA.md` > Panelden site
+yayını ve fotoğraflar). It builds the latest `main`, so code changes still reach the site by merge
+to `main` first. `npm run yayinla` stays as the manual route. Photos are uploaded to
+`api.cigercibozo.com/foto/` by the score server (`FOTO_DIZINI`, served by nginx); they show on the
+site only after a rebuild, because the baked HTML carries the image URL.
 
 ```bash
 npm run build

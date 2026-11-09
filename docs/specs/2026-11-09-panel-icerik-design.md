@@ -89,6 +89,23 @@ yazması gerekmez.
 - **Kapsam dışı:** oyunun gece saatleri (21:00 - 05:00 oyunun kendi kurgusu, `lib/oyun/ayar.ts`),
   güne göre farklı saatler, tatil takvimi (duyuru bandı bunu karşılıyor).
 
+#### Güne göre saatler (ileride)
+
+Sahibi 9 Kasım 2026'da saatlerin ileride hafta gününe göre değişebileceğini söyledi. Bugün her gün tek
+pencere geçerli ve bu yapılmıyor. Genişleme yolu eklemeli, bugünkü kod ve belgeler bozulmaz:
+
+- Belgede `saatler.gunler` isteğe bağlı bir ezme olur (gün başına `acilis` ve `kapanis`); yoksa
+  `saatler.acilis` ve `saatler.kapanis` her gün için geçerlidir. Eski belgeler geçerli kalır,
+  `menuBelgesiTamamla` eksik alanı tamamlar.
+- Tek bir gün çözücü (gün -> o günün penceresi) `lib/saat.ts`'in zaten parametreli işlevlerini besler;
+  durum rozeti, kalan süre ve çizelge o işlevlerden çıkmaya devam eder.
+- JSON-LD'de `openingHoursSpecification` gün başına bir kayıt olur.
+- Asıl maliyet metinler: "Her gün ..." / "Every day ..." kalıbı `content/{tr,en}/ortak.ts`
+  (`saatlerGunluk`, `saatlerUzun`, iki meta açıklaması, `haftaAraligi`) ve `content/{tr,en}/ana.ts`
+  (`saatNotu`) içinde; `hikaye.ts` ("Ocak ... yanar") ile `konum.ts` (`not`, "tek kapalı aralık")
+  da tek pencere varsayar. Saatler günden güne ayrışırsa bu cümleler yeniden yazılır (yeni metin,
+  sahibinin onayıyla). Panelde tek pencere yerine yedi satır gerekir.
+
 ### C. Panelden site yayını
 
 - Panelde **Siteyi güncelle** düğmesi. Bugünkü "sitede yayında olan sürüm" göstergesinin yanında; fark

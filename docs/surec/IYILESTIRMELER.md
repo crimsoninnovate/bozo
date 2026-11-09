@@ -2597,3 +2597,26 @@ Seçilen Bozani, sahibinin hikayedeki kendi lakabı (`hikaye.lakap.kapanis`). EN
 (Bozani)`. Kimlik `bozo-karisik` ve `fotoId` aynı kaldı; açıklamaya dokunulmadı (yeni metin
 yazılmaz). Ana sayfa notundaki "Beş ürün" doğru: karışıklar beş ürünün kombinasyonu (sahibi).
 Canlı ad panelde değişir; tohum, altın dosyalar ve foto etiketi aynı adı taşıyor.
+
+## 9 Kasım 2026: panelde fotoğraflar, saatler ve siteyi güncelle (`feat/panel-icerik`)
+
+Sahibi: fotoğraf ve çalışma saatleri panelden değişsin, site de panelden yenilensin. Paritede kusur gibi
+görünebilecek bilinçli kararlar:
+
+- **Fotoğraf panelde atanınca sitede hemen görünmez.** Sayfa statik; yuvanın adresi derlenmiş HTML'de yazılı.
+  Kare "Siteyi Güncelle" ile (yaklaşık yedi dakikalık derleme) görünür. Canlı takas denendi ve bırakıldı:
+  boş bir yuvayı dolduramıyordu, yarım bir davranış olurdu.
+- **iPhone ve Safari'de yükleme JPEG olabilir.** Bu tarayıcılar canvas'tan WebP üretemiyor; panel kareyi aynı
+  boyutta (uzun kenar en çok 2000 px) JPEG'e düşürür, sunucu `<özet>.jpg` olarak saklar. Her iki biçim de
+  yeniden kodlandığı için EXIF (konum dahil) silinir.
+- **Yuva başına odak noktası belgede.** Seçilen odak o karenin her yerleşiminde koddaki `object-position`'ı
+  ezer (`Ocakbasi.tsx` 50% 70%, `Portre.tsx` 50% 28%); seçilmediyse koddaki değer geçerli.
+- **Saatler yalnız kapanış 02:00-08:00, açılış 06:00-18:00 ve açılış kapanıştan sonra olmak üzere değişir.**
+  "Gece açığız" ve "ertesi sabah" metinleri bu biçime yazılı; gece yarısından önce kapanış bir metin işidir.
+- **Rozet anında, metinler derlemede.** Açık/kapalı rozeti ve kapalı metni canlı belgenin saatiyle çalışır;
+  sayfalardaki diğer saat metinleri, JSON-LD ve meta açıklamaları "Siteyi Güncelle" ile değişir. Arada kalan
+  süre bilinçli bir boşluk, panel yayınlarken bunu hatırlatır.
+- **Otomatik derleme yok.** Her yayında kendiliğinden derlemek, bir fiyat düzeltmesi için yedi dakikalık
+  derlemeler zinciri demek; sahibi düğmeye basar. `npm run yayinla` kalır.
+- **Güne göre saatler yapılmadı.** Sahibi ileride hafta gününe göre farklı saat isteyebileceğini söyledi; yol
+  `docs/specs/2026-11-09-panel-icerik-design.md` > Güne göre saatler (ileride).
