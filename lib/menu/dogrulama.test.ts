@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { duyuruDogrula, menuBelgesiDogrula } from './dogrulama.ts'
 import type { Sonuc } from './dogrulama.ts'
+import { varsayilanMetinler } from './metinler.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const varsayilan = JSON.parse(
@@ -604,4 +605,62 @@ test('dogrulama_enTrIleAyniKisaAd_uyariVermez', () => {
     al(b.icecekler, 0).ad = { tr: 'Red Bull', en: 'Red Bull' }
   }))
   assert.ok(sonuc.tamam && sonuc.uyarilar.length === 0)
+})
+
+const metinYaz = (dil: 'tr' | 'en', yol: string, metin: string) =>
+  ham((b) => { b['metinler'] = { tr: {}, en: {}, [dil]: { [yol]: metin } } })
+
+test('metinler_gecerliDegisiklik_belgedeKalir', () => {
+  const sonuc = menuBelgesiDogrula(metinYaz('tr', 'ana.hero.govde', 'Ciğeri Bozo kendi diziyor.'))
+  assert.equal(sonuc.tamam, true)
+  if (sonuc.tamam) assert.deepEqual(sonuc.belge.metinler.tr, { 'ana.hero.govde': 'Ciğeri Bozo kendi diziyor.' })
+})
+
+test('metinler_bolumYok_bolumEksik', () => {
+  assert.equal(hataKodu(ham((b) => { delete b['metinler'] }), 'metinler'), 'bolumEksik')
+})
+
+test('metinler_bilinmeyenYaDaDuzenlenemezYol_reddedilir', () => {
+  assert.equal(hataKodu(metinYaz('tr', 'ana.yok', 'x'), 'metinler.tr.ana.yok'), 'metinYolu')
+  assert.equal(hataKodu(metinYaz('en', 'gizlilik.baslik', 'x'), 'metinler.en.gizlilik.baslik'), 'metinYolu')
+})
+
+test('metinler_bosVeUzun_reddedilir', () => {
+  assert.equal(hataKodu(metinYaz('tr', 'ana.iddia.baslik', '  '), 'metinler.tr.ana.iddia.baslik'), 'bos')
+  // Varsayılan 28 karakter: sınır 1,5 katı, 42.
+  assert.equal(menuBelgesiDogrula(metinYaz('tr', 'ana.iddia.baslik', 'a'.repeat(42))).tamam, true)
+  assert.equal(hataKodu(metinYaz('tr', 'ana.iddia.baslik', 'a'.repeat(43)), 'metinler.tr.ana.iddia.baslik'), 'uzun')
+  // Çok kısa varsayılanda taban 40.
+  const kisa = 'ana.hero.kilometreTaslari.1.saat'
+  assert.equal(menuBelgesiDogrula(metinYaz('tr', kisa, `21:00 ${'a'.repeat(34)}`)).tamam, true)
+})
+
+test('metinler_yerTutucuEksikYaDaFazla_reddedilir', () => {
+  const yol = 'ana.hero.ocakSoner'
+  assert.equal(hataKodu(metinYaz('tr', yol, 'Ocak sabah söner.'), `metinler.tr.${yol}`), 'yerTutucu')
+  assert.equal(hataKodu(metinYaz('tr', yol, 'Ocak {kapanis-de} {acilis} söner.'), `metinler.tr.${yol}`), 'yerTutucu')
+  assert.equal(menuBelgesiDogrula(metinYaz('tr', yol, 'Ocak bu gece {kapanis-de} söner.')).tamam, true)
+  assert.equal(menuBelgesiDogrula(metinYaz('en', yol, 'The fire dies at {kapanis}.')).tamam, true)
+})
+
+test('metinler_eldeYazilmisSaat_reddedilir_varsayilandakiSaatSerbest', () => {
+  const y = 'ana.iddia.baslik'
+  assert.equal(hataKodu(metinYaz('tr', y, "Ocak 10:00'da yanar"), `metinler.tr.${y}`), 'saatYazili')
+  assert.equal(menuBelgesiDogrula(metinYaz('tr', 'ana.hero.kilometreTaslari.1.saat', '21:00')).tamam, true)
+})
+
+test('metinler_metinKurallari_uygulanir', () => {
+  const y = 'ana.iddia.baslik'
+  assert.equal(hataKodu(metinYaz('tr', y, 'Usta — tane'), `metinler.tr.${y}`), 'tire')
+  const uyari = menuBelgesiDogrula(metinYaz('tr', y, 'Müşteri tanesinden anlar'))
+  assert.ok(uyari.tamam && uyari.uyarilar.some((u) => u.kod === 'yasakTerim'))
+})
+
+test('metinler_kodundakiVarsayilanlar_hepsiKurallardanGecer', () => {
+  for (const dil of ['tr', 'en'] as const) {
+    const metinler = Object.fromEntries(varsayilanMetinler(dil))
+    const b = ham((x) => { x['metinler'] = { tr: {}, en: {}, [dil]: metinler } })
+    const sonuc = menuBelgesiDogrula(b)
+    assert.deepEqual(sonuc.tamam ? [] : sonuc.hatalar, [], dil)
+  }
 })

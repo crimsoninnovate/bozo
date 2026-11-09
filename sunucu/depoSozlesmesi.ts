@@ -206,6 +206,7 @@ function menuBelgesi(ad: string): MenuBelgesi {
     },
     saatler: { acilis: 10, kapanis: 5 },
     fotograflar: {},
+    metinler: { tr: {}, en: {} },
   }
 }
 

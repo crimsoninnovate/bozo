@@ -1,6 +1,6 @@
 import type { MenuBelgesi } from './tipler.ts'
 
-const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar'] as const
+const BOLUMLER = ['duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar', 'metinler'] as const
 
 /** Eksik bölümlerin kaynağı: bu bölümlerin bir kısmını ya da hepsini taşıyan herhangi bir belge. */
 export type Tamamlayici = Partial<Pick<MenuBelgesi, (typeof BOLUMLER)[number]>>

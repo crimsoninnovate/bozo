@@ -34,6 +34,11 @@ export function varsayilanMetinler(dil: Dil): ReadonlyMap<string, string> {
   return VARSAYILAN[dil]
 }
 
+/** Değişen metnin azami uzunluğu: varsayılanın 1,5 katı, kısa metinlerde en az 40. */
+export function metinSiniri(varsayilan: string): number {
+  return Math.max(40, Math.ceil(varsayilan.length * 1.5))
+}
+
 /** `{acilis}`, `{kapanis-de}` gibi yer tutucular; sıralı, tekrarsız. */
 export function yerTutuculari(s: string): string[] {
   return [...new Set(s.match(/\{[^{}]+\}/g) ?? [])].sort()

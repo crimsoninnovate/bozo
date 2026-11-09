@@ -46,6 +46,9 @@ export type Saatler = { acilis: number; kapanis: number }
 /** `dosya`: sunucudaki `<16 hex>.webp` ya da `.jpg`; `odak`: 'X% Y%' ya da `null` (ortalı). */
 export type FotoAtamasi = { dosya: string; odak: string | null }
 
+/** Panelden değişen sayfa metinleri, dil başına `sözlük yolu -> metin`; olmayan yol koddaki metindir. */
+export type Metinler = { tr: Record<string, string>; en: Record<string, string> }
+
 export type MenuBelgesi = {
   kalemler: MenuKalemi[]
   ozel: OzelKalem
@@ -56,4 +59,5 @@ export type MenuBelgesi = {
   saatler: Saatler
   /** Yalnız yüklenmiş yuvalar; olmayan yuva `content/fotograflar.ts` yolunu kullanır. */
   fotograflar: Partial<Record<FotoId, FotoAtamasi>>
+  metinler: Metinler
 }

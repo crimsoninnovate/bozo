@@ -6,6 +6,7 @@ import { fotograflar } from '../content/fotograflar.ts'
 import type { MenuYayinYaniti, MenuYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
 import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
+import { metinSiniri, varsayilanMetinler, yerTutuculari } from '../lib/menu/metinler.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import { bellekDepoKur } from './bellekDepo.ts'
 import type { Depo } from './depo.ts'
@@ -384,10 +385,20 @@ function enBuyukBelge(harf: string, olcuSayisi: number): MenuBelgesi {
     fotograflar: Object.fromEntries(
       Object.keys(fotograflar).map((id) => [id, { dosya: 'abcdef0123456789.webp', odak: '100% 100%' }]),
     ),
+    metinler: { tr: enUzunMetinler('tr', harf), en: enUzunMetinler('en', harf) },
   }
 }
 
+/** Her düzenlenebilir metin sınırında: yer tutucular korunur, kalanı `harf`. */
+function enUzunMetinler(dil: 'tr' | 'en', harf: string): Record<string, string> {
+  return Object.fromEntries([...varsayilanMetinler(dil)].map(([yol, v]) => {
+    const tutucular = yerTutuculari(v).join(' ')
+    return [yol, tutucular + harf.repeat(metinSiniri(v) - tutucular.length)]
+  }))
+}
+
 // Ölçüm (26 Ekim 2026): her metin azami uzunlukta Türkçe harfle, içecek başına 6 ölçü: 64 KB yetmez, 256 KB yeter.
+// Sayfa metinleriyle (9 Kasım 2026) 221.309 bayt, sınırın yüzde 84'ü.
 test('putYonetimMenu_enBuyukGecerliBelge_menuGovdeSinirininAltinda', () => {
   const belge = enBuyukBelge('ş', 6)
   assert.equal(menuBelgesiDogrula(belge).tamam, true, 'belge sınırlarda geçerli olmalı')

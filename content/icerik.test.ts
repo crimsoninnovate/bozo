@@ -194,6 +194,7 @@ test('isletme_googleYorumKodu_adresiDogruKurar', () => {
 test('isletme_saatlerVeFotograflar_tohumdaBugunkuDegerler', () => {
   assert.deepEqual(belge.saatler, { acilis: 10, kapanis: 5 })
   assert.deepEqual(belge.fotograflar, {})
+  assert.deepEqual(belge.metinler, { tr: {}, en: {} })
 })
 
 // Telefon ve WhatsApp siteden gizli (sahibi, 19 Ekim 2026); null olunca hiçbir yüzey bağlantı basmaz.

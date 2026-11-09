@@ -57,3 +57,11 @@ test('tamamla_nesneDegil_oldugGibiDoner', () => {
   assert.equal(menuBelgesiTamamla(null, tam), null)
   assert.deepEqual(menuBelgesiTamamla([1], tam), [1])
 })
+
+test('tamamla_metinlerYok_tamdanAlinir', () => {
+  const { metinler: _m, ...eski } = structuredClone(tam)
+  const kaynak = { ...structuredClone(tam), metinler: { tr: { 'ana.iddia.baslik': 'Tane konuşur' }, en: {} } }
+  const sonuc = menuBelgesiTamamla(eski, kaynak) as Record<string, unknown>
+  assert.deepEqual(sonuc['metinler'], kaynak.metinler)
+  assert.equal(menuBelgesiDogrula(sonuc).tamam, true)
+})

@@ -1,7 +1,8 @@
 import { fotograflar } from '../../content/fotograflar.ts'
+import { metinSiniri, varsayilanMetinler, yerTutuculari } from './metinler.ts'
 import type {
   Cift, Duyuru, FotoAtamasi, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, Ikramlar, IkramUrunu, Iletisim,
-  MenuBelgesi, MenuKalemi, OzelKalem, Saatler,
+  MenuBelgesi, MenuKalemi, Metinler, OzelKalem, Saatler,
 } from './tipler.ts'
 
 /** `yol`: "kalemler[2].fiyatlar.porsiyon". */
@@ -416,6 +417,50 @@ function fotoAtamalari(c: Ctx, v: unknown): MenuBelgesi['fotograflar'] | undefin
   return tamam ? sonuc : undefined
 }
 
+const SAAT_YAZISI = /\b\d{1,2}[:.]\d{2}\b/g
+
+/** Değişen tek metin: yol düzenlenebilir olmalı, yer tutucular ve elle yazılmış saatler varsayılanla aynı. */
+function sayfaMetni(c: Ctx, v: unknown, yol: string, varsayilan: string | undefined): string | undefined {
+  if (varsayilan === undefined) return hata(c, yol, 'metinYolu', 'Bu metin panelden düzenlenmez.')
+  const s = metin(c, v, yol, metinSiniri(varsayilan))
+  if (s === undefined) return undefined
+  const beklenen = yerTutuculari(varsayilan)
+  const gelen = yerTutuculari(s)
+  const eksik = beklenen.filter((y) => !gelen.includes(y))
+  const fazla = gelen.filter((y) => !beklenen.includes(y))
+  if (eksik.length > 0 || fazla.length > 0) {
+    const parca = [eksik.length > 0 && `eksik: ${eksik.join(', ')}`, fazla.length > 0 && `fazla: ${fazla.join(', ')}`]
+    return hata(c, yol, 'yerTutucu', `Süslü parantezli alanlar aynı kalmalı (${parca.filter(Boolean).join('; ')}).`)
+  }
+  const saatler = new Set(varsayilan.match(SAAT_YAZISI) ?? [])
+  const yeni = (s.match(SAAT_YAZISI) ?? []).find((x) => !saatler.has(x))
+  if (yeni) return hata(c, yol, 'saatYazili', `Saati elle yazmayın (${yeni}); {acilis} ya da {kapanis} kullanın.`)
+  return s
+}
+
+function sayfaMetinleri(c: Ctx, v: unknown): Metinler | undefined {
+  if (v === undefined) return bolumEksik(c, 'metinler')
+  const o = nesne(c, v, 'metinler', ['tr', 'en'])
+  if (!o) return undefined
+  const sonuc: Metinler = { tr: {}, en: {} }
+  let tamam = true
+  for (const dil of ['tr', 'en'] as const) {
+    const bolum = o[dil]
+    if (!nesneMi(bolum)) {
+      hata(c, `metinler.${dil}`, 'sema', 'Nesne bekleniyordu.')
+      tamam = false
+      continue
+    }
+    const varsayilan = varsayilanMetinler(dil)
+    for (const [yol, deger] of Object.entries(bolum)) {
+      const s = sayfaMetni(c, deger, `metinler.${dil}.${yol}`, varsayilan.get(yol))
+      if (s === undefined) tamam = false
+      else sonuc[dil][yol] = s
+    }
+  }
+  return tamam ? sonuc : undefined
+}
+
 /** Yalnız duyuru bölümü: kabuktaki bant belgenin geri kalanını taşımaz. Bölüm yoksa pasif duyuru. */
 export function duyuruDogrula(girdi: unknown): { tamam: true; duyuru: Duyuru } | { tamam: false; hatalar: Sorun[] } {
   const c: Ctx = { hatalar: [], uyarilar: [] }
@@ -433,7 +478,7 @@ export function saatlerDogrula(girdi: unknown): { tamam: true; saatler: Saatler 
 export function menuBelgesiDogrula(girdi: unknown): Sonuc {
   const c: Ctx = { hatalar: [], uyarilar: [] }
   const kok = nesne(c, girdi, 'belge', [
-    'kalemler', 'ozel', 'icecekler', 'duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar',
+    'kalemler', 'ozel', 'icecekler', 'duyuru', 'ikramlar', 'iletisim', 'saatler', 'fotograflar', 'metinler',
   ])
   const belge = kok && {
     kalemler: kalemler(c, kok.kalemler),
@@ -444,6 +489,7 @@ export function menuBelgesiDogrula(girdi: unknown): Sonuc {
     iletisim: iletisim(c, kok.iletisim),
     saatler: saatPenceresi(c, kok.saatler),
     fotograflar: fotoAtamalari(c, kok.fotograflar),
+    metinler: sayfaMetinleri(c, kok.metinler),
   }
   if (c.hatalar.length > 0 || !belge || Object.values(belge).includes(undefined)) {
     return { tamam: false, hatalar: c.hatalar }

@@ -80,4 +80,5 @@ test('varsayilan_v2Bolumleri_bugunkuDegerleriTasir', () => {
 test('varsayilan_saatlerVeFotograflar_bugunkuDegerleriTasir', () => {
   assert.deepEqual(belge.saatler, { acilis: 10, kapanis: 5 })
   assert.deepEqual(belge.fotograflar, {})
+  assert.deepEqual(belge.metinler, { tr: {}, en: {} })
 })

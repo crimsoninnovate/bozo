@@ -453,5 +453,9 @@
     "acilis": 10,
     "kapanis": 5
   },
-  "fotograflar": {}
+  "fotograflar": {},
+  "metinler": {
+    "tr": {},
+    "en": {}
+  }
 }
