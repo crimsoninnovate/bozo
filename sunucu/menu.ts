@@ -1,5 +1,5 @@
 import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
-import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
+import { menuBelgesiDogrula, metinleriAyikla } from '../lib/menu/dogrulama.ts'
 import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from '../lib/menu/tamamla.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
@@ -64,8 +64,8 @@ async function yayinla(b: Baglam, y: Yetkili, { belge, kaynak, taban, eskiId }: 
   return { durum: 200, govde: { surum } satisfies MenuYayinYaniti }
 }
 
-/** Seed'in saat ve fotoğraf bölümleri (`content/menu.varsayilan.json` sunucu paketinde yok). */
-const SEED_BOLUMLERI: Tamamlayici = { saatler: VARSAYILAN_SAATLER, fotograflar: {} }
+/** Seed'in saat, fotoğraf ve metin bölümleri (`content/menu.varsayilan.json` sunucu paketinde yok). */
+const SEED_BOLUMLERI: Tamamlayici = { saatler: VARSAYILAN_SAATLER, fotograflar: {}, metinler: { tr: {}, en: {} } }
 
 /**
  * Gövdedeki belge doğrulanır; saklanan, doğrulayıcının normalleştirdiği belgedir, ham gövde değil.
@@ -74,7 +74,8 @@ const SEED_BOLUMLERI: Tamamlayici = { saatler: VARSAYILAN_SAATLER, fotograflar: 
 export async function yonetimMenuYayinla(b: Baglam, istek: Istek, y: Yetkili): Promise<Yanit> {
   const { taban, belge } = tabanCoz(await istek.govde(MENU_GOVDE_SINIRI))
   const gecerli = await b.depo.menuGecerli()
-  const tamamlanan = gecerli ? menuBelgesiTamamla(belge, gecerli.belge) : belge
+  // Geçerli sürümün metinlerinden koddan kopanlar düşer; gönderilen belge katı doğrulanır.
+  const tamamlanan = gecerli ? menuBelgesiTamamla(belge, metinleriAyikla(gecerli.belge) as Tamamlayici) : belge
   const sonuc = menuBelgesiDogrula(menuBelgesiTamamla(tamamlanan, SEED_BOLUMLERI))
   if (!sonuc.tamam) throw new IstekHatasi(400, 'belgeGecersiz')
   return yayinla(b, y, { belge: sonuc.belge, kaynak: 'panel', taban })
@@ -90,6 +91,7 @@ function tamBelgeMi(belge: MenuBelgesi): boolean {
  * Eski sürümü yeni sürüm olarak yayınlar; eski kayıt artık doğrulanmıyorsa 500 ile durur (loglanır).
  * Eski sürümde olmayan bölümler şu an geçerli sürümden alınır (seed sunucu paketinde yok); geçerli sürüm
  * de bölümsüzse tamamlanamaz: 409 `gecerliSurumEski` (panelden bir kez yayınlayıp sonra geri al).
+ * Metinler istisna: ikisinde de yoksa boş kalır, koddan kopan metin düşer.
  */
 export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string, y: Yetkili): Promise<Yanit> {
   const { taban } = tabanCoz(await istek.govde())
@@ -97,7 +99,8 @@ export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string, y: 
   if (!eski) throw new IstekHatasi(404, 'surumYok')
   const gecerli = await b.depo.menuGecerli()
   if (gecerli && !tamBelgeMi(gecerli.belge)) throw new IstekHatasi(409, 'gecerliSurumEski')
-  const sonuc = menuBelgesiDogrula(gecerli ? menuBelgesiTamamla(eski.belge, gecerli.belge) : eski.belge)
+  const tamamlanan = gecerli ? menuBelgesiTamamla(eski.belge, gecerli.belge) : eski.belge
+  const sonuc = menuBelgesiDogrula(metinleriAyikla(menuBelgesiTamamla(tamamlanan, SEED_BOLUMLERI)))
   if (!sonuc.tamam) {
     const nedenler = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
     throw new Error(`menü sürümü ${id} geri alınamadı, kayıtlı belge artık geçersiz: ${nedenler}`)

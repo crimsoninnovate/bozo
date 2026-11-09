@@ -475,6 +475,29 @@ export function saatlerDogrula(girdi: unknown): { tamam: true; saatler: Saatler 
   return s && c.hatalar.length === 0 ? { tamam: true, saatler: s } : { tamam: false, hatalar: c.hatalar }
 }
 
+/**
+ * Okurken (panel, derleme): kod değişince geçersizleşen metinleri (silinen anahtar, değişen yer tutucu) atar,
+ * yoksa tek bir eski metin bütün belgeyi geçersiz kılar. Yazarken doğrulama katı kalır. Girdi değişmez.
+ */
+export function metinleriAyikla(girdi: unknown): unknown {
+  if (!nesneMi(girdi) || !nesneMi(girdi.metinler)) return girdi
+  const atilan: string[] = []
+  const metinler = Object.fromEntries(Object.entries(girdi.metinler).map(([dil, bolum]) => {
+    if ((dil !== 'tr' && dil !== 'en') || !nesneMi(bolum)) return [dil, bolum]
+    const varsayilan = varsayilanMetinler(dil)
+    const kalan = Object.entries(bolum).filter(([yol, v]) => {
+      const c: Ctx = { hatalar: [], uyarilar: [] }
+      sayfaMetni(c, v, `metinler.${dil}.${yol}`, varsayilan.get(yol))
+      if (c.hatalar.length > 0) atilan.push(`${dil}.${yol}`)
+      return c.hatalar.length === 0
+    })
+    return [dil, Object.fromEntries(kalan)]
+  }))
+  if (atilan.length === 0) return girdi
+  console.warn(`koddan kopan sayfa metinleri atildi, varsayilanlar basilacak: ${atilan.join(', ')}`)
+  return { ...girdi, metinler }
+}
+
 /** Yalnız sayfa metinleri: build env'i belgeyle aynı kuralları kullanır. */
 export function metinlerDogrula(girdi: unknown): { tamam: true; metinler: Metinler } | { tamam: false; hatalar: Sorun[] } {
   const c: Ctx = { hatalar: [], uyarilar: [] }

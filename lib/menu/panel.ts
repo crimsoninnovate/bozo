@@ -2,7 +2,7 @@ import { yonetim } from '../../content/yonetim.ts'
 import { doldur } from '../metin.ts'
 import { ApiHatasi, tekrarDenenebilirMi } from '../oyun/api.ts'
 import type { DerlemeDurumu } from './aktarim.ts'
-import { menuBelgesiDogrula } from './dogrulama.ts'
+import { menuBelgesiDogrula, metinleriAyikla } from './dogrulama.ts'
 import { duyuruGoster } from './duyuru.ts'
 import { metinEtiketi, type Degisiklik } from './fark.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from './tamamla.ts'
@@ -41,7 +41,7 @@ export class BelgeHatasi extends Error {}
  * alır, sonra doğrulanır: çalışma kopyası hep 2. sürüm biçimindedir. Geçersizse `BelgeHatasi` atar.
  */
 export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
-  const sonuc = menuBelgesiDogrula(menuBelgesiTamamla(girdi, tam))
+  const sonuc = menuBelgesiDogrula(metinleriAyikla(menuBelgesiTamamla(girdi, tam)))
   if (sonuc.tamam) return sonuc.belge
   throw new BelgeHatasi(`belge panele açılamadı: ${sonuc.hatalar.map((h) => `${h.yol} (${h.metin})`).join('; ')}`)
 }
@@ -237,7 +237,7 @@ export function taslakOku(ham: string | null, taban: number | null, tam: Tamamla
   }
   if (kayit.taban !== null && typeof kayit.taban !== 'number') return { tur: 'bozuk', neden: 'taban sayı değil' }
   if (kayit.taban !== taban) return { tur: 'eski' }
-  const girdi = menuBelgesiTamamla(kayit.belge, tam)
+  const girdi = metinleriAyikla(menuBelgesiTamamla(kayit.belge, tam))
   const sonuc = menuBelgesiDogrula(girdi)
   if (sonuc.tamam) return { tur: 'geri', belge: sonuc.belge }
   const yapi = sonuc.hatalar.filter((h) => h.kod === 'sema')

@@ -1,4 +1,4 @@
-import { test, before, after } from 'node:test'
+import { test, before, after, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createServer, type Server } from 'node:http'
@@ -75,6 +75,11 @@ const birinciSurum = (b: MenuBelgesi): MenuBelgesi => {
 /** Saatler ve fotoğraf bölümlerinden önceki biçim: duyuru, ikramlar ve iletisim var, ikisi yok. */
 const saatsizSurum = (b: MenuBelgesi): MenuBelgesi => {
   const { saatler: _s, fotograflar: _f, ...eski } = structuredClone(b)
+  return eski as unknown as MenuBelgesi
+}
+/** Sayfa metinlerinden önceki biçim (9 Kasım 2026 öncesi bütün sürümler). */
+const metinsizSurum = (b: MenuBelgesi): MenuBelgesi => {
+  const { metinler: _m, ...eski } = structuredClone(b)
   return eski as unknown as MenuBelgesi
 }
 const yayinla = (taban: number | null, b: unknown) =>
@@ -252,6 +257,19 @@ test('postGeriAl_bolumsuzBirinciSurum_tamamlanmisYayinlanir', async () => {
   assert.equal(sonra.kalemler[0]?.fiyatlar.porsiyon, 640, 'eski sürümün fiyatı döner')
   assert.equal(sonra.iletisim.eposta, 'yeni@cigercibozo.com', 'bölümler şu anki sürümden gelir')
   assert.deepEqual(sonra.ikramlar, SEED.ikramlar)
+})
+
+test('postGeriAl_ikiSurumDeMetinsiz_bosMetinlerleYayinlanir', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  const eski = await depo.menuYayinla(metinsizSurum(SEED), 'panel', saat, taban)
+  assert.ok(eski !== null)
+  const guncel = await depo.menuYayinla(metinsizSurum(SEED), 'panel', saat, eski)
+  assert.ok(guncel !== null)
+  const y = await istek(`/yonetim/menu/${eski}/geri-al`, {
+    yontem: 'POST', govde: { taban: guncel }, basliklar: yonetim,
+  })
+  assert.equal(y.durum, 200)
+  assert.deepEqual((await depo.menuGecerli())?.belge.metinler, { tr: {}, en: {} })
 })
 
 test('postGeriAl_gecerliSurumBolumsuz_409GecerliSurumEski', async () => {
@@ -478,6 +496,24 @@ test('putYonetimMenu_gecerliSurumDeSaatsiz_200VeSeedSaatleri', async () => {
   const y = await tazeDepodaPut(saatsizSurum(SEED), saatsizSurum(belge(720)))
   assert.equal(y.durum, 200)
   assert.deepEqual([y.saklanan?.saatler, y.saklanan?.fotograflar], [SEED.saatler, SEED.fotograflar])
+})
+
+test('putYonetimMenu_eskiPanelMetinsiz_gecerliDeMetinsiz_200VeBosMetinler', async () => {
+  const y = await tazeDepodaPut(metinsizSurum(SEED), metinsizSurum(belge(720)))
+  assert.equal(y.durum, 200)
+  assert.deepEqual(y.saklanan?.metinler, { tr: {}, en: {} })
+})
+
+test('putYonetimMenu_eskiPanelMetinsiz_gecerliSurumdekiKopukMetinAtilir_200', async () => {
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const metinler = { tr: { 'ana.silinmisAnahtar': 'x', 'ana.iddia.baslik': 'Tane konuşur' }, en: {} }
+    const y = await tazeDepodaPut({ ...SEED, metinler }, metinsizSurum(belge(720)))
+    assert.equal(y.durum, 200)
+    assert.deepEqual(y.saklanan?.metinler, { tr: { 'ana.iddia.baslik': 'Tane konuşur' }, en: {} })
+  } finally {
+    uyari.mock.restore()
+  }
 })
 
 test('putYonetimMenu_gecersizSaatlerGonderilir_tamamlanmaz_400', async () => {

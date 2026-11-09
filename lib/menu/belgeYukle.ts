@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { menuBelgesiDogrula } from './dogrulama.ts'
+import { menuBelgesiDogrula, metinleriAyikla } from './dogrulama.ts'
 import { menuBelgesiTamamla } from './tamamla.ts'
 import type { MenuBelgesi, MenuKalemi } from './tipler.ts'
 
@@ -19,7 +19,7 @@ function dosyadanOku(yol: string, tam?: MenuBelgesi): MenuBelgesi | null {
     console.warn(`menuBelgesiYukle: ${yol} okunamadı, varsayılan belge kullanılıyor`, hata)
     return null
   }
-  const sonuc = menuBelgesiDogrula(tam ? menuBelgesiTamamla(girdi, tam) : girdi)
+  const sonuc = menuBelgesiDogrula(metinleriAyikla(tam ? menuBelgesiTamamla(girdi, tam) : girdi))
   if (sonuc.tamam) return sonuc.belge
   const ozet = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
   console.warn(`menuBelgesiYukle: ${yol} geçersiz, varsayılan belge kullanılıyor: ${ozet}`)

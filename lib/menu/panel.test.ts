@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
+import { mock, test } from 'node:test'
 import { menuBelgesiYukle } from './belgeYukle.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
@@ -435,4 +435,26 @@ test('sekmeGruplari_gorunurSekmeleriSirasiylaKapsar_bosGrupYok', () => {
     assert.ok(gruplar.every((g) => g.sekmeler.length > 0))
   }
   assert.equal(sekmeGruplari(false).some((g) => g.grup === 'hesaplar'), false)
+})
+
+test('panelBelgesi_koddanKopanMetin_atilirPanelAcilir', () => {
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const girdi = { ...structuredClone(tohum), metinler: { tr: { 'ana.silinmisAnahtar': 'x' }, en: {} } }
+    assert.deepEqual(panelBelgesi(girdi, tohum).metinler, { tr: {}, en: {} })
+  } finally {
+    uyari.mock.restore()
+  }
+})
+
+test('taslakOku_koddanKopanMetin_atilirTaslakGeriGelir', () => {
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const belge = { ...structuredClone(tohum), metinler: { tr: { 'ana.silinmisAnahtar': 'x' }, en: {} } }
+    const sonuc = taslakOku(JSON.stringify({ taban: 3, belge }), 3, tohum)
+    assert.equal(sonuc.tur, 'geri')
+    if (sonuc.tur === 'geri') assert.deepEqual(sonuc.belge.metinler, { tr: {}, en: {} })
+  } finally {
+    uyari.mock.restore()
+  }
 })

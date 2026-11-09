@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { test } from 'node:test'
-import { duyuruDogrula, menuBelgesiDogrula } from './dogrulama.ts'
+import { mock, test } from 'node:test'
+import { duyuruDogrula, menuBelgesiDogrula, metinleriAyikla } from './dogrulama.ts'
 import type { Sonuc } from './dogrulama.ts'
 import { varsayilanMetinler } from './metinler.ts'
 import type { MenuBelgesi } from './tipler.ts'
@@ -662,5 +662,30 @@ test('metinler_kodundakiVarsayilanlar_hepsiKurallardanGecer', () => {
     const b = ham((x) => { x['metinler'] = { tr: {}, en: {}, [dil]: metinler } })
     const sonuc = menuBelgesiDogrula(b)
     assert.deepEqual(sonuc.tamam ? [] : sonuc.hatalar, [], dil)
+  }
+})
+
+test('metinleriAyikla_koddanKopanMetinler_atilir_gecerliKalir', () => {
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const girdi = ham((b) => {
+      b['metinler'] = {
+        tr: { 'ana.iddia.baslik': 'Tane konuşur', 'ana.eskiAnahtar': 'x', 'ana.hero.ocakSoner': 'Ocak söner.' },
+        en: { 'ana.iddia.baslik': 'The grain tells' },
+      }
+    })
+    const sonuc = metinleriAyikla(girdi) as Ham
+    assert.deepEqual(sonuc['metinler'], { tr: { 'ana.iddia.baslik': 'Tane konuşur' }, en: { 'ana.iddia.baslik': 'The grain tells' } })
+    assert.equal(menuBelgesiDogrula(sonuc).tamam, true)
+    assert.equal(uyari.mock.callCount(), 1)
+    assert.equal((girdi['metinler'] as { tr: object }).tr.hasOwnProperty('ana.eskiAnahtar'), true, 'girdi değişmez')
+  } finally {
+    uyari.mock.restore()
+  }
+})
+
+test('metinleriAyikla_metinlerYokYaDaBozuk_dokunmaz', () => {
+  for (const g of [null, 'x', ham((b) => { delete b['metinler'] }), ham((b) => { b['metinler'] = 5 })]) {
+    assert.equal(metinleriAyikla(g), g)
   }
 })

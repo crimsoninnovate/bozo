@@ -149,3 +149,21 @@ test('tamamla_eskiBelge_saatlerVeFotograflariTohumdanAlir', () => {
     sil()
   }
 })
+
+test('menuBelgesiKaynakla_canlidaKoddanKopanMetin_atilirBelgeCanliKalir', () => {
+  const { kok, sil } = geciciKok()
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    const canli = structuredClone(varsayilan)
+    canli.iletisim.eposta = 'canli@cigercibozo.com'
+    canli.metinler = { tr: { 'ana.silinmisAnahtar': 'x', 'ana.iddia.baslik': 'Tane konuşur' }, en: {} }
+    writeFileSync(join(kok, 'content', 'menu.canli.json'), JSON.stringify(canli))
+    const { belge, canliMi } = menuBelgesiKaynakla(kok)
+    assert.equal(canliMi, true)
+    assert.equal(belge.iletisim.eposta, 'canli@cigercibozo.com')
+    assert.deepEqual(belge.metinler, { tr: { 'ana.iddia.baslik': 'Tane konuşur' }, en: {} })
+  } finally {
+    uyari.mock.restore()
+    sil()
+  }
+})
