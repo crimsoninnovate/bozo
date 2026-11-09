@@ -226,6 +226,8 @@ export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
   ]
 }
 
+const olcuSayilari = (b: MenuBelgesi) => b.icecekler.map((i) => `${i.id}:${i.olculer.length}`).sort().join()
+
 /** Derlemeyle donan yüzeylerin fark yolları: ad, açıklama, kalem fotoğrafı, eklenen ya da silinen kayıt. */
 const STATIK_YOL = new RegExp([
   /^(iletisim|saatler|fotograflar)(\.|$)/,
@@ -237,8 +239,10 @@ const STATIK_YOL = new RegExp([
 /**
  * Yayın sitenin derlenmiş sayfalarını da değiştiriyorsa `true` ("Siteyi güncellemeyi unutmayın" notu).
  * Fiyat ve "Bugün yok" menü sayfasında canlı okunur, sayılmaz; ikram metinleri de canlı, yalnız sayısı donar.
+ * Eklenen ya da silinen içecek ölçüsü fark listesinde fiyat satırıdır, ama satırı derlenmiş sayfadadır.
  */
 export function statikDegisiklikVarMi(onceki: MenuBelgesi, sonraki: MenuBelgesi): boolean {
   if (ikramSayisi(onceki) !== ikramSayisi(sonraki)) return true
+  if (olcuSayilari(onceki) !== olcuSayilari(sonraki)) return true
   return menuFarki(onceki, sonraki).some((d) => STATIK_YOL.test(d.yol))
 }

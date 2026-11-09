@@ -293,3 +293,14 @@ test('statikDegisiklikVarMi_yalnizFiyatYaDaTukendi_false', () => {
   assert.equal(statikDegisiklikVarMi(varsayilan, tukendi), false)
   assert.equal(statikDegisiklikVarMi(varsayilan, varsayilanKopya()), false)
 })
+
+test('statikDegisiklikVarMi_icecekOlcusuEklendiYaDaSilindi_true', () => {
+  const eklendi = varsayilanKopya((b) => {
+    const icecek = al(b.icecekler, 0)
+    icecek.olculer.push({ ad: { tr: 'Büyük', en: 'Large' }, fiyat: al(icecek.olculer, 0).fiyat + 50 })
+  })
+  const silindi = varsayilanKopya((b) => { al(b.icecekler, 0).olculer.splice(0, 1) })
+  assert.equal(statikDegisiklikVarMi(varsayilan, eklendi), true)
+  assert.equal(statikDegisiklikVarMi(eklendi, varsayilan), true)
+  assert.equal(statikDegisiklikVarMi(varsayilan, silindi), true)
+})
