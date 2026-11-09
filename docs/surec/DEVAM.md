@@ -9,17 +9,19 @@ Son güncelleme: 9 Kasım 2026
 ## Durum
 
 - **Panel: fotoğraflar, saatler, siteyi güncelle (9 Kasım, `feat/panel-icerik`, 9 Kasım'da `main`'e
-  birleştirildi ve push edildi, canlıya alma sahibinin onayını bekliyor).** Menü belgesinde `saatler` ve `fotograflar`
+  birleştirildi ve canlıya alındı).** Menü belgesinde `saatler` ve `fotograflar`
   bölümleri; metinlerdeki saatler derlemede belgeden dolar, rozet canlı saatle çalışır; yuvalar fotoğrafı
   belgeden basar (`lib/fotoKaynagi.ts`); skor sunucusunda `POST /yonetim/foto` ve `GET/POST /yonetim/derleme`;
   panelde Fotoğraflar ve Saatler sekmeleri ile "Siteyi Güncelle"; arc betikleri ve birimleri
   `sunucu/derleme/`. Tasarım `docs/specs/2026-11-09-panel-icerik-design.md`, plan
   `docs/plans/2026-11-09-panel-icerik-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
   Testler 911 geçer (18 atlanır), typecheck temiz. Yerel uçtan uca derleme denetimi (saat 12/4, foto adresi,
-  JSON-LD) ayrıca yapılır. **Canlıya alma sırası:** GitHub deploy key; nginx (`/foto/`, `client_max_body_size 4m`
-  ve `bozo-oyun` ortamı: `FOTO_DIZINI`, `DERLEME_DIZINI`) + skor sunucusu; derleme kullanıcısı, depo klonu ve
-  birimler; site yayını; sonra mevcut kareyi `node scripts/fotoGoc.ts` ile yükleyip panelden atama.
-  Sıra fiyat yayınını kilitlemez: yeni
+  JSON-LD) ayrıca yapılır. **Canlıda (9 Kasım 18:23):** deploy key, nginx `/foto/`, skor sunucusu,
+  derleme birimleri; site arc'ta derlenip yayınlandı, panel düğmesi uçtan uca denendi (istek -> `yayinda`). arc'ın
+  glibc 2.28'i Next'in yerel SWC'sine yetmediği için derleme `bozo-derleme:1` Docker imajında çalışır (`kap.sh`);
+  systemd 239 `OnSuccess=` tanımadığı için yükleme `ExecStartPost=+` ile başlar; foto dizini SELinux etiketli.
+  Mevcut kare yüklendi (`78106ea6c26cd0e8.webp`); `tane-yakin-cekim` ve `tane-yakin-cekim-yatay` yuvalarına
+  panelden atanması kaldı. Sıra fiyat yayınını kilitlemez: yeni
   sunucu, eski panelin saatsiz ve fotosuz belgesini geçerli sürümün (yoksa tohumun) bölümleriyle tamamlar.
 
 - **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
