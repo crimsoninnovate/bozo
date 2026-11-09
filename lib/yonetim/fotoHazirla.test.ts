@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { HazirlamaHatasi, hedefBoyut, kodla, odakNoktasi } from './fotoHazirla.ts'
+import { HazirlamaHatasi, hedefBoyut, kodla, odakKaydir, odakNoktasi } from './fotoHazirla.ts'
 
 test('hedefBoyut_yatayUzunKenarSiniriAsar_oranKorunarakKuculur', () => {
   assert.deepEqual(hedefBoyut(4000, 3000), { en: 2000, boy: 1500 })
@@ -59,4 +59,14 @@ test('kodla_ikiBicimdeBasarisiz_kodlanamadiMetniyleHataFirlatir', async () => {
     (h) => h instanceof HazirlamaHatasi && h.message === 'Kodlanamadı.',
   )
   await assert.rejects(kodla(async () => null, 'Kodlanamadı.'), HazirlamaHatasi)
+})
+
+test('odakKaydir_okTusu_adimKadarKaydirirVeSinirdaDurur', () => {
+  assert.equal(odakKaydir(null, 5, 0), '55% 50%')
+  assert.equal(odakKaydir('10% 20%', -5, 5), '5% 25%')
+  assert.equal(odakKaydir('2% 99%', -5, 5), '0% 100%')
+})
+
+test('odakKaydir_bozukOdak_ortadanBaslar', () => {
+  assert.equal(odakKaydir('sol üst', 0, -5), '50% 45%')
 })

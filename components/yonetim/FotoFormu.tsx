@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef, useState, type ChangeEvent, type MouseEvent } from 'react'
+import { useEffect, useId, useRef, useState, type ChangeEvent, type KeyboardEvent, type MouseEvent } from 'react'
 import { fotograflar } from '@/content/fotograflar'
 import type { FotoId } from '@/content/types'
 import { yonetim as m } from '@/content/yonetim'
@@ -9,7 +9,7 @@ import { fotoAta, fotoKaldir, fotoOdakAyarla } from '@/lib/menu/duzenleme'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, type YonetimApi } from '@/lib/oyun/api'
-import { HazirlamaHatasi, fotoHazirla, odakNoktasi } from '@/lib/yonetim/fotoHazirla'
+import { HazirlamaHatasi, fotoHazirla, odakKaydir, odakNoktasi } from '@/lib/yonetim/fotoHazirla'
 import { fotoOranlari, fotoYerleri } from '@/lib/yonetim/fotoYerleri'
 import { ListeHatasi, type Hatalar } from './Alanlar'
 import type { Duzenle } from './MenuYonetimi'
@@ -129,6 +129,11 @@ function FotoSatiri(props: Ortak & { id: FotoId }) {
 
 type OdakProps = { kimlik: string; id: FotoId; src: string; odak: string | null; onSec: (odak: string | null) => void }
 
+const ADIM = 5
+const OKLAR: Record<string, [number, number]> = {
+  ArrowLeft: [-ADIM, 0], ArrowRight: [ADIM, 0], ArrowUp: [0, -ADIM], ArrowDown: [0, ADIM],
+}
+
 /** Tam kareye dokunulan nokta `object-position` olur; altında yuvanın ilk yerleşim oranında kırpım. */
 function OdakSecici({ kimlik, id, src, odak, onSec }: OdakProps) {
   const not = useId()
@@ -137,11 +142,18 @@ function OdakSecici({ kimlik, id, src, odak, onSec }: OdakProps) {
     const r = olay.currentTarget.getBoundingClientRect()
     onSec(odakNoktasi(olay.clientX - r.left, olay.clientY - r.top, r.width, r.height))
   }
+  const kaydir = (olay: KeyboardEvent<HTMLButtonElement>) => {
+    const ok = OKLAR[olay.key]
+    if (!ok) return
+    olay.preventDefault()
+    onSec(odakKaydir(odak, ...ok))
+  }
   const [x, y] = (odak ?? '50% 50%').split(' ')
   return (
     <div id={kimlik} className={stil.odak}>
       <p id={not} className={ortak.not}>{f.odakNot}</p>
-      <button type="button" className={stil.secici} aria-label={f.odakSecici} aria-describedby={not} onClick={dokun}>
+      <button type="button" className={stil.secici} aria-label={f.odakSecici} aria-describedby={not}
+        onClick={dokun} onKeyDown={kaydir}>
         <img src={src} alt="" />
         {odak && <span aria-hidden="true" className={stil.isaret} style={{ left: x, top: y }} />}
       </button>

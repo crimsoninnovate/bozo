@@ -20,6 +20,14 @@ export function odakNoktasi(x: number, y: number, en: number, boy: number): stri
   return `${yuzde(x, en)}% ${yuzde(y, boy)}%`
 }
 
+/** Ok tuşuyla odak: 'X% Y%' (yoksa ya da bozuksa orta) `dx`/`dy` yüzde kayar, 0-100'de durur. */
+export function odakKaydir(odak: string | null, dx: number, dy: number): string {
+  const es = /^(\d{1,3})% (\d{1,3})%$/.exec(odak ?? '')
+  const [x, y] = es ? [Number(es[1]), Number(es[2])] : [50, 50]
+  const sinirla = (n: number) => Math.min(100, Math.max(0, n))
+  return `${sinirla(x + dx)}% ${sinirla(y + dy)}%`
+}
+
 /** Tarayıcı kareyi çözemedi ya da WebP/JPEG kodlayamadı; `message` personele gösterilir. */
 export class HazirlamaHatasi extends Error {}
 
@@ -61,5 +69,13 @@ export async function fotoHazirla(
   }
   baglam.drawImage(kare, 0, 0, en, boy)
   kare.close()
-  return kodla((tur, kalite) => new Promise((coz) => tuval.toBlob(coz, tur, kalite)), metin.kodlanamadi)
+  return kodla((tur, kalite) => {
+    // JPEG'de alfa yok: şeffaf PNG siyaha döner, beyaz zemin mevcut piksellerin arkasına çizilir.
+    if (tur === 'image/jpeg') {
+      baglam.globalCompositeOperation = 'destination-over'
+      baglam.fillStyle = '#ffffff'
+      baglam.fillRect(0, 0, en, boy)
+    }
+    return new Promise((coz) => tuval.toBlob(coz, tur, kalite))
+  }, metin.kodlanamadi)
 }

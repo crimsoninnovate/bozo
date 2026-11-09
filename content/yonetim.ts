@@ -218,7 +218,7 @@ export const yonetim = {
       yuklendi: 'Kare taslağa eklendi. Yayınlamayı unutmayın.',
       odakAc: 'Odak Noktası',
       odakSecici: 'Odak noktası seç',
-      odakNot: 'Karenin kırpımda kalacak yerine dokunun.',
+      odakNot: 'Karenin kırpımda kalacak yerine dokunun ya da ok tuşlarıyla kaydırın.',
       odak: 'Odak: {odak}',
       odakYok: 'Odak seçilmedi, sitenin kendi kırpımı geçerli.',
       odakOrtala: 'Odağı Kaldır',
