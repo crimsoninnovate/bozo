@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuFarki, statikDegisiklikVarMi } from './fark.ts'
+import { varsayilanMetinler } from './metinler.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const varsayilan = JSON.parse(
@@ -303,4 +304,24 @@ test('statikDegisiklikVarMi_icecekOlcusuEklendiYaDaSilindi_true', () => {
   assert.equal(statikDegisiklikVarMi(varsayilan, eklendi), true)
   assert.equal(statikDegisiklikVarMi(eklendi, varsayilan), true)
   assert.equal(statikDegisiklikVarMi(varsayilan, silindi), true)
+})
+
+test('fark_metinDegisti_varsayilanlaKarsilastirir', () => {
+  const yeni = varsayilanKopya((b) => { b.metinler.tr['ana.iddia.baslik'] = 'Tane konuşur' })
+  assert.deepEqual(menuFarki(varsayilan, yeni), [{
+    yol: 'metinler.tr.ana.iddia.baslik', etiket: 'Metin · Ana sayfa › iddia › baslik (TR)',
+    once: 'Ustayı tanesinden anlarsınız', sonra: 'Tane konuşur', buyukSicrama: false,
+  }])
+  assert.equal(menuFarki(yeni, varsayilan)[0]?.sonra, 'Ustayı tanesinden anlarsınız', 'varsayılana dönüş')
+})
+
+test('fark_varsayilanlaAyniYazilmisMetin_degisiklikDegil', () => {
+  const yol = 'ana.iddia.baslik'
+  const ayni = varsayilanKopya((b) => { b.metinler.en[yol] = varsayilanMetinler('en').get(yol) ?? '' })
+  assert.deepEqual(menuFarki(varsayilan, ayni), [])
+})
+
+test('statikDegisiklikVarMi_metin_true', () => {
+  const yeni = varsayilanKopya((b) => { b.metinler.en['ana.iddia.baslik'] = 'The grain tells' })
+  assert.equal(statikDegisiklikVarMi(varsayilan, yeni), true)
 })

@@ -1,7 +1,10 @@
 import { fotograflar } from '../../content/fotograflar.ts'
 import { fiyatMetni } from '../../content/isletme.ts'
 import type { FotoId } from '../../content/types.ts'
+import { yonetim } from '../../content/yonetim.ts'
+import { doldur } from '../metin.ts'
 import { saatAraligi } from '../saatMetni.ts'
+import { varsayilanMetinler, type MetinSayfasi } from './metinler.ts'
 import { ikramSayisi } from './sayilar.ts'
 import type { Cift, IcecekKalemi, IkramGrubu, IkramOgesi, IkramUrunu, MenuBelgesi, MenuKalemi } from './tipler.ts'
 
@@ -212,6 +215,27 @@ function saatlerFarki(eski: MenuBelgesi['saatler'], yeni: MenuBelgesi['saatler']
   return a === b ? [] : [satir('saatler', 'Saatler', a, b)]
 }
 
+/** "ana.iddia.baslik" -> "Metin · Ana sayfa › iddia › baslik". */
+export function metinEtiketi(yol: string): string {
+  const [sayfa, ...gerisi] = yol.split('.')
+  const ad = yonetim.menu.metinler.sayfalar[sayfa as MetinSayfasi] ?? sayfa ?? ''
+  return doldur(yonetim.menu.metinler.farkEtiketi, { sayfa: ad, yol: gerisi.join(' › ') })
+}
+
+/** Belgede olmayan metin koddaki varsayılandır: iki taraf da varsayılanla tamamlanıp karşılaştırılır. */
+function metinlerFarki(eski: MenuBelgesi['metinler'], yeni: MenuBelgesi['metinler']): Degisiklik[] {
+  return (['tr', 'en'] as const).flatMap((dil) => {
+    const varsayilan = varsayilanMetinler(dil)
+    const yollar = [...varsayilan.keys()].filter((y) => y in eski[dil] || y in yeni[dil])
+    return yollar.flatMap((yol) => {
+      const a = eski[dil][yol] ?? varsayilan.get(yol) ?? YOK
+      const b = yeni[dil][yol] ?? varsayilan.get(yol) ?? YOK
+      const ek = dil === 'tr' ? 'TR' : 'EN'
+      return a === b ? [] : [satir(`metinler.${dil}.${yol}`, `${metinEtiketi(yol)} (${ek})`, a, b)]
+    })
+  })
+}
+
 /** İki belge arasındaki değişiklikler; `buyukSicrama`: fiyat eskiye göre %50'den fazla oynadı. */
 export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
   return [
@@ -223,6 +247,7 @@ export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
     ...iletisimFarki(eski.iletisim, yeni.iletisim),
     ...saatlerFarki(eski.saatler, yeni.saatler),
     ...fotograflarFarki(eski.fotograflar, yeni.fotograflar),
+    ...metinlerFarki(eski.metinler, yeni.metinler),
   ]
 }
 
@@ -230,7 +255,7 @@ const olcuSayilari = (b: MenuBelgesi) => b.icecekler.map((i) => `${i.id}:${i.olc
 
 /** Derlemeyle donan yüzeylerin fark yolları: ad, açıklama, kalem fotoğrafı, eklenen ya da silinen kayıt. */
 const STATIK_YOL = new RegExp([
-  /^(iletisim|saatler|fotograflar)(\.|$)/,
+  /^(iletisim|saatler|fotograflar|metinler)(\.|$)/,
   /^(kalemler|icecekler)\.[^.]+(\.(ad|aciklama|fotoId|olculer\[\d+\]\.ad)(\.|$)|$)/,
   /^ozel\.(ad|aciklama)\./,
   /^ikramlar\.urunler\.[^.]+\.fotoId$/,

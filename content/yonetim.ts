@@ -150,6 +150,7 @@ export const yonetim = {
       iletisim: 'İletişim',
       saatler: 'Saatler',
       fotograflar: 'Fotoğraflar',
+      metinler: 'Sayfa Metinleri',
       gecmis: 'Geçmiş',
       kullanicilar: 'Kullanıcılar',
     },
@@ -278,6 +279,17 @@ export const yonetim = {
       neden: 'Seçenekler sitenin metinlerine uyar: dükkan gece yarısından sonra kapanır ve 21:00\'de açıktır.',
       pencere: 'Sitede: {pencere}',
       not: 'Açık ya da kapalı rozeti yayınlanınca değişir; sayfalardaki saat metinleri "Siteyi Güncelle" ile.',
+    },
+    metinler: {
+      baslik: 'Sayfa metinleri',
+      not:
+        'Değişen metinler sitede "Siteyi Güncelle" ile görünür. Süslü parantezli alanlara ({kapanis} gibi) ' +
+        'dokunmayın: saatler ve sayılar oraya kendiliğinden yazılır.',
+      sayfa: 'Sayfa',
+      sayfalar: { ana: 'Ana sayfa', menu: 'Menü', hikaye: 'Hikaye', konum: 'Konum', galeri: 'Galeri' },
+      degisti: 'Değişti',
+      sifirla: 'Varsayılana dön',
+      farkEtiketi: 'Metin · {sayfa} › {yol}',
     },
     foto: {
       baslik: 'Fotoğraflar',
