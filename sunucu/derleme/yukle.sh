@@ -31,7 +31,7 @@ olarak_derleme() {
 SAHIPLIK="${TMPDIR:-/tmp}/bozo-yukle.sahip"
 if [ -n "${SERVICE_RESULT:-}" ]; then
   # A run that never got the lock must not touch the status of a build it does not own.
-  if [ -e "$SAHIPLIK" ]; then olarak_derleme bayat_durumu_kapat yukle; fi
+  if [ -e "$SAHIPLIK" ]; then olarak_derleme bayat_durumu_kapat yukle; rm -f "$SAHIPLIK"; fi
   exit 0
 fi
 [ $# -eq 0 ] || { echo "yukle: takes no arguments" >&2; exit 2; }

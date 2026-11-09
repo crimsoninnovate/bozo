@@ -12,7 +12,7 @@ umask 0027
 # Exists only while this run holds the lock and has not reached its end (PrivateTmp).
 SAHIPLIK="${TMPDIR:-/tmp}/bozo-derle.sahip"
 if [ -n "${SERVICE_RESULT:-}" ]; then
-  if [ -e "$SAHIPLIK" ]; then bayat_durumu_kapat derle; fi
+  if [ -e "$SAHIPLIK" ]; then bayat_durumu_kapat derle; rm -f "$SAHIPLIK"; fi
   exit 0
 fi
 [ $# -eq 0 ] || { echo "derle: takes no arguments" >&2; exit 2; }
