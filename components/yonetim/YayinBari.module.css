@@ -22,6 +22,20 @@
   min-height: 48px;
 }
 
+/* Masaüstü: bar kenar menüsünün sağından başlar, satırı içerik sütunuyla aynı genişlikte. */
+@media (min-width: 1040px) {
+  .alt {
+    left: var(--kenar);
+    max-width: none;
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .alt > * {
+    max-width: 800px;
+  }
+}
+
 .sol {
   display: grid;
   flex: 1 1 auto;

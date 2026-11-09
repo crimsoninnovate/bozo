@@ -58,6 +58,22 @@ export function gorunurSekmeler(admin: boolean): readonly Sekme[] {
   return admin ? SEKMELER : SEKMELER.filter((s) => s !== 'kullanicilar')
 }
 
+const GRUPLAR = {
+  menu: ['ocakbasi', 'ozel', 'icecekler', 'ikramlar'],
+  site: ['duyuru', 'iletisim', 'saatler', 'fotograflar'],
+  yayin: ['gecmis'],
+  hesaplar: ['kullanicilar'],
+} as const satisfies Record<string, readonly Sekme[]>
+export type SekmeGrubu = keyof typeof GRUPLAR
+
+/** Masaüstü kenar menüsünün başlıklı grupları; telefonda aynı sıra tek satırdır. Boş grup düşer. */
+export function sekmeGruplari(admin: boolean): { grup: SekmeGrubu; sekmeler: Sekme[] }[] {
+  const gorunur = new Set(gorunurSekmeler(admin))
+  return (Object.keys(GRUPLAR) as SekmeGrubu[])
+    .map((grup) => ({ grup, sekmeler: GRUPLAR[grup].filter((s) => gorunur.has(s)) }))
+    .filter((g) => g.sekmeler.length > 0)
+}
+
 const YOL_SEKMELERI: Record<string, Sekme> = {
   kalemler: 'ocakbasi', ozel: 'ozel', icecekler: 'icecekler', ikramlar: 'ikramlar', duyuru: 'duyuru',
   iletisim: 'iletisim', saatler: 'saatler', fotograflar: 'fotograflar',

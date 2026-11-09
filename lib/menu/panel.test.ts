@@ -6,7 +6,7 @@ import { menuFarki } from './fark.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, derlemeGecici, derlemeGunlugu,
   derlemeMetni, derlemeSuruyor, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, gorunurSekmeler, guncelleKapali,
-  hataSekmeleri, SEKMELER,
+  hataSekmeleri, SEKMELER, sekmeGruplari,
   hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, sorunYeri, taslakOku, taslakYaz,
   telefonAciliyor, yayinDurumu,
 } from './panel.ts'
@@ -424,4 +424,13 @@ test('gorunurSekmeler_adminDegil_kullanicilarYok', () => {
   assert.equal(gorunurSekmeler(false).includes('kullanicilar'), false)
   assert.deepEqual(gorunurSekmeler(true), SEKMELER)
   assert.deepEqual(gorunurSekmeler(false), SEKMELER.filter((s) => s !== 'kullanicilar'))
+})
+
+test('sekmeGruplari_gorunurSekmeleriSirasiylaKapsar_bosGrupYok', () => {
+  for (const admin of [true, false]) {
+    const gruplar = sekmeGruplari(admin)
+    assert.deepEqual(gruplar.flatMap((g) => g.sekmeler), [...gorunurSekmeler(admin)])
+    assert.ok(gruplar.every((g) => g.sekmeler.length > 0))
+  }
+  assert.equal(sekmeGruplari(false).some((g) => g.grup === 'hesaplar'), false)
 })

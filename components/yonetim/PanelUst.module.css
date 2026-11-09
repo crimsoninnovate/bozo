@@ -26,8 +26,27 @@
 }
 
 .baslik {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
   font: 400 20px/1.15 var(--font-baslik);
+}
+
+/* Rozet yalnız kenar menüsünde; telefonun üst satırında yer yok. */
+.logo {
+  display: none;
+  width: 36px;
+  height: auto;
+}
+
+/* Gruplar telefonda tek satırın parçası: kutu ve başlık yok. */
+.grup {
+  display: contents;
+}
+
+.grupAdi {
+  display: none;
 }
 
 /* Giriş yapanın adı; şifre düğmesinin 44px dokunma alanı negatif payla satırı büyütmez. */
@@ -127,4 +146,117 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/*
+ * Masaüstü: shadcn `dashboard-01` düzeni. Üst bar sol kenara sabitlenir; başlık, durum, gruplu bölümler,
+ * hesap ve Çıkış alt alta. Sütun genişliği içerik ve alt barla paylaşılır (`--kenar`, MenuYonetimi.module.css).
+ */
+@media (min-width: 1040px) {
+  .ust {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: var(--kenar);
+    margin: 0;
+    padding: 24px 16px 16px;
+    overflow-y: auto;
+    background: var(--komur);
+    border-right: 1px solid var(--cizgi-kart);
+    border-bottom: 0;
+  }
+
+  .satir,
+  .kimlik {
+    display: contents;
+  }
+
+  .baslik {
+    order: 1;
+    font-size: 21px;
+  }
+
+  .logo {
+    display: block;
+  }
+
+  .durum {
+    order: 2;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cizgi-sac);
+  }
+
+  .sekmeler {
+    order: 3;
+    display: grid;
+    flex: 1 1 auto;
+    align-content: start;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .grup {
+    display: grid;
+    gap: 2px;
+  }
+
+  .grupAdi {
+    display: block;
+    padding: 0 12px 4px;
+    color: var(--krem-70);
+    font: 600 12.5px/1.2 var(--font-govde);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Etkin bölüm: bakır sol çizgi ve zemin rengi; sekmenin alt çizgisinin dikey karşılığı. */
+  .sekme {
+    justify-content: flex-start;
+    min-height: 44px;
+    border-bottom: 0;
+    border-left: 2px solid transparent;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .sekme[aria-pressed='true'] {
+    background: var(--zemin);
+    border-left-color: var(--bakir);
+  }
+
+  .hesap {
+    order: 4;
+    display: grid;
+    justify-items: start;
+    gap: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cizgi-sac);
+  }
+
+  .sifre {
+    margin-block: -6px;
+  }
+
+  .cikis {
+    order: 5;
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 1040px) and (hover: hover) {
+  .sekme:hover {
+    color: var(--krem);
+  }
+}
+
+/* Fareyle 44px hedef gerekmez; 768px yüksek dizüstünde Çıkış kıvrımın altında kalmasın. */
+@media (min-width: 1040px) and (pointer: fine) {
+  .sekme {
+    min-height: 38px;
+  }
 }

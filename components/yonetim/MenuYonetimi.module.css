@@ -1,5 +1,7 @@
 /* Menü paneli: telefon önce, tek sütun; genişte aynı sütun 720px'te ortalanır. */
 .sayfa {
+  /* Masaüstü kenar menüsünün genişliği; üst bar ve alt bar da okur. */
+  --kenar: 264px;
   max-width: 720px;
   min-height: 100dvh;
   margin: 0 auto;
@@ -25,6 +27,21 @@
   display: grid;
   gap: 16px;
   padding-top: 16px;
+}
+
+/* Masaüstü: kenar menüsü solda sabit, içerik sağda okunur genişlikte (shadcn `dashboard-01`). */
+@media (min-width: 1040px) {
+  .sayfa {
+    max-width: none;
+    margin: 0;
+    padding-right: 48px;
+    padding-left: calc(var(--kenar) + 48px);
+  }
+
+  .icerik {
+    max-width: 800px;
+    padding-top: 32px;
+  }
 }
 
 .liste {

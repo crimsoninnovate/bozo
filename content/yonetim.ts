@@ -136,10 +136,10 @@ export const yonetim = {
     yukleniyor: 'Hesaplar okunuyor.',
   },
   oyunSifre: {
-    baglanti: 'Şifreyi Menü Yönetimi\'nde Değiştir',
+    baglanti: 'Şifreyi Yönetim Paneli\'nde Değiştir',
   },
   menu: {
-    baslik: 'Menü Yönetimi',
+    baslik: 'Yönetim Paneli',
     sekmeler: 'Menü bölümleri',
     sekme: {
       ocakbasi: 'Ocakbaşı',
@@ -154,6 +154,7 @@ export const yonetim = {
       kullanicilar: 'Kullanıcılar',
     },
     sekmeHatali: '(hata var)',
+    grup: { menu: 'Menü', site: 'Site bilgileri', yayin: 'Yayın', hesaplar: 'Hesaplar' },
     tr: 'Türkçe',
     en: 'İngilizce',
     dilKisa: { tr: 'TR', en: 'EN' },

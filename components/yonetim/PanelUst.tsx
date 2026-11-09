@@ -2,8 +2,9 @@
 
 import { useRef } from 'react'
 import { CikisIkon } from '@/components/ui/Ikonlar'
+import { ROZET } from '@/components/ui/Rozet'
 import { yonetim as m } from '@/content/yonetim'
-import { gorunurSekmeler, type Sekme } from '@/lib/menu/panel'
+import { sekmeGruplari, type Sekme } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import type { BenYaniti } from '@/lib/yonetim/personel'
 import { SiteDurumu } from './SiteDurumu'
@@ -18,7 +19,10 @@ type SekmeProps = {
   admin: boolean
 }
 
-/** Kayan tek satır; seçilen düğme satırın ortasına gelir, sayfa içeriğin başına döner. */
+/**
+ * Telefonda kayan tek satır, grup adları gizli; masaüstünde başlıklı gruplarla kenar menüsü (aynı DOM, düzeni CSS
+ * kurar). Seçilen düğme satırın ortasına gelir, sayfa içeriğin başına döner.
+ */
 function Sekmeler({ sekme, hatali, sec, admin }: SekmeProps) {
   const satir = useRef<HTMLDivElement>(null)
   const tikla = (s: Sekme, dugme: HTMLButtonElement) => {
@@ -29,17 +33,22 @@ function Sekmeler({ sekme, hatali, sec, admin }: SekmeProps) {
   }
   return (
     <div ref={satir} className={stil.sekmeler} role="group" aria-label={m.menu.sekmeler}>
-      {gorunurSekmeler(admin).map((s) => (
-        <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
-          onClick={(o) => tikla(s, o.currentTarget)}>
-          {m.menu.sekme[s]}
-          {hatali.has(s) && (
-            <>
-              <span className={stil.isaret} aria-hidden="true" />
-              <span className={stil.gizli}> {m.menu.sekmeHatali}</span>
-            </>
-          )}
-        </button>
+      {sekmeGruplari(admin).map(({ grup, sekmeler }) => (
+        <div key={grup} className={stil.grup} role="group" aria-label={m.menu.grup[grup]}>
+          <span className={stil.grupAdi} aria-hidden="true">{m.menu.grup[grup]}</span>
+          {sekmeler.map((s) => (
+            <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
+              onClick={(o) => tikla(s, o.currentTarget)}>
+              {m.menu.sekme[s]}
+              {hatali.has(s) && (
+                <>
+                  <span className={stil.isaret} aria-hidden="true" />
+                  <span className={stil.gizli}> {m.menu.sekmeHatali}</span>
+                </>
+              )}
+            </button>
+          ))}
+        </div>
       ))}
     </div>
   )
@@ -55,13 +64,16 @@ type Props = {
   calisma?: SekmeProps & { taban: number | null; siteSurum: number }
 }
 
-/** Yapışkan üst: başlık, sitenin tek satırlık durumu ve Çıkış; hemen altında sekmeler. */
+/** Telefonda yapışkan üst (başlık, hesap, durum, Çıkış, sekmeler); masaüstünde sabit kenar menüsü. */
 export function PanelUst({ cik, kim, sifreAc, calisma }: Props) {
   return (
     <header className={stil.ust}>
       <div className={stil.satir}>
         <div className={stil.kimlik}>
-          <h1 className={stil.baslik}>{m.menu.baslik}</h1>
+          <h1 className={stil.baslik}>
+            <img className={stil.logo} src={ROZET} alt="" width={1748} height={1999} />
+            {m.menu.baslik}
+          </h1>
           {kim && (
             <p className={stil.hesap}>
               {doldur(m.ust.girisYapan, { ad: kim.ad })}
@@ -70,7 +82,11 @@ export function PanelUst({ cik, kim, sifreAc, calisma }: Props) {
               )}
             </p>
           )}
-          {calisma && <SiteDurumu kisa yayinSurum={calisma.taban} siteSurum={calisma.siteSurum} />}
+          {calisma && (
+            <div className={stil.durum}>
+              <SiteDurumu kisa yayinSurum={calisma.taban} siteSurum={calisma.siteSurum} />
+            </div>
+          )}
         </div>
         <button type="button" className={stil.cikis} onClick={cik}>
           <CikisIkon boy={18} />
