@@ -9,7 +9,7 @@ import { fotoAta, fotoKaldir, fotoOdakAyarla } from '@/lib/menu/duzenleme'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, type YonetimApi } from '@/lib/oyun/api'
-import { HazirlamaHatasi, odakNoktasi, webpHazirla } from '@/lib/yonetim/fotoHazirla'
+import { HazirlamaHatasi, fotoHazirla, odakNoktasi } from '@/lib/yonetim/fotoHazirla'
 import { fotoOranlari, fotoYerleri } from '@/lib/yonetim/fotoYerleri'
 import { ListeHatasi, type Hatalar } from './Alanlar'
 import type { Duzenle } from './MenuYonetimi'
@@ -63,9 +63,9 @@ function useYukleme(id: FotoId, { duzenle, api, cik }: Ortak) {
     if (!dosya) return
     try {
       setDurum({ tur: 'calisiyor', metin: f.hazirlaniyor })
-      const webp = await webpHazirla(dosya, f.hata)
+      const foto = await fotoHazirla(dosya, f.hata)
       setDurum({ tur: 'calisiyor', metin: f.yukleniyor })
-      const yanit = await api.fotoYukle(webp)
+      const yanit = await api.fotoYukle(foto)
       sonDuzenle.current((b) => fotoAta(b, id, { dosya: yanit.dosya, odak: null }))
       setDurum({ tur: 'tamam', metin: f.yuklendi })
     } catch (h) {

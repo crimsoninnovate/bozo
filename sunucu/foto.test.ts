@@ -7,14 +7,15 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { FotoYukleYaniti } from '../lib/menu/aktarim.ts'
 import { bellekDepoKur } from './bellekDepo.ts'
-import { FOTO_GOVDE_SINIRI, webpBoyutu } from './foto.ts'
+import { FOTO_GOVDE_SINIRI, jpegBoyutu, webpBoyutu } from './foto.ts'
 import { listeKur } from './ip.ts'
 import { uygulamaKur, type Ayar } from './uygulama.ts'
 
-/* `POST /yonetim/foto`: WebP doğrulama, içerik adı, atomik yazım. Görüntü kütüphanesi yok, baytlar elle kurulur. */
+/* `POST /yonetim/foto`: WebP ve JPEG doğrulama, içerik adı, atomik yazım. Görüntü kütüphanesi yok, baytlar elle kurulur. */
 const KOKEN = 'https://cigercibozo.com'
 const kimlik = { Authorization: `Basic ${Buffer.from('personel:gizli').toString('base64')}` }
 const WEBP = { 'Content-Type': 'image/webp' }
+const JPEG = { 'Content-Type': 'image/jpeg' }
 
 let dizin = ''
 let sunucu: Server
@@ -55,7 +56,19 @@ function vp8x(en: number, boy: number): Buffer {
   return riff('VP8X', yuk)
 }
 
-const ad = (veri: Buffer): string => `${createHash('sha256').update(veri).digest('hex').slice(0, 16)}.webp`
+const ad = (veri: Buffer, uzanti = 'webp'): string =>
+  `${createHash('sha256').update(veri).digest('hex').slice(0, 16)}.${uzanti}`
+
+/** SOI, APP0 (JFIF), SOF (`sof` işaretçisi), EOI: boyutları okumaya yeten en küçük JPEG. */
+function jpeg(en: number, boy: number, sof = 0xc0): Buffer {
+  const app0 = Buffer.from([0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 1, 1, 0, 0, 1, 0, 1, 0, 0])
+  const sofGovde = Buffer.alloc(19)
+  sofGovde.set([0xff, sof, 0x00, 0x11, 0x08])
+  sofGovde.writeUInt16BE(boy, 5)
+  sofGovde.writeUInt16BE(en, 7)
+  sofGovde.set([0x03, 1, 0x22, 0, 2, 0x11, 1, 3, 0x11, 1], 9)
+  return Buffer.concat([Buffer.from([0xff, 0xd8]), app0, sofGovde, Buffer.from([0xff, 0xd9])])
+}
 
 async function sunucuAc(fotoDizini: string | null): Promise<{ sunucu: Server; kok: string }> {
   const ayar: Ayar = {
@@ -135,19 +148,57 @@ test('postFoto_ayniBaytlarIkiKez_ayniAdTekDosyaYenidenYazilmaz', async () => {
   assert.deepEqual((await readdir(dizin)).filter((d) => d.endsWith('.tmp')), [], 'geçici dosya kalmaz')
 })
 
-test('postFoto_jpeg_415WebpDegilDiskeYazilmaz', async () => {
+test('postFoto_jpegBaytlarWebpBasligiyla_415BicimDesteklenmiyorDiskeYazilmaz', async () => {
   const oncesi = await readdir(dizin)
-  const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xe0, ...new Array<number>(60).fill(1)])
-  const y = await yukle(jpeg)
-  assert.deepEqual([y.durum, y.govde?.hata], [415, 'webpDegil'])
+  const y = await yukle(jpeg(640, 480))
+  assert.deepEqual([y.durum, y.govde?.hata], [415, 'bicimDesteklenmiyor'])
   assert.deepEqual(await readdir(dizin), oncesi)
 })
 
-test('postFoto_icerikTuruWebpDegil_415', async () => {
+test('postFoto_webpBaytlarJpegBasligiyla_415', async () => {
   const oncesi = await readdir(dizin)
-  const y = await yukle(vp8(50, 50), { ...kimlik, 'Content-Type': 'image/jpeg' })
-  assert.deepEqual([y.durum, y.govde?.hata], [415, 'webpDegil'])
+  const y = await yukle(vp8(50, 50), { ...kimlik, ...JPEG })
+  assert.deepEqual([y.durum, y.govde?.hata], [415, 'bicimDesteklenmiyor'])
   assert.deepEqual(await readdir(dizin), oncesi)
+})
+
+test('postFoto_desteklenmeyenIcerikTuru_415', async () => {
+  const y = await yukle(vp8(50, 50), { ...kimlik, 'Content-Type': 'image/png' })
+  assert.deepEqual([y.durum, y.govde?.hata], [415, 'bicimDesteklenmiyor'])
+})
+
+test('postFoto_gecerliJpeg_200JpgAdliAyniBaytlar', async () => {
+  const veri = jpeg(1600, 1200)
+  const y = await yukle(veri, { ...kimlik, ...JPEG })
+  assert.equal(y.durum, 200)
+  assert.deepEqual(y.govde as FotoYukleYaniti | null, { dosya: ad(veri, 'jpg'), en: 1600, boy: 1200 })
+  assert.match(String(y.govde?.dosya), /^[0-9a-f]{16}\.jpg$/)
+  assert.deepEqual(await readFile(join(dizin, ad(veri, 'jpg'))), veri)
+})
+
+test('postFoto_asamaliJpegSof2_200', async () => {
+  const y = await yukle(jpeg(800, 600, 0xc2), { ...kimlik, ...JPEG })
+  assert.deepEqual([y.durum, y.govde?.en, y.govde?.boy], [200, 800, 600])
+})
+
+test('postFoto_jpegSofBulunamaz_415', async () => {
+  const kesik = jpeg(640, 480).subarray(0, 20)
+  const y = await yukle(kesik, { ...kimlik, ...JPEG })
+  assert.deepEqual([y.durum, y.govde?.hata], [415, 'bicimDesteklenmiyor'])
+})
+
+test('jpegBoyutu_sofTurleriVeBozukGirdi_boyutYaDaNull', () => {
+  for (const sof of [0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]) {
+    assert.deepEqual(jpegBoyutu(jpeg(70, 50, sof)), { en: 70, boy: 50 }, sof.toString(16))
+  }
+  const sosOnce = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xda, 0x00, 0x02]), jpeg(70, 50).subarray(2)])
+  assert.equal(jpegBoyutu(sosOnce), null, 'SOF taramadan önce gelmeli')
+  assert.equal(jpegBoyutu(jpeg(0, 50)), null, 'sıfır boyut')
+  assert.equal(jpegBoyutu(vp8(10, 10)), null)
+  assert.equal(jpegBoyutu(Buffer.alloc(0)), null)
+  const uzunlukTasar = jpeg(70, 50)
+  uzunlukTasar.writeUInt16BE(0xffff, 4)
+  assert.equal(jpegBoyutu(uzunlukTasar), null, 'APP0 uzunluğu dosyayı aşıyor')
 })
 
 test('postFoto_uzunKenar2001_422FotoBuyuk_2000Gecer', async () => {
@@ -156,6 +207,12 @@ test('postFoto_uzunKenar2001_422FotoBuyuk_2000Gecer', async () => {
   const uzun = await yukle(vp8l(100, 2001))
   assert.deepEqual([uzun.durum, uzun.govde?.hata], [422, 'fotoBuyuk'], 'boy da sayılır')
   assert.equal((await yukle(vp8x(2000, 100))).durum, 200)
+})
+
+test('postFoto_jpegUzunKenar2001_422FotoBuyuk_2000Gecer', async () => {
+  const buyuk = await yukle(jpeg(2001, 100), { ...kimlik, ...JPEG })
+  assert.deepEqual([buyuk.durum, buyuk.govde?.hata], [422, 'fotoBuyuk'])
+  assert.equal((await yukle(jpeg(100, 2000), { ...kimlik, ...JPEG })).durum, 200)
 })
 
 test('postFoto_bosGovde_400', async () => {

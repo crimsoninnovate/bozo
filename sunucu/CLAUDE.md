@@ -20,10 +20,11 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   letters at every maximum and 6 sizes per drink, measures 180,067 bytes), so `PUT /yonetim/menu` alone reads
   up to `MENU_GOVDE_SINIRI` (256 KB, `menu.ts`). A document of 3-byte characters everywhere could still exceed
   it; the panel then shows "Menü çok büyük, kaydedilemedi." `menu.test.ts` holds the measurement.
-- Photo upload (`foto.ts`): `POST /yonetim/foto` takes raw WebP bytes (`Content-Type: image/webp`, up to
-  `FOTO_GOVDE_SINIRI` 3 MB, long edge up to 2000 px, read from the VP8/VP8L/VP8X header) and writes
-  `<sha256[0..16]>.webp` atomically into `FOTO_DIZINI`; existing files are never rewritten or deleted. Without
-  `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job, not the server's.
+- Photo upload (`foto.ts`): `POST /yonetim/foto` takes raw WebP or JPEG bytes (`Content-Type` must match the magic
+  bytes, else 415 `bicimDesteklenmiyor`; up to `FOTO_GOVDE_SINIRI` 3 MB, long edge up to 2000 px, read from the
+  VP8/VP8L/VP8X header or the first JPEG SOF marker; Safari and iOS cannot encode WebP, so the panel falls back to
+  JPEG) and writes `<sha256[0..16]>.webp` or `.jpg` atomically into `FOTO_DIZINI`; existing files are never
+  rewritten or deleted. Without `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job, not the server's.
 - Site rebuild (`derleme.ts`): `POST /yonetim/derleme` writes `DERLEME_DIZINI/istek` (ISO time; a second POST while it
   exists keeps the one file) and answers 202; `GET` reads `durum.json` (written by the build unit; invalid shape ->
   `bos` plus one `console.warn`, `gunluk` capped at 200 lines) and reports `sirada` when `istek` exists and the build is

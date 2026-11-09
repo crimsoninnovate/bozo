@@ -145,9 +145,9 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
       istek<MenuYayinYaniti>('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge }, yetki }),
     menuGeriAl: (id: number, taban: number | null) =>
       istek<MenuYayinYaniti>(`/yonetim/menu/${id}/geri-al`, { yontem: 'POST', govde: { taban }, yetki }),
-    /** Gövde `webpHazirla` çıktısı; sunucu içerik adını verir, atama taslakta yapılır. */
-    fotoYukle: (webp: Blob) =>
-      istek<FotoYukleYaniti>('/yonetim/foto', { yontem: 'POST', ham: webp, yetki, sureMs: YUKLEME_SURESI_MS }),
+    /** Gövde `fotoHazirla` çıktısı (WebP ya da JPEG, `Content-Type` blob türü); sunucu içerik adını verir. */
+    fotoYukle: (foto: Blob) =>
+      istek<FotoYukleYaniti>('/yonetim/foto', { yontem: 'POST', ham: foto, yetki, sureMs: YUKLEME_SURESI_MS }),
   }
 }
 

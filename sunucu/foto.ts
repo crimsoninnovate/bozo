@@ -5,7 +5,7 @@ import type { FotoYukleYaniti } from '../lib/menu/aktarim.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
 import type { Baglam } from './uclar.ts'
 
-/* Fotoğraf yükleme (spec 2026-11-09): yalnız WebP, içerik adı, dosya hiç silinmez. Sunumu nginx yapar. */
+/* Fotoğraf yükleme (spec 2026-11-09): WebP ya da JPEG, içerik adı, dosya hiç silinmez. Sunumu nginx yapar. */
 
 export const FOTO_GOVDE_SINIRI = 3 * 1024 * 1024
 const UZUN_KENAR_SINIRI = 2000
@@ -32,6 +32,29 @@ function parcaBoyutu(veri: Buffer, parca: string): { en: number; boy: number } |
   return null
 }
 
+const SOF_ISARETCILERI = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf])
+
+/** `FF D8 FF` ile başlayan JPEG'in ilk SOF işaretçisindeki piksel boyutu; SOS/EOI'ye dek bulunamazsa null. */
+export function jpegBoyutu(veri: Buffer): { en: number; boy: number } | null {
+  if (veri.length < 4 || veri[0] !== 0xff || veri[1] !== 0xd8 || veri[2] !== 0xff) return null
+  let i = 2
+  while (i + 4 <= veri.length) {
+    if (veri[i] !== 0xff) return null
+    const isaret = veri[i + 1]!
+    if (isaret === 0xff) { i += 1; continue } // dolgu baytı
+    if (isaret === 0x01 || (isaret >= 0xd0 && isaret <= 0xd8)) { i += 2; continue } // uzunluksuz
+    if (isaret === 0xd9 || isaret === 0xda) return null
+    if (SOF_ISARETCILERI.has(isaret)) {
+      if (i + 9 > veri.length) return null
+      const boy = veri.readUInt16BE(i + 5)
+      const en = veri.readUInt16BE(i + 7)
+      return en > 0 && boy > 0 ? { en, boy } : null
+    }
+    i += 2 + veri.readUInt16BE(i + 2)
+  }
+  return null
+}
+
 const varMi = (yol: string): Promise<boolean> =>
   access(yol).then(() => true, () => false)
 
@@ -48,17 +71,24 @@ async function atomikYaz(dizin: string, dosya: string, veri: Buffer): Promise<vo
   }
 }
 
-/** Gövde ham WebP baytlarıdır; yanıt içerik adını ve boyutu verir, aynı baytlar aynı adı verir. */
+/** Başlıktaki tür, baytların gerçek biçimiyle eşleşmeli; boyut okunamazsa biçim de geçersizdir. */
+const BICIMLER: Record<string, { uzanti: string; boyut: (veri: Buffer) => { en: number; boy: number } | null }> = {
+  'image/webp': { uzanti: 'webp', boyut: webpBoyutu },
+  'image/jpeg': { uzanti: 'jpg', boyut: jpegBoyutu },
+}
+
+/** Gövde ham WebP ya da JPEG baytlarıdır; yanıt içerik adını ve boyutu verir, aynı baytlar aynı adı verir. */
 export async function yonetimFotoYukle(b: Baglam, istek: Istek): Promise<Yanit> {
   if (b.fotoDizini === null) throw new IstekHatasi(503, 'fotoKapali')
-  const tur = (istek.basliklar['content-type'] ?? '').split(';')[0]?.trim().toLowerCase()
-  if (tur !== 'image/webp') throw new IstekHatasi(415, 'webpDegil')
+  const tur = (istek.basliklar['content-type'] ?? '').split(';')[0]?.trim().toLowerCase() ?? ''
+  const bicim = BICIMLER[tur]
+  if (!bicim) throw new IstekHatasi(415, 'bicimDesteklenmiyor')
   const veri = await istek.hamGovde(FOTO_GOVDE_SINIRI)
   if (veri.length === 0) throw new IstekHatasi(400, 'govdeBos')
-  const boyut = webpBoyutu(veri)
-  if (!boyut) throw new IstekHatasi(415, 'webpDegil')
+  const boyut = bicim.boyut(veri)
+  if (!boyut) throw new IstekHatasi(415, 'bicimDesteklenmiyor')
   if (Math.max(boyut.en, boyut.boy) > UZUN_KENAR_SINIRI) throw new IstekHatasi(422, 'fotoBuyuk')
-  const dosya = `${createHash('sha256').update(veri).digest('hex').slice(0, 16)}.webp`
+  const dosya = `${createHash('sha256').update(veri).digest('hex').slice(0, 16)}.${bicim.uzanti}`
   if (!(await varMi(join(b.fotoDizini, dosya)))) await atomikYaz(b.fotoDizini, dosya, veri)
   return { durum: 200, govde: { dosya, ...boyut } satisfies FotoYukleYaniti }
 }

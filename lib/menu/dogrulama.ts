@@ -31,7 +31,7 @@ const EPOSTA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const TELEFON = /^\+(?=(?:\s*[0-9]){7})[0-9 ]{8,20}$/
 const YORUM_KODU = /^[A-Za-z0-9_-]{6,40}$/
 const YASAK = /(?<![\p{L}])(müşteri|bedava|mangal|şef|parça|adet|masa)|7\/24/iu
-export const FOTO_DOSYASI = /^[0-9a-f]{16}\.webp$/
+export const FOTO_DOSYASI = /^[0-9a-f]{16}\.(webp|jpg)$/
 export const FOTO_ODAGI = /^(100|[1-9]?\d)% (100|[1-9]?\d)%$/
 const ONERI: Record<string, string> = {
   müşteri: 'misafir', bedava: 'ikram', mangal: 'ocak veya kor', şef: 'usta',

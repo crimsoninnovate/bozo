@@ -551,12 +551,14 @@ test('fotograflar_bilinmeyenAnahtar_reddedilir', () => {
 })
 
 test('fotograflar_dosyaAdiBicimi_denetlenir', () => {
-  for (const kotu of ['../x.webp', 'ABCDEF0123456789.webp', '0123456789abcde.webp', '0123456789abcdef.png']) {
+  for (const kotu of ['../x.webp', 'ABCDEF0123456789.webp', '0123456789abcde.webp', '0123456789abcdef.png', '0123456789abcdef.jpeg']) {
     const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: kotu, odak: null }))
     assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.dosya`), 'fotoDosya', kotu)
   }
-  const iyi = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: '0123456789abcdef.webp', odak: null }))
-  assert.equal(menuBelgesiDogrula(iyi).tamam, true)
+  for (const iyi of ['0123456789abcdef.webp', '0123456789abcdef.jpg']) {
+    const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: iyi, odak: null }))
+    assert.equal(menuBelgesiDogrula(b).tamam, true, iyi)
+  }
 })
 
 test('fotograflar_odak_nullYaDaYuzdeCifti', () => {

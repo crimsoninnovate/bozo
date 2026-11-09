@@ -43,7 +43,7 @@ export type Iletisim = {
 /** Açık olunan pencere, Girne saati, tam saat: `acilis` 6..18, `kapanis` ertesi sabah 2..8. */
 export type Saatler = { acilis: number; kapanis: number }
 
-/** `dosya`: sunucudaki `<16 hex>.webp`; `odak`: 'X% Y%' ya da `null` (ortalı). */
+/** `dosya`: sunucudaki `<16 hex>.webp` ya da `.jpg`; `odak`: 'X% Y%' ya da `null` (ortalı). */
 export type FotoAtamasi = { dosya: string; odak: string | null }
 
 export type MenuBelgesi = {

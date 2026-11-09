@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { odakNoktasi, hedefBoyut } from './fotoHazirla.ts'
+import { HazirlamaHatasi, hedefBoyut, kodla, odakNoktasi } from './fotoHazirla.ts'
 
 test('hedefBoyut_yatayUzunKenarSiniriAsar_oranKorunarakKuculur', () => {
   assert.deepEqual(hedefBoyut(4000, 3000), { en: 2000, boy: 1500 })
@@ -29,4 +29,34 @@ test('odakNoktasi_dogrulayicininBicimiyleUyumlu', () => {
   for (const [x, y] of [[0, 0], [100, 100], [7, 93]] as const) {
     assert.match(odakNoktasi(x, y, 100, 100), /^(100|[1-9]?\d)% (100|[1-9]?\d)%$/)
   }
+})
+
+/** `toBlob` taklidi: tarayıcının gerçekte döndürdüğü tür `desteklenen` listesinde değilse PNG verir. */
+function sahteKodlayici(desteklenen: string[], kayit: Array<[string, number]> = []) {
+  return async (tur: string, kalite: number): Promise<Blob | null> => {
+    kayit.push([tur, kalite])
+    return new Blob([new Uint8Array([1])], { type: desteklenen.includes(tur) ? tur : 'image/png' })
+  }
+}
+
+test('kodla_webpDestekleniyor_webpDonerJpegDenenmez', async () => {
+  const kayit: Array<[string, number]> = []
+  const blob = await kodla(sahteKodlayici(['image/webp', 'image/jpeg'], kayit), 'hata')
+  assert.equal(blob.type, 'image/webp')
+  assert.deepEqual(kayit, [['image/webp', 0.82]])
+})
+
+test('kodla_webpYerinePngGelir_jpegle085KaliteyleYenilenir', async () => {
+  const kayit: Array<[string, number]> = []
+  const blob = await kodla(sahteKodlayici(['image/jpeg'], kayit), 'hata')
+  assert.equal(blob.type, 'image/jpeg')
+  assert.deepEqual(kayit, [['image/webp', 0.82], ['image/jpeg', 0.85]])
+})
+
+test('kodla_ikiBicimdeBasarisiz_kodlanamadiMetniyleHataFirlatir', async () => {
+  await assert.rejects(
+    kodla(sahteKodlayici([]), 'Kodlanamadı.'),
+    (h) => h instanceof HazirlamaHatasi && h.message === 'Kodlanamadı.',
+  )
+  await assert.rejects(kodla(async () => null, 'Kodlanamadı.'), HazirlamaHatasi)
 })
