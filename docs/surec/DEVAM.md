@@ -126,6 +126,19 @@ Son güncelleme: 9 Kasım 2026
 7. **Performans adayları 2-5** (`IYILESTIRMELER.md` > "mobil performans teşhisi"); aday 1 yayında.
 8. `X-Powered-By` başlığı sunucu genelinde bir Plesk ayarı, 26 vhost'u etkiler: kullanıcının kararı.
 
+### `feat/panel-icerik` sonrası (birleşmeyi beklemez)
+
+- **Sahibinin göz atacağı kararlar (9 Kasım):** iPhone WebP kodlayamadığı için JPEG de kabul ediliyor;
+  "Siteyi Güncelle" derleme sürerken kapalı; 60 dakikadan eski "derleniyor" hata sayılır; sunucu eski
+  panelin eksik bölümlerini (saatler, fotoğraflar, iletişim, duyuru, ikramlar) geçerli sürümden doldurur;
+  fotoğraf "nerede kullanılıyor" etiketleri `lib/yonetim/fotoYerleri.ts`'te; güne göre saat yapılmadı.
+- **Ertelenen küçük işler:** odak seçici klavyeyle çalışmıyor (`FotoFormu.tsx`); şeffaf PNG JPEG'e
+  dönerken siyahlaşıyor (tuval önce beyazla doldurulmalı); `SiteGuncelle` anket döngüsünün ve
+  `useGirneSaati` canlı saat durumunun testi yok; içecek ölçüsü ekleme/silme "Siteyi güncellemeyi
+  unutmayın" notunu tetiklemiyor; elektrik kesintisinde `durum.json` diskte "derleniyor" kalır (panel
+  hata gösterir); 120 karakteri aşan birkaç satır (`CLAUDE.md` 72-75, `dogrulama.test.ts`, `foto.test.ts`);
+  `fotoGoc.ts` dosya ve JSON hatalarını yakalamıyor; dal 911 testle geçer.
+
 ## Bir sonraki deploy'da hatırlanacak
 
 - **Sıra (sahibin onayıyla):** sunucu kodu değiştiyse önce skor sunucusu (`SUNUCU-CANLIYA-ALMA.md` >
