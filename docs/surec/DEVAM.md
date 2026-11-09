@@ -134,12 +134,11 @@ Son güncelleme: 9 Kasım 2026
   "Siteyi Güncelle" derleme sürerken kapalı; 60 dakikadan eski "derleniyor" hata sayılır; sunucu eski
   panelin eksik bölümlerini (saatler, fotoğraflar, iletişim, duyuru, ikramlar) geçerli sürümden doldurur;
   fotoğraf "nerede kullanılıyor" etiketleri `lib/yonetim/fotoYerleri.ts`'te; güne göre saat yapılmadı.
-- **Ertelenen küçük işler:** odak seçici klavyeyle çalışmıyor (`FotoFormu.tsx`); şeffaf PNG JPEG'e
-  dönerken siyahlaşıyor (tuval önce beyazla doldurulmalı); `SiteGuncelle` anket döngüsünün ve
-  `useGirneSaati` canlı saat durumunun testi yok; içecek ölçüsü ekleme/silme "Siteyi güncellemeyi
-  unutmayın" notunu tetiklemiyor; elektrik kesintisinde `durum.json` diskte "derleniyor" kalır (panel
-  hata gösterir); 120 karakteri aşan birkaç satır (`CLAUDE.md` 72-75, `dogrulama.test.ts`, `foto.test.ts`);
-  `fotoGoc.ts` dosya ve JSON hatalarını yakalamıyor; dal 911 testle geçer.
+- **Ertelenen küçük işler:** `SiteGuncelle` anket döngüsünün ve `useGirneSaati` canlı saat durumunun testi
+  yok; elektrik kesintisinde `durum.json` diskte "derleniyor" kalır (panel 60 dakika sonra hata gösterir);
+  `CLAUDE.md` 72-75 tablo satırları 120 karakteri aşıyor (tablo satırı bölünemez). 9 Kasım'da kapandı: odak
+  seçici ok tuşlarıyla, şeffaf PNG JPEG'de beyaz zeminle, içecek ölçüsü ekleme/silme "unutmayın" notunu
+  veriyor, `fotoGoc.ts` hataları yakalıyor. Docker'a geçiş (`kap.sh`) bağımsız incelemeden geçmedi.
 
 ## Bir sonraki deploy'da hatırlanacak
 
