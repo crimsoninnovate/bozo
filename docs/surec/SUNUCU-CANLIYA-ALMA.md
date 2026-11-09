@@ -112,7 +112,8 @@ anahtarları (`<bitisMs>.<hmac>`, sahibin bugünkü "Beni hatırla"sı) 15 Aral�
    yeni tablolarda `SELECT`, `INSERT`, `UPDATE`, `DELETE` yetkisi olduğunu doğrula (şifre ve kapatma `UPDATE`,
    bir yıllık budama `DELETE` ister).
 2. Skor sunucusu ("Sunucu güncellemesi"), sonra site. Ters sırada yeni panel `GET /yonetim/ben`'den 404 alır
-   ve açılmaz. Sunucu geri alınırsa site de geri alınmalı.
+   ve açılmaz. Sunucu geri alınırsa site de geri alınmalı. `YONETIM_KULLANICI` en çok 40 karakter olmalı
+   (`yazar` ve `yonetim_islem.ad` sütunları); uzunsa yeni sunucu açılışta hata verip başlamaz.
 3. Denetim: admin girişi, Kullanıcılar sekmesinde deneme hesabı, o hesapla girişte zorunlu şifre ekranı,
    bir yayın ve Geçmiş'te yazar adı, hesabı kapatınca öbür cihazın girişe dönmesi; sonra deneme hesabını kapat.
 4. Personel admin şifresini biliyorsa (oyun ekranına bugüne kadar adminin kimliğiyle giriliyordu): sahibi

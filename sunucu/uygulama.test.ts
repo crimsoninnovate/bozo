@@ -316,3 +316,10 @@ test('tarama_gecerliMasa204_digerleri400_personelOtuzSatirGorur', async () => {
   assert.deepEqual(veri.satirlar[6], { masa: 7, bugun: 2, hafta: 2, toplam: 2 })
   assert.deepEqual(veri.satirlar[0], { masa: 1, bugun: 0, hafta: 0, toplam: 0 })
 })
+
+test('uygulamaKur_adminAdi40KarakterdenUzun_hataAtar', () => {
+  const ayar = { kokenler: [KOKEN], tuz: 't', guvenilirVekil: listeKur([]), kampanyaBitis: null }
+  const kur = (kullanici: string) => uygulamaKur(bellekDepoKur(), { ...ayar, yonetim: { kullanici, sifre: 's' } })
+  assert.throws(() => kur('a'.repeat(41)), /YONETIM_KULLANICI/)
+  assert.doesNotThrow(() => kur('a'.repeat(40)))
+})

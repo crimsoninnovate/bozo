@@ -145,12 +145,18 @@ function hatayaYanit(hata: unknown, istek: Istek, gunluk: Gunluk): Yanit {
   return { durum: 500, govde: { hata: 'sunucu' } }
 }
 
+/** Admin adı `menu_surum.yazar` ve `yonetim_islem.ad` sütunlarına yazılır, ikisi de VARCHAR(40). */
+const ADMIN_ADI_EN_COK = 40
+
 export function uygulamaKur(
   depo: Depo,
   ayar: Ayar,
   simdi: () => number = Date.now,
   gunluk: Gunluk = console,
 ): Uygulama {
+  if (ayar.yonetim && ayar.yonetim.kullanici.length > ADMIN_ADI_EN_COK) {
+    throw new Error(`YONETIM_KULLANICI en çok ${ADMIN_ADI_EN_COK} karakter olabilir`)
+  }
   const ipSiniri = hizSiniriKur(IP_SAATLIK, SAAT_MS)
   const yonetimSiniri = hizSiniriKur(YONETIM_SAATLIK, SAAT_MS)
   const menuSiniri = hizSiniriKur(ayar.menuSaatlik ?? MENU_SAATLIK, SAAT_MS)
