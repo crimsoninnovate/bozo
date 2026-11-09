@@ -14,12 +14,12 @@ Environment=CIKTI=/var/lib/bozo-derleme/cikti
 Environment=PATH=/opt/plesk/node/24/bin:/usr/local/bin:/usr/bin:/bin
 # Shared by the container and ExecStopPost=: the ownership mark must outlive the container.
 Environment=TMPDIR=/var/lib/bozo-derleme/tmp
-# `+`: root only for the docker CLI; the container runs derle.sh as bozo-derleme (kap.sh).
-ExecStart=+/opt/bozo-derleme/kap.sh
+# `+` keeps User='s HOME (the build user's tree): env -i, or root's docker CLI reads a config bozo-derleme wrote.
+ExecStart=+/usr/bin/env -i PATH=/usr/bin:/bin HOME=/root /opt/bozo-derleme/kap.sh
 # Runs only when ExecStart succeeded; `+` is root. arc has systemd 239, OnSuccess= needs 249.
-ExecStartPost=+/usr/bin/systemctl start --no-block bozo-yukle.service
+ExecStartPost=+/usr/bin/env -i /usr/bin/systemctl start --no-block bozo-yukle.service
 # A SIGKILLed docker CLI leaves the container running: remove it before closing the status.
-ExecStopPost=-+/usr/bin/docker rm -f bozo-derleme-kap
+ExecStopPost=-+/usr/bin/env -i PATH=/usr/bin:/bin HOME=/root /usr/bin/docker rm -f bozo-derleme-kap
 # Writes `hata` if the unit died past its trap (SIGKILL after the timeout), on the host's node.
 ExecStopPost=/opt/bozo-derleme/derle.sh
 # A build takes about seven minutes; the rest covers npm ci and up to 15 min waiting on an upload.

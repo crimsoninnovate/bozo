@@ -231,6 +231,22 @@ test('bayatDurum_birimBasarisizDurdu_derleniyorHataOlur', async () => {
   }
 })
 
+test('bayatDurum_konteynerBaslamadi_istekSilinirHataYazilir', async () => {
+  const o = ortamKur()
+  const istek = join(o.panel, 'istek')
+  writeFileSync(istek, 'x')
+  // derle.sh'in kendi hatası (1, kilit zaman aşımı gibi) bu yola girmez: istek ve durum yerinde kalır.
+  assert.equal(calistir(DERLE, o, { SERVICE_RESULT: 'exit-code', EXIT_STATUS: '1' }).status, 0)
+  assert.equal(existsSync(istek), true)
+  assert.equal(existsSync(join(o.panel, 'durum.json')), false)
+  // docker run 125: imaj yok ya da daemon kapalı, derle.sh hiç çalışmadı.
+  assert.equal(calistir(DERLE, o, { SERVICE_RESULT: 'exit-code', EXIT_STATUS: '125' }).status, 0)
+  assert.equal(existsSync(istek), false)
+  const { ham } = await durumOku(o)
+  assert.equal(ham.asama, 'hata')
+  assert.ok(ham.gunluk.some((s) => s.includes('did not start')))
+})
+
 test('durumYaz_rootOlarak_reddederDosyaYazmaz', () => {
   // Sahte `id -u` 0 der: yukle.sh'in durum yazıcısı root'ken çalışmamalı (gerçekte runuser ile düşer).
   const o = ortamKur()

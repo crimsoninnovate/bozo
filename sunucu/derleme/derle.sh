@@ -12,7 +12,12 @@ umask 0027
 # Exists only while this run holds the lock and has not reached its end (PrivateTmp).
 SAHIPLIK="${TMPDIR:-/tmp}/bozo-derle.sahip"
 if [ -n "${SERVICE_RESULT:-}" ]; then
-  if [ -e "$SAHIPLIK" ]; then bayat_durumu_kapat derle; rm -f "$SAHIPLIK"; fi
+  if [ -e "$SAHIPLIK" ]; then bayat_durumu_kapat derle; rm -f "$SAHIPLIK"
+  # docker run 125-127: the container never ran this script. Drop the request, or the path unit retries silently.
+  elif [[ "${EXIT_STATUS:-}" =~ ^12[5-7]$ ]] && exec 9<"$KOK" && flock -n 9; then
+    rm -f "$DERLEME_DIZINI/istek"
+    durum_yaz hata "" "derle: build did not start (docker exit $EXIT_STATUS)"
+  fi
   exit 0
 fi
 [ $# -eq 0 ] || { echo "derle: takes no arguments" >&2; exit 2; }
