@@ -50,8 +50,9 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   Changing `YONETIM_SIFRE` drops every admin token. Old `<bitisMs>.<hmac>` admin tokens pass until
   `ESKI_ANAHTAR_SONU` (15 Dec 2026), then delete that branch. A temporary-password account gets 403
   `sifreDegismeli` everywhere except `/yonetim/ben` and `/yonetim/sifre`; account routes are admin-only (403
-  `adminGerekli`). Panel actions go to `yonetim_islem` through `islemYaz` (a log failure never fails the action),
-  kept one year (`isler.ts`). Do not rotate `GIZLI_TUZ` to revoke sessions: it also breaks every unredeemed
+  `adminGerekli`). A wrong old password on `/yonetim/sifre` is 403 `eskiSifreYanlis`, never 401: the panel
+  logs out on 401. Panel actions go to `yonetim_islem` through `islemYaz` (a log failure never fails the
+  action), kept one year (`isler.ts`). Do not rotate `GIZLI_TUZ` to revoke sessions: it also breaks every unredeemed
   reward code (`kodOzeti` hashes with the same salt).
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads

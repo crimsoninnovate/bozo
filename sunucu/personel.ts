@@ -54,7 +54,9 @@ export async function yonetimSifre(b: Baglam, admin: YonetimKimligi | null, iste
   if (y.admin || !admin) throw new IstekHatasi(400, 'adminSifresiSunucuda')
   const { eski, yeni } = await metinler(istek, ['eski', 'yeni'])
   const p = await b.depo.personelBul(y.id)
-  if (!p || !(await parolaDogrula(eski, p.parolaOzeti))) throw new IstekHatasi(401, 'kimlikGerekli')
+  if (!p) throw new IstekHatasi(401, 'kimlikGerekli')
+  // 401 değil: panel 401'de oturumu kapatır, yanlış eski şifre ise formda kalmalı.
+  if (!(await parolaDogrula(eski, p.parolaOzeti))) throw new IstekHatasi(403, 'eskiSifreYanlis')
   if (yeni === eski) throw new IstekHatasi(400, 'sifreAyni')
   sifreDenetle(yeni)
   const guncel = await b.depo.personelSifreKoy(p.id, await parolaOzeti(yeni), false)

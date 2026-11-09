@@ -2,9 +2,8 @@
 
 import { useState, type SubmitEvent } from 'react'
 import { yonetim as m } from '@/content/yonetim'
-import { ApiHatasi } from '@/lib/oyun/api'
 import { SIFRE_EN_AZ, SIFRE_EN_COK, sifreSorunu } from '@/lib/yonetim/personel'
-import { apiAl, hataMetni } from './oturum'
+import { apiAl, hataIsle } from './oturum'
 import ortak from './oturum.module.css'
 import stil from './SifreFormu.module.css'
 
@@ -13,6 +12,8 @@ type Props = {
   zorunlu: boolean
   yetki: string
   yeniOturum: (yetki: string, bitis: string) => void
+  /** 401: oturum düşmüş, girişe dönülür. Yanlış eski şifre 403 gelir ve formda kalır. */
+  cik: () => void
   vazgec?: () => void
 }
 
@@ -24,7 +25,7 @@ function sorunBul(eski: string, yeni: string, tekrar: string): string | null {
   return yeni === eski ? m.hata.sifreAyni : null
 }
 
-export function SifreFormu({ zorunlu, yetki, yeniOturum, vazgec }: Props) {
+export function SifreFormu({ zorunlu, yetki, yeniOturum, cik, vazgec }: Props) {
   const [hata, setHata] = useState<string | null>(null)
   const [mesgul, setMesgul] = useState(false)
   const gonder = async (olay: SubmitEvent<HTMLFormElement>) => {
@@ -40,8 +41,7 @@ export function SifreFormu({ zorunlu, yetki, yeniOturum, vazgec }: Props) {
       const { anahtar, bitis } = await apiAl(yetki).sifreDegistir(eski, yeni)
       yeniOturum(`Bearer ${anahtar}`, bitis)
     } catch (h) {
-      // 401 burada çoğunlukla yanlış eski şifredir; oturum düşmüşse sonraki istek girişe döner.
-      setHata(h instanceof ApiHatasi && h.durum === 401 ? m.sifre.yanlis : hataMetni(h))
+      setHata(hataIsle(h, cik))
       setMesgul(false)
     }
   }

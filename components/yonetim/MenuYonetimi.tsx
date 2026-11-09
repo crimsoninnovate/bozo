@@ -268,7 +268,8 @@ function Calisma(props: PanelProps & Hesap) {
         <Mesajlar mesaj={mesaj} eskiNot={bar && eski && t.fark.length === 0 && !t.durum.kapali} />
         {sifre === 'degisti' && <p className={stil.tamam} role="status">{m.sifre.tamam}</p>}
         {sifre === 'acik' ? (
-          <SifreFormu zorunlu={false} yetki={yetki} yeniOturum={sifreDegisti} vazgec={() => setSifre(null)} />
+          <SifreFormu zorunlu={false} yetki={yetki} yeniOturum={sifreDegisti} cik={cik}
+            vazgec={() => setSifre(null)} />
         ) : onay ? (
           <OnayEkrani onay={onay} fark={t.fark} yayindaki={t.yayindaki} sonuc={t.sonuc} belge={belge}
             mesgul={mesgul} onayla={onayla} vazgec={() => setOnay(null)} />
@@ -378,7 +379,7 @@ function Hesapli({ api, cik, baz, yetki, yenile }: HesapliProps) {
       <>
         <PanelUst cik={cik} kim={ben} />
         <div className={stil.icerik}>
-          <SifreFormu zorunlu yetki={yetki} yeniOturum={yenile} />
+          <SifreFormu zorunlu yetki={yetki} yeniOturum={yenile} cik={cik} />
         </div>
       </>
     )

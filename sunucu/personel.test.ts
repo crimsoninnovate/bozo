@@ -124,13 +124,14 @@ test('personel_ayniAd409_adminAdi400_gecersizSifre400', async () => {
   })
 })
 
-test('sifre_admin400_yanlisEski401_yeniEskiyleAyni400', async () => {
+test('sifre_admin400_yanlisEski403_yeniEskiyleAyni400', async () => {
   await sunucuyla(async (iste) => {
     const admin = await iste('/yonetim/sifre', ADMIN_YETKI, 'POST', { eski: ADMIN.sifre, yeni: 'yepyeni-sifre' })
     assert.deepEqual([admin.durum, admin.govde], [400, { hata: 'adminSifresiSunucuda' }])
     await ac(iste)
     const g = await girisYap(iste, 'ajans', 'gecici-sifre')
-    assert.equal((await iste('/yonetim/sifre', g, 'POST', { eski: 'yanlis-sifre', yeni: 'kendi-sifrem-1' })).durum, 401)
+    const yanlis = await iste('/yonetim/sifre', g, 'POST', { eski: 'yanlis-sifre', yeni: 'kendi-sifrem-1' })
+    assert.deepEqual([yanlis.durum, yanlis.govde], [403, { hata: 'eskiSifreYanlis' }])
     const ayni = await iste('/yonetim/sifre', g, 'POST', { eski: 'gecici-sifre', yeni: 'gecici-sifre' })
     assert.deepEqual(ayni.govde, { hata: 'sifreAyni' })
   })
