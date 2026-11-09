@@ -4,9 +4,15 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 26 Ekim 2026
+Son güncelleme: 9 Kasım 2026
 
 ## Durum
+
+- **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
+  kaydına taşındı ve yollar yeni merkezde yeniden çekildi (`IYILESTIRMELER.md`, 9 Kasım). Bozo Karışık'ın
+  yeni adı Bozani: tohumda var, **canlı menüde panelden değiştirilmesi bekleniyor**; sonra JSON-LD ve
+  `llms.txt` için bir `npm run yayinla` daha. Google İşletme Profili hala "No 4" diyor (sahibi düzeltir).
+  Ana dizindeki `node_modules` bozuk (`lib.dom.d.ts`, `next/dist/compiled/zod` eksik): `npm ci`.
 
 - **Panel mobil tasarımı ve "Beni hatırla" canlıda (26 Ekim, önce skor sunucusu, sonra site; `main`'e
   birleştirildi).** Giriş formu `POST /yonetim/oturum` çağırır (30 günlük imzalı anahtar); sunucu
