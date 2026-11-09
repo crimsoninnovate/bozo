@@ -6,8 +6,8 @@ import { menuFarki } from './fark.ts'
 import {
   BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, derlemeGecici, derlemeGunlugu,
   derlemeMetni, derlemeSuruyor, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, guncelleKapali, hataSekmeleri,
-  hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz, telefonAciliyor,
-  yayinDurumu,
+  hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, sorunYeri, taslakOku, taslakYaz,
+  telefonAciliyor, yayinDurumu,
 } from './panel.ts'
 import { ApiHatasi } from '../oyun/api.ts'
 import type { DerlemeDurumu } from './aktarim.ts'
@@ -398,4 +398,23 @@ test('derlemeGecici_agHizSiniriSunucu_geciciKapaliVeYetkiDegil', () => {
   assert.equal(derlemeGecici(new ApiHatasi(503, 'derlemeKapali')), false)
   assert.equal(derlemeGecici(new ApiHatasi(401, 'yetkisiz')), false)
   assert.equal(derlemeGecici(new Error('x')), false)
+})
+
+test('sorunYeri_kayitYollari_turkceAdaCevrilir', () => {
+  const b = structuredClone(tohum)
+  const grup = b.ikramlar.gruplar[0]
+  assert.ok(grup && grup.ogeler[0] && b.ikramlar.urunler[1] && b.kalemler[0] && b.icecekler[2])
+  assert.equal(sorunYeri(b, 'kalemler[0].aciklama.en'), b.kalemler[0].ad.tr)
+  assert.equal(sorunYeri(b, 'icecekler[2].ad.en'), b.icecekler[2].ad.tr)
+  assert.equal(sorunYeri(b, 'ozel.aciklama.en'), b.ozel.ad.tr)
+  assert.equal(sorunYeri(b, 'ikramlar.urunler[1].ad.en'), b.ikramlar.urunler[1].ad.tr)
+  assert.equal(sorunYeri(b, 'ikramlar.gruplar[0].not.en'), grup.ad.tr)
+  assert.equal(sorunYeri(b, 'ikramlar.gruplar[0].ogeler[0].ad.en'), grup.ogeler[0].ad.tr)
+  assert.equal(sorunYeri(b, 'ikramlar.altMetin.en'), 'İkramlar')
+  assert.equal(sorunYeri(b, 'duyuru.metin.en'), 'Duyuru')
+})
+
+test('sorunYeri_olmayanKayit_yoluVerir', () => {
+  assert.equal(sorunYeri(tohum, 'kalemler[99].ad.en'), 'kalemler[99].ad.en')
+  assert.equal(sorunYeri(tohum, 'iletisim.eposta'), 'iletisim.eposta')
 })

@@ -222,3 +222,18 @@ export function taslakOku(ham: string | null, taban: number | null, tam: Tamamla
   if (yapi.length === 0) return { tur: 'geri', belge: girdi as MenuBelgesi }
   return { tur: 'bozuk', neden: yapi.map((h) => `${h.yol} (${h.metin})`).join('; ') }
 }
+
+/** Bir sorun yolunu ("kalemler[2].ad.tr") kaydın Türkçe adına çevirir; çözemezse yolu olduğu gibi verir. */
+export function sorunYeri(belge: MenuBelgesi, yol: string): string {
+  const liste = /^(kalemler|icecekler)\[(\d+)\]/.exec(yol)
+  if (liste) return belge[liste[1] as 'kalemler' | 'icecekler'][Number(liste[2])]?.ad.tr ?? yol
+  const oge = /^ikramlar\.gruplar\[(\d+)\]\.ogeler\[(\d+)\]/.exec(yol)
+  if (oge) return belge.ikramlar.gruplar[Number(oge[1])]?.ogeler[Number(oge[2])]?.ad.tr ?? yol
+  const ikram = /^ikramlar\.(urunler|gruplar)\[(\d+)\]/.exec(yol)
+  if (ikram) return belge.ikramlar[ikram[1] as 'urunler' | 'gruplar'][Number(ikram[2])]?.ad.tr ?? yol
+  const sekme = yonetim.menu.sekme
+  if (yol.startsWith('ozel')) return belge.ozel.ad.tr
+  if (yol.startsWith('ikramlar')) return sekme.ikramlar
+  if (yol.startsWith('duyuru')) return sekme.duyuru
+  return yol
+}

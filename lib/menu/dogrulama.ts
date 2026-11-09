@@ -83,12 +83,22 @@ function metin(c: Ctx, v: unknown, yol: string, en: number): string | undefined 
   return s
 }
 
+/** EN, TR'nin kopyası gibi duruyorsa uyarır; Cola, Ayran gibi kısa özel adlar iki dilde aynı kalabilir. */
+function ceviriKontrolu(c: Ctx, cift: Cift, yol: string): void {
+  if (cift.tr.trim() === '' || cift.tr.trim() !== cift.en.trim()) return
+  if (!/[çğıöşüÇĞİÖŞÜ]/.test(cift.tr) && cift.tr.trim().split(/\s+/).length < 3) return
+  const uyari = 'İngilizcesi Türkçesiyle aynı; çeviri unutulmuş olabilir.'
+  c.uyarilar.push({ yol: `${yol}.en`, kod: 'ceviriAyni', metin: uyari })
+}
+
 function cift(c: Ctx, v: unknown, yol: string, en: number): Cift | undefined {
   const o = nesne(c, v, yol, ['tr', 'en'])
   if (!o) return undefined
   const tr = metin(c, o.tr, `${yol}.tr`, en)
   const eng = metin(c, o.en, `${yol}.en`, en)
-  return tr !== undefined && eng !== undefined ? { tr, en: eng } : undefined
+  if (tr === undefined || eng === undefined) return undefined
+  ceviriKontrolu(c, { tr, en: eng }, yol)
+  return { tr, en: eng }
 }
 
 /** `null` serbest: dönüş `null` geçerli, `undefined` hatalı demektir. */
@@ -225,7 +235,9 @@ function duzCift(c: Ctx, v: unknown, yol: string, en: number, bosOlur = false): 
   if (!o) return undefined
   const tr = duzMetin(c, o.tr, `${yol}.tr`, en, bosOlur)
   const eng = duzMetin(c, o.en, `${yol}.en`, en, bosOlur)
-  return tr !== undefined && eng !== undefined ? { tr, en: eng } : undefined
+  if (tr === undefined || eng === undefined) return undefined
+  ceviriKontrolu(c, { tr, en: eng }, yol)
+  return { tr, en: eng }
 }
 
 function tamsa<T>(sonuc: Record<string, unknown>): T | undefined {

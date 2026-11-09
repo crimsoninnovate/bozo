@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { yonetim as m } from '@/content/yonetim'
 import type { Sorun } from '@/lib/menu/dogrulama'
 import type { Degisiklik } from '@/lib/menu/fark'
-import { telefonAciliyor } from '@/lib/menu/panel'
+import { sorunYeri, telefonAciliyor } from '@/lib/menu/panel'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import { AltBar } from './YayinBari'
@@ -25,15 +25,6 @@ type Props = {
   mesgul: boolean
   onayla: () => void
   vazgec: () => void
-}
-
-/** "kalemler[2].ad.tr" gibi bir yolu kaydın adına çevirir; çözemezse yolu olduğu gibi verir. */
-function yolAdi(belge: MenuBelgesi, yol: string): string {
-  const eslesme = /^(kalemler|icecekler)\[(\d+)\]/.exec(yol)
-  const ad = eslesme
-    ? belge[eslesme[1] as 'kalemler' | 'icecekler'][Number(eslesme[2])]?.ad.tr
-    : yol.startsWith('ozel') ? belge.ozel.ad.tr : undefined
-  return ad ?? yol
 }
 
 export function YayinOnayi(
@@ -62,7 +53,7 @@ export function YayinOnayi(
           <h3 className={stil.altBaslik}>{o.uyarilar}</h3>
           <ul className={stil.liste}>
             {uyarilar.map((u) => (
-              <li key={`${u.yol}.${u.kod}`} className={stil.satir}>{yolAdi(belge, u.yol)}: {u.metin}</li>
+              <li key={`${u.yol}.${u.kod}`} className={stil.satir}>{sorunYeri(belge, u.yol)}: {u.metin}</li>
             ))}
           </ul>
         </>

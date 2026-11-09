@@ -579,3 +579,29 @@ test('fotograflar_bolumYokVeBilinmeyenAlan_reddedilir', () => {
   const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: '0123456789abcdef.webp', odak: null, x: 1 }))
   assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.x`), 'bilinmeyenAlan')
 })
+
+test('dogrulama_enTrIleAyniTurkceHarfli_uyariVerir', () => {
+  const sonuc = menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.kalemler, 0).aciklama = { tr: 'Közde pişer.', en: 'Közde pişer.' }
+  }))
+  assert.equal(sonuc.tamam, true)
+  if (sonuc.tamam) {
+    assert.equal(sonuc.uyarilar.length, 1)
+    assert.equal(al(sonuc.uyarilar, 0).yol, 'kalemler[0].aciklama.en')
+    assert.equal(al(sonuc.uyarilar, 0).kod, 'ceviriAyni')
+  }
+})
+
+test('dogrulama_enTrIleAyniUcKelime_uyariVerir', () => {
+  const sonuc = menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.icecekler, 0).ad = { tr: 'Ev yapımı limonata', en: 'Ev yapımı limonata' }
+  }))
+  assert.ok(sonuc.tamam && sonuc.uyarilar.some((u) => u.yol === 'icecekler[0].ad.en'))
+})
+
+test('dogrulama_enTrIleAyniKisaAd_uyariVermez', () => {
+  const sonuc = menuBelgesiDogrula(varsayilanKopya((b) => {
+    al(b.icecekler, 0).ad = { tr: 'Red Bull', en: 'Red Bull' }
+  }))
+  assert.ok(sonuc.tamam && sonuc.uyarilar.length === 0)
+})
