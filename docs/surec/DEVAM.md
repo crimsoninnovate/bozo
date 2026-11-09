@@ -19,7 +19,8 @@ Son güncelleme: 9 Kasım 2026
   JSON-LD) ayrıca yapılır. **Canlıya alma sırası:** GitHub deploy key; nginx (`/foto/`, `client_max_body_size 4m`
   ve `bozo-oyun` ortamı: `FOTO_DIZINI`, `DERLEME_DIZINI`) + skor sunucusu; derleme kullanıcısı, depo klonu ve
   birimler; site yayını; sonra mevcut kareyi `node scripts/fotoGoc.ts` ile yükleyip panelden atama.
-  Derleme `main`'in son halini kullandığı için önce birleştirme gerekir.
+  Derleme `main`'in son halini kullandığı için önce birleştirme gerekir. Sıra fiyat yayınını kilitlemez: yeni
+  sunucu, eski panelin saatsiz ve fotosuz belgesini geçerli sürümün (yoksa tohumun) bölümleriyle tamamlar.
 
 - **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
   kaydına taşındı ve yollar yeni merkezde yeniden çekildi (`IYILESTIRMELER.md`, 9 Kasım). Bozo Karışık'ın

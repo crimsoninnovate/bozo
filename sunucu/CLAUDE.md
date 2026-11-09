@@ -16,6 +16,7 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   is one IP). `PUT /yonetim/menu` validates with `lib/menu/dogrulama.ts`, stores the normalized
   document and answers 409 `surumEskidi` when `taban` is not the latest version id;
   `GET /yonetim/menu/N` returns one stored version (the panel's rollback diff), 404 `surumYok`.
+  A PUT body missing `saatler`/`fotograflar` (the older panel) gets them from the current version, else the seed.
 - Body limits: the shared `GOVDE_SINIRI` is 64 KB, too small for a menu document (the largest valid one, Turkish
   letters at every maximum and 6 sizes per drink, measures 180,067 bytes), so `PUT /yonetim/menu` alone reads
   up to `MENU_GOVDE_SINIRI` (256 KB, `menu.ts`). A document of 3-byte characters everywhere could still exceed

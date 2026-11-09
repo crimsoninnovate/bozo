@@ -422,3 +422,60 @@ test('postGeriAl_65KBGovde_413_menuSiniriYalnizPutta', async () => {
   const y = await tazeSunucudaPost('/yonetim/menu/1/geri-al', 'POST', { taban: null, x: 'a'.repeat(65 * 1024) })
   assert.deepEqual([y.durum, y.hata], [413, 'govdeBuyuk'])
 })
+
+/** Kendi depo ve sunucusunda bir PUT; `ilk` verilirse önce o sürüm saklanır (R13 geçiş testleri). */
+async function tazeDepodaPut(ilk: MenuBelgesi | null, gonderilen: unknown) {
+  const tazeDepo = bellekDepoKur()
+  const taban = ilk ? await tazeDepo.menuYayinla(ilk, 'panel', saat, null) : null
+  const taze = await sunucuAc(AYAR, tazeDepo, () => saat)
+  try {
+    const y = await fetch(taze.kok + '/yonetim/menu', {
+      method: 'PUT',
+      body: JSON.stringify({ taban, belge: gonderilen }),
+      headers: { ...yonetim, 'Content-Type': 'application/json' },
+    })
+    const okunan = (await y.json()) as { hata?: unknown }
+    return { durum: y.status, hata: okunan.hata, saklanan: (await tazeDepo.menuGecerli())?.belge }
+  } finally {
+    taze.sunucu.close()
+  }
+}
+
+const ilkFotoId = Object.keys(fotograflar)[0]!
+const saatliFotolu = (): MenuBelgesi => ({
+  ...belge(700),
+  saatler: { acilis: 11, kapanis: 4 },
+  fotograflar: { [ilkFotoId]: { dosya: '0123456789abcdef.jpg', odak: null } },
+})
+
+test('putYonetimMenu_eskiPanelSaatsizFotosuz_200VeBolumlerGecerliSurumden', async () => {
+  const y = await tazeDepodaPut(saatliFotolu(), saatsizSurum(belge(720)))
+  assert.equal(y.durum, 200)
+  assert.equal(y.saklanan?.kalemler[0]?.fiyatlar.porsiyon, 720, 'gönderilen fiyat saklanır')
+  assert.deepEqual(y.saklanan?.saatler, { acilis: 11, kapanis: 4 })
+  assert.deepEqual(y.saklanan?.fotograflar, saatliFotolu().fotograflar)
+})
+
+test('putYonetimMenu_eskiPanelSurumYok_200VeSeedBolumleri', async () => {
+  const y = await tazeDepodaPut(null, saatsizSurum(belge(720)))
+  assert.equal(y.durum, 200)
+  assert.deepEqual([y.saklanan?.saatler, y.saklanan?.fotograflar], [SEED.saatler, SEED.fotograflar])
+})
+
+test('putYonetimMenu_gecerliSurumDeSaatsiz_200VeSeedSaatleri', async () => {
+  const y = await tazeDepodaPut(saatsizSurum(SEED), saatsizSurum(belge(720)))
+  assert.equal(y.durum, 200)
+  assert.deepEqual([y.saklanan?.saatler, y.saklanan?.fotograflar], [SEED.saatler, SEED.fotograflar])
+})
+
+test('putYonetimMenu_gecersizSaatlerGonderilir_tamamlanmaz_400', async () => {
+  const y = await tazeDepodaPut(saatliFotolu(), { ...belge(720), saatler: { acilis: 3, kapanis: 4 } })
+  assert.deepEqual([y.durum, y.hata], [400, 'belgeGecersiz'])
+  const bos = await tazeDepodaPut(saatliFotolu(), { ...saatsizSurum(belge(720)), saatler: null })
+  assert.deepEqual([bos.durum, bos.hata], [400, 'belgeGecersiz'])
+})
+
+test('putYonetimMenu_bilinmeyenAnahtar_halaReddedilir_400', async () => {
+  const y = await tazeDepodaPut(saatliFotolu(), { ...saatsizSurum(belge(720)), fazla: 1 })
+  assert.deepEqual([y.durum, y.hata], [400, 'belgeGecersiz'])
+})

@@ -1,8 +1,9 @@
 import type { MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../lib/menu/aktarim.ts'
 import { menuBelgesiDogrula } from '../lib/menu/dogrulama.ts'
 import { herkeseAcik } from '../lib/menu/herkeseAcik.ts'
-import { menuBelgesiTamamla } from '../lib/menu/tamamla.ts'
+import { menuBelgesiTamamla, type Tamamlayici } from '../lib/menu/tamamla.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
+import { VARSAYILAN_SAATLER } from '../lib/saat.ts'
 import type { MenuKaynagi } from './depo.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
 import type { Baglam } from './uclar.ts'
@@ -56,10 +57,18 @@ async function yayinla(b: Baglam, belge: MenuBelgesi, kaynak: MenuKaynagi, taban
   return { durum: 200, govde: { surum } satisfies MenuYayinYaniti }
 }
 
-/** Gövdedeki belge doğrulanır; saklanan, doğrulayıcının normalleştirdiği belgedir, ham gövde değil. */
+/** Seed'in saat ve fotoğraf bölümleri (`content/menu.varsayilan.json` sunucu paketinde yok). */
+const SEED_BOLUMLERI: Tamamlayici = { saatler: VARSAYILAN_SAATLER, fotograflar: {} }
+
+/**
+ * Gövdedeki belge doğrulanır; saklanan, doğrulayıcının normalleştirdiği belgedir, ham gövde değil.
+ * Eski panel saatsiz ve fotosuz belge yollar (R13): eksik bölümler geçerli sürümden, o da yoksa seed'den gelir.
+ */
 export async function yonetimMenuYayinla(b: Baglam, istek: Istek): Promise<Yanit> {
   const { taban, belge } = tabanCoz(await istek.govde(MENU_GOVDE_SINIRI))
-  const sonuc = menuBelgesiDogrula(belge)
+  const gecerli = await b.depo.menuGecerli()
+  const tamamlanan = gecerli ? menuBelgesiTamamla(belge, gecerli.belge) : belge
+  const sonuc = menuBelgesiDogrula(menuBelgesiTamamla(tamamlanan, SEED_BOLUMLERI))
   if (!sonuc.tamam) throw new IstekHatasi(400, 'belgeGecersiz')
   return yayinla(b, sonuc.belge, 'panel', taban)
 }
