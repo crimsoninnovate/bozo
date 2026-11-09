@@ -7,7 +7,7 @@ export const konum = {
   },
   harita: {
     caddeEtiketi: 'Naci Talat Caddesi',
-    pinKapiNo: 'No:4',
+    pinKapiNo: 'No:20D',
     // ODbL 1.0 lisansının istediği atıf; pazarlama metni değil, yasal zorunluluk.
     kaynak: '© OpenStreetMap katkıcıları',
   },

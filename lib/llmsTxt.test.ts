@@ -39,7 +39,7 @@ test('llmsTxt_uydurmaFiyatVeyaDereceTasimaz', () => {
 
 test('llmsTxt_ozetSatiri_saatVeAdresiTasir', () => {
   const metin = llmsTxt()
-  assert.ok(metin.includes('Naci Talat Caddesi No:4'))
+  assert.ok(metin.includes('Naci Talat Caddesi No:20D'))
   assert.ok(metin.includes("10:00'dan ertesi sabah 05:00'e kadar"))
 })
 

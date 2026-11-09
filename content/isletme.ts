@@ -16,9 +16,9 @@ const varsayilanIsletme: Isletme = {
   cadde: 'Naci Talat Caddesi',
   sehir: 'Girne',
   ulke: 'KKTC',
-  // Sahibi 12 Ağustos 2026'da tadilat belgesiyle teyit etti. Belge apartman adını da
-  // taşıyor ("Şht. Özdemir Apt"), sahibi onu yazmamayı seçti: cadde + numara yeterli.
-  binaNo: 'No:4',
+  // Sahibi 9 Kasım 2026'da düzeltti (eskisi No:4, dükkan aynı yerde). Apartman adı
+  // yazılmıyor, sahibinin kararı: cadde + numara yeterli.
+  binaNo: 'No:20D',
   // Sahibi 24 Ağustos 2026'da Google Maps'ten verdi: kapıya yakınlaşılmış nokta
   // (20.62z), posta kodunu OpenStreetMap bağımsız teyit etti.
   postaKodu: '99300',

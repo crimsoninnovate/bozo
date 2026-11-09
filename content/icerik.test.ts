@@ -219,7 +219,7 @@ test('isletme_dogrulanmisAlanlarDoludur', () => {
  * null kalırsa arama motorlarına eksik adres gider.
  */
 test('isletme_binaNoDogrulanmisDegerTasir', () => {
-  assert.equal(isletme.binaNo, 'No:4')
+  assert.equal(isletme.binaNo, 'No:20D')
 })
 
 /**

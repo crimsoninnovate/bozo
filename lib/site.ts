@@ -52,9 +52,9 @@ export function tumYollar(): { anahtar: RotaAnahtari; tr: string; en: string }[]
   }))
 }
 
-/** "Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC": Maps aramalarının metin hedefi. */
+/** "Ciğerci Bozo, Naci Talat Caddesi No:20D, Girne, KKTC": Maps aramalarının metin hedefi. */
 function adresMetni(isletmeVerisi: Isletme): string {
-  // Cadde ile numara tek parça: "Naci Talat Caddesi, No:4" araması numarayı ayrı
+  // Cadde ile numara tek parça: "Naci Talat Caddesi, No:20D" araması numarayı ayrı
   // bir bileşen sanır ve sonucu bozar.
   const sokak = isletmeVerisi.binaNo
     ? `${isletmeVerisi.cadde} ${isletmeVerisi.binaNo}`

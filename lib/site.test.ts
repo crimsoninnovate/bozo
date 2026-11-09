@@ -101,7 +101,7 @@ test('yolTarifiUrl_koordinatVePlaceIdBilinmiyorken_adresAramasiUretir', () => {
   // düşebilirdi, bu satır onu tek başına korur (fix round 1, Minor 2).
   // Cadde ile numara tek parça olmalı: aralarına virgül girerse Maps numarayı ayrı
   // bir adres bileşeni sanır.
-  assert.match(sorgu, /Naci Talat Caddesi No:4/)
+  assert.match(sorgu, /Naci Talat Caddesi No:20D/)
   assert.match(sorgu, /Girne/)
   assert.match(sorgu, /KKTC/)
 })
@@ -119,7 +119,7 @@ test('yolTarifiUrl_placeIdBilinirken_isletmeKartinaYonTarifiUretir', () => {
   assert.equal(url.origin + url.pathname, 'https://www.google.com/maps/dir/')
   assert.equal(url.searchParams.get('api'), '1')
   assert.equal(url.searchParams.get('destination_place_id'), 'ChIJHzzKSYdt3hQRN2efWVKQ-sc')
-  assert.equal(url.searchParams.get('destination'), 'Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC')
+  assert.equal(url.searchParams.get('destination'), 'Ciğerci Bozo, Naci Talat Caddesi No:20D, Girne, KKTC')
 })
 
 test('haritaUrl_placeIdNullIken_nullDoner', () => {
@@ -130,7 +130,7 @@ test('haritaUrl_gercekVeriyle_isletmeKartiniAcar', () => {
   const url = new URL(haritaUrl() ?? '')
   assert.equal(url.origin + url.pathname, 'https://www.google.com/maps/search/')
   assert.equal(url.searchParams.get('query_place_id'), 'ChIJHzzKSYdt3hQRN2efWVKQ-sc')
-  assert.equal(url.searchParams.get('query'), 'Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC')
+  assert.equal(url.searchParams.get('query'), 'Ciğerci Bozo, Naci Talat Caddesi No:20D, Girne, KKTC')
 })
 
 test('whatsappUrl_numaraNullIken_nullDoner', () => {

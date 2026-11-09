@@ -15,7 +15,7 @@ export const gizlilik = {
 
   sorumluBaslik: 'Who processes it',
   sorumluMetni:
-    'The controller is Ciğerci Bozo, Naci Talat Street No:4, Kyrenia, Northern ' +
+    'The controller is Ciğerci Bozo, Naci Talat Street No:20D, Kyrenia, Northern ' +
     'Cyprus. Every request in this notice goes to the business at the address below.',
 
   amacBaslik: 'What is processed, and what for',

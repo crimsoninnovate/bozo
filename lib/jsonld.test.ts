@@ -55,7 +55,7 @@ test('restaurantJsonLd_telefonVarken_telefonuYazar', () => {
 })
 
 const HARITA_KARTI =
-  'https://www.google.com/maps/search/?api=1&query=Ci%C4%9Ferci%20Bozo%2C%20Naci%20Talat%20Caddesi%20No%3A4' +
+  'https://www.google.com/maps/search/?api=1&query=Ci%C4%9Ferci%20Bozo%2C%20Naci%20Talat%20Caddesi%20No%3A20D' +
   '%2C%20Girne%2C%20KKTC&query_place_id=ChIJHzzKSYdt3hQRN2efWVKQ-sc'
 
 test('restaurantJsonLd_gercekVeriyle_instagramVeHaritaKartiniSameAsaYazar', () => {
@@ -105,7 +105,7 @@ test('restaurantJsonLd_geceyiAsanCalismaSaatiniIkiyeBolmeden_yazar', () => {
 test('restaurantJsonLd_adresBinaNoIleBirlesir', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
   const adres = veri.address as Adres
-  assert.equal(adres.streetAddress, 'Naci Talat Caddesi No:4')
+  assert.equal(adres.streetAddress, 'Naci Talat Caddesi No:20D')
   assert.equal(adres.addressLocality, 'Girne')
   assert.equal(adres.postalCode, '99300')
   assert.equal(adres.addressCountry, 'CY')

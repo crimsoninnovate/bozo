@@ -30,7 +30,7 @@ export const gizlilik = {
 
   sorumluBaslik: 'Kim işliyor',
   sorumluMetni:
-    'Kontrolör Ciğerci Bozo, Naci Talat Caddesi No:4, Girne, KKTC. Bu metindeki ' +
+    'Kontrolör Ciğerci Bozo, Naci Talat Caddesi No:20D, Girne, KKTC. Bu metindeki ' +
     'her talep doğrudan işletmeye, aşağıdaki adrese gider.',
 
   amacBaslik: 'Ne işleniyor, ne için',
