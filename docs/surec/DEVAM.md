@@ -10,8 +10,8 @@ Son güncelleme: 9 Kasım 2026
 
 - **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
   kaydına taşındı ve yollar yeni merkezde yeniden çekildi (`IYILESTIRMELER.md`, 9 Kasım). Bozo Karışık'ın
-  yeni adı Bozani: tohumda var, **canlı menüde panelden değiştirilmesi bekleniyor**; sonra JSON-LD ve
-  `llms.txt` için bir `npm run yayinla` daha. Google İşletme Profili hala "No 4" diyor (sahibi düzeltir).
+  yeni adı Bozani: canlı menüde sürüm 6 (veritabanına panelin taban kontrollü
+  INSERT'üyle yazıldı, yalnız iki ad alanı değişti), site yeniden yayınlandı. Google İşletme Profili hala "No 4" diyor (sahibi düzeltir).
   Ana dizindeki `node_modules` bozuk (`lib.dom.d.ts`, `next/dist/compiled/zod` eksik): `npm ci`.
 
 - **Panel mobil tasarımı ve "Beni hatırla" canlıda (26 Ekim, önce skor sunucusu, sonra site; `main`'e
