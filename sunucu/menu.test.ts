@@ -70,6 +70,11 @@ const birinciSurum = (b: MenuBelgesi): MenuBelgesi => {
   const { duyuru: _d, ikramlar: _i, iletisim: _t, ...eski } = structuredClone(b)
   return eski as unknown as MenuBelgesi
 }
+/** Saatler ve fotoğraf bölümlerinden önceki biçim: duyuru, ikramlar ve iletisim var, ikisi yok. */
+const saatsizSurum = (b: MenuBelgesi): MenuBelgesi => {
+  const { saatler: _s, fotograflar: _f, ...eski } = structuredClone(b)
+  return eski as unknown as MenuBelgesi
+}
 const yayinla = (taban: number | null, b: unknown) =>
   istek('/yonetim/menu', { yontem: 'PUT', govde: { taban, belge: b }, basliklar: yonetim })
 const yonetimMenu = async () =>
@@ -261,6 +266,22 @@ test('postGeriAl_gecerliSurumBolumsuz_409GecerliSurumEski', async () => {
   assert.equal((await yonetimMenu()).surumler.length, oncesi, 'sürüm yayınlanmaz')
   assert.equal(hatalar.length, 0, '500 değil, beklenen durum')
   // Sonraki testler v2 bir güncel sürüm ister: panelden bir kez tam belge yayınlanır.
+  assert.equal((await yayinla(guncel, SEED)).durum, 200)
+})
+
+test('postGeriAl_gecerliSurumSaatsizVeFotosuz_409GecerliSurumEski', async () => {
+  const taban = (await yonetimMenu()).gecerli?.surum ?? null
+  const eski = await depo.menuYayinla(birinciSurum(SEED), 'panel', saat, taban)
+  assert.ok(eski !== null)
+  const guncel = await depo.menuYayinla(saatsizSurum(SEED), 'panel', saat, eski)
+  assert.ok(guncel !== null)
+  const oncesi = (await yonetimMenu()).surumler.length
+  const y = await istek(`/yonetim/menu/${eski}/geri-al`, {
+    yontem: 'POST', govde: { taban: guncel }, basliklar: yonetim,
+  })
+  assert.deepEqual([y.durum, y.govde?.hata], [409, 'gecerliSurumEski'])
+  assert.equal((await yonetimMenu()).surumler.length, oncesi, 'sürüm yayınlanmaz')
+  assert.equal(hatalar.length, 0, '500 değil, beklenen durum')
   assert.equal((await yayinla(guncel, SEED)).durum, 200)
 })
 

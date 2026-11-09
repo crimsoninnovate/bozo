@@ -78,6 +78,8 @@ export type Baglam = {
   oyuncuSiniri: HizSiniri
   tablo: Onbellek<TabloYaniti>
   menu: Onbellek<MenuYaniti | null>
+  /** Yüklenen fotoğrafların dizini; null ise yükleme kapalı. */
+  fotoDizini: string | null
 }
 
 export async function turAl(b: Baglam, istek: Istek): Promise<Yanit> {

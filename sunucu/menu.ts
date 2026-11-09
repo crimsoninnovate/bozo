@@ -64,16 +64,16 @@ export async function yonetimMenuYayinla(b: Baglam, istek: Istek): Promise<Yanit
   return yayinla(b, sonuc.belge, 'panel', taban)
 }
 
-/** 1. sürüm belgede `ikramlar` ve `iletisim` yok; tipi tam olsa da depodan öyle gelebilir. */
+/** Eski sürümlerde bölümlerden biri ya da birkaçı yok; tipi tam olsa da depodan öyle gelebilir. */
 function tamBelgeMi(belge: MenuBelgesi): boolean {
-  const { ikramlar, iletisim } = belge as Partial<MenuBelgesi>
-  return ikramlar !== undefined && iletisim !== undefined
+  const { ikramlar, iletisim, saatler, fotograflar } = belge as Partial<MenuBelgesi>
+  return [ikramlar, iletisim, saatler, fotograflar].every((bolum) => bolum !== undefined)
 }
 
 /**
  * Eski sürümü yeni sürüm olarak yayınlar; eski kayıt artık doğrulanmıyorsa 500 ile durur (loglanır).
- * 1. sürümde olmayan bölümler şu an geçerli sürümden alınır (seed sunucu paketinde yok); geçerli sürüm
- * de 1. sürüm biçimindeyse tamamlanamaz: 409 `gecerliSurumEski` (panelden bir kez yayınlayıp sonra geri al).
+ * Eski sürümde olmayan bölümler şu an geçerli sürümden alınır (seed sunucu paketinde yok); geçerli sürüm
+ * de bölümsüzse tamamlanamaz: 409 `gecerliSurumEski` (panelden bir kez yayınlayıp sonra geri al).
  */
 export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string): Promise<Yanit> {
   const { taban } = tabanCoz(await istek.govde())

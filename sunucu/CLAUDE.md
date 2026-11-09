@@ -20,6 +20,10 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   letters at every maximum and 6 sizes per drink, measures 180,067 bytes), so `PUT /yonetim/menu` alone reads
   up to `MENU_GOVDE_SINIRI` (256 KB, `menu.ts`). A document of 3-byte characters everywhere could still exceed
   it; the panel then shows "Menü çok büyük, kaydedilemedi." `menu.test.ts` holds the measurement.
+- Photo upload (`foto.ts`): `POST /yonetim/foto` takes raw WebP bytes (`Content-Type: image/webp`, up to
+  `FOTO_GOVDE_SINIRI` 3 MB, long edge up to 2000 px, read from the VP8/VP8L/VP8X header) and writes
+  `<sha256[0..16]>.webp` atomically into `FOTO_DIZINI`; existing files are never rewritten or deleted. Without
+  `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job, not the server's.
 - Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
   30 days, stateless, `oturum.ts`); change `YONETIM_SIFRE` to revoke every token. Do not rotate
   `GIZLI_TUZ` for this: it also breaks every unredeemed reward code (`kodOzeti` hashes with the same salt).

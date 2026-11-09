@@ -21,12 +21,14 @@ export type Istek = {
   ip: string
   /** `sinir`: bayt; verilmezse `GOVDE_SINIRI`. */
   govde(sinir?: number): Promise<unknown>
+  /** Ham bayt gövde (fotoğraf yükleme); `sinir` bayt aşılırsa 413. */
+  hamGovde(sinir: number): Promise<Buffer>
 }
 
 export type Yanit = { durum: number; govde?: unknown; basliklar?: Record<string, string> }
 
 /** Gövdeyi en çok `sinir` bayt okur (spec §9: 64 KB); aşarsa okumayı durdurur ve 413 döner. */
-export function govdeOku(req: IncomingMessage, sinir = GOVDE_SINIRI): Promise<unknown> {
+export function hamGovdeOku(req: IncomingMessage, sinir: number): Promise<Buffer> {
   return new Promise((coz, reddet) => {
     const parcalar: Buffer[] = []
     let toplam = 0
@@ -39,17 +41,20 @@ export function govdeOku(req: IncomingMessage, sinir = GOVDE_SINIRI): Promise<un
       }
       parcalar.push(parca)
     })
-    req.on('end', () => {
-      const metin = Buffer.concat(parcalar).toString('utf8')
-      if (metin.trim() === '') return coz(null)
-      try {
-        coz(JSON.parse(metin))
-      } catch {
-        reddet(new IstekHatasi(400, 'bozukJson'))
-      }
-    })
+    req.on('end', () => coz(Buffer.concat(parcalar)))
     req.on('error', () => reddet(new IstekHatasi(400, 'govdeOkunamadi')))
   })
+}
+
+/** `hamGovdeOku` üstünde JSON: boş gövde `null`, bozuk gövde 400 `bozukJson`. */
+export async function govdeOku(req: IncomingMessage, sinir = GOVDE_SINIRI): Promise<unknown> {
+  const metin = (await hamGovdeOku(req, sinir)).toString('utf8')
+  if (metin.trim() === '') return null
+  try {
+    return JSON.parse(metin)
+  } catch {
+    throw new IstekHatasi(400, 'bozukJson')
+  }
 }
 
 /** CORS yalnız izinli kökene (spec §10); izinli değilse başlık yazılmaz ve tarayıcı yanıtı okuyamaz. */

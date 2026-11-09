@@ -2,8 +2,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { BlockList } from 'node:net'
 import type { Depo } from './depo.ts'
 import { hizSiniriKur } from './hiz.ts'
-import { corsBasliklari, govdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
+import { corsBasliklari, govdeOku, hamGovdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
 import { gercekIp } from './ip.ts'
+import { yonetimFotoYukle } from './foto.ts'
 import { islerKur, type Isler } from './isler.ts'
 import {
   MENU_ONBELLEK_MS, menuAl, yonetimMenuAl, yonetimMenuGeriAl, yonetimMenuSurumAl, yonetimMenuYayinla,
@@ -40,6 +41,8 @@ export type Ayar = {
   kampanyaBitis: number | null
   /** Yalnız test: `GET /menu` IP başına saatlik sınırı (varsayılan `MENU_SAATLIK`). */
   menuSaatlik?: number
+  /** Yüklenen fotoğrafların dizini; yoksa `POST /yonetim/foto` 503 `fotoKapali` döner. */
+  fotoDizini?: string | null
 }
 
 export type Gunluk = Pick<Console, 'warn' | 'error'>
@@ -85,6 +88,7 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
     { yontem: 'GET', desen: /^\/yonetim\/menu$/, isle: y(() => yonetimMenuAl(b)) },
     { yontem: 'GET', desen: /^\/yonetim\/menu\/(\d{1,9})$/, isle: y((_, [id]) => yonetimMenuSurumAl(b, id ?? '')) },
     { yontem: 'PUT', desen: /^\/yonetim\/menu$/, isle: y((i) => yonetimMenuYayinla(b, i)) },
+    { yontem: 'POST', desen: /^\/yonetim\/foto$/, isle: y((i) => yonetimFotoYukle(b, i)) },
     {
       yontem: 'POST',
       desen: /^\/yonetim\/menu\/(\d{1,9})\/geri-al$/,
@@ -120,6 +124,7 @@ export function uygulamaKur(
     oyuncuSiniri: hizSiniriKur(OYUNCU_SAATLIK, SAAT_MS),
     tablo: onbellekKur(TABLO_ONBELLEK_MS),
     menu: onbellekKur(MENU_ONBELLEK_MS),
+    fotoDizini: ayar.fotoDizini ?? null,
   }
   const liste = rotalar(b, ayar.yonetim)
 
@@ -149,6 +154,7 @@ export function uygulamaKur(
         basliklar: req.headers,
         ip: gercekIp(req.socket.remoteAddress, req.headers as Record<string, string | undefined>, ayar.guvenilirVekil),
         govde: (sinir) => govdeOku(req, sinir),
+        hamGovde: (sinir) => hamGovdeOku(req, sinir),
       }
       const cors = corsBasliklari(req.headers.origin, ayar.kokenler)
       if (istek.yontem === 'OPTIONS') return yanitYaz(res, { durum: 204 }, cors)
