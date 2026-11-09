@@ -1,0 +1,10 @@
+# Starts the build when the score server writes the panel's request file (spec 2026-11-09 C).
+[Unit]
+Description=Ciğerci Bozo site rebuild request
+
+[Path]
+PathExists=/var/lib/bozo-derleme/panel/istek
+Unit=bozo-derleme.service
+
+[Install]
+WantedBy=multi-user.target

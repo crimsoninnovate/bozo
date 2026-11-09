@@ -1,0 +1,31 @@
+# Site build as bozo-derleme (no root). Started by bozo-derleme.path; uploads via bozo-yukle.service.
+[Unit]
+Description=Ciğerci Bozo site build
+OnSuccess=bozo-yukle.service
+
+[Service]
+Type=oneshot
+User=bozo-derleme
+Group=bozo-derleme
+Environment=DERLEME_DIZINI=/var/lib/bozo-derleme/panel
+Environment=DEPO=/var/lib/bozo-derleme/depo
+Environment=CIKTI=/var/lib/bozo-derleme/cikti
+Environment=PATH=/opt/plesk/node/24/bin:/usr/local/bin:/usr/bin:/bin
+Environment=NEXT_TELEMETRY_DISABLED=1 NO_COLOR=1 FORCE_COLOR=0
+ExecStart=/opt/bozo-derleme/derle.sh
+# Writes `hata` if the unit died past its trap (SIGKILL after the timeout).
+ExecStopPost=/opt/bozo-derleme/derle.sh
+# A build takes about seven minutes; the rest covers npm ci and up to 15 min waiting on an upload.
+TimeoutStartSec=40min
+Nice=10
+UMask=0022
+NoNewPrivileges=yes
+ProtectSystem=strict
+# DEPO, CIKTI, the panel files, the log and HOME (npm cache) all live under this one tree.
+ReadWritePaths=/var/lib/bozo-derleme
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes

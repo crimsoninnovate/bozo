@@ -1,0 +1,13 @@
+# Root upload of the staged build to httpdocs. Only OnSuccess= of bozo-derleme.service starts it.
+[Unit]
+Description=Ciğerci Bozo site upload
+
+[Service]
+Type=oneshot
+Environment=PATH=/opt/plesk/node/24/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/opt/bozo-derleme/yukle.sh
+# Writes `hata` if the unit died past its trap.
+ExecStopPost=/opt/bozo-derleme/yukle.sh
+TimeoutStartSec=15min
+NoNewPrivileges=yes
+PrivateTmp=yes

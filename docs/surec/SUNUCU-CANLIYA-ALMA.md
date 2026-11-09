@@ -94,6 +94,153 @@ bundan önce yalnız bellek deposuyla test edilmişti:
 3. `bozo_site_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
    (`SHOW GRANTS FOR bozo_site_k@'%'`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
 
+## Panelden site yayını ve fotoğraflar (Kasım 2026, canlıya alınmadı)
+
+Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta yapılacak kurulum. Tasarım:
+`docs/specs/2026-11-09-panel-icerik-design.md` > C. Betikler ve birimler `sunucu/derleme/`'de.
+
+| Parça | Yer |
+|---|---|
+| Derleme kullanıcısı | `bozo-derleme` (sistem kullanıcısı, giriş kabuğu yok, ev dizini `/var/lib/bozo-derleme`) |
+| Depo | `/var/lib/bozo-derleme/depo` (`main`, GitHub'da yalnız okuma yetkili deploy key) |
+| Hazırlık dizini | `/var/lib/bozo-derleme/cikti` (son başarılı `out/` ve `menu.canli.meta.json`) |
+| Derleme günlüğü | `/var/lib/bozo-derleme/derleme.log` (son 200 satırı `durum.json`'a da yazılır) |
+| Panel dosyaları | `/var/lib/bozo-derleme/panel/` = `DERLEME_DIZINI`: `istek` (skor sunucusu yazar), `durum.json` (betikler yazar) |
+| Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh}`, sahip `root`, 0755 |
+| Birimler | `bozo-derleme.path` -> `bozo-derleme.service` (kullanıcı `bozo-derleme`) -> `OnSuccess=` `bozo-yukle.service` (root) |
+| Fotoğraflar | `/var/lib/bozo-oyun/foto` = `FOTO_DIZINI`, nginx `https://api.cigercibozo.com/foto/<ad>` olarak sunar |
+
+**Yetki ayrımı.** Skor sunucusu yalnız `panel/istek` yazar ve `panel/durum.json` okur; derlemeye ve
+rsync'e yetkisi yoktur. `panel/` derleme ağacının alt dizinidir, kökü değil: web sürecinin yazabildiği
+dizin `DEPO`'nun atası olsaydı oraya bırakılan bir `node_modules/`, `.npmrc` ya da `.gitconfig` derleme
+kullanıcısıyla kod çalıştırırdı. Bu yüzden spec'teki `/var/lib/bozo-derleme/istek` yerine
+`/var/lib/bozo-derleme/panel/istek`. Root birimi dışarıdan girdi almaz: argüman yok, yollar betikte
+sabit, sudoers kuralı yok. Betikler depoda değil `/opt/bozo-derleme/`'de durur; root, derleme
+kullanıcısının yazabildiği bir dosyayı asla çalıştırmaz. `yukle.sh` `panel/` ve `cikti/` altında hiçbir
+dosyayı root olarak okumaz ya da yazmaz: durum yazımı ve sürüm okuması `runuser -u bozo-derleme` ile
+yapılır (root'un kendi günlüğü yazıcıya stdin'den verilir), durum yazıcısı root'ken çalışmayı reddeder.
+Root'ta kalanlar sabit yollardaki `rsync` (`cikti/`'dan, `--no-links`), `chown`, `chmod` ve `plesk`.
+Yükleme sırasında `bozo-derleme` süreci yoktur: birim durunca systemd grubunu öldürür, sonraki derleme
+kilidi bekler.
+
+| Yol | Sahip, kip | Kim yazar |
+|---|---|---|
+| `/var/lib/bozo-derleme` | `bozo-derleme:bozo-derleme` 0710 | `bozo-derleme`; grup (web) yalnız geçer |
+| `depo/`, `cikti/`, `derleme.log` | `bozo-derleme`, 0755 / 0644 | yalnız `bozo-derleme`; web süreci yazamaz |
+| `panel/` | `bozo-derleme:bozo-derleme` 3770 | web süreci yalnız `istek` yazar (grup), betikler `durum.json` |
+
+**Durum dosyası.** Her yazım atomik (aynı dizinde geçici dosya, sonra `mv`). `derle.sh` başta
+`istek`'i siler (derleme sürerken gelen istek bir sonrakini tetikler), `derleniyor` yazar; başarıda
+öyle bırakır, `yukle.sh` `yayinda` (ve `surum`) ya da `hata` yazar. Bir hata ya da sinyal (`TERM`)
+`trap` ile `hata` + günlüğün son 200 satırını yazar. `SIGKILL` (zaman aşımından sonra) `trap`'i
+atlar; o durumda birimin `ExecStopPost=` satırı aynı betiği `SERVICE_RESULT` ile çalıştırır ve kalan
+`derleniyor`'u `hata`'ya çevirir. Aynı anda tek derleme: iki betik `/var/lib/bozo-derleme` üzerinde
+`flock` tutar, derleme bir yüklemenin bitmesini bekler.
+
+### Kurulum (bir kez, root)
+
+```bash
+# 1. Kullanıcı ve dizinler
+useradd --system --home-dir /var/lib/bozo-derleme --shell /usr/sbin/nologin --user-group bozo-derleme
+install -d -o bozo-derleme -g bozo-derleme -m 0710 /var/lib/bozo-derleme
+# setgid: dosyalar grubu alır; sticky: web süreci yalnız kendi dosyasını (istek) silebilir
+install -d -o bozo-derleme -g bozo-derleme -m 3770 /var/lib/bozo-derleme/panel
+install -d -o bozo-derleme -g bozo-derleme -m 0700 /var/lib/bozo-derleme/.ssh
+
+# 2. Deploy key (sahibinin onayıyla GitHub'a eklenir)
+sudo -u bozo-derleme ssh-keygen -t ed25519 -N '' -C bozo-derleme@arc -f /var/lib/bozo-derleme/.ssh/id_ed25519
+cat /var/lib/bozo-derleme/.ssh/id_ed25519.pub
+#    -> github.com/crimsoninnovate/bozo > Settings > Deploy keys > Add, "Allow write access" KAPALI
+ssh-keyscan -t ed25519 github.com | sudo -u bozo-derleme tee /var/lib/bozo-derleme/.ssh/known_hosts
+#    parmak izini GitHub'ın yayımladığıyla karşılaştır (docs.github.com > GitHub's SSH key fingerprints)
+
+# 3. Depo (ilk derleme node_modules olmadığı için npm ci de çalıştırır)
+sudo -u bozo-derleme git clone --branch main git@github.com:crimsoninnovate/bozo.git /var/lib/bozo-derleme/depo
+
+# 4. Betikler ve birimler (yerelden: rsync -a sunucu/derleme/ plesk-206:/root/bozo-derleme-kaynak/)
+install -d -o root -g root -m 0755 /opt/bozo-derleme
+install -o root -g root -m 0755 /root/bozo-derleme-kaynak/{derle.sh,yukle.sh,ortak.sh} /opt/bozo-derleme/
+install -o root -g root -m 0644 /root/bozo-derleme-kaynak/bozo-{derleme.path,derleme.service,yukle.service} \
+  /etc/systemd/system/
+systemctl daemon-reload
+systemd-analyze verify /etc/systemd/system/bozo-derleme.{path,service} /etc/systemd/system/bozo-yukle.service
+systemctl enable --now bozo-derleme.path
+
+# 5. Fotoğraf dizini; OYUN_KULLANICISI = `systemctl show -p User --value bozo-oyun` (boşsa root)
+install -d -o "$OYUN_KULLANICISI" -m 0755 /var/lib/bozo-oyun /var/lib/bozo-oyun/foto
+
+# 6. Skor sunucusuna iki dizini ver: systemctl edit bozo-oyun (drop-in)
+#    [Service]
+#    Environment=FOTO_DIZINI=/var/lib/bozo-oyun/foto
+#    Environment=DERLEME_DIZINI=/var/lib/bozo-derleme/panel
+#    SupplementaryGroups=bozo-derleme
+#    ReadWritePaths=/var/lib/bozo-oyun/foto /var/lib/bozo-derleme/panel
+systemctl restart bozo-oyun
+```
+
+`ReadWritePaths=` yalnız `bozo-oyun` birimi `ProtectSystem=` kullanıyorsa etkilidir, yoksa zararsız.
+`SupplementaryGroups=bozo-derleme` web sürecine `panel/`'e yazma ve `durum.json`'u okuma (0640) yetkisi
+verir; `/var/lib/bozo-derleme` grubuna yalnız geçiş (0710) açıktır, `depo/` ve `cikti/` kapalıdır.
+
+### nginx (`api.cigercibozo.com`, Plesk > Additional nginx directives)
+
+Mevcut `location ~ ^/` vekil bloğunun **üstüne** eklenir. `^~` önekli konum düzenli ifadeli vekil
+konumunu geçer; `=` tam eşleşme hepsini geçer. Fotoğraf adları içerik özetidir (aynı ad hiç değişmez),
+bu yüzden bir yıllık `immutable` önbellek doğru. Dizin listesi yok, kalıba uymayan her ad 404.
+
+```nginx
+location ^~ /foto/ {
+    root /var/lib/bozo-oyun;
+    autoindex off;
+    location ~ "^/foto/[0-9a-f]{16}\.webp$" {
+        types { } default_type image/webp;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        add_header X-Content-Type-Options nosniff always;
+        try_files $uri =404;
+    }
+    location ~ "^/foto/[0-9a-f]{16}\.jpg$" {
+        types { } default_type image/jpeg;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        add_header X-Content-Type-Options nosniff always;
+        try_files $uri =404;
+    }
+    return 404;
+}
+
+# Gövde 3 MB'a kadar (FOTO_GOVDE_SINIRI); nginx varsayılanı 1 MB. Yalnız bu uç.
+location = /yonetim/foto {
+    client_max_body_size 4m;
+    proxy_pass http://127.0.0.1:8402;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    # mevcut location ~ ^/ bloğundaki diğer proxy_set_header satırları da buraya kopyalanır
+}
+```
+
+Doğrulama: `nginx -t`; `curl -sI https://api.cigercibozo.com/foto/0123456789abcdef.webp` 404,
+`/foto/` 404 (liste yok), `/foto/0123456789abcdef.png` 404; panelden bir fotoğraf yükledikten sonra adresi
+`200`, `content-type: image/webp` (ya da `image/jpeg`) ve `cache-control: ... immutable` döner.
+
+### Deneme ve işletme
+
+```bash
+systemctl start bozo-derleme.service            # istek dosyası olmadan da bir derleme
+journalctl -u bozo-derleme -u bozo-yukle -n 50  # birimlerin sonucu; yükleme çıktısı da burada
+tail -n 50 /var/lib/bozo-derleme/derleme.log     # derleme çıktısı
+cat /var/lib/bozo-derleme/panel/durum.json
+```
+
+- Yükleme bekçisi: `cikti/` içinde `index.html`, `favicon.svg`, `sosyal-kart.jpg`, `marka/rozet.svg`
+  ya da `foto/tane-yakin-cekim.webp` yoksa hiçbir şey yüklenmez (9 Kasım 2026 kazası). Siteden bu
+  dosyalardan biri bilerek kaldırılırsa `yukle.sh`'taki `BEKCI` listesi de güncellenir.
+- Zaman aşımları: derleme 40 dk (`TimeoutStartSec`, kilit beklemesi en çok 15 dk dahil), yükleme 15 dk.
+  Aşılırsa `durum.json` `hata` olur ve panel yeniden denemeye izin verir.
+- `bozo-derleme.service` art arda hızlı düşerse (betik eksik gibi) systemd başlatma sınırına takılır;
+  sebebi giderip `systemctl reset-failed bozo-derleme.service bozo-derleme.path`.
+- `bozo-yukle.service` `NoNewPrivileges=yes` taşır; `plesk repair fs` bundan etkilenirse (SELinux
+  geçişi gibi) ilk bakılacak yer burası.
+- Geri alma: `systemctl disable --now bozo-derleme.path`. Düğme istek yazmaya devam eder, derleme
+  başlamaz; site `npm run yayinla` ile elle yayınlanır, ikisi aynı httpdocs'u aynı sahiplerle yazar.
+
 ## Yayındaki gizlilik metninin kaynağı
 
 Değişen alanlar. Diğerleri (sorumlu, haklar, onayı geri alma, başvuru) aynen kalır, yalnız
