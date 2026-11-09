@@ -12,9 +12,8 @@ npm run build      # static export to out/; fetches Google Fonts, so it fails in
 npm run typecheck  # tsc --noEmit; noUnusedLocals/Parameters are on, so one unused import fails
 npm run test       # node --test (bare, no shell glob; discovers *.test.ts itself)
 npm run preview    # serve the out/ export locally
+npm run yayinla    # deploy to arc (README.md > Publishing); owner's approval only, ssh fails in the sandbox
 ```
-
-Deploy is in `README.md` > Publishing.
 
 ## Architecture
 

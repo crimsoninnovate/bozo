@@ -64,6 +64,7 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).
 - **Live since 10 October 2026** at `api.cigercibozo.com`: systemd `bozo-oyun` on arc, Node 24,
   MariaDB `bozo_site`, nginx proxy. Runbook and secrets locations:
-  `docs/surec/SUNUCU-CANLIYA-ALMA.md`.
+  `docs/surec/SUNUCU-CANLIYA-ALMA.md`. Rollout order: `sema.sql` (idempotent) before the server, the server
+  before the site; dump `bozo_site` and copy `/opt/bozo-oyun/dist` first so either step can be rolled back.
 - The privacy page describes the game data; the owner declined a lawyer review and took the
   decision himself (10 October 2026).
