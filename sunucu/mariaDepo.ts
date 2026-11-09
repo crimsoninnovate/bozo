@@ -2,7 +2,10 @@ import { createConnection, createPool, type Pool } from 'mariadb'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Bitis, Girdi } from '../lib/oyun/tipler.ts'
-import type { Depo, Jeton, Kazanan, MenuKaynagi, Oyuncu, SiraSatiri, Tur, YeniTur } from './depo.ts'
+import type { IslemTuru } from '../lib/yonetim/personel.ts'
+import type {
+  Depo, Islem, Jeton, Kazanan, MenuKaynagi, Oyuncu, Personel, SiraSatiri, Tur, YeniTur,
+} from './depo.ts'
 
 /* MariaDB 10.11 deposu: hazır ifadeli sorgular (`execute`), zamanlar epoch ms (bkz. sema.sql). */
 
@@ -349,13 +352,13 @@ function menuler(q: Sorgu): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumleri
       const r = await q.ilk('SELECT id, belge FROM menu_surum ORDER BY id DESC LIMIT 1')
       return r ? menuOku(r) : null
     },
-    async menuYayinla(belge, kaynak, simdi, taban) {
+    async menuYayinla(belge, kaynak, simdi, taban, yazar = null) {
       // Taban denetimi ve ekleme tek deyim: yarışta kaybeden satır yazmaz (affectedRows 0).
       const sql =
-        'INSERT INTO menu_surum (belge, kaynak, olusturma_ms) SELECT ?, ?, ? FROM DUAL ' +
+        'INSERT INTO menu_surum (belge, kaynak, olusturma_ms, yazar) SELECT ?, ?, ?, ? FROM DUAL ' +
         'WHERE (SELECT COALESCE(MAX(id), 0) FROM menu_surum) = ?'
       try {
-        const r = await q.yaz(sql, [JSON.stringify(belge), kaynak, simdi, taban ?? 0])
+        const r = await q.yaz(sql, [JSON.stringify(belge), kaynak, simdi, yazar, taban ?? 0])
         return r.affectedRows === 0 ? null : r.insertId
       } catch (hata) {
         // Aynı tabandan iki eşzamanlı yayında InnoDB birini deadlock kurbanı seçer: o da bayat tabandır.
@@ -364,12 +367,108 @@ function menuler(q: Sorgu): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumleri
       }
     },
     async menuSurumleri(adet) {
-      const satirlar = await q.sec('SELECT id, kaynak, olusturma_ms FROM menu_surum ORDER BY id DESC LIMIT ?', [adet])
-      return satirlar.map((r) => ({ id: sayi(r.id), olusturma: sayi(r.olusturma_ms), kaynak: r.kaynak as MenuKaynagi }))
+      const sql = 'SELECT id, kaynak, olusturma_ms, yazar FROM menu_surum ORDER BY id DESC LIMIT ?'
+      return (await q.sec(sql, [adet])).map((r) => ({
+        id: sayi(r.id),
+        olusturma: sayi(r.olusturma_ms),
+        kaynak: r.kaynak as MenuKaynagi,
+        yazar: r.yazar === null ? null : String(r.yazar),
+      }))
     },
     async menuSurumBul(id) {
       const r = await q.ilk('SELECT id, belge FROM menu_surum WHERE id = ?', [id])
       return r ? menuOku(r) : null
+    },
+  }
+}
+
+const PERSONEL_SECIM =
+  'SELECT id, ad, parola_ozeti, sifre_degismeli, kapali, oturum_surumu, olusturma_ms, son_giris_ms ' +
+  'FROM yonetim_personel'
+
+const personelOku = (r: Satir): Personel => ({
+  id: sayi(r.id),
+  ad: String(r.ad),
+  parolaOzeti: String(r.parola_ozeti),
+  sifreDegismeli: bayrak(r.sifre_degismeli),
+  kapali: bayrak(r.kapali),
+  oturumSurumu: sayi(r.oturum_surumu),
+  olusturma: sayi(r.olusturma_ms),
+  sonGiris: sayiYaDaNull(r.son_giris_ms),
+})
+
+type PersonelUclari = Parca<
+  'personelEkle' | 'personelBul' | 'personelAdla' | 'personelListesi' | 'personelSifreKoy' | 'personelKapat' |
+  'personelGirisKaydet'
+>
+
+function personeller(q: Sorgu): PersonelUclari {
+  const bul = async (id: number) => {
+    const r = await q.ilk(`${PERSONEL_SECIM} WHERE id = ?`, [id])
+    return r ? personelOku(r) : null
+  }
+  const guncelle = async (id: number, set: string, p: unknown[]) => {
+    const sql = `UPDATE yonetim_personel SET ${set}, oturum_surumu = oturum_surumu + 1 WHERE id = ?`
+    return (await q.yaz(sql, [...p, id])).affectedRows === 1 ? bul(id) : null
+  }
+  return {
+    async personelEkle(ad, parolaOzeti, simdi) {
+      try {
+        const r = await q.yaz(
+          'INSERT INTO yonetim_personel (ad, parola_ozeti, sifre_degismeli, kapali, oturum_surumu, olusturma_ms) ' +
+            'VALUES (?, ?, 1, 0, 1, ?)',
+          [ad, parolaOzeti, simdi],
+        )
+        return (await bul(r.insertId)) as Personel
+      } catch (hata) {
+        if ((hata as { errno?: number }).errno === 1062) return 'adKullanimda'
+        throw hata
+      }
+    },
+    personelBul: bul,
+    async personelAdla(ad) {
+      const r = await q.ilk(`${PERSONEL_SECIM} WHERE ad = ?`, [ad])
+      return r ? personelOku(r) : null
+    },
+    async personelListesi() {
+      return (await q.sec(`${PERSONEL_SECIM} ORDER BY ad`)).map(personelOku)
+    },
+    personelSifreKoy: (id, ozet, degismeli) =>
+      guncelle(id, 'parola_ozeti = ?, sifre_degismeli = ?', [ozet, degismeli ? 1 : 0]),
+    personelKapat: (id, kapali) => guncelle(id, 'kapali = ?', [kapali ? 1 : 0]),
+    async personelGirisKaydet(id, simdi) {
+      await q.yaz('UPDATE yonetim_personel SET son_giris_ms = ? WHERE id = ?', [simdi, id])
+    },
+  }
+}
+
+const islemOku = (r: Satir): Islem => ({
+  id: sayi(r.id),
+  personelId: sayiYaDaNull(r.personel_id),
+  ad: String(r.ad),
+  tur: r.tur as IslemTuru,
+  ayrinti: String(r.ayrinti),
+  zaman: sayi(r.zaman_ms),
+})
+
+function islemKaydi(q: Sorgu): Parca<'islemEkle' | 'islemler' | 'eskiIslemleriSil'> {
+  const SECIM = 'SELECT id, personel_id, ad, tur, ayrinti, zaman_ms FROM yonetim_islem'
+  return {
+    async islemEkle(i) {
+      await q.yaz(
+        'INSERT INTO yonetim_islem (personel_id, ad, tur, ayrinti, zaman_ms) VALUES (?, ?, ?, ?, ?)',
+        [i.personelId, i.ad, i.tur, i.ayrinti, i.zaman],
+      )
+    },
+    async islemler(adet, personelId) {
+      const sira = 'ORDER BY zaman_ms DESC, id DESC LIMIT ?'
+      if (personelId === undefined) return (await q.sec(`${SECIM} ${sira}`, [adet])).map(islemOku)
+      const kosul = personelId === null ? 'personel_id IS NULL' : 'personel_id = ?'
+      const p = personelId === null ? [adet] : [personelId, adet]
+      return (await q.sec(`${SECIM} WHERE ${kosul} ${sira}`, p)).map(islemOku)
+    },
+    async eskiIslemleriSil(oncesi) {
+      return (await q.yaz('DELETE FROM yonetim_islem WHERE zaman_ms < ?', [oncesi])).affectedRows
     },
   }
 }
@@ -390,6 +489,8 @@ export function mariaDepoKur(url: string): Depo {
     ...sayaclar(q),
     ...taramalar(q),
     ...menuler(q),
+    ...personeller(q),
+    ...islemKaydi(q),
     kapat: () => havuz.end(),
   }
 }

@@ -1,7 +1,7 @@
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { TaramaSatiri } from '../lib/masa.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
-import type { Depo, Donem, Jeton, Kazanan, MenuKaynagi, Oyuncu, SiraSatiri, Tur } from './depo.ts'
+import type { Depo, Donem, Islem, Jeton, Kazanan, MenuKaynagi, Oyuncu, Personel, SiraSatiri, Tur } from './depo.ts'
 import { enIyiler } from './siralama.ts'
 
 /* Bellekte depo: uç testleri ve veritabanısız yerel geliştirme. Süreç bitince her şey gider. */
@@ -23,7 +23,9 @@ type Bellek = {
   sayac: Map<string, number>
   /** Anahtar `gun:masa`. */
   tarama: Map<string, number>
-  menu: { id: number; belge: MenuBelgesi; kaynak: MenuKaynagi; olusturma: number }[]
+  menu: { id: number; belge: MenuBelgesi; kaynak: MenuKaynagi; olusturma: number; yazar: string | null }[]
+  personel: Map<number, Personel>
+  islemler: Islem[]
   sonId: number
 }
 
@@ -264,18 +266,82 @@ function menuler(b: Bellek): Parca<'menuGecerli' | 'menuYayinla' | 'menuSurumler
       const son = b.menu.at(-1)
       return son ? kopya(son) : null
     },
-    async menuYayinla(belge, kaynak, simdi, taban) {
+    async menuYayinla(belge, kaynak, simdi, taban, yazar = null) {
       if ((b.menu.at(-1)?.id ?? 0) !== (taban ?? 0)) return null
       const id = (b.menu.at(-1)?.id ?? 0) + 1
-      b.menu.push({ id, belge: structuredClone(belge), kaynak, olusturma: simdi })
+      b.menu.push({ id, belge: structuredClone(belge), kaynak, olusturma: simdi, yazar })
       return id
     },
     async menuSurumleri(adet) {
-      return b.menu.slice(-adet).reverse().map((m) => ({ id: m.id, olusturma: m.olusturma, kaynak: m.kaynak }))
+      return b.menu.slice(-adet).reverse().map(({ id, olusturma, kaynak, yazar }) => ({ id, olusturma, kaynak, yazar }))
     },
     async menuSurumBul(id) {
       const m = b.menu.find((x) => x.id === id)
       return m ? kopya(m) : null
+    },
+  }
+}
+
+type PersonelUclari = Parca<
+  'personelEkle' | 'personelBul' | 'personelAdla' | 'personelListesi' | 'personelSifreKoy' | 'personelKapat' |
+  'personelGirisKaydet'
+>
+
+function personeller(b: Bellek): PersonelUclari {
+  const guncelle = (id: number, degisim: Partial<Personel>): Personel | null => {
+    const p = b.personel.get(id)
+    if (!p) return null
+    const yeni = { ...p, ...degisim, oturumSurumu: p.oturumSurumu + 1 }
+    b.personel.set(id, yeni)
+    return { ...yeni }
+  }
+  return {
+    async personelEkle(ad, parolaOzeti, simdi) {
+      if ([...b.personel.values()].some((p) => p.ad === ad)) return 'adKullanimda'
+      const p: Personel = {
+        id: ++b.sonId, ad, parolaOzeti, sifreDegismeli: true, kapali: false, oturumSurumu: 1, olusturma: simdi,
+        sonGiris: null,
+      }
+      b.personel.set(p.id, p)
+      return { ...p }
+    },
+    async personelBul(id) {
+      const p = b.personel.get(id)
+      return p ? { ...p } : null
+    },
+    async personelAdla(ad) {
+      const p = [...b.personel.values()].find((x) => x.ad === ad)
+      return p ? { ...p } : null
+    },
+    async personelListesi() {
+      return [...b.personel.values()].sort((x, y) => x.ad.localeCompare(y.ad)).map((p) => ({ ...p }))
+    },
+    async personelSifreKoy(id, parolaOzeti, sifreDegismeli) {
+      return guncelle(id, { parolaOzeti, sifreDegismeli })
+    },
+    async personelKapat(id, kapali) {
+      return guncelle(id, { kapali })
+    },
+    async personelGirisKaydet(id, simdi) {
+      const p = b.personel.get(id)
+      if (p) p.sonGiris = simdi
+    },
+  }
+}
+
+function islemKaydi(b: Bellek): Parca<'islemEkle' | 'islemler' | 'eskiIslemleriSil'> {
+  return {
+    async islemEkle(islem) {
+      b.islemler.push({ ...islem, id: ++b.sonId })
+    },
+    async islemler(adet, personelId) {
+      const secilen = personelId === undefined ? b.islemler : b.islemler.filter((i) => i.personelId === personelId)
+      return secilen.slice().sort((x, y) => y.zaman - x.zaman || y.id - x.id).slice(0, adet).map((i) => ({ ...i }))
+    },
+    async eskiIslemleriSil(oncesi) {
+      const once = b.islemler.length
+      b.islemler = b.islemler.filter((i) => i.zaman >= oncesi)
+      return once - b.islemler.length
     },
   }
 }
@@ -290,6 +356,8 @@ export function bellekDepoKur(): Depo {
     sayac: new Map(),
     tarama: new Map(),
     menu: [],
+    personel: new Map(),
+    islemler: [],
     sonId: 0,
   }
   return {
@@ -301,6 +369,8 @@ export function bellekDepoKur(): Depo {
     ...sayaclar(b),
     ...taramalar(b),
     ...menuler(b),
+    ...personeller(b),
+    ...islemKaydi(b),
     async kapat() {
       /* bellek */
     },

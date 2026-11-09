@@ -251,8 +251,8 @@ function menuTestleri(t: Testci): void {
     const b = await depo.menuYayinla(menuBelgesi('b'), 'geriAl', 2000, a)
     const c = await depo.menuYayinla(menuBelgesi('c'), 'panel', 3000, b)
     assert.deepEqual(await depo.menuSurumleri(2), [
-      { id: c, olusturma: 3000, kaynak: 'panel' },
-      { id: b, olusturma: 2000, kaynak: 'geriAl' },
+      { id: c, olusturma: 3000, kaynak: 'panel', yazar: null },
+      { id: b, olusturma: 2000, kaynak: 'geriAl', yazar: null },
     ])
   })
 
@@ -270,6 +270,89 @@ function menuTestleri(t: Testci): void {
   })
 }
 
+function personelTestleri(t: Testci): void {
+  const ekle = async (depo: Depo, ad: string, simdi = 1000) => {
+    const p = await depo.personelEkle(ad, `ozet-${ad}`, simdi)
+    if (p === 'adKullanimda') throw new Error(`ad kullanımda: ${ad}`)
+    return p
+  }
+
+  t('personelEkle_yeniHesap_sifreDegismeliSurum1', async (depo) => {
+    const p = await ekle(depo, 'ajans')
+    assert.deepEqual({ ...p, id: 0 }, {
+      id: 0, ad: 'ajans', parolaOzeti: 'ozet-ajans', sifreDegismeli: true, kapali: false, oturumSurumu: 1,
+      olusturma: 1000, sonGiris: null,
+    })
+    assert.deepEqual(await depo.personelBul(p.id), p)
+    assert.deepEqual(await depo.personelAdla('ajans'), p)
+    assert.equal(await depo.personelAdla('yok'), null)
+    assert.equal(await depo.personelBul(999999), null)
+  })
+
+  t('personelEkle_ayniAd_adKullanimda', async (depo) => {
+    await ekle(depo, 'ajans')
+    assert.equal(await depo.personelEkle('ajans', 'baska', 2000), 'adKullanimda')
+    assert.equal((await depo.personelListesi()).length, 1)
+  })
+
+  t('personelListesi_adaGore', async (depo) => {
+    await ekle(depo, 'zeki')
+    await ekle(depo, 'ajans')
+    assert.deepEqual((await depo.personelListesi()).map((p) => p.ad), ['ajans', 'zeki'])
+  })
+
+  t('personelSifreKoy_surumArtar', async (depo) => {
+    const p = await ekle(depo, 'ajans')
+    const yeni = await depo.personelSifreKoy(p.id, 'ozet-yeni', false)
+    assert.deepEqual(
+      { ozet: yeni?.parolaOzeti, degismeli: yeni?.sifreDegismeli, surum: yeni?.oturumSurumu },
+      { ozet: 'ozet-yeni', degismeli: false, surum: 2 },
+    )
+    assert.equal(await depo.personelSifreKoy(999999, 'x', true), null)
+  })
+
+  t('personelKapat_surumArtar', async (depo) => {
+    const p = await ekle(depo, 'ajans')
+    assert.equal((await depo.personelKapat(p.id, true))?.kapali, true)
+    const acik = await depo.personelKapat(p.id, false)
+    assert.deepEqual({ kapali: acik?.kapali, surum: acik?.oturumSurumu }, { kapali: false, surum: 3 })
+    assert.equal(await depo.personelKapat(999999, true), null)
+  })
+
+  t('personelGirisKaydet_sonGiris', async (depo) => {
+    const p = await ekle(depo, 'ajans')
+    await depo.personelGirisKaydet(p.id, 5000)
+    assert.equal((await depo.personelBul(p.id))?.sonGiris, 5000)
+  })
+
+  t('islemler_yenidenEskiyeVeKisiyeGore', async (depo) => {
+    const p = await ekle(depo, 'ajans')
+    await depo.islemEkle({ personelId: null, ad: 'bozo', tur: 'giris', ayrinti: '', zaman: 1000 })
+    await depo.islemEkle({ personelId: p.id, ad: 'ajans', tur: 'menuYayin', ayrinti: 'sürüm 4', zaman: 2000 })
+    await depo.islemEkle({ personelId: p.id, ad: 'ajans', tur: 'foto', ayrinti: 'a.webp', zaman: 3000 })
+    const son = await depo.islemler(2)
+    assert.deepEqual(son.map((i) => i.zaman), [3000, 2000])
+    assert.deepEqual({ ...son[1], id: 0 }, {
+      id: 0, personelId: p.id, ad: 'ajans', tur: 'menuYayin', ayrinti: 'sürüm 4', zaman: 2000,
+    })
+    assert.deepEqual((await depo.islemler(10, null)).map((i) => i.tur), ['giris'])
+    assert.deepEqual((await depo.islemler(10, p.id)).map((i) => i.tur), ['foto', 'menuYayin'])
+  })
+
+  t('eskiIslemleriSil_sinirdanEskiler', async (depo) => {
+    for (const zaman of [1000, 2000, 3000]) {
+      await depo.islemEkle({ personelId: null, ad: 'bozo', tur: 'giris', ayrinti: '', zaman })
+    }
+    assert.equal(await depo.eskiIslemleriSil(2500), 2)
+    assert.deepEqual((await depo.islemler(10)).map((i) => i.zaman), [3000])
+  })
+
+  t('menuSurumleri_yazarTasir', async (depo) => {
+    const a = await depo.menuYayinla(menuBelgesi('a'), 'panel', 1000, null, 'ajans')
+    assert.deepEqual(await depo.menuSurumleri(1), [{ id: a, olusturma: 1000, kaynak: 'panel', yazar: 'ajans' }])
+  })
+}
+
 export function depoSozlesmesi(ad: string, kur: DepoKurucu | null): void {
   const t: Testci = (isim, govde) =>
     test(`${ad}_${isim}`, { skip: kur ? false : 'BOZO_TEST_DB_URL tanımlı değil' }, async () => {
@@ -284,4 +367,5 @@ export function depoSozlesmesi(ad: string, kur: DepoKurucu | null): void {
   turTestleri(t)
   donemVeKazananTestleri(t)
   menuTestleri(t)
+  personelTestleri(t)
 }

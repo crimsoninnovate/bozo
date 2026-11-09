@@ -2,6 +2,7 @@ import type { TaramaSatiri } from '../lib/masa.ts'
 import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 import type { Kanal } from '../lib/oyun/aktarim.ts'
 import type { Bitis, Girdi, Ozet } from '../lib/oyun/tipler.ts'
+import type { IslemTuru } from '../lib/yonetim/personel.ts'
 
 /*
  * Depo arabirimi (spec §10 tabloları): `bellekDepo` uç testleri için, `mariaDepo` üretim için.
@@ -81,6 +82,28 @@ export type Kazanan = Omit<YeniKazanan, 'oyuncuId'> & {
 
 export type MenuKaynagi = 'panel' | 'geriAl'
 
+/** Admin dışındaki panel hesabı; `oturumSurumu` kapatma ve şifre değişiminde artar, eski anahtarlar düşer. */
+export type Personel = {
+  id: number
+  ad: string
+  parolaOzeti: string
+  sifreDegismeli: boolean
+  kapali: boolean
+  oturumSurumu: number
+  olusturma: number
+  sonGiris: number | null
+}
+
+/** `personelId` null: admin (ortamdaki kimlik). `ayrinti` kısa; şifre ya da belge içeriği taşımaz. */
+export type Islem = {
+  id: number
+  personelId: number | null
+  ad: string
+  tur: IslemTuru
+  ayrinti: string
+  zaman: number
+}
+
 export type Depo = {
   jetonEkle(jeton: Jeton): Promise<void>
   jetonBul(id: string): Promise<Jeton | null>
@@ -131,10 +154,29 @@ export type Depo = {
    * Yeni sürüm ekler ve kimliğini döner. `taban` son sürümün kimliği (hiç sürüm yoksa null); güncel
    * değilse hiçbir şey yazılmaz ve null döner. Denetim ve ekleme tek adımdır.
    */
-  menuYayinla(belge: MenuBelgesi, kaynak: MenuKaynagi, simdi: number, taban: number | null): Promise<number | null>
-  /** En yeniden eskiye, en çok `adet` sürüm (belgesiz özet). */
-  menuSurumleri(adet: number): Promise<{ id: number; olusturma: number; kaynak: MenuKaynagi }[]>
+  menuYayinla(
+    belge: MenuBelgesi, kaynak: MenuKaynagi, simdi: number, taban: number | null, yazar?: string | null,
+  ): Promise<number | null>
+  /** En yeniden eskiye, en çok `adet` sürüm (belgesiz özet); `yazar` bu özellikten önceki sürümlerde null. */
+  menuSurumleri(adet: number): Promise<{ id: number; olusturma: number; kaynak: MenuKaynagi; yazar: string | null }[]>
   menuSurumBul(id: number): Promise<{ id: number; belge: MenuBelgesi } | null>
+
+  /** Yeni hesap `sifreDegismeli`, `oturumSurumu` 1; ad doluysa 'adKullanimda'. */
+  personelEkle(ad: string, parolaOzeti: string, simdi: number): Promise<Personel | 'adKullanimda'>
+  personelBul(id: number): Promise<Personel | null>
+  personelAdla(ad: string): Promise<Personel | null>
+  /** Ada göre sıralı. */
+  personelListesi(): Promise<Personel[]>
+  /** Özeti ve bayrağı yazar, `oturumSurumu`'nu bir artırır; hesap yoksa null. */
+  personelSifreKoy(id: number, parolaOzeti: string, sifreDegismeli: boolean): Promise<Personel | null>
+  /** `kapali`'yı yazar, `oturumSurumu`'nu bir artırır; hesap yoksa null. */
+  personelKapat(id: number, kapali: boolean): Promise<Personel | null>
+  personelGirisKaydet(id: number, simdi: number): Promise<void>
+
+  islemEkle(islem: Omit<Islem, 'id'>): Promise<void>
+  /** Yeniden eskiye en çok `adet`; `personelId` verilirse yalnız o hesap (null: yalnız admin). */
+  islemler(adet: number, personelId?: number | null): Promise<Islem[]>
+  eskiIslemleriSil(oncesi: number): Promise<number>
 
   kapat(): Promise<void>
 }

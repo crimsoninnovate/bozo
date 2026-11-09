@@ -98,3 +98,32 @@ CREATE TABLE IF NOT EXISTS menu_surum (
   kaynak ENUM('panel', 'geriAl') NOT NULL,
   olusturma_ms BIGINT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sürümü yayınlayan hesap (spec 2026-11-09 kullanıcılar); bu özellikten önceki sürümlerde NULL.
+ALTER TABLE menu_surum ADD COLUMN IF NOT EXISTS yazar VARCHAR(40) NULL;
+
+-- Admin dışındaki panel hesapları. Admin ortamdadır (`YONETIM_KULLANICI`), burada satırı yoktur.
+-- `oturum_surumu` kapatma ve şifre değişiminde artar: o hesabın eski oturum anahtarları düşer.
+CREATE TABLE IF NOT EXISTS yonetim_personel (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  ad VARCHAR(30) COLLATE utf8mb4_bin NOT NULL UNIQUE,
+  parola_ozeti VARCHAR(200) NOT NULL,
+  sifre_degismeli TINYINT(1) NOT NULL,
+  kapali TINYINT(1) NOT NULL DEFAULT 0,
+  oturum_surumu INT UNSIGNED NOT NULL,
+  olusturma_ms BIGINT NOT NULL,
+  son_giris_ms BIGINT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Panel işlem kaydı, bir yıl tutulur (`isler.ts`). `personel_id` NULL: admin. Hesap silinmez, ad kopyalanır.
+CREATE TABLE IF NOT EXISTS yonetim_islem (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  personel_id INT UNSIGNED NULL,
+  ad VARCHAR(40) NOT NULL,
+  tur ENUM('giris', 'menuYayin', 'menuGeriAl', 'foto', 'derleme', 'kod', 'gizle', 'personelEkle',
+    'personelKapat', 'personelAc', 'sifreSifirla', 'sifreDegistir') NOT NULL,
+  ayrinti VARCHAR(200) NOT NULL,
+  zaman_ms BIGINT NOT NULL,
+  KEY islem_zaman (zaman_ms),
+  KEY islem_personel (personel_id, zaman_ms)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
