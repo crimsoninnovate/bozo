@@ -95,7 +95,7 @@ bundan önce yalnız bellek deposuyla test edilmişti:
 3. `bozo_site_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
    (`SHOW GRANTS FOR bozo_site_k@'%'`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
 
-## Kişi başına panel girişi (9 Kasım 2026, henüz canlıda değil)
+## Kişi başına panel girişi (9 Kasım 2026, canlıda 10 Kasım 2026)
 
 Admin ortamda kalır (`YONETIM_KULLANICI`/`YONETIM_SIFRE`, veritabanında satırı yok); panelin Kullanıcılar
 sekmesinden açılan diğer hesaplar `yonetim_personel`'de, her işlem `yonetim_islem`'de (bir yıl tutulur), her
@@ -123,7 +123,7 @@ anahtarları (`<bitisMs>.<hmac>`, sahibin bugünkü "Beni hatırla"sı) 15 Aral�
    `systemctl restart bozo-oyun` çalıştırır. Bu, adminin bütün oturumlarını da düşürür; o güne kadar
    personelin işlemleri kayıtta admin adıyla görünür.
 
-## Panelden sayfa metinleri (9 Kasım 2026, henüz canlıda değil)
+## Panelden sayfa metinleri (9 Kasım 2026, canlıda 10 Kasım 2026)
 
 Menü belgesine `metinler` bölümü eklendi (tasarım `docs/specs/2026-11-09-panel-metinler-design.md`). Şema
 değişikliği yok: belge JSON olarak saklanır. Sıra yine önce skor sunucusu, sonra site: eski sunucu yeni panelin

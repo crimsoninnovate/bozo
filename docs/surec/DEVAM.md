@@ -8,14 +8,19 @@ Son güncelleme: 10 Kasım 2026
 
 ## Durum
 
-- **Güvenlik denetimi (10 Kasım, yerel `main`).** Tam denetim (`~/security-audit-skill/bozo/run-1/REPORT.md`):
+- **Canlıya alındı (10 Kasım gecesi).** Şema (`sema.sql`, öncesinde yedek `/root/.bozo/bozo_site-20261110-005907-sema-oncesi.sql.gz`),
+  skor sunucusu (eski `dist` yedeği `/opt/bozo-oyun.dist-20261110-005919`) ve site (`npm run yayinla`, temiz). Kişi başına
+  giriş, sayfa metinleri ve denetim düzeltmeleri canlıda. Kalan: sahibin panelde denetimi (`SUNUCU-CANLIYA-ALMA.md` >
+  Kişi başına panel girişi, adım 3-4). Ölçümde Cloudflare iki kez geçici 522 verdi, origin günlüğünde iz yok.
+
+- **Güvenlik denetimi (10 Kasım).** Tam denetim (`~/security-audit-skill/bozo/run-1/REPORT.md`):
   doğrulanmış açık yok, beş ipucu var. Dördü sunucuda kapandı: `/yonetim` 401'i `WWW-Authenticate` göndermez,
   `KOKEN` dışından gelen yönetim yazması 403 `kokenGecersiz`, hız sınırı IPv6'yı /64 ile sayar, temel kimlikli
   `GET /yonetim/derleme` 60/saatlik kovaya girer, gizli şampiyon oyuncu silinince de gizli kalır
   (`kazanan.gizli`, şema adımı `SUNUCU-CANLIYA-ALMA.md`). MariaDB sözleşme testi yerelde koşmadı
   (`BOZO_TEST_DB_URL` yok). Beşincisi, `yukle.sh` ve `yayinla.sh`'ın root yayın adımı, sahibin onayını bekliyor.
 
-- **Panelden sayfa metinleri (9 Kasım gecesi, yerel `main`; push ve kurulum sahibinin onayını bekliyor).**
+- **Panelden sayfa metinleri (9 Kasım gecesi; 10 Kasım canlıda).**
   Panelde "Sayfa Metinleri" sekmesi: Ana sayfa, Menü, Hikaye, Konum ve Galeri'nin 119 metni Türkçe ve
   İngilizce; "SEO ve AEO" sekmesi altı sayfanın başlık ve açıklamasını önizlemeyle düzenler; panel bölümleri
   Menü, İşletme, Site içeriği, Yayın, Hesaplar diye gruplandı, telefonda tek "Bölüm" seçicisi var; değişen metin belgenin `metinler` bölümünde durur, "Siteyi Güncelle" ile sayfaya basılır.
@@ -24,7 +29,7 @@ Son güncelleme: 10 Kasım 2026
   metinleri (önce sunucu). Yerelde uçtan uca denendi (1280 ve 390 px). Kişi başına girişle aynı kurulumda
   çıkabilir.
 
-- **Kişi başına panel girişi (9 Kasım gecesi, `main`'e yerelde birleştirildi; push ve kurulum sahibinin onayını bekliyor).** Admin
+- **Kişi başına panel girişi (9 Kasım gecesi; 10 Kasım canlıda).** Admin
   ortamda kalır; panelin Kullanıcılar sekmesinden (yalnız admin) hesap açılır, kapatılır, geçici şifre verilir.
   Geçici şifreli hesap önce kendi şifresini koyar; kapatma, sıfırlama ve şifre değişimi o hesabın bütün
   oturumlarını düşürür. Her işlem kayda girer (bir yıl), Geçmiş her sürümün yayınlayanını gösterir, üst barda
@@ -32,8 +37,7 @@ Son güncelleme: 10 Kasım 2026
   `docs/plans/2026-11-09-panel-kullanicilar-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Kişi başına panel
   girişi (şema, yetkiler, önce sunucu). Yerelde 390px ve masaüstünde uçtan uca denendi; son inceleme temiz
   (iki güvenlik düzeltmesiyle); incelemenin ertelenen dört küçük bulgusu da kapandı (yanlış eski şifre artık
-  403 `eskiSifreYanlis`, 401 girişe döner; sunucu ve site birlikte çıkmalı). Sırada: sahibin onayıyla push ve kurulum. Ardından sayfa metinlerinin panelden
-  düzenlenmesi (önce beyin fırtınası).
+  403 `eskiSifreYanlis`, 401 girişe döner; sunucu ve site birlikte çıkmalı).
 
 - **Panel iyileştirmeleri (9 Kasım akşamı).** Yayın onayı, Türkçesiyle aynı kalmış İngilizce metni uyarır
   (Türkçe harf ya da en az üç kelime varsa; Cola, Ayran gibi kısa adlar aynı kalabilir); uyarılar ikram ve
