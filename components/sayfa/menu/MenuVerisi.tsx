@@ -10,7 +10,7 @@ const BEKLEME_SINIRI_MS = 1500
 const ZAMAN_ASIMI_MS = 4000
 
 const MenuBaglami = createContext<MenuBelgesi | null>(null)
-// Fotoğraflar canlı belgeyle değişmez: değişiklik 'Siteyi güncelle' ile gelir, boş yuva sonradan dolup kaymasın.
+// Fotoğraflar canlı belgeyle değişmez: değişiklik "Siteyi Güncelle" ile gelir, boş yuva sonradan dolup kaymasın.
 const FotoBaglami = createContext<Pick<MenuBelgesi, 'fotograflar'> | null>(null)
 
 /** Fiyatlar canlı belge gelene ya da 1500 ms dolana kadar gizlenir; SSR HTML'inde hep görünür. */

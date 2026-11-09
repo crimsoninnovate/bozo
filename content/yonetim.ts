@@ -204,7 +204,7 @@ export const yonetim = {
     },
     foto: {
       baslik: 'Fotoğraflar',
-      not: "Fotoğraflar sitede 'Siteyi güncelle' ile görünür.",
+      not: 'Fotoğraflar sitede "Siteyi Güncelle" ile görünür.',
       galeri: 'Her kare galeri sayfasında da görünür.',
       yer: 'Sitede: {yer}',
       bos: 'Fotoğraf yok, sitede boş plaka görünür.',
@@ -235,11 +235,13 @@ export const yonetim = {
     },
     site: {
       tohum: 'Site tohum menüyle basılmış.',
-      fark: 'İletişim bilgisi, arama motoru verisi ve ikram metinleri siteyi yeniden yayınlayınca güncellenir.',
+      fark:
+        'İletişim bilgisi, arama motoru verisi, ikram metinleri, sayfalardaki saatler ve fotoğraflar '
+        + 'siteyi yeniden yayınlayınca güncellenir.',
       guncel: 'Site, yayındaki #{site} menüyle güncel.',
       farkli:
-        'Sitede #{site}, panelde #{panel}: iletişim bilgisi, arama motoru verisi ve ikram metinleri '
-        + 'siteyi yeniden yayınlayınca güncellenir.',
+        'Sitede #{site}, panelde #{panel}: iletişim bilgisi, arama motoru verisi, ikram metinleri, '
+        + 'sayfalardaki saatler ve fotoğraflar siteyi yeniden yayınlayınca güncellenir.',
       kisa: {
         tohum: 'Site tohum menüyle basılı',
         tohumFark: 'Sitede tohum menü, panelde #{panel}',
@@ -258,7 +260,9 @@ export const yonetim = {
       yayinda: 'Son güncelleme yayında (#{surum}).',
       yayindaSurumsuz: 'Son güncelleme yayında.',
       yeni: 'Site güncellendi (#{surum}). Sitedeki sayfayı yenileyince görünür.',
-      hata: 'Site güncellenemedi, sitede önceki hali duruyor. Tekrar deneyin; sürerse geliştiriciye haber verin.',
+      hata:
+        'Site güncellemesi tamamlanamadı; site eski halinde kalmış ya da kısmen güncellenmiş olabilir. '
+        + 'Tekrar deneyin; sürerse geliştiriciye haber verin.',
       zaman: 'Son durum: {tarih}',
       gecici: 'Durum şu an okunamadı, birkaç saniye sonra yeniden denenecek.',
       unutmayin: 'Siteyi güncellemeyi unutmayın: Geçmiş sekmesinde "Siteyi Güncelle".',

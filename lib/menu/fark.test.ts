@@ -241,7 +241,13 @@ test('fark_fotoKaldirildi_satirVerir', () => {
   const eski = varsayilanKopya((b) => { b.fotograflar.yurek = KARE })
   const fark = menuFarki(eski, varsayilan)
   assert.equal(fark.length, 1)
-  assert.deepEqual([al(fark, 0).etiket, al(fark, 0).sonra], ['Fotoğraf · yürek karesi', 'kaldırıldı'])
+  const { etiket, once, sonra } = al(fark, 0)
+  assert.deepEqual([etiket, once, sonra], ['Fotoğraf · yürek karesi', 'yüklü kare', 'boş plaka'])
+})
+
+test('fark_tohumluYuvadaFotoKaldirildi_ilkKareyeDoner', () => {
+  const eski = varsayilanKopya((b) => { b.fotograflar['tane-yakin-cekim'] = KARE })
+  assert.equal(al(menuFarki(eski, varsayilan), 0).sonra, 'sitenin ilk karesi')
 })
 
 test('fark_fotoOdakDegisti_odakSatiri', () => {

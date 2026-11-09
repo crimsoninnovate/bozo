@@ -199,7 +199,8 @@ function fotograflarFarki(eski: MenuBelgesi['fotograflar'], yeni: MenuBelgesi['f
     const yol = `fotograflar.${id}`
     const etiket = `Fotoğraf · ${fotograflar[id].etiket}`
     if (!a && !b) return []
-    if (!b) return [satir(yol, etiket, 'kare', 'kaldırıldı')]
+    // Kaldırılan yuva tohum karesine, o da yoksa boş plakaya döner.
+    if (!b) return [satir(yol, etiket, 'yüklü kare', fotograflar[id].dosya ? 'sitenin ilk karesi' : 'boş plaka')]
     if (!a || a.dosya !== b.dosya) return [satir(yol, etiket, a ? 'önceki kare' : YOK, 'yeni kare')]
     if (a.odak === b.odak) return []
     return [satir(`${yol}.odak`, `${etiket}: odak`, a.odak ?? 'ortalı', b.odak ?? 'ortalı')]

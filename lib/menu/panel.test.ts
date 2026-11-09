@@ -123,8 +123,8 @@ test('siteDurumu_farkli_metinSurumleriTasir', () => {
   assert.equal(d.guncel, false)
   assert.equal(
     d.metin,
-    'Sitede #7, panelde #9: iletişim bilgisi, arama motoru verisi ve ikram metinleri '
-    + 'siteyi yeniden yayınlayınca güncellenir.',
+    'Sitede #7, panelde #9: iletişim bilgisi, arama motoru verisi, ikram metinleri, '
+    + 'sayfalardaki saatler ve fotoğraflar siteyi yeniden yayınlayınca güncellenir.',
   )
 })
 

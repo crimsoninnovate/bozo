@@ -53,8 +53,8 @@ export type KorNefesi = { sure: number; gecikme?: number }
 type Props = {
   id: FotoId
   /**
-   * Fotoğraf atamalarının kaynağı. Sunucu bileşenleri `BelgeFotoYuvasi` ile derleme zamanı belgesini
-   * verir; menü sayfasının istemci ağacı `useMenu()` belgesini geçer (canlı belge gelince plaka yenilenir).
+   * Fotoğraf atamalarının kaynağı, her yerde derleme zamanı belgesi: sunucu bileşenleri `BelgeFotoYuvasi` ile,
+   * menü sayfasının istemci ağacı `useMenuFotograflari()` ile verir. Yeni kare "Siteyi Güncelle" ile gelir.
    */
   belge: Pick<MenuBelgesi, 'fotograflar'>
   dil: Dil
