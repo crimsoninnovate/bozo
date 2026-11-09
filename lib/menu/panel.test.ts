@@ -193,6 +193,7 @@ test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
   assert.equal(hataSekmesi('duyuru.bitis'), 'duyuru')
   assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
   assert.equal(hataSekmesi('fotograflar.dalak.odak'), 'fotograflar')
+  assert.equal(hataSekmesi('metinler.tr.ana.hero.govde'), 'metinler')
   assert.equal(hataSekmesi('saatler.acilis'), 'saatler')
   assert.equal(hataSekmesi('belge'), null)
 })
@@ -413,6 +414,7 @@ test('sorunYeri_kayitYollari_turkceAdaCevrilir', () => {
   assert.equal(sorunYeri(b, 'ikramlar.gruplar[0].ogeler[0].ad.en'), grup.ogeler[0].ad.tr)
   assert.equal(sorunYeri(b, 'ikramlar.altMetin.en'), 'İkramlar')
   assert.equal(sorunYeri(b, 'duyuru.metin.en'), 'Duyuru')
+  assert.equal(sorunYeri(b, 'metinler.en.ana.iddia.baslik'), 'Metin · Ana sayfa › iddia › baslik')
 })
 
 test('sorunYeri_olmayanKayit_yoluVerir', () => {

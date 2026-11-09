@@ -1,0 +1,38 @@
+/* Düz bölüm, Saatler gibi; her metin bir kömür kutuda, değişeni bakır kenarlı. */
+.metinler {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
+}
+
+.alan {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.degisti {
+  border-color: var(--bakir-60);
+}
+
+.durum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rozet {
+  color: var(--bakir);
+  font: 600 14.5px/1.2 var(--font-govde);
+}

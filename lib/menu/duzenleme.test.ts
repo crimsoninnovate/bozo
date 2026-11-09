@@ -6,8 +6,9 @@ import {
   fiyatYaz, fotoAta, fotoKaldir, fotoOdakAyarla, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi,
   ikramOgesiEkle, ikramOgesiSil,
   ikramOgesiTasi, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
-  olcuSil, saatAyarla,
+  metinKoy, olcuSil, saatAyarla,
 } from './duzenleme.ts'
+import { varsayilanMetinler } from './metinler.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const varsayilan = JSON.parse(
@@ -319,4 +320,18 @@ test('saatAyarla_sinirDisiYaDaKesirli_hataFirlatir', () => {
   assert.throws(() => saatAyarla(varsayilan, 'acilis', 5))
   assert.throws(() => saatAyarla(varsayilan, 'kapanis', 9))
   assert.throws(() => saatAyarla(varsayilan, 'kapanis', 4.5))
+})
+
+test('metinKoy_farkliMetin_yazilir_varsayilanaEsit_silinir', () => {
+  const yol = 'ana.iddia.baslik'
+  const sonra = metinKoy(varsayilan, 'tr', yol, 'Tane konuşur')
+  assert.deepEqual(sonra.metinler.tr, { [yol]: 'Tane konuşur' })
+  assert.deepEqual(varsayilan.metinler.tr, {}, 'girdi değişmez')
+  const geri = metinKoy(sonra, 'tr', yol, varsayilanMetinler('tr').get(yol) ?? '')
+  assert.deepEqual(geri.metinler, { tr: {}, en: {} })
+  assert.equal(menuBelgesiDogrula(sonra).tamam, true)
+})
+
+test('metinKoy_duzenlenemezYol_hataAtar', () => {
+  assert.throws(() => metinKoy(varsayilan, 'en', 'gizlilik.baslik', 'x'), /gizlilik\.baslik/)
 })

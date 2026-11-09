@@ -1,5 +1,7 @@
 import type { FotoId } from '../../content/types.ts'
+import type { Dil } from '../../content/types.ts'
 import { FOTO_DOSYASI, FOTO_IDLERI, FOTO_ODAGI, SAAT_SINIRLARI } from './dogrulama.ts'
+import { varsayilanMetinler } from './metinler.ts'
 import type {
   FotoAtamasi, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, IkramUrunu, Ikramlar, MenuBelgesi, MenuKalemi,
   Saatler,
@@ -242,4 +244,13 @@ export function saatAyarla(b: MenuBelgesi, hangisi: keyof Saatler, saat: number)
 export function fiyatYaz(girdi: string, bozuk: boolean): number | null {
   if (bozuk) return Number.NaN
   return girdi === '' ? null : Number(girdi)
+}
+
+/** Sayfa metni: koddakiyle aynıysa belgeden silinir (belgede yalnız değişen metin durur). */
+export function metinKoy(b: MenuBelgesi, dil: Dil, yol: string, metin: string): MenuBelgesi {
+  const varsayilan = varsayilanMetinler(dil).get(yol)
+  if (varsayilan === undefined) throw new Error(`düzenlenemeyen metin yolu: ${yol}`)
+  const { [yol]: _eski, ...gerisi } = b.metinler[dil]
+  const dilMetinleri = metin === varsayilan ? gerisi : { ...gerisi, [yol]: metin }
+  return { ...b, metinler: { ...b.metinler, [dil]: dilMetinleri } }
 }

@@ -26,6 +26,7 @@ import { IkramFormu } from './IkramFormu'
 import { IletisimFormu } from './IletisimFormu'
 import { Kullanicilar } from './Kullanicilar'
 import { DURUM_NOTU, KalemFormu, OzelFormu } from './KalemFormu'
+import { MetinFormu } from './MetinFormu'
 import { Giris, hataIsle, useBen, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
 import { SaatFormu } from './SaatFormu'
@@ -217,6 +218,8 @@ function SekmeIcerigi(props: IcerikProps) {
       return <SaatFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
     case 'fotograflar':
       return <FotoFormu belge={belge} hatalar={hatalar} duzenle={duzenle} api={api} cik={cik} />
+    case 'metinler':
+      return <MetinFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
     case 'gecmis':
       return (
         <>

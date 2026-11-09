@@ -4,7 +4,7 @@ import { ApiHatasi, tekrarDenenebilirMi } from '../oyun/api.ts'
 import type { DerlemeDurumu } from './aktarim.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import { duyuruGoster } from './duyuru.ts'
-import type { Degisiklik } from './fark.ts'
+import { metinEtiketi, type Degisiklik } from './fark.ts'
 import { menuBelgesiTamamla, type Tamamlayici } from './tamamla.ts'
 import type { Duyuru, MenuBelgesi } from './tipler.ts'
 
@@ -48,8 +48,8 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
 export const SEKMELER = [
-  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'saatler', 'fotograflar', 'gecmis',
-  'kullanicilar',
+  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'saatler', 'fotograflar', 'metinler',
+  'gecmis', 'kullanicilar',
 ] as const
 export type Sekme = (typeof SEKMELER)[number]
 
@@ -60,7 +60,7 @@ export function gorunurSekmeler(admin: boolean): readonly Sekme[] {
 
 const GRUPLAR = {
   menu: ['ocakbasi', 'ozel', 'icecekler', 'ikramlar'],
-  site: ['duyuru', 'iletisim', 'saatler', 'fotograflar'],
+  site: ['duyuru', 'iletisim', 'saatler', 'fotograflar', 'metinler'],
   yayin: ['gecmis'],
   hesaplar: ['kullanicilar'],
 } as const satisfies Record<string, readonly Sekme[]>
@@ -76,7 +76,7 @@ export function sekmeGruplari(admin: boolean): { grup: SekmeGrubu; sekmeler: Sek
 
 const YOL_SEKMELERI: Record<string, Sekme> = {
   kalemler: 'ocakbasi', ozel: 'ozel', icecekler: 'icecekler', ikramlar: 'ikramlar', duyuru: 'duyuru',
-  iletisim: 'iletisim', saatler: 'saatler', fotograflar: 'fotograflar',
+  iletisim: 'iletisim', saatler: 'saatler', fotograflar: 'fotograflar', metinler: 'metinler',
 }
 
 /** "iletisim.eposta" gibi doğrulama yolunun düzenlendiği sekme; tanımsız yol `null`. */
@@ -257,5 +257,7 @@ export function sorunYeri(belge: MenuBelgesi, yol: string): string {
   if (yol.startsWith('ozel')) return belge.ozel.ad.tr
   if (yol.startsWith('ikramlar')) return sekme.ikramlar
   if (yol.startsWith('duyuru')) return sekme.duyuru
+  const metin = /^metinler\.(tr|en)\.(.+)$/.exec(yol)
+  if (metin?.[2]) return metinEtiketi(metin[2])
   return yol
 }
