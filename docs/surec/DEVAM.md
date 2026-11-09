@@ -8,18 +8,18 @@ Son güncelleme: 9 Kasım 2026
 
 ## Durum
 
-- **Panel: fotoğraflar, saatler, siteyi güncelle (9 Kasım, `feat/panel-icerik`, kod tamam, `main`'e
-  birleştirilmedi, canlıya alma sahibinin onayını bekliyor).** Menü belgesinde `saatler` ve `fotograflar`
+- **Panel: fotoğraflar, saatler, siteyi güncelle (9 Kasım, `feat/panel-icerik`, 9 Kasım'da `main`'e
+  birleştirildi ve push edildi, canlıya alma sahibinin onayını bekliyor).** Menü belgesinde `saatler` ve `fotograflar`
   bölümleri; metinlerdeki saatler derlemede belgeden dolar, rozet canlı saatle çalışır; yuvalar fotoğrafı
   belgeden basar (`lib/fotoKaynagi.ts`); skor sunucusunda `POST /yonetim/foto` ve `GET/POST /yonetim/derleme`;
   panelde Fotoğraflar ve Saatler sekmeleri ile "Siteyi Güncelle"; arc betikleri ve birimleri
   `sunucu/derleme/`. Tasarım `docs/specs/2026-11-09-panel-icerik-design.md`, plan
   `docs/plans/2026-11-09-panel-icerik-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
-  Testler 901 geçer (18 atlanır), typecheck temiz. Yerel uçtan uca derleme denetimi (saat 12/4, foto adresi,
+  Testler 911 geçer (18 atlanır), typecheck temiz. Yerel uçtan uca derleme denetimi (saat 12/4, foto adresi,
   JSON-LD) ayrıca yapılır. **Canlıya alma sırası:** GitHub deploy key; nginx (`/foto/`, `client_max_body_size 4m`
   ve `bozo-oyun` ortamı: `FOTO_DIZINI`, `DERLEME_DIZINI`) + skor sunucusu; derleme kullanıcısı, depo klonu ve
   birimler; site yayını; sonra mevcut kareyi `node scripts/fotoGoc.ts` ile yükleyip panelden atama.
-  Derleme `main`'in son halini kullandığı için önce birleştirme gerekir. Sıra fiyat yayınını kilitlemez: yeni
+  Sıra fiyat yayınını kilitlemez: yeni
   sunucu, eski panelin saatsiz ve fotosuz belgesini geçerli sürümün (yoksa tohumun) bölümleriyle tamamlar.
 
 - **Adres No:20D, pin ve Bozani (9 Kasım, canlıda).** Kapı numarası düzeltildi, harita pini Google
