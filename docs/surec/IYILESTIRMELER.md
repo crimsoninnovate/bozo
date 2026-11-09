@@ -2585,3 +2585,15 @@ Harita ölçümü: SVG yolları OSM'deki Naci Talat ile birebir örtüşüyor (s
 `isletme.koordinat` Google kaydının pininden 31,3 m uzakta (24,3 m batı, 19,8 m güney) ve caddenin
 31,8 m gerisinde, OSM'de otopark olan alanda. Google pini (35.3371843, 33.305993) caddeye 2,7 m.
 Google kartı adresi hâlâ "Naci Talat Cd 4" gösteriyor: işletme profilinde sahibi düzeltmeli.
+
+Sahibi onayladı (9 Kasım 2026): `isletme.koordinat` Google pinine taşındı. `haritaYollari.ts`
+aynı sorguyla (`around:320`) yeni merkezde yeniden çekildi; üreteç eski merkezle çalıştırılınca
+mevcut noktaların %98'ini birebir verdi, farkı Ağustos'tan beri yapılan OSM düzenlemeleri.
+
+## 9 Kasım 2026: Bozo Karışık artık Bozani
+
+Sahibi yeni ad istedi ("Bozo Karışık Full"); isim çalışması `isim-calismasi-bozo-karisik-full.md`.
+Seçilen Bozani, sahibinin hikayedeki kendi lakabı (`hikaye.lakap.kapanis`). EN `The Full Mix
+(Bozani)`. Kimlik `bozo-karisik` ve `fotoId` aynı kaldı; açıklamaya dokunulmadı (yeni metin
+yazılmaz). Ana sayfa notundaki "Beş ürün" doğru: karışıklar beş ürünün kombinasyonu (sahibi).
+Canlı ad panelde değişir; tohum, altın dosyalar ve foto etiketi aynı adı taşıyor.

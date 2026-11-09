@@ -77,7 +77,7 @@ export type EvreButcesi = {
   sisler: readonly Urun[]
   /** En küçük fişlerden başlayarak birer tane eklenir; sayısı fiş sayısını aşmaz. */
   eslikciler: readonly Eslikci[]
-  /** Bozo Karışık fişi (ciğer, dalak, yürek) ve yanındaki eşlikçi; null yok. */
+  /** Bozani fişi (ciğer, dalak, yürek) ve yanındaki eşlikçi; null yok. */
   karisik: { eslikci: Eslikci | null } | null
 }
 

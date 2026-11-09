@@ -26,7 +26,7 @@ export const fotograflar: Record<FotoId, Foto> = {
   dalak: { etiket: 'dalak karesi', etiketEn: 'spleen' },
   yurek: { etiket: 'yürek karesi', etiketEn: 'heart' },
   'terbiyeli-kusbasi': { etiket: 'terbiyeli kuşbaşı karesi', etiketEn: 'marinated cubes' },
-  'bozo-karisik': { etiket: 'bozo karışık karesi', etiketEn: 'the Bozo mix' },
+  'bozo-karisik': { etiket: 'bozani karesi', etiketEn: 'the Bozani plate' },
   'tavuk-sis': { etiket: 'tavuk şiş karesi', etiketEn: 'chicken skewer' },
   'terbiyeli-tavuk-sis': { etiket: 'terbiyeli tavuk şiş karesi', etiketEn: 'marinated chicken skewer' },
   lebeni: { etiket: 'lebeni karesi', etiketEn: 'lebeni soup' },

@@ -115,7 +115,7 @@ export function TaneSimgesi({ urun, boy = 14 }: { urun: Kalem; boy?: number }) {
 const KARISIK_X = [-7.6, 0, 7.6] as const
 const KARISIK_URUN = ['ciger', 'dalak', 'yurek'] as const
 
-/** Bozo Karışık: üç tane tek çubukta. */
+/** Bozani: üç tane tek çubukta. */
 export function KarisikSimgesi({ boy = 22 }: { boy?: number }) {
   return (
     <svg viewBox="-13 -13 26 26" width={boy} height={boy} aria-hidden="true">

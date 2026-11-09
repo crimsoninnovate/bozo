@@ -32,7 +32,7 @@ function gelisTikleri(evre: number, adet: number, r: Rastgele): number[] {
   })
 }
 
-/** İki Bozo Karışık art arda gelmez: gelirse ikincisi bir sonraki fişle yer değiştirir. */
+/** İki Bozani art arda gelmez: gelirse ikincisi bir sonraki fişle yer değiştirir. */
 function karisigiAyir(fisler: FisTaslagi[]): void {
   for (let i = 1; i < fisler.length; i++) {
     const once = fisler[i - 1]
