@@ -232,7 +232,7 @@ test('yonetim_kimliksiz401_yanlis401_turIzleyiciVerisi', async () => {
   assert.equal((await istek('/yonetim/tur/999999', { basliklar: yonetimBasligi })).durum, 404)
 })
 
-test('donemKapanisi_kodUretir_benKoduGosterir_personelOnaylar_ikinciOnay409', async () => {
+test('donemKapanisi_kodUretir_benKoduGosterir_personelOnaylar_ikinciOnay409_islemKaydinaGirer', async () => {
   const birinci = await oyuncuOl('Sampiyon')
   await turOyna(birinci, usta)
   saat = PAZARTESI
@@ -255,12 +255,8 @@ test('donemKapanisi_kodUretir_benKoduGosterir_personelOnaylar_ikinciOnay409', as
   const ikinci = await istek('/yonetim/kod', { yontem: 'POST', govde: { kod: odul.kod }, basliklar: yonetimBasligi })
   assert.deepEqual([ikinci.durum, ikinci.govde?.hata], [409, 'kodKullanildi'])
   assert.equal(((await istek('/ben', { anahtar: birinci })).govde?.odul as { kullanildi: boolean }).kullanildi, true)
-})
-
-test('kod_islemKaydiSiraVeAd', async () => {
-  const kod = (await depo.islemler(10)).find((i) => i.tur === 'kod')
-  assert.equal(kod?.ad, 'personel')
-  assert.match(kod?.ayrinti ?? '', /^[1-3]\. Sampiyon$/, 'önceki testin onayladığı kod')
+  const kayit = (await depo.islemler(10)).find((i) => i.tur === 'kod')
+  assert.deepEqual([kayit?.ad, kayit?.ayrinti], ['personel', `${odul.sira}. Sampiyon`])
 })
 
 test('hesabiSil_204_sonraBen401_tablodanDuser', async () => {
