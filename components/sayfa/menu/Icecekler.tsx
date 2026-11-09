@@ -4,7 +4,7 @@ import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
 import { BolumBasligi } from '@/components/ui/BolumBasligi'
 import { sozluk, type Dil } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
-import { useMenu } from './MenuVerisi'
+import { useMenu, useMenuFotograflari } from './MenuVerisi'
 import stil from './Icecekler.module.css'
 
 type Props = { dil: Dil }
@@ -31,6 +31,7 @@ function qrHucreSinifi(hucre: (typeof QR_DESENI)[number]): string | undefined {
  */
 export function Icecekler({ dil }: Props) {
   const menu = useMenu()
+  const fotoBelgesi = useMenuFotograflari()
   const s = sozluk(dil)
 
   return (
@@ -38,7 +39,7 @@ export function Icecekler({ dil }: Props) {
       <BolumBasligi olcek="sayfa" baslik={s.menu.icecekler.baslik} />
 
       <div className={stil.satir}>
-        <FotoYuvasi id="ayran" belge={menu} dil={dil} bicim="icecek" bosGizli />
+        <FotoYuvasi id="ayran" belge={fotoBelgesi} dil={dil} bicim="icecek" bosGizli />
         <div className={stil.kolon}>
           <ul className={stil.liste}>
             {menu.icecekler.map((icecek) => (

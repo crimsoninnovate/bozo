@@ -7,7 +7,7 @@ import { sozluk, type Dil } from '@/content'
 import type { FotoId } from '@/content/types'
 import type { MenuBelgesi } from '@/lib/menu/tipler'
 import { ikramGorunumu } from '@/lib/menu/ikramGorunumu'
-import { useMenu } from './MenuVerisi'
+import { useMenu, useMenuFotograflari } from './MenuVerisi'
 import stil from './Ikramlar.module.css'
 
 type Props = { dil: Dil }
@@ -46,8 +46,8 @@ function IkramKarti(props: {
 /** Menü sayfasının ikramlar bölümü; metinler menü belgesinden gelir. Menu Sayfasi.dc.html:200-231 */
 export function Ikramlar({ dil }: Props) {
   const s = sozluk(dil)
-  const menu = useMenu()
-  const { altMetin, urunler, gruplar } = ikramGorunumu(menu, dil)
+  const fotoBelgesi = useMenuFotograflari()
+  const { altMetin, urunler, gruplar } = ikramGorunumu(useMenu(), dil)
 
   return (
     <section id="ikramlar" tabIndex={-1} className={stil.bolum}>
@@ -58,7 +58,7 @@ export function Ikramlar({ dil }: Props) {
           <IkramKarti
             key={urun.id}
             dil={dil}
-            belge={menu}
+            belge={fotoBelgesi}
             fotoId={urun.fotoId}
             ad={urun.ad}
             aciklama={urun.aciklama}

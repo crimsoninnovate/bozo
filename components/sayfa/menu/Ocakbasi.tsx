@@ -9,7 +9,7 @@ import { fotograflar } from '@/content/fotograflar'
 import { fiyatMetni } from '@/content/isletme'
 import type { FotoId } from '@/content/types'
 import type { MenuBelgesi, MenuKalemi } from '@/lib/menu/tipler'
-import { useMenu } from './MenuVerisi'
+import { useMenu, useMenuFotograflari } from './MenuVerisi'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import { UrunKarti } from './UrunKarti'
 import stil from './Ocakbasi.module.css'
@@ -109,6 +109,7 @@ function OzelSerit({ dil, ozel }: { dil: Dil; ozel: MenuBelgesi['ozel'] }) {
  */
 export function Ocakbasi({ dil }: Props) {
   const menu = useMenu()
+  const fotoBelgesi = useMenuFotograflari()
   const s = sozluk(dil)
   const [imza, ...kartlar] = menu.kalemler
   if (!imza) throw new Error('Ocakbasi ürün listesi boş')
@@ -122,7 +123,7 @@ export function Ocakbasi({ dil }: Props) {
       />
 
       <div className={stil.imzaSatiri}>
-        <FotoYuvasi id={IMZA_KARESI} belge={menu} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
+        <FotoYuvasi id={IMZA_KARESI} belge={fotoBelgesi} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
         <ImzaPaneli dil={dil} kalem={imza} />
       </div>
 
@@ -131,7 +132,7 @@ export function Ocakbasi({ dil }: Props) {
           <UrunKarti
             key={kalem.id}
             dil={dil}
-            belge={menu}
+            belge={fotoBelgesi}
             fotoId={kalem.fotoId}
             indeks={indeksMetni(sira + 1)}
             ad={kalem.ad[dil]}
