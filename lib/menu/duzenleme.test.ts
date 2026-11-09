@@ -3,7 +3,8 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
-  fiyatYaz, fotoAta, fotoKaldir, fotoOdakAyarla, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil,
+  fiyatYaz, fotoAta, fotoKaldir, fotoOdakAyarla, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi,
+  ikramOgesiEkle, ikramOgesiSil,
   ikramOgesiTasi, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
   olcuSil, saatAyarla,
 } from './duzenleme.ts'

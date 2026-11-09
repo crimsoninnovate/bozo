@@ -25,15 +25,16 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   bytes, else 415 `bicimDesteklenmiyor`; up to `FOTO_GOVDE_SINIRI` 3 MB, long edge up to 2000 px, read from the
   VP8/VP8L/VP8X header or the first JPEG SOF marker; Safari and iOS cannot encode WebP, so the panel falls back to
   JPEG) and writes `<sha256[0..16]>.webp` or `.jpg` atomically into `FOTO_DIZINI`; existing files are never
-  rewritten or deleted. Without `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job, not the server's.
+  rewritten or deleted. Without `FOTO_DIZINI` it answers 503 `fotoKapali`. Serving the directory is nginx's job,
+  not the server's.
 - Site rebuild (`derleme.ts`): `POST /yonetim/derleme` writes `DERLEME_DIZINI/istek` (ISO time; a second POST while it
   exists keeps the one file) and answers 202; `GET` reads `durum.json` (written by the build unit; invalid shape ->
   `bos` plus one `console.warn`, `gunluk` capped at 200 lines) and reports `sirada` when `istek` exists and the build is
   not `derleniyor`. The web process never builds. Without `DERLEME_DIZINI` it answers 503 `derlemeKapali`. The panel
   polls the GET every 5 s, so it has its own per-IP bucket (1200/hour, `DERLEME_SAATLIK`) and skips the 60/hour
   `/yonetim/*` bucket for valid staff credentials only (a wrong password counts against the 60/hour bucket like on any
-  other route), and once that 60/hour bucket or the general 600/hour one is spent the GET answers 429 for every credential (no oracle); the POST
-  stays in that bucket.
+  other route), and once that 60/hour bucket or the general 600/hour one is spent the GET answers 429 for every
+  credential (no oracle); the POST stays in that bucket.
 - The build and upload that the rebuild request triggers live outside the Node process, in `sunucu/derleme/`:
   `derle.sh` (user `bozo-derleme`, no root, inside the `Dockerfile` image that `kap.sh` runs: arc's glibc 2.28
   is too old for Next's native SWC), `yukle.sh` (root, fixed paths, no input), `ortak.sh`, and the

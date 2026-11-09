@@ -551,7 +551,9 @@ test('fotograflar_bilinmeyenAnahtar_reddedilir', () => {
 })
 
 test('fotograflar_dosyaAdiBicimi_denetlenir', () => {
-  for (const kotu of ['../x.webp', 'ABCDEF0123456789.webp', '0123456789abcde.webp', '0123456789abcdef.png', '0123456789abcdef.jpeg']) {
+  const kotuler = ['../x.webp', 'ABCDEF0123456789.webp', '0123456789abcde.webp', '0123456789abcdef.png',
+    '0123456789abcdef.jpeg']
+  for (const kotu of kotuler) {
     const b = ham(fotoAyarla(FOTO_ANAHTARI, { dosya: kotu, odak: null }))
     assert.equal(hataKodu(b, `fotograflar.${FOTO_ANAHTARI}.dosya`), 'fotoDosya', kotu)
   }

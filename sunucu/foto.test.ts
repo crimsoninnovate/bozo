@@ -11,7 +11,8 @@ import { FOTO_GOVDE_SINIRI, jpegBoyutu, webpBoyutu } from './foto.ts'
 import { listeKur } from './ip.ts'
 import { uygulamaKur, type Ayar } from './uygulama.ts'
 
-/* `POST /yonetim/foto`: WebP ve JPEG doğrulama, içerik adı, atomik yazım. Görüntü kütüphanesi yok, baytlar elle kurulur. */
+/* `POST /yonetim/foto`: WebP ve JPEG doğrulama, içerik adı, atomik yazım.
+   Görüntü kütüphanesi yok, baytlar elle kurulur. */
 const KOKEN = 'https://cigercibozo.com'
 const kimlik = { Authorization: `Basic ${Buffer.from('personel:gizli').toString('base64')}` }
 const WEBP = { 'Content-Type': 'image/webp' }
