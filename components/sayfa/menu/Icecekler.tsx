@@ -38,7 +38,7 @@ export function Icecekler({ dil }: Props) {
       <BolumBasligi olcek="sayfa" baslik={s.menu.icecekler.baslik} />
 
       <div className={stil.satir}>
-        <FotoYuvasi id="ayran" dil={dil} bicim="icecek" bosGizli />
+        <FotoYuvasi id="ayran" belge={menu} dil={dil} bicim="icecek" bosGizli />
         <div className={stil.kolon}>
           <ul className={stil.liste}>
             {menu.icecekler.map((icecek) => (

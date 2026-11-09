@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import { fotograflar } from '@/content/fotograflar'
 import type { Dil, FotoId } from '@/content/types'
+import { fotoKaynagi, odakSec } from '@/lib/fotoKaynagi'
+import type { MenuBelgesi } from '@/lib/menu/tipler'
+import { API_KOKU } from '@/lib/oyun/api'
 import stil from './FotoYuvasi.module.css'
 
 /**
@@ -49,6 +52,11 @@ export type KorNefesi = { sure: number; gecikme?: number }
 
 type Props = {
   id: FotoId
+  /**
+   * Fotoğraf atamalarının kaynağı. Sunucu bileşenleri `BelgeFotoYuvasi` ile derleme zamanı belgesini
+   * verir; menü sayfasının istemci ağacı `useMenu()` belgesini geçer (canlı belge gelince plaka yenilenir).
+   */
+  belge: Pick<MenuBelgesi, 'fotograflar'>
   dil: Dil
   bicim: YuvaBicimi
   /**
@@ -94,6 +102,7 @@ function korNefesiStili(nefes: KorNefesi | undefined): React.CSSProperties | und
 
 export function FotoYuvasi({
   id,
+  belge,
   dil,
   bicim,
   odak,
@@ -107,18 +116,20 @@ export function FotoYuvasi({
   const foto = fotograflar[id]
   // Fotoğraf geldiğinde aynı metin `alt` olarak ağaçta kalır.
   const etiket = dil === 'en' ? foto.etiketEn : foto.etiket
+  const kaynak = fotoKaynagi(id, belge, API_KOKU)
 
-  if (foto.dosya) {
+  if (kaynak) {
+    const nesneKonumu = odakSec(kaynak.odak, odak)
     return (
       <div className={`${stil.kap} ${stil[bicim]}`}>
         <Image
-          src={foto.dosya}
+          src={kaynak.src}
           alt={etiket}
           fill
           className={stil.gorsel}
           loading={oncelikli ? 'eager' : undefined}
           fetchPriority={oncelikli ? 'high' : undefined}
-          style={odak ? { objectPosition: odak } : undefined}
+          style={nesneKonumu ? { objectPosition: nesneKonumu } : undefined}
         />
         {children}
       </div>

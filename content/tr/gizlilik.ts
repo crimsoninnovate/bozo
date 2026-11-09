@@ -64,6 +64,7 @@ export const gizlilik = {
     'İstanbul\'daki sunucusunda tutulur; takma adınız ve puanınız herkese açık ' +
     'sıralamada görünür. Sitenin sayfaları menü ve duyuru verisi için api.cigercibozo.com ' +
     'adresine istek atar; bu istekle IP adresiniz, sitenin zaten barındığı sunucuya ulaşır. ' +
+    'Sitedeki fotoğraflar da aynı adresten, yani kendi sunucumuzdan yüklenir. ' +
     'Başka hiçbir üçüncü tarafa veri iletilmez.',
 
   aktarimBaslik: 'Yurt dışına aktarım',

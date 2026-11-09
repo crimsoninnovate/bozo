@@ -1,4 +1,4 @@
-import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
+import { BelgeFotoYuvasi } from '@/components/ui/BelgeFotoYuvasi'
 import { fotograflar } from '@/content/fotograflar'
 import type { Dil, FotoId } from '@/content/types'
 import stil from './Izgara.module.css'
@@ -23,7 +23,7 @@ export function Izgara({ dil }: Props) {
   return (
     <div className={stil.izgara}>
       {kadrajlar.map((id, i) => (
-        <FotoYuvasi key={id} id={id} dil={dil} bicim="kart" etiketGoster oncelikli={i === 0} />
+        <BelgeFotoYuvasi key={id} id={id} dil={dil} bicim="kart" etiketGoster oncelikli={i === 0} />
       ))}
     </div>
   )

@@ -50,7 +50,8 @@ export const gizlilik = {
     'business\'s hosting provider, DH Bulut Bilişim; your nickname and score ' +
     'appear in the public leaderboard. The pages of the site request menu and announcement data from ' +
     'api.cigercibozo.com; with that request your IP address reaches the server the site is ' +
-    'already hosted on. No data is passed to any other third party.',
+    'already hosted on. Photos on the site also load from that address, our own server. ' +
+    'No data is passed to any other third party.',
 
   aktarimBaslik: 'Transfer abroad',
   aktarimMetni:

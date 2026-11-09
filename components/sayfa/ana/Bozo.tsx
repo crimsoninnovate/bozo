@@ -1,7 +1,7 @@
 import { Bolum } from '@/components/ui/Bolum'
 import { Buton } from '@/components/ui/Buton'
 import { EtiketSatiri } from '@/components/ui/EtiketSatiri'
-import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
+import { BelgeFotoYuvasi } from '@/components/ui/BelgeFotoYuvasi'
 import { sozluk, type Dil } from '@/content'
 import { yol } from '@/lib/site'
 import stil from './Bozo.module.css'
@@ -36,7 +36,7 @@ export function Bozo({ dil }: Props) {
       </Buton>
 
       <div className={stil.plakaKabi}>
-        <FotoYuvasi id="ustanin-eli" dil={dil} bicim="genis" />
+        <BelgeFotoYuvasi id="ustanin-eli" dil={dil} bicim="genis" />
       </div>
     </Bolum>
   )

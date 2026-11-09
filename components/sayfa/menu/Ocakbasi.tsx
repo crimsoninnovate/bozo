@@ -122,7 +122,7 @@ export function Ocakbasi({ dil }: Props) {
       />
 
       <div className={stil.imzaSatiri}>
-        <FotoYuvasi id={IMZA_KARESI} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
+        <FotoYuvasi id={IMZA_KARESI} belge={menu} dil={dil} bicim="spread" odak="50% 70%" bosGizli />
         <ImzaPaneli dil={dil} kalem={imza} />
       </div>
 
@@ -131,6 +131,7 @@ export function Ocakbasi({ dil }: Props) {
           <UrunKarti
             key={kalem.id}
             dil={dil}
+            belge={menu}
             fotoId={kalem.fotoId}
             indeks={indeksMetni(sira + 1)}
             ad={kalem.ad[dil]}

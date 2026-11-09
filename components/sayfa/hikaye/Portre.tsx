@@ -1,5 +1,5 @@
 import { CamPanel } from '@/components/ui/CamPanel'
-import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
+import { BelgeFotoYuvasi } from '@/components/ui/BelgeFotoYuvasi'
 import { NotBlogu } from '@/components/ui/NotBlogu'
 import { sozluk, type Dil } from '@/content'
 import stil from './Portre.module.css'
@@ -19,7 +19,7 @@ export function Portre({ dil }: Props) {
 
   return (
     <section className={stil.bolum}>
-      <FotoYuvasi id="bozo-portre" dil={dil} bicim="portreUzun" odak="50% 28%" />
+      <BelgeFotoYuvasi id="bozo-portre" dil={dil} bicim="portreUzun" odak="50% 28%" />
 
       <CamPanel opaklik={0.72} dolgu="genis" className={stil.kart}>
         <h2 className={stil.baslik}>{s.hikaye.portre.kartBasligi}</h2>

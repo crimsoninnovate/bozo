@@ -3,13 +3,14 @@ import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk } from '@/content'
 import { fiyatMetni } from '@/content/isletme'
 import type { Dil, FotoId } from '@/content/types'
-import type { MenuKalemi } from '@/lib/menu/tipler'
+import type { MenuBelgesi, MenuKalemi } from '@/lib/menu/tipler'
 import { OlcuSatirlari } from './OlcuSatirlari'
 import stil from './UrunKarti.module.css'
 import { dulOnle } from '@/lib/metin'
 
 type Props = {
   dil: Dil
+  belge: Pick<MenuBelgesi, 'fotograflar'>
   fotoId: FotoId | null
   /** İki haneli statik indeks ("02" ... "07"), plakanın sağ üstünde. */
   indeks: string
@@ -25,7 +26,7 @@ type Props = {
  *
  * Yalnız menü sayfası kullanır, o yüzden `components/ui/` değil sayfa dizini.
  */
-export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, kalem, korNefesi }: Props) {
+export function UrunKarti({ dil, belge, fotoId, indeks, ad, aciklama, kalem, korNefesi }: Props) {
   const tukendi = kalem.tukendi
   const anaFiyatSinifi = tukendi ? `${stil.anaFiyat} ${stil.tukendiMetin}` : stil.anaFiyat
   return (
@@ -33,6 +34,7 @@ export function UrunKarti({ dil, fotoId, indeks, ad, aciklama, kalem, korNefesi 
       {fotoId && (
         <FotoYuvasi
           id={fotoId}
+          belge={belge}
           dil={dil}
           bicim="kart"
           korNefesi={korNefesi}

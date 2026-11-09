@@ -1,5 +1,5 @@
 import { Bolum } from '@/components/ui/Bolum'
-import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
+import { BelgeFotoYuvasi } from '@/components/ui/BelgeFotoYuvasi'
 import { IkramCipi } from '@/components/ui/IkramCipi'
 import { TaneDizilimi } from '@/components/ui/TaneDizilimi'
 import { sozluk, type Dil } from '@/content'
@@ -22,7 +22,7 @@ export function Ikram({ dil }: Props) {
       </div>
       {/* Sarmalayıcı yalnız kolonun 28px gap'ine 14px ekler (Ana:236). */}
       <div className={stil.plakaKabi}>
-        <FotoYuvasi id="kurulu-sofra" dil={dil} bicim="genis" />
+        <BelgeFotoYuvasi id="kurulu-sofra" dil={dil} bicim="genis" />
       </div>
     </Bolum>
   )

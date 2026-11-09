@@ -2,7 +2,8 @@ import type { Foto, FotoId } from './types.ts'
 
 /**
  * Çekim listesi manifesti. dosya alanı boşken FotoYuvasi kadraj etiketli
- * koyu plaka basar. Fotoğraflar geldiğinde yalnızca bu dosyaya yol yazılır.
+ * koyu plaka basar. Panelden yüklenen fotoğraf menü belgesinde durur ve bu yolu ezer
+ * (`lib/fotoKaynagi.ts`); buradaki `dosya` belgede ataması olmayan yuvanın tohumudur.
  * Yapay zeka ile üretilmiş yemek görseli kullanılmaz.
  */
 export const fotograflar: Record<FotoId, Foto> = {

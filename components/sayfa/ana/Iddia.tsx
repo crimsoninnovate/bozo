@@ -1,6 +1,6 @@
 import { AnimasyonluSayac } from '@/components/ui/AnimasyonluSayac'
 import { Bolum } from '@/components/ui/Bolum'
-import { FotoYuvasi } from '@/components/ui/FotoYuvasi'
+import { BelgeFotoYuvasi } from '@/components/ui/BelgeFotoYuvasi'
 import { sozluk, type Dil } from '@/content'
 import stil from './Iddia.module.css'
 
@@ -54,7 +54,7 @@ export function Iddia({ dil }: Props) {
         zeminin üstünde okunmaz bir çizgi yığınına döndü. Rayın anlattığı şeyi
         (tane ritmi) artık fotoğrafın kendisi gösteriyor.
       */}
-      <FotoYuvasi id="tane-yakin-cekim" dil={dil} bicim="portre" />
+      <BelgeFotoYuvasi id="tane-yakin-cekim" dil={dil} bicim="portre" />
     </Bolum>
   )
 }
