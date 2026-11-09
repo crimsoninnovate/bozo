@@ -15,25 +15,31 @@ if (!ANAHTAR) {
   process.exit(1)
 }
 
+function dur(mesaj: string, hata?: unknown): never {
+  console.error(`fotoGoc: ${mesaj}`, ...(hata === undefined ? [] : [hata]))
+  process.exit(1)
+}
+
 const dosya = new URL('public/foto/tane-yakin-cekim.webp', KOK)
-const govde = await readFile(dosya)
+const govde = await readFile(dosya).catch((h: unknown) => dur(`dosya okunamadı: ${dosya.pathname}`, h))
 
 const yanit = await fetch(`${API}/yonetim/foto`, {
   method: 'POST',
   headers: { 'Content-Type': 'image/webp', Authorization: `Bearer ${ANAHTAR}` },
   body: govde,
   signal: AbortSignal.timeout(ZAMAN_ASIMI_MS),
-})
+}).catch((h: unknown) => dur(`istek gönderilemedi (ağ ya da ${ZAMAN_ASIMI_MS / 1000} sn zaman aşımı): ${API}`, h))
 const metin = await yanit.text()
 if (!yanit.ok) {
-  console.error(`fotoGoc: yükleme başarısız (${yanit.status}) ${API}/yonetim/foto: ${metin.slice(0, 200)}`)
-  process.exit(1)
+  dur(`yükleme başarısız (${yanit.status}) ${API}/yonetim/foto: ${metin.slice(0, 200)}`)
 }
 
-const { dosya: ad } = JSON.parse(metin) as { dosya?: string }
-if (!ad) {
-  console.error(`fotoGoc: yanıtta dosya adı yok: ${metin.slice(0, 200)}`)
-  process.exit(1)
+let ad: unknown
+try {
+  ad = (JSON.parse(metin) as { dosya?: unknown }).dosya
+} catch (h) {
+  dur(`yanıt JSON değil: ${metin.slice(0, 200)}`, h)
 }
+if (typeof ad !== 'string' || !ad) dur(`yanıtta dosya adı yok: ${metin.slice(0, 200)}`)
 console.log(`dosya: ${ad}`)
 console.log('Panelde "tane-yakin-cekim" ve "tane-yakin-cekim-yatay" yuvalarına bu kareyi ata, yayınla.')
