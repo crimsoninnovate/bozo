@@ -416,7 +416,7 @@ function enUzunMetinler(dil: 'tr' | 'en', harf: string): Record<string, string> 
 }
 
 // Ölçüm (26 Ekim 2026): her metin azami uzunlukta Türkçe harfle, içecek başına 6 ölçü: 64 KB yetmez, 256 KB yeter.
-// Sayfa metinleriyle (9 Kasım 2026) 221.309 bayt, sınırın yüzde 84'ü.
+// Sayfa ve SEO metinleriyle (10 Kasım 2026) 227.253 bayt, sınırın yüzde 87'si.
 test('putYonetimMenu_enBuyukGecerliBelge_menuGovdeSinirininAltinda', () => {
   const belge = enBuyukBelge('ş', 6)
   assert.equal(menuBelgesiDogrula(belge).tamam, true, 'belge sınırlarda geçerli olmalı')

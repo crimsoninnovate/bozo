@@ -48,7 +48,7 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
 export const SEKMELER = [
-  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'saatler', 'iletisim', 'metinler', 'fotograflar',
+  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'saatler', 'iletisim', 'metinler', 'fotograflar', 'seo',
   'gecmis', 'kullanicilar',
 ] as const
 export type Sekme = (typeof SEKMELER)[number]
@@ -62,7 +62,7 @@ export function gorunurSekmeler(admin: boolean): readonly Sekme[] {
 const GRUPLAR = {
   menu: ['ocakbasi', 'ozel', 'icecekler', 'ikramlar'],
   isletme: ['duyuru', 'saatler', 'iletisim'],
-  icerik: ['metinler', 'fotograflar'],
+  icerik: ['metinler', 'fotograflar', 'seo'],
   yayin: ['gecmis'],
   hesaplar: ['kullanicilar'],
 } as const satisfies Record<string, readonly Sekme[]>
@@ -83,6 +83,7 @@ const YOL_SEKMELERI: Record<string, Sekme> = {
 
 /** "iletisim.eposta" gibi doğrulama yolunun düzenlendiği sekme; tanımsız yol `null`. */
 export function hataSekmesi(yol: string): Sekme | null {
+  if (/^metinler\.(tr|en)\.ortak\.sayfaMeta\./.test(yol)) return 'seo'
   return YOL_SEKMELERI[/^[a-z]+/.exec(yol)?.[0] ?? ''] ?? null
 }
 

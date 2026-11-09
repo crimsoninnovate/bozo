@@ -4,7 +4,7 @@ import type { FotoId } from '../../content/types.ts'
 import { yonetim } from '../../content/yonetim.ts'
 import { doldur } from '../metin.ts'
 import { saatAraligi } from '../saatMetni.ts'
-import { varsayilanMetinler, type MetinSayfasi } from './metinler.ts'
+import { SEO_ONEKI, varsayilanMetinler, type MetinSayfasi } from './metinler.ts'
 import { ikramSayisi } from './sayilar.ts'
 import type { Cift, IcecekKalemi, IkramGrubu, IkramOgesi, IkramUrunu, MenuBelgesi, MenuKalemi } from './tipler.ts'
 
@@ -217,6 +217,14 @@ function saatlerFarki(eski: MenuBelgesi['saatler'], yeni: MenuBelgesi['saatler']
 
 /** "ana.iddia.baslik" -> "Metin · Ana sayfa › iddia › baslik". */
 export function metinEtiketi(yol: string): string {
+  if (yol.startsWith(SEO_ONEKI)) {
+    const [sayfa = '', alan = ''] = yol.slice(SEO_ONEKI.length).split('.')
+    const seo = yonetim.menu.seo
+    return doldur(seo.farkEtiketi, {
+      sayfa: seo.sayfalar[sayfa as keyof typeof seo.sayfalar] ?? sayfa,
+      alan: seo.alanlar[alan as keyof typeof seo.alanlar] ?? alan,
+    })
+  }
   const [sayfa, ...gerisi] = yol.split('.')
   const ad = yonetim.menu.metinler.sayfalar[sayfa as MetinSayfasi] ?? sayfa ?? ''
   return doldur(yonetim.menu.metinler.farkEtiketi, { sayfa: ad, yol: gerisi.join(' › ') })

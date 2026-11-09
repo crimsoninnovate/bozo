@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { menuFarki, statikDegisiklikVarMi } from './fark.ts'
+import { menuFarki, metinEtiketi, statikDegisiklikVarMi } from './fark.ts'
 import { varsayilanMetinler } from './metinler.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -324,4 +324,9 @@ test('fark_varsayilanlaAyniYazilmisMetin_degisiklikDegil', () => {
 test('statikDegisiklikVarMi_metin_true', () => {
   const yeni = varsayilanKopya((b) => { b.metinler.en['ana.iddia.baslik'] = 'The grain tells' })
   assert.equal(statikDegisiklikVarMi(varsayilan, yeni), true)
+})
+
+test('metinEtiketi_seoMetni_sayfaAdiyla', () => {
+  assert.equal(metinEtiketi('ortak.sayfaMeta.konum.aciklama'), 'SEO · Konum › açıklama')
+  assert.equal(metinEtiketi('ortak.sayfaMeta.gizlilik.baslik'), 'SEO · Gizlilik › başlık')
 })

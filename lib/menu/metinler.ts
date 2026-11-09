@@ -4,7 +4,8 @@ import type { Dil } from '../../content/types.ts'
 
 /*
  * Panelden düzenlenen sayfa metinleri. Belgede yalnız değişen metin durur (`yol -> metin`); yol sözlükteki
- * noktalı yoldur (`ana.hero.kilometreTaslari.1.metin`). Gizlilik, ortak, 404 ve oyun kodda kalır.
+ * noktalı yoldur (`ana.hero.kilometreTaslari.1.metin`). Gizlilik, ortak, 404 ve oyun kodda kalır; ortaktan
+ * yalnız sayfa başlık ve açıklamaları (`SEO_ONEKI`) düzenlenir.
  */
 export const METIN_SAYFALARI = ['ana', 'menu', 'hikaye', 'konum', 'galeri'] as const
 export type MetinSayfasi = (typeof METIN_SAYFALARI)[number]
@@ -22,9 +23,13 @@ function yapraklar(v: unknown, yol: string, sonuc: Map<string, string>): void {
   }
 }
 
+/** Arama motoru ve yapay zeka metinleri: sayfa başına `<title>` ve açıklama (`llms.txt` de okur). */
+export const SEO_ONEKI = 'ortak.sayfaMeta.'
+
 function yollariCikar(s: Sozluk): ReadonlyMap<string, string> {
   const sonuc = new Map<string, string>()
   for (const sayfa of METIN_SAYFALARI) yapraklar(s[sayfa], sayfa, sonuc)
+  yapraklar(s.ortak.sayfaMeta, SEO_ONEKI.slice(0, -1), sonuc)
   return sonuc
 }
 

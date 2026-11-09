@@ -151,6 +151,7 @@ export const yonetim = {
       saatler: 'Saatler',
       fotograflar: 'Fotoğraflar',
       metinler: 'Sayfa Metinleri',
+      seo: 'SEO ve AEO',
       gecmis: 'Geçmiş',
       kullanicilar: 'Kullanıcılar',
     },
@@ -291,6 +292,27 @@ export const yonetim = {
       degisti: 'Değişti',
       sifirla: 'Varsayılana dön',
       farkEtiketi: 'Metin · {sayfa} › {yol}',
+    },
+    seo: {
+      baslik: 'SEO ve AEO',
+      not:
+        'Her sayfanın Google ve yapay zeka asistanlarında görünen başlığı ve açıklaması. Açıklama, yapay zeka ' +
+        'özet dosyasına (llms.txt) da yazılır. Değişiklik "Siteyi Güncelle" ile yayına çıkar.',
+      sayfalar: {
+        ana: 'Ana sayfa', menu: 'Menü', galeri: 'Galeri', hikaye: 'Hikaye', konum: 'Konum', gizlilik: 'Gizlilik',
+      },
+      alanlar: { baslik: 'başlık', aciklama: 'açıklama' },
+      onizleme: 'Arama sonucunda',
+      farkEtiketi: 'SEO · {sayfa} › {alan}',
+      kontrol: 'Yayındaki dosyalar',
+      dosyalar: [
+        { ad: 'llms.txt', aciklama: 'yapay zeka asistanları için site özeti', yol: '/llms.txt' },
+        { ad: 'sitemap.xml', aciklama: 'arama motorlarına sayfa listesi', yol: '/sitemap.xml' },
+        { ad: 'robots.txt', aciklama: 'tarayıcılara izinler', yol: '/robots.txt' },
+      ],
+      otomatik:
+        'Otomatik yapılanlar: Türkçe ve İngilizce sayfa eşleşmesi, arama motorları için restoran, menü ve ' +
+        'gezinti bilgisi, paylaşım kartı. Bunlar menüden, saatlerden ve iletişimden kendiliğinden kurulur.',
     },
     foto: {
       baslik: 'Fotoğraflar',

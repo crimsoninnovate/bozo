@@ -194,6 +194,7 @@ test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
   assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
   assert.equal(hataSekmesi('fotograflar.dalak.odak'), 'fotograflar')
   assert.equal(hataSekmesi('metinler.tr.ana.hero.govde'), 'metinler')
+  assert.equal(hataSekmesi('metinler.en.ortak.sayfaMeta.ana.baslik'), 'seo')
   assert.equal(hataSekmesi('saatler.acilis'), 'saatler')
   assert.equal(hataSekmesi('belge'), null)
 })
@@ -463,7 +464,7 @@ test('sekmeGruplari_admin_siteYonetimiDuzeni', () => {
   assert.deepEqual(sekmeGruplari(true).map((g) => [g.grup, g.sekmeler]), [
     ['menu', ['ocakbasi', 'ozel', 'icecekler', 'ikramlar']],
     ['isletme', ['duyuru', 'saatler', 'iletisim']],
-    ['icerik', ['metinler', 'fotograflar']],
+    ['icerik', ['metinler', 'fotograflar', 'seo']],
     ['yayin', ['gecmis']],
     ['hesaplar', ['kullanicilar']],
   ])

@@ -30,6 +30,7 @@ import { MetinFormu } from './MetinFormu'
 import { Giris, hataIsle, useBen, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
 import { SaatFormu } from './SaatFormu'
+import { SeoFormu } from './SeoFormu'
 import { SifreFormu } from './SifreFormu'
 import { SITE_SURUMU } from './SiteDurumu'
 import { SiteGuncelle, useDerleme, type Derleme } from './SiteGuncelle'
@@ -220,6 +221,8 @@ function SekmeIcerigi(props: IcerikProps) {
       return <FotoFormu belge={belge} hatalar={hatalar} duzenle={duzenle} api={api} cik={cik} />
     case 'metinler':
       return <MetinFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
+    case 'seo':
+      return <SeoFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
     case 'gecmis':
       return (
         <>

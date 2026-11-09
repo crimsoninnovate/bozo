@@ -38,7 +38,15 @@ export function MetinFormu({ belge, hatalar, duzenle }: Props) {
   )
 }
 
-function MetinAlani({ yol, belge, hatalar, duzenle }: Props & { yol: string }) {
+type AlanProps = Props & {
+  yol: string
+  /** Verilmezse yolun sayfadan sonrası (`hero › govde`). */
+  etiket?: string
+  /** Önerilen uzunluk sayacı (SEO); sınır değil, doğrulayıcı kendi sınırını uygular. */
+  enFazla?: number
+}
+
+export function MetinAlani({ yol, belge, hatalar, duzenle, etiket, enFazla }: AlanProps) {
   const varsayilan = { tr: varsayilanMetinler('tr').get(yol) ?? '', en: varsayilanMetinler('en').get(yol) ?? '' }
   const deger = { tr: belge.metinler.tr[yol] ?? varsayilan.tr, en: belge.metinler.en[yol] ?? varsayilan.en }
   const degisti = yol in belge.metinler.tr || yol in belge.metinler.en
@@ -50,11 +58,11 @@ function MetinAlani({ yol, belge, hatalar, duzenle }: Props & { yol: string }) {
     }),
   )
   const koy = (c: Cift) => duzenle((b) => metinKoy(metinKoy(b, 'tr', yol, c.tr), 'en', yol, c.en))
-  const etiket = yol.split('.').slice(1).join(' › ')
   return (
     <div className={degisti ? `${stil.alan} ${stil.degisti}` : stil.alan}>
-      <CiftAlani etiket={etiket} deger={deger} yol={yol} hatalar={alanHatalari}
-        uzun={varsayilan.tr.length > UZUN_METIN} onDegis={(c) => c && koy(c)} />
+      <CiftAlani etiket={etiket ?? yol.split('.').slice(1).join(' › ')} deger={deger} yol={yol}
+        hatalar={alanHatalari} uzun={varsayilan.tr.length > UZUN_METIN} enFazla={enFazla}
+        onDegis={(c) => c && koy(c)} />
       {degisti && (
         <div className={stil.durum}>
           <span className={stil.rozet}>{s.degisti}</span>
