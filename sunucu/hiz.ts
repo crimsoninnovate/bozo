@@ -2,6 +2,8 @@
 export type HizSiniri = {
   /** İzin varsa sayar ve true döner; limit dolduysa false. */
   izinVar(anahtar: string, simdi: number): boolean
+  /** Saymadan bakar: anahtarın limiti dolduysa true. */
+  dolu(anahtar: string, simdi: number): boolean
   /** Penceresi boşalan anahtarları atar; bellek büyümesin diye ara ara çağrılır. */
   temizle(simdi: number): void
 }
@@ -19,6 +21,9 @@ export function hizSiniriKur(limit: number, pencereMs: number): HizSiniri {
       zamanlar.push(simdi)
       kayit.set(anahtar, zamanlar)
       return true
+    },
+    dolu(anahtar, simdi) {
+      return kirp(kayit.get(anahtar) ?? [], simdi).length >= limit
     },
     temizle(simdi) {
       for (const [anahtar, zamanlar] of kayit) {

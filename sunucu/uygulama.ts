@@ -152,7 +152,10 @@ export function uygulamaKur(
   async function yonlendir(istek: Istek): Promise<Yanit> {
     // Menü ve derleme durumu okumaları kendi geniş kovalarını kullanır (restoran wifi'si tek IP).
     const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
-    const derlemeOkuma = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme' && yetkiliMi(istek)
+    const derlemeGet = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme'
+    // Yönetim kovası doluysa kimlikten bağımsız 429: geniş kova doğru parolayı ele vermesin.
+    if (derlemeGet && yonetimSiniri.dolu(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
+    const derlemeOkuma = derlemeGet && yetkiliMi(istek)
     const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !derlemeOkuma && !yonetimSiniri.izinVar(istek.ip, simdi())) {

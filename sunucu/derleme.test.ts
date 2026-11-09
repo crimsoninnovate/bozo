@@ -192,3 +192,15 @@ test('getDerleme_yanlisParola_yonetimKovasinaSayilir_digerUclarlaAyniNoktadaKesi
     b.sunucu.close()
   }
 })
+
+test('getDerleme_yonetimKovasiDoluyken_dogruParolaDa429_kimlikSizmaz', async () => {
+  const a = await sunucuAc(dizin)
+  try {
+    assert.equal(await ilk429('/yonetim/sayac', a.kok), 61, 'yönetim kovası yanlış parolalarla doldu')
+    assert.equal((await cagir('GET', KIMLIK, a.kok)).durum, 429, 'doğru parola da 429')
+    const yanlis = { Authorization: `Basic ${Buffer.from('personel:yanlis').toString('base64')}` }
+    assert.equal((await cagir('GET', yanlis, a.kok)).durum, 429, 'yanlış parola aynı yanıt')
+  } finally {
+    a.sunucu.close()
+  }
+})

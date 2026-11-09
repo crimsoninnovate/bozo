@@ -30,7 +30,8 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   not `derleniyor`. The web process never builds. Without `DERLEME_DIZINI` it answers 503 `derlemeKapali`. The panel
   polls the GET every 5 s, so it has its own per-IP bucket (1200/hour, `DERLEME_SAATLIK`) and skips the 60/hour
   `/yonetim/*` bucket for valid staff credentials only (a wrong password counts against the 60/hour bucket like on any
-  other route); the POST stays in that one.
+  other route), and once that 60/hour bucket is spent the GET answers 429 for every credential (no oracle); the POST
+  stays in that bucket.
 - Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,
   30 days, stateless, `oturum.ts`); change `YONETIM_SIFRE` to revoke every token. Do not rotate
   `GIZLI_TUZ` for this: it also breaks every unredeemed reward code (`kodOzeti` hashes with the same salt).

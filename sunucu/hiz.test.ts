@@ -20,3 +20,14 @@ test('hizSiniri_temizle_bosAnahtarlariAtar_dolulariTutar', () => {
   assert.equal(sinir.izinVar('a', 151), true)
   assert.equal(sinir.izinVar('b', 151), false)
 })
+
+test('hizSiniri_dolu_saymaz_limitDolunca_true_pencereGecinceFalse', () => {
+  const sinir = hizSiniriKur(2, 1000)
+  for (let i = 0; i < 5; i++) assert.equal(sinir.dolu('a', 0), false, 'bakmak saymaz')
+  sinir.izinVar('a', 0)
+  assert.equal(sinir.dolu('a', 1), false)
+  sinir.izinVar('a', 1)
+  assert.equal(sinir.dolu('a', 2), true)
+  assert.equal(sinir.dolu('b', 2), false)
+  assert.equal(sinir.dolu('a', 1002), false)
+})
