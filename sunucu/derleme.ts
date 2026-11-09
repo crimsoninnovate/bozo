@@ -9,6 +9,9 @@ import type { Baglam } from './uclar.ts'
 const GUNLUK_SATIRI = 200
 const ASAMALAR: readonly string[] = ['bos', 'sirada', 'derleniyor', 'yayinda', 'hata']
 const BOS: DerlemeDurumu = { asama: 'bos', surum: null, zaman: null, gunluk: [] }
+/** Bu kadar süredir `derleniyor` diyen durum yarıda kalmıştır (yeniden başlatma, elektrik kesintisi). */
+const YARIDA_KALDI_MS = 60 * 60_000
+const YARIDA_KALDI_NOTU = 'Derleme yarıda kaldı (sunucu yeniden başlamış olabilir).'
 
 const varMi = (yol: string): Promise<boolean> =>
   access(yol).then(() => true, () => false)
@@ -45,8 +48,16 @@ async function durumOku(dizin: string): Promise<DerlemeDurumu> {
   return BOS
 }
 
-async function durumAl(dizin: string): Promise<DerlemeDurumu> {
-  const durum = await durumOku(dizin)
+/** Eskimiş `derleniyor` `hata` sayılır, yoksa düğme sonsuza dek kilitli kalır; `zaman` yoksa dokunulmaz. */
+function yaridaKaldiysaHata(durum: DerlemeDurumu, simdi: number): DerlemeDurumu {
+  if (durum.asama !== 'derleniyor' || durum.zaman === null) return durum
+  const baslangic = Date.parse(durum.zaman)
+  if (Number.isNaN(baslangic) || simdi - baslangic <= YARIDA_KALDI_MS) return durum
+  return { ...durum, asama: 'hata', gunluk: [...durum.gunluk, YARIDA_KALDI_NOTU].slice(-GUNLUK_SATIRI) }
+}
+
+async function durumAl(dizin: string, simdi: number): Promise<DerlemeDurumu> {
+  const durum = yaridaKaldiysaHata(await durumOku(dizin), simdi)
   if (durum.asama !== 'derleniyor' && (await varMi(join(dizin, 'istek')))) return { ...durum, asama: 'sirada' }
   return durum
 }
@@ -57,7 +68,7 @@ function dizinAl(b: Baglam): string {
 }
 
 export async function yonetimDerlemeDurumu(b: Baglam): Promise<Yanit> {
-  return { durum: 200, govde: { durum: await durumAl(dizinAl(b)) } }
+  return { durum: 200, govde: { durum: await durumAl(dizinAl(b), b.simdi()) } }
 }
 
 /** İstek dosyası varsa dokunmaz: derleme sürerken ya da sırada gelen istek birleşir. */
@@ -69,5 +80,5 @@ export async function yonetimDerlemeIste(b: Baglam): Promise<Yanit> {
   } catch (hata) {
     if ((hata as NodeJS.ErrnoException).code !== 'EEXIST') throw hata
   }
-  return { durum: 202, govde: { durum: await durumAl(dizin) } }
+  return { durum: 202, govde: { durum: await durumAl(dizin, b.simdi()) } }
 }

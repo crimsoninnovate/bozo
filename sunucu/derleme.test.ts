@@ -95,6 +95,31 @@ test('getDerleme_derleniyorVeIstekVar_derleniyor', async () => {
   assert.deepEqual(durumu(y.govde), durum)
 })
 
+const dakikaOnce = (dk: number): string => new Date(Date.now() - dk * 60_000).toISOString()
+
+test('getDerleme_derleniyorAltmisDakikadanKisa_derleniyorKalir', async () => {
+  await temizle()
+  const durum = { asama: 'derleniyor', surum: 4, zaman: dakikaOnce(59), gunluk: ['a'] }
+  await writeFile(join(dizin, 'durum.json'), JSON.stringify(durum))
+  assert.deepEqual(durumu((await cagir('GET')).govde), durum)
+})
+
+test('getDerleme_derleniyorAltmisDakikadanUzun_hataVeYaridaKaldiNotu', async () => {
+  await temizle()
+  const zaman = dakikaOnce(61)
+  await writeFile(join(dizin, 'durum.json'), JSON.stringify({ asama: 'derleniyor', surum: 4, zaman, gunluk: ['a'] }))
+  assert.deepEqual(durumu((await cagir('GET')).govde), {
+    asama: 'hata', surum: 4, zaman, gunluk: ['a', 'Derleme yarıda kaldı (sunucu yeniden başlamış olabilir).'],
+  })
+})
+
+test('getDerleme_derleniyorZamanYok_derleniyorKalir', async () => {
+  await temizle()
+  const durum = { asama: 'derleniyor', surum: null, zaman: null, gunluk: [] }
+  await writeFile(join(dizin, 'durum.json'), JSON.stringify(durum))
+  assert.deepEqual(durumu((await cagir('GET')).govde), durum)
+})
+
 test('getDerleme_yayindaVeIstekVar_siradaVeEskiSurumKorunur', async () => {
   await temizle()
   await writeFile(join(dizin, 'durum.json'), JSON.stringify({ asama: 'yayinda', surum: 4, zaman: 'z', gunluk: [] }))

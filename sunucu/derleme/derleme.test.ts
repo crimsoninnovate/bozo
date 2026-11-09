@@ -72,8 +72,8 @@ function ciktiKur(o: Ortam, eksik?: string): void {
 /** Ham `durum.json` ve skor sunucusunun okuyucusundan geçen hali; okuyucu reddederse `bos` döner. */
 async function durumOku(o: Ortam): Promise<{ ham: DerlemeDurumu; okunan: DerlemeDurumu }> {
   const ham = JSON.parse(readFileSync(join(o.panel, 'durum.json'), 'utf8')) as DerlemeDurumu
-  // Uç yalnız `derlemeDizini`ni okur; gerisi bu testte kullanılmaz.
-  const b = { derlemeDizini: o.panel } as unknown as Baglam
+  // Uç yalnız `derlemeDizini`ni ve saati okur; gerisi bu testte kullanılmaz.
+  const b = { derlemeDizini: o.panel, simdi: Date.now } as unknown as Baglam
   const yanit = await yonetimDerlemeDurumu(b)
   return { ham, okunan: (yanit.govde as { durum: DerlemeDurumu }).durum }
 }
