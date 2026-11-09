@@ -35,13 +35,14 @@ Deploy is in `README.md` > Publishing.
   copy rules and the price-change steps are in `content/CLAUDE.md`. The overnight hours window is
   pure functions in `lib/saat.ts`; the hours (`saatler`) and photo slots (`fotograflar`) live in the
   menu document, and "Siteyi Güncelle" rebuilds on arc (`sunucu/derleme/`, `README.md` > Publishing).
-- `lib/` is thirteen small modules plus the game's `lib/oyun/` and the menu's `lib/menu/`, each
-  with a `.test.ts` beside it where behaviour is load-bearing: `saat` (the one business rule), `site` (routes and every
-  outbound URL), `kabuk` (the shell parts that change per route), `metadata` (page metadata and
-  the social card), `jsonld`, `onay` (consent storage), `fontlar`, `sis` (the locked mark
-  geometry), `cerceve` (shared scroll frame), `hareket` (reduced-motion preference and rAF
-  throttling), `metin` (widow prevention), `llmsTxt` (the `/llms.txt` body), `masa` (table plate
-  QRs: `/m/N` is redirected by `public/.htaccess` to `/menu/?masa=N` and counted on the score
+- `lib/` is sixteen small modules plus the game's `lib/oyun/`, the menu's `lib/menu/` and the panel's
+  `lib/yonetim/` (photo preparation, slot places), each with a `.test.ts` beside it where behaviour is load-bearing:
+  `saat` (the hours window), `saatMetni` (hours as text, Turkish suffixes), `cizelge` (the Gece timeline ticks),
+  `fotoKaynagi` (a slot's photo: document, seed or empty plate), `site` (routes and every outbound URL), `kabuk`
+  (the shell parts that change per route), `metadata` (page metadata and the social card), `jsonld`, `onay`
+  (consent storage), `fontlar`, `sis` (the locked mark geometry), `cerceve` (shared scroll frame), `hareket`
+  (reduced-motion preference and rAF throttling), `metin` (widow prevention), `llmsTxt` (the `/llms.txt` body),
+  `masa` (table plate QRs: `/m/N` is redirected by `public/.htaccess` to `/menu/?masa=N` and counted on the score
   server; the printed address never changes).
 - **The game** (`/oyun`, opening period) spans `lib/oyun/` (simulation and shared contract),
   `components/oyun/` (the screen) and `sunucu/` (the score server, live at `api.cigercibozo.com`

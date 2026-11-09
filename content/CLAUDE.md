@@ -42,10 +42,12 @@ has every item in stock (`tukendisiz`). Only the menu page's live fetch shows it
 - No em dash (U+2014) as punctuation; use a colon, comma, or period. No circumflex accents. No
   all-caps sentences. Exclamation marks are rare.
 - Hours are written `10:00 - 05:00`, but never as a literal in the dictionaries: write `{acilis}` and
-  `{kapanis}` (Turkish suffix forms `{acilis-den}`, `{kapanis-e}`, `-de`, set by the hour's
-  pronunciation in `lib/saatMetni.ts`; never type the suffix by hand). The build fills them from the document's `saatler`; the open/closed badge
-  fills them in the browser from the live version. `content/icerik.test.ts` fails on a bare
-  `10:00` or `05:00` outside the game's copy (`oyun.ts`, which keeps its own fixed 05:00 rollover).
+  `{kapanis}`. Turkish suffixes are placeholders too (`{acilis-de}`, `{acilis-den}`, `{kapanis-e}`,
+  `{kapanis-de}`; `-de`, `-den` and `-e` work on either), set by the hour's pronunciation in
+  `lib/saatMetni.ts`; never type the suffix by hand. The build fills them from the document's
+  `saatler`; the open/closed badge fills them in the browser from the live version.
+  `content/icerik.test.ts` fails on a bare `10:00` or `05:00` outside the game's copy (`oyun.ts`,
+  which keeps its own fixed 05:00 rollover).
   Window limits: closing 02..08, opening 06..18, opening after closing.
 - **Case, owner's decision 12 August 2026.** Title case on three things only: product names
   (`Terbiyesiz Tavuk Şiş`), section and menu labels (`Ocakbaşı`, `From the Fire`), CTA and nav

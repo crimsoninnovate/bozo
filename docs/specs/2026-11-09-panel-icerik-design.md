@@ -31,14 +31,17 @@ yazması gerekmez.
   hangi yeri kırpıma girsin: dokunarak seçilen nokta, `object-position` yüzdesi olarak saklanır).
 - **Yükleme tarayıcıda hazırlanır.** Panel seçilen görseli (telefon kamerası, galeri; JPEG, PNG,
   HEIC'i tarayıcı çözebiliyorsa) canvas'a çizer, uzun kenarı en çok 2000 px olacak biçimde küçültür,
-  WebP olarak yeniden kodlar (kalite 0.82). Yeniden kodlama EXIF'i (konum bilgisi dahil) siler: bu
-  bir gizlilik gereği, ayrıca sunucuda görüntü işleme bağımlılığı gerekmez.
-- **Sunucu** (`sunucu/`, skor sunucusu) yeni uç: `POST /yonetim/foto`, gövde ham WebP, yetki mevcut
-  yönetim kimliği. Denetimler: içerik türü, sihirli baytlar (`RIFF....WEBP`), boyut sınırı (3 MB),
-  piksel boyutu başlıktan okunur ve 2000 px'i aşamaz. Dosya adı içeriğin SHA-256 özetinin ilk 16
-  hanesi: `<ozet>.webp`. Aynı dosya iki kez yüklenirse tek kopya kalır. Yanıt: `{ dosya, en, boy }`.
+  WebP olarak yeniden kodlar (kalite 0.82). Safari ve iOS WebP kodlayamaz; tarayıcı WebP vermezse
+  kare JPEG olarak kodlanır (kalite 0.85, karar R7). Yeniden kodlama EXIF'i (konum bilgisi dahil)
+  siler: bu bir gizlilik gereği, ayrıca sunucuda görüntü işleme bağımlılığı gerekmez.
+- **Sunucu** (`sunucu/`, skor sunucusu) yeni uç: `POST /yonetim/foto`, gövde ham WebP ya da JPEG,
+  yetki mevcut yönetim kimliği. Denetimler: içerik türü sihirli baytlarla aynı olmalı (`RIFF....WEBP`
+  ya da `FF D8 FF`), boyut sınırı (3 MB), piksel boyutu başlıktan (JPEG'de ilk SOF işaretinden)
+  okunur ve 2000 px'i aşamaz; iki biçimde de sınırlar aynı. Dosya adı içeriğin SHA-256 özetinin ilk
+  16 hanesi: `<ozet>.webp` ya da `<ozet>.jpg`. Aynı dosya iki kez yüklenirse tek kopya kalır.
+  Yanıt: `{ dosya, en, boy }`.
 - Dosyalar sunucuda web kökünün dışındaki bir dizinde durur ve nginx tarafından
-  `https://api.cigercibozo.com/foto/<ozet>.webp` olarak sunulur; içerik adresli olduğu için
+  `https://api.cigercibozo.com/foto/<ozet>.webp` (ya da `.jpg`) olarak sunulur; içerik adresli olduğu için
   `Cache-Control: public, max-age=31536000, immutable`. Node dosya sunmaz.
 - **Belgeye bağlanır.** `MenuBelgesi`'ne yeni bölüm: `fotograflar: Partial<Record<FotoId, { dosya:
   string; odak: string | null }>>`. Yüklemek dosyayı sunucuya koyar; yuvaya atamak taslakta bir
@@ -149,7 +152,7 @@ pencere geçerli ve bu yapılmıyor. Genişleme yolu eklemeli, bugünkü kod ve 
 
 ## Anti-hedefler
 
-- Sunucuya yüklenen bir dosya, doğrulanmadan hiçbir sayfaya çıkmasın; sunucu yalnız WebP kabul etsin.
+- Sunucuya yüklenen bir dosya, doğrulanmadan hiçbir sayfaya çıkmasın; sunucu yalnız WebP ve JPEG kabul etsin.
 - Fotoğraftaki konum bilgisi siteye sızmasın.
 - Panelin "Siteyi güncelle" düğmesi web sürecine kabuk, build ya da rsync yetkisi vermesin.
 - Eski belge sürümleri (1-6) ve geri alma bozulmasın: yeni bölümler yoksa doğrulayıcı seed'den
