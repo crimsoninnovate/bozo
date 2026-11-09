@@ -30,6 +30,11 @@ const KAZANAN_SECIM =
   'k.deneme, k.gecerlilik_ms AS gecerlilik, k.kullanildi_ms AS kullanildi, COALESCE(o.gizli, 0) AS gizli ' +
   'FROM kazanan k LEFT JOIN oyuncu o ON o.id = k.oyuncu_id'
 
+/** `logParam: false`: sürücü varsayılanı hata metnine parametreleri (parola özeti dahil) yazar, hata günlüğe düşer. */
+export function havuzAyari(url: string) {
+  return { ...baglantiCoz(url), connectionLimit: 5, bigIntAsNumber: true, insertIdAsNumber: true, logParam: false }
+}
+
 export function baglantiCoz(url: string) {
   const u = new URL(url)
   return {
@@ -474,7 +479,7 @@ function islemKaydi(q: Sorgu): Parca<'islemEkle' | 'islemler' | 'eskiIslemleriSi
 }
 
 export function mariaDepoKur(url: string): Depo {
-  const havuz = createPool({ ...baglantiCoz(url), connectionLimit: 5, bigIntAsNumber: true, insertIdAsNumber: true })
+  const havuz = createPool(havuzAyari(url))
   const q: Sorgu = {
     sec: async (sql, p = []) => (await havuz.execute(sql, p)) as Satir[],
     ilk: async (sql, p = []) => ((await havuz.execute(sql, p)) as Satir[])[0] ?? null,

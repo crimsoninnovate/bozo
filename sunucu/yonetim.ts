@@ -32,13 +32,14 @@ const personelYetkili = (p: Personel): Yetkili => ({
 
 type Cozum = { yetkili: Yetkili; surum: number }
 
-/** Admin veritabanına hiç bakılmadan doğrulanır; bilinmeyen adda da bir scrypt koşar. */
+/** Admin veritabanına hiç bakılmadan doğrulanır; reddin her yolunda bir scrypt koşar. */
 async function temelCoz(b: Baglam, admin: YonetimKimligi, yetki: string | undefined): Promise<Cozum> {
   const gelen = temelKimlik(yetki)
   if (!gelen) throw kimlikGerekli()
   if (esitMi(gelen.kullanici, admin.kullanici)) {
-    if (!esitMi(gelen.sifre, admin.sifre)) throw kimlikGerekli()
-    return { yetkili: adminYetkili(admin), surum: 0 }
+    if (esitMi(gelen.sifre, admin.sifre)) return { yetkili: adminYetkili(admin), surum: 0 }
+    await parolaDogrula(gelen.sifre, SAHTE_OZET) // yanlış şifre bilinmeyen ad kadar sürer: adminin adı sızmaz
+    throw kimlikGerekli()
   }
   const p = await b.depo.personelAdla(gelen.kullanici.toLowerCase())
   const tutar = await parolaDogrula(gelen.sifre, p?.parolaOzeti ?? SAHTE_OZET)

@@ -80,6 +80,24 @@ test('yetkiliCoz_bilinmeyenAdVeYanlisSifre_ayniHata', async () => {
   await reddedilir(yetkiliCoz(baglam(depo), ADMIN, istekle()))
 })
 
+/** Tek ölçümde gürültü olur: en kısa süre. scrypt (~onlarca ms) ile anında red arasındaki fark ölçülür. */
+async function enKisaSure(is: () => Promise<unknown>): Promise<number> {
+  let en = Infinity
+  for (let i = 0; i < 3; i++) {
+    const bas = performance.now()
+    await is().catch(() => undefined)
+    en = Math.min(en, performance.now() - bas)
+  }
+  return en
+}
+
+test('yetkiliCoz_adminAdiYanlisSifre_bilinmeyenAdKadarSurer', async () => {
+  const b = baglam(bellekDepoKur())
+  const adminYanlis = await enKisaSure(() => yetkiliCoz(b, ADMIN, istekle(temel(ADMIN.kullanici, 'yanlis'))))
+  const bilinmeyen = await enKisaSure(() => yetkiliCoz(b, ADMIN, istekle(temel('kimse', 'yanlis'))))
+  assert.ok(adminYanlis > bilinmeyen / 3, `admin ${adminYanlis.toFixed(1)} ms, bilinmeyen ${bilinmeyen.toFixed(1)} ms`)
+})
+
 test('yetkiliCoz_personelBearer_gecerVeSurumEski401', async () => {
   const { depo, p } = await personelli()
   const anahtar = oturumAnahtariUret(TUZ, { id: p.id, surum: p.oturumSurumu, gizli: '' }, BITIS)

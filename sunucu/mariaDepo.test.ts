@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { depoSozlesmesi } from './depoSozlesmesi.ts'
-import { mariaDepoKur, semayiUygula } from './mariaDepo.ts'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { havuzAyari, mariaDepoKur, semayiUygula } from './mariaDepo.ts'
 
 /*
  * Gerçek MariaDB'ye karşı aynı sözleşme; isteğe bağlı, `npm test` hermetik kalır:
@@ -22,3 +24,8 @@ depoSozlesmesi(
       }
     : null,
 )
+
+// Sürücünün varsayılanı hata metnine sorgu parametrelerini (parola özeti dahil) ekler; hata günlüğe düşer.
+test('havuzAyari_parametreleriHataMetnineYazmaz', () => {
+  assert.equal(havuzAyari('mariadb://k:s@127.0.0.1:3306/db').logParam, false)
+})
