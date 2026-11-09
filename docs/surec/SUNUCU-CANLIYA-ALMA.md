@@ -120,15 +120,17 @@ kullanıcısının yazabildiği bir dosyayı asla çalıştırmaz. `yukle.sh` `p
 dosyayı root olarak okumaz ya da yazmaz: durum yazımı ve sürüm okuması `runuser -u bozo-derleme` ile
 yapılır (root'un kendi günlüğü yazıcıya stdin'den verilir), durum yazıcısı root'ken çalışmayı reddeder.
 Root `cikti/`'yı yol üzerinden de okumaz: `bozo-derleme` onu `tar` akışı olarak verir (okuyamadığı bir
-dosyaya sabit bağ varsa burada düşer), root akışı kendi özel geçici dizinine (`PrivateTmp`) açar. Sahnede
-düz dosya ve dizinden başka bir şey (sembolik bağ, aygıt) ya da birden çok bağlı dosya varsa yükleme
-reddedilir; bekçi ve `rsync` sahne üzerinde çalışır. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
+dosyaya sabit bağ varsa burada düşer), root akışı kendi özel geçici dizinine (`PrivateTmp`) bir dosya
+olarak yazar. Açmadan önce listeler: her üye düz dosya ya da dizin, yolu göreli ve `..` içermiyor
+olmalı, yoksa hiçbir şey açılmadan reddedilir. Sonra yeni bir alt dizine açar; açılmış ağaçta yine düz
+dosya ve dizinden başka bir şey ya da birden çok bağlı dosya varsa yükleme reddedilir (ikinci ağ). Bekçi
+ve `rsync` bu ağaç üzerinde çalışır. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
 `chown`, `chmod` ve `plesk`.
 
 | Yol | Sahip, kip | Kim yazar |
 |---|---|---|
 | `/var/lib/bozo-derleme` | `bozo-derleme:bozo-panel` 0710 | `bozo-derleme`; `bozo-panel` (web) yalnız geçer |
-| `depo/`, `cikti/`, `derleme.log` | `bozo-derleme:bozo-derleme`, 0755 / 0644 | yalnız `bozo-derleme`; web süreci yazamaz |
+| `depo/`, `cikti/`, `derleme.log` | `bozo-derleme:bozo-derleme`, 0750 / 0640 | yalnız `bozo-derleme`; web süreci okuyamaz da |
 | `panel/` | `bozo-derleme:bozo-panel` 3770 | web süreci yalnız `istek` yazar, betikler `durum.json` (0640) |
 
 Web süreci (`bozo-oyun`) yalnız `bozo-panel` grubuna girer, derleme kullanıcısının birincil grubu olan
@@ -161,6 +163,9 @@ install -d -o bozo-derleme -g bozo-panel -m 0710 /var/lib/bozo-derleme
 # setgid: dosyalar grubu alır; sticky: web süreci yalnız kendi dosyasını (istek) silebilir
 install -d -o bozo-derleme -g bozo-panel -m 3770 /var/lib/bozo-derleme/panel
 install -d -o bozo-derleme -g bozo-derleme -m 0700 /var/lib/bozo-derleme/.ssh
+install -d -o bozo-derleme -g bozo-derleme -m 0750 /var/lib/bozo-derleme/depo
+# Derleme kullanıcısı zamanlanmış iş kuramaz (birim dışında süreci olmasın)
+echo bozo-derleme >> /etc/cron.deny; echo bozo-derleme >> /etc/at.deny
 
 # 2. Deploy key (sahibinin onayıyla GitHub'a eklenir)
 sudo -u bozo-derleme ssh-keygen -t ed25519 -N '' -C bozo-derleme@arc -f /var/lib/bozo-derleme/.ssh/id_ed25519
@@ -170,7 +175,7 @@ ssh-keyscan -t ed25519 github.com | sudo -u bozo-derleme tee /var/lib/bozo-derle
 #    parmak izini GitHub'ın yayımladığıyla karşılaştır (docs.github.com > GitHub's SSH key fingerprints)
 
 # 3. Depo (ilk derleme node_modules olmadığı için npm ci de çalıştırır)
-sudo -u bozo-derleme git clone --branch main git@github.com:crimsoninnovate/bozo.git /var/lib/bozo-derleme/depo
+sudo -u bozo-derleme sh -c 'umask 0027 && git clone --branch main git@github.com:crimsoninnovate/bozo.git /var/lib/bozo-derleme/depo'
 
 # 4. Betikler ve birimler (yerelden: rsync -a sunucu/derleme/ plesk-206:/root/bozo-derleme-kaynak/)
 install -d -o root -g root -m 0755 /opt/bozo-derleme
@@ -195,8 +200,9 @@ systemctl restart bozo-oyun
 
 `ReadWritePaths=` yalnız `bozo-oyun` birimi `ProtectSystem=` kullanıyorsa etkilidir, yoksa zararsız.
 `SupplementaryGroups=bozo-panel` web sürecine `panel/`'e yazma ve `durum.json`'u okuma (0640) yetkisi
-verir; `/var/lib/bozo-derleme`'de yalnız geçiş (0710) açıktır. `depo/` ve `cikti/` `bozo-derleme`
-grubundadır, web süreci onlara giremez.
+verir; `/var/lib/bozo-derleme`'de yalnız geçiş (0710) açıktır. `depo/`, `cikti/` ve `derleme.log`
+`bozo-derleme` grubunda 0750 / 0640'tır (`derle.sh` ve birim `UMask=0027`), web süreci onları ne
+listeleyebilir ne okuyabilir. Root bu yolları yalnız `runuser` üzerinden okur, nginx hiç okumaz.
 
 ### nginx (`api.cigercibozo.com`, Plesk > Additional nginx directives)
 

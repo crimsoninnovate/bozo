@@ -63,19 +63,39 @@ exec >"$YUKLEME_GUNLUGU" 2>&1
 
 dur() { echo "yukle: $1"; exit 1; }
 
-# bozo-derleme reads CIKTI (so a hard link to a file it cannot read fails here); root only unpacks.
-olarak_derleme tar -C "$CIKTI" -cf - . | tar -C "$SAHNE" --no-same-owner --no-same-permissions -xf - ||
-  dur "could not copy $CIKTI into the stage; nothing uploaded"
-rm -f "$SAHNE/menu.canli.meta.json"
-# Only regular files and directories, each file with one link: a site build has nothing else.
-garip="$(find "$SAHNE" \( ! -type f ! -type d \) -o \( -type f -links +1 \) | head -n 5)"
-[ -z "$garip" ] || dur "the build holds links or special files; nothing uploaded: ${garip//$SAHNE\//}"
+# Prints the first member that is not a regular file or directory under a relative path without `..`.
+arsivi_denetle() {
+  local turler adlar kotu
+  turler="$(tar -tvf "$1")" && adlar="$(tar -tf "$1")" || return 1
+  # One line per member in both listings, or a name holds a newline.
+  if [ "$(printf '%s\n' "$turler" | wc -l)" != "$(printf '%s\n' "$adlar" | wc -l)" ]; then
+    echo "listings disagree (newline in a name)"; return 0
+  fi
+  kotu="$(printf '%s\n' "$turler" | grep -v '^[-d]' || true)"
+  [ -n "$kotu" ] || kotu="$(printf '%s\n' "$adlar" | grep -E '^/|(^|/)\.\.(/|$)' || true)"
+  printf '%s' "${kotu%%$'\n'*}"
+}
+
+# bozo-derleme reads CIKTI (so a hard link to a file it cannot read fails here); root only checks and unpacks.
+olarak_derleme tar -C "$CIKTI" -cf - . >"$SAHNE/cikti.tar" || dur "could not archive $CIKTI; nothing uploaded"
+kotu="$(arsivi_denetle "$SAHNE/cikti.tar")" || dur "could not list the build archive; nothing uploaded"
+[ -z "$kotu" ] || dur "the build holds a link, special file or unsafe path; nothing extracted: $kotu"
+AGAC="$SAHNE/agac"
+mkdir -m 0700 "$AGAC"
+CIKAR=(--no-same-owner --no-same-permissions)
+# The `./` member must not reset agac's mode; bsdtar (macOS tests) has no such flag.
+case "$(tar --version)" in *GNU*) CIKAR+=(--no-overwrite-dir) ;; esac
+tar -C "$AGAC" "${CIKAR[@]}" -xf "$SAHNE/cikti.tar"
+rm -f "$AGAC/menu.canli.meta.json"
+# Second net after the listing: only regular files with one link, and directories.
+garip="$(find "$AGAC" \( ! -type f ! -type d \) -o \( -type f -links +1 \))"
+[ -z "$garip" ] || dur "the build holds links or special files; nothing uploaded: ${garip%%$'\n'*}"
 for dosya in "${BEKCI[@]}"; do
-  [ -f "$SAHNE/$dosya" ] || dur "$dosya missing from the build; nothing uploaded"
+  [ -f "$AGAC/$dosya" ] || dur "$dosya missing from the build; nothing uploaded"
 done
 
 if [ "${YUKLE_KURU:-}" != 1 ]; then
-  rsync -a --delete --no-links --chmod=D755,F644 "$SAHNE/" "$HTTPDOCS/"
+  rsync -a --delete --no-links --chmod=D755,F644 "$AGAC/" "$HTTPDOCS/"
   chown -R engincaglar:psacln "$HTTPDOCS"
   chown engincaglar:psaserv "$HTTPDOCS"
   chmod 750 "$HTTPDOCS"

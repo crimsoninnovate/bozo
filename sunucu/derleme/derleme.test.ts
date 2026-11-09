@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
-  chmodSync, existsSync, linkSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, symlinkSync, writeFileSync,
+  chmodSync, existsSync, linkSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, symlinkSync,
+  writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -268,15 +269,53 @@ test('yukle_bekciDosyasiSembolikBag_reddeder', async () => {
   assert.equal(yukleKuru(o).status, 1)
   const { ham } = await durumOku(o)
   assert.equal(ham.asama, 'hata')
-  assert.ok(ham.gunluk.some((s) => s.includes('links or special files') && s.includes('favicon.svg')))
+  assert.ok(ham.gunluk.some((s) => s.includes('nothing extracted') && s.includes('favicon.svg')))
 })
 
-test('yukle_sabitBag_reddeder', async () => {
+test('yukle_sabitBag_acmadanReddeder', async () => {
   const o = ortamKur()
   ciktiKur(o)
   linkSync(join(o.cikti, 'index.html'), join(o.cikti, 'kopya.html'))
   assert.equal(yukleKuru(o).status, 1)
-  assert.ok((await durumOku(o)).ham.gunluk.some((s) => s.includes('links or special files')))
+  assert.ok((await durumOku(o)).ham.gunluk.some((s) => s.includes('nothing extracted') && s.includes('kopya.html')))
+})
+
+/** Sahte `tar`: oluşturma çağrısı (`-C dizin -cf - .`) hazır arşivi verir, gerisi gerçek tar'a gider. */
+function sahteArsiv(o: Ortam, arsiv: string): void {
+  sahteYaz(o, 'tar', `if [ "$1" = -C ] && [ "$3" = -cf ]; then cat "${arsiv}"; exit 0; fi
+PATH="\${PATH#*:}" exec tar "$@"`)
+}
+
+test('yukle_arsivdeUstDizinYaSaMutlakYol_acmadanReddeder', async () => {
+  for (const uye of ['../../../kacak.txt', join(tmpdir(), 'bozo-mutlak-kacak.txt')]) {
+    const o = ortamKur()
+    ciktiKur(o)
+    const kaynak = join(o.kok, 'kaynak')
+    mkdirSync(kaynak)
+    writeFileSync(join(kaynak, 'index.html'), 'x')
+    const arsiv = join(o.kok, 'kotu.tar')
+    // -P: tar `..` ve mutlak yolu korur; kötü niyetli bir arşiv böyle görünür.
+    const gnu = spawnSync('tar', ['--version'], { encoding: 'utf8' }).stdout.includes('GNU')
+    const yeniAd = gnu ? [`--transform=s|^index.html$|${uye}|`] : ['-s', `|^index.html$|${uye}|`]
+    const r = spawnSync('tar', ['-cPf', arsiv, ...yeniAd, '-C', kaynak, 'index.html'])
+    assert.equal(r.status, 0, String(r.stderr))
+    sahteArsiv(o, arsiv)
+    assert.equal(yukleKuru(o).status, 1)
+    const { ham } = await durumOku(o)
+    assert.ok(ham.gunluk.some((s) => s.includes('nothing extracted') && s.includes(uye)), ham.gunluk.join('\n'))
+    assert.equal(existsSync(join(o.kok, 'kacak.txt')), false)
+    assert.equal(existsSync(join(tmpdir(), 'bozo-mutlak-kacak.txt')), false)
+  }
+})
+
+test('derle_basarili_ciktiVeGunlukGrubaKapali', () => {
+  const o = ortamKur()
+  modullerHazir(o)
+  sahteYaz(o, 'npm', '[ "$1" = run ] && mkdir -p out && touch out/index.html; exit 0')
+  assert.equal(calistir(DERLE, o).status, 0)
+  assert.equal(statSync(o.cikti).mode & 0o777, 0o750)
+  assert.equal(statSync(join(o.cikti, 'index.html')).mode & 0o777, 0o640)
+  assert.equal(statSync(join(o.kok, 'derleme.log')).mode & 0o777, 0o640)
 })
 
 test('yukle_basarili_sahneVeSahiplikIziKalmaz', () => {

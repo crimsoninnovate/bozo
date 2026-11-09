@@ -2,6 +2,8 @@
 # Site build for the panel's "Siteyi güncelle" (spec 2026-11-09 C): bozo-derleme.service, user bozo-derleme.
 # No arguments; DERLEME_DIZINI, DEPO and CIKTI come from the unit. Uploading is bozo-yukle.service (OnSuccess=).
 set -euo pipefail
+# depo/, cikti/ and the log stay closed to bozo-panel, which may traverse the state root (0710).
+umask 0027
 
 : "${DERLEME_DIZINI:?}" "${DEPO:?}" "${CIKTI:?}"
 # shellcheck source=ortak.sh

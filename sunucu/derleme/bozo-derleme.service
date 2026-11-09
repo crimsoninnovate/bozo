@@ -20,7 +20,7 @@ ExecStopPost=/opt/bozo-derleme/derle.sh
 # A build takes about seven minutes; the rest covers npm ci and up to 15 min waiting on an upload.
 TimeoutStartSec=40min
 Nice=10
-UMask=0022
+UMask=0027
 NoNewPrivileges=yes
 ProtectSystem=strict
 # DEPO, CIKTI, the panel files, the log and HOME (npm cache) all live under this one tree.
