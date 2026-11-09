@@ -190,6 +190,9 @@ systemctl enable --now bozo-derleme.path
 OYUN_KULLANICISI=$(systemctl show -p User --value bozo-oyun); OYUN_KULLANICISI=${OYUN_KULLANICISI:-root}
 echo "$OYUN_KULLANICISI"; id "$OYUN_KULLANICISI"    # boş satır ya da "no such user" ise burada dur
 install -d -o "$OYUN_KULLANICISI" -m 0755 /var/lib/bozo-oyun /var/lib/bozo-oyun/foto
+# arc'ta SELinux zorlayıcı: nginx (httpd_t) var_lib_t okuyamaz, etiket yoksa /foto/ 403 verir
+semanage fcontext -a -t httpd_sys_content_t "/var/lib/bozo-oyun(/.*)?"
+restorecon -Rv /var/lib/bozo-oyun
 
 # 6. Skor sunucusuna iki dizini ver: systemctl edit bozo-oyun (drop-in)
 #    [Service]
@@ -207,6 +210,10 @@ verir; `/var/lib/bozo-derleme`'de yalnız geçiş (0710) açıktır. `depo/`, `c
 listeleyebilir ne okuyabilir. Root bu yolları yalnız `runuser` üzerinden okur, nginx hiç okumaz.
 
 ### nginx (`api.cigercibozo.com`, Plesk > Additional nginx directives)
+
+arc'ta bu yönergeler Plesk veritabanında değil, doğrudan
+`/var/www/vhosts/system/api.cigercibozo.com/conf/vhost_nginx.conf` içinde durur (9 Kasım 2026'da eklendi;
+önceki dosya `/root/vhost_nginx.conf.api.2026-11-09.bak`).
 
 Mevcut `location ~ ^/` vekil bloğunun **üstüne** eklenir. `^~` önekli konum düzenli ifadeli vekil
 konumunu geçer; `=` tam eşleşme hepsini geçer. Fotoğraf adları içerik özetidir (aynı ad hiç değişmez),
