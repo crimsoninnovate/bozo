@@ -5,6 +5,8 @@ export const TIK_HIZI = 60
 /** 21:00'den 05:00'e: sekiz oyun saati, her biri 15 sn. */
 export const OYUN_SAATI_TIK = 900
 export const TUR_TIK = 8 * OYUN_SAATI_TIK
+/** Haftalık dönem Pazartesi bu saatte (Girne) döner; restoranın kapanış saatinden bağımsızdır. */
+export const OYUN_DONEM_SAATI = 5
 
 export type EvreAyari = {
   baslangic: number

@@ -1,20 +1,16 @@
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
-import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
+import { VARSAYILAN_SAATLER } from './saat.ts'
+import { saatYaz } from './saatMetni.ts'
 import { SITE_URL, yol, instagramUrl, facebookUrl, tiktokUrl, haritaUrl, type RotaAnahtari } from './site.ts'
 import { sozluk, type Sozluk } from '../content/index.ts'
 import type { Dil } from '../content/types.ts'
 import { kalemOlculeri } from './menu/kalemOlculeri.ts'
-import type { IcecekKalemi, MenuBelgesi, MenuKalemi } from './menu/tipler.ts'
+import type { IcecekKalemi, MenuBelgesi, MenuKalemi, Saatler } from './menu/tipler.ts'
 
 /** `<script type="application/ld+json">` gövdesi: `<` kaçar, içerik bloğu kapatamaz. */
 export function jsonLdMetni(veri: object): string {
   return JSON.stringify(veri).replace(/</g, '\\u003c')
-}
-
-/** schema.org saatleri `HH:MM` ister; sabitler saat cinsinden tam sayı. */
-function saatMetni(saat: number): string {
-  return `${String(saat).padStart(2, '0')}:00`
 }
 
 const HAFTA_GUNLERI = [
@@ -46,7 +42,10 @@ const HAFTA_GUNLERI = [
  * kapsayabilmesi için var (bkz. `lib/site.ts` `yolTarifiUrl` aynı desen), çağıranlar
  * `restaurantJsonLd()` ile sıfır argümanla çağırmaya devam eder.
  */
-export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
+export function restaurantJsonLd(
+  isletmeVerisi: Isletme = isletme,
+  saatler: Saatler = VARSAYILAN_SAATLER,
+): object {
   const veri: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
@@ -77,8 +76,8 @@ export function restaurantJsonLd(isletmeVerisi: Isletme = isletme): object {
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: HAFTA_GUNLERI,
-        opens: saatMetni(ACILIS_SAATI),
-        closes: saatMetni(KAPANIS_SAATI),
+        opens: saatYaz(saatler.acilis),
+        closes: saatYaz(saatler.kapanis),
       },
     ],
   }

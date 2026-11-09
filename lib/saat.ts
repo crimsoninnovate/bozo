@@ -1,7 +1,10 @@
+import type { Saatler } from './menu/tipler.ts'
+
 export const ZAMAN_DILIMI = 'Europe/Nicosia'
-export const ACILIS_SAATI = 10
-export const KAPANIS_SAATI = 5
 export const GECE_BASLANGICI = 1
+
+/** Panelden saat gelmediğinde geçerli çalışma saatleri: 10:00'dan ertesi sabah 05:00'e. */
+export const VARSAYILAN_SAATLER: Saatler = { acilis: 10, kapanis: 5 }
 
 export type Durum = {
   acik: boolean
@@ -41,11 +44,11 @@ export function girneParcalari(simdi: Date): {
 }
 
 /** Gün aşan çalışma saatine göre açık, gece ve saat bilgisini hesaplar. */
-export function durumHesapla(simdi: Date): Durum {
+export function durumHesapla(simdi: Date, saatler: Saatler = VARSAYILAN_SAATLER): Durum {
   const { saat, dakika, gunIndeksi } = girneParcalari(simdi)
   return {
-    acik: saat >= ACILIS_SAATI || saat < KAPANIS_SAATI,
-    gece: saat >= GECE_BASLANGICI && saat < KAPANIS_SAATI,
+    acik: saat >= saatler.acilis || saat < saatler.kapanis,
+    gece: saat >= GECE_BASLANGICI && saat < saatler.kapanis,
     saat,
     dakika,
     gunIndeksi,
@@ -63,18 +66,20 @@ export function durumAyniMi(a: Durum, b: Durum): boolean {
   )
 }
 
-/** Vardiya penceresinin uzunluğu: 10:00'dan ertesi sabah 05:00'e, on dokuz saat. */
-const PENCERE_SAATI = 24 - ACILIS_SAATI + KAPANIS_SAATI
+/** Vardiya penceresinin uzunluğu; varsayılan 10:00'dan ertesi sabah 05:00'e, on dokuz saat. */
+function pencereUzunlugu(saatler: Saatler): number {
+  return 24 - saatler.acilis + saatler.kapanis
+}
 
 /**
  * Verilen anın vardiya penceresindeki kesirli saat karşılığı. Gece yarısını aşan
  * pencere tek eksende ölçülebilsin diye 05:00 öncesi saatler ertesi güne taşınır:
  * 02:00 burada 26'dır, yani açılıştan on altı saat sonra.
  */
-function pencereSaati(simdi: Date): number {
+function pencereSaati(simdi: Date, saatler: Saatler): number {
   const { saat, dakika } = girneParcalari(simdi)
   const kesirli = saat + dakika / 60
-  return kesirli < ACILIS_SAATI ? kesirli + 24 : kesirli
+  return kesirli < saatler.acilis ? kesirli + 24 : kesirli
 }
 
 /**
@@ -82,20 +87,20 @@ function pencereSaati(simdi: Date): number {
  * bölümünün zaman çizelgesi bunu okur. Kapalı aralıkta (05:00 - 10:00) pencere
  * bitmiştir ve 100'e kırpılır: gösterge tepede durur, geri sarmaz.
  */
-export function vardiyaYuzdesi(simdi: Date): number {
-  const gecen = pencereSaati(simdi) - ACILIS_SAATI
-  return Math.min(100, Math.max(0, (gecen / PENCERE_SAATI) * 100))
+export function vardiyaYuzdesi(simdi: Date, saatler: Saatler = VARSAYILAN_SAATLER): number {
+  const gecen = pencereSaati(simdi, saatler) - saatler.acilis
+  return Math.min(100, Math.max(0, (gecen / pencereUzunlugu(saatler)) * 100))
 }
 
 /**
  * "HH:MM" biçimindeki bir saat etiketinin penceredeki yüzdesi; çizelgenin tik
  * etiketleri imleçle aynı ölçeğe otursun diye. 05:00 öncesi ertesi güne taşınır.
  */
-export function saatYuzdesi(etiket: string): number {
+export function saatYuzdesi(etiket: string, saatler: Saatler = VARSAYILAN_SAATLER): number {
   const [saat, dakika] = etiket.split(':').map(Number)
   const kesirli = (saat ?? 0) + (dakika ?? 0) / 60
-  const pencere = kesirli < ACILIS_SAATI ? kesirli + 24 : kesirli
-  return Math.min(100, Math.max(0, ((pencere - ACILIS_SAATI) / PENCERE_SAATI) * 100))
+  const pencere = kesirli < saatler.acilis ? kesirli + 24 : kesirli
+  return Math.min(100, Math.max(0, ((pencere - saatler.acilis) / pencereUzunlugu(saatler)) * 100))
 }
 
 /** Bir sayının yanına gelen birim; tekil ve çoğul biçimi dilden gelir. */
@@ -120,8 +125,11 @@ export function kalanSuresi(
 }
 
 /** Kapanışa kalan süre. Kapalıyken null: geri sayılacak bir şey yok. */
-export function kapanisaKalan(simdi: Date): { saat: number; dakika: number } | null {
-  const kalanKesirli = ACILIS_SAATI + PENCERE_SAATI - pencereSaati(simdi)
+export function kapanisaKalan(
+  simdi: Date,
+  saatler: Saatler = VARSAYILAN_SAATLER,
+): { saat: number; dakika: number } | null {
+  const kalanKesirli = saatler.acilis + pencereUzunlugu(saatler) - pencereSaati(simdi, saatler)
   if (kalanKesirli <= 0) return null
   const toplamDakika = Math.round(kalanKesirli * 60)
   return { saat: Math.floor(toplamDakika / 60), dakika: toplamDakika % 60 }
@@ -131,9 +139,9 @@ export function kapanisaKalan(simdi: Date): { saat: number; dakika: number } | n
  * Saat tablosundaki "Bugün" satırının hangi güne düşeceğini verir.
  * 05:00 öncesi vardiya bir önceki güne aittir.
  */
-export function gosterimGunIndeksi(simdi: Date): number {
+export function gosterimGunIndeksi(simdi: Date, saatler: Saatler = VARSAYILAN_SAATLER): number {
   const { saat, gunIndeksi } = girneParcalari(simdi)
-  if (saat >= KAPANIS_SAATI) return gunIndeksi
+  if (saat >= saatler.kapanis) return gunIndeksi
   return (gunIndeksi + 6) % 7
 }
 

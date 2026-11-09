@@ -194,3 +194,10 @@ test('saatYuzdesi_imlecleAyniOlcek', () => {
   assert.ok(Math.abs(saatYuzdesi('22:00') - imlec) < 1e-9)
 })
 
+
+test('durumHesapla_ozelSaatler_pencereyiKullanir', () => {
+  const saatler = { acilis: 12, kapanis: 3 }
+  assert.equal(durumHesapla(girne('2026-08-12T11:30:00+03:00'), saatler).acik, false)
+  assert.equal(durumHesapla(girne('2026-08-12T02:59:00+03:00'), saatler).acik, true)
+  assert.equal(durumHesapla(girne('2026-08-12T03:00:00+03:00'), saatler).acik, false)
+})

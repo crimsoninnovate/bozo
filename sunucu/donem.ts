@@ -1,4 +1,5 @@
-import { girneParcalari, KAPANIS_SAATI, ZAMAN_DILIMI } from '../lib/saat.ts'
+import { OYUN_DONEM_SAATI } from '../lib/oyun/ayar.ts'
+import { girneParcalari, ZAMAN_DILIMI } from '../lib/saat.ts'
 
 /*
  * Haftalık dönem (spec §7): Pazartesi 05:00 Girne'de sıfırlanır. Saat dilimi işi sitenin
@@ -12,7 +13,7 @@ export const HAFTA_MS = HAFTA_DAKIKASI * DAKIKA
 function haftaDakikasi(an: Date): number {
   const { saat, dakika, gunIndeksi } = girneParcalari(an)
   const gun = (gunIndeksi + 6) % 7
-  return (((gun * 24 + saat - KAPANIS_SAATI) * 60 + dakika) % HAFTA_DAKIKASI + HAFTA_DAKIKASI) % HAFTA_DAKIKASI
+  return (((gun * 24 + saat - OYUN_DONEM_SAATI) * 60 + dakika) % HAFTA_DAKIKASI + HAFTA_DAKIKASI) % HAFTA_DAKIKASI
 }
 
 /** İçinde bulunulan dönemin başı, UTC anı. Arada yaz saati geçişi varsa bir saatlik kayma ikinci adımda düzelir. */
@@ -20,7 +21,7 @@ export function donemBaslangici(simdi: Date): Date {
   const dakikaBasi = simdi.getTime() - (simdi.getTime() % DAKIKA)
   const kaba = dakikaBasi - haftaDakikasi(new Date(dakikaBasi)) * DAKIKA
   const parcalar = girneParcalari(new Date(kaba))
-  const sapma = (parcalar.saat - KAPANIS_SAATI) * 60 + parcalar.dakika
+  const sapma = (parcalar.saat - OYUN_DONEM_SAATI) * 60 + parcalar.dakika
   return new Date(kaba - sapma * DAKIKA)
 }
 

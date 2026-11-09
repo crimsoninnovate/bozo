@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { isletme } from '../content/isletme.ts'
 import type { Isletme } from '../content/types.ts'
 import type { MenuBelgesi } from './menu/tipler.ts'
-import { ACILIS_SAATI, KAPANIS_SAATI } from './saat.ts'
+import { VARSAYILAN_SAATLER } from './saat.ts'
 import { restaurantJsonLd, menuJsonLd, breadcrumbJsonLd, jsonLdMetni } from './jsonld.ts'
 
 const belge = JSON.parse(
@@ -97,9 +97,17 @@ test('restaurantJsonLd_geceyiAsanCalismaSaatiniIkiyeBolmeden_yazar', () => {
   const saat = saatler[0]
   assert.ok(saat)
   // Literal karşılaştırma kendini doğrular; iddia saatin tek kaynağına bağlı.
-  assert.equal(saat.opens, `${String(ACILIS_SAATI).padStart(2, '0')}:00`)
-  assert.equal(saat.closes, `${String(KAPANIS_SAATI).padStart(2, '0')}:00`)
+  assert.equal(saat.opens, `${String(VARSAYILAN_SAATLER.acilis).padStart(2, '0')}:00`)
+  assert.equal(saat.closes, `${String(VARSAYILAN_SAATLER.kapanis).padStart(2, '0')}:00`)
   assert.equal(saat.dayOfWeek.length, 7)
+})
+
+test('restaurantJsonLd_ozelSaatler_opensVeClosesiYazar', () => {
+  const veri = restaurantJsonLd(isletme, { acilis: 12, kapanis: 3 }) as Record<string, unknown>
+  const saat = (veri.openingHoursSpecification as Saat[])[0]
+  assert.ok(saat)
+  assert.equal(saat.opens, '12:00')
+  assert.equal(saat.closes, '03:00')
 })
 
 test('restaurantJsonLd_adresBinaNoIleBirlesir', () => {
