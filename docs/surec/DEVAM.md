@@ -15,7 +15,8 @@ Son güncelleme: 9 Kasım 2026
   giriş yapanın adı var. Tasarım `docs/specs/2026-11-09-panel-kullanicilar-design.md`, plan
   `docs/plans/2026-11-09-panel-kullanicilar-plani.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Kişi başına panel
   girişi (şema, yetkiler, önce sunucu). Yerelde 390px ve masaüstünde uçtan uca denendi; son inceleme temiz
-  (iki güvenlik düzeltmesiyle). Sırada: sahibin onayıyla push ve kurulum. Ardından sayfa metinlerinin panelden
+  (iki güvenlik düzeltmesiyle); incelemenin ertelenen dört küçük bulgusu da kapandı (yanlış eski şifre artık
+  403 `eskiSifreYanlis`, 401 girişe döner; sunucu ve site birlikte çıkmalı). Sırada: sahibin onayıyla push ve kurulum. Ardından sayfa metinlerinin panelden
   düzenlenmesi (önce beyin fırtınası).
 
 - **Panel iyileştirmeleri (9 Kasım akşamı).** Yayın onayı, Türkçesiyle aynı kalmış İngilizce metni uyarır
