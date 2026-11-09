@@ -40,15 +40,6 @@
   height: auto;
 }
 
-/* Gruplar telefonda tek satırın parçası: kutu ve başlık yok. */
-.grup {
-  display: contents;
-}
-
-.grupAdi {
-  display: none;
-}
-
 /* Giriş yapanın adı; şifre düğmesinin 44px dokunma alanı negatif payla satırı büyütmez. */
 .hesap {
   display: flex;
@@ -86,47 +77,34 @@
   color: var(--bakir);
 }
 
-/* Sarmayan, kayan satır; kenara taşan yarım düğme kaydırma ipucudur. */
-.sekmeler {
-  position: relative;
+/* Telefon: bölüm seçici. 16px metin iOS'un odakta yakınlaştırmasını önler; kenar menüsü masaüstünde. */
+.secici {
   display: flex;
-  gap: 4px;
-  margin: 0 -16px;
-  padding: 0 16px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  scroll-padding-inline: 16px;
-  scrollbar-width: none;
-}
-
-.sekmeler::-webkit-scrollbar {
-  display: none;
-}
-
-/* Etkin sekme: krem metin ve bakır alt çizgi (dolu kutu değil). */
-.sekme {
-  display: inline-flex;
-  flex: 0 0 auto;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.seciciAdi {
+  flex: 0 0 auto;
+  color: var(--krem-70);
+  font: 500 14.5px/1.2 var(--font-govde);
+}
+
+.secici select {
+  flex: 1 1 auto;
+  min-width: 0;
   min-height: 48px;
   padding: 0 12px;
-  border-bottom: 2px solid transparent;
-  color: var(--krem-70);
-  font: 500 15px/1 var(--font-govde);
-  white-space: nowrap;
-  scroll-snap-align: start;
-}
-
-.sekme[aria-pressed='true'] {
-  border-bottom-color: var(--bakir);
+  background: var(--komur);
+  border: 1px solid var(--cizgi-buton);
+  border-radius: 3px;
   color: var(--krem);
+  font: 500 16px/1.4 var(--font-govde);
 }
 
-/* Kayan satır taşanı kırpar: odak halkası düğmenin içine çizilir. */
-.sekme:focus-visible {
-  outline-offset: -2px;
+.sekmeler {
+  display: none;
 }
 
 /* Hatalı sekmenin işareti; ekran okuyucuya yanındaki gizli metin söyler. */
@@ -190,15 +168,16 @@
     border-bottom: 1px solid var(--cizgi-sac);
   }
 
+  .secici {
+    display: none;
+  }
+
   .sekmeler {
     order: 3;
     display: grid;
     flex: 1 1 auto;
     align-content: start;
     gap: 12px;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
   }
 
   .grup {
@@ -215,18 +194,25 @@
     text-transform: uppercase;
   }
 
-  /* Etkin bölüm: bakır sol çizgi ve zemin rengi; sekmenin alt çizgisinin dikey karşılığı. */
+  /* Etkin bölüm: bakır sol çizgi ve zemin rengi. */
   .sekme {
+    display: inline-flex;
+    align-items: center;
     justify-content: flex-start;
+    gap: 6px;
     min-height: 44px;
-    border-bottom: 0;
+    padding: 0 12px;
     border-left: 2px solid transparent;
     border-radius: 0 3px 3px 0;
+    color: var(--krem-70);
+    font: 500 15px/1 var(--font-govde);
+    white-space: nowrap;
   }
 
   .sekme[aria-pressed='true'] {
     background: var(--zemin);
     border-left-color: var(--bakir);
+    color: var(--krem);
   }
 
   .hesap {

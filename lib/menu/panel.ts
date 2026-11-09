@@ -48,7 +48,7 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
 export const SEKMELER = [
-  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'saatler', 'fotograflar', 'metinler',
+  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'saatler', 'iletisim', 'metinler', 'fotograflar',
   'gecmis', 'kullanicilar',
 ] as const
 export type Sekme = (typeof SEKMELER)[number]
@@ -58,9 +58,11 @@ export function gorunurSekmeler(admin: boolean): readonly Sekme[] {
   return admin ? SEKMELER : SEKMELER.filter((s) => s !== 'kullanicilar')
 }
 
+/** Sık işler önde: fiyat ve "tükendi" Menü'de, duyuru İşletme'nin başında (sahibi, 9 Kasım 2026). */
 const GRUPLAR = {
   menu: ['ocakbasi', 'ozel', 'icecekler', 'ikramlar'],
-  site: ['duyuru', 'iletisim', 'saatler', 'fotograflar', 'metinler'],
+  isletme: ['duyuru', 'saatler', 'iletisim'],
+  icerik: ['metinler', 'fotograflar'],
   yayin: ['gecmis'],
   hesaplar: ['kullanicilar'],
 } as const satisfies Record<string, readonly Sekme[]>

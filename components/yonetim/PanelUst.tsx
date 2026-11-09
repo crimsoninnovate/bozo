@@ -1,6 +1,5 @@
 'use client'
 
-import { useRef } from 'react'
 import { CikisIkon } from '@/components/ui/Ikonlar'
 import { ROZET } from '@/components/ui/Rozet'
 import { yonetim as m } from '@/content/yonetim'
@@ -21,37 +20,48 @@ type SekmeProps = {
 }
 
 /**
- * Telefonda kayan tek satır, grup adları gizli; masaüstünde başlıklı gruplarla kenar menüsü (aynı DOM, düzeni CSS
- * kurar). Seçilen düğme satırın ortasına gelir, sayfa içeriğin başına döner.
+ * Telefonda telefonun kendi gruplu seçim listesi (tek dokunuşla bütün bölümler); masaüstünde başlıklı gruplarla
+ * kenar menüsü. Seçimden sonra sayfa içeriğin başına döner.
  */
 function Sekmeler({ sekme, hatali, sec, admin }: SekmeProps) {
-  const satir = useRef<HTMLDivElement>(null)
-  const tikla = (s: Sekme, dugme: HTMLButtonElement) => {
+  const gruplar = sekmeGruplari(admin)
+  const git = (s: Sekme) => {
     sec(s)
-    const k = satir.current
-    if (k) k.scrollTo({ left: dugme.offsetLeft - (k.clientWidth - dugme.offsetWidth) / 2 })
     window.scrollTo(0, 0)
   }
+  const ad = (s: Sekme) => (hatali.has(s) ? `${m.menu.sekme[s]} ${m.menu.sekmeHatali}` : m.menu.sekme[s])
   return (
-    <div ref={satir} className={stil.sekmeler} role="group" aria-label={m.menu.sekmeler}>
-      {sekmeGruplari(admin).map(({ grup, sekmeler }) => (
-        <div key={grup} className={stil.grup} role="group" aria-label={m.menu.grup[grup]}>
-          <span className={stil.grupAdi} aria-hidden="true">{m.menu.grup[grup]}</span>
-          {sekmeler.map((s) => (
-            <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
-              onClick={(o) => tikla(s, o.currentTarget)}>
-              {m.menu.sekme[s]}
-              {hatali.has(s) && (
-                <>
-                  <span className={stil.isaret} aria-hidden="true" />
-                  <span className={stil.gizli}> {m.menu.sekmeHatali}</span>
-                </>
-              )}
-            </button>
+    <>
+      <label className={stil.secici}>
+        <span className={stil.seciciAdi}>{m.menu.bolum}</span>
+        <select value={sekme} onChange={(o) => git(o.target.value as Sekme)}>
+          {gruplar.map(({ grup, sekmeler }) => (
+            <optgroup key={grup} label={m.menu.grup[grup]}>
+              {sekmeler.map((s) => <option key={s} value={s}>{ad(s)}</option>)}
+            </optgroup>
           ))}
-        </div>
-      ))}
-    </div>
+        </select>
+      </label>
+      <nav className={stil.sekmeler} aria-label={m.menu.sekmeler}>
+        {gruplar.map(({ grup, sekmeler }) => (
+          <div key={grup} className={stil.grup} role="group" aria-label={m.menu.grup[grup]}>
+            <span className={stil.grupAdi} aria-hidden="true">{m.menu.grup[grup]}</span>
+            {sekmeler.map((s) => (
+              <button key={s} type="button" className={stil.sekme} aria-pressed={sekme === s}
+                onClick={() => git(s)}>
+                {m.menu.sekme[s]}
+                {hatali.has(s) && (
+                  <>
+                    <span className={stil.isaret} aria-hidden="true" />
+                    <span className={stil.gizli}> {m.menu.sekmeHatali}</span>
+                  </>
+                )}
+              </button>
+            ))}
+          </div>
+        ))}
+      </nav>
+    </>
   )
 }
 

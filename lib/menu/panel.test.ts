@@ -458,3 +458,13 @@ test('taslakOku_koddanKopanMetin_atilirTaslakGeriGelir', () => {
     uyari.mock.restore()
   }
 })
+
+test('sekmeGruplari_admin_siteYonetimiDuzeni', () => {
+  assert.deepEqual(sekmeGruplari(true).map((g) => [g.grup, g.sekmeler]), [
+    ['menu', ['ocakbasi', 'ozel', 'icecekler', 'ikramlar']],
+    ['isletme', ['duyuru', 'saatler', 'iletisim']],
+    ['icerik', ['metinler', 'fotograflar']],
+    ['yayin', ['gecmis']],
+    ['hesaplar', ['kullanicilar']],
+  ])
+})
