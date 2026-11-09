@@ -1,0 +1,9 @@
+/* Şifre kartı içerik sütununda durur; giriş kartı gibi ortalanmaz. */
+.form {
+  margin-top: 24px;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 22px/1.15 var(--font-baslik);
+}

@@ -16,6 +16,9 @@ import type {
   DerlemeDurumu, FotoYukleYaniti, MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti,
 } from '../menu/aktarim.ts'
 import type { MenuBelgesi } from '../menu/tipler.ts'
+import type {
+  BenYaniti as YonetimBenYaniti, PersonelSatiri, YonetimIslemlerYaniti, YonetimPersonelYaniti,
+} from '../yonetim/personel.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
 
@@ -153,6 +156,19 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
     derlemeDurumu: () => istek<{ durum: DerlemeDurumu }>('/yonetim/derleme', { yetki }),
     /** 202: istek kaydedildi; derleme sürüyorsa bir sonrakine birleşir. */
     derlemeIste: () => istek<{ durum: DerlemeDurumu }>('/yonetim/derleme', { yontem: 'POST', yetki }),
+    ben: () => istek<YonetimBenYaniti>('/yonetim/ben', { yetki }),
+    /** Başarıda bu cihazın yeni anahtarı gelir; hesabın diğer anahtarları düşer. */
+    sifreDegistir: (eski: string, yeni: string) =>
+      istek<YonetimOturumYaniti>('/yonetim/sifre', { yontem: 'POST', govde: { eski, yeni }, yetki }),
+    personel: () => istek<YonetimPersonelYaniti>('/yonetim/personel', { yetki }),
+    personelEkle: (ad: string, sifre: string) =>
+      istek<PersonelSatiri>('/yonetim/personel', { yontem: 'POST', govde: { ad, sifre }, yetki }),
+    personelKapat: (id: number, kapali: boolean) =>
+      istek<PersonelSatiri>(`/yonetim/personel/${id}/kapat`, { yontem: 'POST', govde: { kapali }, yetki }),
+    personelSifre: (id: number, sifre: string) =>
+      istek<PersonelSatiri>(`/yonetim/personel/${id}/sifre`, { yontem: 'POST', govde: { sifre }, yetki }),
+    islemler: (personel: number | 'admin') =>
+      istek<YonetimIslemlerYaniti>(`/yonetim/islemler?personel=${personel}`, { yetki }),
   }
 }
 

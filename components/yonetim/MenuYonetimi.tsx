@@ -16,6 +16,7 @@ import {
 import type { Duyuru, IcecekKalemi, Iletisim, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
 import type { YonetimApi } from '@/lib/oyun/api'
+import type { BenYaniti } from '@/lib/yonetim/personel'
 import { YeniKayit, hatalariEsle, type Hatalar } from './Alanlar'
 import { DuyuruFormu } from './DuyuruFormu'
 import { FotoFormu } from './FotoFormu'
@@ -24,9 +25,10 @@ import { IcecekFormu } from './IcecekFormu'
 import { IkramFormu } from './IkramFormu'
 import { IletisimFormu } from './IletisimFormu'
 import { DURUM_NOTU, KalemFormu, OzelFormu } from './KalemFormu'
-import { Giris, hataIsle, useOturum } from './oturum'
+import { Giris, hataIsle, useBen, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
 import { SaatFormu } from './SaatFormu'
+import { SifreFormu } from './SifreFormu'
 import { SITE_SURUMU } from './SiteDurumu'
 import { SiteGuncelle, useDerleme, type Derleme } from './SiteGuncelle'
 import { taslagiYukle, useTaslakKaydi } from './taslak'
@@ -84,6 +86,8 @@ function Icecekler({ belge, hatalar, duzenle }: ListeProps) {
 
 type PanelProps = { api: YonetimApi; cik: () => void; baz: MenuBelgesi }
 type Mesaj = { metin: string; hata: boolean }
+/** Hesap: giriş yapan, şu anki anahtar ve şifre değişince gelen anahtarı yazan işlev. */
+type Hesap = { kim: BenYaniti; yetki: string; yenile: (yetki: string, bitis: string) => void }
 
 /** Sunucudaki menü, çalışma kopyası ve yayın/geri alma işlemleri. */
 function useCalisma({ api, cik, baz }: PanelProps) {
@@ -222,12 +226,13 @@ function SekmeIcerigi(props: IcerikProps) {
   }
 }
 
-function Calisma(props: PanelProps) {
-  const { api, cik, baz } = props
+function Calisma(props: PanelProps & Hesap) {
+  const { api, cik, baz, kim, yetki, yenile } = props
   const { canli, eski, belge, hazir, mesgul, mesaj, duzenle, bitir, surumGetir } = useCalisma(props)
   const t = useTuretilmis(belge, canli, baz, eski)
   const [sekme, setSekme] = useState<Sekme>('ocakbasi')
   const [onay, setOnayDurumu] = useState<Onay | null>(null)
+  const [sifre, setSifre] = useState<'acik' | 'degisti' | null>(null)
   const derleme = useDerleme(api, cik)
   const siteSurum = etkinSiteSurumu(SITE_SURUMU, derleme.durum)
   useKaydedilmemisUyari(t.degisiklikVar)
@@ -248,15 +253,20 @@ function Calisma(props: PanelProps) {
     if (eski) setOnay({ geriAl: { surum, belge: eski } })
   }
 
-  if (!canli) return <Yukleniyor cik={cik} mesaj={mesaj} />
-  const sec = (s: Sekme) => { setSekme(s); setOnay(null) }
-  const bar = !onay && sekme !== 'gecmis'
+  if (!canli) return <Yukleniyor cik={cik} kim={kim} mesaj={mesaj} />
+  const sec = (s: Sekme) => { setSekme(s); setOnay(null); setSifre(null) }
+  const bar = !onay && sekme !== 'gecmis' && sifre !== 'acik'
+  const sifreDegisti = (y: string, bitis: string) => { yenile(y, bitis); setSifre('degisti') }
   return (
     <>
-      <PanelUst cik={cik} calisma={{ taban: t.taban, siteSurum, sekme, hatali: t.hataliSekmeler, sec }} />
+      <PanelUst cik={cik} kim={kim} sifreAc={() => { setSifre('acik'); window.scrollTo(0, 0) }}
+        calisma={{ taban: t.taban, siteSurum, sekme, hatali: t.hataliSekmeler, sec }} />
       <div className={stil.icerik}>
         <Mesajlar mesaj={mesaj} eskiNot={bar && eski && t.fark.length === 0 && !t.durum.kapali} />
-        {onay ? (
+        {sifre === 'degisti' && <p className={stil.tamam} role="status">{m.sifre.tamam}</p>}
+        {sifre === 'acik' ? (
+          <SifreFormu zorunlu={false} yetki={yetki} yeniOturum={sifreDegisti} vazgec={() => setSifre(null)} />
+        ) : onay ? (
           <OnayEkrani onay={onay} fark={t.fark} yayindaki={t.yayindaki} sonuc={t.sonuc} belge={belge}
             mesgul={mesgul} onayla={onayla} vazgec={() => setOnay(null)} />
         ) : (
@@ -272,11 +282,13 @@ function Calisma(props: PanelProps) {
   )
 }
 
+type YukleniyorProps = { cik: () => void; kim?: BenYaniti | null; mesaj: Mesaj | null }
+
 /** Yayındaki menü gelene kadar: üst bar (Çıkış) ve okuma notu ya da yükleme hatası. */
-function Yukleniyor({ cik, mesaj }: { cik: () => void; mesaj: Mesaj | null }) {
+function Yukleniyor({ cik, kim, mesaj }: YukleniyorProps) {
   return (
     <>
-      <PanelUst cik={cik} />
+      <PanelUst cik={cik} kim={kim} />
       <div className={stil.icerik}>
         {mesaj ? <Mesajlar mesaj={mesaj} /> : <p className={ortak.not}>{m.menu.yukleniyor}</p>}
       </div>
@@ -352,10 +364,29 @@ function GirisBasligi() {
   )
 }
 
+type HesapliProps = PanelProps & Omit<Hesap, 'kim'>
+
+/** Önce hesap okunur: geçici şifreli hesap yalnız şifre ekranını görür (sunucu da 403 verir). */
+function Hesapli({ api, cik, baz, yetki, yenile }: HesapliProps) {
+  const { ben, hata } = useBen(api, cik)
+  if (!ben) return <Yukleniyor cik={cik} mesaj={hata ? { metin: hata, hata: true } : null} />
+  if (ben.sifreDegismeli) {
+    return (
+      <>
+        <PanelUst cik={cik} kim={ben} />
+        <div className={stil.icerik}>
+          <SifreFormu zorunlu yetki={yetki} yeniOturum={yenile} />
+        </div>
+      </>
+    )
+  }
+  return <Calisma api={api} cik={cik} baz={baz} kim={ben} yetki={yetki} yenile={yenile} />
+}
+
 export function MenuYonetimi({ baz }: { baz: MenuBelgesi }) {
-  const { api, gir, cik } = useOturum()
+  const { api, yetki, gir, yenile, cik } = useOturum()
   if (api === undefined) return <main className={stil.girisSayfasi} />
-  if (!api) {
+  if (!api || !yetki) {
     return (
       <main className={stil.girisSayfasi}>
         <Giris gir={gir} baslik={<GirisBasligi />} />
@@ -364,7 +395,7 @@ export function MenuYonetimi({ baz }: { baz: MenuBelgesi }) {
   }
   return (
     <main className={stil.sayfa}>
-      <Calisma api={api} cik={cik} baz={baz} />
+      <Hesapli api={api} cik={cik} baz={baz} yetki={yetki} yenile={yenile} />
     </main>
   )
 }

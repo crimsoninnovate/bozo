@@ -30,3 +30,6 @@ export type PersonelSatiri = {
   sonGiris: string | null
   sonIslemler: IslemSatiri[]
 }
+/** `GET /yonetim/personel`: hesaplar ve adminin son işlemleri. */
+export type YonetimPersonelYaniti = { personel: PersonelSatiri[]; adminIslemleri: IslemSatiri[] }
+export type YonetimIslemlerYaniti = { islemler: IslemSatiri[] }

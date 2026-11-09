@@ -5,6 +5,7 @@ import { yonetim as m } from '@/content/yonetim'
 import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
+import type { BenYaniti } from '@/lib/yonetim/personel'
 import { OTURUM_ANAHTARI as ANAHTAR, oturumDepolari, oturumOku, oturumYaz, type Depo } from '@/lib/oyun/oturumDeposu'
 import stil from './oturum.module.css'
 
@@ -98,7 +99,10 @@ function oturumBul(): string | null {
 /** `api`: `undefined` depo okunana kadar (statik HTML'de giriş kartı çakmasın), `null` oturum yok. */
 export function useOturum(): {
   api: YonetimApi | null | undefined
+  yetki: string | null | undefined
   gir: (yetki: string, bitis: string, hatirla: boolean) => void
+  /** Şifre değişince gelen yeni anahtar: eskisi hangi depodaysa oraya ("Beni hatırla" korunur). */
+  yenile: (yetki: string, bitis: string) => void
   cik: () => void
 } {
   const [yetki, setYetki] = useState<string | null | undefined>(undefined)
@@ -118,5 +122,24 @@ export function useOturum(): {
     }
     setYetki(null)
   }, [])
-  return { api, gir, cik }
+  const yenile = useCallback((y: string, bitis: string) => {
+    gir(y, bitis, depoIsle('localStorage', 'okunamadı', (s) => s.getItem(ANAHTAR) !== null, false))
+  }, [gir])
+  return { api, yetki, gir, yenile, cik }
+}
+
+/** Giriş yapan hesap; anahtar değişince (şifre değişimi) yeniden okunur, eski değer o arada kalır. */
+export function useBen(api: YonetimApi, cik: () => void): { ben: BenYaniti | null; hata: string | null } {
+  const [ben, setBen] = useState<BenYaniti | null>(null)
+  const [hata, setHata] = useState<string | null>(null)
+  useEffect(() => {
+    api.ben().then(
+      (b) => {
+        setBen(b)
+        setHata(null)
+      },
+      (h: unknown) => setHata(hataIsle(h, cik)),
+    )
+  }, [api, cik])
+  return { ben, hata }
 }

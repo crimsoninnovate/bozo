@@ -77,6 +77,17 @@
   justify-self: end;
 }
 
+.baglanti {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: 44px;
+  color: var(--krem);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .liste {
   display: grid;
   margin: 0;

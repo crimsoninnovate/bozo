@@ -1,5 +1,6 @@
 import {
   adSorunu, sifreSorunu, type BenYaniti, type IslemSatiri, type PersonelSatiri,
+  type YonetimIslemlerYaniti, type YonetimPersonelYaniti,
 } from '../lib/yonetim/personel.ts'
 import type { Islem, Personel } from './depo.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
@@ -66,7 +67,7 @@ export async function yonetimSifre(b: Baglam, admin: YonetimKimligi | null, iste
 export async function yonetimPersonelListe(b: Baglam): Promise<Yanit> {
   const personel = await Promise.all((await b.depo.personelListesi()).map((p) => personelSatiri(b, p)))
   const adminIslemleri = (await b.depo.islemler(SON_ISLEM, null)).map(islemSatiri)
-  return { durum: 200, govde: { personel, adminIslemleri } }
+  return { durum: 200, govde: { personel, adminIslemleri } satisfies YonetimPersonelYaniti }
 }
 
 export async function yonetimPersonelEkle(b: Baglam, admin: YonetimKimligi, istek: Istek, y: Yetkili): Promise<Yanit> {
@@ -103,5 +104,6 @@ export async function yonetimIslemler(b: Baglam, istek: Istek): Promise<Yanit> {
   const secim = istek.sorgu.get('personel')
   if (secim !== null && secim !== 'admin' && !/^\d{1,9}$/.test(secim)) throw new IstekHatasi(400, 'personelGecersiz')
   const kim = secim === null ? undefined : secim === 'admin' ? null : Number(secim)
-  return { durum: 200, govde: { islemler: (await b.depo.islemler(ISLEM_LISTESI, kim)).map(islemSatiri) } }
+  const islemler = (await b.depo.islemler(ISLEM_LISTESI, kim)).map(islemSatiri)
+  return { durum: 200, govde: { islemler } satisfies YonetimIslemlerYaniti }
 }

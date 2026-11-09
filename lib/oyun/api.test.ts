@@ -191,3 +191,23 @@ test('yonetimApi_fotoYukle_hamWebpGovdeVeYetki', async () => {
   const basliklar = kayit.secenek?.headers as Record<string, string>
   assert.deepEqual(basliklar, { 'Content-Type': 'image/webp', Authorization: 'Bearer k' })
 })
+
+test('yonetimApi_sifreDegistir_postVeGovde', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yanit = { anahtar: 'k1.2.3.x', bitis: 'b', ad: 'ajans', admin: false, sifreDegismeli: false }
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, yanit, kayit), 'Bearer k')
+  assert.deepEqual(await yonetim.sifreDegistir('eski-sifre', 'yeni-sifre'), yanit)
+  assert.equal(kayit.url, 'http://x/yonetim/sifre')
+  assert.equal(kayit.secenek?.method, 'POST')
+  assert.equal(kayit.secenek?.body, '{"eski":"eski-sifre","yeni":"yeni-sifre"}')
+  assert.equal((kayit.secenek?.headers as Record<string, string>).Authorization, 'Bearer k')
+})
+
+test('yonetimApi_personelKapat_yol', async () => {
+  const kayit: { url?: string; secenek?: RequestInit } = {}
+  const yonetim = yonetimApiKur('http://x', sahteGetir(200, { id: 7 }, kayit), 'Bearer k')
+  await yonetim.personelKapat(7, true)
+  assert.equal(kayit.url, 'http://x/yonetim/personel/7/kapat')
+  assert.equal(kayit.secenek?.method, 'POST')
+  assert.equal(kayit.secenek?.body, '{"kapali":true}')
+})

@@ -8,7 +8,7 @@ import type { YonetimSiralamaYaniti } from '@/lib/oyun/aktarim'
 import type { YonetimApi } from '@/lib/oyun/api'
 import { tarihMetni } from '@/lib/oyun/tarih'
 import { oncekiDonem, turuDogrula } from '@/lib/oyun/yonetim'
-import { Giris, hataIsle, useOturum } from '@/components/yonetim/oturum'
+import { Giris, hataIsle, useBen, useOturum } from '@/components/yonetim/oturum'
 import stil from './YonetimSayfasi.module.css'
 
 /* Personel ekranı (spec §7, §9): ödül kodu onayı, haftanın ilk 20'si, ad gizleme, turun yeniden oynatılması,
@@ -192,6 +192,28 @@ function Taramalar({ api, cik }: Panel) {
   )
 }
 
+/** Geçici şifreli hesap burada şifre koyamaz: ekran menü paneline yollar (spec 2026-11-09). */
+function Bolumler({ api, cik }: Panel) {
+  const { ben, hata } = useBen(api, cik)
+  if (hata) return <p className={stil.hata} role="alert">{hata}</p>
+  if (!ben) return null
+  if (ben.sifreDegismeli) {
+    return (
+      <section className={stil.bolum}>
+        <p className={stil.hata} role="alert">{m.hata.sifreDegismeli}</p>
+        <a className={stil.baglanti} href="/yonetim/">{m.oyunSifre.baglanti}</a>
+      </section>
+    )
+  }
+  return (
+    <>
+      <KodFormu api={api} cik={cik} />
+      <Hafta api={api} cik={cik} />
+      <Taramalar api={api} cik={cik} />
+    </>
+  )
+}
+
 export function YonetimSayfasi() {
   const { api, gir, cik } = useOturum()
   return (
@@ -200,9 +222,7 @@ export function YonetimSayfasi() {
       {api === undefined ? null : api ? (
         <>
           <button type="button" className={stil.cikis} onClick={cik}>{m.cikis}</button>
-          <KodFormu api={api} cik={cik} />
-          <Hafta api={api} cik={cik} />
-          <Taramalar api={api} cik={cik} />
+          <Bolumler api={api} cik={cik} />
         </>
       ) : (
         <Giris gir={gir} />
