@@ -3,7 +3,11 @@ import assert from 'node:assert/strict'
 import { createServer, type Server } from 'node:http'
 import { bellekDepoKur } from './bellekDepo.ts'
 import { listeKur } from './ip.ts'
-import { OTURUM_SURESI_MS, oturumAnahtariGecerliMi, oturumAnahtariUret } from './oturum.ts'
+import {
+  ESKI_ANAHTAR_SONU, OTURUM_SURESI_MS, eskiAdminAnahtariGecerliMi as oturumAnahtariGecerliMi,
+  eskiAdminAnahtariUret as oturumAnahtariUret, oturumAnahtariCoz, oturumAnahtariUret as yeniAnahtar,
+  oturumImzasiTutar,
+} from './oturum.ts'
 import { uygulamaKur } from './uygulama.ts'
 
 /* Personel oturum anahtarı: imzalı, durumsuz, 30 gün; şifre ya da tuz değişince hepsi düşer. */
@@ -161,4 +165,46 @@ test('oturum_oyuncuAnahtariBearerOlarak_yonetimUcunda401', async () => {
 test('oturum_personelAnahtariOyuncuUcunda_401', async () => {
   const { anahtar } = await anahtarAl()
   assert.equal((await istek('/ben', `Bearer ${anahtar}`)).durum, 401)
+})
+
+const PERSONEL = { id: 7, surum: 3, gizli: '' }
+
+test('oturumAnahtari_personel_cozulurVeImzaTutar', () => {
+  const bitis = saat + OTURUM_SURESI_MS
+  const anahtar = yeniAnahtar(TUZ, PERSONEL, bitis)
+  assert.match(anahtar, /^k7\.3\.\d{13}\.[0-9a-f]{64}$/)
+  const cozulen = oturumAnahtariCoz(`Bearer ${anahtar}`, saat)
+  assert.ok(cozulen && cozulen !== 'eski')
+  assert.deepEqual({ id: cozulen.id, surum: cozulen.surum, bitis: cozulen.bitis }, { id: 7, surum: 3, bitis })
+  assert.equal(oturumImzasiTutar(TUZ, PERSONEL, cozulen), true)
+})
+
+test('oturumAnahtari_surumArtinca_imzaTutmaz', () => {
+  const cozulen = oturumAnahtariCoz(`Bearer ${yeniAnahtar(TUZ, PERSONEL, saat + OTURUM_SURESI_MS)}`, saat)
+  assert.ok(cozulen && cozulen !== 'eski')
+  assert.equal(oturumImzasiTutar(TUZ, { ...PERSONEL, surum: 4 }, cozulen), false)
+  assert.equal(oturumImzasiTutar(TUZ, { ...PERSONEL, id: 8 }, cozulen), false)
+  assert.equal(oturumImzasiTutar('baska-tuz', PERSONEL, cozulen), false)
+})
+
+test('oturumAnahtari_sureDolmusYaDaCokIleri_null', () => {
+  const coz = (bitis: number) => oturumAnahtariCoz(`Bearer ${yeniAnahtar(TUZ, PERSONEL, bitis)}`, saat)
+  assert.equal(coz(saat), null)
+  assert.equal(coz(saat + OTURUM_SURESI_MS + 2 * DAKIKA_MS), null)
+  assert.notEqual(coz(saat + OTURUM_SURESI_MS + DAKIKA_MS), null)
+  for (const kotu of ['', 'Bearer ', 'Bearer k7.3', 'Bearer k07.3.1.x', `Bearer k7.3.${saat + 1000}.${'A'.repeat(64)}`]) {
+    assert.equal(oturumAnahtariCoz(kotu, saat), null, kotu)
+  }
+})
+
+test('oturumAnahtari_eskiBicim_eskiDoner', () => {
+  const eski = oturumAnahtariUret(TUZ, KIMLIK, saat + OTURUM_SURESI_MS)
+  assert.equal(oturumAnahtariCoz(`Bearer ${eski}`, saat), 'eski')
+})
+
+test('eskiAdminAnahtari_sonTarihtenSonra_gecersiz', () => {
+  const son = ESKI_ANAHTAR_SONU
+  const anahtar = oturumAnahtariUret(TUZ, KIMLIK, son + DAKIKA_MS)
+  assert.equal(oturumAnahtariGecerliMi(TUZ, KIMLIK, `Bearer ${anahtar}`, son - DAKIKA_MS), true)
+  assert.equal(oturumAnahtariGecerliMi(TUZ, KIMLIK, `Bearer ${anahtar}`, son), false)
 })

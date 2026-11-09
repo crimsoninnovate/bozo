@@ -3,7 +3,7 @@ import type { KodYaniti, YonetimOturumYaniti, YonetimSiralamaYaniti, YonetimTurY
 import { donemAnahtari, girneGunu } from './donem.ts'
 import { IstekHatasi, temelKimlik, type Istek, type Yanit } from './http.ts'
 import { esitMi, kodOzeti } from './kod.ts'
-import { OTURUM_SURESI_MS, oturumAnahtariGecerliMi, oturumAnahtariUret } from './oturum.ts'
+import { OTURUM_SURESI_MS, eskiAdminAnahtariGecerliMi, eskiAdminAnahtariUret } from './oturum.ts'
 import { enIyiler } from './siralama.ts'
 import type { Baglam } from './uclar.ts'
 
@@ -26,7 +26,7 @@ function temelDenetle(kimlik: YonetimKimligi | null, istek: Istek): asserts kiml
 export function yonetimDenetle(kimlik: YonetimKimligi | null, istek: Istek, tuz: string, simdi: number): void {
   const yetki = istek.basliklar.authorization
   if (kimlik && yetki?.startsWith('Bearer ')) {
-    if (!oturumAnahtariGecerliMi(tuz, kimlik, yetki, simdi)) throw new IstekHatasi(401, 'kimlikGerekli')
+    if (!eskiAdminAnahtariGecerliMi(tuz, kimlik, yetki, simdi)) throw new IstekHatasi(401, 'kimlikGerekli')
     return
   }
   temelDenetle(kimlik, istek)
@@ -37,7 +37,7 @@ export function yonetimOturum(b: Baglam, kimlik: YonetimKimligi | null, istek: I
   temelDenetle(kimlik, istek)
   const bitis = b.simdi() + OTURUM_SURESI_MS
   const govde: YonetimOturumYaniti = {
-    anahtar: oturumAnahtariUret(b.tuz, kimlik, bitis),
+    anahtar: eskiAdminAnahtariUret(b.tuz, kimlik, bitis),
     bitis: new Date(bitis).toISOString(),
   }
   return { durum: 200, govde }
