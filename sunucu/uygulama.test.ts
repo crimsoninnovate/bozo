@@ -26,13 +26,14 @@ const YONETIM = { kullanici: 'personel', sifre: 'gizli' }
 let saat = Date.parse('2026-10-08T20:00:00+03:00')
 const PAZARTESI = Date.parse('2026-10-12T02:00:00Z')
 
+const depo = bellekDepoKur()
 let sunucu: Server
 let uygulama: Uygulama
 let kok = ''
 
 before(async () => {
   uygulama = uygulamaKur(
-    bellekDepoKur(),
+    depo,
     {
       kokenler: [KOKEN],
       tuz: 'test-tuzu',
@@ -254,6 +255,12 @@ test('donemKapanisi_kodUretir_benKoduGosterir_personelOnaylar_ikinciOnay409', as
   const ikinci = await istek('/yonetim/kod', { yontem: 'POST', govde: { kod: odul.kod }, basliklar: yonetimBasligi })
   assert.deepEqual([ikinci.durum, ikinci.govde?.hata], [409, 'kodKullanildi'])
   assert.equal(((await istek('/ben', { anahtar: birinci })).govde?.odul as { kullanildi: boolean }).kullanildi, true)
+})
+
+test('kod_islemKaydiSiraVeAd', async () => {
+  const kod = (await depo.islemler(10)).find((i) => i.tur === 'kod')
+  assert.equal(kod?.ad, 'personel')
+  assert.match(kod?.ayrinti ?? '', /^[1-3]\. Sampiyon$/, 'önceki testin onayladığı kod')
 })
 
 test('hesabiSil_204_sonraBen401_tablodanDuser', async () => {

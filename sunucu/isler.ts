@@ -12,6 +12,7 @@ export const KOD_GECERLILIK_MS = 14 * GUN_MS
 export const GIRDI_SAKLAMA_MS = 30 * GUN_MS
 export const OYUNCU_SAKLAMA_MS = 90 * GUN_MS
 export const SAMPIYON_SAKLAMA_MS = 90 * GUN_MS
+export const ISLEM_SAKLAMA_MS = 365 * GUN_MS
 export const KORUNAN_TUR = 20
 export const ODUL_SAYISI = 3
 
@@ -54,7 +55,7 @@ export async function donemleriKapat(depo: Depo, tuz: string, simdi: number): Pr
   return kapananlar
 }
 
-/** Spec §8 saklama tablosu: ilk 20 dışı kayıt, 30 günlük kayıt, 90 günlük oyuncu, kampanya sonrası şampiyonlar. */
+/** Spec §8 saklama tablosu: ilk 20 dışı kayıt, 30 günlük kayıt, 90 günlük oyuncu, kampanya sonrası şampiyonlar, bir yıllık işlem kaydı. */
 export async function suresiDolaniSil(depo: Depo, simdi: number, kampanyaBitis: number | null): Promise<void> {
   await depo.suresiDolanJetonlariSil(simdi)
   const donem = donemAnahtari(new Date(simdi))
@@ -62,6 +63,7 @@ export async function suresiDolaniSil(depo: Depo, simdi: number, kampanyaBitis: 
   await depo.girdileriKirp(donem, korunan)
   await depo.eskiGirdileriSil(simdi - GIRDI_SAKLAMA_MS)
   await depo.eskiOyunculariSil(simdi - OYUNCU_SAKLAMA_MS)
+  await depo.eskiIslemleriSil(simdi - ISLEM_SAKLAMA_MS)
   if (kampanyaBitis !== null && simdi > kampanyaBitis + SAMPIYON_SAKLAMA_MS) await depo.kazananlariSil()
 }
 

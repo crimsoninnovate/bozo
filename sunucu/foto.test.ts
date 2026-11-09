@@ -18,6 +18,7 @@ const kimlik = { Authorization: `Basic ${Buffer.from('personel:gizli').toString(
 const WEBP = { 'Content-Type': 'image/webp' }
 const JPEG = { 'Content-Type': 'image/jpeg' }
 
+const depo = bellekDepoKur()
 let dizin = ''
 let sunucu: Server
 let kok = ''
@@ -80,7 +81,7 @@ async function sunucuAc(fotoDizini: string | null): Promise<{ sunucu: Server; ko
     kampanyaBitis: null,
     fotoDizini,
   }
-  const uygulama = uygulamaKur(bellekDepoKur(), ayar, Date.now, { warn() {}, error() {} })
+  const uygulama = uygulamaKur(depo, ayar, Date.now, { warn() {}, error() {} })
   const s = createServer((req, res) => void uygulama.isle(req, res))
   await new Promise<void>((coz) => s.listen(0, '127.0.0.1', coz))
   const adres = s.address()
@@ -247,4 +248,12 @@ test('postFoto_kimliksiz_401', async () => {
 test('postFoto_fotoDizini_yok_503FotoKapali', async () => {
   const y = await yukle(vp8(50, 50), { ...kimlik, ...WEBP }, kapaliKok)
   assert.deepEqual([y.durum, y.govde?.hata], [503, 'fotoKapali'])
+})
+
+test('fotoYukle_islemKaydiDosyaAdi', async () => {
+  const veri = vp8(64, 48, 3)
+  const y = await yukle(veri)
+  assert.equal(y.durum, 200)
+  const [son] = await depo.islemler(1)
+  assert.deepEqual([son?.ad, son?.tur, son?.ayrinti], ['personel', 'foto', ad(veri)])
 })

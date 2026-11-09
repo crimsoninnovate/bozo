@@ -5,6 +5,7 @@ import type { Depo, YeniTur } from './depo.ts'
 import {
   donemleriKapat,
   GIRDI_SAKLAMA_MS,
+  ISLEM_SAKLAMA_MS,
   islerKur,
   OYUNCU_SAKLAMA_MS,
   SAMPIYON_SAKLAMA_MS,
@@ -135,4 +136,16 @@ test('islerKur_calistir_kapanisHerSeferinde_silmeGundeBirKez', async () => {
   assert.notEqual(await depo.jetonBul('k'.repeat(32)), null, 'aynı gün ikinci koşu silmez')
   assert.deepEqual(await isler.calistir(BIT), [DONEM])
   assert.equal(await depo.jetonBul('k'.repeat(32)), null, 'gün değişince siler')
+})
+
+test('suresiDolaniSil_birYildanEskiIslemleriSiler', async () => {
+  const depo = bellekDepoKur()
+  const simdi = BAS + ISLEM_SAKLAMA_MS + GUN
+  const kayit = (zaman: number, ayrinti: string) =>
+    depo.islemEkle({ personelId: null, ad: 'bozo', tur: 'giris', ayrinti, zaman })
+  await kayit(simdi - ISLEM_SAKLAMA_MS - 1, 'eski')
+  await kayit(simdi - ISLEM_SAKLAMA_MS + 1, 'yeni')
+  await suresiDolaniSil(depo, simdi, null)
+  assert.deepEqual((await depo.islemler(10)).map((i) => i.ayrinti), ['yeni'])
+  assert.equal(ISLEM_SAKLAMA_MS, 365 * GUN)
 })

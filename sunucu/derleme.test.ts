@@ -12,6 +12,7 @@ import { uygulamaKur, type Ayar } from './uygulama.ts'
 /* `GET`/`POST /yonetim/derleme`: istek dosyası yazılır, durum `durum.json`'dan okunur. */
 const KIMLIK = { Authorization: `Basic ${Buffer.from('personel:gizli').toString('base64')}` }
 
+const depo = bellekDepoKur()
 let dizin = ''
 let sunucu: Server
 let kok = ''
@@ -27,7 +28,7 @@ async function sunucuAc(derlemeDizini: string | null): Promise<{ sunucu: Server;
     kampanyaBitis: null,
     derlemeDizini,
   }
-  const uygulama = uygulamaKur(bellekDepoKur(), ayar, Date.now, { warn() {}, error() {} })
+  const uygulama = uygulamaKur(depo, ayar, Date.now, { warn() {}, error() {} })
   const s = createServer((req, res) => void uygulama.isle(req, res))
   await new Promise<void>((coz) => s.listen(0, '127.0.0.1', coz))
   const adres = s.address()
@@ -240,4 +241,11 @@ test('getDerleme_genelKovaDoluyken_dogruVeYanlisParola429_kimlikSizmaz', async (
   } finally {
     a.sunucu.close()
   }
+})
+
+test('derlemeIste_islemKaydi', async () => {
+  await temizle()
+  assert.equal((await cagir('POST')).durum, 202)
+  const [son] = await depo.islemler(1)
+  assert.deepEqual([son?.ad, son?.tur, son?.ayrinti], ['personel', 'derleme', ''])
 })

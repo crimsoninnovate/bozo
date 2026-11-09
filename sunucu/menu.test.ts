@@ -11,6 +11,7 @@ import { bellekDepoKur } from './bellekDepo.ts'
 import type { Depo } from './depo.ts'
 import { listeKur } from './ip.ts'
 import { MENU_GOVDE_SINIRI } from './menu.ts'
+import { parolaOzeti } from './parola.ts'
 import { uygulamaKur, type Ayar } from './uygulama.ts'
 
 /* Menü uçları (bellek depo, kendi sunucusu ve saati): yayın, sürüm denetimi, geri alma, IP istisnası. */
@@ -478,4 +479,43 @@ test('putYonetimMenu_gecersizSaatlerGonderilir_tamamlanmaz_400', async () => {
 test('putYonetimMenu_bilinmeyenAnahtar_halaReddedilir_400', async () => {
   const y = await tazeDepodaPut(saatliFotolu(), { ...saatsizSurum(belge(720)), fazla: 1 })
   assert.deepEqual([y.durum, y.hata], [400, 'belgeGecersiz'])
+})
+
+/** Taze depoda bir personel hesabı ve onunla PUT; yanıt, sürüm özetleri ve işlem kaydı döner. */
+async function personelleYayinla(tazeDepo: Depo) {
+  const p = await tazeDepo.personelEkle('ajans', await parolaOzeti('ajans-sifresi'), saat)
+  if (p === 'adKullanimda') throw new Error('ad')
+  await tazeDepo.personelSifreKoy(p.id, p.parolaOzeti, false)
+  const basic = { Authorization: `Basic ${Buffer.from('ajans:ajans-sifresi').toString('base64')}` }
+  const taze = await sunucuAc(AYAR, tazeDepo, () => saat)
+  try {
+    const y = await fetch(taze.kok + '/yonetim/menu', {
+      method: 'PUT',
+      body: JSON.stringify({ taban: null, belge: SEED }),
+      headers: { ...basic, 'Content-Type': 'application/json' },
+    })
+    const ozet = (await (await fetch(taze.kok + '/yonetim/menu', { headers: basic })).json()) as YonetimMenuYaniti
+    return { durum: y.status, govde: (await y.json()) as MenuYayinYaniti, ozet }
+  } finally {
+    taze.sunucu.close()
+  }
+}
+
+test('menuYayinla_personel_surumYazariVeIslemKaydi', async () => {
+  const tazeDepo = bellekDepoKur()
+  const y = await personelleYayinla(tazeDepo)
+  assert.equal(y.durum, 200)
+  assert.equal(y.ozet.surumler[0]?.yazar, 'ajans')
+  const [son] = await tazeDepo.islemler(1)
+  assert.deepEqual([son?.ad, son?.tur, son?.ayrinti], ['ajans', 'menuYayin', `sürüm ${y.govde.surum}`])
+})
+
+test('islemKaydiAtar_yayinYineBasarili', async () => {
+  const asil = bellekDepoKur()
+  const bozuk = new Proxy(asil, {
+    get: (hedef, ad) => (ad === 'islemEkle' ? () => Promise.reject(new Error('db yok')) : hedef[ad as keyof Depo]),
+  })
+  const y = await personelleYayinla(bozuk)
+  assert.equal(y.durum, 200)
+  assert.equal((await asil.menuGecerli())?.id, y.govde.surum)
 })

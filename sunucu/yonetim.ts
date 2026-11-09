@@ -142,7 +142,7 @@ export async function yonetimTur(b: Baglam, id: string): Promise<Yanit> {
   return { durum: 200, govde: { ...kalan, olusturma: new Date(olusturma).toISOString() } satisfies YonetimTurYaniti }
 }
 
-export async function yonetimKod(b: Baglam, istek: Istek): Promise<Yanit> {
+export async function yonetimKod(b: Baglam, istek: Istek, y: Yetkili): Promise<Yanit> {
   const govde = (await istek.govde()) as { kod?: unknown } | null
   const kod = govde?.kod
   if (typeof kod !== 'string' || !/^\d{6}$/.test(kod)) throw new IstekHatasi(400, 'kodGecersiz')
@@ -154,14 +154,16 @@ export async function yonetimKod(b: Baglam, istek: Istek): Promise<Yanit> {
     throw new IstekHatasi(409, 'kodKullanildi')
   }
   const { sira, donem, takmaAd, puan } = kazanan
+  await islemYaz(b, y, 'kod', `${sira}. ${takmaAd}`)
   return { durum: 200, govde: { sira, donem, takmaAd, puan } satisfies KodYaniti }
 }
 
-export async function yonetimGizle(b: Baglam, istek: Istek, id: string): Promise<Yanit> {
+export async function yonetimGizle(b: Baglam, istek: Istek, id: string, y: Yetkili): Promise<Yanit> {
   const govde = (await istek.govde()) as { gizli?: unknown } | null
   if (typeof govde?.gizli !== 'boolean') throw new IstekHatasi(400, 'gizliGecersiz')
   if (!(await b.depo.oyuncuGizle(Number(id), govde.gizli))) throw new IstekHatasi(404, 'oyuncuYok')
   b.tablo.bosalt()
+  await islemYaz(b, y, 'gizle', `oyuncu ${Number(id)} ${govde.gizli ? 'gizli' : 'açık'}`)
   return { durum: 204 }
 }
 

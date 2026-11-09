@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import type { DerlemeDurumu } from '../lib/menu/aktarim.ts'
 import { IstekHatasi, type Yanit } from './http.ts'
 import type { Baglam } from './uclar.ts'
+import { islemYaz, type Yetkili } from './yonetim.ts'
 
 /* Site derleme isteği (spec 2026-11-09 C): istek dosyası yazar, durum dosyasını okur; derlemeyi başka birim yapar. */
 
@@ -72,7 +73,7 @@ export async function yonetimDerlemeDurumu(b: Baglam): Promise<Yanit> {
 }
 
 /** İstek dosyası varsa dokunmaz: derleme sürerken ya da sırada gelen istek birleşir. */
-export async function yonetimDerlemeIste(b: Baglam): Promise<Yanit> {
+export async function yonetimDerlemeIste(b: Baglam, y: Yetkili): Promise<Yanit> {
   const dizin = dizinAl(b)
   await mkdir(dizin, { recursive: true })
   try {
@@ -80,5 +81,6 @@ export async function yonetimDerlemeIste(b: Baglam): Promise<Yanit> {
   } catch (hata) {
     if ((hata as NodeJS.ErrnoException).code !== 'EEXIST') throw hata
   }
+  await islemYaz(b, y, 'derleme', '')
   return { durum: 202, govde: { durum: await durumAl(dizin, b.simdi()) } }
 }

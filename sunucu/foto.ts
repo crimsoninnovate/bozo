@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import type { FotoYukleYaniti } from '../lib/menu/aktarim.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
 import type { Baglam } from './uclar.ts'
+import { islemYaz, type Yetkili } from './yonetim.ts'
 
 /* Fotoğraf yükleme (spec 2026-11-09): WebP ya da JPEG, içerik adı, dosya hiç silinmez. Sunumu nginx yapar. */
 
@@ -80,7 +81,7 @@ const BICIMLER: Record<string, { uzanti: string; boyut: (veri: Buffer) => { en: 
 }
 
 /** Gövde ham WebP ya da JPEG baytlarıdır; yanıt içerik adını ve boyutu verir, aynı baytlar aynı adı verir. */
-export async function yonetimFotoYukle(b: Baglam, istek: Istek): Promise<Yanit> {
+export async function yonetimFotoYukle(b: Baglam, istek: Istek, y: Yetkili): Promise<Yanit> {
   if (b.fotoDizini === null) throw new IstekHatasi(503, 'fotoKapali')
   const tur = (istek.basliklar['content-type'] ?? '').split(';')[0]?.trim().toLowerCase() ?? ''
   const bicim = BICIMLER[tur]
@@ -92,5 +93,6 @@ export async function yonetimFotoYukle(b: Baglam, istek: Istek): Promise<Yanit> 
   if (Math.max(boyut.en, boyut.boy) > UZUN_KENAR_SINIRI) throw new IstekHatasi(422, 'fotoBuyuk')
   const dosya = `${createHash('sha256').update(veri).digest('hex').slice(0, 16)}.${bicim.uzanti}`
   if (!(await varMi(join(b.fotoDizini, dosya)))) await atomikYaz(b.fotoDizini, dosya, veri)
+  await islemYaz(b, y, 'foto', dosya)
   return { durum: 200, govde: { dosya, ...boyut } satisfies FotoYukleYaniti }
 }

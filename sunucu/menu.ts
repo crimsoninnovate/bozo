@@ -7,6 +7,7 @@ import { VARSAYILAN_SAATLER } from '../lib/saat.ts'
 import type { MenuKaynagi } from './depo.ts'
 import { IstekHatasi, type Istek, type Yanit } from './http.ts'
 import type { Baglam } from './uclar.ts'
+import { islemYaz, type Yetkili } from './yonetim.ts'
 
 /* Menü uçları (spec 2026-10-26): herkese açık okuma, yetkili yayın ve geri alma. Her yazım doğrulanır. */
 
@@ -29,7 +30,7 @@ export async function yonetimMenuAl(b: Baglam): Promise<Yanit> {
   const [gecerli, surumler] = await Promise.all([b.depo.menuGecerli(), b.depo.menuSurumleri(GECMIS_ADET)])
   const govde: YonetimMenuYaniti = {
     gecerli: gecerli && { surum: gecerli.id, belge: gecerli.belge },
-    surumler: surumler.map((s) => ({ id: s.id, olusturma: new Date(s.olusturma).toISOString(), kaynak: s.kaynak })),
+    surumler: surumler.map((s) => ({ id: s.id, olusturma: new Date(s.olusturma).toISOString(), kaynak: s.kaynak, yazar: s.yazar })),
   }
   return { durum: 200, govde }
 }
@@ -50,10 +51,14 @@ function tabanCoz(govde: unknown): { taban: number | null; belge: unknown } {
   return { taban, belge: 'belge' in govde ? govde.belge : undefined }
 }
 
-async function yayinla(b: Baglam, belge: MenuBelgesi, kaynak: MenuKaynagi, taban: number | null): Promise<Yanit> {
-  const surum = await b.depo.menuYayinla(belge, kaynak, b.simdi(), taban)
+type Yayin = { belge: MenuBelgesi; kaynak: MenuKaynagi; taban: number | null; eskiId?: number }
+
+async function yayinla(b: Baglam, y: Yetkili, { belge, kaynak, taban, eskiId }: Yayin): Promise<Yanit> {
+  const surum = await b.depo.menuYayinla(belge, kaynak, b.simdi(), taban, y.ad)
   if (surum === null) throw new IstekHatasi(409, 'surumEskidi')
   b.menu.bosalt()
+  if (eskiId === undefined) await islemYaz(b, y, 'menuYayin', `sürüm ${surum}`)
+  else await islemYaz(b, y, 'menuGeriAl', `sürüm ${surum} (${eskiId} geri alındı)`)
   return { durum: 200, govde: { surum } satisfies MenuYayinYaniti }
 }
 
@@ -64,13 +69,13 @@ const SEED_BOLUMLERI: Tamamlayici = { saatler: VARSAYILAN_SAATLER, fotograflar: 
  * Gövdedeki belge doğrulanır; saklanan, doğrulayıcının normalleştirdiği belgedir, ham gövde değil.
  * Eski panel saatsiz ve fotosuz belge yollar (R13): eksik bölümler geçerli sürümden, o da yoksa seed'den gelir.
  */
-export async function yonetimMenuYayinla(b: Baglam, istek: Istek): Promise<Yanit> {
+export async function yonetimMenuYayinla(b: Baglam, istek: Istek, y: Yetkili): Promise<Yanit> {
   const { taban, belge } = tabanCoz(await istek.govde(MENU_GOVDE_SINIRI))
   const gecerli = await b.depo.menuGecerli()
   const tamamlanan = gecerli ? menuBelgesiTamamla(belge, gecerli.belge) : belge
   const sonuc = menuBelgesiDogrula(menuBelgesiTamamla(tamamlanan, SEED_BOLUMLERI))
   if (!sonuc.tamam) throw new IstekHatasi(400, 'belgeGecersiz')
-  return yayinla(b, sonuc.belge, 'panel', taban)
+  return yayinla(b, y, { belge: sonuc.belge, kaynak: 'panel', taban })
 }
 
 /** Eski sürümlerde bölümlerden biri ya da birkaçı yok; tipi tam olsa da depodan öyle gelebilir. */
@@ -84,7 +89,7 @@ function tamBelgeMi(belge: MenuBelgesi): boolean {
  * Eski sürümde olmayan bölümler şu an geçerli sürümden alınır (seed sunucu paketinde yok); geçerli sürüm
  * de bölümsüzse tamamlanamaz: 409 `gecerliSurumEski` (panelden bir kez yayınlayıp sonra geri al).
  */
-export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string): Promise<Yanit> {
+export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string, y: Yetkili): Promise<Yanit> {
   const { taban } = tabanCoz(await istek.govde())
   const eski = await b.depo.menuSurumBul(Number(id))
   if (!eski) throw new IstekHatasi(404, 'surumYok')
@@ -95,5 +100,5 @@ export async function yonetimMenuGeriAl(b: Baglam, istek: Istek, id: string): Pr
     const nedenler = sonuc.hatalar.map((h) => `${h.yol}: ${h.metin}`).join('; ')
     throw new Error(`menü sürümü ${id} geri alınamadı, kayıtlı belge artık geçersiz: ${nedenler}`)
   }
-  return yayinla(b, sonuc.belge, 'geriAl', taban)
+  return yayinla(b, y, { belge: sonuc.belge, kaynak: 'geriAl', taban, eskiId: eski.id })
 }
