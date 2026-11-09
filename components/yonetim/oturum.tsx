@@ -6,7 +6,9 @@ import { BelgeHatasi } from '@/lib/menu/panel'
 import { doldur } from '@/lib/metin'
 import { API_KOKU, ApiHatasi, temelYetki, yonetimApiKur, type YonetimApi } from '@/lib/oyun/api'
 import type { BenYaniti } from '@/lib/yonetim/personel'
-import { OTURUM_ANAHTARI as ANAHTAR, oturumDepolari, oturumOku, oturumYaz, type Depo } from '@/lib/oyun/oturumDeposu'
+import {
+  baskaOturumMu, OTURUM_ANAHTARI as ANAHTAR, oturumDepolari, oturumOku, oturumYaz, type Depo,
+} from '@/lib/oyun/oturumDeposu'
 import stil from './oturum.module.css'
 
 /* Personel girişi ve oturumu: `/oyun/yonetim/` ve `/yonetim/` aynı anahtarı okur, tek girişle iki ekran. */
@@ -116,12 +118,15 @@ export function useOturum(): {
     depoIsle(sil, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
     setYetki(y)
   }, [])
+  /** Yalnız bu sekmenin anahtarını siler: başka sekmenin şifre değişimiyle yazdığı yeni kayıt kalır. */
   const cik = useCallback(() => {
     for (const depo of ['localStorage', 'sessionStorage'] as const) {
-      depoIsle(depo, 'silinemedi', (s) => s.removeItem(ANAHTAR), undefined)
+      depoIsle(depo, 'silinemedi', (s) => {
+        if (!yetki || !baskaOturumMu(s.getItem(ANAHTAR), yetki)) s.removeItem(ANAHTAR)
+      }, undefined)
     }
     setYetki(null)
-  }, [])
+  }, [yetki])
   const yenile = useCallback((y: string, bitis: string) => {
     gir(y, bitis, depoIsle('localStorage', 'okunamadı', (s) => s.getItem(ANAHTAR) !== null, false))
   }, [gir])

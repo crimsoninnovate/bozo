@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { oturumDepolari, oturumOku, oturumYaz } from './oturumDeposu.ts'
+import { baskaOturumMu, oturumDepolari, oturumOku, oturumYaz } from './oturumDeposu.ts'
 
 const SIMDI = Date.parse('2026-10-26T12:00:00Z')
 const GELECEK = new Date(SIMDI + 60_000).toISOString()
@@ -49,4 +49,22 @@ test('oturumDepolari_kaliciYazimDustu_sessiondaTutarLocalTemizler', () => {
 
 test('oturumDepolari_hatirlaKapali_sessiondaTutarLocalTemizler', () => {
   assert.deepEqual(oturumDepolari(false, false), { tut: 'sessionStorage', sil: 'localStorage' })
+})
+
+test('baskaOturumMu_kayitReddedilenAnahtar_false', () => {
+  assert.equal(baskaOturumMu(oturumYaz(anahtar, GELECEK), anahtar), false)
+  assert.equal(baskaOturumMu(oturumYaz(anahtar, GECMIS), anahtar), false)
+  assert.equal(baskaOturumMu('Basic eDp5', 'Basic eDp5'), false)
+})
+
+test('baskaOturumMu_kayitYeniAnahtar_true', () => {
+  const yeni = `Bearer ${SIMDI + 1}.${'b'.repeat(64)}`
+  assert.equal(baskaOturumMu(oturumYaz(yeni, GELECEK), anahtar), true)
+  assert.equal(baskaOturumMu('Basic eDp5', anahtar), true)
+})
+
+test('baskaOturumMu_bosYaDaBozukKayit_false', () => {
+  for (const ham of [null, '', '{', 'null', '{}', JSON.stringify({ yetki: 5 })]) {
+    assert.equal(baskaOturumMu(ham, anahtar), false, String(ham))
+  }
 })

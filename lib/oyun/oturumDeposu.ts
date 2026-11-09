@@ -38,3 +38,21 @@ export function oturumOku(ham: string | null, simdi: number, eskiBicim: boolean)
   if (typeof yetki !== 'string' || !yetki.startsWith('Bearer ') || typeof bitis !== 'string') return null
   return Date.parse(bitis) > simdi ? yetki : null
 }
+
+/**
+ * Depodaki kayıt reddedilen anahtardan başka bir oturum mu? Bir sekmede şifre değişince yeni anahtar
+ * yazılır; eski anahtarla 401 alan öbür sekme o kaydı silmemeli. Süre burada önemsiz.
+ */
+export function baskaOturumMu(ham: string | null, reddedilen: string): boolean {
+  if (!ham) return false
+  if (ham.startsWith('Basic ')) return ham !== reddedilen
+  let kayit: unknown
+  try {
+    kayit = JSON.parse(ham)
+  } catch {
+    return false
+  }
+  if (typeof kayit !== 'object' || kayit === null) return false
+  const { yetki } = kayit as Record<string, unknown>
+  return typeof yetki === 'string' && yetki !== reddedilen
+}
