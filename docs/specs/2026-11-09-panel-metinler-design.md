@@ -63,6 +63,10 @@ sonrası kısmı (`hero › govde`). Değişmiş alanın yanında "Varsayılana 
 değişikliği "Siteyi Güncelle" ile yayına çıkar. Yayın onayındaki değişiklik listesi ve Geçmiş farkı
 metin değişikliklerini gösterir (`fark.ts`).
 
+**Uygulamada eklenenler.** Yalnız yer tutucudan oluşan iki metin (`{kapanis}` gibi) listede değil: 119 metin.
+Kod değişince geçersizleşen metin (silinen anahtar, değişen yer tutucu) okurken uyarıyla düşer
+(`metinleriAyikla`: panel, taslak, derleme, sunucunun tamamlaması); yazarken doğrulama katı kalır.
+
 ## Kurucuya kalanlar
 
 - Panelde alan etiketlerinin biçimi ve sayfa seçiminin görünümü (mevcut sekmelerin kalıbıyla).
