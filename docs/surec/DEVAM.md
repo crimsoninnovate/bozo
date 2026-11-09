@@ -8,6 +8,12 @@ Son güncelleme: 9 Kasım 2026
 
 ## Durum
 
+- **Panel iyileştirmeleri (9 Kasım akşamı).** Yayın onayı, Türkçesiyle aynı kalmış İngilizce metni uyarır
+  (Türkçe harf ya da en az üç kelime varsa; Cola, Ayran gibi kısa adlar aynı kalabilir); uyarılar ikram ve
+  duyuru kayıtlarını da adıyla gösterir. Derleme ya da yükleme `hata` ile biterse `bozo@cigercibozo.com`'a bir
+  e-posta gider (`sunucu/derleme/uyari.sh`, `bozo-uyari.{path,service}`, arc'ta açık; SMTP ile, DKIM imzalı,
+  deneme `web@`'e ulaştı). Sahibin bıraktığı öneriler: önizleme ve kullanılmayan fotoğraf temizliği gerekmez.
+
 - **Panel: fotoğraflar, saatler, siteyi güncelle (9 Kasım, `feat/panel-icerik`, 9 Kasım'da `main`'e
   birleştirildi ve canlıya alındı).** Menü belgesinde `saatler` ve `fotograflar`
   bölümleri; metinlerdeki saatler derlemede belgeden dolar, rozet canlı saatle çalışır; yuvalar fotoğrafı

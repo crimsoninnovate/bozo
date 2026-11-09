@@ -37,8 +37,9 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   credential (no oracle); the POST stays in that bucket.
 - The build and upload that the rebuild request triggers live outside the Node process, in `sunucu/derleme/`:
   `derle.sh` (user `bozo-derleme`, no root, inside the `Dockerfile` image that `kap.sh` runs: arc's glibc 2.28
-  is too old for Next's native SWC), `yukle.sh` (root, fixed paths, no input), `ortak.sh`, and the
-  `bozo-derleme.path`, `bozo-derleme.service`, `bozo-yukle.service` units, tested by `derleme.test.ts`. The scripts
+  is too old for Next's native SWC), `yukle.sh` (root, fixed paths, no input), `ortak.sh`, `uyari.sh` (one email
+  per `hata`, SMTP to the local Postfix) and the `bozo-derleme.path`, `bozo-derleme.service`, `bozo-yukle.service`,
+  `bozo-uyari.path`, `bozo-uyari.service` units, tested by `derleme.test.ts`. The scripts
   are installed to `/opt/bozo-derleme/`, not run from the repo. Env: `FOTO_DIZINI` and `DERLEME_DIZINI` are optional
   (unset means the matching endpoint answers 503). Setup: `docs/surec/SUNUCU-CANLIYA-ALMA.md` > Panelden site yayını.
 - Staff auth: Basic, or `Authorization: Bearer <bitisMs>.<hmac>` minted by `POST /yonetim/oturum` (Basic only,

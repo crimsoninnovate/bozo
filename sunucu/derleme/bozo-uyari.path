@@ -1,0 +1,10 @@
+# Emails the owner when a build or upload ends in `hata` (uyari.sh sends once per failure).
+[Unit]
+Description=Ciğerci Bozo build status watch
+
+[Path]
+PathChanged=/var/lib/bozo-derleme/panel/durum.json
+Unit=bozo-uyari.service
+
+[Install]
+WantedBy=multi-user.target

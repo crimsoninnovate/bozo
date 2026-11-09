@@ -6,6 +6,7 @@ import {
   chmodSync, existsSync, linkSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, symlinkSync,
   writeFileSync,
 } from 'node:fs'
+import { createServer, type AddressInfo } from 'node:net'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,6 +19,7 @@ import type { Baglam } from '../uclar.ts'
 const BURASI = dirname(fileURLToPath(import.meta.url))
 const DERLE = join(BURASI, 'derle.sh')
 const YUKLE = join(BURASI, 'yukle.sh')
+const UYARI = join(BURASI, 'uyari.sh')
 const BEKCI = ['index.html', 'favicon.svg', 'sosyal-kart.jpg', 'marka/rozet.svg', 'foto/tane-yakin-cekim.webp']
 
 type Ortam = { kok: string; panel: string; depo: string; cikti: string; sahte: string; gecici: string }
@@ -79,7 +81,7 @@ async function durumOku(o: Ortam): Promise<{ ham: DerlemeDurumu; okunan: Derleme
 }
 
 test('betikler_bashSozdizimi_gecerli', () => {
-  for (const betik of [DERLE, YUKLE, join(BURASI, 'ortak.sh')]) {
+  for (const betik of [DERLE, YUKLE, UYARI, join(BURASI, 'ortak.sh')]) {
     const r = spawnSync('bash', ['-n', betik], { encoding: 'utf8' })
     assert.equal(r.status, 0, `${betik}: ${r.stderr}`)
   }
@@ -343,4 +345,120 @@ test('yukle_basarili_sahneVeSahiplikIziKalmaz', () => {
   ciktiKur(o)
   assert.equal(yukleKuru(o).status, 0)
   assert.deepEqual(readdirSync(o.gecici), [])
+})
+
+type SahteSmtp = { port: number; komutlar: string[]; iletiler: string[]; kapat: () => Promise<void> }
+
+/** 127.0.0.1'de en küçük SMTP sunucusu; `RCPT` yanıtı `rcpt` koduyla döner. */
+async function sahteSmtp(rcpt = 250): Promise<SahteSmtp> {
+  const komutlar: string[] = []
+  const iletiler: string[] = []
+  const sunucu = createServer((s) => {
+    s.setEncoding('utf8')
+    s.write('220 sahte\r\n')
+    let tampon = ''
+    let ileti: string[] | null = null
+    s.on('data', (parca: string) => {
+      tampon += parca
+      for (let n = tampon.indexOf('\r\n'); n >= 0; n = tampon.indexOf('\r\n')) {
+        const satir = tampon.slice(0, n)
+        tampon = tampon.slice(n + 2)
+        if (ileti) {
+          if (satir === '.') { iletiler.push(ileti.join('\n')); ileti = null; s.write('250 tamam\r\n') }
+          else ileti.push(satir)
+          continue
+        }
+        komutlar.push(satir)
+        if (satir.startsWith('EHLO')) s.write('250-sahte\r\n250 8BITMIME\r\n')
+        else if (satir.startsWith('RCPT')) s.write(`${rcpt} alici\r\n`)
+        else if (satir === 'DATA') { ileti = []; s.write('354 yaz\r\n') }
+        else if (satir === 'QUIT') s.end('221 hosca\r\n')
+        else s.write('250 tamam\r\n')
+      }
+    })
+  })
+  await new Promise<void>((coz) => sunucu.listen(0, '127.0.0.1', coz))
+  const port = (sunucu.address() as AddressInfo).port
+  return { port, komutlar, iletiler, kapat: () => new Promise((coz) => sunucu.close(() => coz())) }
+}
+
+function durumKoy(o: Ortam, durum: Partial<DerlemeDurumu>): void {
+  writeFileSync(join(o.panel, 'durum.json'), JSON.stringify({ surum: null, gunluk: [], ...durum }))
+}
+
+/** spawnSync sahte sunucunun döngüsünü kilitler: betik eşzamansız koşar. */
+const uyariCalistir = (o: Ortam, port: number, ek: Record<string, string> = {}) =>
+  new Promise<number>((coz) => {
+    const ortam = env(o, { UYARI_ALICI: 'sahip@example.com', UYARI_SMTP_PORT: String(port), ...ek })
+    spawn('bash', [UYARI], { env: ortam, stdio: 'ignore' }).on('close', (kod) => coz(kod ?? -1))
+  })
+
+test('uyari_hata_birKezPostaGider', async () => {
+  const o = ortamKur()
+  const smtp = await sahteSmtp()
+  durumKoy(o, {
+    asama: 'hata', zaman: '2026-11-09T18:00:00.000Z',
+    gunluk: ['npm error build failed', '\x1b]0;baslik\x07kontrol', '.tek nokta'],
+  })
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  assert.ok(smtp.komutlar.includes('MAIL FROM:<web@cigercibozo.com>'))
+  assert.ok(smtp.komutlar.includes('RCPT TO:<sahip@example.com>'))
+  const ileti = smtp.iletiler[0] ?? ''
+  assert.match(ileti, /^Subject: =\?UTF-8\?B\?[A-Za-z0-9+/=]+\?=$/m)
+  assert.match(ileti, /npm error build failed/)
+  assert.match(ileti, /20:00/, 'Girne saati')
+  assert.match(ileti, /^\.\.tek nokta$/m, 'nokta ile başlayan satır ikilenir')
+  assert.doesNotMatch(ileti, /[\x00-\x08\x0b-\x1f\x7f]/, 'kontrol karakteri kalmaz')
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  assert.equal(smtp.iletiler.length, 1, 'aynı hata ikinci kez gönderilmez')
+  await smtp.kapat()
+})
+
+test('uyari_yeniHata_yenidenGider', async () => {
+  const o = ortamKur()
+  const smtp = await sahteSmtp()
+  durumKoy(o, { asama: 'hata', zaman: '2026-11-09T18:00:00.000Z' })
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  durumKoy(o, { asama: 'hata', zaman: '2026-11-09T19:00:00.000Z' })
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  assert.equal(smtp.iletiler.length, 2)
+  await smtp.kapat()
+})
+
+test('uyari_hataDegilYaDaAliciYokYaDaDurumBozuk_postaGitmez', async () => {
+  const smtp = await sahteSmtp()
+  for (const asama of ['yayinda', 'derleniyor'] as const) {
+    const o = ortamKur()
+    durumKoy(o, { asama, zaman: '2026-11-09T18:00:00.000Z' })
+    assert.equal(await uyariCalistir(o, smtp.port), 0, asama)
+  }
+  const o = ortamKur()
+  durumKoy(o, { asama: 'hata', zaman: '2026-11-09T18:00:00.000Z' })
+  assert.equal(await uyariCalistir(o, smtp.port, { UYARI_ALICI: '' }), 0)
+  writeFileSync(join(o.panel, 'durum.json'), '{bozuk')
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  assert.equal(smtp.komutlar.length, 0)
+  await smtp.kapat()
+})
+
+test('uyari_adresBirdenFazla_reddeder', async () => {
+  const o = ortamKur()
+  const smtp = await sahteSmtp()
+  durumKoy(o, { asama: 'hata', zaman: '2026-11-09T18:00:00.000Z' })
+  assert.equal(await uyariCalistir(o, smtp.port, { UYARI_ALICI: 'a@example.com,b@example.com' }), 2)
+  assert.equal(await uyariCalistir(o, smtp.port, { UYARI_ALICI: 'a@example.com\nBcc: b@example.com' }), 2)
+  assert.equal(smtp.komutlar.length, 0)
+  await smtp.kapat()
+})
+
+test('uyari_sunucuReddeder_cikis1VeSonrakiCalismaYenidenDener', async () => {
+  const o = ortamKur()
+  const ret = await sahteSmtp(550)
+  durumKoy(o, { asama: 'hata', zaman: '2026-11-09T18:00:00.000Z' })
+  assert.equal(await uyariCalistir(o, ret.port), 1)
+  await ret.kapat()
+  const smtp = await sahteSmtp()
+  assert.equal(await uyariCalistir(o, smtp.port), 0)
+  assert.equal(smtp.iletiler.length, 1)
+  await smtp.kapat()
 })

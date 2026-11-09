@@ -106,9 +106,10 @@ Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta 
 | Hazırlık dizini | `/var/lib/bozo-derleme/cikti` (son başarılı `out/` ve `menu.canli.meta.json`) |
 | Derleme günlüğü | `/var/lib/bozo-derleme/derleme.log` (son 200 satırı `durum.json`'a da yazılır) |
 | Panel dosyaları | `/var/lib/bozo-derleme/panel/` = `DERLEME_DIZINI`: `istek` (skor sunucusu yazar), `durum.json` (betikler yazar) |
-| Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh,kap.sh}`, sahip `root`, 0755 |
+| Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh,kap.sh,uyari.sh}`, sahip `root`, 0755 |
 | Derleme imajı | `bozo-derleme:1` (`sunucu/derleme/Dockerfile`, `node:24-bookworm-slim`): arc'ın glibc 2.28'i Next'in yerel SWC/Turbopack ikilisine yetmez (2.29 ister). `kap.sh` `derle.sh`'ı bu konteynerde `bozo-derleme` olarak, yetkisiz çalıştırır |
 | Birimler | `bozo-derleme.path` -> `bozo-derleme.service` (kullanıcı `bozo-derleme`) -> `ExecStartPost=+` `bozo-yukle.service` (root; arc'ta systemd 239, `OnSuccess=` 249 ister) |
+| Hata e-postası | `bozo-uyari.path` `durum.json`'u izler -> `bozo-uyari.service` (kullanıcı `bozo-derleme`): her `hata` için bir kez `bozo@cigercibozo.com`'a, gönderen `web@cigercibozo.com`. Son gönderilen hatanın `zaman`'ı `/var/lib/bozo-derleme/uyari-son`'da |
 | Fotoğraflar | `/var/lib/bozo-oyun/foto` = `FOTO_DIZINI`, nginx `https://api.cigercibozo.com/foto/<ad>` olarak sunar |
 
 **Yetki ayrımı.** Skor sunucusu yalnız `panel/istek` yazar ve `panel/durum.json` okur; derlemeye ve
@@ -184,15 +185,17 @@ sudo -u bozo-derleme sh -c 'umask 0027 && git clone --branch main git@github.com
 
 # 4. Betikler ve birimler (yerelden: rsync -a sunucu/derleme/ plesk-206:/root/bozo-derleme-kaynak/)
 install -d -o root -g root -m 0755 /opt/bozo-derleme
-install -o root -g root -m 0755 /root/bozo-derleme-kaynak/{derle.sh,yukle.sh,ortak.sh,kap.sh} /opt/bozo-derleme/
+install -o root -g root -m 0755 /root/bozo-derleme-kaynak/{derle.sh,yukle.sh,ortak.sh,kap.sh,uyari.sh} \
+  /opt/bozo-derleme/
 # Derleme imajı; kimlikler ana makinedekiyle aynı olmalı (ssh ve git gerçek bir kullanıcı görür)
 docker build --pull -t bozo-derleme:1 --build-arg UID=$(id -u bozo-derleme) \
   --build-arg GID=$(id -g bozo-derleme) /root/bozo-derleme-kaynak
-install -o root -g root -m 0644 /root/bozo-derleme-kaynak/bozo-{derleme.path,derleme.service,yukle.service} \
+install -o root -g root -m 0644 \
+  /root/bozo-derleme-kaynak/bozo-{derleme.path,derleme.service,yukle.service,uyari.path,uyari.service} \
   /etc/systemd/system/
 systemctl daemon-reload
-systemd-analyze verify /etc/systemd/system/bozo-derleme.{path,service} /etc/systemd/system/bozo-yukle.service
-systemctl enable --now bozo-derleme.path
+systemd-analyze verify /etc/systemd/system/bozo-{derleme,uyari}.{path,service} /etc/systemd/system/bozo-yukle.service
+systemctl enable --now bozo-derleme.path bozo-uyari.path
 
 # 5. Fotoğraf dizini, skor sunucusunun kullanıcısına ait (birimde User= yoksa çıktı boştur, süreç root'tur)
 OYUN_KULLANICISI=$(systemctl show -p User --value bozo-oyun); OYUN_KULLANICISI=${OYUN_KULLANICISI:-root}
@@ -269,7 +272,7 @@ kullanıcıyla çalışır: `foto.ts` her dosyayı umask'tan bağımsız 0644 ya
 
 ```bash
 systemctl start bozo-derleme.service            # istek dosyası olmadan da bir derleme
-journalctl -u bozo-derleme -u bozo-yukle -n 50  # birimlerin sonucu; yükleme çıktısı da burada
+journalctl -u bozo-derleme -u bozo-yukle -u bozo-uyari -n 50  # birimlerin sonucu; yükleme çıktısı da burada
 tail -n 50 /var/lib/bozo-derleme/derleme.log     # derleme çıktısı
 cat /var/lib/bozo-derleme/panel/durum.json
 ```
@@ -286,6 +289,11 @@ cat /var/lib/bozo-derleme/panel/durum.json
 - İmaj güncellemesi (Node yaması, `Dockerfile` değişikliği): kurulumdaki `docker build` satırı yeniden çalıştırılır.
   Zaman aşımında `docker` istemcisi öldürülürse konteyner kalabilir; birim `ExecStopPost=` ile `docker rm -f
   bozo-derleme-kap` çalıştırır.
+- Hata e-postası `sendmail` ile değil, `127.0.0.1:25` üzerinden SMTP ile gider: Plesk'in DKIM imzası yalnız
+  `smtpd_milters`'ta, `non_smtpd_milters` boş. Ayrıca `/usr/sbin/sendmail` sunucu yöneticisinin
+  `postfix-sendmail-wrapper` betiğine bağlı ve bu betik hata verse de 0 ile çıkıyor (9 Kasım 2026'da denendi).
+  Gönderim düşerse birim başarısız olur ve iz yazılmaz; sonraki `durum.json` değişikliği aynı hatayı yeniden
+  dener. Alıcıyı değiştirmek için birimdeki `UYARI_ALICI` değiştirilir, boş bırakılırsa e-posta kapanır.
 - Geri alma: `systemctl disable --now bozo-derleme.path`. Düğme istek yazmaya devam eder, derleme
   başlamaz; site `npm run yayinla` ile elle yayınlanır, ikisi aynı httpdocs'u aynı sahiplerle yazar.
 

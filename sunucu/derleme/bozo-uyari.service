@@ -1,0 +1,25 @@
+# Build failure email as bozo-derleme. Started by bozo-uyari.path.
+[Unit]
+Description=Ciğerci Bozo build failure email
+
+[Service]
+Type=oneshot
+User=bozo-derleme
+Group=bozo-derleme
+Environment=DERLEME_DIZINI=/var/lib/bozo-derleme/panel
+Environment=PATH=/opt/plesk/node/24/bin:/usr/bin:/bin
+Environment=UYARI_ALICI=bozo@cigercibozo.com
+ExecStart=/opt/bozo-derleme/uyari.sh
+TimeoutStartSec=2min
+UMask=0027
+NoNewPrivileges=yes
+ProtectSystem=strict
+# Only the `uyari-son` mark is written; SMTP goes to 127.0.0.1:25.
+ReadWritePaths=/var/lib/bozo-derleme
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_UNIX
