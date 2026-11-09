@@ -94,7 +94,7 @@ bundan önce yalnız bellek deposuyla test edilmişti:
 3. `bozo_site_k` kullanıcısının `menu_surum` üzerinde `SELECT`, `INSERT` yetkisi olduğunu
    (`SHOW GRANTS FOR bozo_site_k@'%'`) ve şemanın uygulandığını (`SHOW TABLES LIKE 'menu_surum'`) doğrula.
 
-## Panelden site yayını ve fotoğraflar (Kasım 2026, canlıya alınmadı)
+## Panelden site yayını ve fotoğraflar (canlıda, 9 Kasım 2026)
 
 Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta yapılacak kurulum. Tasarım:
 `docs/specs/2026-11-09-panel-icerik-design.md` > C. Betikler ve birimler `sunucu/derleme/`'de.
@@ -106,7 +106,8 @@ Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta 
 | Hazırlık dizini | `/var/lib/bozo-derleme/cikti` (son başarılı `out/` ve `menu.canli.meta.json`) |
 | Derleme günlüğü | `/var/lib/bozo-derleme/derleme.log` (son 200 satırı `durum.json`'a da yazılır) |
 | Panel dosyaları | `/var/lib/bozo-derleme/panel/` = `DERLEME_DIZINI`: `istek` (skor sunucusu yazar), `durum.json` (betikler yazar) |
-| Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh}`, sahip `root`, 0755 |
+| Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh,kap.sh}`, sahip `root`, 0755 |
+| Derleme imajı | `bozo-derleme:1` (`sunucu/derleme/Dockerfile`, `node:24-bookworm-slim`): arc'ın glibc 2.28'i Next'in yerel SWC/Turbopack ikilisine yetmez (2.29 ister). `kap.sh` `derle.sh`'ı bu konteynerde `bozo-derleme` olarak, yetkisiz çalıştırır |
 | Birimler | `bozo-derleme.path` -> `bozo-derleme.service` (kullanıcı `bozo-derleme`) -> `ExecStartPost=+` `bozo-yukle.service` (root; arc'ta systemd 239, `OnSuccess=` 249 ister) |
 | Fotoğraflar | `/var/lib/bozo-oyun/foto` = `FOTO_DIZINI`, nginx `https://api.cigercibozo.com/foto/<ad>` olarak sunar |
 
@@ -164,6 +165,8 @@ install -d -o bozo-derleme -g bozo-panel -m 0710 /var/lib/bozo-derleme
 install -d -o bozo-derleme -g bozo-panel -m 3770 /var/lib/bozo-derleme/panel
 install -d -o bozo-derleme -g bozo-derleme -m 0700 /var/lib/bozo-derleme/.ssh
 install -d -o bozo-derleme -g bozo-derleme -m 0750 /var/lib/bozo-derleme/depo
+# Konteyner ile ExecStopPost= arasında paylaşılan sahiplik izi (TMPDIR)
+install -d -o bozo-derleme -g bozo-derleme -m 0700 /var/lib/bozo-derleme/tmp
 # Derleme kullanıcısı zamanlanmış iş kuramaz (birim dışında süreci olmasın)
 echo bozo-derleme >> /etc/cron.deny; echo bozo-derleme >> /etc/at.deny
 
@@ -179,7 +182,10 @@ sudo -u bozo-derleme sh -c 'umask 0027 && git clone --branch main git@github.com
 
 # 4. Betikler ve birimler (yerelden: rsync -a sunucu/derleme/ plesk-206:/root/bozo-derleme-kaynak/)
 install -d -o root -g root -m 0755 /opt/bozo-derleme
-install -o root -g root -m 0755 /root/bozo-derleme-kaynak/{derle.sh,yukle.sh,ortak.sh} /opt/bozo-derleme/
+install -o root -g root -m 0755 /root/bozo-derleme-kaynak/{derle.sh,yukle.sh,ortak.sh,kap.sh} /opt/bozo-derleme/
+# Derleme imajı; kimlikler ana makinedekiyle aynı olmalı (ssh ve git gerçek bir kullanıcı görür)
+docker build --pull -t bozo-derleme:1 --build-arg UID=$(id -u bozo-derleme) \
+  --build-arg GID=$(id -g bozo-derleme) /root/bozo-derleme-kaynak
 install -o root -g root -m 0644 /root/bozo-derleme-kaynak/bozo-{derleme.path,derleme.service,yukle.service} \
   /etc/systemd/system/
 systemctl daemon-reload
@@ -275,6 +281,9 @@ cat /var/lib/bozo-derleme/panel/durum.json
   sebebi giderip `systemctl reset-failed bozo-derleme.service bozo-derleme.path`.
 - `bozo-yukle.service` `NoNewPrivileges=yes` taşır; `plesk repair fs` bundan etkilenirse (SELinux
   geçişi gibi) ilk bakılacak yer burası.
+- İmaj güncellemesi (Node yaması, `Dockerfile` değişikliği): kurulumdaki `docker build` satırı yeniden çalıştırılır.
+  Zaman aşımında `docker` istemcisi öldürülürse konteyner kalabilir; birim `ExecStopPost=` ile `docker rm -f
+  bozo-derleme-kap` çalıştırır.
 - Geri alma: `systemctl disable --now bozo-derleme.path`. Düğme istek yazmaya devam eder, derleme
   başlamaz; site `npm run yayinla` ile elle yayınlanır, ikisi aynı httpdocs'u aynı sahiplerle yazar.
 

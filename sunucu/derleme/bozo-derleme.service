@@ -1,4 +1,4 @@
-# Site build as bozo-derleme (no root). Started by bozo-derleme.path; uploads via bozo-yukle.service.
+# Site build as bozo-derleme in a container (kap.sh). Started by bozo-derleme.path; uploads via bozo-yukle.service.
 [Unit]
 Description=Ciğerci Bozo site build
 # A request made mid-build starts this unit again as the upload starts: the upload goes first.
@@ -12,15 +12,18 @@ Environment=DERLEME_DIZINI=/var/lib/bozo-derleme/panel
 Environment=DEPO=/var/lib/bozo-derleme/depo
 Environment=CIKTI=/var/lib/bozo-derleme/cikti
 Environment=PATH=/opt/plesk/node/24/bin:/usr/local/bin:/usr/bin:/bin
-Environment=NEXT_TELEMETRY_DISABLED=1 NO_COLOR=1 FORCE_COLOR=0
-ExecStart=/opt/bozo-derleme/derle.sh
+# Shared by the container and ExecStopPost=: the ownership mark must outlive the container.
+Environment=TMPDIR=/var/lib/bozo-derleme/tmp
+# `+`: root only for the docker CLI; the container runs derle.sh as bozo-derleme (kap.sh).
+ExecStart=+/opt/bozo-derleme/kap.sh
 # Runs only when ExecStart succeeded; `+` is root. arc has systemd 239, OnSuccess= needs 249.
 ExecStartPost=+/usr/bin/systemctl start --no-block bozo-yukle.service
-# Writes `hata` if the unit died past its trap (SIGKILL after the timeout).
+# A SIGKILLed docker CLI leaves the container running: remove it before closing the status.
+ExecStopPost=-+/usr/bin/docker rm -f bozo-derleme-kap
+# Writes `hata` if the unit died past its trap (SIGKILL after the timeout), on the host's node.
 ExecStopPost=/opt/bozo-derleme/derle.sh
 # A build takes about seven minutes; the rest covers npm ci and up to 15 min waiting on an upload.
 TimeoutStartSec=40min
-Nice=10
 UMask=0027
 NoNewPrivileges=yes
 ProtectSystem=strict
