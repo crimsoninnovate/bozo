@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Upload of the staged build: bozo-yukle.service, root, OnSuccess= of bozo-derleme.service.
+# Upload of the staged build: bozo-yukle.service, root, started by bozo-derleme.service's ExecStartPost=.
 # Takes no input: no arguments, fixed paths. Steps and owners are scripts/yayinla.sh's server half.
 # YUKLE_KURU=1 (tests only) runs the guard and the status write, and only then reads paths from the env.
 set -euo pipefail

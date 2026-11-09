@@ -107,7 +107,7 @@ Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta 
 | Derleme günlüğü | `/var/lib/bozo-derleme/derleme.log` (son 200 satırı `durum.json`'a da yazılır) |
 | Panel dosyaları | `/var/lib/bozo-derleme/panel/` = `DERLEME_DIZINI`: `istek` (skor sunucusu yazar), `durum.json` (betikler yazar) |
 | Betikler | `/opt/bozo-derleme/{derle.sh,yukle.sh,ortak.sh}`, sahip `root`, 0755 |
-| Birimler | `bozo-derleme.path` -> `bozo-derleme.service` (kullanıcı `bozo-derleme`) -> `OnSuccess=` `bozo-yukle.service` (root) |
+| Birimler | `bozo-derleme.path` -> `bozo-derleme.service` (kullanıcı `bozo-derleme`) -> `ExecStartPost=+` `bozo-yukle.service` (root; arc'ta systemd 239, `OnSuccess=` 249 ister) |
 | Fotoğraflar | `/var/lib/bozo-oyun/foto` = `FOTO_DIZINI`, nginx `https://api.cigercibozo.com/foto/<ad>` olarak sunar |
 
 **Yetki ayrımı.** Skor sunucusu yalnız `panel/istek` yazar ve `panel/durum.json` okur; derlemeye ve

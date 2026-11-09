@@ -119,7 +119,7 @@ pencere geçerli ve bu yapılmıyor. Genişleme yolu eklemeli, bugünkü kod ve 
   canlıya alırken sahibinin onayıyla eklenir), Node 24 (oyun sunucusununki), systemd birimleri.
 - **Yetki ayrımı (benim kararım).** İki birim: (1) `bozo-derleme` kullanıcısıyla çalışan derleme
   servisi `git pull`, `npm ci`, `npm run build` yapar ve çıktıyı kendi hazırlık dizinine koyar; root
-  yetkisi yok. (2) Ancak (1) başarıyla bitince (`OnSuccess=`) çalışan root oneshot: sabit yoldaki hazırlık
+  yetkisi yok. (2) Ancak (1) başarıyla bitince (`ExecStartPost=+`, arc'ta systemd 239 `OnSuccess=` tanımıyor) çalışan root oneshot: sabit yoldaki hazırlık
   dizinini httpdocs'a `rsync --delete` eder, `chown`/`chmod` ve `plesk repair fs` çalıştırır. Bu betik
   dışarıdan girdi almaz, yolları sabittir. sudoers kuralı yok. Skor sunucusu yalnızca bir istek dosyası yazar (`/var/lib/bozo-derleme/panel/istek`; `panel/` alt dizin, web süreci derleme ağacının köküne yazamaz),
   derlemeyi kendisi başlatmaz: web sürecinin yetkisi build ve rsync'e uzanmaz.

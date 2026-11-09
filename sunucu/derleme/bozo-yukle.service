@@ -1,4 +1,4 @@
-# Root upload of the staged build to httpdocs. Only OnSuccess= of bozo-derleme.service starts it.
+# Root upload of the staged build to httpdocs. Only bozo-derleme.service's ExecStartPost= starts it.
 [Unit]
 Description=Ciğerci Bozo site upload
 

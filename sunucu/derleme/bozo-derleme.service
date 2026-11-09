@@ -1,7 +1,6 @@
 # Site build as bozo-derleme (no root). Started by bozo-derleme.path; uploads via bozo-yukle.service.
 [Unit]
 Description=Ciğerci Bozo site build
-OnSuccess=bozo-yukle.service
 # A request made mid-build starts this unit again as the upload starts: the upload goes first.
 After=bozo-yukle.service
 
@@ -15,6 +14,8 @@ Environment=CIKTI=/var/lib/bozo-derleme/cikti
 Environment=PATH=/opt/plesk/node/24/bin:/usr/local/bin:/usr/bin:/bin
 Environment=NEXT_TELEMETRY_DISABLED=1 NO_COLOR=1 FORCE_COLOR=0
 ExecStart=/opt/bozo-derleme/derle.sh
+# Runs only when ExecStart succeeded; `+` is root. arc has systemd 239, OnSuccess= needs 249.
+ExecStartPost=+/usr/bin/systemctl start --no-block bozo-yukle.service
 # Writes `hata` if the unit died past its trap (SIGKILL after the timeout).
 ExecStopPost=/opt/bozo-derleme/derle.sh
 # A build takes about seven minutes; the rest covers npm ci and up to 15 min waiting on an upload.
