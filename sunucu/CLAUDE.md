@@ -33,9 +33,9 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   `bos` plus one `console.warn`, `gunluk` capped at 200 lines) and reports `sirada` when `istek` exists and the build is
   not `derleniyor`. The web process never builds. Without `DERLEME_DIZINI` it answers 503 `derlemeKapali`. The panel
   polls the GET every 5 s, so it has its own per-IP bucket (1200/hour, `DERLEME_SAATLIK`) and skips the 60/hour
-  `/yonetim/*` bucket for valid staff credentials only (a wrong password counts against the 60/hour bucket like on any
-  other route), and once that 60/hour bucket or the general 600/hour one is spent the GET answers 429 for every
-  credential (no oracle); the POST stays in that bucket.
+  `/yonetim/*` bucket for a valid Bearer token only (Basic, right or wrong, is counted in the 60/hour bucket before
+  its scrypt, like on any other route), and once that 60/hour bucket or the general 600/hour one is spent the GET
+  answers 429 for every credential (no oracle); the POST stays in that bucket.
 - The build and upload that the rebuild request triggers live outside the Node process, in `sunucu/derleme/`:
   `derle.sh` (user `bozo-derleme`, no root, inside the `Dockerfile` image that `kap.sh` runs: arc's glibc 2.28
   is too old for Next's native SWC), `yukle.sh` (root, fixed paths, no input), `ortak.sh`, `uyari.sh` (one email
@@ -55,6 +55,10 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   logs out on 401. Panel actions go to `yonetim_islem` through `islemYaz` (a log failure never fails the
   action), kept one year (`isler.ts`). Do not rotate `GIZLI_TUZ` to revoke sessions: it also breaks every unredeemed
   reward code (`kodOzeti` hashes with the same salt).
+- Hardening from the 10 November 2026 audit: `/yonetim` 401s carry no `WWW-Authenticate` (the browser must not
+  cache Basic and replay it cross-site); a non-GET `/yonetim` request with an `Origin` outside `KOKEN` gets 403
+  `kokenGecersiz`; rate-limit keys are `kovaAnahtari` (IPv6 by /64); a hidden player's flag is copied to `kazanan.gizli`
+  before the player row is deleted (self-delete or retention), so a hidden champion stays hidden on `/tablo`.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

@@ -27,7 +27,7 @@ const SIRA_SECIM =
 const EN_IYILER = `SELECT *, ROW_NUMBER() OVER (PARTITION BY oyuncu_id ORDER BY ${SIRA}) AS sira_no FROM tur`
 const KAZANAN_SECIM =
   'k.id, k.donem, k.sira, k.oyuncu_id AS oyuncuId, k.takma_ad AS takmaAd, k.puan, k.kod_ozeti AS kodOzeti, ' +
-  'k.deneme, k.gecerlilik_ms AS gecerlilik, k.kullanildi_ms AS kullanildi, COALESCE(o.gizli, 0) AS gizli ' +
+  'k.deneme, k.gecerlilik_ms AS gecerlilik, k.kullanildi_ms AS kullanildi, COALESCE(o.gizli, k.gizli) AS gizli ' +
   'FROM kazanan k LEFT JOIN oyuncu o ON o.id = k.oyuncu_id'
 
 /** `logParam: false`: sürücü varsayılanı hata metnine parametreleri (parola özeti dahil) yazar, hata günlüğe düşer. */
@@ -147,6 +147,9 @@ function jetonlar(q: Sorgu): Parca<'jetonEkle' | 'jetonBul' | 'jetonKullan' | 's
   }
 }
 
+/** Oyuncu silinmeden önce gizleme şampiyon kaydına kopyalanır: silinen gizli ad `/tablo`'da geri gelmez. */
+const GIZLIYI_KAZANANA = 'UPDATE kazanan k JOIN oyuncu o ON o.id = k.oyuncu_id SET k.gizli = 1 WHERE o.gizli = 1 AND '
+
 type OyuncuUclari = Parca<'oyuncuEkle' | 'oyuncuBul' | 'oyuncuGizle' | 'oyuncuSil' | 'eskiOyunculariSil'>
 
 function oyuncular(q: Sorgu): OyuncuUclari {
@@ -172,9 +175,11 @@ function oyuncular(q: Sorgu): OyuncuUclari {
       return (await q.yaz('UPDATE oyuncu SET gizli = ? WHERE id = ?', [gizli ? 1 : 0, id])).affectedRows === 1
     },
     async oyuncuSil(id) {
+      await q.yaz(GIZLIYI_KAZANANA + 'o.id = ?', [id])
       return (await q.yaz('DELETE FROM oyuncu WHERE id = ?', [id])).affectedRows === 1
     },
     async eskiOyunculariSil(oncesi) {
+      await q.yaz(GIZLIYI_KAZANANA + 'COALESCE(o.son_tur_ms, o.olusturma_ms) < ?', [oncesi])
       const r = await q.yaz('DELETE FROM oyuncu WHERE COALESCE(son_tur_ms, olusturma_ms) < ?', [oncesi])
       return r.affectedRows
     },

@@ -4,9 +4,16 @@ Bağlam sıfırlandıktan sonra ilk okunacak dosya budur. Kısa tutuluyor: burad
 durumu ve nereye bakılacağı var. Tarih sıralı kayıt `DEVAM-ARSIV.md`'de, kararların gerekçesi
 ve ölçümleri `IYILESTIRMELER.md`'de.
 
-Son güncelleme: 9 Kasım 2026
+Son güncelleme: 10 Kasım 2026
 
 ## Durum
+
+- **Güvenlik denetimi (10 Kasım, yerel `main`).** Tam denetim (`~/security-audit-skill/bozo/run-1/REPORT.md`):
+  doğrulanmış açık yok, beş ipucu var. Dördü sunucuda kapandı: `/yonetim` 401'i `WWW-Authenticate` göndermez,
+  `KOKEN` dışından gelen yönetim yazması 403 `kokenGecersiz`, hız sınırı IPv6'yı /64 ile sayar, temel kimlikli
+  `GET /yonetim/derleme` 60/saatlik kovaya girer, gizli şampiyon oyuncu silinince de gizli kalır
+  (`kazanan.gizli`, şema adımı `SUNUCU-CANLIYA-ALMA.md`). MariaDB sözleşme testi yerelde koşmadı
+  (`BOZO_TEST_DB_URL` yok). Beşincisi, `yukle.sh` ve `yayinla.sh`'ın root yayın adımı, sahibin onayını bekliyor.
 
 - **Panelden sayfa metinleri (9 Kasım gecesi, yerel `main`; push ve kurulum sahibinin onayını bekliyor).**
   Panelde "Sayfa Metinleri" sekmesi: Ana sayfa, Menü, Hikaye, Konum ve Galeri'nin 119 metni Türkçe ve

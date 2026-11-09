@@ -75,6 +75,9 @@ CREATE TABLE IF NOT EXISTS kazanan (
   CONSTRAINT kazanan_oyuncu_fk FOREIGN KEY (oyuncu_id) REFERENCES oyuncu (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+-- Silinen oyuncunun gizlemesi (denetim 10 Kasım 2026): yoksa gizli şampiyon adı `/tablo`'da geri gelir.
+ALTER TABLE kazanan ADD COLUMN IF NOT EXISTS gizli TINYINT(1) NOT NULL DEFAULT 0;
+
 CREATE TABLE IF NOT EXISTS gunluk_sayac (
   gun CHAR(10) NOT NULL,
   kanal ENUM('sofra', 'ig', 'site', 'yok') NOT NULL,

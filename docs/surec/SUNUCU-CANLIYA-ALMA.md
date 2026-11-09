@@ -107,8 +107,10 @@ anahtarları (`<bitisMs>.<hmac>`, sahibin bugünkü "Beni hatırla"sı) 15 Aral�
 
 **Kurulum sırası:**
 
-1. Şema: yukarıdaki `sema.sql` komutu (iki `CREATE TABLE IF NOT EXISTS` ve `ALTER TABLE menu_surum ADD COLUMN
-   IF NOT EXISTS yazar`; tekrar uygulamak zararsız). Sonra `SHOW GRANTS FOR bozo_site_k@'%'` ile kullanıcının
+1. Şema: yukarıdaki `sema.sql` komutu (iki `CREATE TABLE IF NOT EXISTS`, `ALTER TABLE menu_surum ADD COLUMN
+   IF NOT EXISTS yazar` ve `ALTER TABLE kazanan ADD COLUMN IF NOT EXISTS gizli`; tekrar uygulamak zararsız).
+   `kazanan.gizli` sütunu sunucudan önce gelmeli: yeni sunucu onu okur.
+   Sonra `SHOW GRANTS FOR bozo_site_k@'%'` ile kullanıcının
    yeni tablolarda `SELECT`, `INSERT`, `UPDATE`, `DELETE` yetkisi olduğunu doğrula (şifre ve kapatma `UPDATE`,
    bir yıllık budama `DELETE` ister).
 2. Skor sunucusu ("Sunucu güncellemesi"), sonra site. Ters sırada yeni panel `GET /yonetim/ben`'den 404 alır

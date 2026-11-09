@@ -132,7 +132,7 @@ function donemVeKazananTestleri(t: Testci): void {
     assert.deepEqual(await depo.acikDonemler(), [{ anahtar: '2026-10-12', baslangic: 2, bitis: 4, kapanis: null }])
   })
 
-  t('kazanan_ekleBulKullan_sonSampiyon_gizliYansir_oyuncuSilinceBagKopar', async (depo) => {
+  t('kazanan_ekleBulKullan_sonSampiyon_gizliYansir_oyuncuSilinceBagKoparGizliKalir', async (depo) => {
     const a = await oyuncuEkle(depo, 'A')
     const b = await oyuncuEkle(depo, 'B')
     const ortak = { donem: '2026-09-28', puan: 500, deneme: 0, gecerlilik: 9000 }
@@ -151,7 +151,11 @@ function donemVeKazananTestleri(t: Testci): void {
     assert.equal((await depo.sonSampiyon())?.gizli, true)
     await depo.oyuncuSil(a.id)
     const kopuk = await depo.kazananBul('oz1')
-    assert.deepEqual([kopuk?.oyuncuId, kopuk?.takmaAd, kopuk?.gizli], [null, 'A', false])
+    assert.deepEqual([kopuk?.oyuncuId, kopuk?.takmaAd, kopuk?.gizli], [null, 'A', true], 'gizleme silinince kalkmaz')
+    assert.equal((await depo.oyuncununOdulu(b.id))?.gizli, false)
+    await depo.oyuncuGizle(b.id, true)
+    assert.equal(await depo.eskiOyunculariSil(Number.MAX_SAFE_INTEGER), 1)
+    assert.equal((await depo.kazananBul('oz2'))?.gizli, true, 'saklama süresiyle silinen gizli oyuncu da gizli kalır')
     assert.equal(await depo.kazananlariSil(), 3)
     assert.equal(await depo.sonSampiyon(), null)
   })

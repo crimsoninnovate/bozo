@@ -72,7 +72,7 @@ export type YeniKazanan = {
   gecerlilik: number
 }
 
-/** `gizli` oyuncunun o anki bayrağı; oyuncu silinmişse false. */
+/** `gizli` oyuncunun o anki bayrağı; oyuncu silinmişse silindiği andaki bayrak. */
 export type Kazanan = Omit<YeniKazanan, 'oyuncuId'> & {
   id: number
   oyuncuId: number | null

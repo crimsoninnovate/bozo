@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { gercekIp, ipDuzelt, listeKur } from './ip.ts'
+import { gercekIp, ipDuzelt, kovaAnahtari, listeKur } from './ip.ts'
 
 const VEKIL = listeKur(['127.0.0.1', '::1'])
 
@@ -39,4 +39,13 @@ test('gercekIp_bozukBasliklar_esAdresKalir', () => {
 test('ipDuzelt_ipv4Eslemeli_duzYazilir', () => {
   assert.equal(ipDuzelt('::ffff:10.0.0.1'), '10.0.0.1')
   assert.equal(ipDuzelt('2001:db8::1'), '2001:db8::1')
+})
+
+/** Bir istemci genelde bütün bir /64'e sahiptir: adres değiştirerek hız sınırından kaçamaz. */
+test('kovaAnahtari_ipv6AyniSlash64_ayniAnahtar_ipv4Degismez', () => {
+  assert.equal(kovaAnahtari('2001:db8::5'), kovaAnahtari('2001:db8:0:0:ffff:1:2:3'))
+  assert.equal(kovaAnahtari('2001:DB8::5'), kovaAnahtari('2001:db8::6'))
+  assert.notEqual(kovaAnahtari('2001:db8::5'), kovaAnahtari('2001:db8:0:1::5'))
+  assert.equal(kovaAnahtari('9.9.9.9'), '9.9.9.9')
+  assert.equal(kovaAnahtari('bilinmiyor'), 'bilinmiyor')
 })

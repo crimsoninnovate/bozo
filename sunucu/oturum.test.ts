@@ -84,7 +84,7 @@ test('oturum_bearerIleYeniAnahtarAlinamaz_401', async () => {
   const { anahtar } = await anahtarAl()
   const yanit = await istek('/yonetim/oturum', `Bearer ${anahtar}`, 'POST')
   assert.equal(yanit.durum, 401)
-  assert.equal(yanit.basliklar.get('www-authenticate'), 'Basic realm="yonetim"')
+  assert.equal(yanit.basliklar.get('www-authenticate'), null)
 })
 
 test('oturum_kimliksizVeYanlisSifre_401', async () => {

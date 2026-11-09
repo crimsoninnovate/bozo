@@ -56,7 +56,10 @@ function jetonlar(b: Bellek): Parca<'jetonEkle' | 'jetonBul' | 'jetonKullan' | '
 
 function oyuncuyuSil(b: Bellek, id: number): boolean {
   for (const [tid, t] of b.turlar) if (t.oyuncuId === id) b.turlar.delete(tid)
-  for (const k of b.kazananlar.values()) if (k.oyuncuId === id) k.oyuncuId = null
+  const gizli = b.oyuncular.get(id)?.gizli ?? false
+  for (const k of b.kazananlar.values()) {
+    if (k.oyuncuId === id) Object.assign(k, { oyuncuId: null, gizli: k.gizli || gizli })
+  }
   return b.oyuncular.delete(id)
 }
 
@@ -189,7 +192,7 @@ function kazananlar(b: Bellek): KazananUclari {
   const sira = (x: Kazanan, y: Kazanan) => y.donem.localeCompare(x.donem) || x.sira - y.sira
   const oku = (k: Kazanan): Kazanan => ({
     ...k,
-    gizli: k.oyuncuId !== null && (b.oyuncular.get(k.oyuncuId)?.gizli ?? false),
+    gizli: k.oyuncuId === null ? k.gizli : (b.oyuncular.get(k.oyuncuId)?.gizli ?? false),
   })
   const sec = (uyan: (k: Kazanan) => boolean) => [...b.kazananlar.values()].filter(uyan).sort(sira).map(oku)
   return {

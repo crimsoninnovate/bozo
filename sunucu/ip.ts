@@ -3,7 +3,7 @@ import { BlockList, isIP } from 'node:net'
 /*
  * Gerçek IP (spec §10): `CF-Connecting-IP` yalnız istek Cloudflare aralığından geliyorsa.
  * Plesk'te Node'un önünde yerel vekiller durur; güvenilir olmayan ilk `X-Forwarded-For` adımı
- * (sağdan) eş adres sayılır. IP yalnız bellekteki hız sınırında kullanılır.
+ * (sağdan) eş adres sayılır. IP yalnız bellekteki hız sınırında, `kovaAnahtari` ile kullanılır.
  */
 
 /** cloudflare.com/ips, 8 Ekim 2026. */
@@ -54,4 +54,14 @@ export function gercekIp(soket: string | undefined, basliklar: IpBasliklari, guv
   const cf = ipDuzelt(basliklar['cf-connecting-ip'] ?? '')
   if (cf && isIP(cf) && listede(CLOUDFLARE, es)) return cf
   return es || 'bilinmiyor'
+}
+
+/** IPv6 için /64 öneki (`2001:db8:0:0::/64`): istemci genelde bütün /64'e sahiptir. IPv4 aynen kalır. */
+export function kovaAnahtari(ip: string): string {
+  if (isIP(ip) !== 6) return ip
+  const [bas = '', son] = ip.toLowerCase().replace(/%.*$/, '').split('::')
+  const gruplar = (x: string) => (x ? x.split(':').flatMap((g) => (g.includes('.') ? ['0', '0'] : [g])) : [])
+  const on = gruplar(bas)
+  const tum = son === undefined ? on : [...on, ...Array<string>(8 - on.length - gruplar(son).length).fill('0')]
+  return `${tum.slice(0, 4).map((g) => parseInt(g, 16).toString(16)).join(':')}::/64`
 }

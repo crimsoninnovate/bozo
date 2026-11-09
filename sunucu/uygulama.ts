@@ -3,7 +3,7 @@ import type { BlockList } from 'node:net'
 import type { Depo } from './depo.ts'
 import { hizSiniriKur } from './hiz.ts'
 import { corsBasliklari, govdeOku, hamGovdeOku, IstekHatasi, yanitYaz, type Istek, type Yanit } from './http.ts'
-import { gercekIp } from './ip.ts'
+import { gercekIp, kovaAnahtari } from './ip.ts'
 import { yonetimDerlemeDurumu, yonetimDerlemeIste } from './derleme.ts'
 import { yonetimFotoYukle } from './foto.ts'
 import { islerKur, type Isler } from './isler.ts'
@@ -137,9 +137,8 @@ function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
 function hatayaYanit(hata: unknown, istek: Istek, gunluk: Gunluk): Yanit {
   if (hata instanceof IstekHatasi) {
     if (istek.yol.endsWith('/bitir')) gunluk.warn('tur reddedildi', { kod: hata.kod, yol: istek.yol })
-    const basliklar: Record<string, string> = {}
-    if (hata.durum === 401 && istek.yol.startsWith('/yonetim')) basliklar['WWW-Authenticate'] = 'Basic realm="yonetim"'
-    return { durum: hata.durum, govde: { hata: hata.kod }, basliklar }
+    // `WWW-Authenticate` yok: tarayıcı Basic kimliği saklayıp siteler arası isteğe eklemez.
+    return { durum: hata.durum, govde: { hata: hata.kod } }
   }
   gunluk.error('istek hatası', { yontem: istek.yontem, yol: istek.yol }, hata)
   return { durum: 500, govde: { hata: 'sunucu' } }
@@ -192,11 +191,19 @@ export function uygulamaKur(
     if (derlemeGet && (ipSiniri.dolu(istek.ip, simdi()) || yonetimSiniri.dolu(istek.ip, simdi()))) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
     }
-    const derlemeOkuma = derlemeGet && (await yetkiliMi(istek))
+    // Geniş kova yalnız Bearer'a (panel): temel kimliğin scrypt'i 60/saatlik kovada sayıldıktan sonra koşar.
+    const bearer = istek.basliklar.authorization?.startsWith('Bearer ') ?? false
+    const derlemeOkuma = derlemeGet && bearer && (await yetkiliMi(istek))
     const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !derlemeOkuma && !yonetimSiniri.izinVar(istek.ip, simdi())) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
+    }
+    // Ön uçuşsuz siteler arası form (`text/plain`) yönetimde yazamaz; Origin'siz istemci (curl) geçer.
+    const koken = istek.basliklar.origin
+    const yazma = istek.yontem !== 'GET' && istek.yontem !== 'HEAD'
+    if (istek.yol.startsWith('/yonetim') && yazma && koken !== undefined && !ayar.kokenler.includes(koken)) {
+      return { durum: 403, govde: { hata: 'kokenGecersiz' } }
     }
     const adaylar = liste.filter((r) => r.desen.test(istek.yol))
     if (adaylar.length === 0) return { durum: 404, govde: { hata: 'yolYok' } }
@@ -214,7 +221,9 @@ export function uygulamaKur(
         yol: url.pathname.replace(/\/+$/, '') || '/',
         sorgu: url.searchParams,
         basliklar: req.headers,
-        ip: gercekIp(req.socket.remoteAddress, req.headers as Record<string, string | undefined>, ayar.guvenilirVekil),
+        ip: kovaAnahtari(
+          gercekIp(req.socket.remoteAddress, req.headers as Record<string, string | undefined>, ayar.guvenilirVekil),
+        ),
         govde: (sinir) => govdeOku(req, sinir),
         hamGovde: (sinir) => hamGovdeOku(req, sinir),
       }

@@ -218,7 +218,7 @@ test('tablo_haftaninIlkOnu_gizliAdNull_onbellekGonderimdeBosalir', async () => {
 test('yonetim_kimliksiz401_yanlis401_turIzleyiciVerisi', async () => {
   const kimliksiz = await istek('/yonetim/siralama')
   assert.equal(kimliksiz.durum, 401)
-  assert.equal(kimliksiz.basliklar.get('www-authenticate'), 'Basic realm="yonetim"')
+  assert.equal(kimliksiz.basliklar.get('www-authenticate'), null, 'tarayıcının kendi giriş penceresi açılmaz')
   const yanlis = await istek('/yonetim/siralama', { basliklar: { Authorization: temel('personel', 'yanlis') } })
   assert.equal(yanlis.durum, 401)
   const yonetim = await istek('/yonetim/siralama', { basliklar: yonetimBasligi })
@@ -266,6 +266,21 @@ test('hesabiSil_204_sonraBen401_tablodanDuser', async () => {
   assert.equal((await istek('/ben', { anahtar: a })).durum, 401)
   const tablo = (await istek('/tablo')).govde as unknown as TabloYaniti
   assert.equal(tablo.hafta.some((s) => s.takmaAd === 'Silinecek'), false)
+})
+
+/** Siteler arası form (`text/plain`, ön uçuşsuz) tarayıcıdaki Basic kimlikle yönetim yazamaz. */
+test('yonetimYazma_yabanciKoken403_izinliKokenVeKokensizGecer', async () => {
+  const govde = { kod: '000000' }
+  const yabanci = { ...yonetimBasligi, Origin: 'https://kotu.example' }
+  const red = await istek('/yonetim/kod', { yontem: 'POST', govde, basliklar: yabanci })
+  assert.deepEqual([red.durum, red.govde?.hata], [403, 'kokenGecersiz'])
+  const izinli = await istek('/yonetim/kod', { yontem: 'POST', govde, basliklar: { ...yonetimBasligi, Origin: KOKEN } })
+  assert.equal(izinli.govde?.hata, 'kodYok')
+  const kokensiz = await istek('/yonetim/kod', { yontem: 'POST', govde, basliklar: yonetimBasligi })
+  assert.equal(kokensiz.govde?.hata, 'kodYok')
+  assert.equal((await istek('/yonetim/siralama', { basliklar: yabanci })).durum, 200, 'okuma CORS ile korunur')
+  const oyun = await istek('/tur', { yontem: 'POST', govde: {}, basliklar: { Origin: 'https://kotu.example' } })
+  assert.notEqual(oyun.govde?.hata, 'kokenGecersiz', 'oyun uçları kökene bakmaz')
 })
 
 test('cors_yalnizIzinliKoken_preflight204', async () => {

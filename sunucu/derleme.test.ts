@@ -183,7 +183,8 @@ test('derleme_derlemeDizini_yok_503DerlemeKapali', async () => {
 test('getDerleme_cokSayida_yonetimKovasiniYemez_sonrakiPostBasarili', async () => {
   await temizle()
   // 60/saatlik yönetim kovasının üstünde yoklama; panel derleme boyunca ~84 kez sorar.
-  for (let i = 0; i < 90; i++) assert.equal((await cagir('GET')).durum, 200, `GET ${i}`)
+  const bearer = await bearerAl(kok)
+  for (let i = 0; i < 90; i++) assert.equal((await cagir('GET', bearer)).durum, 200, `GET ${i}`)
   assert.equal((await cagir('POST')).durum, 202)
   const siniri = await sunucuAc(dizin)
   try {
@@ -191,6 +192,41 @@ test('getDerleme_cokSayida_yonetimKovasiniYemez_sonrakiPostBasarili', async () =
     assert.equal((await cagir('POST', KIMLIK, siniri.kok)).durum, 429, 'yönetim kovası hâlâ 60 ile kesilir')
   } finally {
     siniri.sunucu.close()
+  }
+})
+
+/** Panel `GET /yonetim/derleme`'yi Bearer anahtarıyla yoklar; anahtar temel kimlikle alınır. */
+async function bearerAl(taban: string): Promise<Record<string, string>> {
+  const yanit = await fetch(`${taban}/yonetim/oturum`, { method: 'POST', headers: KIMLIK })
+  const { anahtar } = (await yanit.json()) as { anahtar: string }
+  return { Authorization: `Bearer ${anahtar}` }
+}
+
+/** Temel kimlik scrypt koşturur: geniş kova yalnız Bearer'a, temel kimlik kimlikten önce 60/saatte sayılır. */
+test('getDerleme_dogruTemelKimlik_yonetimKovasinda61deKesilir', async () => {
+  const a = await sunucuAc(dizin)
+  try {
+    for (let i = 1; i <= 60; i++) assert.equal((await cagir('GET', KIMLIK, a.kok)).durum, 200, `GET ${i}`)
+    assert.equal((await cagir('GET', KIMLIK, a.kok)).durum, 429)
+  } finally {
+    a.sunucu.close()
+  }
+})
+
+test('yonetimKovasi_ipv6AyniSlash64DegisenAdres_61deKesilir', async () => {
+  const a = await sunucuAc(dizin)
+  try {
+    const yanlis = `Basic ${Buffer.from('personel:yanlis').toString('base64')}`
+    const durumlar: number[] = []
+    for (let n = 1; n <= 61; n++) {
+      const basliklar = { Authorization: yanlis, 'X-Forwarded-For': `2001:db8::${n.toString(16)}` }
+      const y = await fetch(`${a.kok}/yonetim/sayac`, { headers: basliklar })
+      await y.arrayBuffer()
+      durumlar.push(y.status)
+    }
+    assert.deepEqual([durumlar.slice(0, 60).every((d) => d === 401), durumlar[60]], [true, 429])
+  } finally {
+    a.sunucu.close()
   }
 })
 
