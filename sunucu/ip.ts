@@ -62,6 +62,7 @@ export function kovaAnahtari(ip: string): string {
   const [bas = '', son] = ip.toLowerCase().replace(/%.*$/, '').split('::')
   const gruplar = (x: string) => (x ? x.split(':').flatMap((g) => (g.includes('.') ? ['0', '0'] : [g])) : [])
   const on = gruplar(bas)
-  const tum = son === undefined ? on : [...on, ...Array<string>(8 - on.length - gruplar(son).length).fill('0')]
+  const arka = son === undefined ? [] : gruplar(son)
+  const tum = son === undefined ? on : [...on, ...Array<string>(8 - on.length - arka.length).fill('0'), ...arka]
   return `${tum.slice(0, 4).map((g) => parseInt(g, 16).toString(16)).join(':')}::/64`
 }
