@@ -358,12 +358,18 @@ function saat(c: Ctx, v: unknown, yol: string, en: number, ust: number): number 
   return hata(c, yol, 'saat', `Saat ${en} ile ${ust} arasında, tam sayı olmalı.`)
 }
 
+/** Saat sınırları (spec 2026-11-09 B): kapanış 2 altında "gece" oluşmaz, açılış 18 üstünde 21:00 notu bozulur. */
+export const SAAT_SINIRLARI = {
+  acilis: [6, 18],
+  kapanis: [2, 8],
+} as const satisfies Record<keyof Saatler, readonly [number, number]>
+
 function saatPenceresi(c: Ctx, v: unknown): Saatler | undefined {
   if (v === undefined) return bolumEksik(c, 'saatler')
   const o = nesne(c, v, 'saatler', ['acilis', 'kapanis'])
   if (!o) return undefined
-  const acilis = saat(c, o.acilis, 'saatler.acilis', 6, 18)
-  const kapanis = saat(c, o.kapanis, 'saatler.kapanis', 2, 8)
+  const acilis = saat(c, o.acilis, 'saatler.acilis', ...SAAT_SINIRLARI.acilis)
+  const kapanis = saat(c, o.kapanis, 'saatler.kapanis', ...SAAT_SINIRLARI.kapanis)
   if (acilis !== undefined && kapanis !== undefined && acilis <= kapanis) {
     return hata(c, 'saatler.acilis', 'saatSirasi', 'Açılış, ertesi sabahki kapanıştan geç olmalı.')
   }

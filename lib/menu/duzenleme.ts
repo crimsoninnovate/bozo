@@ -1,7 +1,8 @@
 import type { FotoId } from '../../content/types.ts'
-import { FOTO_DOSYASI, FOTO_IDLERI, FOTO_ODAGI } from './dogrulama.ts'
+import { FOTO_DOSYASI, FOTO_IDLERI, FOTO_ODAGI, SAAT_SINIRLARI } from './dogrulama.ts'
 import type {
   FotoAtamasi, IcecekKalemi, IcecekOlcusu, IkramGrubu, IkramOgesi, IkramUrunu, Ikramlar, MenuBelgesi, MenuKalemi,
+  Saatler,
 } from './tipler.ts'
 
 /* Panelin liste işlemleri: hepsi yeni belge döner, girdiyi değiştirmez. */
@@ -225,6 +226,13 @@ export function fotoOdakAyarla(b: MenuBelgesi, id: FotoId, odak: string | null):
   const atama = b.fotograflar[id]
   if (!atama) throw new Error(`atama yok: ${id}`)
   return { ...b, fotograflar: { ...b.fotograflar, [id]: { ...atama, odak } } }
+}
+
+/** Seçim kutusu yalnız sınır içi saat verir; dışı programlama hatasıdır. Sıra kuralını doğrulayıcı söyler. */
+export function saatAyarla(b: MenuBelgesi, hangisi: keyof Saatler, saat: number): MenuBelgesi {
+  const [en, ust] = SAAT_SINIRLARI[hangisi]
+  if (!Number.isInteger(saat) || saat < en || saat > ust) throw new Error(`saat sınır dışı: ${hangisi} ${saat}`)
+  return { ...b, saatler: { ...b.saatler, [hangisi]: saat } }
 }
 
 /**

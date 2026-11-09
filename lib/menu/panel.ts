@@ -1,5 +1,7 @@
 import { yonetim } from '../../content/yonetim.ts'
 import { doldur } from '../metin.ts'
+import { ApiHatasi, tekrarDenenebilirMi } from '../oyun/api.ts'
+import type { DerlemeDurumu } from './aktarim.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import { duyuruGoster } from './duyuru.ts'
 import type { Degisiklik } from './fark.ts'
@@ -45,12 +47,14 @@ export function panelBelgesi(girdi: unknown, tam: Tamamlayici): MenuBelgesi {
 }
 
 /** Panel sekmeleri; `hataSekmesi` bir doğrulama yolunu bunlardan birine bağlar. */
-export const SEKMELER = ['ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'fotograflar', 'gecmis'] as const
+export const SEKMELER = [
+  'ocakbasi', 'ozel', 'icecekler', 'ikramlar', 'duyuru', 'iletisim', 'saatler', 'fotograflar', 'gecmis',
+] as const
 export type Sekme = (typeof SEKMELER)[number]
 
 const YOL_SEKMELERI: Record<string, Sekme> = {
   kalemler: 'ocakbasi', ozel: 'ozel', icecekler: 'icecekler', ikramlar: 'ikramlar', duyuru: 'duyuru',
-  iletisim: 'iletisim', fotograflar: 'fotograflar',
+  iletisim: 'iletisim', saatler: 'saatler', fotograflar: 'fotograflar',
 }
 
 /** "iletisim.eposta" gibi doğrulama yolunun düzenlendiği sekme; tanımsız yol `null`. */
@@ -138,6 +142,40 @@ export function siteDurumu(yayinSurum: number | null, siteSurum: number): SiteDu
   }
   const surumler = { site: siteSurum, panel: yayinSurum }
   return { guncel: false, metin: doldur(s.farkli, surumler), kisa: doldur(k.farkli, surumler) }
+}
+
+const d = yonetim.menu.derleme
+
+/** Panel durumu yalnız bu iki aşamada yoklar; `bos`, `yayinda` ve `hata` kalıcıdır. */
+export function derlemeSuruyor(durum: DerlemeDurumu | null): boolean {
+  return durum?.asama === 'sirada' || durum?.asama === 'derleniyor'
+}
+
+/** Panel açıkken biten derleme sitenin sürümünü öne alır; sayfanın gömülü sürümü yenilenene kadar eski kalır. */
+export function etkinSiteSurumu(siteSurum: number, durum: DerlemeDurumu | null): number {
+  return durum?.asama === 'yayinda' && durum.surum !== null ? Math.max(siteSurum, durum.surum) : siteSurum
+}
+
+/** "Siteyi Güncelle" pasif: site yayındaki sürümle aynı ya da bir derleme zaten sırada veya sürüyor. */
+export function guncelleKapali(yayinSurum: number | null, siteSurum: number, durum: DerlemeDurumu | null): boolean {
+  return derlemeSuruyor(durum) || (yayinSurum ?? 0) === etkinSiteSurumu(siteSurum, durum)
+}
+
+/** Aşamanın tek cümlesi; `siteSurum`: sayfanın gömülü sürümü, daha yeni yayın "yenileyince görünür" der. */
+export function derlemeMetni(durum: DerlemeDurumu, siteSurum: number): string {
+  if (durum.asama !== 'yayinda') return d[durum.asama]
+  if (durum.surum === null) return d.yayindaSurumsuz
+  return doldur(durum.surum > siteSurum ? d.yeni : d.yayinda, { surum: durum.surum })
+}
+
+const GUNLUK_SATIRI = 20
+
+/** Hata ayrıntısı: günlüğün son 20 satırı. */
+export const derlemeGunlugu = (durum: DerlemeDurumu): string[] => durum.gunluk.slice(-GUNLUK_SATIRI)
+
+/** Yoklamayı durdurmayan hata: ağ, hız sınırı, sunucu. `derlemeKapali` kalıcıdır, 401 oturumu kapatır. */
+export function derlemeGecici(h: unknown): boolean {
+  return h instanceof ApiHatasi && h.kod !== 'derlemeKapali' && tekrarDenenebilirMi(h)
 }
 
 /** Fark satırı telefonun sitede görünür olmasına geçiyorsa `true` (onay ekranı satırı vurgular). */

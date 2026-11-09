@@ -24,6 +24,11 @@ export function saatYaz(saat: number): string {
   return `${String(saat).padStart(2, '0')}:00`
 }
 
+/** Açık olunan pencere tek satırda: `10:00 - 05:00`. */
+export function saatAraligi(saatler: Saatler): string {
+  return `${saatYaz(saatler.acilis)} - ${saatYaz(saatler.kapanis)}`
+}
+
 /** Saate Türkçe hâl eki getirir: `10:00'da`, `05:00'e`. `saat` 0-23 tam sayıdır. */
 export function saatEki(saat: number, ek: SaatEki): string {
   const ekler = saat === 10 ? ON : saat === 20 ? YIRMI : BIRLER[saat % 10]

@@ -12,7 +12,9 @@ import {
   type TabloYaniti,
 } from './aktarim.ts'
 import type { YonetimTaramaYaniti } from '../masa.ts'
-import type { FotoYukleYaniti, MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti } from '../menu/aktarim.ts'
+import type {
+  DerlemeDurumu, FotoYukleYaniti, MenuYaniti, MenuYayinYaniti, YonetimMenuYaniti,
+} from '../menu/aktarim.ts'
 import type { MenuBelgesi } from '../menu/tipler.ts'
 import { tohumGecerliMi } from './tohum.ts'
 import type { Girdi } from './tipler.ts'
@@ -148,6 +150,9 @@ export function yonetimApiKur(kok: string, getir: typeof fetch, yetki: string) {
     /** Gövde `fotoHazirla` çıktısı (WebP ya da JPEG, `Content-Type` blob türü); sunucu içerik adını verir. */
     fotoYukle: (foto: Blob) =>
       istek<FotoYukleYaniti>('/yonetim/foto', { yontem: 'POST', ham: foto, yetki, sureMs: YUKLEME_SURESI_MS }),
+    derlemeDurumu: () => istek<{ durum: DerlemeDurumu }>('/yonetim/derleme', { yetki }),
+    /** 202: istek kaydedildi; derleme sürüyorsa bir sonrakine birleşir. */
+    derlemeIste: () => istek<{ durum: DerlemeDurumu }>('/yonetim/derleme', { yontem: 'POST', yetki }),
   }
 }
 

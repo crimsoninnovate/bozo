@@ -1,6 +1,8 @@
 import { fotograflar } from '../../content/fotograflar.ts'
 import { fiyatMetni } from '../../content/isletme.ts'
 import type { FotoId } from '../../content/types.ts'
+import { saatAraligi } from '../saatMetni.ts'
+import { ikramSayisi } from './sayilar.ts'
 import type { Cift, IcecekKalemi, IkramGrubu, IkramOgesi, IkramUrunu, MenuBelgesi, MenuKalemi } from './tipler.ts'
 
 export type Degisiklik = { yol: string; etiket: string; once: string; sonra: string; buyukSicrama: boolean }
@@ -204,6 +206,11 @@ function fotograflarFarki(eski: MenuBelgesi['fotograflar'], yeni: MenuBelgesi['f
   })
 }
 
+function saatlerFarki(eski: MenuBelgesi['saatler'], yeni: MenuBelgesi['saatler']): Degisiklik[] {
+  const [a, b] = [saatAraligi(eski), saatAraligi(yeni)]
+  return a === b ? [] : [satir('saatler', 'Saatler', a, b)]
+}
+
 /** İki belge arasındaki değişiklikler; `buyukSicrama`: fiyat eskiye göre %50'den fazla oynadı. */
 export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
   return [
@@ -213,6 +220,24 @@ export function menuFarki(eski: MenuBelgesi, yeni: MenuBelgesi): Degisiklik[] {
     ...duyuruFarki(eski.duyuru, yeni.duyuru),
     ...ikramlarFarki(eski.ikramlar, yeni.ikramlar),
     ...iletisimFarki(eski.iletisim, yeni.iletisim),
+    ...saatlerFarki(eski.saatler, yeni.saatler),
     ...fotograflarFarki(eski.fotograflar, yeni.fotograflar),
   ]
+}
+
+/** Derlemeyle donan yüzeylerin fark yolları: ad, açıklama, kalem fotoğrafı, eklenen ya da silinen kayıt. */
+const STATIK_YOL = new RegExp([
+  /^(iletisim|saatler|fotograflar)(\.|$)/,
+  /^(kalemler|icecekler)\.[^.]+(\.(ad|aciklama|fotoId|olculer\[\d+\]\.ad)(\.|$)|$)/,
+  /^ozel\.(ad|aciklama)\./,
+  /^ikramlar\.urunler\.[^.]+\.fotoId$/,
+].map((r) => r.source).join('|'))
+
+/**
+ * Yayın sitenin derlenmiş sayfalarını da değiştiriyorsa `true` ("Siteyi güncellemeyi unutmayın" notu).
+ * Fiyat ve "Bugün yok" menü sayfasında canlı okunur, sayılmaz; ikram metinleri de canlı, yalnız sayısı donar.
+ */
+export function statikDegisiklikVarMi(onceki: MenuBelgesi, sonraki: MenuBelgesi): boolean {
+  if (ikramSayisi(onceki) !== ikramSayisi(sonraki)) return true
+  return menuFarki(onceki, sonraki).some((d) => STATIK_YOL.test(d.yol))
 }

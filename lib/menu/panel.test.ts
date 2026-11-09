@@ -4,10 +4,13 @@ import { menuBelgesiYukle } from './belgeYukle.ts'
 import { menuBelgesiDogrula } from './dogrulama.ts'
 import { menuFarki } from './fark.ts'
 import {
-  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi,
-  hataSekmeleri, hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz,
-  telefonAciliyor, yayinDurumu,
+  BelgeHatasi, bitisGirdisindenDegere, degerdenBitisGirdisine, degisiklikVarMi, derlemeGecici, derlemeGunlugu,
+  derlemeMetni, derlemeSuruyor, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, guncelleKapali, hataSekmeleri,
+  hataSekmesi, kayitHatali, panelBelgesi, siteDurumu, siteSurumuOku, taslakOku, taslakYaz, telefonAciliyor,
+  yayinDurumu,
 } from './panel.ts'
+import { ApiHatasi } from '../oyun/api.ts'
+import type { DerlemeDurumu } from './aktarim.ts'
 import type { Duyuru } from './tipler.ts'
 
 const tohum = menuBelgesiYukle()
@@ -189,6 +192,7 @@ test('hataSekmesi_yolOnEki_sekmeAnahtari', () => {
   assert.equal(hataSekmesi('duyuru.bitis'), 'duyuru')
   assert.equal(hataSekmesi('iletisim.eposta'), 'iletisim')
   assert.equal(hataSekmesi('fotograflar.dalak.odak'), 'fotograflar')
+  assert.equal(hataSekmesi('saatler.acilis'), 'saatler')
   assert.equal(hataSekmesi('belge'), null)
 })
 
@@ -343,4 +347,55 @@ test('taslakOku_belgeninYapisiBozuk_hataYoluylaBozukDoner', () => {
   const sonuc = taslakOku(JSON.stringify({ taban: 4, belge: b }), 4, tohum)
   assert.equal(sonuc.tur, 'bozuk')
   assert.match(sonuc.tur === 'bozuk' ? sonuc.neden : '', /kalemler/)
+})
+
+const derleme = (asama: DerlemeDurumu['asama'], surum: number | null = null, gunluk: string[] = []): DerlemeDurumu =>
+  ({ asama, surum, zaman: '2026-11-09T20:00:00Z', gunluk })
+
+test('derlemeSuruyor_yalnizSiradaVeDerleniyor', () => {
+  assert.equal(derlemeSuruyor(derleme('sirada')), true)
+  assert.equal(derlemeSuruyor(derleme('derleniyor')), true)
+  for (const a of ['bos', 'yayinda', 'hata'] as const) assert.equal(derlemeSuruyor(derleme(a)), false)
+  assert.equal(derlemeSuruyor(null), false)
+})
+
+test('etkinSiteSurumu_yayindaDahaYeni_derlemeninSurumu', () => {
+  assert.equal(etkinSiteSurumu(3, derleme('yayinda', 5)), 5)
+  assert.equal(etkinSiteSurumu(6, derleme('yayinda', 5)), 6)
+  assert.equal(etkinSiteSurumu(3, derleme('hata', 5)), 3)
+  assert.equal(etkinSiteSurumu(3, null), 3)
+})
+
+test('guncelleKapali_siteGuncelYaDaDerlemeSuruyor_kapali', () => {
+  assert.equal(guncelleKapali(5, 5, null), true)
+  assert.equal(guncelleKapali(null, 0, null), true)
+  assert.equal(guncelleKapali(5, 3, null), false)
+  assert.equal(guncelleKapali(5, 0, null), false)
+  assert.equal(guncelleKapali(5, 3, derleme('derleniyor')), true)
+  assert.equal(guncelleKapali(5, 3, derleme('yayinda', 5)), true)
+  assert.equal(guncelleKapali(5, 3, derleme('hata')), false)
+})
+
+test('derlemeMetni_yayindaSitedenYeni_yenileyinceGorunur', () => {
+  assert.match(derlemeMetni(derleme('yayinda', 5), 3), /#5.*yenileyince/)
+  assert.doesNotMatch(derlemeMetni(derleme('yayinda', 3), 3), /yenileyince/)
+  assert.notEqual(derlemeMetni(derleme('sirada'), 3), derlemeMetni(derleme('derleniyor'), 3))
+  assert.ok(derlemeMetni(derleme('hata'), 3).length > 0)
+})
+
+test('derlemeGunlugu_sonYirmiSatir', () => {
+  const gunluk = Array.from({ length: 30 }, (_, n) => `satır ${n}`)
+  const son = derlemeGunlugu(derleme('hata', null, gunluk))
+  assert.equal(son.length, 20)
+  assert.equal(son[0], 'satır 10')
+  assert.equal(son[19], 'satır 29')
+})
+
+test('derlemeGecici_agHizSiniriSunucu_geciciKapaliVeYetkiDegil', () => {
+  assert.equal(derlemeGecici(new ApiHatasi(0, 'ag')), true)
+  assert.equal(derlemeGecici(new ApiHatasi(429, 'cokIstek')), true)
+  assert.equal(derlemeGecici(new ApiHatasi(502, 'bilinmeyen')), true)
+  assert.equal(derlemeGecici(new ApiHatasi(503, 'derlemeKapali')), false)
+  assert.equal(derlemeGecici(new ApiHatasi(401, 'yetkisiz')), false)
+  assert.equal(derlemeGecici(new Error('x')), false)
 })

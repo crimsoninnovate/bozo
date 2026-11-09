@@ -1,0 +1,43 @@
+/* Geçmiş sekmesinin başındaki kömür kart; günlük yatayda kendi içinde kayar. */
+.kart {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  background: var(--komur);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
+}
+
+.durum {
+  display: grid;
+  gap: 4px;
+}
+
+.asama {
+  margin: 0;
+  color: var(--krem);
+  font: 600 16px/1.4 var(--font-govde);
+}
+
+.asama:empty {
+  display: none;
+}
+
+.gunluk {
+  max-height: 320px;
+  margin: 0;
+  padding: 12px;
+  overflow: auto;
+  background: var(--zemin);
+  border: 1px solid var(--cizgi-kart);
+  border-radius: 3px;
+  color: var(--krem-70);
+  font: 400 13px/1.45 ui-monospace, monospace;
+  white-space: pre;
+}

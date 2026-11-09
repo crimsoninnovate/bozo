@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { menuFarki } from './fark.ts'
+import { menuFarki, statikDegisiklikVarMi } from './fark.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
 const varsayilan = JSON.parse(
@@ -251,4 +251,39 @@ test('fark_fotoOdakDegisti_odakSatiri', () => {
     yol: 'fotograflar.dalak.odak', etiket: 'Fotoğraf · dalak karesi: odak', once: 'ortalı', sonra: '30% 70%',
     buyukSicrama: false,
   }])
+})
+
+test('fark_saatlerDegisti_tekSatirPencereyiVerir', () => {
+  const fark = menuFarki(varsayilan, varsayilanKopya((b) => { b.saatler = { acilis: 12, kapanis: 4 } }))
+  assert.deepEqual(fark, [{
+    yol: 'saatler', etiket: 'Saatler', once: '10:00 - 05:00', sonra: '12:00 - 04:00', buyukSicrama: false,
+  }])
+})
+
+test('statikDegisiklikVarMi_saatFotoIletisim_true', () => {
+  assert.equal(statikDegisiklikVarMi(varsayilan, varsayilanKopya((b) => { b.saatler.acilis = 12 })), true)
+  assert.equal(statikDegisiklikVarMi(varsayilan, varsayilanKopya((b) => { b.fotograflar.dalak = KARE })), true)
+  assert.equal(statikDegisiklikVarMi(varsayilan, varsayilanKopya((b) => { b.iletisim.eposta = 'a@b.co' })), true)
+})
+
+test('statikDegisiklikVarMi_adAciklamaIkramSayisi_true', () => {
+  const ad = varsayilanKopya((b) => { al(b.kalemler, 1).ad.en = 'Liver' })
+  const aciklama = varsayilanKopya((b) => { al(b.kalemler, 0).aciklama = { tr: 'yeni', en: 'new' } })
+  const icecek = varsayilanKopya((b) => { al(b.icecekler, 0).ad.tr = 'Ayran Yeni' })
+  const ikram = varsayilanKopya((b) => { b.ikramlar.urunler.pop() })
+  for (const b of [ad, aciklama, icecek, ikram]) assert.equal(statikDegisiklikVarMi(varsayilan, b), true)
+})
+
+test('statikDegisiklikVarMi_yalnizFiyatYaDaTukendi_false', () => {
+  const fiyat = varsayilanKopya((b) => {
+    al(b.kalemler, 0).fiyatlar.porsiyon += 100
+    b.ozel.fiyat += 100
+  })
+  const tukendi = varsayilanKopya((b) => {
+    al(b.kalemler, 0).tukendi = true
+    al(b.icecekler, 0).tukendi = true
+  })
+  assert.equal(statikDegisiklikVarMi(varsayilan, fiyat), false)
+  assert.equal(statikDegisiklikVarMi(varsayilan, tukendi), false)
+  assert.equal(statikDegisiklikVarMi(varsayilan, varsayilanKopya()), false)
 })

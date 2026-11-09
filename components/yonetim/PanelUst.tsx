@@ -44,7 +44,7 @@ function Sekmeler({ sekme, hatali, sec }: SekmeProps) {
 type Props = {
   cik: () => void
   /** Menü yüklenince gelir: durum satırı ve sekmeler ancak o zaman görünür. */
-  calisma?: SekmeProps & { taban: number | null }
+  calisma?: SekmeProps & { taban: number | null; siteSurum: number }
 }
 
 /** Yapışkan üst: başlık, sitenin tek satırlık durumu ve Çıkış; hemen altında sekmeler. */
@@ -54,7 +54,7 @@ export function PanelUst({ cik, calisma }: Props) {
       <div className={stil.satir}>
         <div className={stil.kimlik}>
           <h1 className={stil.baslik}>{m.menu.baslik}</h1>
-          {calisma && <SiteDurumu kisa yayinSurum={calisma.taban} />}
+          {calisma && <SiteDurumu kisa yayinSurum={calisma.taban} siteSurum={calisma.siteSurum} />}
         </div>
         <button type="button" className={stil.cikis} onClick={cik}>
           <CikisIkon boy={18} />

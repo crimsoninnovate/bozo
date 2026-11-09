@@ -7,11 +7,11 @@ import { menuBelgesiDogrula, type Sonuc } from '@/lib/menu/dogrulama'
 import {
   icecekEkle, icecekSil, kalemEkle, kalemSil, kalemTasi, olcuEkle, olcuSil,
 } from '@/lib/menu/duzenleme'
-import { menuFarki, type Degisiklik } from '@/lib/menu/fark'
+import { menuFarki, statikDegisiklikVarMi, type Degisiklik } from '@/lib/menu/fark'
 import type { MenuYayinYaniti, SurumOzeti, YonetimMenuYaniti } from '@/lib/menu/aktarim'
 import {
-  degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi, hataSekmeleri, hataSekmesi, panelBelgesi, yayinDurumu,
-  type Sekme,
+  degisiklikVarMi, duyuruGorunmeyecek, eskiBelgeMi, etkinSiteSurumu, hataSekmeleri, hataSekmesi, panelBelgesi,
+  yayinDurumu, type Sekme,
 } from '@/lib/menu/panel'
 import type { Duyuru, IcecekKalemi, Iletisim, MenuBelgesi, MenuKalemi, OzelKalem } from '@/lib/menu/tipler'
 import { doldur } from '@/lib/metin'
@@ -26,7 +26,9 @@ import { IletisimFormu } from './IletisimFormu'
 import { DURUM_NOTU, KalemFormu, OzelFormu } from './KalemFormu'
 import { Giris, hataIsle, useOturum } from './oturum'
 import { PanelUst } from './PanelUst'
-import { SiteDurumu } from './SiteDurumu'
+import { SaatFormu } from './SaatFormu'
+import { SITE_SURUMU } from './SiteDurumu'
+import { SiteGuncelle, useDerleme, type Derleme } from './SiteGuncelle'
 import { taslagiYukle, useTaslakKaydi } from './taslak'
 import { YayinBari } from './YayinBari'
 import { YayinOnayi } from './YayinOnayi'
@@ -121,11 +123,13 @@ function useCalisma({ api, cik, baz }: PanelProps) {
   /** Yayın ya da geri alma; sunucunun verdiği sürüm hemen `taban` olur, liste sonra tazelenir. */
   const bitir = async (is: () => Promise<MenuYayinYaniti>, yeni: MenuBelgesi) => {
     setMesgul(true)
+    const onceki = canli?.gecerli?.belge ?? baz
     try {
       const { surum } = await is()
       setCanli((c) => ({ surumler: c?.surumler ?? [], gecerli: { surum, belge: yeni } }))
       setBelge(yeni)
-      setMesaj({ metin: m.menu.yayinda, hata: false })
+      const unutma = statikDegisiklikVarMi(onceki, yeni) ? ` ${m.menu.derleme.unutmayin}` : ''
+      setMesaj({ metin: `${m.menu.yayinda}${unutma}`, hata: false })
       await yukle().catch((h: unknown) => console.warn('sürüm listesi tazelenemedi', hataIsle(h, cik)))
     } catch (h) {
       setMesaj({ metin: hataIsle(h, cik), hata: true })
@@ -177,10 +181,11 @@ type IcerikProps = ListeProps & {
   onDon: (surum: SurumOzeti) => void
   api: YonetimApi
   cik: () => void
+  derleme: Derleme
 }
 
 function SekmeIcerigi(props: IcerikProps) {
-  const { sekme, belge, hatalar, duzenle, canli, taban, mesgul, onDon, api, cik } = props
+  const { sekme, belge, hatalar, duzenle, canli, taban, mesgul, onDon, api, cik, derleme } = props
   switch (sekme) {
     case 'ocakbasi':
       return <Ocakbasi belge={belge} hatalar={hatalar} duzenle={duzenle} />
@@ -203,12 +208,14 @@ function SekmeIcerigi(props: IcerikProps) {
         <IletisimFormu iletisim={belge.iletisim} hatalar={hatalar}
           duz={(fn: (i: Iletisim) => void) => duzenle((b) => fn(b.iletisim))} />
       )
+    case 'saatler':
+      return <SaatFormu belge={belge} hatalar={hatalar} duzenle={duzenle} />
     case 'fotograflar':
       return <FotoFormu belge={belge} hatalar={hatalar} duzenle={duzenle} api={api} cik={cik} />
     case 'gecmis':
       return (
         <>
-          <SiteDurumu yayinSurum={taban} />
+          <SiteGuncelle derleme={derleme} yayinSurum={taban} />
           <Gecmis surumler={canli.surumler} yayindaki={taban} mesgul={mesgul} onDon={onDon} />
         </>
       )
@@ -221,6 +228,8 @@ function Calisma(props: PanelProps) {
   const t = useTuretilmis(belge, canli, baz, eski)
   const [sekme, setSekme] = useState<Sekme>('ocakbasi')
   const [onay, setOnayDurumu] = useState<Onay | null>(null)
+  const derleme = useDerleme(api, cik)
+  const siteSurum = etkinSiteSurumu(SITE_SURUMU, derleme.durum)
   useKaydedilmemisUyari(t.degisiklikVar)
   useTaslakKaydi(hazir, t.taban, belge, t.degisiklikVar)
 
@@ -244,7 +253,7 @@ function Calisma(props: PanelProps) {
   const bar = !onay && sekme !== 'gecmis'
   return (
     <>
-      <PanelUst cik={cik} calisma={{ taban: t.taban, sekme, hatali: t.hataliSekmeler, sec }} />
+      <PanelUst cik={cik} calisma={{ taban: t.taban, siteSurum, sekme, hatali: t.hataliSekmeler, sec }} />
       <div className={stil.icerik}>
         <Mesajlar mesaj={mesaj} eskiNot={bar && eski && t.fark.length === 0 && !t.durum.kapali} />
         {onay ? (
@@ -252,7 +261,7 @@ function Calisma(props: PanelProps) {
             mesgul={mesgul} onayla={onayla} vazgec={() => setOnay(null)} />
         ) : (
           <SekmeIcerigi sekme={sekme} belge={belge} hatalar={t.hatalar} duzenle={duzenle} canli={canli}
-            taban={t.taban} mesgul={mesgul} onDon={surumeDon} api={api} cik={cik} />
+            taban={t.taban} mesgul={mesgul} onDon={surumeDon} api={api} cik={cik} derleme={derleme} />
         )}
       </div>
       {bar && (

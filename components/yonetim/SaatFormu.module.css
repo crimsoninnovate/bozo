@@ -1,0 +1,24 @@
+/* Düz bölüm, İletişim gibi: kart yok; iki seçim yan yana, 390px'te de sığar. */
+.saatler {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.baslik {
+  margin: 0;
+  font: 400 22px/1.2 var(--font-baslik);
+}
+
+.ikili {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pencere {
+  margin: 0;
+  color: var(--krem);
+  font: 400 20px/1.2 var(--font-baslik);
+  font-variant-numeric: tabular-nums;
+}

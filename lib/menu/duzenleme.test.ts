@@ -5,7 +5,7 @@ import { menuBelgesiDogrula } from './dogrulama.ts'
 import {
   fiyatYaz, fotoAta, fotoKaldir, fotoOdakAyarla, icecekEkle, icecekSil, ikramGrubuEkle, ikramGrubuSil, ikramGrubuTasi, ikramOgesiEkle, ikramOgesiSil,
   ikramOgesiTasi, ikramUrunuEkle, ikramUrunuSil, ikramUrunuTasi, kalemEkle, kalemSil, kalemTasi, kimlikUret, olcuEkle,
-  olcuSil,
+  olcuSil, saatAyarla,
 } from './duzenleme.ts'
 import type { MenuBelgesi } from './tipler.ts'
 
@@ -304,4 +304,18 @@ test('fotoOdakAyarla_odakYazilirYaDaOrtalanir', () => {
 test('fotoOdakAyarla_atamaYokYaDaBicimBozuk_hataFirlatir', () => {
   assert.throws(() => fotoOdakAyarla(varsayilan, 'dalak', '50% 50%'))
   assert.throws(() => fotoOdakAyarla(fotoAta(varsayilan, 'dalak', KARE), 'dalak', '50%'))
+})
+
+test('saatAyarla_gecerliSaat_yeniBelgeGirdiDegismez', () => {
+  const sonra = saatAyarla(varsayilan, 'acilis', 12)
+  assert.deepEqual(sonra.saatler, { acilis: 12, kapanis: 5 })
+  assert.equal(varsayilan.saatler.acilis, 10)
+  assert.deepEqual(saatAyarla(varsayilan, 'kapanis', 2).saatler, { acilis: 10, kapanis: 2 })
+})
+
+test('saatAyarla_sinirDisiYaDaKesirli_hataFirlatir', () => {
+  assert.throws(() => saatAyarla(varsayilan, 'acilis', 19))
+  assert.throws(() => saatAyarla(varsayilan, 'acilis', 5))
+  assert.throws(() => saatAyarla(varsayilan, 'kapanis', 9))
+  assert.throws(() => saatAyarla(varsayilan, 'kapanis', 4.5))
 })
