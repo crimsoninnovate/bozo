@@ -1,46 +1,113 @@
 import { MASA_SAYISI, yediGunlukBaslangic, type YonetimTaramaYaniti } from '../lib/masa.ts'
 import type { KodYaniti, YonetimOturumYaniti, YonetimSiralamaYaniti, YonetimTurYaniti } from '../lib/oyun/aktarim.ts'
 import { donemAnahtari, girneGunu } from './donem.ts'
+import type { IslemTuru } from '../lib/yonetim/personel.ts'
+import type { Personel } from './depo.ts'
 import { IstekHatasi, temelKimlik, type Istek, type Yanit } from './http.ts'
 import { esitMi, kodOzeti } from './kod.ts'
-import { OTURUM_SURESI_MS, eskiAdminAnahtariGecerliMi, eskiAdminAnahtariUret } from './oturum.ts'
+import {
+  eskiAdminAnahtariGecerliMi, OTURUM_SURESI_MS, oturumAnahtariCoz, oturumAnahtariUret, oturumImzasiTutar,
+} from './oturum.ts'
+import { parolaDogrula, SAHTE_OZET } from './parola.ts'
 import { enIyiler } from './siralama.ts'
 import type { Baglam } from './uclar.ts'
 
 /*
- * Yönetim uçları (spec §10): temel kimlik ya da GIZLI_TUZ ile imzalı oturum anahtarı;
- * kod onayı, izleyici verisi, ad gizleme, sayaç.
+ * Yönetim uçları (spec §10): kimlik çözme (admin ortamda, personel veritabanında, spec 2026-11-09
+ * kullanıcılar), kod onayı, izleyici verisi, ad gizleme, sayaç.
  */
 
 export type YonetimKimligi = { kullanici: string; sifre: string }
+/** Admin `id` 0 ve adı `YONETIM_KULLANICI`; personel veritabanındaki hesap. */
+export type Yetkili = { id: number; ad: string; admin: boolean; sifreDegismeli: boolean }
 
-function temelDenetle(kimlik: YonetimKimligi | null, istek: Istek): asserts kimlik is YonetimKimligi {
-  if (!kimlik) throw new IstekHatasi(503, 'yonetimKapali')
-  const gelen = temelKimlik(istek.basliklar.authorization)
-  if (!gelen || !esitMi(gelen.kullanici, kimlik.kullanici) || !esitMi(gelen.sifre, kimlik.sifre)) {
-    throw new IstekHatasi(401, 'kimlikGerekli')
+const kimlikGerekli = () => new IstekHatasi(401, 'kimlikGerekli')
+const adminSahibi = (k: YonetimKimligi) => ({ id: 0, surum: 0, gizli: `${k.kullanici}:${k.sifre}` })
+const adminYetkili = (k: YonetimKimligi): Yetkili => ({
+  id: 0, ad: k.kullanici, admin: true, sifreDegismeli: false,
+})
+const personelYetkili = (p: Personel): Yetkili => ({
+  id: p.id, ad: p.ad, admin: false, sifreDegismeli: p.sifreDegismeli,
+})
+
+type Cozum = { yetkili: Yetkili; surum: number }
+
+/** Admin veritabanına hiç bakılmadan doğrulanır; bilinmeyen adda da bir scrypt koşar. */
+async function temelCoz(b: Baglam, admin: YonetimKimligi, yetki: string | undefined): Promise<Cozum> {
+  const gelen = temelKimlik(yetki)
+  if (!gelen) throw kimlikGerekli()
+  if (esitMi(gelen.kullanici, admin.kullanici)) {
+    if (!esitMi(gelen.sifre, admin.sifre)) throw kimlikGerekli()
+    return { yetkili: adminYetkili(admin), surum: 0 }
+  }
+  const p = await b.depo.personelAdla(gelen.kullanici.toLowerCase())
+  const tutar = await parolaDogrula(gelen.sifre, p?.parolaOzeti ?? SAHTE_OZET)
+  if (!p || !tutar || p.kapali) throw kimlikGerekli()
+  return { yetkili: personelYetkili(p), surum: p.oturumSurumu }
+}
+
+async function bearerCoz(b: Baglam, admin: YonetimKimligi, yetki: string): Promise<Cozum> {
+  const c = oturumAnahtariCoz(yetki, b.simdi())
+  if (c === 'eski') {
+    if (!eskiAdminAnahtariGecerliMi(b.tuz, admin, yetki, b.simdi())) throw kimlikGerekli()
+    return { yetkili: adminYetkili(admin), surum: 0 }
+  }
+  if (!c) throw kimlikGerekli()
+  if (c.id === 0) {
+    if (c.surum !== 0 || !oturumImzasiTutar(b.tuz, adminSahibi(admin), c)) throw kimlikGerekli()
+    return { yetkili: adminYetkili(admin), surum: 0 }
+  }
+  const p = await b.depo.personelBul(c.id)
+  if (!p || p.kapali || p.oturumSurumu !== c.surum) throw kimlikGerekli()
+  if (!oturumImzasiTutar(b.tuz, { id: p.id, surum: p.oturumSurumu, gizli: '' }, c)) throw kimlikGerekli()
+  return { yetkili: personelYetkili(p), surum: p.oturumSurumu }
+}
+
+function coz(b: Baglam, admin: YonetimKimligi | null, istek: Istek): Promise<Cozum> {
+  if (!admin) throw new IstekHatasi(503, 'yonetimKapali')
+  const yetki = istek.basliklar.authorization
+  return yetki?.startsWith('Bearer ') ? bearerCoz(b, admin, yetki) : temelCoz(b, admin, yetki)
+}
+
+/** Temel kimlik ya da `POST /yonetim/oturum`'un verdiği Bearer anahtarı; geçersizse 401, kapalıysa 503. */
+export async function yetkiliCoz(b: Baglam, admin: YonetimKimligi | null, istek: Istek): Promise<Yetkili> {
+  return (await coz(b, admin, istek)).yetkili
+}
+
+/** Kayıt hatası işlemi bozmaz: günlüğe düşer, işlem sürer. */
+export async function islemYaz(b: Baglam, y: Yetkili, tur: IslemTuru, ayrinti: string): Promise<void> {
+  try {
+    await b.depo.islemEkle({ personelId: y.admin ? null : y.id, ad: y.ad, tur, ayrinti, zaman: b.simdi() })
+  } catch (hata) {
+    console.warn('yönetim işlemi kaydedilemedi', { tur, ad: y.ad }, hata)
   }
 }
 
-/** Temel kimlik ya da `POST /yonetim/oturum`'un verdiği Bearer anahtarı. */
-export function yonetimDenetle(kimlik: YonetimKimligi | null, istek: Istek, tuz: string, simdi: number): void {
-  const yetki = istek.basliklar.authorization
-  if (kimlik && yetki?.startsWith('Bearer ')) {
-    if (!eskiAdminAnahtariGecerliMi(tuz, kimlik, yetki, simdi)) throw new IstekHatasi(401, 'kimlikGerekli')
-    return
+/** Oturum anahtarı: hesabın güncel sürümüyle imzalı, 30 gün. */
+export function oturumYaniti(b: Baglam, admin: YonetimKimligi, cozum: Cozum): YonetimOturumYaniti {
+  const { yetkili } = cozum
+  const bitis = b.simdi() + OTURUM_SURESI_MS
+  const sahip = yetkili.admin ? adminSahibi(admin) : { id: yetkili.id, surum: cozum.surum, gizli: '' }
+  return {
+    anahtar: oturumAnahtariUret(b.tuz, sahip, bitis),
+    bitis: new Date(bitis).toISOString(),
+    ad: yetkili.ad,
+    admin: yetkili.admin,
+    sifreDegismeli: yetkili.sifreDegismeli,
   }
-  temelDenetle(kimlik, istek)
 }
 
 /** Yalnız temel kimlikle: çalınan anahtar yeni anahtar üretemez, süresi dolunca biter. */
-export function yonetimOturum(b: Baglam, kimlik: YonetimKimligi | null, istek: Istek): Yanit {
-  temelDenetle(kimlik, istek)
-  const bitis = b.simdi() + OTURUM_SURESI_MS
-  const govde: YonetimOturumYaniti = {
-    anahtar: eskiAdminAnahtariUret(b.tuz, kimlik, bitis),
-    bitis: new Date(bitis).toISOString(),
+export async function yonetimOturum(b: Baglam, admin: YonetimKimligi | null, istek: Istek): Promise<Yanit> {
+  if (admin && !istek.basliklar.authorization?.startsWith('Basic ')) throw kimlikGerekli()
+  const cozum = await coz(b, admin, istek)
+  const { yetkili } = cozum
+  if (!yetkili.admin) {
+    await b.depo.personelGirisKaydet(yetkili.id, b.simdi())
+      .catch((h: unknown) => console.warn('son giriş yazılamadı', h))
   }
-  return { durum: 200, govde }
+  await islemYaz(b, yetkili, 'giris', '')
+  return { durum: 200, govde: oturumYaniti(b, admin as YonetimKimligi, cozum) }
 }
 
 const iso = (ms: number | null) => (ms === null ? null : new Date(ms).toISOString())

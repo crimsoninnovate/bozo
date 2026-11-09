@@ -67,7 +67,13 @@ export type YonetimKazanan = {
   kullanildi: string | null
 }
 /** `POST /yonetim/oturum`: 30 günlük imzalı anahtar (`Authorization: Bearer`) ve bitişi (ISO). */
-export type YonetimOturumYaniti = { anahtar: string; bitis: string }
+export type YonetimOturumYaniti = {
+  anahtar: string
+  bitis: string
+  ad: string
+  admin: boolean
+  sifreDegismeli: boolean
+}
 export type YonetimSiralamaYaniti = { donem: string; satirlar: YonetimSatiri[]; kazananlar: YonetimKazanan[] }
 /** İzleyici verisi; dokunuş kaydı saklama süresi geçince null. */
 export type YonetimTurYaniti = {

@@ -23,7 +23,6 @@ import {
   type Baglam,
 } from './uclar.ts'
 import {
-  yonetimDenetle,
   yonetimGizle,
   yonetimKod,
   yonetimOturum,
@@ -31,7 +30,9 @@ import {
   yonetimSiralama,
   yonetimTarama,
   yonetimTur,
+  yetkiliCoz,
   type YonetimKimligi,
+  type Yetkili,
 } from './yonetim.ts'
 
 export type Ayar = {
@@ -69,12 +70,18 @@ const MENU_SAATLIK = 6000
 const DERLEME_SAATLIK = 1200
 
 type Rota = { yontem: string; desen: RegExp; isle: (istek: Istek, es: string[]) => Promise<Yanit> }
+type YetkiliIsle = (istek: Istek, es: string[], yetkili: Yetkili) => Promise<Yanit>
 
 function rotalar(b: Baglam, yonetim: YonetimKimligi | null): Rota[] {
-  const y = (isle: (istek: Istek, es: string[]) => Promise<Yanit>) => async (istek: Istek, es: string[]) => {
-    yonetimDenetle(yonetim, istek, b.tuz, b.simdi())
-    return isle(istek, es)
-  }
+  /** `serbest`: şifresi değişmesi gereken hesap da geçer (yalnız `/yonetim/ben` ve `/yonetim/sifre`). */
+  const korunan = (isle: YetkiliIsle, { serbest = false, yalnizAdmin = false } = {}) =>
+    async (istek: Istek, es: string[]) => {
+      const yetkili = await yetkiliCoz(b, yonetim, istek)
+      if (yetkili.sifreDegismeli && !serbest) throw new IstekHatasi(403, 'sifreDegismeli')
+      if (yalnizAdmin && !yetkili.admin) throw new IstekHatasi(403, 'adminGerekli')
+      return isle(istek, es, yetkili)
+    }
+  const y = (isle: YetkiliIsle) => korunan(isle)
   return [
     { yontem: 'POST', desen: /^\/tur$/, isle: (i) => turAl(b, i) },
     { yontem: 'POST', desen: /^\/oyuncu$/, isle: (i) => oyuncuOl(b, i) },
@@ -139,9 +146,9 @@ export function uygulamaKur(
   const liste = rotalar(b, ayar.yonetim)
 
   /** Geniş kova yalnız geçerli kimliğe açık: yanlış parola her `/yonetim` ucundaki gibi 60/saate sayılır. */
-  function yetkiliMi(istek: Istek): boolean {
+  async function yetkiliMi(istek: Istek): Promise<boolean> {
     try {
-      yonetimDenetle(ayar.yonetim, istek, ayar.tuz, simdi())
+      await yetkiliCoz(b, ayar.yonetim, istek)
       return true
     } catch (hata) {
       if (hata instanceof IstekHatasi) return false
@@ -157,7 +164,7 @@ export function uygulamaKur(
     if (derlemeGet && (ipSiniri.dolu(istek.ip, simdi()) || yonetimSiniri.dolu(istek.ip, simdi()))) {
       return { durum: 429, govde: { hata: 'cokIstek' } }
     }
-    const derlemeOkuma = derlemeGet && yetkiliMi(istek)
+    const derlemeOkuma = derlemeGet && (await yetkiliMi(istek))
     const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !derlemeOkuma && !yonetimSiniri.izinVar(istek.ip, simdi())) {

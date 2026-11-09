@@ -65,9 +65,14 @@ const bearerIle = (anahtar: string) => istek('/yonetim/tarama', `Bearer ${anahta
 
 test('oturum_temelKimlikle_anahtarVeBitisDoner', async () => {
   const { anahtar, bitis } = await anahtarAl()
-  assert.match(anahtar, /^\d{13}\.[0-9a-f]{64}$/)
+  assert.match(anahtar, /^k0\.0\.\d{13}\.[0-9a-f]{64}$/)
   assert.equal(bitis, new Date(saat + OTURUM_SURESI_MS).toISOString())
-  assert.equal(anahtar, oturumAnahtariUret(TUZ, KIMLIK, saat + OTURUM_SURESI_MS))
+  const admin = { id: 0, surum: 0, gizli: `${KIMLIK.kullanici}:${KIMLIK.sifre}` }
+  assert.equal(anahtar, yeniAnahtar(TUZ, admin, saat + OTURUM_SURESI_MS))
+})
+
+test('oturum_eskiBicimliAdminAnahtari_hala200', async () => {
+  assert.equal((await bearerIle(oturumAnahtariUret(TUZ, KIMLIK, saat + OTURUM_SURESI_MS))).durum, 200)
 })
 
 test('oturum_gecerliBearer_yonetimUcunuAcar', async () => {
@@ -107,14 +112,18 @@ test('oturum_imzaBozuk_401', async () => {
   const { anahtar } = await anahtarAl()
   const sonKarakter = anahtar.endsWith('0') ? '1' : '0'
   assert.equal((await bearerIle(anahtar.slice(0, -1) + sonKarakter)).durum, 401)
-  const [bitis, imza] = anahtar.split('.')
-  assert.equal((await bearerIle(`${Number(bitis) + 1}.${imza}`)).durum, 401)
+  const [id, surum, bitis, imza] = anahtar.split('.')
+  assert.equal((await bearerIle(`${id}.${surum}.${Number(bitis) + 1}.${imza}`)).durum, 401)
+  assert.equal((await bearerIle(`${id}.1.${bitis}.${imza}`)).durum, 401)
 })
 
 test('oturum_biciminBozuk_401', async () => {
   const { anahtar } = await anahtarAl()
-  const [bitis, imza] = anahtar.split('.') as [string, string]
-  const kotuler = ['', 'x', bitis, `${bitis}.`, `.${imza}`, `${bitis}.${imza.toUpperCase()}`, `${bitis}.${imza}0`]
+  const [id, surum, bitis, imza] = anahtar.split('.') as [string, string, string, string]
+  const on = `${id}.${surum}.${bitis}`
+  const kotuler = [
+    '', 'x', on, `${on}.`, `.${imza}`, `${on}.${imza.toUpperCase()}`, `${on}.${imza}0`, `K0.0.${bitis}.${imza}`,
+  ]
   for (const kotu of [...kotuler, `1.5.${imza}`]) {
     assert.equal((await bearerIle(kotu)).durum, 401, kotu)
   }
@@ -192,7 +201,8 @@ test('oturumAnahtari_sureDolmusYaDaCokIleri_null', () => {
   assert.equal(coz(saat), null)
   assert.equal(coz(saat + OTURUM_SURESI_MS + 2 * DAKIKA_MS), null)
   assert.notEqual(coz(saat + OTURUM_SURESI_MS + DAKIKA_MS), null)
-  for (const kotu of ['', 'Bearer ', 'Bearer k7.3', 'Bearer k07.3.1.x', `Bearer k7.3.${saat + 1000}.${'A'.repeat(64)}`]) {
+  const kotuler = ['', 'Bearer ', 'Bearer k7.3', 'Bearer k07.3.1.x', `Bearer k7.3.${saat + 1000}.${'A'.repeat(64)}`]
+  for (const kotu of kotuler) {
     assert.equal(oturumAnahtariCoz(kotu, saat), null, kotu)
   }
 })
