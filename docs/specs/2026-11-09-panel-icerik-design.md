@@ -101,7 +101,7 @@ yazması gerekmez.
   servisi `git pull`, `npm ci`, `npm run build` yapar ve çıktıyı kendi hazırlık dizinine koyar; root
   yetkisi yok. (2) Ancak (1) başarıyla bitince (`OnSuccess=`) çalışan root oneshot: sabit yoldaki hazırlık
   dizinini httpdocs'a `rsync --delete` eder, `chown`/`chmod` ve `plesk repair fs` çalıştırır. Bu betik
-  dışarıdan girdi almaz, yolları sabittir. sudoers kuralı yok. Skor sunucusu yalnızca bir istek dosyası yazar (`/var/lib/bozo-derleme/istek`),
+  dışarıdan girdi almaz, yolları sabittir. sudoers kuralı yok. Skor sunucusu yalnızca bir istek dosyası yazar (`/var/lib/bozo-derleme/panel/istek`; `panel/` alt dizin, web süreci derleme ağacının köküne yazamaz),
   derlemeyi kendisi başlatmaz: web sürecinin yetkisi build ve rsync'e uzanmaz.
 - Derleme adımları `scripts/yayinla.sh`'ın sunucu karşılığı, yukarıdaki iki birime bölünmüş:
   `git pull --ff-only`, `npm ci` (lockfile değiştiyse), `npm run build`, `CANLI MENU ALINAMADI`

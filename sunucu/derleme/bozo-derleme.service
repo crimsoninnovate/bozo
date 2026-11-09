@@ -2,6 +2,8 @@
 [Unit]
 Description=Ciğerci Bozo site build
 OnSuccess=bozo-yukle.service
+# A request made mid-build starts this unit again as the upload starts: the upload goes first.
+After=bozo-yukle.service
 
 [Service]
 Type=oneshot

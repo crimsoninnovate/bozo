@@ -113,38 +113,53 @@ Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta 
 **Yetki ayrımı.** Skor sunucusu yalnız `panel/istek` yazar ve `panel/durum.json` okur; derlemeye ve
 rsync'e yetkisi yoktur. `panel/` derleme ağacının alt dizinidir, kökü değil: web sürecinin yazabildiği
 dizin `DEPO`'nun atası olsaydı oraya bırakılan bir `node_modules/`, `.npmrc` ya da `.gitconfig` derleme
-kullanıcısıyla kod çalıştırırdı. Bu yüzden spec'teki `/var/lib/bozo-derleme/istek` yerine
+kullanıcısıyla kod çalıştırırdı. Bu yüzden istek dosyası `panel/` altında:
 `/var/lib/bozo-derleme/panel/istek`. Root birimi dışarıdan girdi almaz: argüman yok, yollar betikte
 sabit, sudoers kuralı yok. Betikler depoda değil `/opt/bozo-derleme/`'de durur; root, derleme
 kullanıcısının yazabildiği bir dosyayı asla çalıştırmaz. `yukle.sh` `panel/` ve `cikti/` altında hiçbir
 dosyayı root olarak okumaz ya da yazmaz: durum yazımı ve sürüm okuması `runuser -u bozo-derleme` ile
 yapılır (root'un kendi günlüğü yazıcıya stdin'den verilir), durum yazıcısı root'ken çalışmayı reddeder.
-Root'ta kalanlar sabit yollardaki `rsync` (`cikti/`'dan, `--no-links`), `chown`, `chmod` ve `plesk`.
-Yükleme sırasında `bozo-derleme` süreci yoktur: birim durunca systemd grubunu öldürür, sonraki derleme
-kilidi bekler.
+Root `cikti/`'yı yol üzerinden de okumaz: `bozo-derleme` onu `tar` akışı olarak verir (okuyamadığı bir
+dosyaya sabit bağ varsa burada düşer), root akışı kendi özel geçici dizinine (`PrivateTmp`) açar. Sahnede
+düz dosya ve dizinden başka bir şey (sembolik bağ, aygıt) ya da birden çok bağlı dosya varsa yükleme
+reddedilir; bekçi ve `rsync` sahne üzerinde çalışır. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
+`chown`, `chmod` ve `plesk`.
 
 | Yol | Sahip, kip | Kim yazar |
 |---|---|---|
-| `/var/lib/bozo-derleme` | `bozo-derleme:bozo-derleme` 0710 | `bozo-derleme`; grup (web) yalnız geçer |
-| `depo/`, `cikti/`, `derleme.log` | `bozo-derleme`, 0755 / 0644 | yalnız `bozo-derleme`; web süreci yazamaz |
-| `panel/` | `bozo-derleme:bozo-derleme` 3770 | web süreci yalnız `istek` yazar (grup), betikler `durum.json` |
+| `/var/lib/bozo-derleme` | `bozo-derleme:bozo-panel` 0710 | `bozo-derleme`; `bozo-panel` (web) yalnız geçer |
+| `depo/`, `cikti/`, `derleme.log` | `bozo-derleme:bozo-derleme`, 0755 / 0644 | yalnız `bozo-derleme`; web süreci yazamaz |
+| `panel/` | `bozo-derleme:bozo-panel` 3770 | web süreci yalnız `istek` yazar, betikler `durum.json` (0640) |
+
+Web süreci (`bozo-oyun`) yalnız `bozo-panel` grubuna girer, derleme kullanıcısının birincil grubu olan
+`bozo-derleme`'ye değil: o grup derleme araçlarının oluşturduğu dosyaları okuyup yazabilirdi.
+
+**Önkoşul:** `sysctl fs.protected_hardlinks fs.protected_symlinks` ikisi de `1` olmalı (çoğu dağıtımda
+varsayılan). Değilse `/etc/sysctl.d/90-bozo-derleme.conf` içine `fs.protected_hardlinks = 1` ve
+`fs.protected_symlinks = 1` yazılır, `sysctl --system` çalıştırılır.
 
 **Durum dosyası.** Her yazım atomik (aynı dizinde geçici dosya, sonra `mv`). `derle.sh` başta
 `istek`'i siler (derleme sürerken gelen istek bir sonrakini tetikler), `derleniyor` yazar; başarıda
 öyle bırakır, `yukle.sh` `yayinda` (ve `surum`) ya da `hata` yazar. Bir hata ya da sinyal (`TERM`)
 `trap` ile `hata` + günlüğün son 200 satırını yazar. `SIGKILL` (zaman aşımından sonra) `trap`'i
 atlar; o durumda birimin `ExecStopPost=` satırı aynı betiği `SERVICE_RESULT` ile çalıştırır ve kalan
-`derleniyor`'u `hata`'ya çevirir. Aynı anda tek derleme: iki betik `/var/lib/bozo-derleme` üzerinde
-`flock` tutar, derleme bir yüklemenin bitmesini bekler.
+`derleniyor`'u `hata`'ya çevirir; bunu yalnız kilidi almış ve son durumunu yazamamış bir çalışma yapar
+(özel `/tmp`'deki sahiplik izi), kilidi hiç almamış bir çalışma başka bir derlemenin durumuna dokunmaz.
+Aynı anda tek derleme: iki betik `/var/lib/bozo-derleme` üzerinde `flock` tutar, derleme bir yüklemenin
+bitmesini bekler; derleme sürerken gelen istek yeni derlemeyi yüklemeyle aynı anda başlatırsa
+`After=bozo-yukle.service` yüklemeyi öne alır. `npm ci` lockfile özeti `node_modules/.bozo-kilit`'e
+yalnız başarıdan sonra yazılır; iz eksik ya da farklıysa her çalışmada yeniden denenir.
 
 ### Kurulum (bir kez, root)
 
 ```bash
-# 1. Kullanıcı ve dizinler
+# 1. Kullanıcı, panel grubu ve dizinler
+sysctl fs.protected_hardlinks fs.protected_symlinks   # ikisi de 1 (önkoşul, yukarıda)
 useradd --system --home-dir /var/lib/bozo-derleme --shell /usr/sbin/nologin --user-group bozo-derleme
-install -d -o bozo-derleme -g bozo-derleme -m 0710 /var/lib/bozo-derleme
+groupadd --system bozo-panel
+install -d -o bozo-derleme -g bozo-panel -m 0710 /var/lib/bozo-derleme
 # setgid: dosyalar grubu alır; sticky: web süreci yalnız kendi dosyasını (istek) silebilir
-install -d -o bozo-derleme -g bozo-derleme -m 3770 /var/lib/bozo-derleme/panel
+install -d -o bozo-derleme -g bozo-panel -m 3770 /var/lib/bozo-derleme/panel
 install -d -o bozo-derleme -g bozo-derleme -m 0700 /var/lib/bozo-derleme/.ssh
 
 # 2. Deploy key (sahibinin onayıyla GitHub'a eklenir)
@@ -173,25 +188,30 @@ install -d -o "$OYUN_KULLANICISI" -m 0755 /var/lib/bozo-oyun /var/lib/bozo-oyun/
 #    [Service]
 #    Environment=FOTO_DIZINI=/var/lib/bozo-oyun/foto
 #    Environment=DERLEME_DIZINI=/var/lib/bozo-derleme/panel
-#    SupplementaryGroups=bozo-derleme
+#    SupplementaryGroups=bozo-panel
 #    ReadWritePaths=/var/lib/bozo-oyun/foto /var/lib/bozo-derleme/panel
 systemctl restart bozo-oyun
 ```
 
 `ReadWritePaths=` yalnız `bozo-oyun` birimi `ProtectSystem=` kullanıyorsa etkilidir, yoksa zararsız.
-`SupplementaryGroups=bozo-derleme` web sürecine `panel/`'e yazma ve `durum.json`'u okuma (0640) yetkisi
-verir; `/var/lib/bozo-derleme` grubuna yalnız geçiş (0710) açıktır, `depo/` ve `cikti/` kapalıdır.
+`SupplementaryGroups=bozo-panel` web sürecine `panel/`'e yazma ve `durum.json`'u okuma (0640) yetkisi
+verir; `/var/lib/bozo-derleme`'de yalnız geçiş (0710) açıktır. `depo/` ve `cikti/` `bozo-derleme`
+grubundadır, web süreci onlara giremez.
 
 ### nginx (`api.cigercibozo.com`, Plesk > Additional nginx directives)
 
 Mevcut `location ~ ^/` vekil bloğunun **üstüne** eklenir. `^~` önekli konum düzenli ifadeli vekil
 konumunu geçer; `=` tam eşleşme hepsini geçer. Fotoğraf adları içerik özetidir (aynı ad hiç değişmez),
-bu yüzden bir yıllık `immutable` önbellek doğru. Dizin listesi yok, kalıba uymayan her ad 404.
+bu yüzden bir yıllık `immutable` önbellek doğru. Dizin listesi yok, sembolik bağ izlenmez, kalıba
+uymayan her ad 404. Bir konumdaki `add_header` üst düzeyden gelen bütün `add_header`'ları düşürür: önce
+`curl -sI https://api.cigercibozo.com/tablo` ile sunucu düzeyindeki başlıklara bak (HSTS gibi), varsa
+iki iç konuma da aynen ekle.
 
 ```nginx
 location ^~ /foto/ {
     root /var/lib/bozo-oyun;
     autoindex off;
+    disable_symlinks on;
     location ~ "^/foto/[0-9a-f]{16}\.webp$" {
         types { } default_type image/webp;
         add_header Cache-Control "public, max-age=31536000, immutable" always;

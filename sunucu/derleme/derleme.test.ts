@@ -1,7 +1,10 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import {
+  chmodSync, existsSync, linkSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, symlinkSync, writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -16,14 +19,16 @@ const DERLE = join(BURASI, 'derle.sh')
 const YUKLE = join(BURASI, 'yukle.sh')
 const BEKCI = ['index.html', 'favicon.svg', 'sosyal-kart.jpg', 'marka/rozet.svg', 'foto/tane-yakin-cekim.webp']
 
-type Ortam = { kok: string; panel: string; depo: string; cikti: string; sahte: string }
+type Ortam = { kok: string; panel: string; depo: string; cikti: string; sahte: string; gecici: string }
 
 function ortamKur(): Ortam {
   const kok = mkdtempSync(join(tmpdir(), 'bozo-arc-'))
   const o = {
     kok, panel: join(kok, 'panel'), depo: join(kok, 'depo'), cikti: join(kok, 'cikti'), sahte: join(kok, 'bin'),
+    gecici: join(kok, 'tmp'),
   }
-  for (const d of [o.panel, o.depo, o.sahte]) mkdirSync(d, { recursive: true })
+  for (const d of [o.panel, o.depo, o.sahte, o.gecici]) mkdirSync(d, { recursive: true })
+  writeFileSync(join(o.depo, 'package-lock.json'), '{"kilit":1}')
   // flock macOS'ta yok; git ve npm testte sahte. Linux'ta gerçek flock da aynı yolu izler.
   sahteYaz(o, 'flock', 'exit 0')
   sahteYaz(o, 'git', 'case "$1" in rev-parse) echo abc123 ;; esac; exit 0')
@@ -39,8 +44,15 @@ function sahteYaz(o: Ortam, ad: string, govde: string): void {
 function env(o: Ortam, ek: Record<string, string> = {}): NodeJS.ProcessEnv {
   return {
     ...process.env, PATH: `${o.sahte}:${process.env.PATH ?? ''}`,
-    DERLEME_DIZINI: o.panel, DEPO: o.depo, CIKTI: o.cikti, ...ek,
+    DERLEME_DIZINI: o.panel, DEPO: o.depo, CIKTI: o.cikti, TMPDIR: o.gecici, ...ek,
   }
+}
+
+/** `npm ci` bu lockfile için başarıyla koşmuş gibi: `node_modules/.bozo-kilit` özetle eşleşir. */
+function modullerHazir(o: Ortam): void {
+  mkdirSync(join(o.depo, 'node_modules'), { recursive: true })
+  const ozet = createHash('sha256').update(readFileSync(join(o.depo, 'package-lock.json'))).digest('hex')
+  writeFileSync(join(o.depo, 'node_modules', '.bozo-kilit'), `${ozet}\n`)
 }
 
 const calistir = (betik: string, o: Ortam, ek?: Record<string, string>, args: string[] = []) =>
@@ -117,7 +129,7 @@ test('yukle_argumanVerilirse_reddeder', () => {
 
 test('derle_basarili_ciktiKopyalanirIstekSilinirDurumDerleniyor', async () => {
   const o = ortamKur()
-  mkdirSync(join(o.depo, 'node_modules'))
+  modullerHazir(o)
   writeFileSync(join(o.panel, 'istek'), '2026-11-09T10:00:00.000Z')
   mkdirSync(join(o.depo, 'content'))
   writeFileSync(join(o.depo, 'content', 'menu.canli.meta.json'), '{"surum":4}')
@@ -144,7 +156,7 @@ test('derle_nodeModulesYok_npmCiCalisir', () => {
 
 test('derle_canliMenuAlinamadi_hataVeCiktiyaDokunmaz', async () => {
   const o = ortamKur()
-  mkdirSync(join(o.depo, 'node_modules'))
+  modullerHazir(o)
   mkdirSync(o.cikti)
   writeFileSync(join(o.cikti, 'eski.html'), 'eski')
   sahteYaz(o, 'npm', 'echo "menuCek: CANLI MENU ALINAMADI (x)"; mkdir -p out; touch out/index.html; exit 0')
@@ -159,7 +171,7 @@ test('derle_canliMenuAlinamadi_hataVeCiktiyaDokunmaz', async () => {
 
 test('derle_buildCoker_son200SatirKacisliGunluk', async () => {
   const o = ortamKur()
-  mkdirSync(join(o.depo, 'node_modules'))
+  modullerHazir(o)
   const govde = 'for i in $(seq 1 300); do echo "satir $i"; done; ' +
     'printf \'tirnak " ters \\\\ sekme\\t\\033[31mrenk\\033[0m\\n\'; exit 3'
   sahteYaz(o, 'npm', govde)
@@ -175,7 +187,7 @@ test('derle_buildCoker_son200SatirKacisliGunluk', async () => {
 
 test('derle_sinyalleOldurulur_hataYazar', async () => {
   const o = ortamKur()
-  mkdirSync(join(o.depo, 'node_modules'))
+  modullerHazir(o)
   sahteYaz(o, 'npm', 'echo basladi; sleep 30')
   // systemd birimin tüm grubunu öldürür; burada süreç grubu aynısını yapar.
   const c = spawn('bash', [DERLE], { env: env(o), detached: true, stdio: 'ignore' })
@@ -197,6 +209,10 @@ test('bayatDurum_birimBasarisizDurdu_derleniyorHataOlur', async () => {
     const yaz = (asama: string) => writeFileSync(join(o.panel, 'durum.json'),
       JSON.stringify({ asama, surum: null, zaman: null, gunluk: [] }))
     yaz('derleniyor')
+    // Kilidi hiç almamış bir çalışma (sahiplik izi yok) başka bir derlemenin durumuna dokunmaz.
+    assert.equal(calistir(betik, o, { ...kuru, SERVICE_RESULT: 'timeout' }).status, 0)
+    assert.equal((await durumOku(o)).ham.asama, 'derleniyor')
+    writeFileSync(join(o.gecici, betik === YUKLE ? 'bozo-yukle.sahip' : 'bozo-derle.sahip'), '')
     assert.equal(calistir(betik, o, { ...kuru, SERVICE_RESULT: 'success' }).status, 0)
     assert.equal((await durumOku(o)).ham.asama, 'derleniyor')
     assert.equal(calistir(betik, o, { ...kuru, SERVICE_RESULT: 'timeout' }).status, 0)
@@ -227,4 +243,45 @@ test('yukle_kendiGunlugu_stdinIleGunlugeGirer', async () => {
   yukleKuru(o)
   const { ham } = await durumOku(o)
   assert.ok(ham.gunluk.includes('yukle: failed (exit 1)'), ham.gunluk.join('\n'))
+})
+
+test('derle_npmCiBirKezCoker_sonrakiCalismaAyniHeadleYenidenDener', async () => {
+  const o = ortamKur()
+  const sayac = join(o.kok, 'ci-sayisi')
+  sahteYaz(o, 'npm', `if [ "$1" = ci ]; then echo x >> "${sayac}"; [ "$(wc -l < "${sayac}")" -gt 1 ] || exit 1; fi
+echo "npm $*"; [ "$1" = run ] && mkdir -p out && touch out/index.html; exit 0`)
+  assert.notEqual(calistir(DERLE, o).status, 0)
+  assert.equal((await durumOku(o)).ham.asama, 'hata')
+  assert.equal(existsSync(join(o.depo, 'node_modules', '.bozo-kilit')), false)
+  assert.equal(calistir(DERLE, o).status, 0)
+  assert.match(readFileSync(join(o.kok, 'derleme.log'), 'utf8'), /npm ci/)
+  assert.equal(calistir(DERLE, o).status, 0)
+  assert.doesNotMatch(readFileSync(join(o.kok, 'derleme.log'), 'utf8'), /npm ci/)
+  assert.equal(readFileSync(sayac, 'utf8').split('\n').filter(Boolean).length, 2)
+})
+
+test('yukle_bekciDosyasiSembolikBag_reddeder', async () => {
+  const o = ortamKur()
+  ciktiKur(o, 'favicon.svg')
+  writeFileSync(join(o.kok, 'gercek.svg'), 'x')
+  symlinkSync(join(o.kok, 'gercek.svg'), join(o.cikti, 'favicon.svg'))
+  assert.equal(yukleKuru(o).status, 1)
+  const { ham } = await durumOku(o)
+  assert.equal(ham.asama, 'hata')
+  assert.ok(ham.gunluk.some((s) => s.includes('links or special files') && s.includes('favicon.svg')))
+})
+
+test('yukle_sabitBag_reddeder', async () => {
+  const o = ortamKur()
+  ciktiKur(o)
+  linkSync(join(o.cikti, 'index.html'), join(o.cikti, 'kopya.html'))
+  assert.equal(yukleKuru(o).status, 1)
+  assert.ok((await durumOku(o)).ham.gunluk.some((s) => s.includes('links or special files')))
+})
+
+test('yukle_basarili_sahneVeSahiplikIziKalmaz', () => {
+  const o = ortamKur()
+  ciktiKur(o)
+  assert.equal(yukleKuru(o).status, 0)
+  assert.deepEqual(readdirSync(o.gecici), [])
 })
