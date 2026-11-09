@@ -19,10 +19,10 @@ const varsayilanIsletme: Isletme = {
   // Sahibi 9 Kasım 2026'da düzeltti (eskisi No:4, dükkan aynı yerde). Apartman adı
   // yazılmıyor, sahibinin kararı: cadde + numara yeterli.
   binaNo: 'No:20D',
-  // Sahibi 24 Ağustos 2026'da Google Maps'ten verdi: kapıya yakınlaşılmış nokta
-  // (20.62z), posta kodunu OpenStreetMap bağımsız teyit etti.
+  // Posta kodunu OpenStreetMap bağımsız teyit etti.
   postaKodu: '99300',
-  koordinat: { enlem: 35.3370065, boylam: 33.3057253 },
+  // Google kaydının pini (9 Kasım 2026). 24 Ağustos'taki nokta 31 m güneybatıda, otoparktaydı.
+  koordinat: { enlem: 35.3371843, boylam: 33.305993 },
   // Telefon ve WhatsApp aynı hat (numara menü belgesinde); sahibi 19 Ekim 2026'da siteden kaldırdı.
   // Açıp kapatmak panelde (menü belgesi > iletisim.telefonAcik); kapalıyken ikisi null.
   telefon: null,

@@ -31,8 +31,8 @@ test('restaurantJsonLd_gercekVeriyle_koordinatiGeoyaYazar', () => {
   const veri = restaurantJsonLd() as Record<string, unknown>
   assert.deepEqual(veri.geo, {
     '@type': 'GeoCoordinates',
-    latitude: 35.3370065,
-    longitude: 33.3057253,
+    latitude: 35.3371843,
+    longitude: 33.305993,
   })
 })
 
@@ -168,7 +168,7 @@ test('menuJsonLd_cigerKalemi_ikiOlcuOfferiniTasir', () => {
 
 test('menuJsonLd_karisikKalemi_yalnizPorsiyonOfferiTasir', () => {
   const veri = menuJsonLd('tr', belge) as Record<string, unknown>
-  const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozo Karışık')
+  const karisik = (veri.hasMenuSection as MenuSection[])[0]?.hasMenuItem.find((k) => k.name === 'Bozani')
   assert.deepEqual(karisik?.offers, [
     { '@type': 'Offer', name: 'Porsiyon', price: '700', priceCurrency: 'TRY', availability: STOKTA },
   ])

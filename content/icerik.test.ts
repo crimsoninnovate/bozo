@@ -157,7 +157,7 @@ test('erisim_cekmeceAdiGezinmeAdlarindanFarkli', () => {
  * kalmadı; JSON-LD `geo`/`postalCode` ile `yolTarifiUrl()` yön tarifi dalı buna bağlı.
  */
 test('isletme_koordinatVePostaKodu_dogrulanmisDegerTasir', () => {
-  assert.deepEqual(isletme.koordinat, { enlem: 35.3370065, boylam: 33.3057253 })
+  assert.deepEqual(isletme.koordinat, { enlem: 35.3371843, boylam: 33.305993 })
   assert.equal(isletme.postaKodu, '99300')
 })
 

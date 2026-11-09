@@ -109,7 +109,7 @@ test('yolTarifiUrl_koordinatVePlaceIdBilinmiyorken_adresAramasiUretir', () => {
 test('yolTarifiUrl_yalnizKoordinatBilinirken_koordinataYonTarifiUretir', () => {
   const placeIdsiz: Isletme = { ...isletme, googlePlaceId: null }
   const url = yolTarifiUrl(placeIdsiz)
-  assert.equal(url, 'https://www.google.com/maps/dir/?api=1&destination=35.3370065,33.3057253')
+  assert.equal(url, 'https://www.google.com/maps/dir/?api=1&destination=35.3371843,33.305993')
 })
 
 // Gerçek veri bu dala düşer. Hedef metin olmak zorunda: koordinat verilince Maps
