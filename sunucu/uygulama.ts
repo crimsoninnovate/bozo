@@ -59,7 +59,7 @@ export type Uygulama = {
 
 const SAAT_MS = 60 * 60_000
 /** Spec §9: oyuncu 40 tur/saat, IP 600 istek/saat; yönetim ucuna IP başına 60/saat (kod tahmini);
- * `GET /yonetim/derleme` bunun dışında, kendi 1200/saat kovasında (yine personel kimliği ister). */
+ * `GET /yonetim/derleme` bunun dışında, geçerli kimlikle kendi 1200/saat kovasında. */
 const OYUNCU_SAATLIK = 40
 const IP_SAATLIK = 600
 const YONETIM_SAATLIK = 60
@@ -138,10 +138,21 @@ export function uygulamaKur(
   }
   const liste = rotalar(b, ayar.yonetim)
 
+  /** Geniş kova yalnız geçerli kimliğe açık: yanlış parola her `/yonetim` ucundaki gibi 60/saate sayılır. */
+  function yetkiliMi(istek: Istek): boolean {
+    try {
+      yonetimDenetle(ayar.yonetim, istek, ayar.tuz, simdi())
+      return true
+    } catch (hata) {
+      if (hata instanceof IstekHatasi) return false
+      throw hata
+    }
+  }
+
   async function yonlendir(istek: Istek): Promise<Yanit> {
     // Menü ve derleme durumu okumaları kendi geniş kovalarını kullanır (restoran wifi'si tek IP).
     const menuOkuma = istek.yontem === 'GET' && istek.yol === '/menu'
-    const derlemeOkuma = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme'
+    const derlemeOkuma = istek.yontem === 'GET' && istek.yol === '/yonetim/derleme' && yetkiliMi(istek)
     const kova = menuOkuma ? menuSiniri : derlemeOkuma ? derlemeSiniri : ipSiniri
     if (!kova.izinVar(istek.ip, simdi())) return { durum: 429, govde: { hata: 'cokIstek' } }
     if (istek.yol.startsWith('/yonetim') && !derlemeOkuma && !yonetimSiniri.izinVar(istek.ip, simdi())) {

@@ -167,3 +167,28 @@ test('getDerleme_cokSayida_yonetimKovasiniYemez_sonrakiPostBasarili', async () =
     siniri.sunucu.close()
   }
 })
+
+/** Yanlış parolayla `yol`'a art arda GET atar; ilk 429'un sırasını döner. */
+async function ilk429(yol: string, taban: string): Promise<number> {
+  const yanlis = { Authorization: `Basic ${Buffer.from('personel:yanlis').toString('base64')}` }
+  for (let i = 1; i <= 700; i++) {
+    const durum = (await fetch(taban + yol, { headers: yanlis }).then(async (y) => (await y.arrayBuffer(), y.status)))
+    if (durum === 429) return i
+    assert.equal(durum, 401, `istek ${i}`)
+  }
+  return -1
+}
+
+test('getDerleme_yanlisParola_yonetimKovasinaSayilir_digerUclarlaAyniNoktadaKesilir', async () => {
+  const a = await sunucuAc(dizin)
+  const b = await sunucuAc(dizin)
+  try {
+    const derleme = await ilk429('/yonetim/derleme', a.kok)
+    const sayac = await ilk429('/yonetim/sayac', b.kok)
+    assert.equal(sayac, 61)
+    assert.equal(derleme, sayac)
+  } finally {
+    a.sunucu.close()
+    b.sunucu.close()
+  }
+})
