@@ -23,11 +23,21 @@ Skewer counts (`porsiyonNotu` / `durumNotu`) are the owner's: portions 19 Octobe
 24 October 2026 (a wrap carries the same count as the portion). Menu rows and JSON-LD follow
 the document on their own.
 
+**Page texts from the panel** (spec `docs/specs/2026-11-09-panel-metinler-design.md`). Every string under `ana`,
+`menu`, `hikaye`, `konum` and `galeri` can be overridden from the panel's Sayfa Metinleri tab; the document's
+`metinler` holds only the changed ones, keyed by dictionary path (`ana.hero.govde`). The build applies them in
+`content/index.ts` before the hours fill in (`NEXT_PUBLIC_METINLER`). The dictionaries here stay the default and
+the text every test reads: an override never shows in `content/icerik.test.ts`. Renaming or moving a key, or
+changing a default's placeholders, orphans its override: readers (`metinleriAyikla`: panel, draft, build, the
+server's completion) drop it with a warning and the default prints, so check the live document's `metinler`
+before such an edit. Overrides keep the default's placeholders, never write an hour by hand, and pass the same
+copy rules (`lib/menu/dogrulama.ts`). `ortak`, `gizlilik`, `hata` and `oyun` stay code only.
+
 Two places hold copy that the document can outdate:
 
 - The menu opening sentence, meta description and the home page note `ana.ocakbasi.altNot` take
   their counts from the document (`{kalem}`, `{ikram}`, `acilisSpotu` in `lib/menu/sayilar.ts`),
-  so adding items is safe. The note's "Beş ürün" / "Five dishes" is still hand-written.
+  so adding items is safe. The note's "Beş ürün" / "Five dishes" is still a dictionary text.
 - `kalemAdlari` in `content/tr/oyun.ts` (the game's item names, now including domates and sogan)
   is a copy of the document's names. The game runs in the browser and cannot read the document,
   so it can drift; `content/icerik.test.ts` compares it with the seed only.

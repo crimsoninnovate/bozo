@@ -160,10 +160,11 @@ What the panel changes, and when it shows:
 | Prices, names, descriptions | Menu page | JSON-LD, `llms.txt`, meta description |
 | Sold-out flag | Menu page | nothing else shows it |
 | Announcement bar | Every page | the baked HTML carries the version built last |
-| Treats (names, texts, groups) | Menu page, the opening sentence's counts | meta description, `llms.txt` and home page note counts (`ana.ocakbasi.altNot`); home page treat copy (`ana.ikram`) needs a code edit, see `content/CLAUDE.md` |
+| Treats (names, texts, groups) | Menu page, the opening sentence's counts | meta description, `llms.txt` and home page note counts (`ana.ocakbasi.altNot`); home page treat copy (`ana.ikram`) is a page text, see the next rows |
 | Contact, phone toggle, social accounts, review code | nothing | everywhere (footer, top bar, JSON-LD, privacy page) |
 | Opening hours | the open/closed badge and its closed text | every other hour in the copy (filled from the document at build time), JSON-LD, meta descriptions |
 | Photos (upload, assign, focus) | nothing: the page is static | the baked slot images |
+| Page texts (home, menu, story, location, gallery) | nothing: the pages are static | the baked pages, metadata, JSON-LD and `llms.txt` that read them |
 
 The panel's "site version" line shows which menu version the live site was built from.
 

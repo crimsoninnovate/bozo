@@ -8,6 +8,14 @@ Son güncelleme: 9 Kasım 2026
 
 ## Durum
 
+- **Panelden sayfa metinleri (9 Kasım gecesi, yerel `main`; push ve kurulum sahibinin onayını bekliyor).**
+  Panelde "Sayfa Metinleri" sekmesi: Ana sayfa, Menü, Hikaye, Konum ve Galeri'nin 119 metni Türkçe ve
+  İngilizce; değişen metin belgenin `metinler` bölümünde durur, "Siteyi Güncelle" ile sayfaya basılır.
+  Yer tutucular, elle saat ve metin kuralları doğrulanır; koddan kopan metin okurken düşer. Tasarım
+  `docs/specs/2026-11-09-panel-metinler-design.md`, kurulum `SUNUCU-CANLIYA-ALMA.md` > Panelden sayfa
+  metinleri (önce sunucu). Yerelde uçtan uca denendi (1280 ve 390 px). Kişi başına girişle aynı kurulumda
+  çıkabilir.
+
 - **Kişi başına panel girişi (9 Kasım gecesi, `main`'e yerelde birleştirildi; push ve kurulum sahibinin onayını bekliyor).** Admin
   ortamda kalır; panelin Kullanıcılar sekmesinden (yalnız admin) hesap açılır, kapatılır, geçici şifre verilir.
   Geçici şifreli hesap önce kendi şifresini koyar; kapatma, sıfırlama ve şifre değişimi o hesabın bütün

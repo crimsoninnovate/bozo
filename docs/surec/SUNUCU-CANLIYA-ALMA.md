@@ -121,6 +121,14 @@ anahtarları (`<bitisMs>.<hmac>`, sahibin bugünkü "Beni hatırla"sı) 15 Aral�
    `systemctl restart bozo-oyun` çalıştırır. Bu, adminin bütün oturumlarını da düşürür; o güne kadar
    personelin işlemleri kayıtta admin adıyla görünür.
 
+## Panelden sayfa metinleri (9 Kasım 2026, henüz canlıda değil)
+
+Menü belgesine `metinler` bölümü eklendi (tasarım `docs/specs/2026-11-09-panel-metinler-design.md`). Şema
+değişikliği yok: belge JSON olarak saklanır. Sıra yine önce skor sunucusu, sonra site: eski sunucu yeni panelin
+`metinler` alanını bilinmeyen alan sayıp yayını 400 ile reddeder. Yeni sunucu `metinler`siz eski panel
+belgesini ve sürüm 6 gibi eski sürümleri boş metinlerle tamamlar. Denetim: panelde Sayfa Metinleri'nde bir
+metni değiştir, yayınla, "Siteyi Güncelle", sayfada gör; sonra "Varsayılana dön" ile geri al ve yeniden yayınla.
+
 ## Panelden site yayını ve fotoğraflar (canlıda, 9 Kasım 2026)
 
 Panelin **Siteyi güncelle** düğmesi ve **Fotoğraflar** sekmesi için arc'ta yapılacak kurulum. Tasarım:
