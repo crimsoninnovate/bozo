@@ -16,6 +16,8 @@ function geciciHedef(): { hedef: string; sil: () => void } {
   return { hedef: join(dizin, 'menu.canli.json'), sil: () => rmSync(dizin, { recursive: true, force: true }) }
 }
 
+const ANINDA = { deneme: 3, araMs: 0 }
+
 const json = (govde: unknown, status = 200): typeof fetch =>
   (async () => new Response(JSON.stringify(govde), { status })) as typeof fetch
 
@@ -88,10 +90,13 @@ test('menuCek_agHatasi_varOlanDosyayaDokunmazVeBasarisizDoner', async () => {
   const uyari = mock.method(console, 'warn', () => {})
   try {
     writeFileSync(hedef, '{"eski":true}')
+    let cagri = 0
     const getir = (async () => {
+      cagri++
       throw new TypeError('fetch failed')
     }) as typeof fetch
-    assert.equal(await menuCek(KOK, getir, hedef), 'basarisiz')
+    assert.equal(await menuCek(KOK, getir, hedef, undefined, ANINDA), 'basarisiz')
+    assert.equal(cagri, 3)
     assert.equal(readFileSync(hedef, 'utf8'), '{"eski":true}')
     assert.ok(uyari.mock.callCount() >= 1)
   } finally {
@@ -108,7 +113,13 @@ test('menuCek_gecersizBelge_dosyayaYazmaz', async () => {
     const ilk = bozuk.kalemler[0]
     assert.ok(ilk)
     ilk.fiyatlar.porsiyon = -5
-    assert.equal(await menuCek(KOK, json({ surum: 3, belge: bozuk }), hedef), 'basarisiz')
+    let cagri = 0
+    const getir = (async () => {
+      cagri++
+      return new Response(JSON.stringify({ surum: 3, belge: bozuk }))
+    }) as typeof fetch
+    assert.equal(await menuCek(KOK, getir, hedef, undefined, ANINDA), 'basarisiz')
+    assert.equal(cagri, 1, 'gecersiz belge yeniden denenmez')
     assert.equal(existsSync(hedef), false)
   } finally {
     uyari.mock.restore()
@@ -133,4 +144,22 @@ test('tohumuOku_okunamayanDosya_undefinedDonerVeUyarirLoglar', () => {
 
 test('tohumuOku_gecerliDosya_belgeDoner', () => {
   assert.deepEqual(tohumuOku(new URL('../content/menu.varsayilan.json', import.meta.url).pathname), varsayilan)
+})
+
+test('menuCek_gecici522SonraBasari_yenidenDenerVeYazar', async () => {
+  const { hedef, sil } = geciciHedef()
+  const uyari = mock.method(console, 'warn', () => {})
+  try {
+    let cagri = 0
+    const getir = (async () => {
+      cagri++
+      if (cagri === 1) return new Response('', { status: 522 })
+      return new Response(JSON.stringify({ surum: 4, belge: varsayilan }))
+    }) as typeof fetch
+    assert.equal(await menuCek(KOK, getir, hedef, undefined, ANINDA), 'yazildi')
+    assert.equal(cagri, 2)
+  } finally {
+    uyari.mock.restore()
+    sil()
+  }
 })

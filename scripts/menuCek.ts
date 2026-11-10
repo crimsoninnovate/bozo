@@ -5,6 +5,7 @@ import type { MenuBelgesi } from '../lib/menu/tipler.ts'
 
 const VARSAYILAN_API = 'https://api.cigercibozo.com'
 const ZAMAN_ASIMI_MS = 10_000
+const YENIDEN_DENEME = { deneme: 3, araMs: 2000 }
 
 export type CekmeSonucu = 'yazildi' | 'sunucudaYok' | 'basarisiz'
 
@@ -20,7 +21,7 @@ function yazAtomik(yol: string, veri: unknown): void {
  * `tam`: 1. sürüm belgenin eksik bölümlerini tamamlar (yazılan dosya hep tam belgedir).
  */
 export async function menuCek(
-  kok: string, getir: typeof fetch, hedef: string, tam?: MenuBelgesi,
+  kok: string, getir: typeof fetch, hedef: string, tam?: MenuBelgesi, ayar = YENIDEN_DENEME,
 ): Promise<CekmeSonucu> {
   let durum: number | null = null
   const izle = (async (...args: Parameters<typeof fetch>) => {
@@ -28,7 +29,14 @@ export async function menuCek(
     durum = yanit.status
     return yanit
   }) as typeof fetch
-  const yanit = await canliMenuGetir(kok, izle, ZAMAN_ASIMI_MS, tam)
+  let yanit = await canliMenuGetir(kok, izle, ZAMAN_ASIMI_MS, tam)
+  // Ağ hatası, zaman aşımı ya da 5xx (Cloudflare'in ara sıra 522'si) yeniden denenir; geçersiz belge denenmez.
+  for (let n = 1; yanit === null && n < ayar.deneme && (durum === null || durum >= 500); n++) {
+    console.warn(`menuCek: deneme ${n} basarisiz (durum ${durum ?? 'ag'}), yeniden deneniyor`)
+    await new Promise((bitti) => setTimeout(bitti, ayar.araMs))
+    durum = null
+    yanit = await canliMenuGetir(kok, izle, ZAMAN_ASIMI_MS, tam)
+  }
   if (yanit === null) return durum === 204 ? 'sunucudaYok' : 'basarisiz'
   try {
     mkdirSync(dirname(hedef), { recursive: true })
