@@ -171,19 +171,17 @@ Son güncelleme: 10 Kasım 2026
    deneme hesabı, zorunlu şifre ekranı, bir yayın ve Geçmiş'te yazar, hesabı kapatınca öbür cihaz girişe döner.
 2. **Admin şifresi (sahibi):** personel admin şifresini biliyorsa her birine hesap açılır, sonra `YONETIM_SIFRE`
    değişir (aynı belge, adım 4).
-3. **Root yayın adımı (denetim ipucu 2):** `sunucu/derleme/yukle.sh` ve `scripts/yayinla.sh` root olarak
-   `engincaglar`'ın httpdocs'una rsync, chown, chmod yapıyor. Önce arc'ta `stat -c '%U:%G %a'
-   /var/www/vhosts/cigercibozo.com` ve `systemctl show -p User bozo-oyun`; öneri root'a ait kardeş dizinde
-   hazırlayıp yer değiştirmek, sembolik httpdocs'u reddetmek, `chown -h`. Sahibinin kararı.
+3. **Kapandı (10 Kasım): root yayın adımı (denetim ipucu 2).** `yukle.sh` ve `yayinla.sh` httpdocs'a artık
+   `runuser -u engincaglar` ile kopyalar, root orada `rsync`, `chown`, `chmod` yapmaz (README > Deploy). İki yol da
+   canlıda denendi: `plesk repair fs` temiz, sahiplik ve kipler doğru. Eski betik `/root/yukle.sh.2026-11-10.bak`.
 4. **Cloudflare (10 Kasım'da API ile okundu, değişiklik yapılmadı; Free plan).** Kural seti, hız sınırı, WAF
    ya da önbellek kuralı yok; `api.cigercibozo.com/menu` ve `/tablo` önbelleğe girmiyor. AAAA kaydı yok, IPv6
    kenarda açık (istemci IPv6 gelir, origin IPv4). 52x: 23 saatte ~5000 istekte 7 kez 522 (hepsi AMS kenarı,
    bizim üç ölçümümüz dahil) ve 5 kez 523; arc tarafında yasak, güvenlik duvarı sınırı ya da kuyruk taşması
    yok, Cloudflare ile arc arasındaki ağ yolu. Kalıcı çözüm istenirse Cloudflare Tunnel (sahibinin kararı).
-   Sahibinin panelde yapabileceği: SSL `full` yerine `full (strict)` (origin sertifikaları doğrulandı, ikisi de
-   geçerli), en düşük TLS 1.0 yerine 1.2; `mail` ve `ftp` kayıtları proxy'li, bu yüzden e-posta programları
-   ve FTP `mail.cigercibozo.com` ile bağlanamaz (gelen posta Cloudflare'in `_dc-mx` kaydıyla arc'a ulaşıyor);
-   Free planın bir hız sınırı kuralı `/yonetim/*` için kullanılabilir. Token iptal edilecek (sahibi).
+   Yapıldı (sahibinin onayıyla, API'den): SSL `full (strict)`, en düşük TLS 1.2, `mail` kaydı DNS only (e-posta
+   programları ve MX doğrudan arc'a; IMAPS sertifikası geçerli). `ftp` proxy'li CNAME kaldı (kullanılırsa A kaydı
+   gerekir). `menuCek` ve `yayinla` başlık denetimi geçici 5xx'te yeniden dener. Token iptal edilecek (sahibi).
 5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
    push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
    çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı
