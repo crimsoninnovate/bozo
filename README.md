@@ -179,22 +179,18 @@ site only after a rebuild, because the baked HTML carries the image URL.
 
 ```bash
 npm run build
-rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
-ssh plesk-206 'D=/var/www/vhosts/cigercibozo.com/httpdocs;
-  chown -R engincaglar:psacln "$D" && chown engincaglar:psaserv "$D" && chmod 750 "$D"'
+find out -type d -exec chmod 755 {} + && find out -type f -exec chmod 644 {} + && chmod 750 out
+rsync -az --no-owner --no-group --delete --no-links --rsync-path='runuser -u engincaglar -- rsync' \
+  out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
 ```
 
-The `chown` is not optional. `rsync -a` copies the numeric owner and the connection is `root`,
-so without it every file lands owned by the local uid and Plesk's `repair fs` flags the
-subscription. Deploying as the subscription's own user is not an option either: `engincaglar`
-has `/bin/false` for a shell.
-
-**The second `chown` is not optional either.** `httpdocs` itself is not one of its own
-contents: Plesk wants the directory `engincaglar:psaserv 750` and everything inside it
-`engincaglar:psacln`. A plain `chown -R` sweeps the directory in too and `plesk repair fs`
-then reports `Incorrect group of .../httpdocs/.: expected is psaserv (1002), actual is
-psacln (1003)`. Measured on the 20 August 2026 deploy; `rsync -a` also carried `out/`'s
-own `755` onto it, hence the `chmod`.
+The copy runs as `engincaglar`, not root (10 November 2026). `httpdocs` and its parent belong to
+`engincaglar`, which is also the score server's user, so a root `rsync --delete` or `chown` there could be
+steered by a symlink planted from a compromised score server. `runuser -u` needs no login shell
+(`engincaglar` has `/bin/false`). Plesk wants `httpdocs` itself `engincaglar:psaserv 750` and everything
+inside it `engincaglar:psacln`: the modes are set on `out/` before the copy (`rsync -a` carries `out/`'s own
+mode onto `httpdocs`), and `--no-group` leaves `httpdocs`' `psaserv` alone while new files take
+`engincaglar`'s primary group, `psacln`. Before this, two root `chown`s and a `chmod 750` did that work.
 
 Verify after every deploy:
 
@@ -211,8 +207,8 @@ first run (26 October 2026) printed `Error messages: 0; Warnings: 0; Errors reso
 The `rsync` line is the only honest "is the deploy complete" check. A plain dry-run is not:
 `rsync` compares mtime by default, and a clean rebuild resets every timestamp, so it reports
 changes that are not there. `--checksum` compares content. `--no-owner --no-group --no-perms`
-keep the `chown` above from listing every file as `.f....og...` (measured 23 October 2026: 171
-such lines, zero content changes). Note also that a clean rebuild
+keep owner, group and mode differences from listing every file as `.f....og...` (measured 23 October
+2026: 171 such lines, zero content changes). Note also that a clean rebuild
 mints a new Next build ID, which every HTML file embeds in its asset paths: after a
 `rm -rf out && npm run build` all twelve routes genuinely differ even when nothing changed.
 

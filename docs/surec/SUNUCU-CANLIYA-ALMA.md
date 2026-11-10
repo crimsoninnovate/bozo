@@ -165,8 +165,10 @@ olmalı, yoksa hiçbir şey açılmadan reddedilir. Sonra yeni bir alt dizine a�
 dosya ve dizinden başka bir şey ya da birden çok bağlı dosya varsa yükleme reddedilir (ikinci ağ). Bekçi
 ve `rsync` bu ağaç üzerinde çalışır. Birimdeki `+` satırları (root) systemd 239'da `User=`'ın `HOME`'unu, yani derleme kullanıcısının ağacını
 taşır (9 Kasım'da arc'ta ölçüldü); bu yüzden üçü de `env -i ... HOME=/root` ile başlar, yoksa root'un `docker`
-istemcisi `bozo-derleme`'nin yazdığı bir `~/.docker/config.json`'u okurdu. Root'ta kalanlar: sahneden httpdocs'a `rsync`,
-`chown`, `chmod` ve `plesk`.
+istemcisi `bozo-derleme`'nin yazdığı bir `~/.docker/config.json`'u okurdu. Root'ta kalanlar: sahnedeki kipler
+ve sahiplik (root'un özel dizini) ve `plesk`. Sahneden httpdocs'a `rsync` 10 Kasım 2026'dan beri `runuser -u engincaglar`
+ile çalışır: httpdocs ve üst dizini skor sunucusunun kullanıcısına ait, root orada yazarsa bir sembolik bağ onu
+yönlendirebilirdi (denetim ipucu 2).
 
 | Yol | Sahip, kip | Kim yazar |
 |---|---|---|

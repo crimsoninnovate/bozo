@@ -25,12 +25,14 @@ if grep -q 'CANLI MENU ALINAMADI' "$LOG"; then
 Nothing was uploaded. Fix the API (BOZO_MENU_API) and run again."
 fi
 
-adim "Uploading out/ to $SUNUCU"
-rsync -az --delete out/ "$SUNUCU:$DIZIN/"
-
-adim "Setting owners (chown twice, chmod 750) in one ssh call"
-ssh "$SUNUCU" "D=$DIZIN;
-  chown -R engincaglar:psacln \"\$D\" && chown engincaglar:psaserv \"\$D\" && chmod 750 \"\$D\""
+adim "Uploading out/ to $SUNUCU as engincaglar"
+# httpdocs belongs to engincaglar, the score server's user, so root never writes there (same as yukle.sh).
+# Modes are set here; --no-group gives new files engincaglar's group (psacln) and keeps httpdocs' psaserv.
+find out -type d -exec chmod 755 {} +
+find out -type f -exec chmod 644 {} +
+chmod 750 out
+rsync -az --no-owner --no-group --delete --no-links --rsync-path='runuser -u engincaglar -- rsync' \
+  out/ "$SUNUCU:$DIZIN/"
 
 adim "Verifying: plesk repair fs"
 REPAIR="$(ssh "$SUNUCU" 'plesk repair fs cigercibozo.com -n' 2>&1)" || {
@@ -52,7 +54,8 @@ ROBOTS="$(grep -ci x-robots-tag <<<"$BASLIKLAR" || true)"
 adim "Verifying: security headers from public/.htaccess"
 # They sit inside <IfModule mod_headers.c>, so a server change would drop them silently.
 for baslik in strict-transport-security x-content-type-options x-frame-options; do
-  grep -qi "^$baslik:" <<<"$BASLIKLAR" || dur "the site no longer sends $baslik; check mod_headers and public/.htaccess."
+  grep -qi "^$baslik:" <<<"$BASLIKLAR" ||
+    dur "the site no longer sends $baslik; check mod_headers and public/.htaccess."
 done
 
 adim "Verifying: checksum dry run, no file lines expected"

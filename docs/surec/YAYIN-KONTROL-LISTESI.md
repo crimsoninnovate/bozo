@@ -125,12 +125,8 @@ kurulumunda beş komşu site reload öncesi ve sonrası birebir aynı durumu dö
 Yayın hedefi 20 Ağustos 2026'da arc sunucusuna (Plesk) taşındı. Yukarıdaki iki Caddy tuzağı
 artık tarihsel kayıt; researchos deploy almıyor.
 
-    npm run build
-    rsync -az --delete out/ plesk-206:/var/www/vhosts/cigercibozo.com/httpdocs/
-    ssh plesk-206 'chown -R engincaglar:psacln /var/www/vhosts/cigercibozo.com/httpdocs'
-
-Sunucu reload gerekmez, dosyalar diskten okunuyor. `chown` atlanamaz: `rsync -a` sayısal
-sahipliği taşır, bağlantı `root` olduğu için dosyalar yerel uid ile düşer.
+Güncel komut `npm run yayinla`, adımları `README.md` > Publishing > Deploy. Sunucu reload gerekmez,
+dosyalar diskten okunuyor. 10 Kasım 2026'dan beri kopya root değil `engincaglar` olarak yapılır.
 
 ## Yayınla birlikte açılacak kararlar
 

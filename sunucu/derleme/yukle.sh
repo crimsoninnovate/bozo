@@ -96,10 +96,14 @@ for dosya in "${BEKCI[@]}"; do
 done
 
 if [ "${YUKLE_KURU:-}" != 1 ]; then
-  rsync -a --delete --no-links --chmod=D755,F644 "$AGAC/" "$HTTPDOCS/"
-  chown -R engincaglar:psacln "$HTTPDOCS"
-  chown engincaglar:psaserv "$HTTPDOCS"
-  chmod 750 "$HTTPDOCS"
+  # httpdocs and its parent belong to engincaglar, the score server's user, so root never writes there:
+  # modes are set in root's private stage and engincaglar copies. --no-group keeps httpdocs' psaserv.
+  find "$AGAC" -type d -exec chmod 755 {} +
+  find "$AGAC" -type f -exec chmod 644 {} +
+  chmod 750 "$AGAC"
+  chown -R engincaglar:psacln "$AGAC"
+  chmod 711 "$SAHNE"
+  runuser -u engincaglar -- rsync -a --no-owner --no-group --delete --no-links "$AGAC/" "$HTTPDOCS/"
   onarim="$(plesk repair fs cigercibozo.com -n 2>&1)" || { echo "$onarim"; dur "plesk repair fs exited with an error"; }
   echo "$onarim"
   # Fail closed: only Plesk's own summary line counts as a clean result.
