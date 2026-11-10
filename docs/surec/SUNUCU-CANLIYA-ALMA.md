@@ -344,8 +344,9 @@ Sorun: Apache ve ModSecurity istemci olarak Cloudflare kenarını görüyordu. `
 `include` satırını ekler. Önceki `conf` yedeği `/root/cigercibozo-conf-20261110-140548.bak`. Aralıklar
 `https://www.cloudflare.com/ips-v4` ve `ips-v6`'dan; değişirse dosya yeniden yazılır (skor sunucusundaki liste
 `sunucu/ip.ts` > `CLOUDFLARE`). `api.cigercibozo.com` buna gerek duymaz: skor sunucusu `CF-Connecting-IP`'yi kendisi
-okur. Sunucudaki başka siteler hala Cloudflare kenarı yasaklatabilir ve yasak iptables'ta bütün sunucuyu
-kapsar; Cloudflare aralıklarını fail2ban'ın güvenilir IP'lerine eklemek sunucu genelinde bir karardır.
+okur. Sunucudaki başka siteler de Cloudflare kenarı yasaklatabiliyordu (yasak iptables'ta bütün sunucuyu
+kapsar): sahibinin onayıyla 22 Cloudflare aralığı fail2ban'ın güvenilir IP'lerinde (`plesk bin ip_ban --trusted`,
+açıklama "Cloudflare edge"). Geri alma: `plesk bin ip_ban --remove-trusted "<aralık>;..."`.
 
 ## Yayındaki gizlilik metninin kaynağı
 

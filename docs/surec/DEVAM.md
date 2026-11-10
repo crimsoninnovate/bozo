@@ -179,8 +179,8 @@ Son güncelleme: 10 Kasım 2026
    `api.cigercibozo.com` AAAA ve IPv6 ayarı, `/yonetim/*` hız ve WAF kuralları, `/menu` ve `/tablo` önbellek
    kuralları okunur. 10 Kasım'da üç geçici 522 (biri `yayinla`'yı doğrulamada durdurdu, artık yeniden dener);
    bir neden bulundu: ModSecurity ve fail2ban Cloudflare kenarlarını yasaklıyordu; `cigercibozo.com` artık gerçek IP
-   görüyor (`SUNUCU-CANLIYA-ALMA.md` > Cloudflare arkasında gerçek istemci IP'si). Açık: fail2ban güvenilir
-   listesine Cloudflare (sunucu geneli, sahibinin kararı); üç 522'nin zamanı yasaklarla örtüşmedi, izlenmeli.
+   görüyor ve Cloudflare aralıkları fail2ban'ın güvenilir listesinde (`SUNUCU-CANLIYA-ALMA.md` > Cloudflare
+   arkasında gerçek istemci IP'si). Açık: üç 522'nin zamanı yasaklarla örtüşmedi, tekrarlarsa izlenmeli.
 5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
    push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
    çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı
