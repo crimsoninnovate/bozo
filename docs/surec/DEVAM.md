@@ -175,12 +175,15 @@ Son güncelleme: 10 Kasım 2026
    `engincaglar`'ın httpdocs'una rsync, chown, chmod yapıyor. Önce arc'ta `stat -c '%U:%G %a'
    /var/www/vhosts/cigercibozo.com` ve `systemctl show -p User bozo-oyun`; öneri root'a ait kardeş dizinde
    hazırlayıp yer değiştirmek, sembolik httpdocs'u reddetmek, `chown -h`. Sahibinin kararı.
-4. **Cloudflare (salt okuma):** API anahtarının yeri bulunamadı; anahtar oturuma ortam değişkeniyle verilince
-   `api.cigercibozo.com` AAAA ve IPv6 ayarı, `/yonetim/*` hız ve WAF kuralları, `/menu` ve `/tablo` önbellek
-   kuralları okunur. 10 Kasım'da üç geçici 522 (biri `yayinla`'yı doğrulamada durdurdu, artık yeniden dener);
-   bir neden bulundu: ModSecurity ve fail2ban Cloudflare kenarlarını yasaklıyordu; `cigercibozo.com` artık gerçek IP
-   görüyor ve Cloudflare aralıkları fail2ban'ın güvenilir listesinde (`SUNUCU-CANLIYA-ALMA.md` > Cloudflare
-   arkasında gerçek istemci IP'si). Açık: üç 522'nin zamanı yasaklarla örtüşmedi, tekrarlarsa izlenmeli.
+4. **Cloudflare (10 Kasım'da API ile okundu, değişiklik yapılmadı; Free plan).** Kural seti, hız sınırı, WAF
+   ya da önbellek kuralı yok; `api.cigercibozo.com/menu` ve `/tablo` önbelleğe girmiyor. AAAA kaydı yok, IPv6
+   kenarda açık (istemci IPv6 gelir, origin IPv4). 52x: 23 saatte ~5000 istekte 7 kez 522 (hepsi AMS kenarı,
+   bizim üç ölçümümüz dahil) ve 5 kez 523; arc tarafında yasak, güvenlik duvarı sınırı ya da kuyruk taşması
+   yok, Cloudflare ile arc arasındaki ağ yolu. Kalıcı çözüm istenirse Cloudflare Tunnel (sahibinin kararı).
+   Sahibinin panelde yapabileceği: SSL `full` yerine `full (strict)` (origin sertifikaları doğrulandı, ikisi de
+   geçerli), en düşük TLS 1.0 yerine 1.2; `mail` ve `ftp` kayıtları proxy'li, bu yüzden e-posta programları
+   ve FTP `mail.cigercibozo.com` ile bağlanamaz (gelen posta Cloudflare'in `_dc-mx` kaydıyla arc'a ulaşıyor);
+   Free planın bir hız sınırı kuralı `/yonetim/*` için kullanılabilir. Token iptal edilecek (sahibi).
 5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
    push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
    çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı
