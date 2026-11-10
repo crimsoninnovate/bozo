@@ -187,10 +187,9 @@ Son güncelleme: 10 Kasım 2026
    çerezlerini siler, bant döner); kendi hesabını silen oyuncunun kullanılmamış ödül kodu geçersizleşir (silme
    metniyle uyumlu, şampiyon kaydı kalır; 90 günlük saklama silmesi kodu bozmaz); Kiril ve Yunan benzer harfli
    ayrılmış adlar ("bоzо") reddedilir; temkinli CSP (`base-uri`, `object-src`, `frame-ancestors`, `form-action`).
-   **Sahibinin kararı olarak kalan:** bir kişi birden çok hesapla haftalık üç ödülü toplayabilir, gizli ve şüpheli
-   oyuncular ödülden düşmüyor; restoran wifi'ı tek IP, saatte 600 istek ortak; çıkışta oturum anahtarı sunucuda
-   düşmüyor (şema gerekir); panel genel sitenin kökeninde; tam CSP (`script-src`) Next'in satır içi betikleri
-   yüzünden ayrı iş. Ayrıntı: `~/security-audit-skill/bozo/run-1/REPORT.md` bölüm 6.
+   **Sahibinin kararı olarak kalan:** çıkışta oturum anahtarı sunucuda düşmüyor (şema gerekir); panel genel
+   sitenin kökeninde; tam CSP (`script-src`) Next'in satır içi betikleri yüzünden ayrı iş. Oyun uzun süre aktif
+   olmayacak (sahibi, 10 Kasım 2026): oyuna dönük iş ve önlem yapılmaz (çoklu hesapla ödül, wifi kovası düştü). Ayrıntı: `~/security-audit-skill/bozo/run-1/REPORT.md` bölüm 6.
 6. **Kapandı (10 Kasım):** MariaDB sözleşme testi arc'la aynı sürümde (10.11.19) 28/28 geçti; `.htaccess`
    canlıda uygulanıyor (başlıklar, `/m/1` 302, 404, `_next/static/` 403); `Vary: Origin` her yanıtta;
    üretimde `GIZLI_TUZ` en az 32 karakter; sayfa metni `<`, `>` ve satır sonu almaz, `llms.txt` tek satır
