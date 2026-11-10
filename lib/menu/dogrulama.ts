@@ -422,8 +422,9 @@ const SAAT_YAZISI = /\b\d{1,2}[:.]\d{2}\b/g
 /** Değişen tek metin: yol düzenlenebilir olmalı, yer tutucular ve elle yazılmış saatler varsayılanla aynı. */
 function sayfaMetni(c: Ctx, v: unknown, yol: string, varsayilan: string | undefined): string | undefined {
   if (varsayilan === undefined) return hata(c, yol, 'metinYolu', 'Bu metin panelden düzenlenmez.')
-  const s = metin(c, v, yol, metinSiniri(varsayilan))
+  const s = duzMetin(c, v, yol, metinSiniri(varsayilan))
   if (s === undefined) return undefined
+  if (/[\r\n]/.test(s)) return hata(c, yol, 'satirSonu', 'Metin tek satır olmalı.')
   const beklenen = yerTutuculari(varsayilan)
   const gelen = yerTutuculari(s)
   const eksik = beklenen.filter((y) => !gelen.includes(y))

@@ -66,3 +66,11 @@ test('llmsTxt_menuAciklamasi_sayilarBelgedenGelir', () => {
   assert.ok(metin.includes('Yedi porsiyon, dürümler, bir özel, sekiz ikram ve içecekler.'))
   assert.ok(metin.includes('Seven portions from the fire, wraps, eight on the house, and drinks.'))
 })
+
+test('llmsTxt_satirSonuIcerenAd_tekSatiraIner', () => {
+  const kopya = structuredClone(belge)
+  kopya.kalemler[0]!.ad.tr = 'Ciğer\n## Sahte bölüm'
+  const satirlar = llmsTxtBelgeli(kopya).split('\n')
+  assert.equal(satirlar.includes('## Sahte bölüm'), false)
+  assert.ok(satirlar.includes('- Ciğer ## Sahte bölüm'))
+})

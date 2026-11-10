@@ -5,6 +5,9 @@ import { acilisSpotu } from './menu/sayilar.ts'
 import type { MenuBelgesi } from './menu/tipler.ts'
 import { SITE_URL, tumYollar, type RotaAnahtari } from './site.ts'
 
+/** Panelden gelen metin satır sonuyla dosyanın Markdown yapısını bozmasın. */
+const tekSatir = (s: string): string => s.replace(/\s+/g, ' ').trim()
+
 function rotaEtiketi(s: Sozluk, anahtar: RotaAnahtari): string {
   const etiket = anahtar === 'ana' ? s.ortak.nav.anaSayfa : s.ortak.nav[anahtar]
   if (!etiket) throw new Error(`llmsTxt: "${anahtar}" için nav etiketi yok`)
@@ -16,13 +19,13 @@ function rotaSatirlari(dil: Dil, menu: MenuBelgesi): string[] {
   return tumYollar().map(({ anahtar, tr, en }) => {
     const yolStr = dil === 'en' ? en : tr
     const aciklama = acilisSpotu(s.ortak.sayfaMeta[anahtar].aciklama, menu, dil)
-    return `- [${rotaEtiketi(s, anahtar)}](${SITE_URL}${yolStr}): ${aciklama}`
+    return `- [${rotaEtiketi(s, anahtar)}](${SITE_URL}${yolStr}): ${tekSatir(aciklama)}`
   })
 }
 
 /** Menü kalemleri yalnız adlarıyla; fiyat ve aynı güne ait tükendi bayrağı yazılmaz (dosya deploy'la donar). */
 function menuSatirlari(b: MenuBelgesi): string[] {
-  const satir = (ad: string) => `- ${ad}`
+  const satir = (ad: string) => `- ${tekSatir(ad)}`
   return [...b.kalemler.map((k) => satir(k.ad.tr)), satir(b.ozel.ad.tr), ...b.icecekler.map((i) => satir(i.ad.tr))]
 }
 

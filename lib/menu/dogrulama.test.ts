@@ -625,6 +625,12 @@ test('metinler_bilinmeyenYaDaDuzenlenemezYol_reddedilir', () => {
   assert.equal(hataKodu(metinYaz('en', 'gizlilik.baslik', 'x'), 'metinler.en.gizlilik.baslik'), 'metinYolu')
 })
 
+test('metinler_htmlIsaretiVeSatirSonu_reddedilir', () => {
+  const yol = 'ana.hero.govde'
+  assert.equal(hataKodu(metinYaz('tr', yol, 'Ciğer <b>sıcak</b>'), `metinler.tr.${yol}`), 'htmlIsareti')
+  assert.equal(hataKodu(metinYaz('en', yol, 'Liver\nnext line'), `metinler.en.${yol}`), 'satirSonu')
+})
+
 test('metinler_bosVeUzun_reddedilir', () => {
   assert.equal(hataKodu(metinYaz('tr', 'ana.iddia.baslik', '  '), 'metinler.tr.ana.iddia.baslik'), 'bos')
   // Varsayılan 28 karakter: sınır 1,5 katı, 42.
