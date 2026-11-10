@@ -99,13 +99,14 @@ export const gizlilik = {
 
   geriAlmaBaslik: 'Onayı geri almak',
   geriAlmaMetni:
-    'Onayınızı istediğiniz an geri alabilirsiniz: tarayıcınızın bu site için ' +
-    'sakladığı verileri ve çerezleri silin, bant yeniden çıkar ve bu kez ' +
-    '"Reddet" düğmesine basabilirsiniz.',
+    'Onayınızı istediğiniz an geri alabilirsiniz: aşağıdaki düğmeye basın ya da ' +
+    'tarayıcınızın bu site için sakladığı verileri ve çerezleri silin. Bant yeniden ' +
+    'çıkar ve bu kez "Reddet" düğmesine basabilirsiniz.',
+  geriAlmaDugme: 'Çerez Tercihimi Sıfırla',
 
   soruBaslik: 'Başvuru',
   soruMetni: 'Bu haklara ilişkin taleplerinizi bu adrese yazabilirsiniz:',
   guncellemeMetni:
-    'Son güncelleme: 26 Ekim 2026. Dayanak: KKTC Kişisel Verilerin Korunması ' +
+    'Son güncelleme: 10 Kasım 2026. Dayanak: KKTC Kişisel Verilerin Korunması ' +
     'Yasası (89/2007) ve Bilgilendirme Yükümlülüğü Tüzüğü.',
 }

@@ -554,6 +554,7 @@ test('gizlilik_bantDugmeleriniGuncelAdlariylaAnar', () => {
   for (const s of [tr, en]) {
     assert.ok(s.gizlilik.dayanakMetni.includes(`"${s.ortak.cerez.kabul}"`), s.gizlilik.dayanakMetni)
     assert.ok(s.gizlilik.geriAlmaMetni.includes(`"${s.ortak.cerez.ret}"`), s.gizlilik.geriAlmaMetni)
+    assert.ok(s.gizlilik.geriAlmaDugme.length > 0)
   }
 })
 
@@ -565,6 +566,6 @@ test('gizlilik_aliciMetni_duyuruyuAnar', () => {
   assert.match(en.gizlilik.aliciMetni, /api\.cigercibozo\.com/)
   assert.match(en.gizlilik.aliciMetni, /menu and announcement/)
   assert.match(en.gizlilik.aliciMetni, /IP address/)
-  assert.match(tr.gizlilik.guncellemeMetni, /26 Ekim 2026/)
-  assert.match(en.gizlilik.guncellemeMetni, /26 October 2026/)
+  assert.match(tr.gizlilik.guncellemeMetni, /10 Kasım 2026/)
+  assert.match(en.gizlilik.guncellemeMetni, /10 November 2026/)
 })

@@ -116,3 +116,24 @@
     color: var(--bakir-acik);
   }
 }
+
+/* Çerez bandının "Reddet" düğmesiyle aynı (CerezOnayi.module.css .ret): ikincil, 44px dokunma hedefi. */
+.sifirla {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 11px 20px;
+  border: 1px solid var(--cizgi-buton);
+  background: transparent;
+  color: var(--krem-82);
+  font: 600 14.5px/1 var(--font-govde);
+  cursor: pointer;
+  transition: background var(--gecis-hizli), border-color var(--gecis-hizli);
+}
+
+@media (hover: hover) {
+  .sifirla:hover {
+    border-color: var(--bakir-85);
+    background: var(--bakir-10);
+    color: var(--krem);
+  }
+}

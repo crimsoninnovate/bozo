@@ -32,3 +32,26 @@ export function onayYaz(durum: Exclude<OnayDurumu, 'karar-yok'>): void {
 export function onayGerekirMi(yol: string): boolean {
   return !/^\/((en\/)?oyun|yonetim)(\/|$)/.test(yol)
 }
+
+/** `document.cookie` içindeki GA4 çerezlerinin adları (`_ga`, `_ga_<akış>`, `_gat`, `_gid`). */
+export function gaCerezAdlari(cerez: string): string[] {
+  return cerez
+    .split(';')
+    .map((parca) => parca.split('=')[0]?.trim() ?? '')
+    .filter((ad) => /^_(ga|gat|gid)(_|$)/.test(ad))
+}
+
+/** Onayı geri alır: kararı ve GA çerezlerini siler; çağıran sayfayı yeniler, bant yeniden çıkar. */
+export function onaySifirla(): void {
+  try {
+    window.localStorage.removeItem(ONAY_ANAHTARI)
+  } catch {
+    // Depolama kapalıysa saklı karar da yoktur.
+  }
+  const alan = window.location.hostname.replace(/^www\./, '')
+  for (const ad of gaCerezAdlari(document.cookie)) {
+    for (const ek of ['', `; domain=.${alan}`, `; domain=${alan}`]) {
+      document.cookie = `${ad}=; Max-Age=0; path=/${ek}`
+    }
+  }
+}

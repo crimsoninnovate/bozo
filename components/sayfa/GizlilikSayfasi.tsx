@@ -2,6 +2,7 @@ import { CamPanel } from '@/components/ui/CamPanel'
 import { sozluk, type Dil } from '@/content'
 import { isletme } from '@/content/isletme'
 import { epostaUrl } from '@/lib/site'
+import { OnayiSifirla } from './OnayiSifirla'
 import stil from './GizlilikSayfasi.module.css'
 
 type Props = { dil: Dil }
@@ -32,7 +33,7 @@ export function GizlilikSayfasi({ dil }: Props) {
     { baslik: s.gizlilik.aktarimBaslik, metin: s.gizlilik.aktarimMetni },
     { baslik: s.gizlilik.saklamaBaslik, metin: s.gizlilik.saklamaMetni },
     { baslik: s.gizlilik.haklarBaslik, metin: s.gizlilik.haklarMetni },
-    { baslik: s.gizlilik.geriAlmaBaslik, metin: s.gizlilik.geriAlmaMetni },
+    { baslik: s.gizlilik.geriAlmaBaslik, metin: s.gizlilik.geriAlmaMetni, sifirla: true },
     { baslik: s.gizlilik.soruBaslik, metin: s.gizlilik.soruMetni, eposta: true },
   ]
 
@@ -61,6 +62,7 @@ export function GizlilikSayfasi({ dil }: Props) {
                   </>
                 )}
               </p>
+              {bolum.sifirla && <OnayiSifirla etiket={s.gizlilik.geriAlmaDugme} />}
             </section>
           ))}
         </CamPanel>

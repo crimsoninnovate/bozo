@@ -85,12 +85,14 @@ export const gizlilik = {
 
   geriAlmaBaslik: 'Withdrawing consent',
   geriAlmaMetni:
-    'You can withdraw consent at any time: clear the data and cookies your browser ' +
-    'stores for this site, the banner appears again and you can choose "Reject".',
+    'You can withdraw consent at any time: press the button below, or clear the data ' +
+    'and cookies your browser stores for this site. The banner appears again and you ' +
+    'can choose "Reject".',
+  geriAlmaDugme: 'Reset My Cookie Choice',
 
   soruBaslik: 'Requests',
   soruMetni: 'You can send requests about these rights to this address:',
   guncellemeMetni:
-    'Last updated: 26 October 2026. Basis: TRNC Personal Data Protection Law ' +
+    'Last updated: 10 November 2026. Basis: TRNC Personal Data Protection Law ' +
     '(89/2007) and the regulation on the information obligation.',
 }
