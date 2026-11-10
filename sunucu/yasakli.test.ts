@@ -24,3 +24,10 @@ test('yasakli_sıradanAdlar_serbest', () => {
     assert.equal(yasakliMi(ad), false, ad)
   }
 })
+
+test('yasakli_kirilYunanVeTamGenislikBenzerleri_ayrilmisAdaKatlanir', () => {
+  for (const ad of ['bоzо', 'Воzо', 'αdmin', 'аdmіn', 'ｂｏｚｏ', 'bózò', 'сіgercibozo', 'usтa']) {
+    assert.equal(yasakliMi(ad), true, ad)
+  }
+  for (const ad of ['Boz Ali', 'Adminah', 'Ustaca']) assert.equal(yasakliMi(ad), false, ad)
+})
