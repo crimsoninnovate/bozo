@@ -9,9 +9,13 @@
 /build
 /sunucu/dist/
 
-# çevre değişkenleri
+# çevre değişkenleri ve anahtarlar
 .env
-.env*.local
+.env.*
+*.key
+id_rsa*
+id_ed25519*
+id_ecdsa*
 
 # işletim sistemi ve editör
 .DS_Store

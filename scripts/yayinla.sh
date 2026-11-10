@@ -48,6 +48,12 @@ BASLIKLAR="$(curl -fsSI https://cigercibozo.com/)"
 ROBOTS="$(grep -ci x-robots-tag <<<"$BASLIKLAR" || true)"
 [ "$ROBOTS" = 0 ] || dur "the site sends an x-robots-tag header ($ROBOTS). It must stay indexable."
 
+adim "Verifying: security headers from public/.htaccess"
+# They sit inside <IfModule mod_headers.c>, so a server change would drop them silently.
+for baslik in strict-transport-security x-content-type-options x-frame-options; do
+  grep -qi "^$baslik:" <<<"$BASLIKLAR" || dur "the site no longer sends $baslik; check mod_headers and public/.htaccess."
+done
+
 adim "Verifying: checksum dry run, no file lines expected"
 # rsync runs on its own so a failure aborts the script instead of reading as "no differences".
 DRY="$(rsync -az --delete --checksum --no-owner --no-group --no-perms --dry-run --itemize-changes \
