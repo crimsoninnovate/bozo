@@ -59,6 +59,8 @@ simulation it replays is `lib/oyun/` (see `lib/oyun/CLAUDE.md`).
   cache Basic and replay it cross-site); a non-GET `/yonetim` request with an `Origin` outside `KOKEN` gets 403
   `kokenGecersiz`; rate-limit keys are `kovaAnahtari` (IPv6 by /64); a hidden player's flag is copied to `kazanan.gizli`
   before the player row is deleted (self-delete or retention), so a hidden champion stays hidden on `/tablo`.
+  A self-delete also sets an unredeemed prize code's `gecerlilik_ms` to 0 (the dialog says the code is deleted;
+  the champion row stays). `yasakliMi` folds Cyrillic and Greek lookalikes before the reserved-name check.
 - Table plate scans (`lib/masa.ts`, `/m/N`) are counted here too and shown on the staff screen.
 - Run locally with `GIZLI_TUZ=x KOKEN=http://localhost:3000 node sunucu/ana.ts`. The site reads
   the API base from `NEXT_PUBLIC_OYUN_API` at build time (default `https://api.cigercibozo.com`).

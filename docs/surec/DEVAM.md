@@ -182,13 +182,15 @@ Son güncelleme: 10 Kasım 2026
    Yapıldı (sahibinin onayıyla, API'den): SSL `full (strict)`, en düşük TLS 1.2, `mail` kaydı DNS only (e-posta
    programları ve MX doğrudan arc'a; IMAPS sertifikası geçerli). `ftp` proxy'li CNAME kaldı (kullanılırsa A kaydı
    gerekir). `menuCek` ve `yayinla` başlık denetimi geçici 5xx'te yeniden dener. Token iptal edilecek (sahibi).
-5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
-   push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
-   çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı
-   kampanya sonu + 90 güne dek kalıyor (metin mi, kod mu değişecek); bir kişi birden çok hesapla haftalık üç
-   ödülü toplayabilir, gizli ve şüpheli oyuncular ödülden düşmüyor; Kiril gibi benzer harfli takma adlar
-   geçiyor; restoran wifi'ı tek IP, saatte 600 istek bütün misafirlere ortak; CSP yok; panel anahtarı genel
-   sitenin kökeninde. Ayrıntı: `~/security-audit-skill/bozo/run-1/REPORT.md` bölüm 6.
+5. **Denetimden, 10 Kasım'da kapananlar:** `main` dal koruması (zorla push ve silme kapalı, PR zorunlu değil:
+   doğrudan push ve panel derlemesi çalışır); gizlilik sayfasında "Çerez Tercihimi Sıfırla" düğmesi (kararı ve GA
+   çerezlerini siler, bant döner); kendi hesabını silen oyuncunun kullanılmamış ödül kodu geçersizleşir (silme
+   metniyle uyumlu, şampiyon kaydı kalır; 90 günlük saklama silmesi kodu bozmaz); Kiril ve Yunan benzer harfli
+   ayrılmış adlar ("bоzо") reddedilir; temkinli CSP (`base-uri`, `object-src`, `frame-ancestors`, `form-action`).
+   **Sahibinin kararı olarak kalan:** bir kişi birden çok hesapla haftalık üç ödülü toplayabilir, gizli ve şüpheli
+   oyuncular ödülden düşmüyor; restoran wifi'ı tek IP, saatte 600 istek ortak; çıkışta oturum anahtarı sunucuda
+   düşmüyor (şema gerekir); panel genel sitenin kökeninde; tam CSP (`script-src`) Next'in satır içi betikleri
+   yüzünden ayrı iş. Ayrıntı: `~/security-audit-skill/bozo/run-1/REPORT.md` bölüm 6.
 6. **Kapandı (10 Kasım):** MariaDB sözleşme testi arc'la aynı sürümde (10.11.19) 28/28 geçti; `.htaccess`
    canlıda uygulanıyor (başlıklar, `/m/1` 302, 404, `_next/static/` 403); `Vary: Origin` her yanıtta;
    üretimde `GIZLI_TUZ` en az 32 karakter; sayfa metni `<`, `>` ve satır sonu almaz, `llms.txt` tek satır
