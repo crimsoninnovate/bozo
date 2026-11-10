@@ -44,7 +44,8 @@ grep -q 'Error messages: 0' <<<"$REPAIR" ||
 
 adim "Verifying: no x-robots-tag header (the site is indexed)"
 # Bare assignment: set -e aborts if curl fails, so an unreachable site cannot read as "0 headers".
-BASLIKLAR="$(curl -fsSI https://cigercibozo.com/)"
+# Retries: Cloudflare answers a stray 522 now and then (three on 10 Nov 2026, none in the origin logs).
+BASLIKLAR="$(curl -fsSI --retry 3 --retry-all-errors --retry-delay 2 https://cigercibozo.com/)"
 ROBOTS="$(grep -ci x-robots-tag <<<"$BASLIKLAR" || true)"
 [ "$ROBOTS" = 0 ] || dur "the site sends an x-robots-tag header ($ROBOTS). It must stay indexable."
 

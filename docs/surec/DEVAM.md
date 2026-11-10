@@ -177,12 +177,20 @@ Son güncelleme: 10 Kasım 2026
    hazırlayıp yer değiştirmek, sembolik httpdocs'u reddetmek, `chown -h`. Sahibinin kararı.
 4. **Cloudflare (salt okuma):** API anahtarının yeri bulunamadı; anahtar oturuma ortam değişkeniyle verilince
    `api.cigercibozo.com` AAAA ve IPv6 ayarı, `/yonetim/*` hız ve WAF kuralları, `/menu` ve `/tablo` önbellek
-   kuralları okunur. 10 Kasım ölçümünde iki geçici 522 (origin günlüğünde iz yok): tekrarlarsa izle.
-5. **MariaDB sözleşme testi:** yeni `UPDATE ... JOIN` (`GIZLIYI_KAZANANA`) canlıda `EXPLAIN` ile geçti, ama
-   `BOZO_TEST_DB_URL` ile boş bir deneme veritabanında `sunucu/mariaDepo.test.ts` henüz koşmadı.
-6. **Denetimin açık iki birimi:** Plesk nginx `.htaccess`'i atlıyor mu (`curl -sI https://cigercibozo.com/` ve
-   `/m/1` başlıkları), GitHub'da `main` dal koruması var mı.
-7. **Yedek temizliği (17 Kasım'dan sonra):** `/opt/bozo-oyun.dist-20261110-005919` ve
+   kuralları okunur. 10 Kasım'da üç geçici 522 (biri `yayinla`'yı doğrulamada durdurdu, artık yeniden dener);
+   origin günlüğünde iz yok, Cloudflare ile arc arasında bağlantı kuruluyor mu (arc güvenlik duvarı) bakılmalı.
+5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
+   push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
+   çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı
+   kampanya sonu + 90 güne dek kalıyor (metin mi, kod mu değişecek); bir kişi birden çok hesapla haftalık üç
+   ödülü toplayabilir, gizli ve şüpheli oyuncular ödülden düşmüyor; Kiril gibi benzer harfli takma adlar
+   geçiyor; restoran wifi'ı tek IP, saatte 600 istek bütün misafirlere ortak; CSP yok; panel anahtarı genel
+   sitenin kökeninde. Ayrıntı: `~/security-audit-skill/bozo/run-1/REPORT.md` bölüm 6.
+6. **Kapandı (10 Kasım):** MariaDB sözleşme testi arc'la aynı sürümde (10.11.19) 28/28 geçti; `.htaccess`
+   canlıda uygulanıyor (başlıklar, `/m/1` 302, 404, `_next/static/` 403); `Vary: Origin` her yanıtta;
+   üretimde `GIZLI_TUZ` en az 32 karakter; sayfa metni `<`, `>` ve satır sonu almaz, `llms.txt` tek satır
+   yazar; `yayinla` güvenlik başlıklarını denetler; `.gitignore` `.env.*` ve anahtar dosyalarını kapsar.
+7. **Yedek temizliği (17 Kasım'dan sonra):** `/opt/bozo-oyun.dist-20261110-005919`, `-134928` ve
    `/root/.bozo/bozo_site-20261110-005907-sema-oncesi.sql.gz`.
 8. **15 Aralık 2026:** `sunucu/oturum.ts` > `ESKI_ANAHTAR_SONU` dalı silinir.
 
