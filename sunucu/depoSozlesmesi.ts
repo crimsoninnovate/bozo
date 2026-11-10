@@ -160,6 +160,20 @@ function donemVeKazananTestleri(t: Testci): void {
     assert.equal(await depo.sonSampiyon(), null)
   })
 
+  /** Silme ekranı "ödül kodu silinir" der: kullanılmamış kod geçersizleşir, kayıt ve kullanılmış kod kalır. */
+  t('oyuncuSil_kullanilmamisOdulKodu_suresiBiter_kayitKalir', async (depo) => {
+    const a = await oyuncuEkle(depo, 'A')
+    const ortak = { donem: '2026-09-28', puan: 500, deneme: 0, gecerlilik: 9000, oyuncuId: a.id, takmaAd: 'A' }
+    const kullanilan = await depo.kazananEkle({ ...ortak, sira: 1, kodOzeti: 'oz1' })
+    await depo.kazananEkle({ ...ortak, donem: '2026-10-05', sira: 1, kodOzeti: 'oz2' })
+    await depo.kazananKullan(kullanilan, 7000)
+    await depo.oyuncuSil(a.id)
+    assert.equal((await depo.kazananBul('oz2'))?.gecerlilik, 0, 'kullanılmamış kod artık geçersiz')
+    const eski = await depo.kazananBul('oz1')
+    assert.deepEqual([eski?.gecerlilik, eski?.kullanildi], [9000, 7000])
+    assert.equal((await depo.kazananlar('2026-10-05')).length, 1, 'şampiyon kaydı kalır')
+  })
+
   /** `sema.sql` > `kazanan_donem_sira`: bir dönemde her sıra bir kez; bellek deposu da aynı kuralı taşır. */
   t('kazanan_ayniDonemVeSira_ikinciEklemeReddedilir', async (depo) => {
     const a = await oyuncuEkle(depo, 'A')

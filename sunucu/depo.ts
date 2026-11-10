@@ -114,6 +114,7 @@ export type Depo = {
   oyuncuEkle(oyuncu: YeniOyuncu): Promise<Oyuncu | 'adKullanimda'>
   oyuncuBul(anahtarOzeti: string): Promise<Oyuncu | null>
   oyuncuGizle(id: number, gizli: boolean): Promise<boolean>
+  /** Oyuncunun kendi silmesi: kullanılmamış ödül kodunun süresi biter (gecerlilik 0), şampiyon kaydı kalır. */
   oyuncuSil(id: number): Promise<boolean>
   /** Son etkinliği (son tur, yoksa kayıt) sınırdan eski oyuncuları turlarıyla siler. */
   eskiOyunculariSil(oncesi: number): Promise<number>

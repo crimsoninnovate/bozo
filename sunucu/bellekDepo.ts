@@ -54,11 +54,13 @@ function jetonlar(b: Bellek): Parca<'jetonEkle' | 'jetonBul' | 'jetonKullan' | '
   }
 }
 
-function oyuncuyuSil(b: Bellek, id: number): boolean {
+function oyuncuyuSil(b: Bellek, id: number, kendisi: boolean): boolean {
   for (const [tid, t] of b.turlar) if (t.oyuncuId === id) b.turlar.delete(tid)
   const gizli = b.oyuncular.get(id)?.gizli ?? false
   for (const k of b.kazananlar.values()) {
-    if (k.oyuncuId === id) Object.assign(k, { oyuncuId: null, gizli: k.gizli || gizli })
+    if (k.oyuncuId !== id) continue
+    Object.assign(k, { oyuncuId: null, gizli: k.gizli || gizli })
+    if (kendisi && k.kullanildi === null) k.gecerlilik = 0
   }
   return b.oyuncular.delete(id)
 }
@@ -95,12 +97,12 @@ function oyuncular(b: Bellek): OyuncuUclari {
       return true
     },
     async oyuncuSil(id) {
-      return oyuncuyuSil(b, id)
+      return oyuncuyuSil(b, id, true)
     },
     async eskiOyunculariSil(oncesi) {
       let sayi = 0
       for (const o of [...b.oyuncular.values()]) {
-        if ((o.sonTur ?? o.olusturma) < oncesi) sayi += Number(oyuncuyuSil(b, o.id))
+        if ((o.sonTur ?? o.olusturma) < oncesi) sayi += Number(oyuncuyuSil(b, o.id, false))
       }
       return sayi
     },

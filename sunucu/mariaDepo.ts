@@ -176,6 +176,7 @@ function oyuncular(q: Sorgu): OyuncuUclari {
     },
     async oyuncuSil(id) {
       await q.yaz(GIZLIYI_KAZANANA + 'o.id = ?', [id])
+      await q.yaz('UPDATE kazanan SET gecerlilik_ms = 0 WHERE oyuncu_id = ? AND kullanildi_ms IS NULL', [id])
       return (await q.yaz('DELETE FROM oyuncu WHERE id = ?', [id])).affectedRows === 1
     },
     async eskiOyunculariSil(oncesi) {
