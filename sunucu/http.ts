@@ -57,9 +57,10 @@ export async function govdeOku(req: IncomingMessage, sinir = GOVDE_SINIRI): Prom
   }
 }
 
-/** CORS yalnız izinli kökene (spec §10); izinli değilse başlık yazılmaz ve tarayıcı yanıtı okuyamaz. */
+/** CORS yalnız izinli kökene (spec §10); izinli değilse başlık yazılmaz ve tarayıcı yanıtı okuyamaz.
+ *  `Vary: Origin` her yanıtta: bir kenar önbelleği kökensiz kopyayı izinli kökene sunmasın. */
 export function corsBasliklari(koken: string | undefined, izinliler: readonly string[]): Record<string, string> {
-  if (!koken || !izinliler.includes(koken)) return {}
+  if (!koken || !izinliler.includes(koken)) return { Vary: 'Origin' }
   return {
     'Access-Control-Allow-Origin': koken,
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',

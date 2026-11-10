@@ -25,6 +25,8 @@ function ortamOku(): { port: number; ayar: Ayar; dbUrl: string | null } {
   const env = process.env
   const tuz = env.GIZLI_TUZ
   if (!tuz) throw new Error('GIZLI_TUZ tanımlı değil')
+  // Oturum ve ödül kodu HMAC'i bu tuzla; yerel bellek deposu çalıştırmaları kısa tuzla açılabilir.
+  if (env.DB_URL && tuz.length < 32) throw new Error('GIZLI_TUZ en az 32 karakter olmalı')
   const kampanya = env.KAMPANYA_BITIS ? Date.parse(env.KAMPANYA_BITIS) : Number.NaN
   const yonetim =
     env.YONETIM_KULLANICI && env.YONETIM_SIFRE ? { kullanici: env.YONETIM_KULLANICI, sifre: env.YONETIM_SIFRE } : null

@@ -2,12 +2,12 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { bearer, corsBasliklari, temelKimlik } from './http.ts'
 
-test('corsBasliklari_yalnizIzinliKoken', () => {
+test('corsBasliklari_yalnizIzinliKoken_varyHerYanitta', () => {
   const koken = 'https://cigercibozo.com'
   const izinli = [koken]
   assert.equal(corsBasliklari(koken, izinli)['Access-Control-Allow-Origin'], koken)
-  assert.deepEqual(corsBasliklari('https://kotu.example', izinli), {})
-  assert.deepEqual(corsBasliklari(undefined, izinli), {})
+  assert.deepEqual(corsBasliklari('https://kotu.example', izinli), { Vary: 'Origin' })
+  assert.deepEqual(corsBasliklari(undefined, izinli), { Vary: 'Origin' })
 })
 
 test('bearer_hex32_kucukHarfeCevrilir_digerleriNull', () => {
