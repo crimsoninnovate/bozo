@@ -178,7 +178,9 @@ Son güncelleme: 10 Kasım 2026
 4. **Cloudflare (salt okuma):** API anahtarının yeri bulunamadı; anahtar oturuma ortam değişkeniyle verilince
    `api.cigercibozo.com` AAAA ve IPv6 ayarı, `/yonetim/*` hız ve WAF kuralları, `/menu` ve `/tablo` önbellek
    kuralları okunur. 10 Kasım'da üç geçici 522 (biri `yayinla`'yı doğrulamada durdurdu, artık yeniden dener);
-   origin günlüğünde iz yok, Cloudflare ile arc arasında bağlantı kuruluyor mu (arc güvenlik duvarı) bakılmalı.
+   bir neden bulundu: ModSecurity ve fail2ban Cloudflare kenarlarını yasaklıyordu; `cigercibozo.com` artık gerçek IP
+   görüyor (`SUNUCU-CANLIYA-ALMA.md` > Cloudflare arkasında gerçek istemci IP'si). Açık: fail2ban güvenilir
+   listesine Cloudflare (sunucu geneli, sahibinin kararı); üç 522'nin zamanı yasaklarla örtüşmedi, izlenmeli.
 5. **Denetimden, sahibinin kararı:** `main` dal korumasız ve depo herkese açık (koruma `main`'e doğrudan
    push'u ve paneldeki derlemeyi etkiler); çıkışta oturum anahtarı sunucuda düşmüyor (30 gün geçerli);
    çerez onayını geri alma düğmesi yok; hesap silme metni "ödül kodu silinir" diyor ama kazanan kaydı

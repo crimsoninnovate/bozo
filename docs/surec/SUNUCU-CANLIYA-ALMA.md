@@ -334,6 +334,19 @@ cat /var/lib/bozo-derleme/panel/durum.json
 - Geri alma: `systemctl disable --now bozo-derleme.path`. Düğme istek yazmaya devam eder, derleme
   başlamaz; site `npm run yayinla` ile elle yayınlanır, ikisi aynı httpdocs'u aynı sahiplerle yazar.
 
+## Cloudflare arkasında gerçek istemci IP'si (`cigercibozo.com`, 10 Kasım 2026)
+
+Sorun: Apache ve ModSecurity istemci olarak Cloudflare kenarını görüyordu. `.env`, `.git` yoklayan botlar
+(kural 930130) 10 dakikada 5 vuruşa ulaşınca fail2ban'ın `plesk-modsecurity` jail'i o Cloudflare IP'sini
+10 dakika yasaklıyor, aynı kenardan gelen misafirler 522 alıyordu (1-10 Kasım: 373 yasağın 201'i Cloudflare).
+Çözüm `/var/www/vhosts/system/cigercibozo.com/conf/vhost_nginx.conf`: Cloudflare aralıkları için
+`set_real_ip_from` ve `real_ip_header CF-Connecting-IP`; `plesk sbin httpdmng --reconfigure-domain cigercibozo.com`
+`include` satırını ekler. Önceki `conf` yedeği `/root/cigercibozo-conf-20261110-140548.bak`. Aralıklar
+`https://www.cloudflare.com/ips-v4` ve `ips-v6`'dan; değişirse dosya yeniden yazılır (skor sunucusundaki liste
+`sunucu/ip.ts` > `CLOUDFLARE`). `api.cigercibozo.com` buna gerek duymaz: skor sunucusu `CF-Connecting-IP`'yi kendisi
+okur. Sunucudaki başka siteler hala Cloudflare kenarı yasaklatabilir ve yasak iptables'ta bütün sunucuyu
+kapsar; Cloudflare aralıklarını fail2ban'ın güvenilir IP'lerine eklemek sunucu genelinde bir karardır.
+
 ## Yayındaki gizlilik metninin kaynağı
 
 Değişen alanlar. Diğerleri (sorumlu, haklar, onayı geri alma, başvuru) aynen kalır, yalnız
