@@ -53,7 +53,7 @@ ROBOTS="$(grep -ci x-robots-tag <<<"$BASLIKLAR" || true)"
 
 adim "Verifying: security headers from public/.htaccess"
 # They sit inside <IfModule mod_headers.c>, so a server change would drop them silently.
-for baslik in strict-transport-security x-content-type-options x-frame-options; do
+for baslik in strict-transport-security x-content-type-options x-frame-options content-security-policy; do
   grep -qi "^$baslik:" <<<"$BASLIKLAR" ||
     dur "the site no longer sends $baslik; check mod_headers and public/.htaccess."
 done
